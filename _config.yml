@@ -10,7 +10,7 @@
 carpentry: "dc"
 
 # Overall title for pages.
-title: "Genomics Workshop Overview"
+title: "BCH709 Introduction to Bioinformatics"
 
 
 #------------------------------------------------------------
@@ -30,10 +30,10 @@ email: "team@carpentries.org"
 
 # Sites.
 amy_site: "https://amy.software-carpentry.org/workshops"
-carpentries_github: "https://github.com/ascendo"
-carpentries_pages: "https://ascendo.github.io"
-carpentries_site: "https://carpentries.org/"
-dc_site: "http://ascendo.github.io"
+carpentries_github: "https://github.com/plantgenomicslab"
+carpentries_pages: "https://plantgenomicslab.github.io"
+carpentries_site: "https://plantbioinformatics.org/"
+dc_site: "http://plantgenomicslab.github.io"
 example_repo: "https://github.com/carpentries/lesson-example"
 example_site: "https://carpentries.github.io/lesson-example"
 lc_site: "https://librarycarpentry.github.io/"
@@ -91,4 +91,5 @@ highlighter: rouge
 
 # Remote theme
 remote_theme: carpentries/carpentries-theme
+
 
