@@ -10,7 +10,7 @@ The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and t
 
 > ## Class Room location
 > ![Classroom location](../fig/classroom_location.png)
-> PMB 104D (inside of Savitt Medical Library)
+> PMB 104D (inside of Savitt Medical Library)  
 > [Google Map](https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
 {: .prereq}
 
