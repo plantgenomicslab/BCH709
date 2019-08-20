@@ -12,12 +12,17 @@ Interested in teaching these materials? We have an [onboarding video](https://ww
 {: .prereq}
 
 > ## Prerequisites
-> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins. 
+> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 >
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
 > - Computer with internet (In case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 >
 > - Terminal software
+> - UNR affilated email **{ID}@unr.edu or \<ID\>@nevada.unr.edu**
+{: .callout}
+  
+> ## Class Room location
+>
 
 > ## Frequently Asked Questions
 > Read our [FAQ](/genomics-workshop/faq/) to learn more about Data Carpentry's Genomics workshop, as an Instructor or a workshop host.
