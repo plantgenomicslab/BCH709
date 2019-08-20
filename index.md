@@ -1,22 +1,28 @@
 ---
 ---
 
-Data Carpentry’s aim is to teach researchers basic concepts, skills, and tools for working
-with data so that they can get more done in less time, and with less pain. This workshop
-teaches data management and analysis for genomics research including: 
-best practices for organization of bioinformatics projects and data, use of command-line 
-utilities, use of command-line tools to analyze sequence quality and
-perform variant calling, and connecting to and using cloud computing. This workshop is designed to 
-be taught over two full days of instruction.
+The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This teaches concept of bioinformatics analysis and Next Generation Sequencing for genomics including: hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platform, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
 **Please note that workshop materials for working with Genomics data in R are in “alpha” development. These lessons are available for review and for informal teaching experiences, but are not yet part of The Carpentries’ official lesson offerings.**
 
 Interested in teaching these materials? We have an [onboarding video](https://www.youtube.com/watch?v=zgdutO5tejo) and accompanying [slides](https://docs.google.com/presentation/d/1fLlT2lPv32DqCFpRPPdHZBNHiQTpK79wd5Z3nsFwL3s/edit#slide=id.p) available to prepare Instructors to teach these lessons. After watching this video, please contact team@carpentries.org so that we can record your status as an onboarded Instructor. Instructors who have completed onboarding will be given priority status for teaching at centrally-organized Data Carpentry Genomics workshops.
 
+> ## Course description
+> An introduction to the science of genomics and bioinformatics. Includes genome sequencing; database techniques; structural, comparative, and evolutionary genomics; and gene expression analysis.
+{: .prereq}
+
+> ## Prerequisites
+> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins. 
+>
+> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
+> - Computer with internet (In case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+>
+> - Terminal software
 
 > ## Frequently Asked Questions
 > Read our [FAQ](/genomics-workshop/faq/) to learn more about Data Carpentry's Genomics workshop, as an Instructor or a workshop host.
-{: .callout}
+#{: .callout}
+{: .prereq}
 
 > ## Getting Started
 >
@@ -56,5 +62,4 @@ Interested in teaching these materials? We have an [onboarding video](https://ww
 # Teaching Platform
 This workshop is designed to be run on pre-imaged Amazon Web Services (AWS)
 instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI).
-If you want to run your own instance of the server used for this workshop, follow the directions in the [Setup](setup.html) tab. 
-
+If you want to run your own instance of the server used for this workshop, follow the directions in the [Setup](setup.html) tab.
