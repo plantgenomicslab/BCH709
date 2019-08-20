@@ -9,7 +9,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .prereq}
 
 > ## Class Room location
-> ![Classroom location](../fig/classroom_location.png)
+> ![Classroom location](../fig/classroom_location.png){: width="50%" height="50%"}
+> 
 > PMB 104D (inside of Savitt Medical Library)  
 > [Google Map](https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
 {: .prereq}
@@ -22,7 +23,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
-> - Computer with internet (In case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+> - Computer with internet (In case, you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 >
 > - Terminal software
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
@@ -34,7 +35,6 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Frequently Asked Questions
 > Read our [FAQ](/genomics-workshop/faq/) to learn more about Data Carpentry's Genomics workshop, as an Instructor or a workshop host.
-#{: .callout}
 {: .prereq}
 
 > ## Getting Started
