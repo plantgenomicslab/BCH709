@@ -3,8 +3,6 @@
 
 The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This teaches concept of bioinformatics analysis and Next Generation Sequencing for genomics including: hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platform, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
-**Please note that workshop materials for working with Genomics data in R are in “alpha” development. These lessons are available for review and for informal teaching experiences, but are not yet part of The Carpentries’ official lesson offerings.**
-
 
 > ## Course description
 > An introduction to the science of genomics and bioinformatics. Includes genome sequencing; database techniques; structural, comparative, and evolutionary genomics; and gene expression analysis.
@@ -13,7 +11,7 @@ The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and t
 > ## Class Room location
 > ![Classroom location](../fig/classroom_location.png)
 > PMB 104D (inside of Savitt Medical Library)
-> [Google Map] (https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
+> [Google Map](https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
 {: .prereq}
 
 > ## Class Schedule
