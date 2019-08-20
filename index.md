@@ -7,10 +7,6 @@ The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and t
 
 Interested in teaching these materials? We have an [onboarding video](https://www.youtube.com/watch?v=zgdutO5tejo) and accompanying [slides](https://docs.google.com/presentation/d/1fLlT2lPv32DqCFpRPPdHZBNHiQTpK79wd5Z3nsFwL3s/edit#slide=id.p) available to prepare Instructors to teach these lessons. After watching this video, please contact team@carpentries.org so that we can record your status as an onboarded Instructor. Instructors who have completed onboarding will be given priority status for teaching at centrally-organized Data Carpentry Genomics workshops.
 
-> ## Course description
-> An introduction to the science of genomics and bioinformatics. Includes genome sequencing; database techniques; structural, comparative, and evolutionary genomics; and gene expression analysis.
-{: .prereq}
-
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 >
@@ -18,11 +14,21 @@ Interested in teaching these materials? We have an [onboarding video](https://ww
 > - Computer with internet (In case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 >
 > - Terminal software
-> - UNR affilated email **{ID}@unr.edu or \<ID\>@nevada.unr.edu**
+> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
 {: .callout}
-  
+
+> ## Course description
+> An introduction to the science of genomics and bioinformatics. Includes genome sequencing; database techniques; structural, comparative, and evolutionary genomics; and gene expression analysis.
+{: .prereq}
+
+
+
+
 > ## Class Room location
->
+> ![Classroom location](../fig/classroom_location.png)
+> PMB 104D (inside of Savitt Medical Library)
+> [Google Map] (https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
+{: .prereq}
 
 > ## Frequently Asked Questions
 > Read our [FAQ](/genomics-workshop/faq/) to learn more about Data Carpentry's Genomics workshop, as an Instructor or a workshop host.
