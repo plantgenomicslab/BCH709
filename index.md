@@ -21,7 +21,6 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
->
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
 > - Computer with internet (In case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 >
