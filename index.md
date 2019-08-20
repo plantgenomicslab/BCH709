@@ -9,7 +9,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .prereq}
 
 > ## Class Room location
-> ![Classroom location](../fig/classroom_location.png){: width="50%" height="50%"}
+> ![Classroom location](./fig/classroom_location.png){: width="50%" height="50%"}
 > 
 > PMB 104D (inside of Savitt Medical Library)  
 > [Google Map](https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
