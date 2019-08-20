@@ -15,7 +15,7 @@ The philosophy of 'BCH709' is to teach researchers basic concepts, skills, and t
 {: .prereq}
 
 > ## Class Schedule
-> TuTh 9:00AM - 10:15AM
+> TuTh 9:00AM - 10:15AM  
 > Aug 26, 2019 - Dec 10, 2019
 {: .prereq}
 
