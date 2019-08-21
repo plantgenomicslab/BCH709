@@ -67,20 +67,20 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|
 |Week13|DEG analaysis|Transcriptome analaysis
-|Week14|Variant analaysis|![Thanksgiving](./fig/thanksgiving.png){: width="20%" height="20%"}|
+|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
 |Week15|Enrichment analysis|Presentation|
 |Week16|Final exam|
 
 ## Optional Additional Meeting
 
-_Research Computing Hackathon_
-[Mathewson-IGT Knowledge Center, MIKC 414](https://events.unr.edu/mathewson-igt_knowledge_center_508#.XVyb3OhKiiM)
+_Research Computing Hackathon_  
+[Mathewson-IGT Knowledge Center, MIKC 414](https://events.unr.edu/mathewson-igt_knowledge_center_508#.XVyb3OhKiiM)  
 Every Friday at 2:00pm to 4:00pm
 
 [Hackathons](https://en.wikipedia.org/wiki/Hackathon) provide a space for hands-on training and solution development within a Research Computing environment at the University. This is also a place to get clarification on questions/concerns regarding the HPC environment. Please bring problems to challenge the HPC team, the Office of Information Technology, and research colleagues. If you don't need help, we still encourage you to attend and share your time and expertise with those in need of assistance. You don’t need to be an expert to attend a hackathon. Individuals at all computing skill levels are welcome!
 
-_Meeting with Won Yim_
-[Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)
+_Meeting with Won Yim_  
+[Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)  
 After Thursday class, you can schedule a meeting before noon. We are not providing any finacial aid, but we can disccuss your research bottleneck in terms of bioinformatics perspective. Please schedule after Tuesday class.
 
 
