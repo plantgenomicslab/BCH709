@@ -78,7 +78,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week15|Enrichment analysis|Presentation|
 |Week16|Final exam|
 
-# Optional Additional Lessons
+# Optional Additional Meeting
 
 | Lesson | Overview |
 | ------- | -------- |
