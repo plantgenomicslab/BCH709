@@ -5,14 +5,13 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Course description
-> An introduction to the science of genomics and bioinformatics. Includes genome sequencing; database techniques; structural, comparative, and evolutionary genomics; and gene expression analysis.
+>As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
 
 > ## Class Room location
 > ![Classroom location](./fig/classroom_location.png){: width="50%" height="50%"}
 > 
-> PMB 104D (inside of Savitt Medical Library)  
-> [Google Map](https://goo.gl/maps/GGx8NTwfyi8GZFpb8)
+> [PMB 104D](https://goo.gl/maps/GGx8NTwfyi8GZFpb8) (inside of Savitt Medical Library)  
 {: .prereq}
 
 > ## Class Schedule
@@ -60,9 +59,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week4|Sequencing methods and strategies|RNA-Seq|
 |Week5|Transcriptome assembly|Sequence similarity searching|
 |Week6|Functional annotation|Database|
-|Week7|Introduction of R &  R plotting (Tong Zhou PhD)|DEG analaysis
-|Week8|DESeq2 / EdgeR|Special topics (Tong Zhou PhD)|
-|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)|
+|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analaysis
+|Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
+|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
 |Week10|Genome assembly|Genome assembly|
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|
@@ -73,22 +72,28 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 ## Optional Additional Meeting
 
-_Research Computing Hackathon_  
+### _Research Computing Hackathon_  ([Hosted by HPC team](https://www.unr.edu/research-computing/hpc))  
 [Mathewson-IGT Knowledge Center, MIKC 414](https://events.unr.edu/mathewson-igt_knowledge_center_508#.XVyb3OhKiiM)  
 Every Friday at 2:00pm to 4:00pm
 
-[Hackathons](https://en.wikipedia.org/wiki/Hackathon) provide a space for hands-on training and solution development within a Research Computing environment at the University. This is also a place to get clarification on questions/concerns regarding the HPC environment. Please bring problems to challenge the HPC team, the Office of Information Technology, and research colleagues. If you don't need help, we still encourage you to attend and share your time and expertise with those in need of assistance. You don’t need to be an expert to attend a hackathon. Individuals at all computing skill levels are welcome!
-
-_Meeting with Won Yim_  
+[Hackathons](https://en.wikipedia.org/wiki/Hackathon) provide a space for hands-on training and solution development within a Research Computing environment at the University. This is also a place to get clarification on questions/concerns regarding the HPC environment. Please bring problems to challenge the HPC team, the Office of Information Technology, and research colleagues. If you don't need help, we still encourage you to attend and share your time and expertise with those in need of assistance. You don’t need to be an expert to attend a hackathon. Individuals at all computing skill levels are welcome!  
+### _Meeting with Won Yim_  
 [Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)  
-After Thursday class, you can schedule a meeting before noon. We are not providing any finacial aid, but we can disccuss your research bottleneck in terms of bioinformatics perspective. Please schedule after Tuesday class.
+After Thursday class, we can have a meeting. We are not providing financial aid, but we can disccuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Tuesday class.**   
+  
 
-
-> ## Frequently Asked Questions
-> Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently this page is empty but we will build it through the class.
+  
+> ## Frequently Asked Questions  
+Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently this page is empty but we will build it through the class.
 {: .prereq}
 
-# Teaching Platform
-This workshop is designed to be run on pre-imaged Amazon Web Services (AWS)
-instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI).
-If you want to run your own instance of the server used for this workshop, follow the directions in the [Setup](setup.html) tab.
+  
+>## Teaching Platform
+This workshop is designed to be run on [Unix-base system](https://en.wikipedia.org/wiki/Unix) such as 
+Ubuntu, mac etc. All the software and data used in the class will be open source All example data will be hosted on an Google Cloud Service. If you want to know how to use Unix-base system on your computer, please follow the directions in the [Setup](setup.html) tab.
+{: .prereq}
+
+  
+
+The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License. 
+
