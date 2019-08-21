@@ -88,12 +88,14 @@ After Thursday class, you can schedule a meeting before noon. We are not providi
 > Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently this page is empty but we will build it through the class.
 {: .prereq}
 
-# Teaching Platform
+>## Teaching Platform
 This workshop is designed to be run on pre-imaged Amazon Web Services (AWS)
 instances. All the software and data used in the workshop are hosted on an Amazon Machine Image (AMI).
 If you want to run your own instance of the server used for this workshop, follow the directions in the [Setup](setup.html) tab.
+{: .prereq}
 
 
 
+The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License. Creative Commons License
 
-The bootcamp tutorial text and platform was adapted from the original by Keith Bradnam. The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. This work is licensed under a Creative Commons 4.0 International License. Creative Commons License
+
