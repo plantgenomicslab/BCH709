@@ -29,14 +29,6 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
 {: .callout}
 
-
-
-
-
-> ## Frequently Asked Questions
-> Read our [FAQ](/genomics-workshop/faq/) to learn more about Data Carpentry's Genomics workshop, as an Instructor or a workshop host.
-{: .prereq}
-
 > ## Getting Started
 >
 > This lesson assumes that learners have no prior experience with the tools covered in the workshop. 
@@ -91,12 +83,9 @@ _Meeting with Won Yim_
 After Thursday class, you can schedule a meeting before noon. We are not providing any finacial aid, but we can disccuss your research bottleneck in terms of bioinformatics perspective. Please schedule after Tuesday class.
 
 
-
-
-
-| Lesson | Overview |
-| ------- | -------- |
-| [Intro to R and RStudio for Genomics](https://datacarpentry.org/genomics-r-intro/) | Use R to analyze and visualize between-sample variation. |
+> ## Frequently Asked Questions
+> Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently this page is empty but we will build it through the class.
+{: .prereq}
 
 # Teaching Platform
 This workshop is designed to be run on pre-imaged Amazon Web Services (AWS)
