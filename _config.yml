@@ -26,13 +26,13 @@ kind: "lesson"
 repository: <USERNAME>/<PROJECT>
 
 # Email address, no mailto:
-email: "team@carpentries.org"
+email: "wyim@unr.edu"
 
 # Sites.
 amy_site: "https://amy.software-carpentry.org/workshops"
 carpentries_github: "https://github.com/plantgenomicslab"
-carpentries_pages: "https://plantgenomicslab.github.io"
-carpentries_site: "https://plantbioinformatics.org/"
+carpentries_pages: "https://carpentries.github.io"
+carpentries_site: "https://plantgenomicslab.github.io/BCH709"
 dc_site: "http://plantgenomicslab.github.io"
 example_repo: "https://github.com/carpentries/lesson-example"
 example_site: "https://carpentries.github.io/lesson-example"
