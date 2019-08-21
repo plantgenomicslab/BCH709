@@ -23,7 +23,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
-> - Computer with internet (In case, you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+> - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 >
 > - Terminal software
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
@@ -57,14 +57,26 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > More information about this data is available on the [Data page](https://datacarpentry.org/organization-genomics/data/).
 {: .prereq} 
 
-# Workshop Overview 
+# Class Overview 
 
-| Lesson    | Overview |
-| ------- | ---------- |
-| [Project organization and management](https://datacarpentry.github.io/organization-genomics/) | Learn how to structure your metadata, organize and document your genomics data and bioinformatics workflow, and access data on the NCBI sequence read archive (SRA) database.|
-| [Introduction to the command line](https://datacarpentry.github.io/shell-genomics/) |  Learn to navigate your file system, create, copy, move, and remove files and directories, and automate repetitive tasks using scripts and wildcards. |
-|[Data wrangling and processing](https://datacarpentry.github.io/wrangling-genomics/) | Use command-line tools to perform quality control, align reads to a reference genome, and identify and visualize between-sample variation. |
-|[Introduction to cloud computing for genomics](http://www.datacarpentry.org/cloud-genomics/) | Learn how to work with Amazon AWS cloud computing and how to transfer data between your local computer and cloud resources. 
+| Week    | Tuesday | Thursday|
+| ------- | ---------- |---------- |
+|Week1|Intro Bioinformatics|Linux Enviroment and command line|
+|Week2|Linux Enviroment and bioawk|Linux Enviroment and Cloud|
+|Week3|Github|Compile|
+|Week4|Sequencing methods and strategies|RNA-Seq|
+|Week5|Transcriptome assembly|Sequence similarity searching|
+|Week6|Functional annotation|Database|
+|Week7|Introduction of R R plotting (Heatmap & others)|DEG analaysis
+|Week8|DESeq2 / EdgeR|Tong Zhou (his research topic)|
+|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics|
+|Week10|Genome assembly|Genome assembly|
+|Week11|Genome assembly|How to annotate genomes|
+|Week12|Genome assembly and annotation|Genome structure|
+|Week13|DEG analaysis|Transcriptome analaysis
+|Week14|Variant analaysis|Thanks giving|
+|Week15|Enrichment analysis|Presentation|
+|Week16|Final exam|
 
 # Optional Additional Lessons
 
