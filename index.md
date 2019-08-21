@@ -67,7 +67,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|
 |Week13|DEG analaysis|Transcriptome analaysis
-|Week14|Variant analaysis|![Thanksgiving](./fig/thanksgiving.png){: width="7%" height="7%"}|
+|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
 |Week15|Enrichment analysis|Presentation|
 |Week16|Final exam|
 
