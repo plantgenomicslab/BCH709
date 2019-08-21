@@ -92,4 +92,19 @@ highlighter: rouge
 # Remote theme
 remote_theme: carpentries/carpentries-theme
 
+# favicon
+favicon-32x32:                          "./asset/img/favicon-32x32.png"
+touch-icon-192x192:                     "./asset/img/android-icon-192x192.png"
+apple-touch-icon-180x180-precomposed:   "./asset/img/apple-icon-180x180-precomposed.png"
+apple-touch-icon-152x152-precomposed:   "./asset/img/apple-icon-152x152-precomposed.png"
+apple-touch-icon-144x144-precomposed:   "./asset/img/apple-icon-144x144-precomposed.png"
+apple-touch-icon-120x120-precomposed:   "./asset/img/apple-icon-120x120-precomposed.png"
+apple-touch-icon-114x114-precomposed:   "./asset/img/apple-icon-114x114-precomposed.png"
+apple-touch-icon-76x76-precomposed:     "./asset/img/apple-icon-76x76-precomposed.png"
+apple-touch-icon-72x72-precomposed:     "./asset/img/apple-icon-72x72-precomposed.png"
+apple-touch-icon-precomposed:           "./asset/img/apple-icon-precomposed.png"
+msapplication_tileimage:                "./asset/img/ms-icon-144x144.png"               # Size 144x144
+msapplication_tilecolor:                "#fabb00"
+
+
 
