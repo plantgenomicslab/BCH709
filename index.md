@@ -67,9 +67,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week4|Sequencing methods and strategies|RNA-Seq|
 |Week5|Transcriptome assembly|Sequence similarity searching|
 |Week6|Functional annotation|Database|
-|Week7|Introduction of R R plotting (Heatmap & others)|DEG analaysis
-|Week8|DESeq2 / EdgeR|Tong Zhou (his research topic)|
-|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics|
+|Week7|Introduction of R &  R plotting (Tong Zhou PhD)|DEG analaysis
+|Week8|DESeq2 / EdgeR|Special topics (Tong Zhou PhD)|
+|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)|
 |Week10|Genome assembly|Genome assembly|
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|
