@@ -75,7 +75,7 @@ Following guide will provide the specific information about required software. P
 
 It is possible to work through the lessons on your local machine (i.e. without using cloud or Pronghorn). However I would recomment to experience in High Performance Computing and Cloud service.
 
-#### Option B: Using Pronghorn (High-Performance Computing)
+### Option B: Using Pronghorn (High-Performance Computing)
 
 **Pronghorn** is the University of Nevada, Reno's new High-Performance Computing (HPC) cluster. The GPU-accelerated system is designed, built and maintained by the Office of Information Technology's HPC Team. Pronghorn and the HPC Team supports general research across the Nevada System of Higher Education (NSHE).
 
