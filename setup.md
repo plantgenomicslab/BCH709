@@ -110,22 +110,17 @@ Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of th
 Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
 [Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
 
-### Option C: Using Google Cloud Platform
+### Option C: Using Google Cloud Platform (GCP)
 [![Run on Google Cloud](https://lh5.googleusercontent.com/Isv8FIUtRG4H-gJL5kVtzptP7Db3UcjuAOohBWD_6VVwmDsp6B_g0ZsjBWFpuVstt-AT_dtu9O4FEykGfQ52vA5-iaZ5x4lA4KEEvUQ6iONTwuJ_3Q=w472)](https://cloud.google.com/)
 Currently, this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage. If you choose this option, you need to have Google account. We will mainly use compute engine to run our bioinformatics project. Please check below.
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg](https://cloud.google.com/compute/)
-
-
-
-If you are signed up to take a Genomics Data Carpentry workshop, you do *not* need to worry about setting up an AMI instance. The Carpentries
-staff will create an instance for you and this will be provided to you at no cost. This is true for both self-organized and centrally-organized workshops. Your Instructor will provide instructions for connecting to the AMI instance at the workshop.
-
-If you would like to work through these lessons independently, outside of a workshop, you will need to start your own AMI instance. 
-Follow these [instructions on creating an Amazon instance](https://datacarpentry.org/genomics-workshop/AMI-setup/). Use the AMI `ami-0985860a69ae4cb3d` (Data Carpentry Genomics Beta 2.0 (April 2019)) listed on the Community AMIs page. Please note that you must set your location as `N. Virginia` in order to access this community AMI. You can change your location in the upper right corner of the main AWS menu bar. The cost of using this AMI for a few days, with the t2.medium instance type is very low (about USD $1.50 per user, per day). Data Carpentry has *no* control over AWS pricing structure and provides this
+Won Yim has *no* control over GCP pricing structure and provides this
 cost estimate with no guarantees. Please read AWS documentation on pricing for up-to-date information.
 
-If you're an Instructor or Maintainer or want to contribute to these lessons, please get in touch with us [team@carpentries.org](mailto:team@carpentries.org) and we will start instances for you. 
-
+### Option D: Using Amazon Web Service
+If you would like to work through Amazon Web Service (AWS). I will not stop you.
+The cost of using this AWS for a few days, with the t2.medium instance type is very low (about USD $1.50 per user, per day). Won Yim has *no* control over AWS pricing structure and provides this
+cost estimate with no guarantees. Please read AWS documentation on pricing for up-to-date information.
 
 ### Data
 The data used in this lecture will be available by direct link.
