@@ -86,8 +86,13 @@ Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of th
 Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
 [Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
 
-
 ### Option C: Using Google Cloud Platform
+![Run on Google Cloud](https://lh5.googleusercontent.com/Isv8FIUtRG4H-gJL5kVtzptP7Db3UcjuAOohBWD_6VVwmDsp6B_g0ZsjBWFpuVstt-AT_dtu9O4FEykGfQ52vA5-iaZ5x4lA4KEEvUQ6iONTwuJ_3Q=w472)
+Currently this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage.
+[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://cloud.google.com/)
+
+
+
 If you are signed up to take a Genomics Data Carpentry workshop, you do *not* need to worry about setting up an AMI instance. The Carpentries
 staff will create an instance for you and this will be provided to you at no cost. This is true for both self-organized and centrally-organized workshops. Your Instructor will provide instructions for connecting to the AMI instance at the workshop.
 
@@ -98,11 +103,8 @@ cost estimate with no guarantees. Please read AWS documentation on pricing for u
 If you're an Instructor or Maintainer or want to contribute to these lessons, please get in touch with us [team@carpentries.org](mailto:team@carpentries.org) and we will start instances for you. 
 
 
-
-
 ### Data
-
-The data used in this workshop is available on FigShare. Because this workshop works with real data, be aware that file sizes for the data are large. Please read the FigShare page linked below for information about the data and access to the data files.
+The data used in this lecture will be available by direct link.
 
 [FigShare Data Carpentry Genomics Beta 2.0](https://figshare.com/articles/Data_Carpentry_Genomics_beta_2_0/7726454)
 
