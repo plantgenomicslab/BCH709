@@ -53,7 +53,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 | Week    | Tuesday | Thursday|
 | ------- | ---------- |---------- |
-|Week1|Intro Bioinformatics|Linux Enviroment and command line|
+|Week1|Intro to Bioinformatics|Linux Enviroment and command line|
 |Week2|Linux Enviroment and bioawk|Linux Enviroment and Cloud|
 |Week3|Github|Compile|
 |Week4|Sequencing methods and strategies|RNA-Seq|
@@ -76,7 +76,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 [Mathewson-IGT Knowledge Center, MIKC 414](https://events.unr.edu/mathewson-igt_knowledge_center_508#.XVyb3OhKiiM)  
 Every Friday at 2:00pm to 4:00pm
 
-[Hackathons](https://en.wikipedia.org/wiki/Hackathon) provide a space for hands-on training and solution development within a Research Computing environment at the University. This is also a place to get clarification on questions/concerns regarding the HPC environment. Please bring problems to challenge the HPC team, the Office of Information Technology, and research colleagues. If you don't need help, we still encourage you to attend and share your time and expertise with those in need of assistance. You don’t need to be an expert to attend a hackathon. Individuals at all computing skill levels are welcome!  
+[Hackathons](https://en.wikipedia.org/wiki/Hackathon) provide a space for hands-on training and solution development within a Research Computing environment at the University. This is also a place to get clarification on questions/concerns regarding the HPC environment. Please bring problems to challenge the HPC team, the Office of Information Technology, and research colleagues. If you don't need help, we still encourage you to attend and share your time and expertise with those in need of assistance. You don’t need to be an expert to attend a hackathon. Individuals at all computing skill levels are welcome! Won Yim will attend this hackathon.
+
 ### _Meeting with Won Yim_  
 [Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)  
 After Thursday class, we can have a meeting. We are not providing financial aid, but we can disccuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Tuesday class.**   
@@ -95,5 +96,4 @@ Ubuntu, mac etc. All the software and data used in the class will be open source
 
   
 
-The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License. 
-
+The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License.
