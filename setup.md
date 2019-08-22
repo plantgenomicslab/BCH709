@@ -87,9 +87,11 @@ Pronghorn is available to all University of Nevada, Reno faculty, staff, student
 [Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
 
 ### Option C: Using Google Cloud Platform
-![Run on Google Cloud](https://lh5.googleusercontent.com/Isv8FIUtRG4H-gJL5kVtzptP7Db3UcjuAOohBWD_6VVwmDsp6B_g0ZsjBWFpuVstt-AT_dtu9O4FEykGfQ52vA5-iaZ5x4lA4KEEvUQ6iONTwuJ_3Q=w472)
-Currently this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage.
-[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://cloud.google.com/)
+[![Run on Google Cloud](https://lh5.googleusercontent.com/Isv8FIUtRG4H-gJL5kVtzptP7Db3UcjuAOohBWD_6VVwmDsp6B_g0ZsjBWFpuVstt-AT_dtu9O4FEykGfQ52vA5-iaZ5x4lA4KEEvUQ6iONTwuJ_3Q=w472)](https://cloud.google.com/)
+Currently this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage. If you choose this option, you need to have Google account. We will mainly use compute engine to run our bioinformatics project. Please check below.
+[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://cloud.google.com/compute/)
+
+(https://cloud.google.com/)
 
 
 
