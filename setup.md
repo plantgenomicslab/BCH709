@@ -57,7 +57,7 @@ Following guide will provide the specific information about required software. P
 > - Once the installer is downloaded, double click on it and MSOffice should install.
 >
 > - Mac has native Terminal (command + space) and search terminal
-> - However 
+> - However I personally recommend to use [iTerm2](https://www.iterm2.com/) for better experience.
 {: .solution}
 
 > ## Linux

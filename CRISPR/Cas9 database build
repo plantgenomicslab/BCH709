@@ -1,6 +1,9 @@
 ---
 layout: lesson
+<<<<<<< HEAD:_episodes/compile.md
 title: Compile and Software install
+=======
+>>>>>>> 0496c01e6ebd5827511d7b750539c1fb551350f4:CRISPR/Cas9 database build
 published: true
 ---
 
