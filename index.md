@@ -103,7 +103,7 @@ After Thursday class, we can have a meeting. We are not providing financial aid,
 
 ## Other Website
 [Command line website](http://35.199.189.11:8081/  "Command line website")  
-[Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab"
+[Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab")
 
   
 > ## Frequently Asked Questions  
