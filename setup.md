@@ -69,10 +69,25 @@ Following guide will provide the specific information about required software. P
 {: .solution}
 
 
+## High Performance Computing and Cloud service
+
+### Option A: Using the lessons on your local machine
+
+It is possible to work through the lessons on your local machine (i.e. without using cloud or Pronghorn). However I would recomment to experience in High Performance Computing and Cloud service.
+
+#### Option B: Using Pronghorn (High-Performance Computing)
+
+**Pronghorn** is the University of Nevada, Reno's new High-Performance Computing (HPC) cluster. The GPU-accelerated system is designed, built and maintained by the Office of Information Technology's HPC Team. Pronghorn and the HPC Team supports general research across the Nevada System of Higher Education (NSHE).
+
+Pronghorn is composed of CPU, GPU, and Storage subsystems interconnected by a 100Gb/s non-blocking Intel Omni-Path fabric. The CPU partition features 93 nodes, 2,976 CPU cores, and 21TiB of memory. The GPU partition features 44 NVIDIA Tesla P100 GPUs, 352 CPU cores, and 2.75TiB of memory. The storage system uses the IBM SpectrumScale file system to provide 1PB of high-performance storage. The computational and storage capabilities of Pronghorn will regularly expand to meet NSHE computing demands.
+
+Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of the University of Nevada, Reno. Switch is the definitive leader of sustainable data center design and operation. The Switch Citadel is rated Tier 5 Platinum, and will be the largest, most advanced data center campus on the planet.
+
+Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
+**[Please apply your account here]**(https://www.unr.edu/research-computing/hpc-accounts)
 
 
-### Option A : Using Pronghorn
-
+### Option C: Using Google Cloud Platform
 If you are signed up to take a Genomics Data Carpentry workshop, you do *not* need to worry about setting up an AMI instance. The Carpentries
 staff will create an instance for you and this will be provided to you at no cost. This is true for both self-organized and centrally-organized workshops. Your Instructor will provide instructions for connecting to the AMI instance at the workshop.
 
@@ -82,14 +97,9 @@ cost estimate with no guarantees. Please read AWS documentation on pricing for u
 
 If you're an Instructor or Maintainer or want to contribute to these lessons, please get in touch with us [team@carpentries.org](mailto:team@carpentries.org) and we will start instances for you. 
 
-### Option B: Using Google Cloud Platform
 
 
 
-### Option C: Using the lessons on your local machine
-
-While not recommended, it is possible to work through the lessons on your local machine (i.e. without using
-cloud or Pronghorn). 
 ### Data
 
 The data used in this workshop is available on FigShare. Because this workshop works with real data, be aware that file sizes for the data are large. Please read the FigShare page linked below for information about the data and access to the data files.
@@ -97,4 +107,3 @@ The data used in this workshop is available on FigShare. Because this workshop w
 [FigShare Data Carpentry Genomics Beta 2.0](https://figshare.com/articles/Data_Carpentry_Genomics_beta_2_0/7726454)
 
 More information about these data will be presented in the [first lesson of the workshop](http://www.datacarpentry.org/organization-genomics/data/).
-
