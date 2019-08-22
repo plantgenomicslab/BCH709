@@ -73,8 +73,8 @@ zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz '|' less
 
 *Check the number of scaffold in GFF and scaffold(fa)
 >
-zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz '|' egrep -c  "sequence-region"
-zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz '|' egrep -c ">"
+zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| egrep -c  "sequence-region"
+zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| egrep -c ">"
 {: .bash}
 
 *Result (number of scaffolds in GFF and fasta files)
