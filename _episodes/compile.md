@@ -1,5 +1,6 @@
 ---
 layout: lesson
+published: true
 ---
 
 {% include gh_variables.html %}
