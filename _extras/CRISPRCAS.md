@@ -67,14 +67,14 @@ unzip vbo_archive_20180731_0.zip
 *Check the files
 use "space bar" and quit with "q" for "less"
 > 
-zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz '|' less 
-zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz '|' less
+>zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| less 
+>zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| less
 {: .bash}
 
 *Check the number of scaffold in GFF and scaffold(fa)
 >
-zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| egrep -c  "sequence-region"
-zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| egrep -c ">"
+>zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| egrep -c  "sequence-region"
+>zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| egrep -c ">"
 {: .bash}
 
 *Result (number of scaffolds in GFF and fasta files)
@@ -93,8 +93,8 @@ wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
   
 *Check the excute
 >
-chmod 775  ./gff3ToGenePred ##permission change for excute
-./gff3ToGenePred ##excute 
+>chmod 775  ./gff3ToGenePred        ##permission change for excute  
+>./gff3ToGenePred ##excute 
 {: .bash}
 ---
 
@@ -141,7 +141,7 @@ tessa.chopchop@gmail.com
 
 ## Take home message
 
-1. what is "'|'" ?
+1. what is \| ?
 2. What is "zcat" ?
 3. How to compress and decompress files? explain option (ex cvf, xzvf)
 4. Why do we need to "Check the number of scaffold in GFF and scaffold" ?
