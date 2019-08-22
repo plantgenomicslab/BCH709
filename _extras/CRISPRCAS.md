@@ -13,7 +13,7 @@ Requested by Dr. Monika Gulia-Nuss and Dr. Arvind Sharma
 ---
 
 
-![Dr. Monika Gulia-Nuss](https://naes.unr.edu/gulia/wp-content/uploads/graduation.jpg)
+![Dr. Monika Gulia-Nuss](https://naes.unr.edu/gulia/wp-content/uploads/graduation.jpg){: width="50%" height="50%"}
 Figure 1. Jeremiah Reyes (Grad special), Preston, **Dr. Arvind Sharma**, **Dr. Monika Gulia-Nuss** and Dr. Andrew Nuss.
 
 ![Ticks](https://media.springernature.com/m685/nature-static/assets/v1/image-assets/ncomms10507-f1.jpg)
@@ -54,25 +54,24 @@ Tessa G. Montague; Jose M. Cruz; James A. Gagnon; George M. Church; Eivind Valen
 
 [Temporary download links](https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip)
 
-* Download
+*Download
 >
 wget https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip
 {: .bash}
 
-* Unzip data
+*Unzip data
 >
 unzip vbo_archive_20180731_0.zip
 {: .bash}
 
-* Check the files
+*Check the files
 use "space bar" and quit with "q" for "less"
-``` 
+> 
 zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz | less 
-```
-```
 zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz | less
-```
-* Check the number of scaffold in GFF and scaffold(fa)
+{: .bash}
+
+*Check the number of scaffold in GFF and scaffold(fa)
 ```
 zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz | egrep -c  "sequence-region"
 ```
