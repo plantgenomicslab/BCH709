@@ -45,7 +45,7 @@
 
         {% comment %} Show lesson episodes for lessons. {% endcomment %}
         <li class="dropdown">
-          <a href="{{ relative_root_path }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Episodes <span class="caret"></span></a>
+          <a href="{{ relative_root_path }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lecture <span class="caret"></span></a>
           <ul class="dropdown-menu">
             {% for episode in site.episodes %}
             <li><a href="{{ relative_root_path }}{{ episode.url }}">{{ episode.title }}</a></li>
