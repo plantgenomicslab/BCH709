@@ -1,5 +1,7 @@
 ---
 layout: lesson
+title: Compile and Software install
+published: true
 ---
 
 {% include gh_variables.html %}
