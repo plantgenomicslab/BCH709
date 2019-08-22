@@ -117,24 +117,14 @@ chmod 775  ./gff3ToGenePred ##permission change for excute
 ---
 
 ### 4. Prepare the file for ChopChop
-```
+>
 mkdir Ixodes-scapularis_ChopChop ## make directory
-```
-
-```
 mv Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred Ixodes-scapularis_ChopChop ## move files
-```
-
-```
 mv Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz Ixodes-scapularis_ChopChop ## move files
-```
-```
 tar -cvzf Ixodes-scapularis_ChopChop.tar.gz Ixodes-scapularis_ChopChop ## compress
-```
-
-```
 ls -lh Ixodes-scapularis_ChopChop.tar.gz
-```
+{: .bash}
+
 ---
 
 ### 5. Contact to ChopChop
@@ -149,7 +139,7 @@ tessa.chopchop@gmail.com
 
 ---
 
-## HOMEWORK for Arvind
+## Take home message
 
 1. what is "'|'" ?
 2. What is "zcat" ?
