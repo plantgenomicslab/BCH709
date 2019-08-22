@@ -95,15 +95,13 @@ $ 369492
 *Download gff3ToGenePred*
 
 ~~~
-wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
+$ wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
 ~~~
 {: .bash}
   
 *Check the excute*
 ~~~
-**permission change for excute**
 $ chmod 775 ./gff3ToGenePred      
- **excute**
 $ ./gff3ToGenePred  
 ~~~
 {: .bash}
@@ -157,7 +155,7 @@ tessa.chopchop@gmail.com
 
 ## Take home message
 
-1. what is | ?
+1. what is "'|'" ?
 2. What is "zcat" ?
 3. How to compress and decompress files? explain option (ex cvf, xzvf)
 4. Why do we need to "Check the number of scaffold in GFF and scaffold" ?
