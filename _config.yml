@@ -90,7 +90,7 @@ exclude:
 highlighter: rouge
 
 # Remote theme
-remote_theme: plantgenomicslab/carpentries-theme
+#remote_theme: plantgenomicslab/carpentries-theme
 # favicon
 #
 #avicon-32x32:                          "./asset/img/favicon-32x32.png"
