@@ -40,7 +40,9 @@ Tessa G. Montague; Jose M. Cruz; James A. Gagnon; George M. Church; Eivind Valen
 
 ## Processing
 ### 1. Download Tick genome from Vectorbase
-[https://www.vectorbase.org/downloads?field_organism_taxonomy_tid%5B%5D=340&field_download_file_type_tid%5B%5D=412&field_download_file_format_tid=All&field_status_value=Current](https://https://www.vectorbase.org/downloads?field_organism_taxonomy_tid%5B%5D=340&field_download_file_type_tid%5B%5D=412&field_download_file_format_tid=All&field_status_value=Current)
+
+
+[Download links](https://www.vectorbase.org/)
 
 #### Prepare following files.
 
@@ -52,8 +54,6 @@ Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz
 ~~~
 Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz
 ~~~
-
-[Download links](https://www.vectorbase.org/)
 
 *Download*
 ~~~
