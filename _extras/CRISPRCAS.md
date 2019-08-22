@@ -72,17 +72,15 @@ zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz | less
 {: .bash}
 
 *Check the number of scaffold in GFF and scaffold(fa)
-```
+>
 zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz | egrep -c  "sequence-region"
-```
-```
-
 zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz | egrep -c ">"
-```
-* Result (number of scaffolds in GFF and fasta files)
+{: .bash}
 
-**369492**
-
+*Result (number of scaffolds in GFF and fasta files)
+>
+369492
+{: .output}
 
 ---
 ### 2. Prepare gff3ToGenePred.
@@ -110,11 +108,12 @@ chmod 775  ./gff3ToGenePred ##permission change for excute
 *Check the BAD file (Should be nothing)
 >less Ixodes-scapularis.bad
 {: .bash}
-```
-* Check the Gp file (Should include exon locations, gene name and scaffold ID)
-```
-$ less Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred 
-```
+
+*Check the Gp file (Should include exon locations, gene name and scaffold ID)
+
+> less Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred 
+{: .bash}  
+
 ---
 
 ### 4. Prepare the file for ChopChop
