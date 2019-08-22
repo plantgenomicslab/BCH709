@@ -42,7 +42,7 @@ This lesson requires a working spreadsheet program. If you don't have a spreadsh
 >Error: 0x8007007e
 >Press any key to continue...
 >~~~
->If you cannot get the Fall Creator’s update on Windows 10 for some reason, please update your Windows 10 >first. If you still have a trouble, please follow "Windows 7 and under section"
+>If you cannot get the Fall Creator’s update on Windows 10 for some reason, please update your Windows 10 first. If you still have a trouble, please follow "Windows 7 and under section"
 {: .solution}
 
 
