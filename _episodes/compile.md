@@ -1,5 +1,6 @@
 ---
 layout: lesson
+title: Compile and Software installation
 published: true
 ---
 
