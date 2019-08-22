@@ -14,7 +14,7 @@ Requested by Dr. Monika Gulia-Nuss and Dr. Arvind Sharma
 
 
 ![Dr. Monika Gulia-Nuss](https://naes.unr.edu/gulia/wp-content/uploads/graduation.jpg){: width="50%" height="50%"}
-Figure 1. Jeremiah Reyes (Grad special), Preston, **Dr. Arvind Sharma**, **Dr. Monika Gulia-Nuss** and Dr. Andrew Nuss.
+              Figure 1. Jeremiah Reyes (Grad special), Preston, **Dr. Arvind Sharma**, **Dr. Monika Gulia-Nuss** and Dr. Andrew Nuss.
 
 ![Ticks](https://media.springernature.com/m685/nature-static/assets/v1/image-assets/ncomms10507-f1.jpg)
 Figure 2. Genes associated with the unique parasitic lifestyle of *Ixodes scapularis*.
