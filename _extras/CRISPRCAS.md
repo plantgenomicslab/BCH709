@@ -92,9 +92,10 @@ wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
 {: .bash}
   
 *Check the excute
->
->chmod 775  ./gff3ToGenePred        ##permission change for excute  
->./gff3ToGenePred ##excute 
+>**permission change for excute**
+>chmod 775 ./gff3ToGenePred      
+> **excute**
+>./gff3ToGenePred  
 {: .bash}
 ---
 
