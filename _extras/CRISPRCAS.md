@@ -1,6 +1,6 @@
 ---
 layout: page
-title: test
+title: CRISPR/Cas9 database build
 published: true
 ---
 # *I. scapularis* genome for CRISPR/Cas9
