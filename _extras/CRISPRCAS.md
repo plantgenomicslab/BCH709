@@ -33,9 +33,9 @@ Tessa G. Montague; Jose M. Cruz; James A. Gagnon; George M. Church; Eivind Valen
 
 
 ## Requirement 
-* Any linux system or Any terminal
-* Web browser with internet
-* Your passion
+*Any linux system or Any terminal*
+*Web browser with internet*
+*Your passion*
 
 
 ## Processing
@@ -44,86 +44,101 @@ Tessa G. Montague; Jose M. Cruz; James A. Gagnon; George M. Church; Eivind Valen
 
 #### Prepare following files.
 
-*Gene feature file (GFF)
-
+*Gene feature file (GFF)*
+~~~
 Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz
-
-*Genome sequence (scaffold)
-
+~~~
+*Genome sequence (scaffold)*
+~~~
 Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz
+~~~
 
-[Temporary download links](https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip)
+[Download links](https://www.vectorbase.org/)
 
-*Download
->
-wget https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip
+*Download*
+~~~
+$ wget https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip
+~~~
 {: .bash}
 
-*Unzip data
->
-unzip vbo_archive_20180731_0.zip
+*Unzip data*
+~~~
+$ unzip vbo_archive_20180731_0.zip
+~~~
 {: .bash}
 
-*Check the files
+*Check the files*
 use "space bar" and quit with "q" for "less"
-> 
->zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| less 
->zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| less
+~~~
+$ zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| less 
+$ zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| less
+~~~
 {: .bash}
 
 *Check the number of scaffold in GFF and scaffold(fa)
->
->zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| egrep -c  "sequence-region"
->zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| egrep -c ">"
+~~~
+$ zcat Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz \| egrep -c  "sequence-region"
+$ zcat  Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz \| egrep -c ">"
+~~~
 {: .bash}
 
 *Result (number of scaffolds in GFF and fasta files)
->
-369492
+~~~
+$ 369492
+~~~
 {: .output}
 
 ---
 ### 2. Prepare gff3ToGenePred.
 #### gff3ToGenePred is validating and GFF file format to Gp (GenePred) format
 
-*Download gff3ToGenePred
->
+*Download gff3ToGenePred*
+
+~~~
 wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gff3ToGenePred
+~~~
 {: .bash}
   
-*Check the excute
->**permission change for excute**
->chmod 775 ./gff3ToGenePred      
-> **excute**
->./gff3ToGenePred  
+*Check the excute*
+~~~
+**permission change for excute**
+$ chmod 775 ./gff3ToGenePred      
+ **excute**
+$ ./gff3ToGenePred  
+~~~
 {: .bash}
 ---
 
 ### 3. Convert gff3 to Gp
 
-*Convert with gff3ToGenePred
->
-./gff3ToGenePred Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred -bad=Ixodes-scapularis.bad
+*Convert with gff3ToGenePred*
+~~~
+$ ./gff3ToGenePred Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred -bad=Ixodes-scapularis.bad
+~~~
 {: .bash}
 
-*Check the BAD file (Should be nothing)
->less Ixodes-scapularis.bad
+*Check the BAD file (Should be nothing)*
+~~~
+$ less Ixodes-scapularis.bad
+~~~
 {: .bash}
 
-*Check the Gp file (Should include exon locations, gene name and scaffold ID)
-
-> less Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred 
+*Check the Gp file (Should include exon locations, gene name and scaffold ID)*
+~~~
+$ less Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred 
+~~~
 {: .bash}  
 
 ---
 
 ### 4. Prepare the file for ChopChop
->
-mkdir Ixodes-scapularis_ChopChop ## make directory
-mv Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred Ixodes-scapularis_ChopChop ## move files
-mv Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz Ixodes-scapularis_ChopChop ## move files
-tar -cvzf Ixodes-scapularis_ChopChop.tar.gz Ixodes-scapularis_ChopChop ## compress
-ls -lh Ixodes-scapularis_ChopChop.tar.gz
+~~~
+$ mkdir Ixodes-scapularis_ChopChop ## make directory
+$ mv Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.pred Ixodes-scapularis_ChopChop ## move files
+$ mv Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz Ixodes-scapularis_ChopChop ## move files
+$ tar -cvzf Ixodes-scapularis_ChopChop.tar.gz Ixodes-scapularis_ChopChop ## compress
+$ ls -lh Ixodes-scapularis_ChopChop.tar.gz
+~~~
 {: .bash}
 
 ---
