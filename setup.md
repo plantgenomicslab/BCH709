@@ -6,18 +6,17 @@ published: true
 
 # Overview
 
-This lecture is designed to be run on terminal program. With the exception of a GUI program, all of the software and data used in terminal. Please follow the instructions below to prepare your computer for the lecture:
-
-- Required additional software + Option A   
-**OR**
-- Required additional software + Option B
+This lecture is designed to be run on terminal program. With the exception of a GUI program, all of the software and data used in terminal. Please follow the instructions below to prepare your computer for the lecture.
 
 ## Required additional software
 
-This lesson requires a working spreadsheet program. If you don't have a spreadsheet program already, you can use LibreOffice. It's a free, open source spreadsheet program.
+This lesson requires a working web browser, terminal, spreadsheet program. If you don't have a spreadsheet program already, you can use MSOffice for free with your affilated email. 
+Following guide will provide the specific information about required software. Please select your [OS system](https://en.wikipedia.org/wiki/Operating_system) to install software.
 
 > ## Windows 10
 > - Install MSOffice by going to [the installation page](hhttps://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
+>
+>
 > - Install [Bash on Windows](https://www.linux.com/news/bash-windows-what-does-it-mean/) by Enable “Windows Subsystem for Linux” feature.
 > - Open powershell with right click and "choose Run it as administrator"
 >![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install.jpeg?w=800&ssl=1){: width="50%" height="50%"}
@@ -56,11 +55,16 @@ This lesson requires a working spreadsheet program. If you don't have a spreadsh
 > ## Mac OS X
 > - Install MSOffice by going to [the installation page](hhttps://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/). The version cannot be selected. Once the installer is downloaded, double click on it and MSOffice should install.
 > - Once the installer is downloaded, double click on it and MSOffice should install.
+>
+> - Mac has native Terminal (command + space) and search terminal
+> - However 
 {: .solution}
 
 > ## Linux
 >  - Install LibreOffice by going to [the installation page](https://www.libreoffice.org/download/libreoffice-fresh/). The version for Linux should automatically be selected. Click Download Version X.X.X (whichever is the most recent version). You will go to a page that asks about a donation, but you don't need to make one. Your download should begin automatically.  
 > - Once the installer is downloaded, double click on it and LibreOffice should install.
+>
+>
 > - Please find terminal  Ctrl+Alt+T or terminal or xterm or uxterm
 {: .solution}
 
