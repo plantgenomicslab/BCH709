@@ -44,13 +44,13 @@ Tessa G. Montague; Jose M. Cruz; James A. Gagnon; George M. Church; Eivind Valen
 
 #### Prepare following files.
 
-* Gene feature file (GFF)
+*Gene feature file (GFF)
 
-**Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz**
+Ixodes-scapularis-Wikel_BASEFEATURES_IscaW1.6.gff3.gz
 
-* Genome sequence (scaffold)
+*Genome sequence (scaffold)
 
-**Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz**
+Ixodes-scapularis-Wikel_SCAFFOLDS_IscaW1.fa.gz
 
 [Temporary download links](https://www.vectorbase.org/sites/default/files/ftp/vbo_archive_20180731_0.zip)
 
