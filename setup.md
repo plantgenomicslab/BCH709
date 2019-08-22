@@ -88,7 +88,7 @@ This lecture is designed to be run on terminal program. With the exception of a 
 >Not recommended.
 {: .solution}
 
-## Required additional software
+## Required Additional Software
 
 This lesson requires a working web browser, terminal, spreadsheet program. If you don't have a spreadsheet program already, you can use MSOffice for free with your affilated email. 
 Following guide will provide the specific information about required software. Please select your [OS system](https://en.wikipedia.org/wiki/Operating_system) to install software.
