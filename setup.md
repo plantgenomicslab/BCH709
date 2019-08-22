@@ -26,7 +26,7 @@ This lesson requires a working spreadsheet program. If you don't have a spreadsh
 >Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 >~~~
 >You’ll be asked to confirm your choice. Type Y or press enter:
-![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install-2.jpeg?w=799&ssl=1){: width="70%" height="70%"}
+>![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install-2.jpeg?w=799&ssl=1){: width="70%" height="70%"}
 >Now you should be asked to reboot. Even if you are not asked to, you must restart your system. Once your system has rebooted, go to the Windows Store and search for “Linux.”
 >![Windows Store](https://i2.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-3-1.jpeg?w=800&ssl=1){: width="70%" height="70%"}
 >Please install Ubuntu 18.04 LTS.
