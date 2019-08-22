@@ -8,10 +8,11 @@ published: true
 
 This lecture is designed to be run on terminal program. With the exception of a GUI program, all of the software and data used in terminal. Please follow the instructions below to prepare your computer for the lecture.
 
-## Required additional software
+**Please do not buy a new laptop. Your level is not that high and our lecture will not need new fancy computer**
+**Please read below and think about the best way**
 
-This lesson requires a working web browser, terminal, spreadsheet program. If you don't have a spreadsheet program already, you can use MSOffice for free with your affilated email. 
-Following guide will provide the specific information about required software. Please select your [OS system](https://en.wikipedia.org/wiki/Operating_system) to install software.
+
+## Required Operating System + Laptop
 
 > ## Windows 10
 > - Install MSOffice by going to [the installation page](hhttps://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
@@ -68,6 +69,29 @@ Following guide will provide the specific information about required software. P
 > - Please find terminal  Ctrl+Alt+T or terminal or xterm or uxterm
 {: .solution}
 
+> ## Old laptop
+>If you're laptop is old, We still have an option. Please choose one option in  High Performance Computing and Cloud service and connect to [Google Cloud SSh](https://ssh.cloud.google.com/)
+{: .solution}
+
+> ## Chromebook
+>Of course you can do it with [Secure Shell App](https://chrome.google.com/webstore/detail/secure-shell-app/pnhechapfaindjhompbnflcldabbghjo)
+{: .solution}
+
+> ## Phone (Android/IOS)
+>Of course you can do it with [Termius](https://www.termius.com/)
+>Not recommended.
+{: .solution}
+
+
+> ## Pencil 
+>Of course you can do it with [Termius](https://www.termius.com/)
+>Not recommended.
+{: .solution}
+
+## Required additional software
+
+This lesson requires a working web browser, terminal, spreadsheet program. If you don't have a spreadsheet program already, you can use MSOffice for free with your affilated email. 
+Following guide will provide the specific information about required software. Please select your [OS system](https://en.wikipedia.org/wiki/Operating_system) to install software.
 
 ## High Performance Computing and Cloud service
 
@@ -89,9 +113,7 @@ Pronghorn is available to all University of Nevada, Reno faculty, staff, student
 ### Option C: Using Google Cloud Platform
 [![Run on Google Cloud](https://lh5.googleusercontent.com/Isv8FIUtRG4H-gJL5kVtzptP7Db3UcjuAOohBWD_6VVwmDsp6B_g0ZsjBWFpuVstt-AT_dtu9O4FEykGfQ52vA5-iaZ5x4lA4KEEvUQ6iONTwuJ_3Q=w472)](https://cloud.google.com/)
 Currently this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage. If you choose this option, you need to have Google account. We will mainly use compute engine to run our bioinformatics project. Please check below.
-[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://cloud.google.com/compute/)
-
-(https://cloud.google.com/)
+[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg](https://cloud.google.com/compute/)
 
 
 
