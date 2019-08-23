@@ -7,7 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
-![bioinformatics_DNA](https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjI1Jqs0JfkAhVoFjQIHR6gBJQQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.sciencemag.org%2Ffeatures%2F2014%2F06%2Fexplosion-bioinformatics-careers&psig=AOvVaw0JkZ3wkSOWtozvbuAykcHz&ust=1566602597354488)
+![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
 
 The Unix operating system was conceived and implemented in 1969 at AT&T's Bell Laboratories in the United States by Ken Thompson, Dennis Ritchie, Douglas McIlroy, and Joe Ossanna. It was first released in 1971 and was initially entirely written in assembly language, a common practice at the time. Later, in a key pioneering approach in 1973, Unix was re-written in the programming language C by Dennis Ritchie (with exceptions to the kernel and I/O). The availability of an operating system written in a high-level language allowed easier portability to different computer platforms. With a legal glitch forcing AT&T to license the operating system's source code to anyone who asked,[22] Unix quickly grew and became widely adopted by academic institutions and businesses. In 1984, AT&T divested itself of Bell Labs. Free of the legal glitch requiring free licensing, Bell Labs began selling Unix as a proprietary product.
 
@@ -20,7 +20,7 @@ https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 
 ![Unix_family tree]({{site.baseurl}}./fig/unix-simple.png)
-![OS]{{site.baseurl}}./fig/OS.png)
+![OS]({{site.baseurl}}./fig/OS.png)
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
 
