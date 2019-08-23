@@ -1,0 +1,13 @@
+Will not apply HSTS. The HSTS database must be a regular and non-world-writable file.
+ERROR: could not open HSTS store at '/home/wyim/.wget-hsts'. HSTS will be disabled.
+--2019-08-22 17:04:02--  https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?key=78c0c3ca991860c490cc6cc1f03b81dcaa0e5d10
+Resolving www.usna.edu (www.usna.edu)... 136.160.88.139
+Connecting to www.usna.edu (www.usna.edu)|136.160.88.139|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘calendar.php?key=78c0c3ca991860c490cc6cc1f03b81dcaa0e5d10’
+
+                   calendar.php?key=78     [<=>                                                                       ]       0  --.-KB/s               calendar.php?key=78c0c3ca991860c490cc6     [ <=>                                                                      ]  12.93K  --.-KB/s    in 0.06s   
+
+2019-08-22 17:04:03 (226 KB/s) - ‘calendar.php?key=78c0c3ca991860c490cc6cc1f03b81dcaa0e5d10’ saved [13239]
+
