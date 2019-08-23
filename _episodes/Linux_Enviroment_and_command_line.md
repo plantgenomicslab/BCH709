@@ -13,7 +13,14 @@ The Unix operating system was conceived and implemented in 1969 at AT&T's Bell L
 
 Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers. It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:more than 90% of today's 500 fastest supercomputers run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the Android system in wide use on mobile devices is built on the Linux kernel.
 
-![Unix_family tree]({{site.baseurl}}./fig/unix-simple.jpg)
+
+
+https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
+
+https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
+
+![Unix_family tree]({{site.baseurl}}./fig/unix-simple.png)
+![OS]{{site.baseurl}}./fig/OS.png)
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
 
