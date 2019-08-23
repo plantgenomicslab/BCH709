@@ -20,7 +20,7 @@ https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 
 ![Unix_family tree]({{site.baseurl}}./fig/unix-simple.png)
-![OS]{{site.baseurl}}./fig/OS.png)
+![OS]({{site.baseurl}}./fig/OS.png)
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
 
