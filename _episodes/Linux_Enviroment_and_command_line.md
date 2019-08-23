@@ -15,6 +15,8 @@ Linux is a Unix-like computer operating system assembled under the model of free
 
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
+
+![Unix_family tree]({{site.baseurl}}/https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 So, what is UNIX?
 UNIX is an OS that was first developed in the 1960s, and has been developed constantly ever since then. It is a collections of programs to make the computer work properly with stable, multi-user, multi-tasking system for servers, desktops, and laptops.
 Types of UNIX
