@@ -22,17 +22,20 @@ The Unix operating system was conceived and implemented in 1969 at AT&T's Bell L
 
 ![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
 
+### The kernel
+This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
+
+### I/O
+In computing, input/output or I/O (or, informally, io or IO) is the communication between an information processing system, such as a computer, and the outside world, possibly a human or another information processing system. Inputs are the signals or data received by the system and outputs are the signals or data sent from it. The term can also be used as part of an action; to "perform I/O" is to perform an input or output operation.
+
 ## Unix/Linux Main Components
 ### The Unix/Linux computer ecosystem can be divided into three main parts:
-- User Space: Defines the applications, libraries, and standard utilities that are user accessible. When we write a program, it is from this perspective that we operate, without concern for the underlying components. For example, writing a "Hello World" program on any computer is the same from the user-perspective, but might be different when it comes to actually executing the program and writing "Hello World" to the terminal.
-Kernel Space: This refers to the operations of OS that manage the interface between user actions and the hardware. It is the central part of the OS, and its primary job is to pair user applications with the underlying hardware and allow multiple programs to share singular hardware components. For example, how does a user input event, such as typing 'a' on the keyboard, get translated into 'a' appearing on the screen? Or, how does two programs both read from disc at the same time or run on the CPU at the same time?
-Hardware: The underlying physical components of the computer. These include Input/Output devices, like keyboards and monitors, the CPU which does calculations, the memory components, and the network interface.
+- **User Space**: Defines the applications, libraries, and standard utilities that are user accessible. When we write a program, it is from this perspective that we operate, without concern for the underlying components. For example, writing a "Hello World" program on any computer is the same from the user-perspective, but might be different when it comes to actually executing the program and writing "Hello World" to the terminal.
+- **Kernel Space**: This refers to the operations of OS that manage the interface between user actions and the hardware. It is the central part of the OS, and its primary job is to pair user applications with the underlying hardware and allow multiple programs to share singular hardware components. For example, how does a user input event, such as typing 'a' on the keyboard, get translated into 'a' appearing on the screen? Or, how does two programs both read from disc at the same time or run on the CPU at the same time?
+- **Hardware**: The underlying physical components of the computer. These include Input/Output devices, like keyboards and monitors, the CPU which does calculations, the memory components, and the network interface.
 
 ![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
-
-### The kernel
-This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
 
 ## Operating Systems Tasks
 The operating system's primary task is to manage services as an interface between the user and the hardware. Examples include:
@@ -44,7 +47,7 @@ The operating system's primary task is to manage services as an interface betwee
 ![OS]({{site.baseurl}}/fig/OS.png)
 
 
-As a user of the OS, you will see these interactions from two perspectives:
+### As a user of the OS, you will see these interactions from two perspectives:
 - Shell: You will use the shell to interact with the OS
 - System Call API: You will program in C to interact with the OS
 The big part of this interaction comes from the System Call API, which you will use the C programming language. Why C?
@@ -53,15 +56,13 @@ The big part of this interaction comes from the System Call API, which you will 
 - Understanding the OS and C together is a natural process and will make you a better programmer
 
 
-The most common versions are Solaris, Linux, and MacOS X.
-The UNIX operating system analysis
+**The most common versions are Solaris, Linux, and MacOS X. **
 
 
 
 
 
 Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers. It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:more than 90% of today's 500 fastest supercomputers run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the Android system in wide use on mobile devices is built on the Linux kernel.
-![classroom](https://plantgenomicslab.github.io/BCH709/fig/classroom_location.png)
 
 
 https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
