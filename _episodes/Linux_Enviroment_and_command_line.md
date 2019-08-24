@@ -19,12 +19,12 @@ https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 
 https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 
-![Unix_family tree]({{site.baseurl}}/../fig/unix-simple.png)
-![OS]({{site.baseurl}}/../fig/OS.png)
+![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
+![OS]({{site.baseurl}}/fig/OS.png)
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
 
-![Unix_family tree](/https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
+![Unix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 So, what is UNIX?
 UNIX is an OS that was first developed in the 1960s, and has been developed constantly ever since then. It is a collections of programs to make the computer work properly with stable, multi-user, multi-tasking system for servers, desktops, and laptops.
 Types of UNIX
