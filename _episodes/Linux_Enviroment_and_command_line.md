@@ -20,27 +20,43 @@ The Unix operating system was conceived and implemented in 1969 at AT&T's Bell L
 - Unix derivatives like Linux are open source, and well known to the community and developed in the open where we can study and understand them.
 - The skills you learn on Unix will easily translate to many other OS platforms because all Unix-based systems share standard characteristic
 
-Unix/Linux Main Components
-The Unix/Linux computer ecosystem can be divided into three main parts:
-User Space: Defines the applications, libraries, and standard utilities that are user accessible. When we write a program, it is from this perspective that we operate, without concern for the underlying components. For example, writing a "Hello World" program on any computer is the same from the user-perspective, but might be different when it comes to actually executing the program and writing "Hello World" to the terminal.
+![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
+
+## Unix/Linux Main Components
+### The Unix/Linux computer ecosystem can be divided into three main parts:
+- User Space: Defines the applications, libraries, and standard utilities that are user accessible. When we write a program, it is from this perspective that we operate, without concern for the underlying components. For example, writing a "Hello World" program on any computer is the same from the user-perspective, but might be different when it comes to actually executing the program and writing "Hello World" to the terminal.
 Kernel Space: This refers to the operations of OS that manage the interface between user actions and the hardware. It is the central part of the OS, and its primary job is to pair user applications with the underlying hardware and allow multiple programs to share singular hardware components. For example, how does a user input event, such as typing 'a' on the keyboard, get translated into 'a' appearing on the screen? Or, how does two programs both read from disc at the same time or run on the CPU at the same time?
 Hardware: The underlying physical components of the computer. These include Input/Output devices, like keyboards and monitors, the CPU which does calculations, the memory components, and the network interface.
 
-##Operating Systems Tasks
+![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
+
+
+### The kernel
+This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
+
+## Operating Systems Tasks
 The operating system's primary task is to manage services as an interface between the user and the hardware. Examples include:
 - File System: managing files on the user
 - Device I/O: managing input from devices
 - Processes: Starting, running, and stopping programs, and allowing multiple programs to run at once, i.e., program multiprogramming.
 - Memory Management: Allocating runtime memory for process and separating memory between process and between user-space and the kernel-space
 
+![OS]({{site.baseurl}}/fig/OS.png)
 
+
+As a user of the OS, you will see these interactions from two perspectives:
+- Shell: You will use the shell to interact with the OS
+- System Call API: You will program in C to interact with the OS
+The big part of this interaction comes from the System Call API, which you will use the C programming language. Why C?
+- C is a low level language
+- The OS is written in C
+- Understanding the OS and C together is a natural process and will make you a better programmer
 
 
 The most common versions are Solaris, Linux, and MacOS X.
 The UNIX operating system analysis
 
-The kernel
-This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
+
 
 
 
@@ -57,7 +73,6 @@ https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
 
 https://medium.com/@youngstone89/unix-introduction-shell-980212852897
 
-![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
 
 
