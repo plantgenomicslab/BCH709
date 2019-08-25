@@ -22,10 +22,10 @@ The Unix operating system was conceived and implemented in 1969 at AT&T's Bell L
 
 ![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
 
-###The kernel
+### The kernel
 This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
 
-###I/O
+### I/O
 In computing, input/output or I/O (or, informally, io or IO) is the communication between an information processing system, such as a computer, and the outside world, possibly a human or another information processing system. Inputs are the signals or data received by the system and outputs are the signals or data sent from it. The term can also be used as part of an action; to "perform I/O" is to perform an input or output operation.
 
 ## Unix/Linux Main Components
@@ -36,7 +36,7 @@ In computing, input/output or I/O (or, informally, io or IO) is the communicatio
 
 
 
-## Operating Systems Tasks
+### Operating Systems Tasks
 The operating system's primary task is to manage services as an interface between the user and the hardware. Examples include:
 - File System: managing files on the user
 - Device I/O: managing input from devices
@@ -64,8 +64,7 @@ Linux is a Unix-like computer operating system assembled under the model of free
 
 
 
-### The shell
-
+## The shell
 
 ![BASH](https://miro.medium.com/proxy/0*L0nhgi_19dlQJtzb.png)
 
@@ -101,6 +100,77 @@ Bash stands for Bourne Again Shell and it is the default shell on many Linux dis
 - Shell Functions and Aliases
 - Unlimited size Indexed arrays
 - Integer arithmetic in any base from two to sixty-four
+
+
+## Text Editor
+[!text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0)
+
+### Text Editing on Unix and Linux 
+-nano
+-emacs
+-vim
+
+### nano
+nano was first created in 1999 with the name TIP (This isn't Pico), by Chris Allegretta. His motivation was to create a free software replacement for Pico, which was not distributed under a free software license. The name was changed to nano on January 10, 2000 to avoid a naming conflict with the existing Unix utility tip. The name comes from the system of SI prefixes, in which nano is 1000 times larger than pico, In February 2001, nano became a part of the GNU Project. nano implements some features that Pico lacks, including colored text, regular expression search and replace, smooth scrolling, multiple buffers, rebindable key support, and (experimental) undoing and redoing of edit changes. On August 11, 2003, Chris Allegretta officially handed the source code maintenance for nano to David Lawrence Ramsey. On December 20, 2007, Ramsey stepped down as nano's maintainer. 
+
+### emacs
+GNU Emacs is an extensible, customizable text editor—and more. At its core is an interpreter for Emacs Lisp, a dialect of the Lisp programming language with extensions to support text editing. The features of GNU Emacs include:
+- Content-sensitive editing modes, including syntax coloring, for a variety of file types including plain text, source code, and HTML.
+- Complete built-in documentation, including a tutorial for new users.
+- Full Unicode support for nearly all human languages and their scripts.
+- Highly customizable, using Emacs Lisp code or a graphical interface. 
+- A large number of extensions that add other functionality, including a project planner, mail and news reader, debugger interface, calendar, and more. Many of these extensions are distributed with GNU Emacs; others are available separately. 
+
+### VIM
+
+vi is a screen-oriented text editor originally created for the Unix operating system. The portable subset of the behavior of vi and programs based on it, and the ex editor language supported within these programs, is described by (and thus standardized by) the Single Unix Specification and POSIX. 
+
+Over the years since its creation, vi became the de facto standard Unix editor and a nearly undisputed number one editor until the rise of Emacs after about 1984. The Single UNIX Specification specifies vi, so every conforming system must have it. 
+
+A 2009 survey of Linux Journal readers found that vi was the most widely used text editor among respondents, beating gedit, the second most widely used editor by nearly a factor of two (36% to 19%). 
+
+#### Cheat sheet
+
+- [VIM](https://preview.redd.it/ve1jv3m3qqj21.png?width=960&crop=smart&auto=webp&s=deb6dc83a462dc54523d703574e953638598af19)
+- [nano](https://www.cheatography.com/bipinthite/cheat-sheets/nano-editor/)
+- [Emacs](https://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png)
+
+[a](https://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png)
+
+```
+#!/bin/bash
+echo "hello world"
+```
+
+### Shebang line
+
+In order to make it possible to execute scripts as though they were first class executables, UNIX systems will looks for what we refer to as a shebang line at the top of the file. The origin of the name is murky. Some think it came from sharp-bang or hash-bang – contractions of # (“sharp”) and ! (“bang”). Others think the “SH” is in reference to the first UNIX shell, named “sh”.
+
+In any case, if a UNIX system sees that the first line of an executable begins with #!, then it will execute the file using whatever command is specified in the rest of the line. For example, if there’s a file named /path/to/bar that looks like:
+```
+#!/bin/bash
+```
+
+```
+#!/bin/python
+```
+
+```
+#!/bin/perl
+```
+
+#### Advanced shebang line
+
+For perl
+```
+#!/usr/bin/env perl
+```
+For python
+```
+#!/usr/bin/env python
+```
+
+
 
 
 
