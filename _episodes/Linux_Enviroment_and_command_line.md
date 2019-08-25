@@ -56,7 +56,7 @@ The big part of this interaction comes from the System Call API, which you will 
 - Understanding the OS and C together is a natural process and will make you a better programmer
 
 
-**The most common versions are Solaris, Linux, and MacOS X. **
+**The most common versions are Solaris, Linux, and MacOS X.**
 
 
 
@@ -102,5 +102,3 @@ The original Unix shell was made in the mid 19’s by Stephen R. Bourne. Bourne 
 
 >UNIX is an OS that was first developed in the 1960s, and has been developed constantly ever since then. It is a collections of programs to make the computer work properly with stable, multi-user, multi-tasking system for servers, desktops, and laptops.
 {: .callout}
-
-
