@@ -63,3 +63,35 @@ Linux is a Unix-like computer operating system assembled under the model of free
 ![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
 
+
+### The shell
+
+
+![BASH](https://miro.medium.com/proxy/0*L0nhgi_19dlQJtzb.png)
+
+
+This serves as an interface between the user and the kernel. When a user logs in, the login program checks the username and password, then start another program called the shell. The shell is a command line interpreter. It interprets the commands the user run and arranges for them to be executed. The commands are the programs to be run. The shell itself has different types of shell with its own set of commands and functions.
+
+### Shell Prompt?
+The prompt “$” is called the command prompt. While the prompt is being displayed, you can run a command.
+
+### Shell Types?
+Bourne Shell — $ character is the default prompt.
+Bourne Shell(sh)
+Korn shell(ksh)
+Bourne Again shell(bash)
+POSIX shell(sh)
+C Shell — % character is the default prompt.
+C shell(csh)
+TENEX/TOPS C shell(tcsh)
+
+[!shell types](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Evolution-of-Linux-Shells-Types-of-Shells-in-Linux-Edureka.png)
+
+
+**The original Unix shell was made in the mid 19’s by Stephen R. Bourne. Bourne shell was the first shell to show up in Unix world. Bourne shell is commonly installed as /bin/sh on most versions of Unix.**
+
+### Shell structutre
+[!shell structure](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Shell-Architecture-Types-of-Shells-in-Linux-Edureka-528x205.png)
+
+
+
