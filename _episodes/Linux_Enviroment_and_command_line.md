@@ -22,10 +22,10 @@ The Unix operating system was conceived and implemented in 1969 at AT&T's Bell L
 
 ![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
 
-### The kernel
+###The kernel
 This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
 
-### I/O
+###I/O
 In computing, input/output or I/O (or, informally, io or IO) is the communication between an information processing system, such as a computer, and the outside world, possibly a human or another information processing system. Inputs are the signals or data received by the system and outputs are the signals or data sent from it. The term can also be used as part of an action; to "perform I/O" is to perform an input or output operation.
 
 ## Unix/Linux Main Components
@@ -34,7 +34,6 @@ In computing, input/output or I/O (or, informally, io or IO) is the communicatio
 - **Kernel Space**: This refers to the operations of OS that manage the interface between user actions and the hardware. It is the central part of the OS, and its primary job is to pair user applications with the underlying hardware and allow multiple programs to share singular hardware components. For example, how does a user input event, such as typing 'a' on the keyboard, get translated into 'a' appearing on the screen? Or, how does two programs both read from disc at the same time or run on the CPU at the same time?
 - **Hardware**: The underlying physical components of the computer. These include Input/Output devices, like keyboards and monitors, the CPU which does calculations, the memory components, and the network interface.
 
-![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
 
 ## Operating Systems Tasks
@@ -58,47 +57,9 @@ The big part of this interaction comes from the System Call API, which you will 
 
 **The most common versions are Solaris, Linux, and MacOS X.**
 
-
-
-
-
+##LINUX
 Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers. It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:more than 90% of today's 500 fastest supercomputers run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the Android system in wide use on mobile devices is built on the Linux kernel.
 
-
-https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
-
-https://www.usna.edu/Users/cs/bilzor/ic221/calendar.php?type=unit&event=1
-
-![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
+![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
 
-https://medium.com/@youngstone89/unix-introduction-shell-980212852897
-
-
-
-
-
-![OS]({{site.baseurl}}/fig/OS.png)
-So, what is UNIX?
-
-
-For an instance, in a case that a user runs command “rm myfile”. The shell searches for the file containing the program “rm”, and then requests the kernel via system calls to execute the program “rm” on “myfile”. When the process “rm myfile” gets done, the shell returns the UNIX prompt % to the user, indicating that it is waiting for another command.
-The Shell
-This serves as an interface between the user and the kernel. When a user logs in, the login program checks the username and password, then start another program called the shell. The shell is a command line interpreter. It interprets the commands the user run and arranges for them to be executed. The commands are the programs to be run. The shell itself has different types of shell with its own set of commands and functions.
-Shell Prompt?
-The prompt “$” is called the command prompt. While the prompt is being displayed, you can run a command.
-Shell Types?
-Bourne Shell — $ character is the default prompt.
-Bourne Shell(sh)
-Korn shell(ksh)
-Bourne Again shell(bash)
-POSIX shell(sh)
-C Shell — % character is the default prompt.
-C shell(csh)
-TENEX/TOPS C shell(tcsh)
-The original Unix shell was made in the mid 19’s by Stephen R. Bourne. Bourne shell was the first shell to show up in Unix world. Bourne shell is commonly installed as /bin/sh on most versions of Unix.
-
-
-
->UNIX is an OS that was first developed in the 1960s, and has been developed constantly ever since then. It is a collections of programs to make the computer work properly with stable, multi-user, multi-tasking system for servers, desktops, and laptops.
-{: .callout}
