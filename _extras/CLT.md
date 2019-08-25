@@ -3,7 +3,7 @@ layout: page
 title: Mac Command Line Tool Installation
 published: true
 ---
-## Mac Command Line Tool Installation
+##MacOSX Command Line Tool Installation
 
 Whether you use bioinformatics script that does everything for you, or set everything up manually, it's best that you start with a clean installation of macOS. If you've already tried to install a development environment, I can't guarantee that you won't run into any issues. 
 
