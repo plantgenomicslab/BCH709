@@ -170,6 +170,9 @@ For python
 ```
 
 
+## Command Line Bootcamp
+[Command-line bootcamp](http://35.199.189.11:8081/), a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
+
 
 
 
