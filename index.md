@@ -61,7 +61,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week6|Functional annotation|Database|
 |Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analaysis
 |Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
-|Week9|Quiz: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
+|Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
 |Week10|Genome assembly|Genome assembly|
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|

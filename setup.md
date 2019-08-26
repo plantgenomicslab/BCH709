@@ -59,6 +59,7 @@ This lecture is designed to be run on terminal program. With the exception of a 
 >
 > - Mac has native Terminal (command + space) and search terminal
 > - However I personally recommend to use [iTerm2](https://www.iterm2.com/) for better experience.
+> Additionally, I would recomment to install [MacOS command line tools with following instruction](https://plantgenomicslab.github.io/BCH709/CLT/index.html).
 {: .solution}
 
 > ## Linux
@@ -123,4 +124,3 @@ cost estimate with no guarantees. Please read AWS documentation on pricing for u
 
 ### Data
 The data used in this lecture will be available by direct link.
-
