@@ -31,6 +31,7 @@ As contemporary biologists we have entered an age where the use of computers in 
 
 ## Grading Criteria, Scale, and Standards:
 ### Grading policy will be whole letter grade, as follows:
+
 |Rating| Percentile| Letter Grade|
 |------|-----------|----|
 |Excellent|90-100%| A |
