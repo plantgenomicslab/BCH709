@@ -12,7 +12,7 @@ Our on-going research projects include de novo assembly and analysis of multiple
 Lastly, our lab seeks to illuminate the processes regulating development, metabolomics, protein structure, evolution analysis and photosynthesis and will enable future attempts to characterize gene function in plants, insects and vertebrates.
 
 ### Website
-[![logo]({{site.baseurl}}/fig/600.png)](https://www.plantbioinformatics.org/)
+[![logo]({{site.baseurl}}/fig/600.png){: width="100%" height="100%"}](https://www.plantbioinformatics.org/)
 
 ### Location
 Howard Medical Science BD 216 (HMS216)
