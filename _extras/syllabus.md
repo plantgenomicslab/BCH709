@@ -30,6 +30,17 @@ As contemporary biologists we have entered an age where the use of computers in 
 {: .challenge}
 
 ## Grading Criteria, Scale, and Standards:
+### Course Component Points
+- Exams, projects, papers and the proportion each counts toward the final grade are as follows:
+|Components|Point|
+|---|---|
+|Homework Assignments|150|
+|Midterm exam|100|
+|Final exam|150|
+|Course participation\*|100|
+|Total|500|
+/* attendance and participation in lectures and discussions
+
 ### Grading policy will be whole letter grade, as follows:
 
 |Rating|Percentile|Letter Grade|
