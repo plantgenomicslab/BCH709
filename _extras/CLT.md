@@ -36,53 +36,53 @@ xcode-select --install
 
 You should see the pop up below on your screen. Click ```Install``` when it appears.
 
- [!install xcode on mavericks step 1](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-1.png)
+ ![install xcode on mavericks step 1](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-1.png)
 
 Click ```Agree``` when the License Agreement appears:
 
-[!install xcode on mavericks step 2](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-2.png)
+![install xcode on mavericks step 2](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-2.png)
 
 Your computer will then attempt to find the software, and then will start downloading it. The following popup will appear:
 
-[!install xcode on mavericks step 4](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-4.png)
+![install xcode on mavericks step 4](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-4.png)
 
 Once the software is installed, click ```Done```. That's it! You're now ready to go to Step 2.
 
-[!install xcode on mavericks step 5](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-5.png)
+![install xcode on mavericks step 5](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-5.png)
 
 #### Installing the standalone Command Line Tools on Mountain Lion
 Go to [https://developer.apple.com/downloads](https://developer.apple.com/downloads) and sign in with your Apple ID (the same one you use for iTunes and app purchases).
 
-[!sign in to developer.apple.com](https://www.moncefbelyamani.com/images/sign-in-with-your-apple-id-apple-developer.jpg)
+![sign in to developer.apple.com](https://www.moncefbelyamani.com/images/sign-in-with-your-apple-id-apple-developer.jpg)
 
 Search for "command line tools" (in the search field on the left), then click on the latest version of "Command Line Tools (OS X Mountain Lion) for Xcode," and click on the the .dmg link to download it.
 
-[!command line tools for mountain lion](https://www.moncefbelyamani.com/images/command-line-tools-for-mountain-lion.jpg)
+![command line tools for mountain lion](https://www.moncefbelyamani.com/images/command-line-tools-for-mountain-lion.jpg)
 
 Once the .dmg has finished downloading, double-click on it (if it didn't already open automatically). This will mount the disk image and open a window in your Finder that looks like this:
 
-[!command line tools package installer for mountain lion](https://www.moncefbelyamani.com/images/command-line-tools-mountain-lion.jpg)
+![command line tools package installer for mountain lion](https://www.moncefbelyamani.com/images/command-line-tools-mountain-lion.jpg)
 
 Double-click on the "Command Line Tools (Mountain Lion).mpkg" installer and go through the installation. Once the CLT are installed, launch the "Terminal" application via Spotlight (as explained in Step 1), then go to Step 2.
 
 #### Installing Xcode on Lion
 Click on this link to Xcode on the Mac App Store, then click on "View in Mac App Store."
 
-[!view in mac app store](https://www.moncefbelyamani.com/images/view-in-mas.jpg)
+![view in mac app store](https://www.moncefbelyamani.com/images/view-in-mas.jpg)
 
 It should automatically launch the "App Store" app on your Mac and take you the Xcode page. Click on the "Free" button, then click on "Install App."
 
 Once the installation is complete, go to your Applications folder and double-click on Xcode, then install any required components if asked to.
 
-[!install mobile component](https://www.moncefbelyamani.com/images/xcode-component.jpg)
+![install mobile component](https://www.moncefbelyamani.com/images/xcode-component.jpg)
 
 Go to Xcode's Preferences via the menu bar, or by pressing the command and comma keys.
 
-[!Go to Xcode Preferences](https://www.moncefbelyamani.com/images/xcode-prefs.jpg)
+![Go to Xcode Preferences](https://www.moncefbelyamani.com/images/xcode-prefs.jpg)
 
 Click on the "Downloads" icon, then click on the "Install" button next to "Command Line Tools."
 
-[!Install Command Line Tools](!https://www.moncefbelyamani.com/images/install-clt.jpg)
+![Install Command Line Tools](!https://www.moncefbelyamani.com/images/install-clt.jpg)
 
 When prompted to log in, you should be able to use the same email and password you use for iTunes and app purchases. Once the Command Line Tools are installed, quit Xcode, launch the "Terminal" application via Spotlight (as explained in Step 1), then go to Step 2.
 
