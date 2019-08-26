@@ -111,7 +111,7 @@ Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of th
 Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
 [Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
 
-[Pronghorn system map](./fig/pronghorn.png){: width="70%" height="70%"}
+![Pronghorn system map](./fig/pronghorn.png){: width="70%" height="70%"}
 
 
 ### Option C: Using Google Cloud Platform (GCP)
