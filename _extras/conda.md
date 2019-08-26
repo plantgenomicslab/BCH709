@@ -21,7 +21,7 @@ First, make sure that your package is in the pip:
 ```
 Then, you can install this package:
 ```
-  pip install <package>
+	pip install <package>
 ```
 
 ### Why conda?
@@ -37,7 +37,9 @@ Using conda environment on BioHPC
 
 First, you need to check python
 Version 2.7.x Or version 3.5.x.
-python -v
+```bash
+	python -v
+```
 If you don't know how to. Please look at other pages [Python version control](https://plantgenomicslab.github.io/BCH709/Python_version_control/index.html)
 
 Python 3 is the latest version of the language and python 2 is legacy. So you should choose Python 3.7.x when you could. However, if you know some packages you want are not compatible with Python 3, then you can install Python 2.7.x.
@@ -83,7 +85,7 @@ $ conda init
 
 Create a conda environment named test with latest anaconda package.
 ```bash 
-$    conda create -n test python=3
+$ conda create -n test python=3
 ```
 Alternatively you can specify python version
 ```bash
@@ -96,7 +98,7 @@ Usually, the conda environment is installed in your home directory on computer, 
 5. Use the environment you just created
 Activate your environment:
 ```bash  
-$  source activate test
+$ source activate test
 ```
 It will show your environment name at the beginning of the prompt.
 
@@ -107,28 +109,28 @@ It will show your environment name at the beginning of the prompt.
 Install from default conda channel
 You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
 ``` 
- $  conda search <package>
- $  conda install <package>
+$ conda search <package>
+$ conda install <package>
 ```
 6. Install from conda-forge channel (example: emacs)
 Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
 Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://conda-forge.github.io/feedstocks
 ```bash
-$    conda install -c conda-forge emacs
+$ conda install -c conda-forge emacs
 ```
 
 7. Install from bioconda channel (example: stringtie)
 Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
 ```bash
- $   conda config --add channels conda-forge
- $   conda config --add channels defaults
- $   conda config --add channels r
- $   conda config --add channels bioconda
+ $ conda config --add channels conda-forge
+ $ conda config --add channels defaults
+ $ conda config --add channels r
+ $ conda config --add channels bioconda
 ```
 Adding channels will not generate any command line output.
 Then, you can install Stringtie from the Bioconda channel
 ```bash   
- $    conda install stringtie
+ $ conda install stringtie
 ```
 All the bioconda packages can be found here: https://bioconda.github.io/conda-recipe_index.html
 
@@ -144,13 +146,13 @@ If the packages can be found in different channels, the package from the highest
 9. Install R and R packages
 The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
 ```bash
-$  conda install -c r r-essentials
+$ conda install -c r r-essentials
 ```
 
 10. Update R packages
 ```bash 
-$  conda update -c r r-essentials
-$  conda update -c r r-<package name>
+$ conda update -c r r-essentials
+$ conda update -c r r-<package name>
 ```
 
 ### More conda commands:
@@ -171,6 +173,10 @@ update package
 ```bash
 $ conda update <package>
 ```
+update package in env
+```bash
+conda update  --name <ENV_name> <package>
+```
 update conda itself
 ```bash
 $ conda update conda
@@ -188,12 +194,19 @@ $ source deactivate
 ```
 
 6. Remove environment
-```   
-$    conda env remove --name test
+```bash   
+$ conda env remove --name test
 ```
 When you finish your project, you might want to remove the environment. However, it is not recommended because you might want to update some work in this project in the future.
 
- 
+7. Enviroment export
+```bash
+conda env export  --name <ENVIRONMENT> --file <outputfilename>.yaml
+```
+8. Envrioment import 
+```bash
+conda env create --file <outputfilename>.yaml  
+``` 
 
 #### Reference:
 
