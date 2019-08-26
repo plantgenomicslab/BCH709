@@ -94,7 +94,7 @@ $ conda create -n test python=3
 $ conda create -n snowdeer_env python=3.5
 ```
 
-##### Usually, the conda environment is installed in your home directory on computer, /home/<your username>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test
+*Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
  
  
 #### Use the environment you just created
