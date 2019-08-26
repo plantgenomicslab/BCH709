@@ -9,11 +9,11 @@ title: Syllabus BCH709
 
 
 > ## Instructor Information
->Instructor: Won C Yim
->Office: Howard Medical Scicence Bd. (HMS216)
->Phone: 775-682-9447
->Email: wyim@unr.edu
->Office Hours: Thursday, 10:30-noon by appointment on Tuesday.
+> Instructor: Won C Yim  
+> Office: Howard Medical Scicence Bd. (HMS216)  
+> Phone: 775-682-9447  
+> Email: wyim@unr.edu  
+> Office Hours: Thursday, 10:30-noon by appointment on Tuesday.  
 {: .prereq} 
 
 
