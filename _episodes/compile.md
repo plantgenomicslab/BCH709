@@ -1,5 +1,5 @@
 ---
-layout: lesson
+layout: page
 title: Compile and Software installation
 published: true
 ---
@@ -7,7 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
-![bioinformatics_DNA]({{{site.baseurl}}/fig/DNA.jpg)
+![bioinformatics_DNA]({{{site.baseurl}}/fig/software-compiler.png)
 
 When we talk about learning bioinformatics, it is useful to divide the students up into two groups: the ones who don’t want to make their own software and the ones who do. Both of these groups will do data analysis, run statistical tests, make plots, and use bioinformatics software made by other scientists. But the second group will also make their own bioinformatics software for the community to use. If you need to make some specialized scripts for your own research but you are not releasing anything for other researchers in your field to use, then you are in the first group.
 
