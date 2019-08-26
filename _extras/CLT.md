@@ -26,7 +26,7 @@ I've written an open source script that can set everything up for you, including
 #### Installing the standalone Command Line Tools on Mavericks and above  
 Most of the work you'll be doing in this tutorial will be in the "Terminal" application. The easiest way to open an application in OS X is to search for it via Spotlight. The default keyboard shortcut for invoking Spotlight is command-Space. Once Spotlight is up, just start typing the first few letters of the app you are looking for, and once it appears, select it, and press return to launch it. See the animated GIF below for an example:
 
-[!Launch Terminal via Spotlight](https://www.moncefbelyamani.com/images/spotlight-terminal.gif)
+![Launch Terminal via Spotlight](https://www.moncefbelyamani.com/images/spotlight-terminal.gif)
 
 Inside the Terminal window, copy and paste (or type) the following command, and press the return key on your keyboard:
 ```
@@ -82,7 +82,7 @@ Go to Xcode's Preferences via the menu bar, or by pressing the command and comma
 
 Click on the "Downloads" icon, then click on the "Install" button next to "Command Line Tools."
 
-![Install Command Line Tools](!https://www.moncefbelyamani.com/images/install-clt.jpg)
+![Install Command Line Tools](https://www.moncefbelyamani.com/images/install-clt.jpg)
 
 When prompted to log in, you should be able to use the same email and password you use for iTunes and app purchases. Once the Command Line Tools are installed, quit Xcode, launch the "Terminal" application via Spotlight (as explained in Step 1), then go to Step 2.
 
