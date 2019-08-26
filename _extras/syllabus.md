@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Frequently Asked Questions
+title: Syllabus BCH709: Introduction to Bioinformatics
 ---
 
 Thank you for your interest in BCH709. Below you will find answers to some frequently asked questions about this curriculum. If the answer to your question doesn’t appear, please contact [wyim@unr.edu](mailto:wyim@unr.edu). 
