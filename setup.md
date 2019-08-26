@@ -124,6 +124,3 @@ cost estimate with no guarantees. Please read AWS documentation on pricing for u
 ### Data
 The data used in this lecture will be available by direct link.
 
-[FigShare Data Carpentry Genomics Beta 2.0](https://figshare.com/articles/Data_Carpentry_Genomics_beta_2_0/7726454)
-
-More information about these data will be presented in the [first lesson of the workshop](http://www.datacarpentry.org/organization-genomics/data/).
