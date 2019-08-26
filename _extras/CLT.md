@@ -23,7 +23,7 @@ There is also a third-party option, the osx-gcc-installer by Kenneth Reitz, that
 I've written an open source script that can set everything up for you, including configuring your Mac to work with GitHub.
 
 
-#### Installing the standalone Command Line Tools on Mavericks and above  
+### Installing the standalone Command Line Tools on Mavericks and above  
 Most of the work you'll be doing in this tutorial will be in the "Terminal" application. The easiest way to open an application in OS X is to search for it via Spotlight. The default keyboard shortcut for invoking Spotlight is command-Space. Once Spotlight is up, just start typing the first few letters of the app you are looking for, and once it appears, select it, and press return to launch it. See the animated GIF below for an example:
 
 ![Launch Terminal via Spotlight](https://www.moncefbelyamani.com/images/spotlight-terminal.gif)
@@ -50,7 +50,7 @@ Once the software is installed, click ```Done```. That's it! You're now ready to
 
 ![install xcode on mavericks step 5](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-5.png)
 
-#### Installing the standalone Command Line Tools on Mountain Lion
+### Installing the standalone Command Line Tools on Mountain Lion
 Go to [https://developer.apple.com/downloads](https://developer.apple.com/downloads) and sign in with your Apple ID (the same one you use for iTunes and app purchases).
 
 ![sign in to developer.apple.com](https://www.moncefbelyamani.com/images/sign-in-with-your-apple-id-apple-developer.jpg)
@@ -65,7 +65,7 @@ Once the .dmg has finished downloading, double-click on it (if it didn't already
 
 Double-click on the "Command Line Tools (Mountain Lion).mpkg" installer and go through the installation. Once the CLT are installed, launch the "Terminal" application via Spotlight (as explained in Step 1), then go to Step 2.
 
-#### Installing Xcode on Lion
+### Installing Xcode on Lion
 Click on this link to Xcode on the Mac App Store, then click on "View in Mac App Store."
 
 ![view in mac app store](https://www.moncefbelyamani.com/images/view-in-mas.jpg)
@@ -88,6 +88,6 @@ When prompted to log in, you should be able to use the same email and password y
 
 IMPORTANT NOTE: If you upgraded to Mountain Lion from Lion, and you already had Xcode installed on Lion, and you updated to Xcode 4.4 and updated the Command Line Tools while still on Lion, you will have to go back to Xcode and download the Command Line Tools again after upgrading to Mountain Lion.
 
-#### Snow Leopard Instructions
+### Snow Leopard Instructions
 The Xcode 4.2 download for Snow Leopard is only available to those registered in the $99/year developer program. I confirmed that the latest version of Xcode for Snow Leopard available to me while signed in with a free account is 3.2.6. I have not tested this setup with Xcode 3.2.6, but I would love to hear from you if you have. Otherwise, I recommend that you upgrade to a newer version of OS X.
 
