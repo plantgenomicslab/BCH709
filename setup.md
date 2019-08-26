@@ -8,8 +8,8 @@ published: true
 
 This lecture is designed to be run on terminal program. With the exception of a GUI program, all of the software and data used in terminal. Please follow the instructions below to prepare your computer for the lecture.
 
-**Please do not buy a new laptop. Your level is not that high and our lecture will not need new fancy computer**
-**Please read below and think about the best way**
+**Please do not buy a new laptop. Your level is not that high and our lecture will not need new fancy computer.**
+**Please read below and think about the best way.**
 
 
 ## Required Operating System + Laptop

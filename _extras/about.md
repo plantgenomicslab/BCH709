@@ -14,8 +14,8 @@ Lastly, our lab seeks to illuminate the processes regulating development, metabo
 ### Website
 [Plant Genomics Lab](https://www.plantbioinformatics.org/)
 
-logohttps://lh4.googleusercontent.com/1xmschOPurRae0gIk3tmZZo7_vbmTUASWqSUm23r-eQsJGqsjntctokCJ7BqCVKLywp22Ne8=w16383
-![Logo]({{site.baseurl}}/fig/200.jpg)
+![logo](https://lh4.googleusercontent.com/1xmschOPurRae0gIk3tmZZo7_vbmTUASWqSUm23r-eQsJGqsjntctokCJ7BqCVKLywp22Ne8=w16383)
+[![Logo]({{site.baseurl}}/fig/200.jpg){: width="300%" height="300%"}](https://www.plantbioinformatics.org/)
 
 ### Location
 Howard Medical Science BD 216 (HMS216)
