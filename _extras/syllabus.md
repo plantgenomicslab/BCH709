@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Syllabus BCH709: Introduction to Bioinformatics
+title: Syllabus BCH709
 ---
 
 > ## Course description
