@@ -118,12 +118,12 @@ Pronghorn is available to all University of Nevada, Reno faculty, staff, student
 Currently, this lecture is supported by Google Cloud Platform. If you want to try, we will provide free credit for your usage (about USD $1.50 per user, per day). If you choose this option, you need to have Google account. We will mainly use compute engine to run our bioinformatics project. Please check below.
 [![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://cloud.google.com/compute/)
 Won Yim has *no* control over GCP pricing structure and provides this
-cost estimate with no guarantees. Please read AWS documentation on pricing for up-to-date information.
+cost estimate with no guarantees. Please read  documentation on pricing for up-to-date information.
 
 ### Option D: Using Amazon Web Service
 If you would like to work through Amazon Web Service (AWS). I will not stop you.
 The cost of using this AWS for a few days, with the t2.medium instance type is very low (about USD $1.50 per user, per day). Won Yim has *no* control over AWS pricing structure and provides this
-cost estimate with no guarantees. Please read AWS documentation on pricing for up-to-date information.
+cost estimate with no guarantees. Please read GCP documentation on pricing for up-to-date information.
 
 ### Data
 The data used in this lecture will be available by direct link.
