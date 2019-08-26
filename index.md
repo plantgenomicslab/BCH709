@@ -27,14 +27,14 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - Terminal software
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
+> - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
 {: .callout}
 
 > ## Getting Started
 >
 > This lesson assumes that learners have no prior experience with the tools covered in the workshop. 
 > However, learners are expected to have some familiarity with biological concepts,
-> including the 
-> concept of genomic variation within a population. Participants should bring their own laptops and plan to participate actively. 
+> including the concept of genomic variation within a population. Participants should bring their own laptops and plan to participate actively. 
 > 
 > To get started, follow the directions in the [Setup](setup.html) tab to 
 > get access to the required software and data for this workshop.
@@ -121,4 +121,4 @@ Ubuntu, mac etc. All the software and data used in the class will be open source
 
   
 
-The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License.
+The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-dat adventure. This adventure app was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License.
