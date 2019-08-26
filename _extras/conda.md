@@ -67,8 +67,8 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 $ chmod +x Miniconda-latest-Linux-x86_64.sh
 $ ./Miniconda-latest-Linux-x86_64.sh
 ```
-![conda1](./fig/conda_excute.png)
-![conda2](./fig/conda_excute2.png)
+![conda1](/../fig/conda_excute.png)
+![conda2](/../fig/conda_excute2.png)
 
 ##### Reload your enviroment
 ```bash
@@ -101,7 +101,7 @@ $ source activate test
 ```
 It will show your environment name at the beginning of the prompt.
 
-![conda3](./fig/conda_prompt.png)
+![conda3](/../fig/conda_prompt.png)
 
 #### Install packages in the conda environment
 
