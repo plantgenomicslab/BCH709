@@ -26,7 +26,6 @@ As contemporary biologists we have entered an age where the use of computers in 
 {: .challenge}
 
 > ## Student Learning Outcomes:
-> ### Upon completion of this course:
 > Students will be able to demonstrate ability to apply bioinformatics methods and tools necessary to interpret and analyze biological datasets. Students will be able to understand knowledge of current bioinformatics tools and resources. Students will be able to pursue a career in the bioinformatics ﬁelds.
 {: .challenge}
 
