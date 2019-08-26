@@ -3,40 +3,43 @@ layout: page
 title: Conda Installation
 published: true
 ---
-## Installing Packages Using Conda
-
-Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
-
-For example, you need python 2.7 and Biopython 1.60 in project A, while you also work on another project B, which needs python 3.5 and Biopython 1.68. You can use conda to create two separate environments for each project, and you can switch between different versions of packages easily to run your project code.
+### Installing Packages Using Conda
+>
+>Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
+>
+>For example, you need python 2.7 and Biopython 1.60 in project A, while you also work on another project B, which needs python 3.5 and Biopython 1.68. You can use conda to create two separate environments for each project, and you can switch between different versions of packages easily to run your project code.
+{: .callout}
 
 ### Install Python package without Conda
 
-Pip, which stands for Pip Install Packages, is Python’s official package manager. We can install packages through pip. You can find the list of available packages from Python Package Index (PyPI) https://pypi.python.org/pypi
-You already have pip, if your python 2 >= 2.7.9 or Python 3 >= 3.4. Otherwise you need to install pip, according to the instructions. In terminal, you enter the following to install a package.
- 
-First, make sure that your package is in the pip:
-    
-```
-	pip search <package>
-```
-Then, you can install this package:
-```
-	pip install <package>
-```
+>Pip, which stands for Pip Install Packages, is Python’s official package manager. We can install packages through pip. You can find the list of available packages from Python Package Index (PyPI) https://pypi.python.org/pypi
+>You already have pip, if your python 2 >= 2.7.9 or Python 3 >= 3.4. Otherwise you need to install pip, according to the instructions. In terminal, you enter the following to install a package.
+> 
+>First, make sure that your package is in the pip:
+>    
+>```
+>	pip search <package>
+>```
+>Then, you can install this package:
+>```
+>	pip install <package>
+>```
+{: .callout}
 
 ### Why conda?
 - Dependencies is one of the main reasons to use Conda.
 Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.
  
-Conda provide a solution for this situation: when you install package Matplotlib, it will automatically install all the dependencies like Numpy and Scipy. So you don’t have to install them one by one, manually. This can save you great amount of time.
+- Conda provide a solution for this situation: when you install package Matplotlib, it will automatically install all the dependencies like Numpy and Scipy. So you don’t have to install them one by one, manually. This can save you great amount of time.
  
 - The other advantage of conda, is that conda can have multiple environments for different projects. As mentioned at the very beginning, it can have two separate environments of different versions of software.
 Using conda environment on BioHPC
  
-##### Check python
+#### Check python
 
 First, you need to check python
 Version 2.7.x Or version 3.5.x.
+
 ```bash
 	python -v
 ```
@@ -54,39 +57,39 @@ See here for details about Python 2 and Python3.
 ### Install Miniconda
 Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and get ready to download the installer of your choice/system.
 
-##### For linux:
+#### For linux:
 ```bash
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
-##### For Mac:
+#### For Mac:
 ```bash
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 ```
-##### Example for linux:
+#### Example for linux:
 ```bash
 $ chmod +x Miniconda-latest-Linux-x86_64.sh
 $ ./Miniconda-latest-Linux-x86_64.sh
 ```
-![conda1](/../fig/conda_excute.png)
-![conda2](/../fig/conda_excute2.png)
+![conda1]({{site.baseurl}}/fig/conda_excute.png)
+![conda2]({{site.baseurl}}/fig/conda_excute2.png)
 
-##### Reload your enviroment
+#### Reload your enviroment
 ```bash
 $ source ~/.bashrc
 ```
-##### Initialize Miniconda3
+#### Initialize Miniconda3
 
 ```bash
 $ conda init
 ```
 
-#### Create new conda environment
+### Create new conda environment
 
-##### Create a conda environment named test with latest anaconda package.
+#### Create a conda environment named test with latest anaconda package.
 ```bash 
 $ conda create -n test python=3
 ```
-##### Alternatively you can specify python version
+#### Alternatively you can specify python version
 ```bash
 $ conda create -n snowdeer_env python=3.5
 ```
@@ -101,9 +104,9 @@ $ source activate test
 ```
 It will show your environment name at the beginning of the prompt.
 
-![conda3](/../fig/conda_prompt.png)
+![conda3]({{site.baseurl}}/fig/conda_prompt.png)
 
-#### Install packages in the conda environment
+### Install packages in the conda environment
 
 Install from default conda channel
 You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
@@ -111,14 +114,14 @@ You can search if your package is in the default source from Anaconda collection
 $ conda search <package>
 $ conda install <package>
 ```
-#### Install from conda-forge channel (example: emacs)
+### Install from conda-forge channel (example: emacs)
 Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
 Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://conda-forge.github.io/feedstocks
 ```bash
 $ conda install -c conda-forge emacs
 ```
 
-#### Install from bioconda channel (example: stringtie)
+### Install from bioconda channel (example: stringtie)
 Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
 ```bash
  $ conda config --add channels conda-forge
@@ -142,7 +145,7 @@ For example, if you add the channels in different order in the Stringtie example
 If the packages can be found in different channels, the package from the highest priority channel will be installed even if the version of it isn’t newest. The command <conda config --append channels new_channel> puts the new channel at the bottom of the channel list, making it the lowest priority.
 
 
-#### Install R and R packages
+### Install R and R packages
 The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
 ```bash
 $ conda install -c r r-essentials
