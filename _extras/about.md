@@ -21,17 +21,17 @@ Lastly, our lab seeks to illuminate the processes regulating development, metabo
 Howard Medical Science BD 216 (HMS216)
 1664  N. Virginia Street Reno NV, 89557
 
-### Opennings
-
-#### Rotation Graduate Students
-We are accepting rotation students for potential PhD position. A solid background in plant biology or computer science is preferred. Computer science background students who want to do dry lab, will be required to prove her/himself for operating and/or programming skill. The research project is on Brassica genome assembly , and evolution analysis. Potential candidates are encouraged to send a copy of their resume and unofficial transcripts to Won Yim (wyim@unr.edu) for funding opportunities.
-
-#### Ph. D. Candidate
-We are looking for potential Ph. D. students for enrollment in Spring and Fall 2020. A solid background in plant biology is required. The research project is on Brassica transformations, functionalization  and genome assembly. Potential candidates are encouraged to send a copy of their resume and unofficial transcripts to Won Yim (wyim@unr.edu) for funding opportunities.
-
-#### Master's Candidate
-We are interested in motivated thesis-oriented master's students. A solid background in plant biology and/or computer science is preferred. The research project is on Brassica genome evolution and diversity. Potential candidates are encouraged to send a copy of their resume and transcripts to Won Yim (wyim@unr.edu).
-
+>### Opennings
+>
+>#### Rotation Graduate Students
+>We are accepting rotation students for potential PhD position. A solid background in plant biology or computer science is preferred. Computer science background students who want to do dry lab, will be required to prove her/himself for operating and/or programming skill. The research project is on Brassica genome assembly , and evolution analysis. Potential candidates are encouraged to send a copy of their resume and unofficial transcripts to Won Yim (wyim@unr.edu) for funding opportunities.
+>
+>#### Ph. D. Candidate
+>We are looking for potential Ph. D. students for enrollment in Spring and Fall 2020. A solid background in plant biology is required. The research project is on Brassica transformations, functionalization  and genome assembly. Potential candidates are encouraged to send a copy of their resume and unofficial transcripts to Won Yim (wyim@unr.edu) for funding opportunities.
+>
+>#### Master's Candidate
+>We are interested in motivated thesis-oriented master's students. A solid background in plant biology and/or computer science is preferred. The research project is on Brassica genome evolution and diversity. Potential candidates are encouraged to send a copy of their resume and transcripts to Won Yim (wyim@unr.edu).
+{: .callout}
 
 
 
