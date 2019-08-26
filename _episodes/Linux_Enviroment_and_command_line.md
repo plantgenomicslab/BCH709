@@ -1,5 +1,5 @@
 ---
-layout: lesson
+layout: page
 title: Linux Enviroment and command line
 published: true
 ---
@@ -83,13 +83,13 @@ The prompt “$” is called the command prompt. While the prompt is being displ
 - C shell(csh)
 - TENEX/TOPS C shell(tcsh)
 
-[!shell types](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Evolution-of-Linux-Shells-Types-of-Shells-in-Linux-Edureka.png)
+![shell types](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Evolution-of-Linux-Shells-Types-of-Shells-in-Linux-Edureka.png)
 
 
 **The original Unix shell was made in the mid 19’s by Stephen R. Bourne. Bourne shell was the first shell to show up in Unix world. Bourne shell is commonly installed as /bin/sh on most versions of Unix.**
 
 ### Shell structutre
-[!shell structure](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Shell-Architecture-Types-of-Shells-in-Linux-Edureka-528x205.png)
+![shell structure](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Shell-Architecture-Types-of-Shells-in-Linux-Edureka-528x205.png)
 
 ### BASH
 Bash stands for Bourne Again Shell and it is the default shell on many Linux distributions today. It is also a sh-compatible shell and offers practical improvements over sh for programming and interactive use which includes:
@@ -103,12 +103,12 @@ Bash stands for Bourne Again Shell and it is the default shell on many Linux dis
 
 
 ## Text Editor
-[!text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0)
+![text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0)
 
 ### Text Editing on Unix and Linux 
--nano
--emacs
--vim
+- nano
+- emacs
+- vim
 
 ### nano
 nano was first created in 1999 with the name TIP (This isn't Pico), by Chris Allegretta. His motivation was to create a free software replacement for Pico, which was not distributed under a free software license. The name was changed to nano on January 10, 2000 to avoid a naming conflict with the existing Unix utility tip. The name comes from the system of SI prefixes, in which nano is 1000 times larger than pico, In February 2001, nano became a part of the GNU Project. nano implements some features that Pico lacks, including colored text, regular expression search and replace, smooth scrolling, multiple buffers, rebindable key support, and (experimental) undoing and redoing of edit changes. On August 11, 2003, Chris Allegretta officially handed the source code maintenance for nano to David Lawrence Ramsey. On December 20, 2007, Ramsey stepped down as nano's maintainer. 
@@ -135,7 +135,6 @@ A 2009 survey of Linux Journal readers found that vi was the most widely used te
 - [nano](https://www.cheatography.com/bipinthite/cheat-sheets/nano-editor/)
 - [Emacs](https://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png)
 
-[a](https://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png)
 
 ```
 #!/bin/bash
