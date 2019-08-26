@@ -54,7 +54,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 | Week    | Tuesday | Thursday|
 | ------- | ---------- |---------- |
-|Week1|Intro to Bioinformatics|Linux Enviroment and command line|
+|Week1|Intro to Bioinformatics|[Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
 |Week2|Linux Enviroment and bioawk|Linux Enviroment and Cloud|
 |Week3|Github|Compile|
 |Week4|Sequencing methods and strategies|RNA-Seq|
