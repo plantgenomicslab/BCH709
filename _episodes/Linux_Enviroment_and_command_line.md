@@ -65,9 +65,6 @@ Linux is a Unix-like computer operating system assembled under the model of free
 
 
 ## The shell
-
-![BASH](https://miro.medium.com/proxy/0*L0nhgi_19dlQJtzb.png)
-
 This serves as an interface between the user and the kernel. When a user logs in, the login program checks the username and password, then start another program called the shell. The shell is a command line interpreter. It interprets the commands the user run and arranges for them to be executed. The commands are the programs to be run. The shell itself has different types of shell with its own set of commands and functions.
 
 ### Shell Prompt?
@@ -92,6 +89,7 @@ The prompt “$” is called the command prompt. While the prompt is being displ
 ![shell structure](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Shell-Architecture-Types-of-Shells-in-Linux-Edureka-528x205.png)
 
 ### BASH
+![BASH](https://miro.medium.com/proxy/0*L0nhgi_19dlQJtzb.png)
 Bash stands for Bourne Again Shell and it is the default shell on many Linux distributions today. It is also a sh-compatible shell and offers practical improvements over sh for programming and interactive use which includes:
 
 - Command line editing
