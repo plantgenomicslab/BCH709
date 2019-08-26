@@ -3,7 +3,7 @@ layout: page
 title: Mac Command Line Tool Installation
 published: true
 ---
-##MacOSX Command Line Tool Installation
+## MacOSX Command Line Tool Installation  
 
 Whether you use bioinformatics script that does everything for you, or set everything up manually, it's best that you start with a clean installation of macOS. If you've already tried to install a development environment, I can't guarantee that you won't run into any issues. 
 
@@ -14,16 +14,16 @@ Check your macOS version below to get started:
 - Lion
 - Snow Leopard
 
-##Historical Background
+## Historical Background  
 Up until February 2012, the only way you could get the Command Line Tools required for web development was via the full Xcode package, which is almost 2 GB in size. Since then, Apple started offering the Command Line Tools (CLT) as a separate, much smaller download (~118MB), which benefits those who don't plan on writing Mac or iOS apps.
 
 There is also a third-party option, the osx-gcc-installer by Kenneth Reitz, that supports both Snow Leopard and Lion. However, it is not updated as often as the official Apple tools, and I personally ran into issues with it on Lion.
 
-###The Easy Way for Mavericks and above
+### The Easy Way for Mavericks and above  
 I've written an open source script that can set everything up for you, including configuring your Mac to work with GitHub.
 
 
-####Installing the standalone Command Line Tools on Mavericks and above
+#### Installing the standalone Command Line Tools on Mavericks and above  
 Most of the work you'll be doing in this tutorial will be in the "Terminal" application. The easiest way to open an application in OS X is to search for it via Spotlight. The default keyboard shortcut for invoking Spotlight is command-Space. Once Spotlight is up, just start typing the first few letters of the app you are looking for, and once it appears, select it, and press return to launch it. See the animated GIF below for an example:
 
 [!Launch Terminal via Spotlight](https://www.moncefbelyamani.com/images/spotlight-terminal.gif)
@@ -50,7 +50,7 @@ Once the software is installed, click ```Done```. That's it! You're now ready to
 
 [!install xcode on mavericks step 5](https://www.moncefbelyamani.com/images/install-clt-mavericks-step-5.png)
 
-####Installing the standalone Command Line Tools on Mountain Lion
+#### Installing the standalone Command Line Tools on Mountain Lion
 Go to [https://developer.apple.com/downloads](https://developer.apple.com/downloads) and sign in with your Apple ID (the same one you use for iTunes and app purchases).
 
 [!sign in to developer.apple.com](https://www.moncefbelyamani.com/images/sign-in-with-your-apple-id-apple-developer.jpg)
@@ -65,7 +65,7 @@ Once the .dmg has finished downloading, double-click on it (if it didn't already
 
 Double-click on the "Command Line Tools (Mountain Lion).mpkg" installer and go through the installation. Once the CLT are installed, launch the "Terminal" application via Spotlight (as explained in Step 1), then go to Step 2.
 
-####Installing Xcode on Lion
+#### Installing Xcode on Lion
 Click on this link to Xcode on the Mac App Store, then click on "View in Mac App Store."
 
 [!view in mac app store](https://www.moncefbelyamani.com/images/view-in-mas.jpg)
@@ -88,6 +88,6 @@ When prompted to log in, you should be able to use the same email and password y
 
 IMPORTANT NOTE: If you upgraded to Mountain Lion from Lion, and you already had Xcode installed on Lion, and you updated to Xcode 4.4 and updated the Command Line Tools while still on Lion, you will have to go back to Xcode and download the Command Line Tools again after upgrading to Mountain Lion.
 
-####Snow Leopard Instructions
+#### Snow Leopard Instructions
 The Xcode 4.2 download for Snow Leopard is only available to those registered in the $99/year developer program. I confirmed that the latest version of Xcode for Snow Leopard available to me while signed in with a free account is 3.2.6. I have not tested this setup with Xcode 3.2.6, but I would love to hear from you if you have. Otherwise, I recommend that you upgrade to a newer version of OS X.
 
