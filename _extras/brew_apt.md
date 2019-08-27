@@ -204,6 +204,20 @@ On macOS systems:
 $ brew install screenfetch
 ```
 
+```bash
+screenfetch
+```
 
+### Let's install prerequisite packages
+On Ubuntu systems:
+```bash
+$ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl vim
+```
 
-This manual was adapted from [Linode](http://www.linode.com)
+On macOS systems:
+```bash
+$ brew install openssl readline sqlite3 xz zlib
+```
+
+This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
+
