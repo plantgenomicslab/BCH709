@@ -4,9 +4,7 @@ title: System and Package management
 published: true
 ---
 
-screenfetch
-
-## Package Management Concepts
+> ## Package Management Concepts
 > Contemporary distributions of Linux-based operating systems install software in pre-compiled packages, which are archives that contain binaries of software, configuration files, and information about dependencies. Furthermore, package management tools keep track of updates and upgrades so that the user doesn’t have to hunt down information about bug and security fixes.
 >
 > Without package management, users must ensure that all of the required dependencies for a piece of software are installed and up-to-date, compile the software from the source code (which takes time and introduces compiler-based variations from system to system), and manage configuration for each piece of software. Without package management, application files are located in the standard locations for the system to which the developers are accustomed, regardless of which system they’re using.
@@ -55,6 +53,7 @@ screenfetch
 > - 'dpkg --list search-pattern' - Lists packages currently installed on the system.
 > - 'dpkg --configure package-name(s)' - Runs a configuration interface to set up a package.
 > - 'dpkg-reconfigure package-name(s)' - Runs a configuration interface on an already installed package
+{: .callout}
 
 > ## Fedora and CentOS Package Management
 > Fedora and CentOS are closely related distributions, being upstream and downstream (respectively) from Red Hat Enterprise Linux (RHEL). Their main differences stem from how packages are chosen for inclusion in their repositories.
@@ -70,7 +69,7 @@ screenfetch
 > Homebrew is package manager for Macs which makes installing lots of different software like Git, Ruby, and Node simpler. Homebrew lets you avoid possible security problems associated with using the sudo command to install software like Node.
 > Homebrew has made extensive use of GitHub to expand the support of several packages through user contributions. In 2010, Homebrew was the third-most-forked repository on GitHub. In 2012, Homebrew had the largest number of new contributors on GitHub. In 2013, Homebrew had both the largest number of contributors and issues closed of any project on GitHub.
 > Homebrew has spawned several sub-projects such as Linuxbrew, a Linux port now officially merged into Homebrew; Homebrew Cask, which builds upon Homebrew and focuses on the installation of GUI applications and "taps" dedicated to specific areas or programming languages like PHP.
-{: .callout}
+{: .prereq}
 
 > ## macOS Requirements
 > A 64-bit Intel CPU 
@@ -177,20 +176,34 @@ brew install <package-name> <package-name> ...
 ## Install specific version
 ### Search version
 On Ubuntu systems:
-```
+```bash
 $ apt-cache policy <package-name> 
 ```
 On macOS systems:
-```
+```bash
 $ brew search <package-name>
 ```
 ### Install specific version
 On Ubuntu systems:
-```
+```bash
 $ apt install firefox=68.0.1+build1-0ubuntu0.18.04.1
 ```
 On macOS systems:
-```
+```bash
 $ brew install firefox@68.0.2
 ```
+
+### Let's install test package!
+On Ubuntu systems:
+```bash
+$ apt install screenfetch
+```
+
+On macOS systems: 
+```bash
+$ brew install screenfetch
+```
+
+
+
 
