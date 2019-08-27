@@ -206,4 +206,4 @@ $ brew install screenfetch
 
 
 
-
+This manual was adapted from [Linode](http://www.linode.com)

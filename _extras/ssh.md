@@ -360,3 +360,5 @@ set -g history-limit 1000
 mkdir -p server_folder sshf alice@bobs_server:/home/alice/
 umount server_folder
 ```
+
+This work was adapted from [Konrad Förstner](https://github.com/konrad)
