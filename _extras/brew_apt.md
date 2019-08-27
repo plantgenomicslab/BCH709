@@ -1,220 +1,132 @@
 ---
 layout: page
-title: Conda Installation
+title: System and Package management 
 published: true
 ---
 
 screenfetch
 
-### Installing Packages Using Conda
+## Package Management Concepts
+> Contemporary distributions of Linux-based operating systems install software in pre-compiled packages, which are archives that contain binaries of software, configuration files, and information about dependencies. Furthermore, package management tools keep track of updates and upgrades so that the user doesn’t have to hunt down information about bug and security fixes.
 >
->Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
+> Without package management, users must ensure that all of the required dependencies for a piece of software are installed and up-to-date, compile the software from the source code (which takes time and introduces compiler-based variations from system to system), and manage configuration for each piece of software. Without package management, application files are located in the standard locations for the system to which the developers are accustomed, regardless of which system they’re using.
 >
->For example, you need python 2.7 and Biopython 1.60 in project A, while you also work on another project B, which needs python 3.5 and Biopython 1.68. You can use conda to create two separate environments for each project, and you can switch between different versions of packages easily to run your project code.
-{: .callout}
+> Package management systems attempt to solve these problems and are the tools through which developers attempt to increase the overall quality and coherence of a Linux-based operating system. The features that most package management applications provide are:
+>
+> - Package downloading: Operating-system projects provide package repositories which allow users to download their packages from a single, trusted provider. When you download from a package manager, the software can be authenticated and will remain in the repository even if the original source becomes unreliable.
+> - Dependency resolution: Packages contain metadata which provides information about what other files are required by each respective package. This allows applications and their dependencies to be installed with one command, and for programs to rely on common, shared libraries, reducing bulk and allowing the operating system to manage updates to the packages.
+> - A standard binary package format: Packages are uniformly prepared across the system to make installation easier. While some distributions share formats, compatibility issues between similarly formatted packages for different operating systems can occur.
+> - Common installation and configuration locations: Linux distribution developers often have conventions for how applications are configured and the layout of files in the /etc/ and /etc/init.d/ directories; by using packages, distributions are able to enforce a single standard.
+> - Additional system-related configuration and functionality: Occasionally, operating system developers will develop patches and helper scripts for their software which get distributed within the packages. These modifications can have a significant impact on user experience.
+> - Quality control: Operating-system developers use the packaging process to test and ensure that the software is stable and free of bugs that might affect product quality and that the software doesn’t cause the system to become unstable. The subjective judgments and community standards that guide packaging and package management also guide the “feel” and “stability” of a given system.
+> In general, we recommend that you install the versions of software available in your distribution’s repository and packaged for your operating system. If packages for the application or software that you need to install aren’t available, we recommend that you find packages for your operating system, when available, before installing from source code.
+>
+> The remainder of this guide will cover how to use specific package management systems and how to compile and package software yourself.
+{: .prereq}  
 
-### Install Python package without Conda
-
->Pip, which stands for Pip Install Packages, is Python’s official package manager. We can install packages through pip. You can find the list of available packages from Python Package Index (PyPI) https://pypi.python.org/pypi
->You already have pip, if your python 2 >= 2.7.9 or Python 3 >= 3.4. Otherwise you need to install pip, according to the instructions. In terminal, you enter the following to install a package.
+> ## Advanced Packaging Tool (APT)Permalink
+> You may already be familiar with apt-get, a command which uses the advanced packaging tool to interact with the operating system’s package system. The most relevant and useful commands are (to be run with root privileges):
+>
+> - 'apt-get install package-name(s)' - Installs the package(s) specified, along with any dependencies.
+> - 'apt-get remove package-name(s)' - Removes the package(s) specified, but does not remove dependencies.
+> - 'apt-get autoremove' - Removes any orphaned dependencies, meaning those that remain installed but are no longer required.
+> - 'apt-get clean' - Removes downloaded package files (.deb) for software that is already installed.
+> - 'apt-get purge package-name(s)' - Combines the functions of remove and clean for a specific package, as well as configuration files.
+> - 'apt-get update' - Reads the /etc/apt/sources.list file and updates the system’s database of packages available for installation. Run this after changing sources.list.
+> - 'apt-get upgrade' - Upgrades all packages if there are updates available. Run this after running apt-get update.
+> While apt-get provides the most often-used functionality, APT provides additional information in the apt-cache command.
 > 
->First, make sure that your package is in the pip:
->    
->```
->	pip search <package>
->```
->Then, you can install this package:
->```
->	pip install <package>
->```
+> - 'apt-cache search package-name(s)' - If you know the name of a piece of software but apt-get install fails or points to the wrong software, this looks for other possible names.
+> - 'apt-cache show package-name(s)' - Shows dependency information, version numbers and a basic description of the package.
+> - 'apt-cache depends package-name(s)' - Lists the packages that the specified packages depends upon in a tree. These are the packages that will be installed with the apt-get install command.
+> - 'apt-cache rdepends package-name(s)' - Outputs a list of packages that depend upon the specified package. This list can often be rather long, so it is best to pipe its output through a command, like less.
+> - 'apt-cache pkgnames' - Generates a list of the currently installed packages on your system. This list is often rather long, so it is best to pipe its output through a program, like less, or direct the output to a text file.
+> Combining most of these commands with apt-cache show can provide you with a lot of useful information about your system, the software that you might want to install, and the software that you have already installed.
 {: .callout}
 
-### Why conda?
-- Dependencies is one of the main reasons to use Conda.
-Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.
- 
-- Conda provide a solution for this situation: when you install package Matplotlib, it will automatically install all the dependencies like Numpy and Scipy. So you don’t have to install them one by one, manually. This can save you great amount of time.
- 
-- The other advantage of conda, is that conda can have multiple environments for different projects. As mentioned at the very beginning, it can have two separate environments of different versions of software.
-Using conda environment on BioHPC
- 
-#### Check python
+> ## Aptitude
+> Aptitude is another front-end interface for APT. In addition to a graphical interface, Aptitude provides a combined command-line interface for most APT functionality. Some notable commands are:
+{: .callout}
 
-First, you need to check python
-Version 2.7.x Or version 3.5.x.
+> ## Using dpkg
+> Apt-get and apt-cache are merely frontend programs that provide a more usable interface and connections to repositories for the underlying package management tools called dpkg and debconf. These tools are quite powerful, and fully explaining their functionality is beyond the scope of this document. However, a basic understanding of how to use these tools is useful. Some important commands are:
+> 
+> - 'dpkg -i package-file-name.deb' - Installs a .deb file.
+> - 'dpkg --list search-pattern' - Lists packages currently installed on the system.
+> - 'dpkg --configure package-name(s)' - Runs a configuration interface to set up a package.
+> - 'dpkg-reconfigure package-name(s)' - Runs a configuration interface on an already installed package
 
-```bash
-	python -v
+> ## Fedora and CentOS Package Management
+> Fedora and CentOS are closely related distributions, being upstream and downstream (respectively) from Red Hat Enterprise Linux (RHEL). Their main differences stem from how packages are chosen for inclusion in their repositories.
+>
+> CentOS uses yum, Yellowdog Updater, Modified, as a front end to interact with system repositories and install dependencies, and also includes a lower-level tool called rpm, which allows you to interact with individual packages.
+>
+> Starting with version 22, Fedora uses the dnf package manager instead of YUM to interact with rpm. DNF supports many of the same commands as YUM, with some slight changes.
+>
+> Note: Many operating systems aside from RedHat use rpm packages. These include OpenSuSE, AIX, and Mandriva. While it may be possible to install an RPM packaged for one operating system on another, this is not supported or recommended, and the results of this action can vary greatly.
+{: .callout}
+
+> ## How about macOS?
+> Homebrew is package manager for Macs which makes installing lots of different software like Git, Ruby, and Node simpler. Homebrew lets you avoid possible security problems associated with using the sudo command to install software like Node.
+> Homebrew has made extensive use of GitHub to expand the support of several packages through user contributions. In 2010, Homebrew was the third-most-forked repository on GitHub. In 2012, Homebrew had the largest number of new contributors on GitHub. In 2013, Homebrew had both the largest number of contributors and issues closed of any project on GitHub.
+> Homebrew has spawned several sub-projects such as Linuxbrew, a Linux port now officially merged into Homebrew; Homebrew Cask, which builds upon Homebrew and focuses on the installation of GUI applications and "taps" dedicated to specific areas or programming languages like PHP.
+{: .callout}
+
+> ## macOS Requirements
+> A 64-bit Intel CPU 
+> macOS 10.12 (or higher)
+> [Command Line Tools (CLT) for Xcode](https://plantgenomicslab.github.io/BCH709/CLT/index.html)
+> A Bourne-compatible shell for installation (e.g. bash or zsh)
+{: .prereq}  
+
+[![homebrew](https://brew.sh/assets/img/homebrew-256x256.png)](https://brew.sh/)
+
+
+> ## Install Homebrew
+> ```bash
+> /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> ```
+{: .prereq}
+
+
+> ## How to Update Homebrew
+> New versions of Homebrew come out frequently, so make sure you update it before updating any of the other software components that you’ve installed using Homebrew. * In Terminal type ```brew update```
+{: .callout}
+
+> ## How to Uninstall Homebrew
+> Open the Terminal app
+> Type ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)```
+> This downloads and runs the uninstaller script. Follow the instructions and Homebrew will be removed from your computer.
+{: .callout}
+
+## List installed packages
+---
+We can get a list of all the installed packages on a Debian / Ubuntu server by issuing:
+
 ```
-If you don't know how to. Please look at other pages [Python version control](https://plantgenomicslab.github.io/BCH709/Python_version_control/index.html)
-
-Python 3 is the latest version of the language and python 2 is legacy. So you should choose Python 3.7.x when you could. However, if you know some packages you want are not compatible with Python 3, then you can install Python 2.7.x.
-See here for details about Python 2 and Python3.
- 
-#### Anaconda or Miniconda?  
-- Anaconda includes both Python and conda, and additionally bundles a suite of other pre-installed packages geared toward scientific computing. Because of the size of this bundle, expect the installation to consume several gigabytes of disk space.
-
-- Miniconda gives you the Python interpreter itself, along with a command-line tool called conda which operates as a cross-platform package manager geared toward Python packages, similar in spirit to the apt or yum tools that Linux users might be familiar with.
-
-
-### Install Miniconda
-Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and get ready to download the installer of your choice/system.
-
-#### For linux:
-```bash
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+$ sudo dpkg --get-selections
 ```
-#### For Mac:
-```bash
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+Ubuntu server by issuing:
 ```
-#### Example for linux:
-```bash
-$ chmod +x Miniconda-latest-Linux-x86_64.sh
-$ ./Miniconda-latest-Linux-x86_64.sh
-```
-![conda1]({{site.baseurl}}/fig/conda_excute.png)
-![conda2]({{site.baseurl}}/fig/conda_excute2.png)
-
-#### Reload your enviroment
-```bash
-$ source ~/.bashrc
-```
-#### Initialize Miniconda3
-
-```bash
-$ conda init
-```
-
-### Create new conda environment
-
-#### Create a conda environment named test with latest anaconda package.
-```bash 
-$ conda create -n test python=3
-```
-#### Alternatively you can specify python version
-```bash
-$ conda create -n snowdeer_env python=3.5
-```
-
-*Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
- 
- 
-#### Use the environment you just created
-Activate your environment:
-```bash  
-$ source activate test
-```
-It will show your environment name at the beginning of the prompt.
-
-![conda3]({{site.baseurl}}/fig/conda_prompt.png)
-
-### Install packages in the conda environment
-
-Install from default conda channel
-You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
-``` 
-$ conda search <package>
-$ conda install <package>
-```
-### Install from conda-forge channel (example: emacs)
-Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
-Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://conda-forge.github.io/feedstocks
-```bash
-$ conda install -c conda-forge emacs
+$ apt list --installed
 ```
 
-### Install from bioconda channel (example: stringtie)
-Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
-```bash
- $ conda config --add channels conda-forge
- $ conda config --add channels defaults
- $ conda config --add channels r
- $ conda config --add channels bioconda
+On RPM systems:
 ```
-Adding channels will not generate any command line output.
-Then, you can install Stringtie from the Bioconda channel
-```bash   
- $ conda install stringtie
+$ yum list installed
 ```
-All the bioconda packages can be found here: https://bioconda.github.io/conda-recipe_index.html
-
-#### Channel order
-If you add multiple channels in one environment using (conda config --add channels <new_channel>), The latest or most recent added one have the highest priority. That means, if there is a same package in different channels, the package version from highest priority channel will overwrite other versions, to either higher or lower.
-
-For example, if you add the channels in different order in the Stringtie example, by switching channel r and channel bioconda. Say, channel R has package A version 0.8 and bioconda has A version 1.0. The environment will have A 0.8 now from channel R, since it’s the highest priority. Then, Stringtie might not work if it need package A 1.0.
-
-
-If the packages can be found in different channels, the package from the highest priority channel will be installed even if the version of it isn’t newest. The command <conda config --append channels new_channel> puts the new channel at the bottom of the channel list, making it the lowest priority.
-
-
-### Install R and R packages
-The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
-```bash
-$ conda install -c r r-essentials
+On BSD systems:
 ```
-
-#### Update R packages
-```bash 
-$ conda update -c r r-essentials
-$ conda update -c r r-<package name>
+$ pkg_version
 ```
-
-### More conda commands:
-#### See all available environments
-You can check the list of all separate environments, and it will show * at your current environment. In the figure below, it shows root, since I’m not in any conda environment.
-```bash   
-$ conda env list
+It is good practice to save this file as it can be useful when migrating, so we pipe it into a file:
 ```
-
-#### List all package installed
-This will show all the packages and versions you’ve installed.
-```bash
-$ conda list
+$ dpkg --get-selections > ~/package_list
+ #yum list installed
+ #pkg_version
 ```
-#### Update packages or conda itself
-This will update to the newest version of one package, or conda itself.
-update package
-```bash
-$ conda update <package>
+To search for a specific package run:
 ```
-update package in env
-```bash
-conda update  --name <ENV_name> <package>
+$ dpkg --get-selections | grep <package>
+$ yum list installed "package_name"
 ```
-update conda itself
-```bash
-$ conda update conda
-```
-
-#### Uninstall package from the environment
-```   
-$ conda uninstall <package name>
-```
-
-#### Exit current environment:
-You can exit, when you finish your work in the current environment.
-```bash   
-$ source deactivate
-```
-
-#### Remove environment
-```bash   
-$ conda env remove --name test
-```
-When you finish your project, you might want to remove the environment. However, it is not recommended because you might want to update some work in this project in the future.
-
-#### Enviroment export
-```bash
-conda env export  --name <ENVIRONMENT> --file <outputfilename>.yaml
-```
-#### Envrioment import 
-```bash
-conda env create --file <outputfilename>.yaml  
-``` 
-
-### Reference:
-
-- Conda documentation https://docs.conda.io/en/latest/
-- Conda-forge https://conda-forge.github.io/
-- BioConda https://bioconda.github.io/
