@@ -7,7 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
-![bioinformatics_DNA]({{{site.baseurl}}/fig/software-compiler.png)
+![bioinformatics_DNA]({{{site.baseurl}}/fig/DNA.jpb)
 
 
 "Bioinformatics is an interdisciplinary field that develops and applies computational methods to analyse large collections of biological data, such as genetic sequences, cell populations or protein samples, to make new predictions or discover new biology. The computational methods used include analytical methods, mathematical modelling and simulation."
@@ -19,6 +19,6 @@ The term bioinformatics was coined by Paulien Hogeweg and Ben Hesper to describe
 >
 >[Lecture slide](https://drive.google.com/file/d/1oTMrmodBVX9wjfQAExOdn0UKRK3_oX8e/view)
 >
->Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)
+>Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)  
 >Reading 2: [Attwood et al., 2000](https://science.sciencemag.org/content/290/5491/471)
 {: .callout}
