@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Syllabus BCH709
+published: true
 ---
 
 ## Course description
@@ -15,9 +16,26 @@ As contemporary biologists we have entered an age where the use of computers in 
 > Office Hours: Thursday, 10:30-noon by appointment on Tuesday.  
 {: .prereq} 
 
+> ## Office hours:
+> by appointment. Thursday, 10:30-noon by appointment on Tuesday
+{: .prereq}
+
+> ## Prerequisites:
+> BCH 400 or equivalent; two semesters of general biology; BCH 413, 613 or consent of the instructor as pre- or co-requisites.  It is STRONGLY recommended that students complete an undergraduate Molecular Biology course (e.g. BCH/BIO 405) prior to enrolling in BCH 709.
+{: .prereq}
 
 > ## Required texts, course materials:
->All required text and course materials will be freely available on website.
+> All required text and course materials will be freely available on website.
+> - [Introduction to Bioinformatics (3rd Edition)](http://app.knovel.com/web/toc.v/cid:kpIBE00007/viewerType:toc/ "Introduction to Bioinformatics (3rd Edition)")
+> - [Learn Linux Shell Scripting - Fundamentals of Bash 4.4](https://learning.oreilly.com/library/view/learn-linux-shell/9781788995597/ "Learn Linux Shell Scripting - Fundamentals of Bash 4.4")
+> - [Effective awk Programming, 3rd Edition](https://learning.oreilly.com/library/view/effective-awk-programming/0596000707/ "Effective awk Programming, 3rd Edition")
+> - [Bioinformatics with Python Cookbook - Second Edition](https://learning.oreilly.com/library/view/bioinformatics-with-python/9781789344691/ "Bioinformatics with Python Cookbook - Second Edition")
+> - [Basic Applied Bioinformatics](https://learning.oreilly.com/library/view/basic-applied-bioinformatics/9781119244332/ "Basic Applied Bioinformatics")
+> - [Ubuntu Unleashed 2019 Edition: Covering 18.04, 18.10, 19.04, 13/e](https://learning.oreilly.com/library/view/ubuntu-unleashed-2019/9780134985497/ "Ubuntu Unleashed 2019 Edition: Covering 18.04, 18.10, 19.04, 13/e")
+> - [Unix and Perl: Keith Bradnam & Ian Korf](https://j.p.gogarten.uconn.edu/mcb5472_2018/current.pdf)
+> - [Other bioinformatics books from knovel](http://app.knovel.com/web/search.v?q=bioinformatics&search_type=tech-reference&rows=10&offset=0&group_by=true&my_subscription=true&sort_on=default&content_type=all_references&include_synonyms=no "Other bioinformatics books from knovel")
+> - [Other bioinformatics books from Oreilly](https://learning.oreilly.com/search/?query=bioinformatics&extended_publisher_data=true&highlight=true&include_assessments=false&include_case_studies=true&include_courses=true&include_orioles=true&include_playlists=true&include_collections=false&include_notebooks=false&is_academic_institution_account=false&sort=relevance&facet_json=true "Other bioinformatics books from Oreilly")
+> **Note: all reading material can be freely accessed and downloaded from the UNR internet.**
 {: .challenge}
 
 
@@ -26,20 +44,36 @@ As contemporary biologists we have entered an age where the use of computers in 
 {: .challenge}
 
 > ## Student Learning Outcomes:
-> Students will be able to demonstrate ability to apply bioinformatics methods and tools necessary to interpret and analyze biological datasets. Students will be able to understand knowledge of current bioinformatics tools and resources. Students will be able to pursue a career in the bioinformatics ﬁelds.
+> SLO 1:  Through terminal, students will demonstrate the ability to design experimental strategies using state-of-the-art methods/approaches to address biological questions.
+> SLO 2: Through computational work and in class discussions, students will demonstrate a working understanding of advanced topics in bioinformatics.
+> SLO 3:  Through written and oral summaries, students will demonstrate the ability to critically evaluate the salient points of primary research articles.
+? SLO 4:  Students will demonstrate the ability to summarize and effectively lead discussions of primary research literature.
 {: .challenge}
 
 ## Grading Criteria, Scale, and Standards:
+You will be graded on your participation in class, the leadership of class discussions, and quality of your written assignment and midterm and final exams.  Final grades may be adjusted on a sliding scale to ranges lower than those indicated below if appropriate.  Students consistently receiving 70% or lower on exams should realize they are in serious difficulty and should seek help from the instructor.
+
+### Class Participation: 
+You are required to attend all scheduled classes (both Tuesdays and Thursdays) regardless of material scheduled.  It is your responsibility to notify the instructor if circumstances beyond your control prevent your attendance in any class.  Reasonable excuses include family or medical emergencies, legal summons, religious holidays, travel to academic/scientific conferences, etc.  Unacceptable excuses include sleeping in, birthdays or anniversaries, leisure activities including travel, conflicts with work, etc.  For university policy regarding class absence, see [UAM 3,020](https://www.unr.edu/administrative-manual/3000-3999-students/3020-class-absence-policy). Your participation is required for the success of the course and will be graded.
+
+### Term Paper:
+You will prepare a 4 – 5 pp. written “mini-review” of bioinformatics from a list provided by the instructor.  Your review will summarize the state-of-the-art in a particular topic area while citing both seminal historical and modern, cutting edge references that have defined major advances in the field. This review should demonstrate your ability to understand and critically review primary literature dealing with advanced topics in bioinformatics.
+
+### Exams: 
+There will be one midterm and one final exam. Both will be written and will use the computer. Each will test your knowledge of material for one half of the course (i.e. the midterm will test the first half of the semester, and the final will test the second half). In addition, the final exam will include a written analysis of bioinformatics.
+
 ### Course Component Points
 - Exams, projects, papers and the proportion each counts toward the final grade are as follows:
 
 |Components|Point|
 |---|---|
-|Homework Assignments|150|
-|Midterm exam|100|
-|Final exam|150|
-|Course participation\*|100|
-|Total|500|
+|Class Participation|20|
+|Homework Assignments|10|
+|Discussion|10|
+|Term paper|10|
+|Midterm exam|20|
+|Final exam|20|
+|Total|100|
 
 \* Attendance and participation in lectures and discussions
 
@@ -60,7 +94,7 @@ As contemporary biologists we have entered an age where the use of computers in 
 
 ## University Policies
 > ## Statement on Academic Dishonesty:
-> "The University Academic Standards Policy deﬁnes academic dishonesty, and mandates speciﬁc sanctions for violations. See the University Academic Standards policy: UAM 6,502."
+> "The University Academic Standards Policy deﬁnes academic dishonesty, and mandates speciﬁc sanctions for violations. See the University Academic Standards policy: [UAM 6,502](https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards)."
 {: .prereq} 
 
 > ## Statement of Disability Services:
@@ -79,4 +113,3 @@ As contemporary biologists we have entered an age where the use of computers in 
 > ## Statement for Academic Success Services:
 > "Your student fees cover usage of the Math Center (775) 784-4433, Tutoring Center (775) 784-6801, and University Writing Center (775) 784-6030. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student."
 {: .prereq}
-
