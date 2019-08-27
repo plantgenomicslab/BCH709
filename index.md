@@ -8,12 +8,12 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
 > - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
-> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
+> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
 > -- [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
 {: .callout}
-> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - Due to Next Tuesday (9/3/19)
+> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
 
 
 
