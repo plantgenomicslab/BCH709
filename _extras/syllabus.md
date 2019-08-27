@@ -87,13 +87,9 @@ There will be one midterm and one final exam. Both will be written and will use 
 |Poor |60-69%| D |
 |Failing Below |60%| F |
 
-> ## Late Work or Make-up Exams Policies:
-> Late work will only be accepted with a valid medical or other excuse (i.e. family emergency, doctor’s medical note, etc).
-{: .challenge}
-
 
 ## University Policies
-> ## Statement on Academic Dishonesty:
+> ## Academic Dishonesty:
 > "The University Academic Standards Policy deﬁnes academic dishonesty, and mandates speciﬁc sanctions for violations. See the University Academic Standards policy: [UAM 6,502](https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards)."
 {: .prereq} 
 
@@ -103,13 +99,14 @@ There will be one midterm and one final exam. Both will be written and will use 
 {: .prereq} 
 
 > ## Statement on Audio and Video Recording:
-> "Surreptitious or covert video-taping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may have been given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded."
+> Surreptitious or covert video-taping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may be given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.
 {: .prereq} 
 
 > ## Statement on TITLE IX:
 > "The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or oﬀ campus, or need information related to immigration concerns, please contact the University's Equal Opportunity & Title IX oﬃce at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit the Equal Opportunity and Title IX page."
 {: .prereq} 
 
-> ## Statement for Academic Success Services:
-> "Your student fees cover usage of the Math Center (775) 784-4433, Tutoring Center (775) 784-6801, and University Writing Center (775) 784-6030. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student."
+> ## Academic Success Services:
+> The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus, or need information related to immigration concerns, please contact the University's Equal Opportunity & Title IX office at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit:  https://www.unr.edu/equal-opportunity-title-ix  
+>Your student fees cover usage of the University Math Center (http://www.unr.edu/math-center) (775) 784-4433, University Tutoring Center (http://www.unr.edu/tutoring-center) (775) 784-6801, and University University Writing Center (http://www.unr.edu/writing-center) (775) 784-6030. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student.
 {: .prereq}
