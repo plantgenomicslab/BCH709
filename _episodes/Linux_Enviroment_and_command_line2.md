@@ -66,7 +66,7 @@ echo "Hello World!"
 >cd ../../
 >```
 >Please check your current location with `pwd`.
->**If this is confusing, please use our command line server to understand the location and folders.**
+>**If this is confusing, please use our [command line server](http://35.199.189.11:8081/) to understand the location and folders.**
 {: .keypoints}
 
 
