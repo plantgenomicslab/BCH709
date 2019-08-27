@@ -7,7 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
-![bioinformatics_DNA]({{{site.baseurl}}/fig/DNA.jpb)
+![bioinformatics_DNA]({{{site.baseurl}}/fig/DNA.jpg)
 
 
 "Bioinformatics is an interdisciplinary field that develops and applies computational methods to analyse large collections of biological data, such as genetic sequences, cell populations or protein samples, to make new predictions or discover new biology. The computational methods used include analytical methods, mathematical modelling and simulation."
