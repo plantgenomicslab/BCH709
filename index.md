@@ -1,11 +1,11 @@
 ---
 ---
 
-The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This teaches concept of bioinformatics analysis and Next Generation Sequencing for genomics including: hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platform, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
+The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This teaches the concept of bioinformatics analysis and Next Generation Sequencing for genomics including hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platforms, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
 
 > ## Course description
->As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
+>As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA, and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
 
 > ## Class Room location
@@ -54,19 +54,19 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 | Week    | Tuesday | Thursday|
 | ------- | ---------- |---------- |
-|Week1|Intro to Bioinformatics|[Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-|Week2|Linux Enviroment and bioawk|Linux Enviroment and Cloud|
+|Week1|Intro to Bioinformatics|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
+|Week2|Linux Environment and bioawk|Linux Environment and Cloud|
 |Week3|Github|Compile|
 |Week4|Sequencing methods and strategies|RNA-Seq|
 |Week5|Transcriptome assembly|Sequence similarity searching|
 |Week6|Functional annotation|Database|
-|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analaysis
+|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
 |Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
 |Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
 |Week10|Genome assembly|Genome assembly|
 |Week11|Genome assembly|How to annotate genomes|
 |Week12|Genome assembly and annotation|Genome structure|
-|Week13|DEG analaysis|Transcriptome analaysis
+|Week13|DEG analaysis|Transcriptome analysis
 |Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
 |Week15|Enrichment analysis|Presentation|
 |Week16|Final exam|
@@ -110,13 +110,13 @@ After Thursday class, we can have a meeting. We are not providing financial aid,
 
   
 > ## Frequently Asked Questions  
-Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently this page is empty but we will build it through the class.
+Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently, this page is empty, but we will build it through the class.
 {: .prereq}
 
   
 >## Teaching Platform
 This workshop is designed to be run on [Unix-base system](https://en.wikipedia.org/wiki/Unix) such as 
-Ubuntu, mac etc. All the software and data used in the class will be open source All example data will be hosted on an Google Cloud Service. If you want to know how to use Unix-base system on your computer, please follow the directions in the [Setup](setup.html) tab.
+Ubuntu, mac, etc. All the software and data used in the class will be open source All example data will be hosted on a Google Cloud Service. If you want to know how to use Unix-base system on your computer, please follow the directions in the [Setup](setup.html) tab.
 {: .prereq}
 
   
