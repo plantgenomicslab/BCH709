@@ -101,7 +101,7 @@ Bash stands for Bourne Again Shell and it is the default shell on many Linux dis
 
 
 ## Text Editor
-![text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0)
+![text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0){: width="300%" height="300%"}
 
 ### Text Editing on Unix and Linux 
 - nano
@@ -170,10 +170,3 @@ For python
 
 ## Command Line Bootcamp
 [Command-line bootcamp](http://35.199.189.11:8081/), a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
-
-
-
-
-
-
-
