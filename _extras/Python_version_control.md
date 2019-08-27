@@ -4,9 +4,6 @@ title: Python Version Control
 published: true
 ---
 ## Python Version Control
- 
-If you have ever watch my youtube which I would encourage you to watch and subscribe to, you must have noticed that most often that not I have two python environment that keep on conflicting and interfering with my work. The fact that python 2.7 and below will no longer be supported from next year means alot. Means that if you still want to collaborate with your team or on some old projects, then you need to learn on how to manage these two different development environments and.
-
 In this tutorial I am gonna write about how to manage this challenge that often occurs if you have two different versions of python installed or how to install and manage them up. I will be using the pyenv package.
 
 ## Why Use pyenv?
