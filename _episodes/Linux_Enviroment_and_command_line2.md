@@ -6,20 +6,22 @@ published: true
 
 {% include gh_variables.html %}
 
-## Command Line Bootcamp
-[Command-line bootcamp](http://35.199.189.11:8081/), a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
+## Your first Unix command.
+```bash
+echo "Hello World!"
+```
 
->## Basic commands
->|Category|comnmand|
->|---|---|
->|Navigation| cd, ls, pwd|
->|File creation|touch,nano,mkdir,cp,mv,rm,rmdir|
->|Reading|more,less,head,tail,cat|
->|Compression|zip,gzip,bzip2,tar,compress|
->|Uncompression|unzip,gunzip,bunzip2,uncompress|
->|Permissions|chmod|
->|Help|man|
-{: .prereq}
+## Basic commands
+
+|Category|comnmand|
+|---|---|
+|Navigation| cd, ls, pwd|
+|File creation|touch,nano,mkdir,cp,mv,rm,rmdir|
+|Reading|more,less,head,tail,cat|
+|Compression|zip,gzip,bzip2,tar,compress|
+|Uncompression|unzip,gunzip,bunzip2,uncompress|
+|Permissions|chmod|
+|Help|man|
 
 >## pwd
 >Returns you the `p`resent `w`orking `d`irectory (print working directory)
@@ -38,9 +40,6 @@ published: true
 >```bash
 >$ mkdir bch709_test
 >```
->```output
->
->```
 > Unlike PC/Mac folders, here you can have space in different way (some special characters are okay). You can also specify the path where you want to create your new folder. 
 {: .keypoints}
 
@@ -49,9 +48,6 @@ published: true
 >$ cd <DIRECTORY>
 >```bash
 >$ cd bch709_test
->```
->```output
->
 >```
 >```bash
 >$ pwd
@@ -69,9 +65,21 @@ published: true
 >```bash
 >cd ../../
 >```
->```bash
->cd ../../
->```
 >Please check your current location with `pwd`.
 {: .keypoints}
+
+
+> ## Pressing <TAB> key
+> You can type in first few letters of the directory name and then press tab to auto complete rest of the name (especially useful when the file/directory name is long).
+> If there is more than one matching files/directories, pressing tab twice will list all the matching names.
+>{: .checklist} 
+
+> ## Pressing <Arrow up/down> key
+>You can also recall your previous commands by pressing up/down arrow or browse all your previously used commands by typing history on your terminal.
+>{: .checklist} 
+
+> ## Copy & Paste
+> If you drag it will copy the text in terminal. If you use right click, then it will paste.
+> In macOS, it depends on setting. You can still use command + c and command + v.
+>{: .checklist} 
 
