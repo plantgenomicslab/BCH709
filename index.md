@@ -4,6 +4,39 @@
 The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This teaches the concept of bioinformatics analysis and Next Generation Sequencing for genomics including hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platforms, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
 
+> ## Prerequisites
+> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
+> - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
+> - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
+> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
+> - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
+> -- [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
+> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
+{: .callout}
+
+## Class Overview 
+
+| Week    | Tuesday | Thursday|
+| ------- | ---------- |---------- |
+|Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
+|Week2|Linux Environment and command line|Linux Environment and Cloud|
+|Week3|Github|Compile|
+|Week4|Sequencing methods and strategies|RNA-Seq|
+|Week5|Transcriptome assembly|Sequence similarity searching|
+|Week6|Functional annotation|Database|
+|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
+|Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
+|Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
+|Week10|Genome assembly|Genome assembly|
+|Week11|Genome assembly|How to annotate genomes|
+|Week12|Genome assembly and annotation|Genome structure|
+|Week13|DEG analaysis|Transcriptome analysis
+|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
+|Week15|Enrichment analysis|Presentation|
+|Week16|Final exam|
+
+
 > ## Course description
 >As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA, and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
@@ -19,17 +52,6 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > Aug 26, 2019 - Dec 10, 2019
 {: .prereq}
 
-> ## Prerequisites
-> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
-> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")
-> - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
->
-> - Terminal software
-> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
-> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
-> - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
-> - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
-{: .callout}
 
 
 > ## Getting Started
@@ -52,26 +74,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .prereq} 
 -->
 
-## Class Overview 
 
-| Week    | Tuesday | Thursday|
-| ------- | ---------- |---------- |
-|Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-|Week2|Linux Environment and command line|Linux Environment and Cloud|
-|Week3|Github|Compile|
-|Week4|Sequencing methods and strategies|RNA-Seq|
-|Week5|Transcriptome assembly|Sequence similarity searching|
-|Week6|Functional annotation|Database|
-|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
-|Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
-|Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
-|Week10|Genome assembly|Genome assembly|
-|Week11|Genome assembly|How to annotate genomes|
-|Week12|Genome assembly and annotation|Genome structure|
-|Week13|DEG analaysis|Transcriptome analysis
-|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
-|Week15|Enrichment analysis|Presentation|
-|Week16|Final exam|
 
 ## Optional Additional Meeting
 
