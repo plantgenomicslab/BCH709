@@ -110,6 +110,10 @@ Ubuntu server by issuing:
 ```
 $ apt list --installed
 ```
+on macOS
+```
+$ brew list
+```
 
 On RPM systems:
 ```
@@ -130,3 +134,63 @@ To search for a specific package run:
 $ dpkg --get-selections | grep <package>
 $ yum list installed "package_name"
 ```
+
+## Search packages
+On Ubuntu systems: 
+```
+apt search <package-name>
+```
+```bash
+$ apt search firefox
+$ apt search ^firefox 
+```
+
+On macOS systems:
+```
+brew search <package-name>
+```
+```bash
+$ brew search firefox
+$ brew search /^firefox/
+```
+\^ means regular expressions start of the line.
+
+## Install packages
+### Install single packages:
+On Ubuntu systems:
+```
+apt install <package-name> 
+```
+On macOS systems:
+```
+brew install <package-name> 
+```
+### Install multiple packages:
+On Ubuntu systems:
+```
+apt install <package-name> <package-name> ...
+```
+On macOS systems:
+```
+brew install <package-name> <package-name> ...
+```
+## Install specific version
+### Search version
+On Ubuntu systems:
+```
+$ apt-cache policy <package-name> 
+```
+On macOS systems:
+```
+$ brew search <package-name>
+```
+### Install specific version
+On Ubuntu systems:
+```
+$ apt install firefox=68.0.1+build1-0ubuntu0.18.04.1
+```
+On macOS systems:
+```
+$ brew install firefox@68.0.2
+```
+

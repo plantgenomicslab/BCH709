@@ -137,9 +137,9 @@ You can also list all defined aliases by running alias without any arguments:
 $ alias
 ```
 
-> alias ll='ls -l'
-> alias lll='ls -alhTOe@'
-> alias ls='ls -l'
+> alias ll='ls -l'  
+> alias lll='ls -alhTOe@'  
+> alias ls='ls -l'  
 {: .output}
 
 ## Some Alias examples
