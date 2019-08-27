@@ -69,17 +69,17 @@ echo "Hello World!"
 {: .keypoints}
 
 
-> ## Pressing <TAB> key
-> You can type in first few letters of the directory name and then press tab to auto complete rest of the name (especially useful when the file/directory name is long).
-> If there is more than one matching files/directories, pressing tab twice will list all the matching names.
->{: .checklist} 
+>## Pressing <TAB> key
+>You can type in first few letters of the directory name and then press tab to auto complete rest of the name (especially useful when the file/directory name is long).
+>If there is more than one matching files/directories, pressing tab twice will list all the matching names.
+>{: .checklist}
 
-> ## Pressing <Arrow up/down> key
+>## Pressing <Arrow up/down> key
 >You can also recall your previous commands by pressing up/down arrow or browse all your previously used commands by typing history on your terminal.
 >{: .checklist} 
 
-> ## Copy & Paste
-> If you drag it will copy the text in terminal. If you use right click, then it will paste.
-> In macOS, it depends on setting. You can still use command + c and command + v.
+>## Copy & Paste
+>If you drag it will copy the text in terminal. If you use right click, then it will paste.
+>In macOS, it depends on setting. You can still use command + c and command + v.
 >{: .checklist} 
 
