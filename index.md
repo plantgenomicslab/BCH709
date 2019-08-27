@@ -12,8 +12,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
 > -- [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
-{: .callout}
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
+{: .callout}
 
 
 
