@@ -13,7 +13,7 @@ published: true
 {: .prereq}
 
 > ## Example
-> ** Please do not GPU access, If you did, plesae do it again. ** 
+> **Please do not GPU access, If you did, plesae do it again.** 
 >
 > ![Pronghorn1]({{site.baseurl}}/fig/pronghorn_account_1.png)
 > ![Pronghorn2]({{site.baseurl}}/fig/pronghorn_account_2.png)
