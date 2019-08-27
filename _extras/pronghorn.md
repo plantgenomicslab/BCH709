@@ -12,14 +12,19 @@ published: true
 > [Apply Pronghorn Account](https://www.unr.edu/research-computing/hpc-accounts)
 {: .prereq}
 
+> ##  Activating your NetID
+> [Please follow this instructions](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
+{: .prereq} 
+
+
 > ## Example
 > **Please do not GPU access, If you did, plesae do it again.** 
 >
-> ![Pronghorn1]({{site.baseurl}}/fig/pronghorn_account_1.png)
-> ![Pronghorn2]({{site.baseurl}}/fig/pronghorn_account_2.png)
-> ![Pronghorn3]({{site.baseurl}}/fig/pronghorn_account_3.png)
-> ![Pronghorn4]({{site.baseurl}}/fig/pronghorn_account_4.png)
-> ![Pronghorn5]({{site.baseurl}}/fig/pronghorn_account_5.png)
+> ![Pronghorn1]({{site.baseurl}}/fig/Pronghorn_account_1.png)
+> ![Pronghorn2]({{site.baseurl}}/fig/Pronghorn_account_2.png)
+> ![Pronghorn3]({{site.baseurl}}/fig/Pronghorn_account_3.png)
+> ![Pronghorn4]({{site.baseurl}}/fig/Pronghorn_account_4.png)
+> ![Pronghorn5]({{site.baseurl}}/fig/Pronghorn_account_5.png)
 {: .callout}
 
 
