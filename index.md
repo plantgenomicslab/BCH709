@@ -28,7 +28,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu**
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
+> - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
 {: .callout}
+
 
 > ## Getting Started
 >
