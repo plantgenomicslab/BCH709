@@ -15,11 +15,11 @@ published: true
 > ## Example
 > ** Please do not GPU access, If you did, plesae do it again. ** 
 >
-> ![Pronghorn1]({{site.baseurl}}/fig/pronghorn_account1.png)
-> ![Pronghorn2]({{site.baseurl}}/fig/pronghorn_account2.png)
-> ![Pronghorn3]({{site.baseurl}}/fig/pronghorn_account3.png)
-> ![Pronghorn4]({{site.baseurl}}/fig/pronghorn_account4.png)
-> ![Pronghorn5]({{site.baseurl}}/fig/pronghorn_account5.png)
+> ![Pronghorn1]({{site.baseurl}}/fig/pronghorn_account_1.png)
+> ![Pronghorn2]({{site.baseurl}}/fig/pronghorn_account_2.png)
+> ![Pronghorn3]({{site.baseurl}}/fig/pronghorn_account_3.png)
+> ![Pronghorn4]({{site.baseurl}}/fig/pronghorn_account_4.png)
+> ![Pronghorn5]({{site.baseurl}}/fig/pronghorn_account_5.png)
 {: .callout}
 
 
