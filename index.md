@@ -15,6 +15,26 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
 {: .callout}
 
+## Class Overview 
+
+| Week    | Tuesday | Thursday|
+| ------- | ---------- |---------- |
+|Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
+|Week2|Linux Environment and command line|Linux Environment and Cloud|
+|Week3|Github|Compile|
+|Week4|Sequencing methods and strategies|RNA-Seq|
+|Week5|Transcriptome assembly|Sequence similarity searching|
+|Week6|Functional annotation|Database|
+|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
+|Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
+|Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
+|Week10|Genome assembly|Genome assembly|
+|Week11|Genome assembly|How to annotate genomes|
+|Week12|Genome assembly and annotation|Genome structure|
+|Week13|DEG analaysis|Transcriptome analysis
+|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
+|Week15|Enrichment analysis|Presentation|
+|Week16|Final exam|
 
 
 > ## Course description
@@ -54,26 +74,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .prereq} 
 -->
 
-## Class Overview 
 
-| Week    | Tuesday | Thursday|
-| ------- | ---------- |---------- |
-|Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-|Week2|Linux Environment and command line|Linux Environment and Cloud|
-|Week3|Github|Compile|
-|Week4|Sequencing methods and strategies|RNA-Seq|
-|Week5|Transcriptome assembly|Sequence similarity searching|
-|Week6|Functional annotation|Database|
-|Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
-|Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
-|Week9|Midterm exam: Transcriptome & Database|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|
-|Week10|Genome assembly|Genome assembly|
-|Week11|Genome assembly|How to annotate genomes|
-|Week12|Genome assembly and annotation|Genome structure|
-|Week13|DEG analaysis|Transcriptome analysis
-|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
-|Week15|Enrichment analysis|Presentation|
-|Week16|Final exam|
 
 ## Optional Additional Meeting
 
