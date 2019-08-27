@@ -102,34 +102,34 @@ published: true
 ---
 We can get a list of all the installed packages on a Debian / Ubuntu server by issuing:
 
-```
+```bash
 $ sudo dpkg --get-selections
 ```
 Ubuntu server by issuing:
-```
+```bash
 $ apt list --installed
 ```
 on macOS
-```
+```bash
 $ brew list
 ```
 
 On RPM systems:
-```
+```bash
 $ yum list installed
 ```
 On BSD systems:
-```
+```bash
 $ pkg_version
 ```
 It is good practice to save this file as it can be useful when migrating, so we pipe it into a file:
-```
+```bash
 $ dpkg --get-selections > ~/package_list
  #yum list installed
  #pkg_version
 ```
 To search for a specific package run:
-```
+```bash
 $ dpkg --get-selections | grep <package>
 $ yum list installed "package_name"
 ```
