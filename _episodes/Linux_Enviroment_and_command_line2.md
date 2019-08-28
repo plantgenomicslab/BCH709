@@ -202,22 +202,158 @@ about in a minute). In this case, tab completion will occur because there are no
 >To remove a directory, rmdir `remove directory` can be used.
 >$ rmdir <DIRECTORY>
 >```bash
+>$ cd ~/
 >$ ls
+>![ls3]({{site.baseurl}}/fig/ls3.png)  
 >$ rmdir help
+>![ls4]({{site.baseurl}}/fig/ls4.png)
+>$ ls bch709_test
+>$ rmdir bch709_test/help
+>$ ls bch709_test
 >```
 >*You have to be outside a directory before you can remove it with rmdir*
 {: .keypoints}
 
 >## touch
 >The following sections will deal with Unix commands that help us to work with files, i.e. copy files to/from places, move files, rename files, remove files, and most importantly, look at files. First, we need to have some files to play with. The Unix command touch will let us create a new, empty file.
-```bash
-$ touch --help
-$ touch test.txt
-$ touch exam.txt
-$ touch ETA.txt
-$ ls
-```
+>```bash
+>$ touch --help
+>$ touch test.txt
+>$ touch exam.txt
+>$ touch ETA.txt
+>$ ls
+>![ls5]({{site.baseurl}}/fig/ls5.png)
+>$ls -a
+>```
+{: .keypoints}
 
 
+>## mv 
+>We want to move these files to a new directory (‘temp’). We will do this using the Unix `mv`(move) command. Remember to use tab completion:
+>```bash
+>mkdir Hello
+>mv test.txt Hello
+>mv exam.txt Hello
+>mv ETA.txt Hello
+>ls Hello
+>```
+>For the mv command, we always have to specify a source file (or directory) that we want to
+>move, and then specify a target location. If we had wanted to, we could have moved both
+>files in one go by typing any of the following commands:
+>```bash
+>mv *.txt Hello
+>mv *t Hello
+>mv *e* Hello
+>```
+>
+>The asterisk * acts as a wild-card character, essentially meaning ‘match anything’. The second example works because there are no other files or directories in the directory that end with the letter ‘t’ (if there were, then they would be moved too). So all the 'bch709 test', bch709_test will be move. Likewise, the third example works because only those two files contain the letters ‘e’ in their names and 'bch709 test', bch709_test and Hello folder has e so it will move everything except for ETA.txt and will give you error `cannot move 'Hello' to a subdirectory of itself`.  Using wild-card characters can save you a lot of typing but need to be careful The ? character is also a wild-card but with a slightly different meaning. See if you can work out what it does.
+{: .keypoints}
+
+>## Renaming files by mv
+In the earlier example, the destination for the mv command was a directory name (Hello). So we moved a file from its source location to a target location, but note that the target could have also been a (different) file name, rather than a directory. E.g. let’s make a new file and move it whilst renaming it at the same time
+>```bash
+>$ touch rags
+>$ ls
+>$ mv rags Hello/riches
+>$ ls Hello/
+>```
+>![ls6]({{site.baseurl}}/fig/ls6.png)
+>*Of course you can do without moving*
+>
+>In this example we create a new file (‘rags’) and move it to a new location and in the process change the name (to ‘riches’). So mv can rename a file as well as move it. The logical extension of this is using `mv` to rename a file without moving it. You may also have access to a tool called `rename`, type man rename for more information. 
+>``` bash
+>$ mv Hello/riches Hello/rags
+>```
+{: .keypoints}
+
+>## Moving directory by mv
+>It is important to understand that as long as you have specified a ‘source’ and a ‘target’ location when you are moving a file, then it doesn’t matter what your current directory is. You can move or copy things within the same directory or between different directories regardless of whether you are in any of those directories. Moving directories is just like moving files:
+>![ls6]({{site.baseurl}}/fig/ls6.png)
+>```bash
+>mv Hello/bch709_test .
+>```
+>`.` means current directory
+>
+>```bash
+>ls Hello
+>ls .
+>```
+>![ls7]({{site.baseurl}}/fig/ls7.png)
+{: .keypoints}
+
+>## rm
+>`R`e`m`oving file
+>
+>You’ve seen how to remove a directory with the rmdir command, but rmdir won’t remove directories if they contain any files. So how can we remove the files we have created (inside
+temp)? In order to do this, we will have to use the rm (remove) command. Please read the next section VERY carefully. Misuse of the rm command can lead to needless death & destruction. Potentially, rm is a very >dangerous command; if you delete something with rm, you will not get it back! It is possible to delete everything in your home directory (all directories and subdirectories) with rm.
+>
+>That is why it is such a dangerous command.  Let me repeat that last part again. It is possible to delete EVERY file you have ever created with the rm command. 
+>Luckily there is a way of making  rm a little bit safer. We can use it with the -i (interactive) command-line option which will ask for confirmation before deleting anything (remember to use tab-completion):
+>```bash
+>cd Hello 
+>ls
+>rm -i  ETA.txt exam.txt rags
+>*will ask permission for each step:*
+>![ls8]({{site.baseurl}}/fig/ls8.png)
+>
+>ls
+>```
+{: .keypoints}
+
+>## cp 
+>Copying files with the cp (copy) command has a similar syntax as mv, but the file will remain at the source and be copied to the target location. Remember to always specify a source and a target location. Let’s create a new file and make a copy of it:
+>```bash
+>$ touch file1
+>$ cp file1 file2
+>$ ls
+>```
+>
+>What if we wanted to copy files from a different directory to our current directory? Let’s put a file in our home directory (specified by \~, remember) and copy it to the lecture directory.
+>```bash
+>$ touch ~/file3
+>$ cp ~/file3 ~/Hello
+>```
+> The cp command also allows us (with the use of a command-line option) to copy entire directories. Use man cp to see how the -R or -r options let you copy a directory recursively.
+> Please check help `cp --help`
+{: .keypoints}
+
+
+
+>## using . < Dot> ?
+>In Unix, the current directory can be represented by a . (dot) character. You will often use for copying files to the directory that you are in. Compare the following:
+>```bash
+>ls
+>ls .
+>ls ./
+>```
+>In this case, using the dot is somewhat pointless because ls will already list the contents of the current directory by default. Also note how the trailing slash is optional.
+{: .checklist} 
+
+>## Clean up and start new
+>```bash
+>$ cd ~/
+>$ ls 
+>```
+>>How can we clean up `bch709_test`  `Hello` ?
+>>```bash
+>>rm -R  
+>>```
+>{: .solution}
+{: .challenge}
+
+
+
+
+## Downloading file
+Before we start, let's clean up folders
+
+
+## Viewing file contents
+There are various commands to print the contents of the file in bash. Most of these commands are often used in specific contexts. All these commands when executed with filenames displays the contents on the screen. Most common ones are less, more, cat, head and tail.
+`less` FILENAME try this: less AT_cDNA.fa Displays file contents on the screen with line scrolling (to scroll you can use arrow keys, PgUp/PgDn keys, space bar or Enter key). When you are done press q to exit.
+`more` FILENAME try this: more AT_cDNA.fa Like less command, also, displays file contents on the screen with line scrolling but uses only space bar or Enter key to scroll. When you are done press q to exit.
+`cat` FILENAME try this: cat AT_cDNA.fa Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing
+`head` FILENAME try this: head AT_cDNA.fa Displays only the starting lines of a file. The default is first ten lines. But, any number of lines can be displayed using –n option (followed by required number of lines).
+`tail` FILENAME try this: tail AT_cDNA.fa Similar to head, but displays the last 10 lines. Again –n option can be used to change this. More information about any of these commands can be found in man pages (man command)
 
 
