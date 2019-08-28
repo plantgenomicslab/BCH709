@@ -42,9 +42,10 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .prereq}
 
 > ## Class Room location
-> ![Classroom location](./fig/classroom_location.png){: width="50%" height="50%"}
+> Classroom was changed to Fleischmann Agriculture Building room 109 (FA109)
+> ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
 > 
-> [PMB 104D](https://goo.gl/maps/GGx8NTwfyi8GZFpb8) (inside of Savitt Medical Library)  
+> [FA109](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
 {: .prereq}
 
 > ## Class Schedule

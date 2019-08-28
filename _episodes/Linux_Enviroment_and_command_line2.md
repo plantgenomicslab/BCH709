@@ -337,6 +337,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 {: .checklist} 
 
 >## Clean up and start new
+>Before we start other session, let's clean up folders
 >```bash
 >$ cd ~/
 >$ ls 
@@ -348,14 +349,13 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >```bash
 >rm -R  <folder name>
 >```
->{: .solution}
+{: .solution}
 
 
 
 
 
 ## Downloading file
-Before we start, let's clean up folders
 
 
 ## Viewing file contents
