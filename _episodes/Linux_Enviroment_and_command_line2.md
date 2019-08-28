@@ -342,6 +342,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >$ cd ~/
 >$ ls 
 >```
+>Please do it first and check the solution below.
 {: .challenge}
 
 >## Clean the folder with contents
@@ -352,18 +353,88 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 {: .solution}
 
 
+>## Downloading file
+>Let's downloading one file from website. There are several command to download file. Such as 'wget','curl','rsync' etcs. but this time we will use `curl`.
+>File location
+>```
+>https://pastebin.com/raw/9bCszuvD
+>```
+>How to use curl?
+>![curl]({{site.baseurl}}/fig/curl.png)
+>
+>How to download from web file?
+>
+>```
+>curl -L -o <output_name> <link>
+>```
+>```bash
+>curl -L -o bch709_student.txt https://pastebin.com/raw/9bCszuvD
+>```
+{: .keypoints}
+
+>## Viewing file contents
+>There are various commands to print the contents of the file in bash. Most of these commands are often used in specific contexts. All these commands when executed with filenames displays the contents on the screen. Most common ones are less, more, cat, head and tail.
+>`less` FILENAME try this: `less bch709_student.txt` Displays file contents on the screen with line scrolling (to scroll you can use arrow keys, PgUp/PgDn keys, space bar or Enter key). When you are done press q to exit.
+>`more` FILENAME try this: `more bch709_student.txt` Like less command, also, displays file contents on the screen with line scrolling but uses only space bar or Enter key to scroll. When you are done press q to exit.
+>`cat` FILENAME try this: `cat bch709_student.txt` Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing
+>`head` FILENAME try this: `head bch709_student.txt` Displays only the starting lines of a file. The default is first ten lines. But, any number of lines can be displayed using –n option (followed by required number of lines).
+>`tail` FILENAME try this: `tail bch709_student.txtSimilar` to head, but displays the last 10 lines. Again –n option can be used to change this. More information about any of these commands can be found in man pages (man command)
+{: .keypoints}
+
+>## Let's Download bigger data
+>Please go to below wesite.
+>```
+>ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/
+>```
+>Please download yellow marked file.
+>![download]({{site.baseurl}}/fig/download.png)
+{: .keypoints}
+
+>## How to download
+>![download2]({{site.baseurl}}/fig/download2.png)
+>```bash
+>curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
+>```
+{: .solution}
+
+>## Viewing file contents
+>What is the difference in `less`, `tail`, `more` and `head`?
+{: .discussion}
 
 
+## What are flags (parameters)?
+A “flag” in Unix terminology is a parameter added to the command. See for example
+```
+$ ls
+```
+versus
+```
+$ ls -l
+```
+Typically flags make programs behave differently or report their information in different ways.
 
-## Downloading file
+## How to find out what flags are available?
+You can use the manual to learn more about a command:
+```bash
+$ man ls
+```
+will produce
+![man]({{site.baseurl}}/fig/man.png)
 
+## What if the tools does not have manual page?
+Only tools that come with Unix will have a manual. For other software the -h, -help or
+--help command will typically print instructions for their use.
+```bash
+$ curl --help
+```
+If the help flag is not recognized you will need to find the manual for the software.
 
-## Viewing file contents
-There are various commands to print the contents of the file in bash. Most of these commands are often used in specific contexts. All these commands when executed with filenames displays the contents on the screen. Most common ones are less, more, cat, head and tail.
-`less` FILENAME try this: less AT_cDNA.fa Displays file contents on the screen with line scrolling (to scroll you can use arrow keys, PgUp/PgDn keys, space bar or Enter key). When you are done press q to exit.
-`more` FILENAME try this: more AT_cDNA.fa Like less command, also, displays file contents on the screen with line scrolling but uses only space bar or Enter key to scroll. When you are done press q to exit.
-`cat` FILENAME try this: cat AT_cDNA.fa Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing
-`head` FILENAME try this: head AT_cDNA.fa Displays only the starting lines of a file. The default is first ten lines. But, any number of lines can be displayed using –n option (followed by required number of lines).
-`tail` FILENAME try this: tail AT_cDNA.fa Similar to head, but displays the last 10 lines. Again –n option can be used to change this. More information about any of these commands can be found in man pages (man command)
+## What are flag formats?
+Traditionally Unix tools use two flag forms:
+- short form: single minus - then one letter, like -o, ’-L‘
+
+- long form: double minus -- then a word, like --output, --Location
+In each case the parameter may stand alone as a toggle (on/off) or may take additional values after the flag. -o <filename> or -L
+Now some bioinformatics tools do not follow this tradition and use a single - character for both short and long options. -g and -genome.
 
 
