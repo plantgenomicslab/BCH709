@@ -3,6 +3,18 @@
 
 The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This illustrates the concept of bioinformatics analysis and Next Generation Sequencing for genomics including hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platforms, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
+> ## Class Room location
+> Classroom was changed to Fleischmann Agriculture Building room 109 (FA109)
+> ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
+> 
+> [FA109](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
+{: .prereq}
+
+> ## Class Schedule
+> TuTh 9:00AM - 10:15AM  
+> Aug 26, 2019 - Dec 10, 2019
+{: .prereq}
+
 
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
