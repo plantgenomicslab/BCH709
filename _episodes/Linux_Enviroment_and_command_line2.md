@@ -341,13 +341,15 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >$ cd ~/
 >$ ls 
 >```
->>## Clean the folder with contents
->>How can we clean up `bch709_test`  `Hello` ?
->>```bash
->>rm -R  <folder name>
->>```
->{: .solution}
 {: .challenge}
+
+>## Clean the folder with contents
+>How can we clean up `bch709_test`  `Hello` ?
+>```bash
+>rm -R  <folder name>
+>```
+>{: .solution}
+
 
 
 
