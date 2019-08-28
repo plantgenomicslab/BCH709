@@ -204,9 +204,13 @@ about in a minute). In this case, tab completion will occur because there are no
 >```bash
 >$ cd ~/
 >$ ls
->![ls3]({{site.baseurl}}/fig/ls3.png)  
+>```
+>![ls3]({{site.baseurl}}/fig/ls3.png)
+>```bash
 >$ rmdir help
+>```
 >![ls4]({{site.baseurl}}/fig/ls4.png)
+>```bash
 >$ ls bch709_test
 >$ rmdir bch709_test/help
 >$ ls bch709_test
@@ -222,8 +226,10 @@ about in a minute). In this case, tab completion will occur because there are no
 >$ touch exam.txt
 >$ touch ETA.txt
 >$ ls
+>```
 >![ls5]({{site.baseurl}}/fig/ls5.png)
->$ls -a
+>```bash
+>$ ls -a
 >```
 {: .keypoints}
 
@@ -231,19 +237,19 @@ about in a minute). In this case, tab completion will occur because there are no
 >## mv 
 >We want to move these files to a new directory (‘temp’). We will do this using the Unix `mv`(move) command. Remember to use tab completion:
 >```bash
->mkdir Hello
->mv test.txt Hello
->mv exam.txt Hello
->mv ETA.txt Hello
->ls Hello
+>$ mkdir Hello
+>$ mv test.txt Hello
+>$ mv exam.txt Hello
+>$ mv ETA.txt Hello
+>$ ls Hello
 >```
 >For the mv command, we always have to specify a source file (or directory) that we want to
 >move, and then specify a target location. If we had wanted to, we could have moved both
 >files in one go by typing any of the following commands:
 >```bash
->mv *.txt Hello
->mv *t Hello
->mv *e* Hello
+>$ mv *.txt Hello
+>$ mv *t Hello
+>$ mv *e* Hello
 >```
 >
 >The asterisk * acts as a wild-card character, essentially meaning ‘match anything’. The second example works because there are no other files or directories in the directory that end with the letter ‘t’ (if there were, then they would be moved too). So all the 'bch709 test', bch709_test will be move. Likewise, the third example works because only those two files contain the letters ‘e’ in their names and 'bch709 test', bch709_test and Hello folder has e so it will move everything except for ETA.txt and will give you error `cannot move 'Hello' to a subdirectory of itself`.  Using wild-card characters can save you a lot of typing but need to be careful The ? character is also a wild-card but with a slightly different meaning. See if you can work out what it does.
@@ -270,13 +276,13 @@ In the earlier example, the destination for the mv command was a directory name 
 >It is important to understand that as long as you have specified a ‘source’ and a ‘target’ location when you are moving a file, then it doesn’t matter what your current directory is. You can move or copy things within the same directory or between different directories regardless of whether you are in any of those directories. Moving directories is just like moving files:
 >![ls6]({{site.baseurl}}/fig/ls6.png)
 >```bash
->mv Hello/bch709_test .
+>$ mv Hello/bch709_test .
 >```
 >`.` means current directory
 >
 >```bash
->ls Hello
->ls .
+>$ ls Hello
+>$ ls .
 >```
 >![ls7]({{site.baseurl}}/fig/ls7.png)
 {: .keypoints}
@@ -290,12 +296,13 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >That is why it is such a dangerous command.  Let me repeat that last part again. It is possible to delete EVERY file you have ever created with the rm command. 
 >Luckily there is a way of making  rm a little bit safer. We can use it with the -i (interactive) command-line option which will ask for confirmation before deleting anything (remember to use tab-completion):
 >```bash
->cd Hello 
->ls
->rm -i  ETA.txt exam.txt rags
+>$ cd Hello 
+>$ ls
+>$ rm -i  ETA.txt exam.txt rags
+>```
 >*will ask permission for each step:*
 >![ls8]({{site.baseurl}}/fig/ls8.png)
->
+>```bash
 >ls
 >```
 {: .keypoints}
