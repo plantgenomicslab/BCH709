@@ -56,6 +56,8 @@ It has since been ported to more computer hardware platforms than any other oper
 - **Hardware**: The underlying physical components of the computer. These include Input/Output devices, like keyboards and monitors, the CPU which does calculations, the memory components, and the network interface.
 -----------------------
 
+![anatomy]({{site.baseurl}}/fig/anatomy.jpg)
+
 ## What is GNU?
 GNU is an operating system that is free software—that is, it respects users' freedom. The GNU operating system consists of GNU packages (programs specifically released by the GNU Project) as well as free software released by third parties. The development of GNU made it possible to use a computer without software that would trample your freedom. GNU is a recursive acronym for "GNU's Not Unix!", chosen because GNU's design is Unix-like, but differs from Unix by being free software and containing no Unix code.
 
