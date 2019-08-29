@@ -32,7 +32,6 @@ BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at 
 ## LINUX  
 Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers.
 
-
  - He had been built Linux kernel **Just for Fun**, when he originally played with MINIX. Linux means *Linus's MINIX*. He is very famous with **flamming** like flamming in Reddit.
 
  - "You people on the East coast think you have it bad, with snow-storms and whatever.
@@ -43,7 +42,6 @@ And CNN just keeps talking about snow. What about my coffee? Priorities, people,
 What am I going to do without my coffee maker? I'm going to sit here in a corner, crying, that's what." --Linus Torvalds
  
  - "Talk is cheap. Show me the code." --Linus Torvalds
-
 
 It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:**more than 90% of today's 500 fastest supercomputers** run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices wherthe operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the **Android** system in wide use on mobile devices is built on the Linux kernel. Also, Nintendo Switch (Linux) is based on Linux.
 
@@ -62,8 +60,6 @@ The macOS kernel is officially known as XNU. The acronym stands for “XNU is No
 GNU and Tux
 
 ![MacOS](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Diagram_of_Mac_OS_X_architecture.svg/1280px-Diagram_of_Mac_OS_X_architecture.svg.png){: width="50%" height="50%"}
-
-
 
 ## Unix/Linux Main Components
 ### The Unix/Linux computer ecosystem can be divided into three main parts:
