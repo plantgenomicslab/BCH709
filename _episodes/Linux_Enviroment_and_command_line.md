@@ -157,7 +157,8 @@ Over the years since its creation, vi became the de facto standard Unix editor a
 
 A 2009 survey of Linux Journal readers found that vi was the most widely used text editor among respondents, beating gedit, the second most widely used editor by nearly a factor of two (36% to 19%). 
 
-#### Cheat sheet
+
+### Text editor Cheat sheet
 
 - [VIM](https://preview.redd.it/ve1jv3m3qqj21.png?width=960&crop=smart&auto=webp&s=deb6dc83a462dc54523d703574e953638598af19)
 - [nano](https://www.cheatography.com/bipinthite/cheat-sheets/nano-editor/)
