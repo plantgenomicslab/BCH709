@@ -58,7 +58,23 @@ The big part of this interaction comes from the System Call API, which you will 
 **The most common versions are Solaris, Linux, and MacOS X.**
 
 ## LINUX  
-Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers. It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:more than 90% of today's 500 fastest supercomputers run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the Android system in wide use on mobile devices is built on the Linux kernel.
+Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers.
+
+```
+He had been built Linux kernel **Just for Fun**, when he originally played with MINIX. Linux means `Linus's MINIX`. He is very famous with **flamming** like flamming in Reddit.
+```
+```
+"You people on the East coast think you have it bad, with snow-storms and whatever.
+That's nothing. My coffee maker broke, and calling the service hotline says "we're not open today due to inclement weather".
+You guys get a little snow, and suddenly civilization breaks down.
+My coffee maker is broken and nobody is answering the phone.
+And CNN just keeps talking about snow. What about my coffee? Priorities, people, priorities.
+What am I going to do without my coffee maker? I'm going to sit here in a corner, crying, that's what." --Linus Torvalds
+
+"Talk is cheap. Show me the code." --Linus Torvalds
+```
+
+It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:**more than 90% of today's 500 fastest supercomputers** run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices wherthe operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the **Android** system in wide use on mobile devices is built on the Linux kernel.
 
 ![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
@@ -187,7 +203,7 @@ For python
 > The remainder of this guide will cover how to use specific package management systems and how to compile and package software yourself.
 {: .prereq}  
 
-> ## Advanced Packaging Tool (APT)Permalink
+> ## Advanced Packaging Tool (APT)
 > You may already be familiar with apt-get, a command which uses the advanced packaging tool to interact with the operating system’s package system. The most relevant and useful commands are (to be run with root privileges):
 >
 > - 'apt-get install package-name(s)' - Installs the package(s) specified, along with any dependencies.
