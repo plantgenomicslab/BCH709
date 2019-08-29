@@ -138,7 +138,7 @@ Bash stands for Bourne Again Shell and it is the default shell on many Linux dis
 
 
 ## Text Editor
-![text editor](https://w.namu.la/s/faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13dc812a4340d702808d45887eb414f905cab17ba7a7ec73026b41bb16dfe764f0){: width="300%" height="300%"}
+![text editor]({{site.baseurl}}/fig/texteditor.png){: width="150%" height="150%"}
 
 ### Text Editing on Unix and Linux 
 - nano
