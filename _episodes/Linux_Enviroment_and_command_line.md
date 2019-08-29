@@ -40,7 +40,7 @@ The operating system's primary task is to manage services as an interface betwee
 - File System: managing files on the user
 - Device I/O: managing input from devices
 - Processes: Starting, running, and stopping programs, and allowing multiple programs to run at once, i.e., program multiprogramming.
-- Memory Management: Allocating runtime memory for process and separating memory between process and between user-space and the kernel-space
+- Memory Management: Allocating runtime memory for process and separating memory between process and between user-space and the kernel-space.
 
 ![OS]({{site.baseurl}}/fig/OS.png)
 
@@ -57,7 +57,7 @@ The big part of this interaction comes from the System Call API, which you will 
 **The most common versions are Solaris, Linux, and MacOS X.**
 
 ## BSD
-BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at UC Berkeley starting from the original Bell Labs code. Several other derivatives have come from BSD, notably FreeBSD, OpenBSD, and NetBSD. OS X (macOS) was brough to Apple from Steve Jobs' previous company NeXT, and was built using pieces from BSD around a kernel called Mach, which incidentally is also the basis of GNU Hurd. Jobs wanted to get a new computer (with a new operating system) to market quickly. To save time, the NeXT team used the Mach kernel from Carnegie Mellon and parts of the BSD code base to created the NeXTSTEP operating system.
+BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at UC Berkeley starting from the original Bell Labs code. Several other derivatives have come from BSD, notably FreeBSD, OpenBSD, and NetBSD. OS X (macOS) was brough to Apple from Steve Jobs' previous company NeXT, and was built using pieces from BSD around a kernel called Mach, which incidentally is also the basis of GNU Hurd. Jobs wanted to get a new computer (with a new operating system) to market quickly. To save time, the NeXT team used the Mach kernel from Carnegie Mellon and parts of the BSD code base to created the NeXTSTEP operating system. Also, PS4 is BSD.
 
 
 
@@ -92,6 +92,7 @@ Some people might think that there are similarities between the macOS and the Li
 The macOS kernel is officially known as XNU. The acronym stands for “XNU is Not Unix.” According to Apple’s Github page, XNU is “a hybrid kernel combining the Mach kernel developed at Carnegie Mellon University with components from FreeBSD and C++ API for writing drivers”. The BSD subsystem part of the code is “typically implemented as user-space servers in microkernel systems”. The Mach part is responsible for low-level work, such as multitasking, protected memory, virtual memory management, kernel debugging support, and console I/O.
 
 ![GNU](http://www.linuxandubuntu.com/wp-content/uploads/2019/07/What-is-GNU-in-GNULinux.jpg)
+GNU and Tux
 
 ![MacOS](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Diagram_of_Mac_OS_X_architecture.svg/1280px-Diagram_of_Mac_OS_X_architecture.svg.png){: width="50%" height="50%"}
 
