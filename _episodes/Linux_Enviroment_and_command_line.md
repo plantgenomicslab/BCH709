@@ -22,7 +22,8 @@ The Unix operating system was conceived and implemented in 1969 at **AT&T's Bell
 
 ![Unix_family tree]({{site.baseurl}}/fig/unix-simple.png)
 
-
+## The kernel
+This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
 
 ## BSD
 BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at UC Berkeley starting from the original Bell Labs code. Several other derivatives have come from BSD, notably FreeBSD, OpenBSD, and NetBSD. OS X (macOS) was brough to Apple from Steve Jobs' previous company NeXT, and was built using pieces from BSD around a kernel called Mach, which incidentally is also the basis of GNU Hurd. Jobs wanted to get a new computer (with a new operating system) to market quickly. To save time, the NeXT team used the Mach kernel from Carnegie Mellon and parts of the BSD code base to created the NeXTSTEP operating system. Also, PS4 is BSD.
@@ -74,7 +75,6 @@ GNU and Tux
 
 
 
-
 ### Operating Systems Tasks
 The operating system's primary task is to manage services as an interface between the user and the hardware. Examples include:
 - File System: managing files on the user
@@ -84,8 +84,7 @@ The operating system's primary task is to manage services as an interface betwee
 
 ![OS]({{site.baseurl}}/fig/OS.png)
 
-### The kernel
-This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
+
 
 ### I/O
 In computing, input/output or I/O (or, informally, io or IO) is the communication between an information processing system, such as a computer, and the outside world, possibly a human or another information processing system. Inputs are the signals or data received by the system and outputs are the signals or data sent from it. The term can also be used as part of an action; to "perform I/O" is to perform an input or output operation.
