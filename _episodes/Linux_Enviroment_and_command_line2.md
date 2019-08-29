@@ -402,7 +402,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 {: .discussion}
 
 
->## What are flags (parameters)?
+>## What are flags (parameters / options)?
 >A “flag” in Unix terminology is a parameter added to the command. See for example
 >```
 >$ ls
