@@ -7,13 +7,13 @@ published: true
 {% include gh_variables.html %}
 >## Reading and Slack
 >
-> Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)
-> Reading 2: [Attwood 2000](https://science.sciencemag.org/content/290/5491/471)
-> Reading 3: [Smith 2018](https://www.embopress.org/doi/full/10.15252/embr.201846262)
-> [UNR Research Computing Slack signup](https://unrrc.slack.com/signup/)
-> [UNR Research Computing Slack](https://unrrc.slack.com/)
-> [UNR Slack ID share](https://forms.gle/yeTJZNkMzwecveYp6)
-{: .prereq}
+>- Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)  
+>- Reading 2: [Attwood 2000](https://science.sciencemag.org/content/290/5491/471)  
+>- Reading 3: [Smith 2018](https://www.embopress.org/doi/full/10.15252/embr.201846262)  
+>- [UNR Research Computing Slack signup](https://unrrc.slack.com/signup/)  
+>- [UNR Research Computing Slack](https://unrrc.slack.com/)  
+>- [UNR Slack ID share](https://forms.gle/yeTJZNkMzwecveYp6)  
+{: .callout}
 
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
