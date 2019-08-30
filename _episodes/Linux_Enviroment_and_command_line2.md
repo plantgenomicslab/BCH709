@@ -439,6 +439,136 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >- long form: double minus -- then a word, like --output, --Location
 >In each case the parameter may stand alone as a toggle (on/off) or may take additional values after the flag. -o <filename> or -L
 >Now some bioinformatics tools do not follow this tradition and use a single - character for both short and long options. -g and -genome.
+>**Using flags is a essential to using Unix. Bioinformatics tools typically take a large number of parameters specified *via* flags**. The correctness of the results critically depends on the proper use of these parameters and flags.
 {: .checklist} 
 
 
+>## How many lines does the file have?
+>You can pipe the output of you stream into another program rather than the screen. Use the | (Vertical Bar) character to connect the programs. For example, the wc program is the word counter.
+>```bash
+>cat bch709_student.txt | wc
+```
+>prints the number of lines, words, and characters in the stream:
+>```
+>          12            33            205
+>```
+>How many lines?
+>```bash
+>cat bch709_student.txt | wc -l
+>```
+>```output
+>12
+>```
+> *of course we can use `wc` directly*
+>```bash
+>wc -l bch709_student.txt 
+>```
+> That is equivalent to:
+>```bash
+>cat bch709_student.txt  | wc -l
+>```
+>In general, it is a better option to open a stream with cat then pipe the flow into the next program. Later you will see that it is easier to design, build and understand more complex pipelines when the data stream is opened at the beginning as a separate step.
+>
+>Again, let's do head.
+>```bash
+>cat bch709_student.txt  | head
+>```
+>![head]({{site.baseurl}}/fig/head.png)
+>>## is this equivalent to?
+>>```bash
+>>head bch709_student.txt
+>>```
+>{: .solution}
+{: checklist}
+
+>## grep 
+>Globally search a Regular Expression and Print is one of the most useful commands in UNIX and it is commonly used to filter a file/input, line by line, against a pattern eg., to print each line of a file which contains a match for pattern.
+>Please check option with :
+>```bash
+>grep --help
+>```
+>With options, syntax is
+>```
+>grep [OPTIONS] PATTERN FILENAME
+>```
+>Let's find how many people use macOS?
+>First we need to check file.
+>```bash
+>$ wc -l bch709_student.txt
+>```
+>```bash
+>$ less bch709_student.txt
+>```
+>How can we find the macOS people?
+>Now we can use `grep`
+>```bash
+>$ cat bch709_student.txt | grep MacOS
+>```
+>How can we count?
+>```bash
+>$ cat bch709_student.txt | grep MacOS | wc -l
+>```
+>How about this?
+>```bash
+>$ grep MacOS bch709_student.txt | wc -l
+>```
+>How about this?
+>```bash
+>$ grep -c MacOS bch709_student.txt
+>```
+>With other options (flags)
+>```bash
+>$ grep -v Windows  bch709_student.txt
+>```
+>With multiple options (flags)
+>```bash
+>$ grep -c -v Windows  bch709_student.txt
+>```
+>
+>```bash
+>$ grep --color  -i macos  bch709_student.txt
+>```
+{: checklist}
+
+>## How do I store the results in a new file?  
+>The > character is the redirection.
+>```bash 
+>$ grep  -i macos  bch709_student.txt > mac_student
+>```
+>```bash
+>$ cat bch709_student.txt | grep -i windows > windows_student
+>```
+>Please check with `cat` or `less`
+{: checklist}
+
+>## Do you want to check difference?
+>```bash
+>diff mac_student windows_student
+>```
+
+>## How can I select name only? (cut)
+>```bash
+>$ cat bch709_student.txt  | cut -f 1
+>```
+>```bash
+>$ cut -f 1 bch709_student.txt
+>```
+{: .keypoints}
+
+>## How can I sort it ? (sort)
+>```bash
+>cut -f 1 bch709_student.txt | sort
+>```
+>```bash
+>$ sort bch709_student.txt
+>$ sort -k 2 bch709_student.txt
+>$ sort -k 1 bch709_student.txt
+>```
+>```bash
+>$ sort -k 1 bch709_student.txt | cut -f 1
+>```
+>Save?
+>```bash
+>sort -k 1 bch709_student.txt | cut -f 1 > name_sort
+>```
+{: .keypoints}
