@@ -579,6 +579,4 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >```bash
 >cut -f 2 bch709_student.txt > os.txt
 >```
-
-
 {: checklist}
