@@ -357,7 +357,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >Let's downloading one file from website. There are several command to download file. Such as 'wget','curl','rsync' etcs. but this time we will use `curl`.
 >File location
 >```
->https://pastebin.com/raw/9bCszuvD
+>https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/bch709_student.txt
 >```
 >How to use curl?
 >![curl]({{site.baseurl}}/fig/curl.png)
@@ -368,7 +368,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >curl -L -o <output_name> <link>
 >```
 >```bash
->curl -L -o bch709_student.txt https://pastebin.com/raw/9bCszuvD
+>curl -L -o bch709_student.txt https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/bch709_student.txt
 >```
 {: .keypoints}
 
@@ -577,6 +577,209 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >## uniq 
 >uniq command removes duplicate lines from a **sorted file**, retaining only one instance of the running matching lines. Optionally, it can show only lines that appear exactly once, or lines that appear more than once. uniq requires sorted input since it compares only consecutive lines.
 >```bash
->cut -f 2 bch709_student.txt > os.txt
+>$ cut -f 2 bch709_student.txt > os.txt
+>```
+>```bash
+>$ uniq -c os.txt
+>```
+>![uniq]({{site.baseurl}}/fig/uniq.png)
+>```bash
+>$ sort os.txt | uniq -c
+>```
+>![uniq2]({{site.baseurl}}/fig/uniq2.png)
+Of course you can use `sort` independently.
+>```bash
+>$ sort os.txt > os_sort.txt
+>$ uniq -c os_sort.txt
+>```
+>```bash
+>$ uniq --help
+>```
+>![uniq3]({{site.baseurl}}/fig/uniq3.png)
+{: checklist}
+
+>## diff 
+>diff (difference) reports differences between files. A simple example for diff usage would be
+>`
+>$ diff FILEA FILEB
+>`
+>When you try to use new command, please check with `--help`.
+>![diff]({{site.baseurl}}/fig/diff.png)
+>```bash
+>$ diff  os.txt  os_sort.txt
+>```
+>```bash
+>$ diff -y os.txt  os_sort.txt
+>```
+>```bash
+>$ sort os.txt | diff -y - os_sort.txt
 >```
 {: checklist}
+
+
+### There are still a lot of command that you can use. Such as 'paste', 'comm', 'join', 'split' etc.
+
+### One-liners
+One-liner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
+
+### FASTA format
+The original FASTA/Pearson format is described in the documentation for the FASTA suite of programs. It can be downloaded with any free distribution of FASTA (see fasta20.doc, fastaVN.doc or fastaVN.me—where VN is the Version Number).
+
+The first line in a FASTA file started either with a ">" (greater-than; Right angle braket) symbol or, less frequently, a ";" (semicolon) was taken as a comment. Subsequent lines starting with a semicolon would be ignored by software. Since the only comment used was the first, it quickly became used to hold a summary description of the sequence, often starting with a unique library accession number, and with time it has become commonplace to always use ">" for the first line and to not use ";" comments (which would otherwise be ignored).
+
+Following the initial line (used for a unique description of the sequence) is the actual sequence itself in standard one-letter character string. Anything other than a valid character would be ignored (including spaces, tabulators, asterisks, etc...). Originally it was also common to end the sequence with an "\*" (asterisk) character (in analogy with use in PIR formatted sequences) and, for the same reason, to leave a blank line between the description and the sequence.
+
+![fasta]({{site.baseurl}}/fig/fasta.png)
+
+#### Description line
+The description line (defline) or header/identifier line, which begins with '>', gives a name and/or a unique identifier for the sequence, and may also contain additional information. In a deprecated practice, the header line sometimes contained more than one header, separated by a ^A (Control-A) character. In the original Pearson FASTA format, one or more comments, distinguished by a semi-colon at the beginning of the line, may occur after the header. Some databases and bioinformatics applications do not recognize these comments and follow the [NCBI FASTA specification](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp). 
+
+### FASTA file handling with command line.
+Please check one fasta file
+```bash
+$ ls ATH_cDNA_sequences_20101108.fas
+```
+
+>## previous example
+>![download2]({{site.baseurl}}/fig/download2.png)
+>```bash
+>curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
+>```
+{: .solution}
+
+### count cDNA
+How many cDNA in this fasta file?
+Please use `grep`  `wc` to find number.
+How many sequences (DNA letter) in this fasta file?
+Please use `grep`  `wc` to find number.
+
+### what is GI and GB?
+[NCBI identifiers](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/)
+![NCBI identifiers]({{site.baseurl}}/fig/NCBI_identifiers.png)
+
+### Collect GI
+How can I collect GI from FASTA description line?
+Please use `grep`  `cut` to find number.
+Does GI have any redundancy?
+Please use `grep`  `wc` `diff` to solve.
+
+
+### GFF file
+The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
+
+Please download below file
+`
+http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
+`
+
+### Compression
+
+
+
+
+
+
+
+
+There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
+ZIP compression/extraction
+zip OUTFILE.zip INFILE.txt Compress INFILE.txt
+zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
+zip -r OUTFILE.zip . -i *.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
+unzip SOMEFILE.zip
+
+
+Decompress a file Task 1.9: Zip AT_genes.gff file located in the tutorials directory. Check the file size before and after zip compression (Hint: use ls –lh to check file sizes).
+zip AT_genes.gff.zip AT_genes.gff
+Is there any size difference before and after compressing? Y/N tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
+tar -cvf OUTFILE.tar INFILE
+archive INFILE
+tar -czvf OUTFILE.tar.gz INFILE
+archive and compress file INFILE
+tar -tvf SOMEFILE.tar
+list contents of archive SOMEFILE.tar
+tar -xvf SOMEFILE.tar
+
+extract contents of SOMEFILE.tar
+tar -xzvf SOMEFILE.tar.gz
+extract contents of gzipped archive SOMEFILE.tar.gz
+tar -czvf OUTFILE.tar.gz DIRECTORY
+archive and compress all files in a directory into one archive file
+tar -czvf OUTFILE.tar.gz *.txt
+archive and compress all ".txt" files in current directory into one archive file Task 1.10: Archive and compress the BACKUP_WORKSHOP directory you created in Task 1.3 (you can name it as backup.tar.gz or anything you want)
+tar -czvf backup.tar.gz BACKUP_WORKSHOP gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression and no patented algorithms. The standard compression system for all GNU software.
+gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
+gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file) Task 1.11: gzip the file AT_genes.gff and examine the size. gunzip it back so that you can use this file for the later exercises.
+
+
+gzip AT_genes.gff
+ls -lh
+gunzip AT_genes.gff.gz
+ls –lh
+
+
+
+###
+
+16 centromere
+16 centromere_DNA_Element_I
+16 centromere_DNA_Element_II
+16 centromere_DNA_Element_III
+8 external_transcribed_spacer_region
+24 five_prime_UTR_intron
+To find out the most frequent unique elements, we need to sort the output of uniq.
+cat types.txt | sort | uniq -c | sort -rn | head
+it now prints:
+7074 CDS
+6604 ORF
+484 noncoding_exon
+383 long_terminal_repeat
+377 intron
+352 ARS
+299 tRNA_gene
+196 ARS_consensus_sequence
+91 transposable_element_gene
+77 snoRNA_gene
+
+
+
+
+cat SGD_features.tab | cut -f 2 | head
+Build your commands one step at a time, always checking that you are on the right track:
+cat SGD_features.tab | head
+cat SGD_features.tab | cut -f 2 | head
+cat SGD_features.tab | cut -f 2 | grep ORF | head
+12.3.16 How many genes are there?
+cat SGD_features.tab | cut -f 2 | grep ORF | wc -l
+12.3.17 Can I select multiple columns?
+cat SGD_features.tab | cut -f 2,3,4 | grep ORF | head
+What does this do?
+cat SGD_features.tab | cut -f 2,3,4 | grep ORF | grep -v Dubious | wc -l
+12.4 How many feature types are in this data?
+We are going to use this data a lot, so place it into a separate file for now.
+cat SGD_features.tab | cut -f 2 > types.txt
+Sorting places identical consecutive entries next to one another.
+cat types.txt | sort | head
+Find unique words. The uniq command collapses consecutive identical words into one.
+cat types.txt | sort | uniq | head
+Using -c flag to uniq will not only collapse consecutive entries it will print their counts.
+cat types.txt | sort | uniq -c | head
+prints:
+352 ARS
+196 ARS_consensus_sequence
+6 blocked_reading
+
+
+12.5 The single most useful Unix pattern
+The pattern sort | uniq -c | sort -rn is perhaps the most useful simple unix command
+pattern that you will ever learn.
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.
+
+
+
