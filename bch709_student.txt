@@ -1,0 +1,13 @@
+Shannon	Windows 10
+ANIL	Windows 10
+Dave	MacOS
+Kevin	MacOS
+Devin	Windows 10
+Chelsea	Windows 10
+Hayden	MacOS
+Kage	Windows 10
+Mitiku	MacOS
+Rosh	Windows 10
+Brianne	MacOS
+Jin	Windows 10
+Minna	MacOS

@@ -572,3 +572,13 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 >sort -k 1 bch709_student.txt | cut -f 1 > name_sort
 >```
 {: .keypoints}
+
+
+>## uniq 
+>uniq command removes duplicate lines from a **sorted file**, retaining only one instance of the running matching lines. Optionally, it can show only lines that appear exactly once, or lines that appear more than once. uniq requires sorted input since it compares only consecutive lines.
+>```bash
+>cut -f 2 bch709_student.txt > os.txt
+>```
+
+
+{: checklist}
