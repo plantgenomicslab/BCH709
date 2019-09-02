@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://jjeongil.tistory.com/288 -->
+<html lang="ko" class="gr__jjeongil_tistory_com"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="./texteditor_files/lightbox.min.css"><link rel="stylesheet" type="text/css" href="./texteditor_files/font.css"><link rel="stylesheet" type="text/css" href="./texteditor_files/content.css"><!--[if lt IE 9]><script src="https://t1.daumcdn.net/tistory_admin/lib/jquery/jquery-1.12.4.min.js"></script><![endif]--><!--[if gte IE 9]>
+<!--><script src="./texteditor_files/f(4).txt"></script><script src="./texteditor_files/osd.js"></script><script type="text/javascript" async="" src="./texteditor_files/analytics.js"></script><script src="./texteditor_files/jquery-3.2.1.min.js"></script><!--<![endif]-->
+<script src="./texteditor_files/lightbox-plus-jquery.min.js"></script>
+<script>
+lightbox.options.fadeDuration = 200;
+lightbox.options.resizeDuration = 200;
+lightbox.options.wrapAround = false;
+lightbox.options.albumLabel = "%1 / %2";
+</script>
+<script>var tjQuery = jQuery.noConflict(true);</script><style type="text/css">.tt_article_useless_p_margin p {padding-top:0 !important;padding-bottom:0 !important;margin-top:0 !important;margin-bottom:0 !important;}</style><meta name="referrer" content="always"><link rel="icon" href="https://t1.daumcdn.net/tistory_admin/static/top/favicon_0630.ico"><link rel="apple-touch-icon" href="https://img1.daumcdn.net/thumb/C180x180/?fname=https%3A%2F%2Ftistory4.daumcdn.net%2Ftistory%2F2916886%2Fattach%2F7a9ac72715a54fc08095f24aa38e3c8d">
+<link rel="apple-touch-icon" sizes="76x76" href="https://img1.daumcdn.net/thumb/C76x76/?fname=https%3A%2F%2Ftistory4.daumcdn.net%2Ftistory%2F2916886%2Fattach%2F7a9ac72715a54fc08095f24aa38e3c8d">
+<link rel="apple-touch-icon" sizes="120x120" href="https://img1.daumcdn.net/thumb/C120x120/?fname=https%3A%2F%2Ftistory4.daumcdn.net%2Ftistory%2F2916886%2Fattach%2F7a9ac72715a54fc08095f24aa38e3c8d">
+<link rel="apple-touch-icon" sizes="152x152" href="https://img1.daumcdn.net/thumb/C152x152/?fname=https%3A%2F%2Ftistory4.daumcdn.net%2Ftistory%2F2916886%2Fattach%2F7a9ac72715a54fc08095f24aa38e3c8d"><meta name="description" content="명령줄을 통해 파일을 빠르고 효과적으로 편집하는 방법을 아는 것은 모든 리눅스 시스템 관리자에게 매우 중요하다. 파일 편집은 구성 파일, 사용자 파일, 텍스트 문서 또는 편집해야 하는 파일 등 매일 수행된..">
+
+<!-- BEGIN OPENGRAPH -->
+<link rel="canonical" href="https://jjeongil.tistory.com/288"><meta property="og:type" content="article"><meta property="og:url" content="https://jjeongil.tistory.com/288"><meta property="og:site_name" content="쵸코쿠키의 연습장"><meta property="og:title" content="Linux 명령줄 텍스트 편집기 종류 및 추천"><meta name="by" content="얇은생각"><meta property="og:description" content="명령줄을 통해 파일을 빠르고 효과적으로 편집하는 방법을 아는 것은 모든 리눅스 시스템 관리자에게 매우 중요하다. 파일 편집은 구성 파일, 사용자 파일, 텍스트 문서 또는 편집해야 하는 파일 등 매일 수행된.."><meta property="og:image" content="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9991424A5C25E6B30E"><meta property="article:section" content="IT 인터넷">
+<!-- END OPENGRAPH -->
+
+
+
+<!-- BEGIN TWITTERCARD -->
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@TISTORY"><meta name="twitter:title" content="Linux 명령줄 텍스트 편집기 종류 및 추천"><meta name="twitter:description" content="명령줄을 통해 파일을 빠르고 효과적으로 편집하는 방법을 아는 것은 모든 리눅스 시스템 관리자에게 매우 중요하다. 파일 편집은 구성 파일, 사용자 파일, 텍스트 문서 또는 편집해야 하는 파일 등 매일 수행된.."><meta property="twitter:image" content="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9991424A5C25E6B30E">
+<!-- END TWITTERCARD -->
+
+
+
+<!-- BEGIN DAUMAPP -->
+<meta property="dg:plink" content="https://jjeongil.tistory.com/288"><meta name="plink" content="https://jjeongil.tistory.com/288"><meta name="title" content="Linux 명령줄 텍스트 편집기 종류 및 추천"><meta name="article:media_name" content="쵸코쿠키의 연습장"><meta property="article:mobile_url" content="https://jjeongil.tistory.com/m/288"><meta property="article:pc_url" content="https://jjeongil.tistory.com/288"><meta property="article:mobile_view_url" content="https://jjeongil.tistory.com/m/288"><meta property="article:pc_view_url" content="https://jjeongil.tistory.com/288"><meta property="article:talk_channel_view_url" content="https://jjeongil.tistory.com/m/288"><meta property="article:pc_service_home" content="https://www.tistory.com"><meta property="article:mobile_service_home" content="https://www.tistory.com/m"><meta property="article:txid" content="2916886_288"><meta property="article:published_time" content="2019-01-13T12:30:00+09:00"><meta property="og:regDate" content="20181228180416"><meta property="article:modified_time" content="2019-01-13T12:30:09+09:00">
+<!-- END DAUMAPP -->
+
+
+
+<!-- BEGIN STRUCTURED_DATA -->
+<script type="application/ld+json">{"@context":"http:\/\/schema.org","@type":"BlogPosting","mainEntityOfPage":{"@id":"https:\/\/jjeongil.tistory.com\/288"},"url":"https:\/\/jjeongil.tistory.com\/288","headline":"Linux \uba85\ub839\uc904 \ud14d\uc2a4\ud2b8 \ud3b8\uc9d1\uae30 \uc885\ub958 \ubc0f \ucd94\ucc9c","description":"\uba85\ub839\uc904\uc744 \ud1b5\ud574 \ud30c\uc77c\uc744 \ube60\ub974\uace0 \ud6a8\uacfc\uc801\uc73c\ub85c \ud3b8\uc9d1\ud558\ub294 \ubc29\ubc95\uc744 \uc544\ub294 \uac83\uc740 \ubaa8\ub4e0 \ub9ac\ub205\uc2a4 \uc2dc\uc2a4\ud15c \uad00\ub9ac\uc790\uc5d0\uac8c \ub9e4\uc6b0 \uc911\uc694\ud558\ub2e4. \ud30c\uc77c \ud3b8\uc9d1\uc740 \uad6c\uc131 \ud30c\uc77c, \uc0ac\uc6a9\uc790 \ud30c\uc77c, \ud14d\uc2a4\ud2b8 \ubb38\uc11c \ub610\ub294 \ud3b8\uc9d1\ud574\uc57c \ud558\ub294 \ud30c\uc77c \ub4f1 \ub9e4\uc77c \uc218\ud589\ub41c..","author":{"@type":"Person","name":"\uc587\uc740\uc0dd\uac01"},"image":{"@type":"ImageObject","url":"https:\/\/img1.daumcdn.net\/thumb\/R800x0\/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9991424A5C25E6B30E","width":"800px","height":"800px"},"datePublished":"20190113T12:30:00+09:00","dateModified":"20190113T12:30:09+09:00","publisher":{"@type":"Organization","name":"TISTORY","logo":{"@type":"ImageObject","url":"https:\/\/t1.daumcdn.net\/tistory_admin\/static\/images\/openGraph\/opengraph.png","width":"800px","height":"800px"}}}</script>
+<!-- END STRUCTURED_DATA -->
+
+
+<meta name="yandex-verification" content="acd945b8cf752041">
+<meta name="msvalidate.01" content="C719D303683E6BB7E929D0E07B934E7B">
+<meta name="naver-site-verification" content="b36d01943fe15149589bc366817b7fbf90fbda8e">
+<meta name="google-site-verification" content="2Ok9XzDiEPSYrQaJ8EYL1F7_5jHzIhDKrQjUPgx061o">
+<meta name="naver-site-verification" content="b36d01943fe15149589bc366817b7fbf90fbda8e">
+
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+<meta name="robots" content="index, follow">
+	
+<title>Linux 명령줄 텍스트 편집기 종류 및 추천</title>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./texteditor_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-127852191-1');
+</script>
+	
+<script async="" src="./texteditor_files/f(5).txt"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8542466580305245",
+    enable_page_level_ads: true
+  });
+</script>
+
+<script async="" src="./texteditor_files/f(5).txt"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8542466580305245",
+          enable_page_level_ads: true
+     });
+</script>
+	
+<link rel="stylesheet" href="./texteditor_files/style.css">
+<script src="./texteditor_files/jquery-1.12.4.min.js"></script><link rel="preload" href="./texteditor_files/f(6).txt" as="script"><script type="text/javascript" src="./texteditor_files/f(6).txt"></script><link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/r20190826/r20190131/show_ads_impl.js" as="script">
+
+<style type="text/css">
+		#daumSearchBox {
+			height: 21px;
+			background-image : url(//i1.daumcdn.net/imgsrc.search/search_all/show/tistory/plugin/bg_search2_2.gif);
+			margin: 5px auto ;
+			padding: 0;
+		}
+		#daumSearchBox input {
+			background: none;
+			margin : 0;
+			padding : 0;
+			border : 0;
+		}
+		#daumSearchBox #daumLogo {
+			width: 34px;
+			height: 21px;
+			float: left;
+			margin-right: 5px;
+			background-image : url(//i1.daumcdn.net/img-media/tistory/img/bg_search1_2_2010ci.gif);
+		}
+		#daumSearchBox #show_q {
+			background-color: transparent;
+			border: none;
+			font: 12px Gulim, Sans-serif;
+			color: #555;
+			margin-top: 4px;
+			margin-right: 15px;
+			float: left;
+		}
+
+		#daumSearchBox #show_btn {
+			background-image : url(//i1.daumcdn.net/imgsrc.search/search_all/show/tistory/plugin/bt_search_2.gif);
+			width: 37px;
+			height: 21px;
+			float: left;
+			margin:0;
+			cursor:pointer;
+			text-indent:-1000em;
+		}
+	</style>
+<link rel="stylesheet" type="text/css" href="./texteditor_files/style(1).css">
+<script type="text/javascript" src="./texteditor_files/profile.js"></script>
+	<style type="text/css">
+		.another_category { border: 1px solid #E5E5E5; padding: 10px 10px 5px; margin:10px 0; clear: both; }
+		.another_category h4 { font-size: 12px !important; margin: 0 !important; border-bottom: 1px solid #E5E5E5 !important; padding: 2px 0 6px !important; }
+		.another_category h4 a { font-weight: bold !important; }
+		.another_category table { table-layout: fixed; border-collapse: collapse; width: 100% !important; margin-top: 10px !important; }
+		* html .another_category table { width: auto !important; }
+		*:first-child+html .another_category table { width: auto !important; }
+		.another_category th, .another_category td { padding: 0 0 4px !important; }
+		.another_category th { text-align: left; font-size: 12px !important; font-weight: normal;  word-break: break-all; overflow: hidden; line-height: 1.5; }
+		.another_category td { text-align: right; width: 80px; font-size: 11px; }
+		.another_category th a { font-weight: normal; text-decoration: none; border: none !important; }
+		.another_category th a.current{ font-weight: bold; text-decoration: none !important; border-bottom: 1px solid !important; }
+		.another_category th span { font-weight: normal; text-decoration: none; font: 10px Tahoma, Sans-serif; border: none !important; }
+
+		.another_category_color_gray, .another_category_color_gray h4 { border-color: #E5E5E5 !important; }
+		.another_category_color_gray * { color: #909090 !important; }
+		.another_category_color_gray th a.current{border-color:#909090 !important;}
+		.another_category_color_gray h4, .another_category_color_gray h4 a { color: #737373 !important; }
+
+
+		.another_category_color_red, .another_category_color_red h4 { border-color: #F6D4D3 !important;  }
+		.another_category_color_red * { color: #E86869 !important; }
+		.another_category_color_red th a.current{border-color:#E86869 !important;}
+		.another_category_color_red h4, .another_category_color_red h4 a { color: #ED0908 !important; }
+
+
+		.another_category_color_green, .another_category_color_green h4 { border-color: #CCE7C8 !important; }
+		.another_category_color_green * { color: #64C05B !important; }
+		.another_category_color_green th a.current{border-color:#64C05B !important;}
+		.another_category_color_green h4, .another_category_color_green h4 a { color: #3EA731 !important; }
+
+
+		.another_category_color_blue, .another_category_color_blue h4 { border-color: #C8DAF2 !important; }
+		.another_category_color_blue * { color: #477FD6 !important; }
+		.another_category_color_blue th a.current{border-color:#477FD6 !important;}
+		.another_category_color_blue h4, .another_category_color_blue h4 a { color: #1960CA !important; }
+
+
+		.another_category_color_violet, .another_category_color_violet h4 { border-color: #E1CEEC !important;  }
+		.another_category_color_violet * { color:#9D64C5 !important; }
+		.another_category_color_violet th a.current{border-color:#9D64C5 !important;}
+		.another_category_color_violet h4, .another_category_color_violet h4 a { color: #7E2CB5 !important; }
+	</style>
+<script type="text/javascript">
+        window.TistoryBlog = {
+            url: "https://jjeongil.tistory.com",
+            tistoryUrl: "https://jjeongil.tistory.com",
+			manageUrl: 'https://jjeongil.tistory.com/manage',
+            token: '0YmuJGFn1VXcD%2BQhtIC7rQ%3D%3D'
+        };
+        var servicePath = "";
+        var blogURL = "";
+    </script>
+
+	<script> (function() { window.orgjQuery = window.jQuery; window.jQuery = tjQuery })()</script>
+    <script src="./texteditor_files/uoclike.min.js"></script>
+	<script> (function() { window.jQuery = window.orgjQuery; delete window.orgjQuery })()</script>
+    <script>
+		(function($) {
+			$.fn.extend({
+				size: function () {
+					return this.length
+				}
+			});
+			$.fn.UOCLike.defaults.updateServiceCategory = true;
+					})(tjQuery)
+    </script>
+        <script type="text/javascript" src="./texteditor_files/base.js"></script>
+        <link rel="stylesheet" type="text/css" href="./texteditor_files/dialog.css">
+            <link rel="stylesheet" type="text/css" href="./texteditor_files/font(1).css">
+    <link rel="stylesheet" type="text/css" href="./texteditor_files/postBtn.css">
+    <link rel="stylesheet" type="text/css" href="./texteditor_files/menubar.css">
+    <script src="./texteditor_files/kakao.min.js"></script><style type="text/css">#DragSchLayer{display:block;position:absolute;z-index:1000;width:61px;height:31px;margin:-30px 0px 0px -5px;background:url(//search1.daumcdn.net/search/statics/common/pi/btn_drag_rect.png);cursor:pointer}             @media             only screen and (-webkit-min-device-pixel-ratio: 1.5),             only screen and (min-device-pixel-ratio: 1.5),             only screen and (min-resolution: 1.5dppx) {             #DragSchLayer{background-image:url(//search1.daumcdn.net/search/statics/common/pi/r2/btn_drag_rect.png);background-size:61px 31px}}            </style><script type="text/javascript" async="" src="https://m2.daumcdn.net/tiara/js/td.min.js"></script><link rel="stylesheet" type="text/css" href="./texteditor_files/uoclike.min-20150408-2.css"></head><iframe id="google_shimpl" style="display: none;" src="./texteditor_files/saved_resource(5).html"></iframe>
+<body id="tt-body-page" class="color-gray post-type-text paging-view-more" data-gr-c-s-loaded="true">
+<script type="text/javascript">
+	(function() {
+		if (!window.T) {
+			window.T = {}
+		}
+		window.T.config = {"TOP_SSL_URL":"https:\/\/www.tistory.com","PREVIEW":false,"ROLE":"guest","PREV_PAGE":"\/289","NEXT_PAGE":"\/287","BLOG":{"isDormancy":false,"title":"\ucd78\ucf54\ucfe0\ud0a4\uc758 \uc5f0\uc2b5\uc7a5"},"NEED_COMMENT_LOGIN":false,"COMMENT_LOGIN_CONFIRM_MESSAGE":"","LOGIN_URL":"https:\/\/www.tistory.com\/auth\/login\/?redirectUrl=https%3A%2F%2Fjjeongil.tistory.com%2F288","DEFAULT_URL":"https:\/\/jjeongil.tistory.com","USER":{"name":null,"homepage":null}};
+		window.appInfo = {"domain":"tistory.com","topUrl":"https:\/\/www.tistory.com","loginUrl":"https:\/\/www.tistory.com\/auth\/login","logoutUrl":"https:\/\/www.tistory.com\/auth\/logout"};
+
+        window.initData = {};
+        
+	})();
+</script><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" src="./texteditor_files/saved_resource(6).html"></iframe></ins></ins></ins><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"></ins>
+
+<script type="text/javascript" src="./texteditor_files/common.js"></script>
+<div style="margin:0; padding:0; border:none; background:none; float:none; clear:none; z-index:0"></div>
+<div id="acc-nav">
+	<a href="https://jjeongil.tistory.com/288#content">본문 바로가기</a>
+</div>
+<div id="wrap" style="height: auto !important;">
+	<header id="header">
+		<h1><a href="https://jjeongil.tistory.com/">쵸코쿠키의 연습장</a></h1>
+		<button type="button" class="mobile-menu"><span>메뉴</span></button>
+		<div class="menu">
+			<nav id="gnb">
+				<ul class="tt_category">
+	<li class="">
+		<a class="link_tit" href="https://jjeongil.tistory.com/category">
+			홈							<span class="c_cnt">(627)</span>
+			
+							<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+					</a>
+
+				<ul class="category_list">
+							<li class="">
+					<a class="link_item" href="https://jjeongil.tistory.com/category/%EC%9E%AC%ED%85%8C%ED%81%AC">
+						재테크													<span class="c_cnt">(46)</span>
+						
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9E%AC%ED%85%8C%ED%81%AC/%ED%85%8C%EB%A7%88%EC%A3%BC">
+									테마주
+																			<span class="c_cnt">(17)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9E%AC%ED%85%8C%ED%81%AC/%EC%A3%BC%EC%8B%9D">
+									주식
+																			<span class="c_cnt">(23)</span>
+									
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+							<li class="">
+					<a class="link_item" href="https://jjeongil.tistory.com/category/SW">
+						SW													<span class="c_cnt">(332)</span>
+						
+													<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/Autosar">
+									Autosar
+																			<span class="c_cnt">(20)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EB%A6%AC%EB%88%85%EC%8A%A4">
+									리눅스
+																			<span class="c_cnt">(26)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/C%2B%2B">
+									C++
+																			<span class="c_cnt">(35)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/Python">
+									Python
+																			<span class="c_cnt">(12)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC">
+									네트워크
+																			<span class="c_cnt">(18)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/Node%20JS">
+									Node JS
+																			<span class="c_cnt">(0)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EB%A9%B4%EC%A0%91">
+									면접
+																			<span class="c_cnt">(6)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/Yocto">
+									Yocto
+																			<span class="c_cnt">(7)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/IoT">
+									IoT
+																			<span class="c_cnt">(1)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8">
+									정보보호
+																			<span class="c_cnt">(2)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/R">
+									R
+																			<span class="c_cnt">(52)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/Git">
+									Git
+																			<span class="c_cnt">(3)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98">
+									알고리즘
+																			<span class="c_cnt">(25)</span>
+									
+																			<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EC%95%B1%ED%94%8C%EB%9E%AB%ED%8F%BC">
+									앱플랫폼
+																			<span class="c_cnt">(18)</span>
+									
+																			<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5">
+									인공지능
+																			<span class="c_cnt">(75)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EB%94%94%EC%9E%90%EC%9D%B8%20%ED%8C%A8%ED%84%B4">
+									디자인 패턴
+																			<span class="c_cnt">(3)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/SW/%EC%A3%BC%EA%B0%80%20%EC%98%88%EC%B8%A1">
+									주가 예측
+																			<span class="c_cnt">(29)</span>
+									
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+							<li class="">
+					<a class="link_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81">
+						일상													<span class="c_cnt">(249)</span>
+						
+													<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+											</a>
+
+										<ul class="sub_category_list">
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/IT">
+									IT
+																			<span class="c_cnt">(66)</span>
+									
+																			<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EC%9E%90%EB%8F%99%EC%B0%A8">
+									자동차
+																			<span class="c_cnt">(62)</span>
+									
+																			<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%ED%8C%A8%EC%85%98">
+									패션
+																			<span class="c_cnt">(2)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EB%A7%9B%EC%A7%91">
+									맛집
+																			<span class="c_cnt">(2)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EC%B1%85">
+									책
+																			<span class="c_cnt">(3)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EC%9E%AC%ED%85%8C%ED%81%AC">
+									재테크
+																			<span class="c_cnt">(4)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EC%8B%9C%ED%97%98">
+									시험
+																			<span class="c_cnt">(5)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EA%B5%90%EC%96%91">
+									교양
+																			<span class="c_cnt">(31)</span>
+									
+																	</a>
+							</li>
+													<li class="">
+								<a class="link_sub_item" href="https://jjeongil.tistory.com/category/%EC%9D%BC%EC%83%81/%EA%B2%8C%EC%9E%84">
+									게임
+																			<span class="c_cnt">(74)</span>
+									
+																			<img src="./texteditor_files/new_ico_1.gif" alt="N" style="vertical-align:middle;padding-left:2px;">
+																	</a>
+							</li>
+											</ul>
+					
+				</li>
+					</ul>
+			</li>
+</ul>
+			</nav>
+			<div class="social-link">
+				
+				
+				
+				
+			</div>
+			<p>POWERED BY TISTORY</p>
+		</div>
+		<div class="search">
+			
+					<input type="text" name="search" value="" placeholder="검색내용을 입력하세요." onkeypress="if (event.keyCode == 13) { try{window.location.href=&#39;/search/&#39;+looseURIEncode(document.getElementsByName(&#39;search&#39;)[0].value);document.getElementsByName(&#39;search&#39;)[0].value=&#39;&#39;;return false;}catch(e){} }">
+					<button type="submit" onclick="try{window.location.href=&#39;/search/&#39;+looseURIEncode(document.getElementsByName(&#39;search&#39;)[0].value);document.getElementsByName(&#39;search&#39;)[0].value=&#39;&#39;;return false;}catch(e){}">검색</button>
+				
+		</div>
+	</header>
+	<hr>
+	<section class="container" style="height: auto !important;">
+		<article id="content" style="height: auto !important;">
+
+			
+
+			
+
+			
+
+			
+
+			<div class="inner" style="height: auto !important;">
+				
+
+				
+					
+					
+						<div class="hgroup">
+							<div class="category">SW/리눅스</div>
+							<h1>Linux 명령줄 텍스트 편집기 종류 및 추천 </h1>
+							<div class="post-meta">
+								<span class="author">얇은생각</span>
+								<span class="date">2019.01.13 12:30</span>
+								
+							</div>
+						</div>
+						<div class="entry-content" style="height: auto !important;">
+							<div class="tt_article_useless_p_margin" style="height: auto !important;"><div class="tt_adsense_top" style="margin-bottom:30px"><script async="" src="./texteditor_files/f(5).txt"></script>
+<!-- 반응형 -->
+<ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-8542466580305245" data-ad-slot="3485972848" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><ins id="aswift_1_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><div class="iframe-wrap"><iframe width="860" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left: 0px; position: absolute; top: 0px; border: 0px; width: 860px; height: 280px; overflow: visible;" src="./texteditor_files/saved_resource(7).html"></iframe></div></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><p style="line-height: 2; text-align: center; clear: none; float: none;"><span class="imageblock" style="display:inline-block;width:750px;;height:auto;max-width:100%"><img src="./texteditor_files/9991424A5C25E6B30E" style="max-width:100%;height:auto" width="750" height="422" alt="리눅스 편집기" filename="faf332270510cbe6d8359870f39e006df2f67b7da39fa6bb994a8b43f86ca2c82c35c165e084aa611c18ed754995f1ac3c2db553e2a64cff5945b582bba3ed13a249bbcede014cb293592e8ae3b9e806e5be5e6fa2a34acb85b9ed287126881d.png" filemime="image/jpeg" original="yes"></span></p><p style="line-height: 2; text-align: center; clear: none; float: none;"><br></p><p style="line-height: 2; text-align: center; clear: none; float: none;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">명령줄을 통해 파일을 빠르고 효과적으로 편집하는 방법을 아는 것은 모든 리눅스 시스템 관리자에게 매우 중요하다. 파일 편집은 구성 파일, 사용자 파일, 텍스트 문서 또는 편집해야 하는 파일 등 매일 수행된다.</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">그렇기 때문에 좋아하는 명령줄 텍스트 편집기를 선택하여 마스터하는 것이 좋다. 다른 텍스트 편집기와 함께 작업하는 방법을 아는 것은 좋지만, 필요할 때 더 복잡한 작업을 수행할 수 있도록 적어도 하나를 숙달해야 한다.</span></p><div class="google-auto-placed ap_container" style="text-align: center; width: 100%; height: auto; clear: none;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-8542466580305245" data-adsbygoogle-status="done" style="display: block; margin: auto; background-color: transparent;"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><ins id="aswift_3_anchor" style="display:block;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><div class="iframe-wrap"><iframe width="860" height="200" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0px;width:860px;height:200px;" src="./texteditor_files/saved_resource(8).html"></iframe></div></ins></ins></ins></div><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">이번 포스팅에서는 Linux에서 가장 일반적인 명령줄 텍스트 편집기를 보여주고 장단점에 대해 알아보겠다.</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;"><b><span style="color: rgb(0, 0, 0);">Vi/Vim 편집기</span></b></span></p><p style="line-height: 2;"><span style="font-size: 14pt;">첫 번째는 악명 높은 Vi/Vim이다. 이것은 텍스트에서 많은 다양한 작업을 수행할 수 있는 매우 유연한 텍스트 편집기다.</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">예를 들어 정규식을 사용하여 vim을 사용하여 파일의 텍스트 스니펫을 대체할 수 있다. 물론 이것만이 유일한 장점은 아니다. Vi(m)는 행과 단어 사이를 쉽게 탐색할 수 있는 방법을 제공한다. 텍스트 강조 표시도 포함된다.</span></p><div class="google-auto-placed ap_container" style="text-align: center; width: 100%; height: auto; clear: none;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-8542466580305245" data-adsbygoogle-status="done" style="display: block; margin: auto; background-color: transparent;"><ins id="aswift_4_expand" style="display:inline-table;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><ins id="aswift_4_anchor" style="display:block;border:none;height:200px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><div class="iframe-wrap"><iframe width="860" height="200" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_4" name="aswift_4" style="left:0;position:absolute;top:0;border:0px;width:860px;height:200px;" src="./texteditor_files/saved_resource(9).html"></iframe></div></ins></ins></ins></div><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">Vim은 가장 사용자 친화적인 텍스트 편집기는 아닐 수도 있지만 개발자와 Linux 파워 유저들이 종종 선호한다. 시스템에 이 명령줄 텍스트 편집기를 설치하려면 OS와 연결된 명령을 사용하면 된다.&nbsp;</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;"><b>Linux에 Vi/Vim 편집기 설치</b></span></p><div class="colorscripter-code" style="color: rgb(1, 1, 1); overflow: auto; font-family: Consolas, &quot;Liberation Mono&quot;, Menlo, Courier, monospace !important; position: relative !important; text-align: left;"><table class="colorscripter-code-table" style="margin:0; padding:0; border:none; background-color:#fafafa; border-radius:4px;" cellspacing="0" cellpadding="0" align="left"><tbody><tr><td style="padding:6px 0"><div style="margin:0; padding:0; color:#010101; font-family:Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace !important; line-height:200%"><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">sudo&nbsp;apt<span style="color:#a71d5d">-</span>get&nbsp;install&nbsp;vim&nbsp;[Debian&nbsp;및&nbsp;해당&nbsp;파생&nbsp;제품에&nbsp;대해]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">yum&nbsp;install&nbsp;vim&nbsp;[RedHat&nbsp;기반&nbsp;시스템에]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">dnf&nbsp;install&nbsp;vim&nbsp;[새로운&nbsp;Fedora&nbsp;<span style="color:#0099cc">22</span>&nbsp;이상&nbsp;버전에]</div></div></td><td style="vertical-align:bottom; padding:0 2px 4px 0"><a href="http://colorscripter.com/info#e" target="_blank" style="color: white;"><span style="font-size: 9px; word-break: normal; background-color: rgb(229, 229, 229); border-radius: 10px; padding: 1px;">cs</span></a></td></tr></tbody></table></div><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><span style="font-size: 18.6667px; color: rgb(0, 0, 0);"><b><span style="color: rgb(0, 0, 0);">Nano 편집기</span></b></span></p><p style="line-height: 2;"><span style="font-size: 14pt;">나노는 아마도 가장 많이 사용되는 명령줄 텍스트 편집기&nbsp;중 하나일 것이다. 그 이유는 간단하며 대부분의 Linux 배포판에 미리 설치되어 있기 때문이다.&nbsp;</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">나노는 vim의 유연성은 없지만, 큰 파일을 편집해야 한다면 분명히 효과가 있다. 사실 피카소와 나노는 꽤 비슷하다. 두 명령 옵션 모두 하단에 표시되므로 실행할 명령 옵션을 선택할 수 있다. 명령은 Ctrl 키 조합과 아래에 표시되는 문자를 사용하여 완료된다.&nbsp;&nbsp;</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">나노는 바로 사용할 수 있는 다음과 같은 기능을 가지고 있다.</span></p><div class="txc-textbox" style="border-style: solid; border-width: 1px; border-color: rgb(193, 193, 193); background-color: rgb(238, 238, 238); padding: 10px;"><p style="line-height: 2;"><span style="font-size: 18.6667px;">Get Help</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Write out</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Justify</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Read File</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Where is (search)</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Previous page</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Next page</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Cut Text</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Uncut Text</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Cur Pos (Current position)</span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;">Spell check</span></p></div><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><span style="font-size: 14pt;"><b>Linux에 Nano Editor 설치</b></span></p><div class="colorscripter-code" style="color:#010101; font-family:Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace !important; position:relative !important; overflow:auto"><table class="colorscripter-code-table" style="margin:0; padding:0; border:none; background-color:#fafafa; border-radius:4px;" cellspacing="0" cellpadding="0"><tbody><tr><td style="padding:6px 0"><div style="margin:0; padding:0; color:#010101; font-family:Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace !important; line-height:200%"><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">sudo&nbsp;aprat<span style="color:#a71d5d">-</span>get&nbsp;install&nbsp;nano&nbsp;[Debian&nbsp;and&nbsp;해당&nbsp;파생품에&nbsp;대한&nbsp;정보]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">yum&nbsp;install&nbsp;nano&nbsp;[RedHat&nbsp;기반&nbsp;시스템에]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">dnf&nbsp;install&nbsp;nano&nbsp;[새로운&nbsp;Fedora&nbsp;<span style="color:#0099cc">22</span><span style="color:#a71d5d">+</span>&nbsp;버전에]새로운&nbsp;Fedora&nbsp;<span style="color:#0099cc">22</span>&nbsp;이상&nbsp;버전에]</div></div></td><td style="vertical-align:bottom; padding:0 2px 4px 0"><a href="http://colorscripter.com/info#e" target="_blank" style="color: white;"><span style="font-size: 9px; word-break: normal; background-color: rgb(229, 229, 229); border-radius: 10px; padding: 1px;">cs</span></a></td></tr></tbody></table></div><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;"><b><span style="color: rgb(0, 0, 0);">Emacs 편집기</span></b></span></p><p style="line-height: 2;"><span style="font-size: 14pt;">아마도 목록에서 가장 복잡한 텍스트 편집기일 것이다. 리눅스 기반 시스템과 유닉스 기반 시스템 모두에서 사용할 수 있는 가장 오래된 명령줄 편집기이다. Emacs는 다양한 종류의 작업에 통합된 환경을 제공하여 생산성을 높일 수 있다.</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">처음에 사용자 인터페이스는 다소 혼란스러워 보일 수 있다. 좋은 점은, 에맥스에는 파일 탐색, 편집, 사용자 지정, 명령 설정 등에 도움이 되는 매우 상세한 설명서가 있다. Emacs는 고급 *Nix 사용자가 사용하는 최고의 툴이다.</span></p><p style="line-height: 2;"><br></p><p style="line-height: 2;"><span style="font-size: 14pt;">다음은 앞에서 언급한 편집기보다 선호하는 기능이다.</span></p><div class="txc-textbox" style="border-style: solid; border-width: 1px; border-color: rgb(193, 193, 193); background-color: rgb(238, 238, 238); padding: 10px;"><p style="line-height: 2;"><span style="font-size: 14pt;">Emacs 서버 플랫폼을 사용하면 여러 호스트가 동일한 Emacs 서버에 연결하여 버퍼 목록을 공유</span></p><p style="line-height: 2;"><span style="font-size: 14pt;">강력하고 확장 가능한 파일 관리자</span></p><p style="line-height: 2;"><span style="font-size: 14pt;">OS 내의 OS라고 말하는 일반 편집자 이외의 사용자 정의</span></p><p style="line-height: 2;"><span style="font-size: 14pt;">명령 사용자 지정</span></p><p style="line-height: 2;"><span style="font-size: 14pt;">Vi(m)와 같은 모드로 변경</span></p></div><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><span style="font-size: 14pt;">Linux에 Emacs 편집기 설치</span></p><div class="colorscripter-code" style="color:#010101; font-family:Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace !important; position:relative !important; overflow:auto"><table class="colorscripter-code-table" style="margin:0; padding:0; border:none; background-color:#fafafa; border-radius:4px;" cellspacing="0" cellpadding="0"><tbody><tr><td style="padding:6px 0"><div style="margin:0; padding:0; color:#010101; font-family:Consolas, &#39;Liberation Mono&#39;, Menlo, Courier, monospace !important; line-height:200%"><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">sudo&nbsp;applit<span style="color:#a71d5d">-</span>get&nbsp;install&nbsp;emacs&nbsp;[Debian&nbsp;및&nbsp;해당&nbsp;파생&nbsp;제품에&nbsp;대해]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">yum&nbsp;install&nbsp;emacs&nbsp;[RedHat&nbsp;기반&nbsp;시스템에]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">dnf&nbsp;install&nbsp;emacs&nbsp;[새로운&nbsp;Fedora&nbsp;<span style="color:#0099cc">22</span>&nbsp;이상&nbsp;버전에]</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;"><span style="color:#999999">#Linux&nbsp;Mint&nbsp;17에서&nbsp;설치를&nbsp;완료하기&nbsp;위해&nbsp;다음&nbsp;명령을&nbsp;실행해야&nbsp;했다.</span></div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">&nbsp;</div><div style="padding: 0px 6px; white-space: pre; line-height: 200%; text-align: left;">sudo&nbsp;apt<span style="color:#a71d5d">-</span>get&nbsp;install&nbsp;emacs23<span style="color:#a71d5d">-</span>nox</div></div></td><td style="vertical-align:bottom; padding:0 2px 4px 0"><a href="http://colorscripter.com/info#e" target="_blank" style="color: white;"><span style="font-size: 9px; word-break: normal; background-color: rgb(229, 229, 229); border-radius: 10px; padding: 1px;">cs</span></a></td></tr></tbody></table></div><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><span style="font-size: 14pt;"><br></span></p><p style="line-height: 2;"><span style="font-size: 18.6667px;"><b><span style="color: rgb(0, 0, 0);">포스팅을 마치며</span></b></span></p><p style="line-height: 2;"><span style="font-size: 14pt;">다른 명령행 편집기들이 있지만, 위에 제시한 편집기들이 제공하는 기능에 거의 도달하지 못한다. 리눅스 초보자든, 리눅스 전문가든, 적어도 위에 언급된 편집자들 중 한 개는&nbsp;확실히 배울 필요가 있다. 이번 포스팅에서 명령줄 편집기에 대해 잘못된 정보가 있는 경우&nbsp;꼭 알려주세요.</span></p><div class="tt_adsense_bottom" style="margin-top:30px"><script async="" src="./texteditor_files/f(5).txt"></script>
+<ins class="adsbygoogle" style="display: block; height: 430px;" data-ad-format="autorelaxed" data-ad-client="ca-pub-8542466580305245" data-ad-slot="3208231088" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:430px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:430px;margin:0;padding:0;position:relative;visibility:visible;width:860px;background-color:transparent;"><div class="iframe-wrap"><iframe width="860" height="430" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:860px;height:430px;" src="./texteditor_files/saved_resource(10).html"></iframe></div></ins></ins></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><div class="container_postbtn #post_button_group"><div class="postbtn_like"><div class="wrap_btn"><button type="button" class="btn_post like_btn uoc-icon" data-uoc-svc="tistory" data-uoc-uid="2916886_288" data-uoc-sc="401" data-uoc-pcurl="https://jjeongil.tistory.com/288" data-uoc-fetchurl="http://api.kakao.tistory.com/like/fetch?uid=2916886_288">
+                                                <div class="uoc-icon">
+                                                    <span class="ico_postbtn ico_like">좋아요</span>
+                                                    <span class="txt_like uoc-text">공감</span>
+                                                    <span class="txt_like uoc-count" style="display: none;"></span>
+                                                </div>
+                                              </button></div><div class="wrap_btn wrap_btn_share"><button type="button" class="btn_post sns_btn btn_share" data-thumbnail-url="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&amp;fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F9991424A5C25E6B30E" data-title="Linux 명령줄 텍스트 편집기 종류 및 추천" data-description="명령줄을 통해 파일을 빠르고 효과적으로 편집하는 방법을 아는 것은 모든 리눅스 시스템 관리자에게 매우 중요하다. 파일 편집은 구성 파일, 사용자 파일, 텍스트 문서 또는 편집해야 하는 파일 등 매일 수행된.." data-profile-image="https://tistory4.daumcdn.net/tistory/2916886/attach/7a9ac72715a54fc08095f24aa38e3c8d" data-profile-name="얇은생각" data-pc-url="https://jjeongil.tistory.com/288" data-blog-title="쵸코쿠키의 연습장">
+                                            <span class="ico_postbtn ico_share">공유하기</span>
+                                          </button></div><div class="wrap_btn wrap_btn_etc" data-entry-id="288" data-entry-visibility="public" data-category-visibility="public"><button type="button" class="btn_post btn_etc2"><span class="ico_postbtn ico_etc">글 요소</span></button></div></div><button type="button" class="btn_menu_toolbar btn_subscription  #subscribe" data-blog-id="2916886" data-url="https://jjeongil.tistory.com/288" data-device="web_pc">
+                                            <em class="txt_state">구독하기</em>
+                                            <strong class="txt_tool_id">쵸코쿠키의 연습장</strong>
+                                            <span class="img_common_tistory ico_check_type1"></span>
+                                          </button><div class="postbtn_ccl" data-ccl-type="3"><a href="http://creativecommons.org/licenses/by/4.0/deed.ko" target="_blank" class="link_ccl"><span class="bundle_ccl"><span class="ico_postbtn ico_ccl1">저작자표시</span></span></a></div></div>    <!--
+	<rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+		<Work rdf:about="">
+			<license rdf:resource="http://creativecommons.org/licenses/by-fr/2.0/kr/" />
+		</Work>
+		<License rdf:about="http://creativecommons.org/licenses/by-fr/">
+			<permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+			<permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+			<requires rdf:resource="http://web.resource.org/cc/Notice"/>
+			<requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+			<permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
+		</License>
+	</rdf:RDF>
+	--><div class="another_category another_category_color_gray">
+<h4>'<a href="https://jjeongil.tistory.com/category/SW">SW</a>&nbsp;&gt;&nbsp;<a href="https://jjeongil.tistory.com/category/SW/%EB%A6%AC%EB%88%85%EC%8A%A4">리눅스</a>' 카테고리의 다른 글</h4>
+<div class="table-wrap"><table>
+<tbody><tr>
+<th>
+<a href="https://jjeongil.tistory.com/290?category=686032">Linux 사진/이미지 editor 종류 및 추천</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2019.01.14</td>
+</tr>
+<tr>
+<th>
+<a href="https://jjeongil.tistory.com/289?category=686032">리눅스 비디오 플레이어 종류 및 추천</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2019.01.14</td>
+</tr>
+<tr>
+<th>
+<a href="https://jjeongil.tistory.com/288?category=686032" class="current">Linux 명령줄 텍스트 편집기 종류 및 추천</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2019.01.13</td>
+</tr>
+<tr>
+<th>
+<a href="https://jjeongil.tistory.com/287?category=686032">Linux용 무료 클라우드 스토리지 소프트웨어 종류 및 추천</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2019.01.13</td>
+</tr>
+<tr>
+<th>
+<a href="https://jjeongil.tistory.com/286?category=686032">Linux 웹 브라우저 종류 및 추천</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2019.01.12</td>
+</tr>
+<tr>
+<th>
+<a href="https://jjeongil.tistory.com/231?category=686032">리눅스 시스템 "파일 입출력"에 대해 알아볼까요?</a>&nbsp;&nbsp;<span>(0)</span>
+</th>
+<td>
+2018.12.23</td>
+</tr>
+</tbody></table></div></div></div>
+						</div>
+						
+
+						
+							<div class="related-articles">
+								<h2><strong>'SW/리눅스'</strong> Related Articles</h2>
+								<ul>
+									
+										<li>
+											<a href="https://jjeongil.tistory.com/290?category=686032">
+												<span class="thum">
+													
+														<img src="./texteditor_files/saved_resource" alt="">
+													
+												</span>
+												<span class="title">Linux 사진/이미지 editor 종류 및 추천</span>
+											</a>
+										</li>
+									
+										<li>
+											<a href="https://jjeongil.tistory.com/289?category=686032">
+												<span class="thum">
+													
+														<img src="./texteditor_files/saved_resource(1)" alt="">
+													
+												</span>
+												<span class="title">리눅스 비디오 플레이어 종류 및 추천</span>
+											</a>
+										</li>
+									
+										<li>
+											<a href="https://jjeongil.tistory.com/287?category=686032">
+												<span class="thum">
+													
+														<img src="./texteditor_files/saved_resource(2)" alt="">
+													
+												</span>
+												<span class="title">Linux용 무료 클라우드 스토리지 소프트웨어 종류 및 추천</span>
+											</a>
+										</li>
+									
+										<li>
+											<a href="https://jjeongil.tistory.com/286?category=686032">
+												<span class="thum">
+													
+														<img src="./texteditor_files/saved_resource(3)" alt="">
+													
+												</span>
+												<span class="title">Linux 웹 브라우저 종류 및 추천</span>
+											</a>
+										</li>
+									
+								</ul>
+							</div>
+						
+
+						<div id="entry288Comment" style="display:block">
+							<div class="comments">
+								
+
+								<form method="post" action="https://jjeongil.tistory.com/comment/add/288" onsubmit="return false" style="margin: 0">
+									<div class="comment-form">
+										
+											<div class="field">
+												
+													<input type="text" name="name" value="" placeholder="이름">
+													<input type="password" name="password" value="" placeholder="암호">
+												
+												<div class="secret">
+													<input type="checkbox" name="secret" id="secret">
+													<label for="secret" tabindex="0">Secret</label>
+												</div>
+											</div>
+										
+										<textarea name="comment" cols="" rows="4" placeholder="여러분의 소중한 댓글을 입력해주세요."></textarea>
+										<div class="submit">
+											<button type="submit" class="btn" onclick="addComment(this, 288); return false;">댓글달기</button>
+										</div>
+								</div>
+								</form>
+							</div>
+						</div><script type="text/javascript">loadedComments[288]=true;findFragmentAndHighlight(288)</script>
+
+					
+				
+			</div>
+
+			
+
+			
+
+			
+				<div class="pagination">
+					<a href="https://jjeongil.tistory.com/289" class="prev ">이전</a>
+					
+						<a href="https://jjeongil.tistory.com/750"><span>1</span></a>
+					
+						<a><span>···</span></a>
+					
+						<a href="https://jjeongil.tistory.com/292"><span>449</span></a>
+					
+						<a href="https://jjeongil.tistory.com/291"><span>450</span></a>
+					
+						<a href="https://jjeongil.tistory.com/290"><span>451</span></a>
+					
+						<a href="https://jjeongil.tistory.com/289"><span>452</span></a>
+					
+						<a><span class="selected">453</span></a>
+					
+						<a href="https://jjeongil.tistory.com/287"><span>454</span></a>
+					
+						<a href="https://jjeongil.tistory.com/286"><span>455</span></a>
+					
+						<a href="https://jjeongil.tistory.com/285"><span>456</span></a>
+					
+						<a href="https://jjeongil.tistory.com/284"><span>457</span></a>
+					
+						<a><span>···</span></a>
+					
+						<a href="https://jjeongil.tistory.com/109"><span>627</span></a>
+					
+					<a href="https://jjeongil.tistory.com/287" class="next ">다음</a>
+				<span class="current">453/627</span></div>
+			
+
+		</article>
+	</section>
+	<hr>
+	<footer id="footer">
+		<p class="copyright">DESIGN BY <a href="https://jjeongil.tistory.com/288#">TISTORY</a> <a href="https://jjeongil.tistory.com/manage" class="admin">관리자</a></p>
+	</footer>
+</div><iframe id="google_osd_static_frame_5078038241923" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./texteditor_files/saved_resource(11).html"></iframe>
+<script src="./texteditor_files/script.js"></script>
+
+<script type="text/javascript" src="./texteditor_files/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "bcd8d906dc1218";
+wcs_do();
+</script>
+
+<link rel="stylesheet" href="./texteditor_files/github.min.css">
+<script src="./texteditor_files/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script><script src="./texteditor_files/search_dragselection.min.js"></script>
+
+	<script>
+	    lightbox.option({
+			"fadeDuration": 200,
+		    "resizeDuration": 200,
+		    "wrapAround": false,
+			"albumLabel": "%1 / %2",
+			"fitImagesInViewport":true ,
+			"stopEvent": false
+	    })
+	</script><script type="text/javascript">
+var _tiq = 'undefined' !== typeof _tiq ? _tiq : [];
+_tiq.push(['__setConfig', {enableScroll:true, enableClick:true, enableButton:true}]);
+_tiq.push(["__setParam", "svcdomain", "user.tistory.com"]);
+(function(d) {
+	var se = d.createElement('script'); se.type = 'text/javascript'; se.async = true;
+	se.src = location.protocol + '//m2.daumcdn.net/tiara/js/td.min.js';
+	var s = d.getElementsByTagName('head')[0]; s.appendChild(se);
+})(document);
+_tiq.push(['__setParam', 'param_ex', JSON.stringify({"userId":"3762467","blogId":"2916886","role":"guest","filterTarget":false,"entryId":"288"})]);
+_tiq.push(['__trackPageview']);
+_tiq.push(['__content', 't_content', {
+'c_id':'2916886_288', 
+'c_title':'Linux 명령줄 텍스트 편집기 종류 및 추천', 
+'type':'article', 
+'author':'', 
+'author_id':'3762467', 
+'cp':'쵸코쿠키의 연습장', 
+'cp_id':'2916886', 
+'regdata':'2019-01-13 12:30:00', 
+'plink':'https://jjeongil.tistory.com/288', 
+'media':'pcweb', 
+}]);
+var addEvent = function (evt, fn) { window.addEventListener ? window.addEventListener(evt, fn, false) : window.attachEvent('on' + evt, fn); };
+var removeEvent = function(evt, fn) { window.removeEventListener ? window.removeEventListener(evt, fn, false) : window.detachEvent('on' + evt, fn);};
+var ua = navigator.userAgent.toLowerCase(); var isIOS = /iP[ao]d|iPhone/i.test(ua);
+var contentExStat = function() {
+		_tiq.push(['__content', 't_content_ex', {
+			'data_type':'usage'
+, 'meta': {
+'c_id':'2916886_288', 
+'c_title':'Linux 명령줄 텍스트 편집기 종류 및 추천', 
+'type':'article', 
+'author':'', 
+'author_id':'3762467', 
+'cp':'쵸코쿠키의 연습장', 
+'cp_id':'2916886', 
+'regdata':'2019-01-13 12:30:00', 
+'plink':'https://jjeongil.tistory.com/288', 
+'media':'pcweb', 
+}
+}]);
+		removeEvent(isIOS ? 'pagehide' : 'beforeunload', contentExStat);
+};
+addEvent(isIOS ? 'pagehide' : 'beforeunload', contentExStat);
+</script>
+<script type="text/javascript">window.roosevelt_params_queue = window.roosevelt_params_queue || []; window.roosevelt_params_queue.push({channel_id: "dk", channel_label: 'tistory'});</script>
+<script type="text/javascript" src="./texteditor_files/roosevelt_dk_bt.js" async=""></script><script type="text/javascript">if(window.console!=undefined){setTimeout(console.log.bind(console,"%cTISTORY","font:8em Arial;color:#EC6521;font-weight:bold"),0);setTimeout(console.log.bind(console,"%c  나를 표현하는 블로그","font:2em sans-serif;color:#333;"),0);}</script><iframe style="position:absolute;width:1px;height:1px;left:-100px;top:-100px" src="./texteditor_files/api.html" id="editEntry"></iframe><div class="layer_tooltip">
+                <div class="inner_layer_tooltip">
+                    <p class="desc_g"></p>
+                </div>
+            </div><div id="tistoryEtcLayer" class="layer_post"></div><div id="tistorySnsLayer" class="layer_post"><div class="bundle_post"><a href="https://jjeongil.tistory.com/288#none" class="btn_mark" data-service="facebook"><span class="ico_sns ico_fb"></span>페이스북으로 공유</a><a href="https://jjeongil.tistory.com/288#none" class="btn_mark" data-service="kakaotalk"><span class="ico_sns ico_kt"></span>카카오톡으로 공유</a><a href="https://jjeongil.tistory.com/288#none" class="btn_mark" data-service="kakaostory"><span class="ico_sns ico_ks"></span>카카오스토리로 공유</a><a href="https://jjeongil.tistory.com/288#none" class="btn_mark" data-service="twitter"><span class="ico_sns ico_tw"></span>트위터로 공유</a><a href="https://jjeongil.tistory.com/288#none" class="btn_mark" data-service="url"><span class="ico_sns ico_url"></span>URL 복사</a><span class="ico_postbtn ico_arrbt"></span></div></div>
+
+<div id="lightboxOverlay" class="lightboxOverlay" style="display: none;"></div><div id="lightbox" class="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="><div class="lb-nav"><a class="lb-prev" href="https://jjeongil.tistory.com/288"></a><a class="lb-next" href="https://jjeongil.tistory.com/288"></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div><iframe id="zotero-modal-prompt" src="./texteditor_files/modalPrompt.html" style="position: fixed; top: 0px; left: unset; right: 0px; width: 100%; height: 100%; border: none; z-index: 2147483647; display: none;"></iframe></body><iframe id="google_esf" name="google_esf" src="./texteditor_files/zrt_lookup.html" data-ad-client="ca-pub-8542466580305245" style="display: none;"></iframe></html>
