@@ -11,4 +11,3 @@ Rosh	Windows 10
 Brianne	MacOS
 Jin	Windows 10
 Minna	MacOS
-Won	MacOS
