@@ -450,7 +450,7 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 ```
 >prints the number of lines, words, and characters in the stream:
 >```
->          12            33            205
+>          12            33            193
 >```
 >How many lines?
 >```bash
@@ -543,8 +543,12 @@ temp)? In order to do this, we will have to use the rm (remove) command. Please 
 
 >## Do you want to check difference?
 >```bash
->diff mac_student windows_student
+>$ diff mac_student windows_student
 >```
+>```bash
+>$ diff -y  mac_student windows_student
+>```
+{: .keypoints}
 
 >## How can I select name only? (cut)
 >```bash
@@ -617,10 +621,11 @@ Of course you can use `sort` independently.
 {: checklist}
 
 
-### There are still a lot of command that you can use. Such as 'paste', 'comm', 'join', 'split' etc.
+### There are still a lot of command that you can use. Such as `paste`, `comm`, `join`, `split` etc.
 
-### One-liners
-One-liner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
+### Oneliners
+Oneliner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
+[For advanced usage, please check this](https://plantgenomicslab.github.io/BCH709/onliner/index.html) 
 
 ### FASTA format
 The original FASTA/Pearson format is described in the documentation for the FASTA suite of programs. It can be downloaded with any free distribution of FASTA (see fasta20.doc, fastaVN.doc or fastaVN.me—where VN is the Version Number).
@@ -650,8 +655,15 @@ $ ls ATH_cDNA_sequences_20101108.fas
 ### count cDNA
 How many cDNA in this fasta file?
 Please use `grep`  `wc` to find number.
-How many sequences (DNA letter) in this fasta file?
-Please use `grep`  `wc` to find number.
+>## fasta count
+>![fasta_count]({{site.baseurl}}/fig/fasta_count.png)
+{: .solution}
+
+>## count DNA letter
+>How many sequences (DNA letter) in this fasta file?
+>Please use `grep`  `wc` to find number.
+{: .discussion}
+
 
 ### what is GI and GB?
 [NCBI identifiers](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/)
@@ -660,9 +672,12 @@ Please use `grep`  `wc` to find number.
 ### Collect GI
 How can I collect GI from FASTA description line?
 Please use `grep`  `cut` to find number.
-Does GI have any redundancy?
-Please use `grep`  `wc` `diff` to solve.
 
+
+>## Sequence redundancy
+>Does GI have any redundancy?
+>Please use `grep`  `wc` `diff` to solve.
+{: .discussion}
 
 ### GFF file
 The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
@@ -671,27 +686,24 @@ Please download below file
 `
 http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
 `
+What is `.gz` ?
+`
+file MGI.gff3.gz
+`
+
 
 ### Compression
-
-
-
-
-
-
-
-
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
-ZIP compression/extraction
-zip OUTFILE.zip INFILE.txt Compress INFILE.txt
-zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
-zip -r OUTFILE.zip . -i *.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
-unzip SOMEFILE.zip
 
+>## ZIP compression/extraction
+>zip OUTFILE.zip INFILE.txt Compress INFILE.txt
+>zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
+>zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
+>unzip SOMEFILE.zip
+{: checklist}
 
-Decompress a file Task 1.9: Zip AT_genes.gff file located in the tutorials directory. Check the file size before and after zip compression (Hint: use ls –lh to check file sizes).
-zip AT_genes.gff.zip AT_genes.gff
-Is there any size difference before and after compressing? Y/N tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
+>## TAR compression/extraction
+>tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
 tar -cvf OUTFILE.tar INFILE
 archive INFILE
 tar -czvf OUTFILE.tar.gz INFILE
@@ -699,26 +711,67 @@ archive and compress file INFILE
 tar -tvf SOMEFILE.tar
 list contents of archive SOMEFILE.tar
 tar -xvf SOMEFILE.tar
+>
+>
+>extract contents of SOMEFILE.tar
+>tar -xzvf SOMEFILE.tar.gz
+>extract contents of gzipped archive SOMEFILE.tar.gz
+>tar -czvf OUTFILE.tar.gz DIRECTORY
+>archive and compress all files in a directory into one archive file
+>tar -czvf OUTFILE.tar.gz \*.txt
+>archive and compress all ".txt" files in current directory into one archive file
+>tar -czvf backup.tar.gz BACKUP_WORKSHOP
+{: checklist}
 
-extract contents of SOMEFILE.tar
-tar -xzvf SOMEFILE.tar.gz
-extract contents of gzipped archive SOMEFILE.tar.gz
-tar -czvf OUTFILE.tar.gz DIRECTORY
-archive and compress all files in a directory into one archive file
-tar -czvf OUTFILE.tar.gz *.txt
-archive and compress all ".txt" files in current directory into one archive file Task 1.10: Archive and compress the BACKUP_WORKSHOP directory you created in Task 1.3 (you can name it as backup.tar.gz or anything you want)
-tar -czvf backup.tar.gz BACKUP_WORKSHOP gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression and no patented algorithms. The standard compression system for all GNU software.
-gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
-gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file) Task 1.11: gzip the file AT_genes.gff and examine the size. gunzip it back so that you can use this file for the later exercises.
+## Gzip compression/extraction
+>gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
+>gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
+>gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file)
+>
+>gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
+>```bash
+>$ gunzip MGI.gff3.gz
+>$ ls –lh
+>$ gzip MGI.gff3
+>$ ls -lh
+>$ gunzip MGI.gff3.gz
+>```
+{: checklist}
 
 
-gzip AT_genes.gff
-ls -lh
-gunzip AT_genes.gff.gz
-ls –lh
+## GFF3 Annotations
+
+
+Print all sequences annotated in a GFF3 file.
+
+    cut -s -f 1,9 MGI.gff3 | grep $'\t' | cut -f 1 | sort | uniq
+
+
+Determine all feature types annotated in a GFF3 file.
+
+    grep -v '^#' MGI.gff3 | cut -s -f 3 | sort | uniq
+
+
+Determine the number of genes annotated in a GFF3 file.
+
+    grep -c $'\tgene\t' MGI.gff3
+
+
+Extract all gene IDs from a GFF3 file.
+
+    grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+
+
+Print length of each gene in a GFF3 file.
+
+    grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
 
 
 
+<!--
+FASTA header lines to GFF format (assuming the length is in the header as an appended "\_length" as in [Velvet](http://www.ebi.ac.uk/~zerbino/velvet/) assembled transcripts):
+
+    grep '>' file.fasta | awk -F "_" 'BEGIN{i=1; print "##gff-version 3"}{ print $0"\t BLAT\tEXON\t1\t"$10"\t95\t+\t.\tgene_id="$0";transcript_id=Transcript_"i;i++ }' > file.gff
 ###
 
 16 centromere
