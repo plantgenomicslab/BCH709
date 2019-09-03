@@ -761,17 +761,39 @@ Extract all gene IDs from a GFF3 file.
 
     grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
 
+Print all CDS.
+    
+    cat MGI.gff3 | cut -f 3 | grep CDS | 
+
+Print CDS and ID
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head
 
 Print length of each gene in a GFF3 file.
 
     grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
 
+Extract all gene IDs from a GFF3 file.
 
+    grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.
 
 <!--
 FASTA header lines to GFF format (assuming the length is in the header as an appended "\_length" as in [Velvet](http://www.ebi.ac.uk/~zerbino/velvet/) assembled transcripts):
 
     grep '>' file.fasta | awk -F "_" 'BEGIN{i=1; print "##gff-version 3"}{ print $0"\t BLAT\tEXON\t1\t"$10"\t95\t+\t.\tgene_id="$0";transcript_id=Transcript_"i;i++ }' > file.gff
+
+
 ###
 
 16 centromere
@@ -797,20 +819,20 @@ it now prints:
 
 
 
-cat SGD_features.tab | cut -f 2 | head
+cat MGI.gff3 | cut -f 2 | head
 Build your commands one step at a time, always checking that you are on the right track:
-cat SGD_features.tab | head
-cat SGD_features.tab | cut -f 2 | head
-cat SGD_features.tab | cut -f 2 | grep ORF | head
+cat MGI.gff3 | head
+cat MGI.gff3 | cut -f 2 | head
+cat MGI.gff3 | cut -f 2 | grep ORF | head
 12.3.16 How many genes are there?
-cat SGD_features.tab | cut -f 2 | grep ORF | wc -l
+cat MGI.gff3 | cut -f 2 | grep ORF | wc -l
 12.3.17 Can I select multiple columns?
-cat SGD_features.tab | cut -f 2,3,4 | grep ORF | head
+cat MGI.gff3 | cut -f 2,3,4 | grep ORF | head
 What does this do?
-cat SGD_features.tab | cut -f 2,3,4 | grep ORF | grep -v Dubious | wc -l
+cat MGI.gff3 | cut -f 2,3,4 | grep ORF | grep -v Dubious | wc -l
 12.4 How many feature types are in this data?
 We are going to use this data a lot, so place it into a separate file for now.
-cat SGD_features.tab | cut -f 2 > types.txt
+cat MGI.gff3 | cut -f 2 > types.txt
 Sorting places identical consecutive entries next to one another.
 cat types.txt | sort | head
 Find unique words. The uniq command collapses consecutive identical words into one.
@@ -825,7 +847,13 @@ prints:
 
 12.5 The single most useful Unix pattern
 The pattern sort | uniq -c | sort -rn is perhaps the most useful simple unix command
-pattern that you will ever learn.
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.pattern that you will ever learn.
 Time and again we are surprised by just how many applications it has, and how frequently
 problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
 counts.
@@ -833,6 +861,9 @@ The skill of using Unix is not just that of understanding the commands themselve
 more about recognizing when a pattern, such as the one that we show above, is the solution
 to the problem that you wish to solve. The easiest way to learn to apply these patterns is
 by looking at how others solve problems, then adapting it to your needs.
+
+
+-->
 
 
 
