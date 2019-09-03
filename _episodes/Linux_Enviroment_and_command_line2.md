@@ -766,12 +766,12 @@ Print all CDS.
     cat MGI.gff3 | cut -f 3 | grep CDS | 
 
 Print CDS and ID
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head
-
+```    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head  
+```
 Print length of each gene in a GFF3 file.
 
     grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
