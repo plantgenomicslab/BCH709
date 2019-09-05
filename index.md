@@ -32,7 +32,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week    | Tuesday | Thursday|
 | ------- | ---------- |---------- |
 |Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-|Week2|Linux Environment and command line|Linux Environment and Cloud|
+|Week2|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|[Linux Environment and Cloud](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
 |Week3|Github|Compile|
 |Week4|Sequencing methods and strategies|RNA-Seq|
 |Week5|Transcriptome assembly|Sequence similarity searching|
