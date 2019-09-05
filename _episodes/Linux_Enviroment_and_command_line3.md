@@ -319,10 +319,12 @@ There are several options for archiving and compressing groups of files or direc
 ![data_compression](http://stoimen.com/wp-content/uploads/2012/01/Run-lengthEncoding1.png)
 
 >## ZIP compression/extraction
->```zip OUTFILE.zip INFILE.txt Compress INFILE.txt  
->zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
->zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
->unzip SOMEFILE.zip```
+>     zip OUTFILE.zip INFILE.txt 
+>Compress INFILE.txt 
+>     zip -r OUTDIR.zip DIRECTORY 
+>Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
+>     zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
+>     unzip SOMEFILE.zip
 {: checklist}
 
 >## TAR compression/extraction  
