@@ -30,7 +30,6 @@ published: true
 ## Google Cloud Platform
 Here is the URL you will need to access in order to request a Google Cloud Platform coupon. You will be asked to provide your school email address and name. An email will be sent to you to confirm these details before a coupon is sent to you.
 
-https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgoogle.secure.force.com%2FGCPEDU%3Fcid%3D8Z9f%252BfnQc%252FKa7RcmnZBSSKIaY%252B8A1o%252FsxzvuAeHUmuTK5ii5MrxCDJal6lSYsmE6&data=01%7C01%7Cwyim%40unr.edu%7Cf55ca581af974465e8f608d7144f252e%7C523b4bfc0ebd4c03b2b96f6a17fd31d8%7C1&sdata=fr%2BAN11YuzQW1jMgqn8rmGn45qmusRv0hEjBG9Qhawo%3D&reserved=0
 
 •   You will be asked for a name and email address, which needs to match the domain. A confirmation email will be sent to you with a coupon code.
 •   You can request a coupon from the URL and redeem it until: 12/25/2019
@@ -38,6 +37,7 @@ https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgoogle.secure.
 •   You can only request ONE code per unique email address.
 
 Please contact me if you have any questions or issues.
+[Coupon link](https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgoogle.secure.force.com%2FGCPEDU%3Fcid%3D8Z9f%252BfnQc%252FKa7RcmnZBSSKIaY%252B8A1o%252FsxzvuAeHUmuTK5ii5MrxCDJal6lSYsmE6&data=01%7C01%7Cwyim%40unr.edu%7Cf55ca581af974465e8f608d7144f252e%7C523b4bfc0ebd4c03b2b96f6a17fd31d8%7C1&sdata=fr%2BAN11YuzQW1jMgqn8rmGn45qmusRv0hEjBG9Qhawo%3D&reserved=0)
 
 ## Basic commands
 
