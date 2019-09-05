@@ -318,55 +318,55 @@ file MGI.gff3.gz
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
 ![data_compression](http://stoimen.com/wp-content/uploads/2012/01/Run-lengthEncoding1.png)
 
->## ZIP compression/extraction
->     zip OUTFILE.zip INFILE.txt 
->Compress INFILE.txt 
->     zip -r OUTDIR.zip DIRECTORY 
->Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
->     zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
->     unzip SOMEFILE.zip
-{: checklist}
+## ZIP compression/extraction
+     ```zip OUTFILE.zip INFILE.txt```
+Compress INFILE.txt  
+     ```zip -r OUTDIR.zip DIRECTORY```
+Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
+    ```zip -r OUTFILE.zip . -i \*.txt ```
+    Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
+    ```unzip SOMEFILE.zip```
 
->## TAR compression/extraction  
->tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.  
->```tar -cvf OUTFILE.tar INFILE ``` 
->- archive INFILE  
->```tar -czvf OUTFILE.tar.gz INFILE  ```
->![tar]({{site.baseurl}}/fig/tar.png)  
->- archive and compress file INFILE  
-> ```tar -tvf SOMEFILE.tar ``` 
->- list contents of archive SOMEFILE.tar  
->``` tar -xvf SOMEFILE.tar  ```
->![tar2]({{site.baseurl}}/fig/tar2.png)  
->extract contents of SOMEFILE.tar  
->```tar -zxvf SOMEFILE.tar.gz  ```
->![tar3]({{site.baseurl}}/fig/tar3.png)  
->
->extract contents of gzipped archive SOMEFILE.tar.gz  
->```tar -czvf OUTFILE.tar.gz DIRECTORY ``` 
->archive and compress all files in a directory into one archive file  
->```tar -czvf OUTFILE.tar.gz \*.txt ``` 
->archive and compress all ".txt" files in current directory into one archive file  
->```tar -czvf backup.tar.gz BACKUP_WORKSHOP ``` 
-{: checklist}
+
+## TAR compression/extraction  
+tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.  
+```tar -cvf OUTFILE.tar INFILE ```  
+- archive INFILE   
+```tar -czvf OUTFILE.tar.gz INFILE  ```
+![tar]({{site.baseurl}}/fig/tar.png)  
+- archive and compress file INFILE  
+ ```tar -tvf SOMEFILE.tar ``` 
+- list contents of archive SOMEFILE.tar  
+``` tar -xvf SOMEFILE.tar  ```
+![tar2]({{site.baseurl}}/fig/tar2.png)  
+extract contents of SOMEFILE.tar  
+```tar -zxvf SOMEFILE.tar.gz  ```
+![tar3]({{site.baseurl}}/fig/tar3.png)  
+
+extract contents of gzipped archive SOMEFILE.tar.gz  
+```tar -czvf OUTFILE.tar.gz DIRECTORY ``` 
+archive and compress all files in a directory into one archive file  
+```tar -czvf OUTFILE.tar.gz \*.txt ``` 
+archive and compress all ".txt" files in current directory into one archive file  
+```tar -czvf backup.tar.gz BACKUP_WORKSHOP ``` 
+
 
 
 
 ## Gzip compression/extraction
->gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
->gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
->```gunzip SOMEFILE.gz```
->- uncompress SOMEFILE.gz (also removes compressed file)
->
->gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
->```bash
->$ gunzip MGI.gff3.gz
->$ ls –lh
->$ gzip MGI.gff3
->$ ls -lh
->$ gunzip MGI.gff3.gz
->```
-{: checklist}
+gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
+gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
+```gunzip SOMEFILE.gz```
+- uncompress SOMEFILE.gz (also removes compressed file)
+
+gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
+```bash
+$ gunzip MGI.gff3.gz
+$ ls –lh
+$ gzip MGI.gff3
+$ ls -lh
+$ gunzip MGI.gff3.gz
+```
 
 ### Check file with `less` or `cat`
 `less` ** QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ **
@@ -374,18 +374,18 @@ There are several options for archiving and compressing groups of files or direc
 `cat` **Ctrl+C can be used to stop any command in terminal safely.**
 
 
->## GFF3 file format
->- Fields must be tab-separated. Also, all but the final field in each feature line must contain a value; "empty" columns should be denoted with a '.'
->- seqid - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seq ID must be one used within Ensembl, i.e. a standard chromosome name or an 
->- source - name of the program that generated this feature, or the data source (database or project name)
->- type - type of feature. Must be a term or accession from the SOFA sequence ontology
->- start - Start position of the feature, with sequence numbering starting at 1.
->- end - End position of the feature, with sequence numbering starting at 1.
->- score - A floating point value.
->- strand - defined as + (forward) or - (reverse).
->- phase - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
+## GFF3 file format
+- Fields must be tab-separated. Also, all but the final field in each feature line must contain a value; "empty" columns should be denoted with a '.'
+- seqid - name of the chromosome or scaffold; chromosome names can be given with or without the 'chr' prefix. Important note: the seq ID must be one used within Ensembl, i.e. a standard chromosome name or an 
+- source - name of the program that generated this feature, or the data source (database or project name)
+- type - type of feature. Must be a term or accession from the SOFA sequence ontology
+- start - Start position of the feature, with sequence numbering starting at 1.
+- end - End position of the feature, with sequence numbering starting at 1.
+- score - A floating point value.
+- strand - defined as + (forward) or - (reverse).
+- phase - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
 attributes - A semicolon-separated list of tag-value pairs, providing additional information about each feature. Some of these tags are predefined, e.g. ID, Name, Alias, Parent - see the GFF documentation for [more details](http://gmod.org/wiki/GFF3).
-{: checklist}
+
 
 
 ## GFF3 Annotations
