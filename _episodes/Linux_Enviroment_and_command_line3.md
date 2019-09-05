@@ -305,13 +305,14 @@ Please play [this](http://play.inginf.units.it/#/)
 The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
 
 Please download below file
-`
+```
 http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
-`
+```
+
 What is `.gz` ?
-`
+```
 file MGI.gff3.gz
-`
+```
 
 
 ### Compression
@@ -319,39 +320,40 @@ There are several options for archiving and compressing groups of files or direc
 ![data_compression](http://stoimen.com/wp-content/uploads/2012/01/Run-lengthEncoding1.png)
 
 ## ZIP compression/extraction
-     ```zip OUTFILE.zip INFILE.txt```
+```zip OUTFILE.zip INFILE.txt```
 Compress INFILE.txt  
-     ```zip -r OUTDIR.zip DIRECTORY```
+
+```zip -r OUTDIR.zip DIRECTORY```
 Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
-    ```zip -r OUTFILE.zip . -i \*.txt ```
+
+```zip -r OUTFILE.zip . -i \*.txt ```
     Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
-    ```unzip SOMEFILE.zip```
+```unzip SOMEFILE.zip```
 
 
 ## TAR compression/extraction  
 tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.  
+- archive INFILE
 ```tar -cvf OUTFILE.tar INFILE ```  
-- archive INFILE   
+- archive and compress file INFILE
 ```tar -czvf OUTFILE.tar.gz INFILE  ```
 ![tar]({{site.baseurl}}/fig/tar.png)  
-- archive and compress file INFILE  
- ```tar -tvf SOMEFILE.tar ``` 
-- list contents of archive SOMEFILE.tar  
-``` tar -xvf SOMEFILE.tar  ```
+- list contents of archive SOMEFILE.tar
+```tar -tvf SOMEFILE.tar ``` 
+```tar -xvf SOMEFILE.tar  ```
 ![tar2]({{site.baseurl}}/fig/tar2.png)  
-extract contents of SOMEFILE.tar  
+
+- extract contents of SOMEFILE.tar.gz
+```tar -xvf SOMEFILE.tar```
+
+- extract contents of gzipped archive SOMEFILE.tar.gz
 ```tar -zxvf SOMEFILE.tar.gz  ```
 ![tar3]({{site.baseurl}}/fig/tar3.png)  
-
-extract contents of gzipped archive SOMEFILE.tar.gz  
+- archive and compress all files in a directory into one archive file
 ```tar -czvf OUTFILE.tar.gz DIRECTORY ``` 
-archive and compress all files in a directory into one archive file  
+- archive and compress all ".txt" files in current directory into one archive file  
 ```tar -czvf OUTFILE.tar.gz \*.txt ``` 
-archive and compress all ".txt" files in current directory into one archive file  
 ```tar -czvf backup.tar.gz BACKUP_WORKSHOP ``` 
-
-
-
 
 ## Gzip compression/extraction
 gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
@@ -488,10 +490,10 @@ The ssh command is pre-installed. It means Secure Shell.
 ```
     rsync -avhP  path/to/SourceDirectory username@pronghorn.rc.unr.edu:somedirectory/
 ```
-        (Synchronize a local directory with the remote server directory)
+(Synchronize a local directory with the remote server directory)  
 ```
     rsync -avhP  username@pronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
-```   
+```
     (Synchronize a remote directory with the local directory)
 
 
