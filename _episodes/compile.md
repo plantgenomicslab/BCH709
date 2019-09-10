@@ -9,70 +9,336 @@ published: true
 
 ![bioinformatics_DNA]({{{site.baseurl}}/fig/software-compiler.png)
 
-When we talk about learning bioinformatics, it is useful to divide the students up into two groups: the ones who don’t want to make their own software and the ones who do. Both of these groups will do data analysis, run statistical tests, make plots, and use bioinformatics software made by other scientists. But the second group will also make their own bioinformatics software for the community to use. If you need to make some specialized scripts for your own research but you are not releasing anything for other researchers in your field to use, then you are in the first group.
 
-Bioinformaticians who don’t build tools
-For the first group, you are likely going to get the most use out of R. Some people are a little stuck up about R, saying it is not a “real” programming language, but it definitely is, and it has a lot of cool things built into it that also makes it ideal for bioinformatics.
+## macOS
 
-It has a built-in data type called a data frame that has the same column and row setup as an Excel spreadsheet, where your genes, cells, people, time points, etc. will be rows while your variables are columns. This makes a lot of sense as a way to think about most kinds of data, so the Python people have made a package called Pandas to copy some of this functionality into Python, though it doesn’t work as smoothly as data frames do natively in R. The packages available for R to do bioinformatics are great, ranging from RNAseq to phylogenetic trees, and these are super easy to install from CRAN or the BioConductor.
+> ## Install Xcode
+>Inside the Terminal window, copy and paste (or type) the following command, and press the return key on your keyboard:
+>```
+>$ xcode-select --install
+>```
+{: .bash}
 
-If you use the free Rstudio software as your programming environment then it is even easier to manage what you are doing, and I would highly recommend Rstudio. Another major advantage of R is ggplot2, an awesome package for making plots that gives you results really quickly with even minimal coding skills. I made a video course about ggplot on my personal youtube channel, just search for Plotting in R for Biologists, which includes a good getting started guide for R in general.
 
-Bioinformaticians who build tools
-For bioinformaticians who make their own software, I would recommend either R or Python, plus bash.
+> ## Install Homebrew
+>```bash
+>$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> ```
+{: .prereq}
 
+> ## Brew update
+>```bash
+>$ brew update
+>```
+{: .bash}
+
+```bash
+$ brew install openssl readline sqlite3 xz wget
+```
+
+## Ubuntu on Windows
+```bash
+$ sudo apt update
+$ sudo apt-get install -y make build-essential libssl-dev  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl vim debootstrap
+```
+
+
+
+## Let's install test package!
+### On Ubuntu systems:  
+```bash
+$ apt install screenfetch
+```
+
+### On macOS systems:  
+```bash
+$ brew install screenfetch
+```
+
+```bash
+screenfetch
+```
+
+### Programming languages
+
+#### R 
 R is great for all the reasons I just described, but if you like coding more than statistics, you may enjoy Python’s style a lot more. That sounds like a contradiction: How could you possibly know you enjoy coding more than statistics when you are choosing your first programming language? I would suggest trying them both and seeing what you like best. I personally enjoy coding in Python more than in R because its rules make more sense and it feels more like a programming language. In my experience, it is also much easier to make a command-line tool in Python than in R, and Python also has some packages for bioinformatics that are quite useful.
 
-As you can probably tell, I have used both R and Python a lot in my work, where I use R for plotting and statistics, while I use Python for basically everything else, ranging from merging variant call sets to providing back-end algorithms for my web applications.
-
+#### Bash
 It is also very important for bioinformaticians to learn Bash, which for all of our intents and purposes is interchangeable with shell, the command-line, or the terminal. Bash is the primary way to access your data on your institution’s cluster and to run most genomics and bioinformatics software. It is also very powerful for manipulating your data like sorting, filtering, or doing calculations between columns, which is available through various utilities.
 
 In my experience, and everyone I have talked to about it, bash was confusing and scary at first, but when you get the hang out it you start to feel this power surging through you, and you can do things in second that would take you hours to do by hand. Even two years into it I would still learn something new in bash that would blow my mind and I would kick myself for wasting time having programmed it from scratch in Python.
 
-R, Python, and bash
+### R, Python, and bash
 In summary, for wet-lab people who want to add bioinformatics to their toolbox, focus on learning R first and applying it to your own work. For people who want to focus on bioinformatics as a career and make their own tools too, I would actually recommend learning the trifecta of R, Python, and Bash, though you could get away with choosing between R and Python as long as you still learn Bash too. I can go into more depth on any of these topics or give an introduction to any of these languages if you let me know in the comments.
 
-Other programming languages
+###Perl
+Flexible, by a global repository (CPAN), thus it is small install new modules. It has Bio per, one of the first biological unit repositories that upsurge the usability from, for instance, change setups to do the phylogenetic investigation. There are several biological software those usages Perl such as GBrowse thus might be an exciting language if you need toward interact with it. Good test units Perl is still what a lot of persons use, but it is declining out of use since Python accomplishes the similar tasks and is easier toward write code for, particularly for beginners.
+
+
+### Other programming languages
 There are many other languages out there, so before I end here I’m going to give a brief reason why these are not recommended for bioinformatics, beginners, or anyone at all in some cases.
 
-C and C++
+#### C and C++
 C or C++ are great for making super optimized command-line tools like aligners and variant-callers, but you will have a much easier time learning Python first and then going to these high-performance languages for a particular problem in the future, since they are harder to learn, more finicky, and take a lot more code to do the same thing.
 
-Perl
+#### Perl
 Perl is still what a lot of people use, but it is fading out of use because Python accomplishes the same tasks and is easier to write code for, especially for beginners.
 
-Ruby
+#### Ruby
 Ruby is one of those hot languages right now, for good reason largely because of the power of Ruby on Rails for making database-driven web applications like blogs or twitter. Ruby however is not great for bioinformatics because it lacks the community support in terms of packages that R and Python have, so you would be better off learning Python instead of Ruby.
 
-JavaScript or PHP
+#### JavaScript or PHP
 JavaScript and PHP are great languages for web applications, but bioinformatics web applications should never be your first project. You could make a computational method in Python or R and then later make it into a web application, but that is not a project for a beginner. HTML and CSS by the way are not programming languages, but actually markup and styling languages that you will use along with JavaScript and PHP for that web application someday.
 
-Java
+#### Java
 Java is a popular language that most people have heard of. In bioinformatics, a notable example is the genome browser IGV. However, I would not recommend for beginners to learn Java due to many issues including memory management and that Python and R have many more bioinformaticians who build packages and answer questions online.
 
-That’s all I have to say about bioinformatics programming languages for now. If you want to see more videos like this about bioinformatics, then make sure to subscribe on YouTube and sign up for updates below to get new videos, guides, and scripts about bioinformatics delivered to your email inbox every week.
 
-And if you have a question you would like me to answer on the show, you can send it to me by going to omgenomics.com/tv and typing in your question there.
+![language]({{{site.baseurl}}/fig/language.png)
 
-### Software
+
+### Package Library Module
+
+#### Library 
+Most often will refer to the general library or another collection created with a similar format and use. The General Library is the sum of 'standard', popular and widely used Modules, witch can be thought of as single file tools, for now or short cuts making things possible or faster. The general library is an option most people enable when installing Python. Because it has this name "Python General Library" it is used often with similar structure, and ideas. Witch is simply to have a bunch of Modules, maybe even packages grouped together, usually in a list. The list is usually to download them. Generally it is just related files, with similar interests. That is the easiest way to describe it.
+
+#### Module 
+A Module refers to a file. The file has script 'in it' and the name of the file is the name of the module, Python files end with .py. All the file contains is code that ran together makes something happen, by using functions, strings ect. Main modules you probably see most often are popular because they are special modules that can get info from other files/modules. It is confusing because the name of the file and module are equal and just drop the .py. Really it's just code you can use as a shortcut written by somebody to make something easier or possible.
+
+#### Package
+This is a termis used to generally sometimes, although context makes a difference. The most common use from my experience is multiple modules (or files) that are grouped together. Why they are grouped together can be for a few reasons, that is when context matters. These are ways I have noticed the term package(s) used. They are a group of Downloaded, created and/or stored modules. Which can all be true, or only 1, but really it is just a file that references other files, that need to be in the correct structure or format, and that entire sum is the package itself, installed or may have been included in the python general library. A package can contain modules(.py files) because they depend on each other and sometimes may not work correctly, or at all. There is always a common goal of every part (module/file) of a package, and the total sum of all of the parts is the package itself.
+
+### Programming languages module or library manager
+Python - pip
+Perl - cpan
+R - native manager
+
+## File Permission
+
+![language]({{{site.baseurl}}/fig/linux_file_permissions.png)
+
+### Understanding of attribute which can be out put by `ls -l`:
+![language]({{{site.baseurl}}/fig/file_permission.png)
+![language]({{{site.baseurl}}/fig/file_permission2.png)
+
+### Chmod (Change mode)
+chmod is the command and system call which is used to change the access permissions of file system objects (files and directories). It is also used to change special mode flags. The request is filtered by the umask. The name is an abbreviation of change mode.
+
+### Applying Permission:
+![language]({{{site.baseurl}}/fig/file_permission3.png)
+![language]({{{site.baseurl}}/fig/file_permission4.png)
+
+### Using Octal number:
+![language]({{{site.baseurl}}/fig/file_permission5.png)
+
+
+## Software
 
 | Software | Version | Manual | Available for | Description |
 | -------- | ------------ | ------ | ------------- | ----------- |
 | [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | 0.11.7 | [Link](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/)| Linux, MacOS, Windows | Quality control tool for high throughput sequence data. |
-| [Trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) | 0.38 | [Link](http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf) | Linux, MacOS, Windows | A flexible read trimming tool for Illumina NGS data. |
+| [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) | 2.1.0| [Link](https://ccb.jhu.edu/software/hisat2/index.shtml) | Linux, MacOS, Windows | Mapping RNA sequences against genome |
 | [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
-| [SAMtools](http://samtools.sourceforge.net/) | 1.9 | [Link](http://www.htslib.org/doc/samtools.html) | Linux, MacOS | Utilities for manipulating alignments in the SAM format. |
-| [BCFtools](https://samtools.github.io/bcftools/) | 1.8 | [Link](https://samtools.github.io/bcftools/bcftools.html) | Linux, MacOS | Utilities for variant calling and manipulating VCFs and BCFs. |
-| [IGV](http://software.broadinstitute.org/software/igv/home) | [Link](https://software.broadinstitute.org/software/igv/download) | [Link](https://software.broadinstitute.org/software/igv/UserGuide) | Linux, MacOS, Windows | Visualization and interactive exploration of large genomics datasets. |
 
-### QuickStart Software Installation Instructions
+## QuickStart Software Installation Instructions
 ​
-These are the QuickStart installation instructions. They assume familiarity with the command line and with installation in general. As there are different operating systems and many different versions of operating systems and environments, these may not work on your computer. If an installation doesn't work for you, please refer to the user guide for the tool, listed in the table above.
+First, I would recommend to put all the software under `~/bch709/bin` folder.
+Please use `mkdir -p ~/bch709/bin` 
+
+
+### Download example
+Second please make example folder below `~/bch709/`
+Such as `~/bch709/example`  and download below files.
+
+#### Download reads example 
+```
+https://www.dropbox.com/s/p11a5cw5lb5y0un/test.fq
+```
+
+#### Download genome example
+```
+https://www.dropbox.com/s/q2srdymrp76jevm/test_genome.fasta
+```
+
+## Current location
+Please check your current location and move to   `~/bch709/example`
+
+
+## FastQC Source Code Installation
+Please download and unzip
+https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+> ## MacOS
+> 
+>To install unzip: 
+>
+>~~~
+>$ brew install unzip
+>~~~
+>{: .bash}
+> . 
+{: .solution}
+
+> ## On Ubuntu systems
+> 
+>To install unzip: 
+>
+>~~~
+>$ sudo apt install unzip
+>~~~
+>{: .bash}
+> . 
+{: .solution}
+
+### Please check  INSTALL.txt & README.md
+```
+less <FILENAME>
+```
+
+### Run FastQC
+
+**Test your installation by running:**
+
+```
+./fastqc 
+```
+
+### Which error did you get?
+
+
+
+### JAVA Installation
+```bash
+sudo apt install default-jre
+```
+
+```bash
+brew cask install java
+```
+
+
+### Run FastQC
+```
+./fastqc <your input>
+```
+
+### Result
+- HTML file
+
+### Link Your Directory 
+```bash
+$ mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop 
+$ mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop .
+```
+
+```bash
+$ mkdir ~/Desktop/BCH709
+$ ln -s ~/Desktop/BCH709_Desktop .
+```
+
+### Check your results
+unzip your results
+
+
+## HISAT2
+https://ccb.jhu.edu/software/hisat2/index.shtml
+
+
+### Check HISAT2 manual
+```
+less MANUAL
+```
+
+### compile your HISAT2
+use make
+
+### How to run HISAT2?
+- need to build index first `hisat2-build`
+```bash
+./hisat2-build <YOUR_GENOME_SEQUENCE> <YOUR_GENOME_INDEX>
+```
+- map your reads by `hisat2`
+```bash
+./hisat2 -x <YOUR_GENOME_INDEX> -U <SEQUENCING_READS> -S output.sam
+```
+
+
+### BWA
+​​
+> ## BWA Source Code Installation
+>
+> If you prefer to install from source, follow the instructions below:
+>
+> ~~~
+> $ cd ~/src
+> $ curl -OL http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2
+> $ tar xvf bwa-0.7.17.tar.bz2
+> $ cd bwa-0.7.17
+> $ make
+> ~~~
+> {: .bash}
+{: .solution}
 ​
-We have installed software using [miniconda](https://docs.conda.io/en/latest/miniconda.html). Miniconda is a package manager that simplifies the installation process. Please first install miniconda3 (installation instructions below), and then proceed to the installation of individual tools. 
+### Please check README.md
+```
+less <FILENAME>
+```
+#### Tell me your error
+
+
+>## How to solve it?
+>~~~
+>sudo apt install zlib1g-dev
+>~~~
+> {: .bash}
+>~~~
+>brew install zlib
+>~~~
+> {: .bash}
+{: .solution}
+
+**Test your installation by running:**
 ​
+~~~
+$ bwa
+~~~
+{: .bash}
+
+
+### How to run BWA?
+```
+bwa index <YOUR_GENOME_SEQUENCE>
+bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
+```
+
+## Conda?
+- Dependencies is one of the main reasons to use Conda.
+Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.
+ 
+- Conda provide a solution for this situation: when you install package Matplotlib, it will automatically install all the dependencies like Numpy and Scipy. So you don’t have to install them one by one, manually. This can save you great amount of time.
+ 
+- The other advantage of conda, is that conda can have multiple environments for different projects. As mentioned at the very beginning, it can have two separate environments of different versions of software.
+Using conda environment on BioHPC
+
+### Installing Packages Using Conda
+>
+>Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
+>
+>For example, you need python 2.7 and Biopython 1.60 in project A, while you also work on another project B, which needs python 3.5 and Biopython 1.68. You can use conda to create two separate environments for each project, and you can switch between different versions of packages easily to run your project code.
+{: .callout}
+
+### Anaconda or Miniconda?  
+- Anaconda includes both Python and conda, and additionally bundles a suite of other pre-installed packages geared toward scientific computing. Because of the size of this bundle, expect the installation to consume several gigabytes of disk space.
+
+- Miniconda gives you the Python interpreter itself, along with a command-line tool called conda which operates as a cross-platform package manager geared toward Python packages, similar in spirit to the apt or yum tools that Linux users might be familiar with.
+
 ### Miniconda3
-​
+
+Miniconda is a package manager that simplifies the installation process. Please first install miniconda3 (installation instructions below), and then proceed to the installation of individual tools. 
+​​
+### Install Miniconda
+Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and get ready to download the installer of your choice/system.
+
 > ## MacOS
 > 
 >To install miniconda3, type:
@@ -84,240 +350,194 @@ We have installed software using [miniconda](https://docs.conda.io/en/latest/min
 >{: .bash}
 > Then, follow the instructions that you are prompted with on the screen to install Miniconda3. 
 {: .solution}
-​
-​
-### FastQC
-​
-> ## MacOS
->
->To install FastQC, type:
->
-> ~~~
-> $ conda install -c bioconda fastqc=0.11.7=5
-> ~~~
->{: .bash}
-{: .solution}
-​
-> ## FastQC Source Code Installation
->
-> If you prefer to install from source, follow the directions below:
->
-> ~~~
-> $ cd ~/src
-> $ curl -O http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.7.zip
-> $ unzip fastqc_v0.11.7.zip
-> ~~~
-> {: .bash}
->
-> Link the fastqc executable to the ~/bin folder that
-> you have already added to the path.
->
-> ~~~
-> $ ln -sf ~/src/FastQC/fastqc ~/bin/fastqc
-> ~~~
-> {: .bash}
->
-> Due to what seems a packaging error
-> the executable flag on the fastqc program is not set.
-> We need to set it ourselves.
->
-> ~~~
-> $ chmod +x ~/bin/fastqc
-> ~~~
-> {: .bash}
-{: .solution}
-​
-**Test your installation by running:**
-​
-~~~
-$ fastqc -h
-~~~
-{: .bash}
-​
-### Trimmomatic
-​
-> ## MacOS
->
-> ~~~
-> conda install -c bioconda trimmomatic=0.38=0
-> ~~~
->{: .bash}
-{: .solution}
-​
-> ## Trimmomatic Source Code Installation
->
-> If you prefer to install from source, follow the directions below:
->
-> ~~~
-> $ cd ~/src
-> $ curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.38.zip
-> $ unzip Trimmomatic-0.38.zip
-> ~~~
-> {: .bash}
->
-> The program can be invoked via:
->
-> ~~~
-> $ java -jar ~/src/Trimmomatic-0.38/trimmomatic-0.38.jar
-> ~~~
->
-> The ~/src/Trimmomatic-0.38/adapters/ directory contains
-> Illumina specific adapter sequences.
->
-> ~~~
-> $ ls ~/src/Trimmomatic-0.38/adapters/
-> ~~~
-> {: .bash}
-{: .solution}
-​
-**Test your installation by running:** (assuming things are installed in ~/src)
-​
-~~~
-$ java -jar ~/src/Trimmomatic-0.38/trimmomatic-0.38.jar
-~~~
-{: .bash}
-​
-​
-> ## Simplify the Invocation, or to Test your installation if you installed with miniconda3:
->
-> To simplify the invocation you could also create a script in the ~/bin folder:
->
-> ~~~
-> $ echo '#!/bin/bash' > ~/bin/trimmomatic
-> $ echo 'java -jar ~/src/Trimmomatic-0.36/trimmomatic-0.36.jar $@' >> ~/bin/trimmomatic
-> $ chmod +x ~/bin/trimmomatic
-> ~~~
-> {: .bash}
->
-> Test your script by running:
->
-> ~~~
-> $ trimmomatic
-> ~~~
-> {: .bash}
-{: .solution}
-​
-### BWA
-​
-> ## MacOS
+
+> ## Ubuntu
+> 
+>To install miniconda3, type:
 >
 >~~~
->conda install -c bioconda bwa=0.7.17=ha92aebf_3
+>$ curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+>$ bash Miniconda3-latest-Linux-x86_64.sh
 >~~~
 >{: .bash}
+> Then, follow the instructions that you are prompted with on the screen to install Miniconda3. 
 {: .solution}
+
+![conda1]({{site.baseurl}}/fig/conda_excute.png)
+![conda2]({{site.baseurl}}/fig/conda_excute2.png)
+
+
+### Reload your enviroment
+#### Ubuntu
+```bash
+$ source ~/.bashrc
+```
+
+#### Ubuntu
+```bash
+$ source ~/.bash_profile
+```
 ​
-> ## BWA Source Code Installation
->
-> If you prefer to install from source, follow the instructions below:
->
-> ~~~
-> $ cd ~/src
-> $ curl -OL http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2
-> $ tar jxvf bwa-0.7.17.tar.bz2
-> $ cd bwa-0.7.17
-> $ make
-> $ export PATH=~/src/bwa-0.7.17:$PATH
-> ~~~
-> {: .bash}
-{: .solution}
-​
-**Test your installation by running:**
-​
-~~~
-$ bwa
-~~~
-{: .bash}
-​
-### SAMtools
-​
-> ## MacOS
->
->~~~
->$ conda install -c bioconda samtools=1.9=h8ee4bcc_1
->~~~
->{: .bash}
-{: .solution}
-​
-> ## SAMtools Versions
-> SAMtools has changed the command line invocation (for the better). But this means that most of the tutorials
-> on the web indicate an older and obsolete usage.
->
-> Using SAMtools version 1.9 is important to work with the commands we present in these lessons.
-{: .callout}
-​
-> ## SAMtools Source Code Installation
->
-> If you prefer to install from source, follow the instructions below:
->
-> ~~~
-> $ cd ~/src
-> $ curl -OkL https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
-> $ tar jxvf samtools-1.9.tar.bz2
-> $ cd samtools-1.9
-> $ make
-> ~~~
-> {: .bash}
->
-> Add directory to the path if necessary:
->
-> ~~~
-> $ echo export `PATH=~/src/samtools-1.9:$PATH` >> ~/.bashrc
-> $ source ~/.bashrc
-> ~~~
-> {: .bash}
-{: .solution}
-​
-**Test your installation by running:**
-​
-~~~
-$ samtools
-~~~
-{: .bash}
-​
-​
-### BCFtools
-​
-> ## MacOS
->
->~~~
->$ conda install -c bioconda bcftools=1.8=h4da6232_3 
->~~~
->{: .bash}
-{: .solution}
-​
-> ## BCF tools Source Code Installation
->
-> If you prefer to install from source, follow the instructions below:
->
-> ~~~
-> $ cd ~/src
-> $ curl -OkL https://github.com/samtools/bcftools/releases/download/1.8/bcftools-1.8.tar.bz2
-> $ tar jxvf bcftools-1.8.tar.bz2
-> $ cd bcftools-1.8
-> $ make
-> ~~~
-> {: .bash}
->
-> Add directory to the path if necessary:
->
-> ~~~
-> $ echo export `PATH=~/src/bcftools-1.8:$PATH` >> ~/.bashrc
-> $ source ~/.bashrc
-> ~~~
-> {: .bash}
-{: .solution}
-​
-**Test your installation by running:**
-​
-~~~
-$ bcftools
-~~~
-{: .bash}
-​
-​
-### IGV
-​
-- [Download the IGV installation files](https://software.broadinstitute.org/software/igv/download)
-- Install and run IGV using the [instructions for your operating system](https://software.broadinstitute.org/software/igv/download).
-​
+### Initialize Miniconda3
+
+```bash
+$ conda init
+```
+
+
+### Create new conda environment
+
+#### Create a conda environment named test with latest anaconda package.
+```bash 
+$ conda create -n test python=3
+```
+#### Alternatively you can specify python version
+```bash
+$ conda create -n snowdeer_env python=3.5
+```
+
+*Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
+
+ 
+#### Use the environment you just created
+Activate your environment:
+```bash  
+$ source activate test
+```
+It will show your environment name at the beginning of the prompt.
+
+![conda3]({{site.baseurl}}/fig/conda_prompt.png)
+
+
+### Create new conda environment
+
+#### Create a conda environment named test with latest anaconda package.
+```bash 
+$ conda create -n bch709 python=3
+```
+#### Alternatively you can specify python version
+```bash
+$ conda create -n snowdeer_env python=2.7.16
+```
+
+*Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
+ 
+
+
+#### Use the environment you just created
+Activate your environment:
+```bash  
+$ conda activate bch709
+```
+It will show your environment name at the beginning of the prompt.
+
+![conda3]({{site.baseurl}}/fig/conda.png)
+
+### Install packages in the conda environment
+
+Install from default conda channel
+You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
+``` 
+$ conda search <package>
+$ conda install <package>
+```
+### Install from conda-forge channel (example: hisat2)
+Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
+Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://bioconda.github.io/conda-recipe_index.html
+
+```bash
+$ conda search hisat2
+$ conda search -c bioconda hisat2
+```
+
+### Install from bioconda channel (example: stringtie)
+Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
+```bash
+ $ conda config --add channels conda-forge
+ $ conda config --add channels defaults
+ $ conda config --add channels r
+ $ conda config --add channels bioconda
+```
+Adding channels will not generate any command line output.
+Then, you can install Stringtie from the Bioconda channel
+```bash   
+ $ conda install hisat2
+```
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/hisat2/README.html)
+
+
+All the bioconda packages can be found here: https://bioconda.github.io/conda-recipe_index.html
+
+
+### Install R and R packages
+The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
+```bash
+$ conda install -c r r-essentials
+```
+
+#### Update R packages
+```bash 
+$ conda update -c r r-essentials
+$ conda update -c r r-<package name>
+```
+
+### More conda commands:
+#### See all available environments
+You can check the list of all separate environments, and it will show * at your current environment. In the figure below, it shows root, since I’m not in any conda environment.
+```bash   
+$ conda env list
+```
+
+#### List all package installed
+This will show all the packages and versions you’ve installed.
+```bash
+$ conda list
+```
+#### Update packages or conda itself
+This will update to the newest version of one package, or conda itself.
+update package
+```bash
+$ conda update <package>
+```
+update package in env
+```bash
+conda update  --name <ENV_name> <package>
+```
+update conda itself
+```bash
+$ conda update -n test --all
+$ conda update -n bch709 --all
+```
+
+#### Uninstall package from the environment
+```   
+$ conda uninstall <package name>
+```
+
+#### Exit current environment:
+You can exit, when you finish your work in the current environment.
+```bash   
+$ conda deactivate
+```
+
+#### Remove environment
+```bash   
+$ conda env remove --name bch709
+```
+When you finish your project, you might want to remove the environment. However, it is not recommended because you might want to update some work in this project in the future.
+
+#### Enviroment export
+```bash
+conda env export  --name <ENVIRONMENT> --file <outputfilename>.yaml
+```
+#### Envrioment import 
+```bash
+conda env create --file <outputfilename>.yaml  
+``` 
+
+### Reference:
+
+- Conda documentation https://docs.conda.io/en/latest/
+- Conda-forge https://conda-forge.github.io/
+- BioConda https://bioconda.github.io/
+

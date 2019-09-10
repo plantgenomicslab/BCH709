@@ -87,24 +87,26 @@ $ conda init
 
 #### Create a conda environment named test with latest anaconda package.
 ```bash 
-$ conda create -n test python=3
+$ conda create -n bch709 python=3
 ```
 #### Alternatively you can specify python version
 ```bash
-$ conda create -n snowdeer_env python=3.5
+$ conda create -n snowdeer_env python=2.7.16
 ```
 
 *Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
+ ent is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
  
  
+
 #### Use the environment you just created
 Activate your environment:
 ```bash  
-$ source activate test
+$ conda activate bch709
 ```
 It will show your environment name at the beginning of the prompt.
 
-![conda3]({{site.baseurl}}/fig/conda_prompt.png)
+![conda3]({{site.baseurl}}/fig/conda.png)
 
 ### Install packages in the conda environment
 
@@ -114,11 +116,13 @@ You can search if your package is in the default source from Anaconda collection
 $ conda search <package>
 $ conda install <package>
 ```
-### Install from conda-forge channel (example: emacs)
+### Install from conda-forge channel (example: hisat2)
 Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
-Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://conda-forge.github.io/feedstocks
+Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://bioconda.github.io/conda-recipe_index.html
+
 ```bash
-$ conda install -c conda-forge emacs
+$ conda search hisat2
+$ conda search -c bioconda hisat2
 ```
 
 ### Install from bioconda channel (example: stringtie)
@@ -132,9 +136,13 @@ Bioconda is another channel of conda, focusing on bioinformatics software. Inste
 Adding channels will not generate any command line output.
 Then, you can install Stringtie from the Bioconda channel
 ```bash   
- $ conda install stringtie
+ $ conda install hisat2
 ```
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/hisat2/README.html)
+
+
 All the bioconda packages can be found here: https://bioconda.github.io/conda-recipe_index.html
+
 
 #### Channel order
 If you add multiple channels in one environment using (conda config --add channels <new_channel>), The latest or most recent added one have the highest priority. That means, if there is a same package in different channels, the package version from highest priority channel will overwrite other versions, to either higher or lower.
@@ -143,7 +151,6 @@ For example, if you add the channels in different order in the Stringtie example
 
 
 If the packages can be found in different channels, the package from the highest priority channel will be installed even if the version of it isn’t newest. The command <conda config --append channels new_channel> puts the new channel at the bottom of the channel list, making it the lowest priority.
-
 
 ### Install R and R packages
 The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
@@ -181,7 +188,8 @@ conda update  --name <ENV_name> <package>
 ```
 update conda itself
 ```bash
-$ conda update conda
+$ conda update -n test --all
+$ conda update -n bch709 --all
 ```
 
 #### Uninstall package from the environment
@@ -192,12 +200,12 @@ $ conda uninstall <package name>
 #### Exit current environment:
 You can exit, when you finish your work in the current environment.
 ```bash   
-$ source deactivate
+$ conda deactivate
 ```
 
 #### Remove environment
 ```bash   
-$ conda env remove --name test
+$ conda env remove --name bch709
 ```
 When you finish your project, you might want to remove the environment. However, it is not recommended because you might want to update some work in this project in the future.
 
@@ -215,3 +223,4 @@ conda env create --file <outputfilename>.yaml
 - Conda documentation https://docs.conda.io/en/latest/
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
+
