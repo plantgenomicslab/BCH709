@@ -344,7 +344,7 @@ Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and g
 
 There are several different env in this world.
 ***https://repo.anaconda.com/miniconda/***
-
+![package]({{site.baseurl}}/fig/slide_package.png)
 
 > ## MacOS
 > 
