@@ -49,6 +49,15 @@ source ~/.bashrc
 ```
 More information is [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
 
+```
+echo '###BCH709 ' >> ~/.bas_profile
+
+echo 'export PS1="\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;33m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;166m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;4m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bash_profile
+
+echo "alias ls='ls --color=auto'" >> ~/.bash_profile
+
+source ~/.bash_profile
+```
 
 
 ## Software
