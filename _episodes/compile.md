@@ -136,6 +136,52 @@ chmod is the command and system call which is used to change the access permissi
 ![language]({{{site.baseurl}}/fig/file_permission5.png)
 
 
+
+
+## Last class question
+1. I can't paste (Ubuntu)
+![paste]({{{site.baseurl}}/fig/paste.png)
+![paste2]({{{site.baseurl}}/fig/paste2.png)
+
+2. ChIP-Seq
+Maybe we need a special session.
+
+
+## Check your CPUs and Memory
+
+```
+$ lscpu
+$ free
+$ htop
+```
+
+If your have error ***command not found***
+Please check below site.
+https://command-not-found.com/
+
+```Mac
+brew install htop util-linux
+```
+
+```Ubuntu
+sudo apt install htop util-linux
+```
+
+### Prompt Customization
+
+```
+echo '###BCH709 ' >> ~/.bashrc
+
+echo 'export PS1="\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;33m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;166m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;4m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
+
+echo "alias ls='ls --color=auto'" >> ~/.bashrc
+
+source ~/.bashrc
+```
+More information is [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
+
+
+
 ## Software
 
 | Software | Version | Manual | Available for | Description |
@@ -228,23 +274,27 @@ brew cask install java
 ### Result
 - HTML file
 
-### Link Your Directory 
+### Link Your Directory (Short Cut in WINDOWS)
 ```bash
 $ mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop 
-$ mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop .
+$ ln -s /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop ~/bch709/results
 ```
 
 ```bash
-$ mkdir ~/Desktop/BCH709
-$ ln -s ~/Desktop/BCH709_Desktop .
+$ mkdir ~/Desktop/BCH709_Desktop
+$ ln -s ~/Desktop/BCH709_Desktop ~/bch709/results
 ```
 
 ### Check your results
 unzip your results
 
 
+
+
 ## HISAT2
 https://ccb.jhu.edu/software/hisat2/index.shtml
+
+![hisat2]({{{site.baseurl}}/fig/hisat2.png)
 
 
 ### Check HISAT2 manual
@@ -265,6 +315,48 @@ use make
 ./hisat2 -x <YOUR_GENOME_INDEX> -U <SEQUENCING_READS> -S output.sam
 ```
 
+## Different way to install software?
+## Github
+### What is Git and why use it?
+Git is an open source distributed version control system that facilitates GitHub activities on your laptop or desktop. Version control using Git is the most reasonable way to keep track of changes in code, manuscripts, presentations, and data analysis projects.  
+
+### Why Version Control?
+Version control is essential in creating any project that takes longer than 5 minutes to complete. Even if your memory is longer than 5 minutes, next month you are not likely to be able to retrace your steps.  
+![github-workflow]({{{site.baseurl}}/fig/git_overview.png)
+
+![github]({{{site.baseurl}}/fig/github_dri.png)
+
+## HISAT2 installation from Github
+```
+https://github.com/DaehwanKimLab/hisat2
+
+```
+![github-workflow]({{{site.baseurl}}/fig/hisat2_github.png)
+![github-workflow]({{{site.baseurl}}/fig/hisat2_github2.png)
+
+### Download
+```bash
+
+$ cd ~/bch709/bin
+
+$ git clone https://github.com/DaehwanKimLab/hisat2.git
+
+$ cd hisat2
+
+$ ls -algh
+
+$ less MANUAL
+```
+![github-workflow]({{{site.baseurl}}/fig/hisat2_github3.png)
+
+### Compile
+```bash
+$ make -j <YOUR CPU>
+```
+
+## HISAT2 installation from binary
+![github-workflow]({{{site.baseurl}}/fig/hisat2_binary.png)
+
 
 ### BWA
 ​​
@@ -273,7 +365,7 @@ use make
 > If you prefer to install from source, follow the instructions below:
 >
 > ~~~
-> $ cd ~/src
+> $ cd ~/bch709/bin
 > $ curl -OL http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2
 > $ tar xvf bwa-0.7.17.tar.bz2
 > $ cd bwa-0.7.17
@@ -303,9 +395,12 @@ less <FILENAME>
 **Test your installation by running:**
 ​
 ~~~
-$ bwa
+$ ./bwa
 ~~~
 {: .bash}
+
+### BWA Github Installation
+***Seach BWA on Google***
 
 
 ### How to run BWA?
@@ -313,6 +408,7 @@ $ bwa
 bwa index <YOUR_GENOME_SEQUENCE>
 bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
 ```
+
 
 ## Conda?
 - Dependencies is one of the main reasons to use Conda.
@@ -434,7 +530,7 @@ $ conda search hisat2
 $ conda search -c bioconda hisat2
 ```
 
-### Install from bioconda channel (example: stringtie)
+### Install from bioconda channel (example: hisat2)
 Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
 ```bash
  $ conda config --add channels conda-forge
@@ -520,6 +616,48 @@ conda env create --file <outputfilename>.yaml
 ``` 
 
 
+### HPC clusters
+>This exercise mainly deals with using HPC clusters for large scale data (Next Generation Sequencing analysis, Genome annotation, evolutionary studies etc.). These clusters have several processors with large amounts of RAM (compared to typical desktop/laptop), which makes it ideal for running programs that are computationally intensive. The operating system of these clusters are primarily UNIX and are mainly operated via command line. All the commands that you have learned in the previous exercises can be used on HPC.
+>
+>Pronghorn High Performance Computing offers shared cluster computing infrastructure for researchers and students at UNR. Brief descriptions for the available resources can be found here: https://www.unr.edu/research-computing/hpc. To begin with, you need to request permission for accessing these resources either through your department or through your advisor. All workshop attendees will have their account setup on HPC class education cluster and they can use their UNR NetID and the password for logging-in. You should have already received a confirmation email about your account creation with instructions on how to connect to the cluster. In this exercise we will specifically teach you how to connect to a remote server (HPC), transfer files in and out of the server, and running programs by requesting resources.
+>
+>
+You can log onto its front-end/job-submission system (pronghorn.rc.unr.edu) using your UNR NetID and password. Logging into HPC class requires an SSH client if you are >using Windows but Mac/Linux have these built into their OS. There are several available for download for the Windows platform.
+>
+>```
+>ssh <YOURID>@pronghorn.rc.unr.edu
+>```
+{: .prereq}
+
+
+There are a number of ways to transfer data to and from HPC clusters. Which you should use depends on several factors, including the ease of use for you personally, connection speed and bandwidth, and the size and number of files which you intend to transfer. Most common options include scp, rsync (command line) and SCP and SFTP clients (GUI). scp (secure copy) is a simple way of transferring files between two machines that use the SSH (Secure SHell) protocol. You may use scp to connect to any system where you have SSH (login) access. scp is available as a protocol choice in some graphical file transfer programs and also as a command line program on most Linux, UNIX, and Mac OS X systems. scp can copy single files, but will also recursively copy directory contents if given a directory name. scp can be used as follows:
+
+- to a remote system from local
+```
+scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
+```
+- from a remote system to local
+```
+scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
+```
+- recursive directory copy to a remote system from local
+```
+scp -r SourceDirectory/ username@pronghorn.rc.unr.edu:somedirectory/
+```
+
+***rsync*** is a fast and extraordinarily versatile file copying tool. It can synchronize file trees across local disks, directories or across a network
+
+- Synchronize a local directory with the remote server directory
+```
+rsync -avhP path/to/SourceDirectory username@pronghorn.rc.unr.eduu:somedirectory/
+```
+
+- Synchronize a remote directory with the local directory
+```
+rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
+```
+
+
 
 >## HOME WORK
 >1. Create your enviroment name bch709, install following tools
@@ -531,7 +669,7 @@ conda env create --file <outputfilename>.yaml
 >- canu
 >- trim-galore 
 >- multiqc 
->2. Then export your enviroment to bch.yaml
+>2. Then export your enviroment to bch.yaml (conda env export ......)
 >3. copy contents of bch.yaml to [this site](https://docs.google.com/forms/d/e/1FAIpQLSe0faV4UHKEQ8CnqJ-iXOTAmKM2IxN6g7ZNSSmtcw5FuPwmWA/viewform?usp=sf_link).
 {: .solution}
 
