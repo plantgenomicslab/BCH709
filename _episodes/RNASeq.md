@@ -322,14 +322,14 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 - Remove reads less than ~18nt
 - Demultiplexing/Splitting
 
-![Trimming]({{{site.baseurl}}/fig/trim.png)
+![Trimming]({{{site.baseurl}}/fig/trim.png)  
 
-[Cutadapt](https://github.com/marcelm/cutadapt/)
-[fastp](https://github.com/OpenGene/fastp)
-[Skewer](https://github.com/relipmoc/skewer)
-[Prinseq](http://prinseq.sourceforge.net/)
-[Trimmomatics](http://www.usadellab.org/cms/?page=trimmomatic)
-[Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)
+[Cutadapt](https://github.com/marcelm/cutadapt/)  
+[fastp](https://github.com/OpenGene/fastp)  
+[Skewer](https://github.com/relipmoc/skewer)  
+[Prinseq](http://prinseq.sourceforge.net/)  
+[Trimmomatics](http://www.usadellab.org/cms/?page=trimmomatic)  
+[Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)  
 
 ### Install Trim Galore
 ```
