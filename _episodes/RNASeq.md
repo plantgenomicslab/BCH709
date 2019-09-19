@@ -1,13 +1,15 @@
 ---
 layout: page
-title: Compile and Software installation (II)
+title: RNA-Seq
 published: true
 ---
 
 {% include gh_variables.html %}
 
-https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8
-
+>## Paper reading
+>Please read this paper
+>https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8
+>{: .prereq}
 
 ## RNA Sequencing
 ![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
