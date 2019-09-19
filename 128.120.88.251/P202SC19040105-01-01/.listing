@@ -1,0 +1,11 @@
+drwxr-xr-x   5 8349     8217         4096 Sep  6 02:50 .
+drwxr-xr-x   3 8349     507            42 Sep 18 02:37 ..
+drwxr-xr-x   2 8349     8217         4096 Sep  6 02:50 bam
+-rw-r--r--   1 8349     8217         1644 Sep  6 02:50 checkSize.xls
+-rw-r--r--   1 8349     8217       697489 Sep  6 02:50 IGVQuickStart.pdf
+-rw-r--r--   1 8349     8217         2442 Sep  6 02:50 MD5.txt
+-rw-r--r--   1 8349     8217     16717551 Sep  6 02:47 P202SC19040105-01-01_Ixodes_scapularis_VectorBase_report.tar.gz
+-rw-r--r--   1 8349     8217     725299856 Sep  6 02:47 P202SC19040105-01-01_Ixodes_scapularis_VectorBase_result.tar.gz
+drwxr-xr-x   2 8349     8217         4096 Sep  6 02:49 rawdata
+-rw-r--r--   1 8349     8217         2338 Sep  6 02:50 README.txt
+drwxr-xr-x   2 8349     8217          191 Sep  6 02:50 ref
