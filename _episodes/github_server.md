@@ -537,19 +537,6 @@ rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 
 
 
->## HOME WORK
->1. Create your enviroment name bch709, install following tools
->- bwa
->- trinity
->- hisat2
->- samtools
->- bowtie2
->- canu
->- trim-galore 
->- multiqc 
->2. Then export your enviroment to bch.yaml (conda env export ......)
->3. copy contents of bch.yaml to [this site](https://docs.google.com/forms/d/e/1FAIpQLSe0faV4UHKEQ8CnqJ-iXOTAmKM2IxN6g7ZNSSmtcw5FuPwmWA/viewform?usp=sf_link).
-{: .solution}
 
 ### Reference:
 
