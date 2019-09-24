@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Compile and Software installation
+title: Complie and Github
 published: true
 ---
 
