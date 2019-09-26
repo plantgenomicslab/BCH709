@@ -236,6 +236,41 @@ conda install -c bioconda rsem
 {: .challenge}
 
 
+
+### Quick reminder
+
+```
+conda activate rnaseq
+
+conda install python=3 jellyfish bowtie2 salmon cmake htop conda-build
+conda install -c conda-forge  cxx-compiler
+```
+
+``` 
+cd ~/rnaseq/
+ 
+fastqc paired1.fastq.gz paired2.fastq.gz
+ 
+trim_galore --clip_R1 10 --clip_R2 10 --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim/ paired1.fastq.gz paired2.fastq.gz
+ 
+fastqc trim/paired1_val_1.fq.gz  trim/paired2_val_2.fq.gz
+ 
+hisat2-build bch709.fasta bch709
+ 
+hisat2 -x bch709 --threads 8 -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam
+ 
+samtools view -Sb align.sam > align.bam
+ 
+samtools sort align.bam  -o align_sort.bam
+ 
+samtools index align_sort.bam
+
+samtools tview  align_sort.bam
+ 
+```
+
+
+
 ## Transcriptome Assembly
 ***De novo*** assembly
 ![denovo]({{{site.baseurl}}/fig/denovo.png)
@@ -503,9 +538,55 @@ $ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cor
 .
 .
 
-$ multiqc .
+$ multiqc . -n rnaseq_data
 ```
+
+
 ***PLEASE CHECK YOUR MULTIQC***
+
+### Trinity run
+```
+htop
+
+cd ~/rnaseq/transcriptome assembly
+
+Trinity --seqType fq --max_memory 6G --samples_file samples.txt
+
+```
+
+
+### MacOS Trinity Installation (Please open another iTerms2)
+```
+conda activate rnaseq
+
+conda uninstall trinity
+
+brew install gcc@5 libomp
+
+conda install python=3 jellyfish bowtie2 salmon cmake htop conda-build
+
+cd ~/rnaseq/transcriptome_assembly/
+
+git clone https://github.com/trinityrnaseq/trinityrnaseq
+
+cd trinityrnaseq 
+
+make -j 4
+
+ID=$(whoami)
+
+echo "export PATH=$PATH:~/rnaseq/transcriptome_assembly/trinityrnaseq:~/rnaseq/transcriptome_assembly/trinityrnaseq/trinity-plugins/ParaFly-0.1.0/bin/:" >> ~/.bash_profile
+
+source ~/.bash_profile
+
+conda activate rnaseq
+
+```
+
+
+
+
+
 
 ### HPC clusters
 >This exercise mainly deals with using HPC clusters for large scale data (Next Generation Sequencing analysis, Genome annotation, evolutionary studies etc.). These clusters have several processors with large amounts of RAM (compared to typical desktop/laptop), which makes it ideal for running programs that are computationally intensive. The operating system of these clusters are primarily UNIX and are mainly operated via command line. All the commands that you have learned in the previous exercises can be used on HPC.
@@ -546,19 +627,26 @@ rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 ```
 
 
+### Conda env export
+```
+conda env export --no-build > enviroment.yml
+```
+
+### Conda env import
+```
+conda env create -f enviroment.yml 
+
+```
 
 
-### Reference:
-
-- Conda documentation https://docs.conda.io/en/latest/
-- Conda-forge https://conda-forge.github.io/
-- BioConda https://bioconda.github.io/
+Paper need to read
+https://academic.oup.com/gigascience/article/8/5/giz039/5488105
+https://www.nature.com/articles/nbt.1883
+https://www.nature.com/articles/nprot.2013.084
 
 
 >## HOME WORK due next Tuesday
->1. Import your enviroment at Pronghorn
-> - use `conda env import`
->2. de Bruijn graph construction (10 pts)
+>1. de Bruijn graph construction (10 pts)
 > - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)
 >ATG  
 >AGT  
@@ -570,5 +658,16 @@ rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 >TTA  
 >TAC  
 >
->3. Please run Trinity on your computer with provided reads
+>2. Please run Trinity on your computer with provided reads
+>
 {: .solution}
+
+
+
+
+
+### Reference:
+
+- Conda documentation https://docs.conda.io/en/latest/
+- Conda-forge https://conda-forge.github.io/
+- BioConda https://bioconda.github.io/
