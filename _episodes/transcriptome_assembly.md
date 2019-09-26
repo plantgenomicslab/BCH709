@@ -242,8 +242,7 @@ conda install -c bioconda rsem
 ```
 conda activate rnaseq
 
-conda install python=3 jellyfish bowtie2 salmon cmake htop conda-build
-conda install -c conda-forge  cxx-compiler
+conda install python=3 jellyfish bowtie2 salmon cmake htop 
 ```
 
 ``` 
