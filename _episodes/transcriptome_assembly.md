@@ -1,6 +1,6 @@
 ---
 layout: page
-title: RNA-Seq
+title: Transcriptome Assembly
 published: true
 ---
 
@@ -120,7 +120,7 @@ $ head align.sam
 
 ### Demical to binary
 ```
-$ echo 'obase=163;10' | bc
+$ echo 'obase=2;163' | bc
 ```
 If you don't have bc, please install through conda
 ```
@@ -243,7 +243,6 @@ conda install -c bioconda rsem
 ### Assembly?
 ![assembly]({{{site.baseurl}}/fig/assembly.png)  
 ![assembly1]({{{site.baseurl}}/fig/assembly1.png)  
-![assembly2]({{{site.baseurl}}/fig/assembly2.png)  
 
 ### Sequencing coverage
 ![coverage]({{{site.baseurl}}/fig/coverage.png)  
@@ -266,12 +265,12 @@ conda install -c bioconda rsem
 ![greedy9]({{{site.baseurl}}/fig/greedy9.png)  
 
 ### K-mer: substring of length k
-![hamiltonian_Eulerian]({{{site.baseurl}}/fig/hamiltonian_Eulerian.png)
-
+k-mers are subsequences of length ***k*** contained within a biological sequence.
+![kmer]({{{site.baseurl}}/fig/kmer.png)
 ### De bruijn
-![debruijn]({{{site.baseurl}}/fig/assemblyalgorithm.png)  
+![hamiltonian_Eulerian]({{{site.baseurl}}/fig/hamiltonian_Eulerian.png)
 ![DBG]({{{site.baseurl}}/fig/DBG.png)  
-![dbg1]({{{site.baseurl}}/fig/dbg1.png)  
+![dbg1]({{{site.baseurl}}/fig/dbg2.png)  
 
 
 ### OLC vs De bruijn

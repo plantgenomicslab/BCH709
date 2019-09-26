@@ -35,7 +35,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week2|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|[Linux Environment and Cloud](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
 |Week3|[Compile & Software Installations](https://plantgenomicslab.github.io/BCH709/compile/index.html)|[GitHub and server](https://plantgenomicslab.github.io/BCH709/github_server/index.html)|
 |Week4|[Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|[RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
-|Week5|Transcriptome assembly|Sequence similarity searching|
+|Week5|[Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|Sequence similarity searching|
 |Week6|Functional annotation|Database|
 |Week7|Introduction of R &  R plotting ([Tong Zhou PhD](http://tongzhoulab.org/))|DEG analysis
 |Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
