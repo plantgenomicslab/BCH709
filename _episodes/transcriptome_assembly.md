@@ -152,7 +152,7 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
 ```
 $ samtools view -Sb align.sam > align.bam
-$ samtools sort align.bam  align_sort
+$ samtools sort align.bam  -o align_sort.bam
 $ samtools index align_sort.bam
 ```
 
@@ -475,8 +475,6 @@ $ cd ~/rnaseq/transcriptome_assembly/fastq
 
 $ wget https://www.dropbox.com/s/o8r3279n5grn8el/fastq.tar
 
-$ wget https://www.dropbox.com/s/q1c7t4xf5kkk5um/samples.txt
-
 ```
 
 #### Decompress file
@@ -485,13 +483,21 @@ $ tar xvf fastq.tar
 
 $ ls
 ```
-|*Sample name*|*stress*|*replicate*|*pair*|
+
+#### Sample file
+```
+$ cd ../
+
+$ wget https://www.dropbox.com/s/q1c7t4xf5kkk5um/samples.txt
+```
+
+|Sample name|stress|replicate|pair|
 |----|----|--|--|
 |KRWT|D|1|\_1|
 
 ### Run trimming
 ```
-$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim KRWTD1_1.fastq.gz KRWTD1_2.fastq.gz 
+$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trimmed_fastq fastq/KRWTD1_1.fastq.gz fastq/KRWTD1_2.fastq.gz 
 .
 .
 .
@@ -555,15 +561,15 @@ rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 > - use `conda env import`
 >2. de Bruijn graph construction (10 pts)
 > - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)
->ATG
->AGT
->CAT
->GTA
->GTT
->TGT
->TAG
->TTA
->TAC
+>ATG  
+>AGT  
+>CAT  
+>GTA  
+>GTT  
+>TGT  
+>TAG  
+>TTA  
+>TAC  
 >
 >3. Please run Trinity on your computer with provided reads
 {: .solution}
