@@ -646,7 +646,7 @@ https://www.nature.com/articles/nprot.2013.084
 
 >## HOME WORK due next Tuesday
 >1. de Bruijn graph construction (10 pts)
-> - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)
+> - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)  
 >ATG  
 >AGT  
 >CAT  
@@ -657,7 +657,8 @@ https://www.nature.com/articles/nprot.2013.084
 >TTA  
 >TAC  
 >
->2. Please run Trinity on your computer with provided reads
+>***NOT FOR THIS WEEKEND***
+>***2. Please run Trinity on your computer with provided reads***
 >
 {: .solution}
 
