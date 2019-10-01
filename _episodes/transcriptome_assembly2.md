@@ -21,7 +21,6 @@ published: true
 {: .solution}
 
 >## HOME WORK ANSWER  
->https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin
 {: .solution}
 
 
