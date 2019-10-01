@@ -18,9 +18,12 @@ published: true
 >TAG  
 >TGT
 >TTA  
+{: .solution}
 
-## HOME WORK ANSWER  
-https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin
+>## HOME WORK ANSWER  
+>https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin
+{: .solution}
+
 
 ## HPC and Cloud
 This exercise mainly deals with using HPC clusters for large scale data (Next Generation Sequencing analysis, Genome annotation, evolutionary studies etc.). These clusters have several processors with large amounts of RAM (compared to typical desktop/laptop), which makes it ideal for running programs that are computationally intensive. The operating system of these clusters are primarily UNIX and are mainly operated via command line. All the commands that you have learned in the previous exercises can be used on HPC.
@@ -37,7 +40,43 @@ The ssh command is pre-installed. It means Secure Shell.
 
 ![pronghorn]({{site.baseurl}}/fig/pronghorn.png)
 
+### Bash on Pronghorn
+When you work with the command line and the bash shell frequently, you will want to customize the environment. This can mean changing environment variables, such as where the shell looks for commands or how the prompt looks, or adding customized commands.
 
+```
+nano ~/.bashrc
+```
+
+
+```
+###setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=3000
+
+###Alias
+alias vi='vim'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias ls='ls --color=auto'
+alias ll='ls -alhg'
+alias la='ls -A'
+alias l='ls -CF'
+
+##Shell color
+export PS1="\[\033[38;5;5m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] @ \[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;1m\]\H\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;178m\]\T\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \n\[$(tput sgr0)\]"
+
+##Module
+module load slurm
+module load hdf5_18 gcc/5.4.0 blas/gcc/64/3.8.0
+module load singularity
+```
+
+```
+source ~/.bashrc
+```
+
+
+## File transfer
 - There are a number of ways to transfer data to and from HPC clusters. Which you should use depends on several factors, including the ease of use for you personally, connection speed and bandwidth, and the size and number of files which you intend to transfer. Most common options include scp, rsync (command line) and SCP and SFTP clients (GUI). scp (secure copy) is a simple way of transferring files between two machines that use the SSH (Secure SHell) protocol. You may use scp to connect to any system where you have SSH (login) access. scp is available as a protocol choice in some graphical file transfer programs and also as a command line program on most Linux, UNIX, and Mac OS X systems. scp can copy single files, but will also recursively copy directory contents if given a directory name. scp can be used as follows:
 ```
     scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
