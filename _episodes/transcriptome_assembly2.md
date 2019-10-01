@@ -16,7 +16,7 @@ published: true
 >GTT  
 >TAC    
 >TAG  
->TGT
+>TGT  
 >TTA  
 {: .solution}
 
