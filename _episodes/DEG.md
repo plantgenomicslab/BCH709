@@ -1,7 +1,7 @@
 
 ---
 layout: page
-title: Transcriptome Assembly(II)
+title: DEG
 published: true
 ---
 
