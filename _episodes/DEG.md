@@ -209,6 +209,18 @@ nano <JOBNAME>.sh
 Trinity --seqType fq  --CPU 64 --max_memory 100G --left /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq/fastq/pair1.fastq.gz --right /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq/fastq/pair2.fastq.gz --no_normalize_reads 
 ```
 
+### Submit job
+```bash
+sbatch <JOBNAME>.sh 
+```
+
+### 
+```
+<JOBNAME>.out
+<JOBNAME>.err
+```
+
+### Check the Job
 ```bash
 tail -f <JOBNAME>.out
 less <JOBNAME>.out
@@ -492,7 +504,9 @@ sbatch <JOBNAME>.sh
 
 ### Job running check
 ```bash
-<YOUR_JOB>.out  
+
+cat <YOUR_JOB>.err  
+cat <YOUR_JOB>.out  
 ```
 
 ### RSEM results check
