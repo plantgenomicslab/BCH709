@@ -20,7 +20,7 @@ published: true
 >TTA  
 
 ## HOME WORK ANSWER  
-https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin
+[Answer](https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin)
 
 ## HPC and Cloud
 This exercise mainly deals with using HPC clusters for large scale data (Next Generation Sequencing analysis, Genome annotation, evolutionary studies etc.). These clusters have several processors with large amounts of RAM (compared to typical desktop/laptop), which makes it ideal for running programs that are computationally intensive. The operating system of these clusters are primarily UNIX and are mainly operated via command line. All the commands that you have learned in the previous exercises can be used on HPC.
@@ -161,9 +161,19 @@ $ chmod 775 submit.sh
 $ sbatch submit.sh
 sbatch: Submitted batch job 99999999
 ```
+#### SCANCEL
+scancel is used to cancel (i.e. kill) a job.  Here are some options to use:
 
+scancel jobid                     :  kill the job with that jobid
+-u username      :  kill all jobs for the user
+--state=running :  kill jobs that are in state "running"
+--state=pending:  Kill jobs in state "pending"
 
+### Youtube Video for Slurm
 https://www.youtube.com/watch?v=U42qlYkzP9k&list=TLrtXVJajzvonT-8qcp5ZgtKCeyN3Pe4xv
+
+### Job script generator
+https://s3-us-west-2.amazonaws.com/imss-hpc/index.html
 
 ## Set up Conda
 ```
@@ -467,6 +477,10 @@ multiqc . -n rnaseq_data
 ```
 
 ### Please send me the results
+``` 
+ egrep -c ">" ~/rnaseq/transcriptome_assembly/trinity_out_dir/Trinity.fasta >> <YOUR_NAME>.trinity.stat
+ TrinityStats.pl trinity_out_dir/Trinity.fasta >> <YOUR_NAME>.trinity.stat
+```
 
 ```
 mv rnaseq_data.html <your_name>_rnaseq_data.html
