@@ -7,12 +7,26 @@ published: true
 
 {% include gh_variables.html %}
 
+
+## Windows10 Local Shell
+```
+echo "export TERM=xterm-color" >> ~/.bashrc
+
+source ~/.bashrc
+```
+
+## MacOS Local Shell
+```
+
+echo "export TERM=xterm-color" >> ~/.bash_profile
+
+source ~/.bash_profile
+```
+
+
 ## Pronghorn Storage
 
 https://nevada.formstack.com/forms/request_research_group_access?Research_Group=BCH709
-
-
-
 
 
 
@@ -55,7 +69,7 @@ conda env create -n rnaseq -f bch709.yml
 ```
 
 
-## Shell
+## Prongrhon Shell
 ```
 sed -i 's/export PS1/tty -s \&\& export PS1/g' ~/.bashrc
 
