@@ -139,9 +139,10 @@ conda activate rnaseq
 
 ## Go to your storage  
 
-https://nevada.formstack.com/forms/request_research_group_access?Research_Group=BCH709  
  
 ```bash
+ls /data/gpfs/assoc/bch709/  
+
 cd /data/gpfs/assoc/bch709/  
 
 mkdir -p <YOUR_NAME>/rnaseq  
