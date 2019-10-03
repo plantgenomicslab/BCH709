@@ -217,10 +217,10 @@ Trinity --seqType fq  --CPU 64 --max_memory 100G --left /data/gpfs/assoc/bch709/
 sbatch <JOBNAME>.sh 
 ```
 
-### 
+### Check log
 ```
-<JOBNAME>.out
-<JOBNAME>.err
+cat <JOBNAME>.out
+cat <JOBNAME>.err
 ```
 
 ### Check the Job
