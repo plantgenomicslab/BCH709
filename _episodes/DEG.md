@@ -178,6 +178,9 @@ cd Trinity
 
 ## Check your directory tree
 ```bash  
+
+conda install -c eumetsat tree
+
 tree  
 
 ```
@@ -299,7 +302,7 @@ cd transrate_results/
 cat assemblies.csv
 ```
 
-### Go to your local computer, please download assemblies.csv
+### Open your local , please download assemblies.csv
 
 ### Open this Excel
 CSV = Comma-separated values
@@ -500,6 +503,11 @@ align_and_estimate_abundance.pl --transcripts Trinity.fasta --seqType fq --left 
 chmod 775
 
 sbatch <JOBNAME>.sh  
+```
+
+### Job check
+```
+squeue
 ```
 
 ### Job running check
