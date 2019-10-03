@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ---
 layout: page
 title: Transcriptome Assembly(II)
@@ -6,6 +6,15 @@ published: true
 ---
 
 {% include gh_variables.html %}
+
+## Pronghorn Storage
+
+https://nevada.formstack.com/forms/request_research_group_access?Research_Group=BCH709
+
+
+
+
+
 
 >## HOME WORK
 >1. de Bruijn graph construction (10 pts)
@@ -19,6 +28,8 @@ published: true
 >TAG  
 >TGT
 >TTA  
+{: .prereq}
+
 
 ## HOME WORK ANSWER  
 [Answer](https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin)
