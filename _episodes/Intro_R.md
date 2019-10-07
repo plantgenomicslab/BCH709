@@ -11,6 +11,10 @@ published: true
 R (www.r-project.org) is a commonly used free Statistics software. R allows you to carry out statistical analyses in an interactive mode, as well as allowing simple programming.
 
 
+## Prepare your laptop
+***Please find your BCH709_Desktop folder in the terminal.***
+
+
 ## Connect to Pronghorn
 ```
 ssh <yourID>@pronghorn.rc.unr.edu
@@ -48,6 +52,11 @@ cp /data/gpfs/assoc/bch709/Course_material/R/excercise.R
 
 ```
 
+## Start R
+```bash
+R
+```
+
 ## PhD Tong Zhou
 Tong Zhou, PhD  
 L-207B, Center for Molecular Medicine, MS575  
@@ -58,7 +67,7 @@ University of Nevada, Reno School of Medicine
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
 
 
-## R Plot with Gene Expression  
+## R Plot with Gene Expression Data Read
 
 ```R
 #1 load the expression data sheet - 78 samples and 72 genes  
@@ -68,6 +77,7 @@ expr = read.delim("dataset1.txt", row.names="gene")
 cl = c(rep("Normal", 30), rep("Tumor", 48))  
 ```
 
+## Box plot of gene expression 
 
 ```R
 #3 boxplot showing the difference in expression of gene TP63 between normal and tumor tissues  
@@ -81,6 +91,20 @@ boxplot(t(expr["SLC2A1",])~cl, xlab="", ylab="Expression", main="SLC2A1", col=c(
 dev.off()  
 ```
 
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  <your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <your_BCH709_Desktop>
+
+```
+
+## Co-expression pattern 1
 
 ```R
 #5 scatter plot showing the co-expression pattern between gene TP63 and gene SLC2A1
@@ -92,6 +116,20 @@ dev.off()
 cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))  
 
 ```
+
+
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <your_BCH709_Desktop>
+
+```
+
+## Co-expression pattern 2
   
 ```R
 
@@ -103,7 +141,22 @@ dev.off()
 #8 correlation in expression between between gene TP63 and gene TSHZ2
 cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 ```
-  
+
+
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf <your_BCH709_Desktop>
+
+```
+
+
+## Heatmap of the gene expression
+
 ```R
 
 #9 gene expression heatmap
@@ -128,6 +181,28 @@ heatmap(as.matrix(expr), col=c("darkblue", "blue", "lightblue", "white", "lightg
 dev.off()
 ```
 
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap1.pdf <your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap2.pdf <your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap3.pdf <your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap4.pdf <your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap5.pdf <your_BCH709_Desktop>
+
+```
+
+
+## PCA of the gene expression
+
 ```R
 #10 principal component analysis on the gene expression matrix
 library(ade4) # if not installed yet, type install.packages(“ade4”)
@@ -140,6 +215,18 @@ dev.off()
 
 ```
 
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/PCA_plot.pdf<your_BCH709_Desktop>
+
+```
+
+## Histogram of the gene expression
 ```R
 #11 histogram of the TP63 gene expression
 pdf("histogram1.pdf")
@@ -153,12 +240,42 @@ hist(t(expr["TP63",]), xlab="Expression", main="", breaks= -2:12*0.5, col="grey"
 dev.off()
 ```
 
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/histogram1.pdf<your_BCH709_Desktop>
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/histogram2.pdf<your_BCH709_Desktop>
+
+
+```
+
+
+## Distribution of the gene expression
+
 ```R
 #12 distribution of the TP63 gene expression
 pdf("TP63_expression.pdf")
 plot(density(t(expr["TP63",])), xlab="Expression", main="")
 dev.off()
 ```
+
+
+### Download results to ***your laptop***
+***Try this on your laptop***
+
+```bash
+###Please replace <YOURID> to your id.
+###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+
+scp pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_expression.pdf<your_BCH709_Desktop>
+
+```
+
 
 
 >## Reading materials
