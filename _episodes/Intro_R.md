@@ -35,7 +35,8 @@ cd /data/gpfs/assoc/bch709/<YOURID>/r_plot
 
 ## Prepare data set
 ```bash 
-cd /data/gpfs/assoc/bch709/<YOURID>/r_plot
+cd /data/gpfs/assoc/bch709/<YOURID>/r_plot  
+
 pwd
 
 ### your location should be
@@ -48,16 +49,16 @@ cp /data/gpfs/assoc/bch709/Course_material/R/excercise.R
 ```
 
 ## PhD Tong Zhou
-Tong Zhou, PhD
-L-207B, Center for Molecular Medicine, MS575
-Department of Physiology and Cell Biology
-University of Nevada, Reno School of Medicine
-1664 North Virginia Street, Reno , NV 89557
+Tong Zhou, PhD  
+L-207B, Center for Molecular Medicine, MS575  
+Department of Physiology and Cell Biology  
+University of Nevada, Reno School of Medicine  
+1664 North Virginia Street, Reno , NV 89557  
 
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
 
 
-## R Plot with Gene Expression
+## R Plot with Gene Expression  
 
 ```R
 #1 load the expression data sheet - 78 samples and 72 genes  
@@ -91,7 +92,7 @@ dev.off()
 cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))  
 
 ```
-
+  
 ```R
 
 #7 scatter plot showing the co-expression pattern between gene TP63 and gene TSHZ2
@@ -102,7 +103,7 @@ dev.off()
 #8 correlation in expression between between gene TP63 and gene TSHZ2
 cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 ```
-
+  
 ```R
 
 #9 gene expression heatmap
@@ -161,10 +162,13 @@ dev.off()
 
 
 >## Reading materials
->[Paul L. Auer and R. W. Doerge "Statistical Design and Analysis of RNA Sequencing Data" Genetics June 1, 2010 vol. 185 no.2 405-416](https://www.genetics.org/content/185/2/405)
->[Busby, Michele A., et al. "Scotty: a web tool for designing RNA-Seq experiments to measure differential gene expression." Bioinformatics 29.5 (2013): 656-657](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3582267/)
->[Marioni, John C., et al. "RNA-seq: an assessment of technical reproducibility and comparison with gene expression arrays." Genome research (2008)](https://genome.cshlp.org/content/18/9/1509.full.html)
->[Schurch, Nicholas J., et al. "How many biological replicates are needed in an RNA-seq experiment and which differential expression tool should you use?." Rna (2016)](https://rnajournal.cshlp.org/content/22/6/839.long)
->[Zhao, Shilin, et al. "RnaSeqSampleSize: real data based sample size estimation for RNA sequencing." BMC bioinformatics 19.1 (2018): 191](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2191-5)
+>The R Project for Statistical Computing https://www.r-project.org/
+>R Graphic cookbook https://learning.oreilly.com/library/view/r-graphics-cookbook/9781491978597/
+>R workshop https://bioinformatics.ca/workshops/2018-introduction-to-R/
+
+>RStudio https://www.rstudio.com/
+>Wikipedia R (programming language) https://en.wikipedia.org/wiki/R_(programming_language)
+>Wikipedia RStudio https://en.wikipedia.org/wiki/RStudio
+
 {: .prereq}
 
