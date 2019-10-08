@@ -48,7 +48,7 @@ pwd
 
 cp /data/gpfs/assoc/bch709/Course_material/R/dataset1.txt .
 
-cp /data/gpfs/assoc/bch709/Course_material/R/excercise.R
+cp /data/gpfs/assoc/bch709/Course_material/R/excercise.R .
 
 ```
 
