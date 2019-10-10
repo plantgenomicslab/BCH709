@@ -167,6 +167,10 @@ cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq
 ls fastq  
 ```
 
+
+
+
+
 ## Make trinity folder  
 ```bash  
 cd ../  
@@ -176,13 +180,52 @@ mkdir Trinity
 cd Trinity  
 ```
 
-## Check your directory tree
-```bash  
 
+###10/10/2019
+
+### From your local
+```bash
+export TERM=xterm-color
+ssh <YOURID>@pronghorn.rc.unr.edu
+```
+
+### Pronghorn Install directory tree
+```
 conda install -c eumetsat tree
 
 tree  
+```
 
+### rnaseq env activation
+```bash
+conda activate rnaseq
+conda install -c eumetsat tree
+
+tree
+
+```
+
+
+## Go to your storage  
+ 
+```bash
+ls /data/gpfs/assoc/bch709/  
+
+cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq    
+```
+
+
+## Check previous fastq files
+```bash
+ls /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq/fastq
+```
+
+
+![TAB}(http://3.bp.blogspot.com/-tljBU23j9uQ/U9y9n9llIII/AAAAAAAACpM/3zH7NJ0pjJg/s1600/tabkey.jpg)
+
+## Check previous trinity files 
+```bash  
+/data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/Trinity
 ```
 
 ## Running Trinity
@@ -191,7 +234,7 @@ tree
 ### Trinity run
 ```
 pwd  
-## should be /data/gpfs/assoc/bch709/<YOUR_NAME>/Trinity  
+## should be /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/Trinity  
 
 nano <JOBNAME>.sh  
 
@@ -205,7 +248,7 @@ nano <JOBNAME>.sh
 #SBATCH --mem=100g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
-#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOBNAME>.out # STDOUT
 #SBATCH -e <JOBNAME>.err # STDERR
 
@@ -226,6 +269,9 @@ cat <JOBNAME>.err
 ### Check the Job
 ```bash
 tail -f <JOBNAME>.out
+
+## or
+
 less <JOBNAME>.out
 ```
 
@@ -280,7 +326,7 @@ nano <JOBNAME>.sh
 #SBATCH --mem=16g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
-#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH --mail-user=<YOUR ID>@nevada.unr.edu 
 #SBATCH -o <JOBNAME>.out # STDOUT
 #SBATCH -e <JOBNAME>.err # STDERR
 
@@ -324,6 +370,11 @@ cd /data/gpfs/assoc/bch709/<YOUR_ID>/rnaseq/
 mkdir DEG
 
 cd DEG
+
+pwd
+
+## Your location should be /data/gpfs/assoc/bch709/<YOUR_ID>/rnaseq/DEG
+
 
 ln -s /data/gpfs/assoc/bch709/<YOUR_ID>/rnaseq/Trinity/trinity_out_dir/Trinity.fasta .
 ```
@@ -483,6 +534,10 @@ Abundance estimation via Expectation Maximization by RSEM
 
 ### RNA-Seq reads Count Analysis
 ```bash
+pwd
+### Your current location is 
+## /data/gpfs/assoc/bch709/<YOUR_ID>/rnaseq/DEG
+
 nano <JOBNAME>.sh
 ```
 
@@ -550,6 +605,11 @@ head -n 2 rsem_outdir/RSEM.genes.results
 samtools flagstat rsem_outdir/bowtie2.bam
 ```
 ### Call Python
+```bash
+python
+```
+
+
 ```python
 X = 861
 Number_Reads_mapped = 1485483
@@ -612,9 +672,9 @@ TPM = (X/Length)*(1/sum_count_per_length )*10**6
 
 ### File download
 ```bash
-$ mkdir -p /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/test
+$ mkdir -p /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework
 
-$ cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/test
+$ cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework
 
 ```
 
