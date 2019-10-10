@@ -37,7 +37,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week4|[Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|[RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
 |Week5|[Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|Transcriptome algorithms(https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 |Week6|[Transcriptome assembly II](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly2/index.html)|[DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG/index.html)|
-|Week7|Introduction of R &  R plotting(https://plantgenomicslab.github.io/BCH709/intro_R/index.html) ([Tong Zhou PhD](http://tongzhoulab.org/))|Database|
+|Week7|[Introduction of R &  R plotting](https://plantgenomicslab.github.io/BCH709/intro_R/index.html) ([Tong Zhou PhD](http://tongzhoulab.org/))|Database|
 |Week8|DESeq2 / EdgeR|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
 |Week9|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|Midterm exam: Transcriptome & Database|
 |Week10|Genome assembly|Genome assembly|

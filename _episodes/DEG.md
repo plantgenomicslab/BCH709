@@ -308,8 +308,12 @@ cat assemblies.csv
 CSV = Comma-separated values
 
 
-## Overview of the RNA-Seq pipeline
+## Overview of the RNA-Seq pipeline 
+
 ![RNAseq_pipeline]({{site.baseurl}}/fig/rnseq_pipeline.png)
+
+
+
 
 ## DEG
 
@@ -512,8 +516,11 @@ squeue
 
 ### Job running check
 ```bash
+## do ```ls``` first
+ls
 
 cat <YOUR_JOB>.err  
+
 cat <YOUR_JOB>.out  
 ```
 
@@ -601,20 +608,13 @@ TPM = (X/Length)*(1/sum_count_per_length )*10**6
 [Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
 
 
-
-### Conda for Nextweek
-```
-conda env create -n rplot -f /data/gpfs/assoc/bch709/env_conda/r_plot.yaml
-```
-
-
 ------------------------------------------------------
 
 ### File download
 ```bash
-$ mkdir -p /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework
+$ mkdir -p /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/test
 
-$ cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework
+$ cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/test
 
 ```
 
@@ -769,7 +769,6 @@ TrinityStats.pl trinity_out_dir/Trinity.fasta >> <YOUR_NAME>.trinity.stat
 ```
 
 
-### Please send me the results by 10/9/19 10:00AM
 ***Use SCP for downloading and send me the file***
 ***<YOUR_NAME>.trinity.stat & <YOUR_NAME>.html***
 
