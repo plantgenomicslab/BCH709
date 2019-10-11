@@ -831,5 +831,10 @@ TrinityStats.pl trinity_out_dir/Trinity.fasta >> <YOUR_NAME>.trinity.stat
 
 ***Use SCP for downloading and send me the file***
 ***<YOUR_NAME>.trinity.stat & <YOUR_NAME>.html***
+<<<<<<< HEAD
 *** When you have an ERROR, please send me your history. "histoty >> myhistory.txt" ***
+=======
+
+### Feedback required
+https://forms.gle/DZ6vLkJ4iJpryK5Z6
 
