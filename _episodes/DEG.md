@@ -786,6 +786,7 @@ fastqc /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/fastq/*.gz
 ```
 cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim
 
+##For example
 zcat /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim/*.1.fq.gz  >> merged_R1.fastq
 
 zcat /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim/*.2.fq.gz  >> merged_R2.fastq
@@ -833,7 +834,7 @@ TrinityStats.pl trinity_out_dir/Trinity.fasta >> <YOUR_NAME>.trinity.stat
 ***Use SCP for downloading and send me the file***   
 ***<YOUR_NAME>.trinity.stat & <YOUR_NAME>.html***   
   
-  
+
 *** When you have an ERROR, please send me your history. "histoty >> myhistory.txt" ***
 =======
 
