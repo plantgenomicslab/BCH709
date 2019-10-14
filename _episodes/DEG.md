@@ -221,7 +221,7 @@ ls /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq/fastq
 ```
 
 
-![TAB}(http://3.bp.blogspot.com/-tljBU23j9uQ/U9y9n9llIII/AAAAAAAACpM/3zH7NJ0pjJg/s1600/tabkey.jpg)
+![TAB](http://3.bp.blogspot.com/-tljBU23j9uQ/U9y9n9llIII/AAAAAAAACpM/3zH7NJ0pjJg/s1600/tabkey.jpg)
 
 ## Check previous trinity files 
 ```bash  
@@ -786,7 +786,7 @@ fastqc /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/fastq/*.gz
 ```
 cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim
 
-##For example
+### For example
 zcat /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim/*.1.fq.gz  >> merged_R1.fastq
 
 zcat /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/trim/*.2.fq.gz  >> merged_R2.fastq
