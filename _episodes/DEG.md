@@ -541,7 +541,8 @@ pwd
 nano <JOBNAME>.sh
 ```
 
-### Transrate job script
+
+### RNA-Seq reads Count Analysis job script
 ```
 #!/bin/bash
 #SBATCH --job-name=<JOBNAME>
