@@ -696,15 +696,15 @@ multiqc . -n <YOUR_NAME>
 
 ### Please send me the whole PDF results
 
-DT.rep_compare
-WT.rep_compare
-RSEM.isoform.counts.matrix.minRow10.CPM.log2.centered.prcomp.principal_components
-RSEM.isoform.counts.matrix.minRow10.log2.sample_cor_matrix
-RSEM.isoform.counts.matrix.minRow10.CPM.log2.sample_cor_matrix
-diffExpr.P0.001_C1.matrix.log2.centered.sample_cor_matrix.pdf
-diffExpr.P0.001_C1.matrix.log2.centered.genes_vs_samples_heatmap.pdf
-RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
-Intervene_venn.pdf
+DT.rep_compare  
+WT.rep_compare  
+RSEM.isoform.counts.matrix.minRow10.CPM.log2.centered.prcomp.principal_components  
+RSEM.isoform.counts.matrix.minRow10.log2.sample_cor_matrix  
+RSEM.isoform.counts.matrix.minRow10.CPM.log2.sample_cor_matrix  
+diffExpr.P0.001_C1.matrix.log2.centered.sample_cor_matrix.pdf  
+diffExpr.P0.001_C1.matrix.log2.centered.genes_vs_samples_heatmap.pdf  
+RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf  
+Intervene_venn.pdf  
 
 ### Office Hour 
 Fri Hackathon
