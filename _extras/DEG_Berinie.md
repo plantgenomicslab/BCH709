@@ -4,8 +4,8 @@ title: DEG Bernie
 published: true
 ---
 ## Before you start
-Please prepare following files and software. We cannot help the installation and download.
-When you excute example code under code part, please change < > to your system.
+Please prepare following files and software. We cannot help the installation and download.  
+When you excute example code under code part, please change < > to your system.  
 
 > ## Prerequisite software
 > We recommend to use Conda. For installation please refer [this link](https://plantgenomicslab.github.io/BCH709/conda/index.html)
@@ -232,9 +232,9 @@ When you excute example code under code part, please change < > to your system.
 {: .prereq}
 
 ## Prerequisite files
-Please download Arabidopsisa genome and GFF3 from [Phytozome](https://phytozome.jgi.doe.gov/pz/portal.html)
-- Athaliana_167_TAIR10.gene.gff3
-- Athaliana_447_TAIR10.fa
+Please download Arabidopsisa genome and GFF3 from [Phytozome](https://phytozome.jgi.doe.gov/pz/portal.html)  
+- Athaliana_167_TAIR10.gene.gff3  
+- Athaliana_447_TAIR10.fa  
 
 
 ### GFF to GTF conversion
@@ -242,25 +242,25 @@ Please download Arabidopsisa genome and GFF3 from [Phytozome](https://phytozome.
 gffread Athaliana_167_TAIR10.gene.gff3 -T -o Athaliana_167_TAIR10.gene.gtf
 ```
 
-### Reference indexing by STAR
-We recommned to put your `Athaliana_167_TAIR10.gene.gff3` `Athaliana_167_TAIR10.gene.gtf` and `Athaliana_447_TAIR10.fa` to reference folder.
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3530905/
+### Reference indexing by STAR  
+We recommned to put your `Athaliana_167_TAIR10.gene.gff3` `Athaliana_167_TAIR10.gene.gtf` and `Athaliana_447_TAIR10.fa` to reference folder.  
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3530905/  
 
 ```bash
 STAR  --runThreadN <YOUR THREAD> --runMode genomeGenerate --genomeDir reference/ --genomeFastaFiles  reference/Athaliana_447_TAIR10.fa --sjdbGTFfile  reference/Athaliana_167_TAIR10.gene.gtf  --sjdbOverhang 99 
 ```
 
 ### Sequencing Reads Trimming
-We recommend to put your raw reads under ```raw``` folder and trim reads under `trim` folder.
-We used ```trim_galore``` to remove adaptor sequence and low quality base.
-https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/
+We recommend to put your raw reads under ```raw``` folder and trim reads under `trim` folder.  
+We used ```trim_galore``` to remove adaptor sequence and low quality base.  
+https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/  
 
-Below `EXAMPLE` command shows execution for `KR24D1_1.fq.gz` and `KR24D1_2.fq.gz`
+Below `EXAMPLE` command shows execution for `KR24D1_1.fq.gz` and `KR24D1_2.fq.gz`  
 ```bash
 trim_galore --paired --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 8 --max_n 40 --gzip -o trim raw/KR24D1_1.fq.gz raw/KR24D1_2.fq.gz
 ```
 
-Below`EXAMPLE` command shows the example for [Slurm HPC enviroment](https://en.wikipedia.org/wiki/Slurm_Workload_Manager)
+Below`EXAMPLE` command shows the example for [Slurm HPC enviroment](https://en.wikipedia.org/wiki/Slurm_Workload_Manager)  
 ```bash
 sbatch -N 1  -c 8 --mem=16g -A <YOURACCOUNT> -p <YOURPARTITION> --wrap="trim_galore --paired --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 8 --max_n 40 --gzip -o trim raw/KR24D1_1.fq.gz raw/KR24D1_2.fq.gz"
 sbatch -N 1  -c 8 --mem=16g -A <YOURACCOUNT> -p <YOURPARTITION> --wrap="trim_galore --paired --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 8 --max_n 40 --gzip -o trim raw/KR24D2_1.fq.gz raw/KR24D2_2.fq.gz"
@@ -349,7 +349,7 @@ tpm_raw_exp_calculator.py -count featureCount.cnt_for_tpm
 ```
 
 ### DEG calculation
-We recommand to use R and DESeq2 Packages.
+We recommand to use R and DESeq2 Packages.  
 http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html
 
 Please download below code
@@ -493,7 +493,7 @@ dev.off()
 ```
 
 
-###DEG filteration
+### DEG filteration
 Please download `featureCount.cnt_for_*.DESeq2.DE_results` files and open at the Excel to filter it out, based on your creteria.
 
 
