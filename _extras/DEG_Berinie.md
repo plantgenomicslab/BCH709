@@ -4,8 +4,8 @@ title: DEG Bernie
 published: true
 ---
 ## Before you start
-Please prepare following files and software. We cannot help the installation and download.  
-When you excute example code under code part, please change < > to your system.  
+Please prepare following files and software.   
+When you excute example code under code part, please change < > to your system.    
 
 > ## Prerequisite software
 > We recommend to use Conda. For installation please refer [this link](https://plantgenomicslab.github.io/BCH709/conda/index.html)
