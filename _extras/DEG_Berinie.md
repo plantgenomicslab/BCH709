@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Mastering-markdown
+title: DEG Bernie
 published: true
 ---
 ## Before you start
