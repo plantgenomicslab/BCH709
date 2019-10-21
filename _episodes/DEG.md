@@ -9,7 +9,7 @@ published: true
 
 ## Windows10 Local Shell
 ```
-echo "export TERM=xterm-color" >> ~/.bashrc
+echo "export TERM=xterm-256color" >> ~/.bashrc
 
 source ~/.bashrc
 ```
@@ -17,7 +17,7 @@ source ~/.bashrc
 ## MacOS Local Shell
 ```
 
-echo "export TERM=xterm-color" >> ~/.bash_profile
+echo "export TERM=xterm-256color" >> ~/.bash_profile
 
 source ~/.bash_profile
 ```
