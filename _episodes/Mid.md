@@ -16,18 +16,18 @@ published: True
 
 >## Question 1: Describe how the process of RNA sequencing enables the determination of the transcriptome for an entire genome?  and discuss one example of bioinformatics problems where transcriptome assembly provides a good approach. (max. 200 words)
 >
->``
->AAT  
->AGT   
->ATT  
->ATA  
->TAG  
->TAT  
->TAC  
->TGA  
->TTA  
->```
 {: .callout}
+```
+AAT   
+AGT    
+ATT
+ATA  
+TAG  
+TAT  
+TAC  
+TGA  
+TTA  
+```
 
 >## Question 2: Given the sequence shown above, if it takes 3 kmer to assemble a pair of reads by de bruijn algorithm, please provide assembled sequence.
 {: .callout}
@@ -38,7 +38,7 @@ published: True
 >## Question 4: Describe the fastq and fasta format.
 {: .callout}
 
->##Question 5: Given the following file permission attributes from `ls -algh`, please describe the meaning
+>## Question 5: Given the following file permission attributes from `ls -algh`, please describe the meaning
 >```
 >-rwxr-xr-x
 >```
