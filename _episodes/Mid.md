@@ -6,8 +6,8 @@ published: True
 
 >## Please Read This First
 >
-> Please make folder `/data/gpfs/assoc/bch709/<YOUR_ID>/Midterm`
-> Process everything under `/data/gpfs/assoc/bch709/<YOUR_ID>/Midterm`
+> Please make folder `/data/gpfs/assoc/bch709/<YOUR_ID>/Midterm`  
+> Process everything under `/data/gpfs/assoc/bch709/<YOUR_ID>/Midterm`  
 > [Link](https://forms.gle/XxbuCXKzzhFsbPMi7)
 {: .callout}
 
