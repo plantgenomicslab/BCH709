@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Midterm_exam
-published: False
+published: True
 ---
 
 >## Please Read This First
