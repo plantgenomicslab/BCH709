@@ -1,6 +1,6 @@
 ---
 layout: page
-title: DESeq2 / EdgeR
+title: Midterm_Review
 published: true
 ---
 
