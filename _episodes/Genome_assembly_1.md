@@ -128,6 +128,10 @@ A 20 kb size-selected human library using the SMRTbell Express Template Prep Kit
 SMRT Sequencing enables simultaneous collection of data from millions of wells using the natural process of DNA replication to sequence long fragments of native DNA or RNA.  
 ![pacbio]({{site.baseurl}}/fig/pacbio.png))
 
+### Long Reads Assembly
+
+![longreads_assembly]({{site.baseurl}}/fig/longreads_assembly.png))
+
 
 ### Long reads publications
 - Mitsuhashi, Satomi et al. (2019) Long-read sequencing for rare human genetic diseases. Journal of human genetics
@@ -263,3 +267,10 @@ conda install -c bioconda spades
 conda install -c bioconda pacbio_falcon
 conda install -c bioconda canu
 samtools
+minimap2
+nano
+
+conda install -c r r-ggplot2
+conda install -c r r-stringr
+conda install -c r r-scales
+conda install -c r r-argparse
