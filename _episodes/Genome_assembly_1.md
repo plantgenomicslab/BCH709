@@ -6,7 +6,7 @@ published: true
 
 ## Genome assembly
 
-![Genome assembly]({{site.baseurl}}/fig/genome_assembly.png))
+![Genome assembly]({{site.baseurl}}/fig/genome_assembly.png)
 
 After DNA sequencing is complete, the fragments of DNA that come out of the machine are all jumbled up. Like a jigsaw puzzle we need to take the pieces of the genome and put them back together.
 
@@ -21,6 +21,9 @@ After DNA sequencing is complete, the fragments of DNA that come out of the mach
 ![human_genome]({{site.baseurl}}/fig/human_genome.png))
 
 ![human_genome2]({{site.baseurl}}/fig/human_genome2.png))
+
+![geneticmap]({{site.baseurl}}/fig/geneticmap.png))
+
 
 ### What’s the challenge?
 - The technology of DNA sequencing? is not 100 per cent accurate and therefore there are likely to be errors in the DNA sequence that is produced.  
@@ -210,6 +213,10 @@ SMRT Sequencing enables simultaneous collection of data from millions of wells u
 - Lower coverage of what you actually are interested in, potentially chimeric assemblies
 
 
+### Haplotype
+![haplotype]({{site.baseurl}}/fig/haplotype.png))
+
+
 ## Contiguity
 - Fewer contigs
 - Longer contigs
@@ -262,15 +269,9 @@ Errors include
 
 ## Homework
 1. Create Conda enviroment named "genomeassembly"
-2. 
-conda install -c bioconda spades
-conda install -c bioconda pacbio_falcon
-conda install -c bioconda canu
-samtools
-minimap2
-nano
-
-conda install -c r r-ggplot2
-conda install -c r r-stringr
-conda install -c r r-scales
-conda install -c r r-argparse
+2. Please install following software
+```
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc 
+conda install -c r r-ggplot2 r-stringr r-scales r-argparse
+conda install -c conda-forge nano
+```
