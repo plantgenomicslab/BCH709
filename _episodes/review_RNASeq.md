@@ -99,7 +99,7 @@ ls
 
 ### `zcat`
 
-### pipe `|`
+### pipe `\|`
 
 ### `wc `
 
@@ -241,7 +241,6 @@ squeue
 #SBATCH -o fastqc.out # STDOUT
 #SBATCH -e fastqc.err # STDERR
 
-fastqc WT1_R1.fastq.gz WT1_R2.fastq.gz ........... 
 fastqc trimmed_fastq/WT1_R1_val_1.fq.gz trimmed_fastq/WT1_R2_val_2.fq.gz .............
 ```
 
