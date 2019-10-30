@@ -62,7 +62,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 ##Shell color
-export PS1="\[\033[38;5;5m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] @ \[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;1m\]\H\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;178m\]\T\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \n\[$(tput sgr0)\]"
+tty -s && export PS1="\[\033[38;5;5m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] @ \[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;1m\]\H\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;178m\]\T\[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \n\[$(tput sgr0)\]"
 
 ##Module
 module load slurm
@@ -510,4 +510,3 @@ multiqc . -n rnaseq_data
 mv rnaseq_data.html <your_name>_rnaseq_data.html
 ```
 ***Use SCP for downloading and send me the file***
->>>>>>> 6c129b6aa30c0a632b02324e4cf67c2105f93368

@@ -5,29 +5,7 @@ published: true
 ---
 
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
-```
-Shannon Wendsday 1PM
-David Wendsday 1PM
 
-Hayden Wendsday 2PM
-Anil Wendsday 2PM
-
-Kage Wendsday 3PM
-Chelsea Wendsday 3PM
-
-Chase Thursday 1PM
-Rosh Thursday 1PM
-
-Kevin Thursday 2PM
-Jin Thursday 2PM
-
-Brianne Thursday 3PM
-Minna Thursday 3PM
-Devin Thursday 3PM
-
-Open Wendsday 4PM
-Open Thursday 4PM
-```
 
 ## Genome assembly
 
