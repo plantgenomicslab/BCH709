@@ -245,23 +245,24 @@ Fig: E.coli genome (4.6Mbp)
 
 ## N50
 ![N50]({{site.baseurl}}/fig/N50.png)
-![N50]({{site.baseurl}}/fig/N502.png)
+![N50]({{site.baseurl}}/fig/N502.jpg)
 
 ## N50 example
-|Contig Length|Cumulative Sum|
-|---|---|
-|100|100|
-|200|300|
-|230|530|
-|400|930|
-|750|1680|
-|852|2532|
-|950|3482|
-|990|4472|
-|1020|5492|
-|1278|6770|
-|1280|8050|
-|1290|9340|
+
+|Contig Length|Cumulative Sum|  
+|---|---|  
+|100|100|  
+|200|300|  
+|230|530|  
+|400|930|  
+|750|1680|  
+|852|2532|  
+|950|3482|  
+|990|4472|  
+|1020|5492|  
+|1278|6770|  
+|1280|8050|  
+|1290|9340|  
 
 ## Completeness : Total size
 Proportion of the original genome represented by the assembly
@@ -284,12 +285,6 @@ Errors include
 3. Unnecessary duplications
 4. Indels / SNPs caused by assembler
 
-## Assembly results
-![assembly_results]({{site.baseurl}}/fig/assembly_results.png)
-
-## Dotplot
-![genome_plot2]({{site.baseurl}}/fig/dotplot2.png)
-![genome_plot]({{site.baseurl}}/fig/genome_plot.png)
 
 ## Optical mapping
 ![bionano3]({{site.baseurl}}/fig/bionano3.jpg)
@@ -298,6 +293,13 @@ Errors include
 
 ## 10x Genomics
 ![10x]({{site.baseurl}}/fig/10x.jpg)
+
+## Assembly results
+![assembly_results]({{site.baseurl}}/fig/assembly_results.png)
+
+## Dotplot
+![genome_plot2]({{site.baseurl}}/fig/dotplot2.png)
+![genome_plot]({{site.baseurl}}/fig/genome_plot.png)
 
 
 ## Why assemble genomes
@@ -403,6 +405,10 @@ For all gzip compressed fastq files, display the number of reads since 4 lines =
 http://qb.cshl.edu/genomescope/genomescope2.0
 
 
+
+
+#### HOMEWORK
+/data/gpfs/assoc/bch709/spiderman/gee
 
 ### Genome assembly Spades
 ```bash
