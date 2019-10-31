@@ -403,7 +403,7 @@ For all gzip compressed fastq files, display the number of reads since 4 lines =
 http://qb.cshl.edu/genomescope/genomescope2.0
 
 
-
+#Homework
 ### Genome assembly Spades
 ```bash
 mkdir Spades
@@ -415,7 +415,7 @@ conda activate genomeassembly
 ```bash
 #!/bin/bash
 #SBATCH --job-name=Spades
-#SBATCH --cpus-per-task=32
+#SBATCH --cpus-per-task=64
 #SBATCH --time=2:00:00
 #SBATCH --mem=140g
 #SBATCH --mail-type=all
@@ -423,5 +423,5 @@ conda activate genomeassembly
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
 
-spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 140 --threads 32
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 140 --threads 64
 ```
