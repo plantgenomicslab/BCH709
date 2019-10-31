@@ -9,7 +9,7 @@ published: true
 >
 >```bash
 >cd /data/gpfs/assoc/bch709/<YOUR_ID>/
->mkdir Genome_assembly/Illumina
+>mkdir -p  Genome_assembly/Illumina
 >cd Genome_assembly/Illumina
 >```
 >
