@@ -327,7 +327,7 @@ Fig: E.coli genome (4.6Mbp)
 
 ## N50
 ![N50]({{site.baseurl}}/fig/N50.png)
-![N50]({{site.baseurl}}/fig/N502.jpg)
+![N502]({{site.baseurl}}/fig/N502.jpg)
 
 ## N50 example
 
@@ -344,7 +344,7 @@ Fig: E.coli genome (4.6Mbp)
 |1020|5492|  
 |1278|6770|  
 |1280|8050|  
-|1290|9340|  
+|1290|9340|    
 
 ## Completeness : Total size
 Proportion of the original genome represented by the assembly
