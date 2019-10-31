@@ -83,7 +83,7 @@ published: true
 >
 > ***Keep all results at Pronghorn***
 >
->{ .callout}
+{: .callout}
 
 
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
@@ -332,7 +332,7 @@ Fig: E.coli genome (4.6Mbp)
 ## N50 example
 
 |Contig Length|Cumulative Sum|  
-|---|---|  
+| --- | --- |  
 |100|100|  
 |200|300|  
 |230|530|  
