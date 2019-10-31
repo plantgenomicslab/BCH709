@@ -422,11 +422,13 @@ run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_pt
 
 
 cd DESeq2.XXXXX.dir
+
 analyze_diff_expr.pl --matrix ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
 wc -l RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
 cd ../
 
 cd edgeR.XXXXX.dir
+
 analyze_diff_expr.pl --matrix ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
 wc -l RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DE.subset
 ```

@@ -191,6 +191,8 @@ conda install -c conda-forge nano
 ![repeat4]({{site.baseurl}}/fig/repeat4.png)
 ![repeat5]({{site.baseurl}}/fig/repeat5.png)
 ![repeat6]({{site.baseurl}}/fig/repeat6.png)
+Fig: E.coli genome (4.6Mbp)
+
 
 ### String Graph Algorithm
 ![stringgraph]({{site.baseurl}}/fig/string_graph.png)
@@ -243,7 +245,23 @@ conda install -c conda-forge nano
 
 ## N50
 ![N50]({{site.baseurl}}/fig/N50.png)
+![N50]({{site.baseurl}}/fig/N502.png)
 
+## N50 example
+|Contig Length|Cumulative Sum|
+|---|---|
+|100|100|
+|200|300|
+|230|530|
+|400|930|
+|750|1680|
+|852|2532|
+|950|3482|
+|990|4472|
+|1020|5492|
+|1278|6770|
+|1280|8050|
+|1290|9340|
 
 ## Completeness : Total size
 Proportion of the original genome represented by the assembly
@@ -265,6 +283,9 @@ Errors include
 2. Repeat compressions
 3. Unnecessary duplications
 4. Indels / SNPs caused by assembler
+
+## Assembly results
+![assembly_results]({{site.baseurl}}/fig/assembly_results.png)
 
 ## Dotplot
 ![genome_plot2]({{site.baseurl}}/fig/dotplot2.png)
@@ -291,3 +312,116 @@ Errors include
 - Reads are short relative to genome size
 - Repeats create tangled hubs in the assembly graph
 - Sequencing errors cause detours and bubbles in the assembly graph
+
+## Flow Cytometry
+![flowcytometry]({{site.baseurl}}/fig/flowcytometry.png)
+
+
+## K-mer spectrum
+![kmer2]({{site.baseurl}}/fig/kmer2.png)
+![genomescope]({{site.baseurl}}/fig/genomescope.png)
+
+
+## Check Genome Size by Illumina Reads
+
+```bash
+cd /data/gpfs/assoc/bch709/<YOUR_ID>/
+mkdir Genome_assembly/Illumina
+cd Genome_assembly/Illumina
+```
+
+### Create Preprocessing Env
+```bash
+conda create -n preprocessing python=3
+conda install -c bioconda trim-galore jellyfish multiqc 
+```
+
+### Reads Download
+```
+https://www.dropbox.com/s/ax38m9wra44lsgi/WGS_R1.fq.gz
+https://www.dropbox.com/s/kp7et2du5c2v385/WGS_R2.fq.gz
+```
+
+
+### Reads Trimming
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Trim
+#SBATCH --cpus-per-task=32
+#SBATCH --time=2:00:00
+#SBATCH --mem=100g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o trim.out # STDOUT
+#SBATCH -e trim.err # STDERR
+
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  -o trimmed_fastq <READ_R1> <READ_R2>
+fastqc <READ_R1> <READ_R2>
+multiqc . -n WGS_Illumina
+```
+
+### K-mer counting
+```bash
+mkdir kmer
+cd kmer
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Trim
+#SBATCH --cpus-per-task=32
+#SBATCH --time=2:00:00
+#SBATCH --mem=100g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o trim.out # STDOUT
+#SBATCH -e trim.err # STDERR
+
+jellyfish count -C -m 21 -s 1000000000 -t 10 <trim_galore output>  -o reads.jf
+jellyfish histo -t 10 reads.jf > reads.histo
+```
+
+
+
+
+### Count Reads Number in file
+
+```bash
+echo $(zcat WGS_R1.fq.gz |wc -l)/4 | bc
+```
+
+### Advanced approach
+
+```bash
+for i in `ls *.fastq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
+For all gzip compressed fastq files, display the number of reads since 4 lines = 1 reads
+```
+
+
+### Upload to GenomeScope
+http://qb.cshl.edu/genomescope/genomescope2.0
+
+
+
+### Genome assembly Spades
+```bash
+mkdir Spades
+cd Spades
+conda activate genomeassembly
+
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Spades
+#SBATCH --cpus-per-task=32
+#SBATCH --time=2:00:00
+#SBATCH --mem=140g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Spades.out # STDOUT
+#SBATCH -e Spades.err # STDERR
+
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 140 --threads 32
+```
