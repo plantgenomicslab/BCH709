@@ -153,19 +153,6 @@ SMRT Sequencing enables simultaneous collection of data from millions of wells u
 ![olc2]({{site.baseurl}}/fig/olc2.png) 
 ![olc3]({{site.baseurl}}/fig/olc3.png)  
 
-
-## Repeat in Genome
-![repeat]({{site.baseurl}}/fig/repeat.png)
-![repeat2]({{site.baseurl}}/fig/repeat2.png)
-![repeat3]({{site.baseurl}}/fig/repeat3.png)
-![repeat4]({{site.baseurl}}/fig/repeat4.png)
-![repeat5]({{site.baseurl}}/fig/repeat5.png)
-![repeat6]({{site.baseurl}}/fig/repeat6.png)
-
-### String Graph Algorithm
-![stringgraph]({{site.baseurl}}/fig/string_graph.png))
-
-
 ### Long reads publications
 - Mitsuhashi, Satomi et al. (2019) Long-read sequencing for rare human genetic diseases. Journal of human genetics
 - Wenger, Aaron M et al. (2019) Accurate circular consensus long-read sequencing improves variant detection and assembly of a human genome. Nature biotechnology
@@ -184,6 +171,30 @@ SMRT Sequencing enables simultaneous collection of data from millions of wells u
 - Travers, Kevin J et al. (2010) A flexible and efficient template format for circular consensus sequencing and SNP detection. Nucleic acids research
 - Flusberg, Benjamin A et al. (2010) Direct detection of DNA methylation during single-molecule, real-time sequencing. Nature methods
 - Eid, John et al. (2009) Real-time DNA sequencing from single polymerase molecules. Science
+
+## Homework
+1. Create Conda enviroment named "genomeassembly"  
+2. Please install following software  
+```
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc 
+conda install -c r r-ggplot2 r-stringr r-scales r-argparse
+conda install -c conda-forge nano
+```
+
+
+
+
+## Repeat in Genome
+![repeat]({{site.baseurl}}/fig/repeat.png)
+![repeat2]({{site.baseurl}}/fig/repeat2.png)
+![repeat3]({{site.baseurl}}/fig/repeat3.png)
+![repeat4]({{site.baseurl}}/fig/repeat4.png)
+![repeat5]({{site.baseurl}}/fig/repeat5.png)
+![repeat6]({{site.baseurl}}/fig/repeat6.png)
+
+### String Graph Algorithm
+![stringgraph]({{site.baseurl}}/fig/string_graph.png)
+
 
 
 ## Hybrid Assembly
@@ -216,7 +227,7 @@ SMRT Sequencing enables simultaneous collection of data from millions of wells u
 ![hetero]({{site.baseurl}}/fig/hetero.jpg)
 
 ### Haplotype
-![haplotype]({{site.baseurl}}/fig/haplotype.png)
+![haplotype]({{site.baseurl}}/fig/SNPS.png)
 
 
 ## Contiguity
@@ -264,6 +275,10 @@ Errors include
 ![bionano2]({{site.baseurl}}/fig/bionano2.jpg)
 ![bionano]({{site.baseurl}}/fig/bionano.jpg)
 
+## 10x Genomics
+![10x]({{site.baseurl}}/fig/10x.jpg)
+
+
 ## Why assemble genomes
 - Produce a reference for new species
 - Genomic variation can be studied by comparing against the reference
@@ -276,12 +291,3 @@ Errors include
 - Reads are short relative to genome size
 - Repeats create tangled hubs in the assembly graph
 - Sequencing errors cause detours and bubbles in the assembly graph
-
-## Homework
-1. Create Conda enviroment named "genomeassembly"  
-2. Please install following software  
-```
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc 
-conda install -c r r-ggplot2 r-stringr r-scales r-argparse
-conda install -c conda-forge nano
-```
