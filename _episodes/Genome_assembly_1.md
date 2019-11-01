@@ -16,7 +16,7 @@ published: true
 >### Create Preprocessing Env
 >```bash
 >conda create -n preprocessing python=3
->conda install -c bioconda trim-galore jellyfish multiqc 
+>conda install -c bioconda trim-galore jellyfish multiqc
 >```
 >
 >### Reads Download
@@ -60,8 +60,8 @@ published: true
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
 >#SBATCH -o trim.out # STDOUT
 >#SBATCH -e trim.err # STDERR
->
->jellyfish count -C -m 21 -s 1000000000 -t 10 <trim_galore output>  -o reads.jf
+>gunzip trimmed_fastq/*.gz
+>jellyfish count -C -m 21 -s 1000000000 -t 10 trimmed_fastq/<trim_galore output>  -o reads.jf
 >jellyfish histo -t 10 reads.jf > reads.histo
 >```
 >
