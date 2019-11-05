@@ -3,12 +3,14 @@ layout: page
 title: Genome assembly
 published: true
 ---
-
+# Meeting schedule
+Please feel free to fill up below link to review our course.
+Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
 
 >## Homework 11/05/2019 due by 11/05
 >Please calculate N50 of `before_rr.fasta` and check how many reads in "BCH709_0001.fastq.gz" send to `wyim@unr.edu`
 >
->N50 calculation
+>### N50 calculation
 >```bash
 >conda activate genomeassembly
 >conda install -c bioconda assembly-stats
@@ -25,6 +27,7 @@ published: true
 >https://www.dropbox.com/s/wxroa1w8ywndxyv/BCH709_0001.fastq.gz
 >https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
 >```
+>Please count how many reads are there. (`zcat`, `wc`, `bc`, etcs)
 {: .callout}
 
 
@@ -110,7 +113,6 @@ published: true
 {: .solution}
 
 
-Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
 
 
 ## Genome assembly
