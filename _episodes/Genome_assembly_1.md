@@ -4,6 +4,30 @@ title: Genome assembly
 published: true
 ---
 
+
+>## Homework 11/05/2019 due by 11/05
+>Please calculate N50 of `before_rr.fasta` and check how many reads in "BCH709_0001.fastq.gz" send to `wyim@unr.edu`
+>
+>N50 calculation
+>```bash
+>conda activate genomeassembly
+>conda install -c bioconda assembly-stats
+>assembly-stats before_rr.fasta
+>```
+>
+>### Reads download
+>```bash
+>mkdir PacBio
+>cd PacBio
+>```
+>
+>```bash
+>https://www.dropbox.com/s/wxroa1w8ywndxyv/BCH709_0001.fastq.gz
+>https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
+>```
+{: .callout}
+
+
 >## HOMEWORK (10/31/19) due by 11/05
 >### Check Genome Size by Illumina Reads
 >
@@ -83,7 +107,7 @@ published: true
 >
 > ***Keep all results at Pronghorn***
 >
-{: .callout}
+{: .solution}
 
 
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
@@ -522,8 +546,8 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 
 
 ###Spade
-![spades]({{site.baseurl}}/fig/spades.png)
-![spades2]({{site.baseurl}}/fig/spades2.png)
+![spades]({{site.baseurl}}/fig/spades.jpg)
+![spades2]({{site.baseurl}}/fig/spades2.jpg)
 ## Log
 ```bash
 Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        140     --threads       64
