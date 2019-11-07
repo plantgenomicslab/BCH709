@@ -98,7 +98,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >### Count Reads Number in file
 >
 >```bash
->echo $(zcat WGS_R1.fq.gz |wc -l)/4 | bc
+> echo $(zcat WGS_R1.fq.gz |wc -l)/4 | bc
 >```
 >
 >### Advanced approach
@@ -1920,6 +1920,24 @@ Thank you for using SPAdes!
 
 ### Assembly statistics
 
+## N50 example
+
+|Contig Length|Cumulative Sum|  
+| --- | --- |  
+|100|100|  
+|200|300|  
+|230|530|  
+|400|930|  
+|750|1680|  
+|852|2532|  
+|950|3482|  
+|990|4472|  
+|1020|5492|  
+|1278|6770|  
+|1280|8050|  
+|1290|9340|    
+
+
 ### Download
 ```bash
 https://www.dropbox.com/s/fo41zymzyb0222p/scaffolds.fasta
@@ -1978,10 +1996,39 @@ NODE_3_length_613985_cov_27.733595'
 117192+,269904-,5238146-,427838-,4816684+,4544022+,5325918-,5058512-,5044194-,374-,372+,5354642+,4675324+,139162+,5100430+,5100418+,5100426+,5236282+,5030236+,5331326+,5099418+,1271448-,4907228-,1271448-,5007546+,4629584-,5031788+,928516-,4827200+,1122610-,5045932-,4862238-,5032536+,4862238-,5059540+,4813546+,4676908+,4813546+,5331520-,4468126-,5264242-,5264238-,5238246-,4953418+,5057128+,5121298-,5250014+
 NODE_4_length_431556_cov_27.699452
 ```
+### FASTG file format
 
+```bash
+>EDGE_5360468_length_246_cov_13.568047:EDGE_5284398_length_327_cov_11.636000,EDGE_5354800_length_230_cov_14.470588';
+GCTTCTTCTTGCTTCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCAGATGAGTCTTTATCT
+TTGTATCTTCTAACAAGGAAACACTACTTAGGCTTTTAGGATAAGCTTGCGGTTTAAGTT
+TGTATACTCAATCATACACATGACATCAAGTCATATTCGACTCCAAAACACTAACCAAGC
+TTCTTCTTGCACCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCATATAAGTCTTTGTCTTT
+GTATCT
+>EDGE_5360470_length_161_cov_15.607143:EDGE_5332762_length_98_cov_43.619048';
+GCTTCTTCTTGCTTCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCAGATGAGTCTTTATCT
+TTGTATCTTCTAACAAGAAAACACTACTTACGCTTTTAGGATAATGTTGCGGTTTAAGTT
+CTTATACTCAATCATACACATGACATCAAGTCATATTCGAC
+>EDGE_5354230_length_92_cov_267.066667':EDGE_5354222_length_86_cov_252.444444',EDGE_5355724_length_1189_cov_26.724820;
+AAGCAAAGACTAAGTTTGGGGGAGTTGATAAGTGTGTATTTTGCATGTTTTGAGCATCCA
+TTTGTCATCACTTTAGCATCATATCATCACTG
+>EDGE_5344586_length_373_cov_22.574324:EDGE_5360654_length_82_cov_117.400000';
+GCTAAAGTGATGACAAATGGATGCTCAAAACATGCAAAATACACACTTATCAACTCCCCC
+AAACTTAGTCTTTGCTTAAGAACAAGCTGGAGGTGAGGTTTGAAAGCGGGGACTCAGAGC
+CAAAGCAGCAGATAAACCAGATGAAATCAATGTCCAAGTTGATAGTTCTAAGTTGCGATA
+TGATCGAATTCTACTCAAAAACGTTAGCCATGCCTTTTTATCAATCAATCCGACTCATAT
+GCTCGACCTACACGTGTTTTCAAATCTACCAATCCCTTTAACATTCATTAGCTCTAGAAC
+GTGAATCAAGCAATGCATCATCAATGAACTCATTTGGCTAAGGTAAAAGGTCAAGAGACA
+AAGATGGTCCCTT
+>EDGE_5354236_length_91_cov_242.857143:EDGE_5350728_length_80_cov_275.666667';
+GCTAAAGTGATGACAAATGGATGCTCAAAACATGCAAAATACACACTTATCAACTCCCCC
+AAACTTAGTCTTTGCTTGCCCTCAAGCAAAC
+
+```
 ![bandage]({{site.baseurl}}/fig/bandage.png)
 ![assembly_spades]({{site.baseurl}}/fig/assembly_spades.png)
-https://rrwick.github.io/Bandage/
+
+[bandage](https://rrwick.github.io/Bandage/)
 
 
 ## Homework 11/05/2019
@@ -2003,10 +2050,114 @@ cd PacBio
 ```bash
 https://www.dropbox.com/s/wxroa1w8ywndxyv/BCH709_0001.fastq.gz
 https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
+https://www.dropbox.com/s/2mao3noir60azwu/BCH709_0003.fastq.gz
+https://www.dropbox.com/s/kjqf4faney0nj71/BCH709_0004.fastq.gz
 ```
+
+### Check PacBio reads statistics
 ```bash
-NanoStat --fastq BCH709_0001.fastq.gz BCH709_0002.fastq.gz
-NanoPlot -t 2 --fastq BCH709_0002.fastq.gz BCH709_0001.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
- ```
+NanoStat --fastq BCH709_0001.fastq.gz 
+NanoPlot -t 2 --fastq  BCH709_0001.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
+```
+
+### Transfer your result
+```bash
+*.png *.html *.txt
+```
+
+![HistogramReadlength]({{site.baseurl}}/fig/HistogramReadlength.png)
+![LengthvsQualityScatterPlot_hex]({{site.baseurl}}/fig/LengthvsQualityScatterPlot_hex.png)
 
 
+
+### PacBio reads statistics
+```
+General summary:        
+Mean read length:               9,698.6
+Mean read quality:                  6.6
+Median read length:             8,854.0
+Median read quality:                6.6
+Number of reads:               58,497.0
+Read length N50:               10,901.0
+Total bases:              567,339,600.0
+Number, percentage and megabases of reads above quality cutoffs
+>Q5:	58497 (100.0%) 567.3Mb
+>Q7:	8260 (14.1%) 78.6Mb
+>Q10:	0 (0.0%) 0.0Mb
+>Q12:	0 (0.0%) 0.0Mb
+>Q15:	0 (0.0%) 0.0Mb
+Top 5 highest mean basecall quality scores and their read lengths
+1:	8.5 (13544)
+2:	8.5 (14158)
+3:	8.5 (9590)
+4:	8.5 (10741)
+5:	8.5 (7529)
+Top 5 longest reads and their mean basecall quality score
+1:	24999 (6.4)
+2:	24992 (6.0)
+3:	24983 (7.0)
+4:	24980 (6.5)
+5:	24977 (6.6)
+```
+
+### How can we calculate coverage?
+
+
+
+## *De novo* assembly
+![De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has](De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has.png)
+
+## Compare Assembly
+![dotplot2]({{site.baseurl}}/fig/dotplot2.png)
+
+
+## Canu
+Canu (Koren et al. 2017) is a fork of the celera assembler and improves upon the earlier PBcR pipeline into a single, comprehensive assembler. Highly repetitive k-mers, which are abundant in all the reads, can be non-informative. Hence term frequency, inverse document frequency (tf-idf), a weighting statistic was added to MinHashing, giving weightage to non-repetitive k-mers as minimum values in the MinHash sketches, and sensitivity has been demonstrated to reach up to 89% without any parameter adjustment. By retrospectively inspecting the assembly graphs and also statistically filtering out repeat-induced overlaps, the chances of mis-assemblies are reduced.
+![canu]({{site.baseurl}}/fig/canu.png)
+## Homework
+
+
+
+### Genome assembly Spades
+```bash
+mkdir Spades_pacbio
+cd Spades_pacbio
+conda activate genomeassembly
+
+```
+### Submit below job
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Spades
+#SBATCH --cpus-per-task=64
+#SBATCH --time=2:00:00
+#SBATCH --mem=140g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Spades.out # STDOUT
+#SBATCH -e Spades.err # STDERR
+zcat  <LOCATION_BCH709_0001.fastq.gz> <LOCATION_BCH709_0002.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> >> merged_pacbio.fastq
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
+```
+
+
+
+## Canu assembly
+```
+conda activate genomeassembly
+```
+### Submit below job
+```bash
+#!/bin/bash
+#SBATCH --job-name=Canu
+#SBATCH --cpus-per-task=64
+#SBATCH --time=2:00:00
+#SBATCH --mem=140g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Canu.out # STDOUT
+#SBATCH -e Canu.err # STDERR
+
+canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_0001.fastq.gz> <LOCATION_BCH709_0002.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> useGrid=false
+```
