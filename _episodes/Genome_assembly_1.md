@@ -1938,7 +1938,7 @@ Thank you for using SPAdes!
 |1290|9340|    
 
 
-### Download
+### Download or find your results.
 ```bash
 https://www.dropbox.com/s/fo41zymzyb0222p/scaffolds.fasta
 https://www.dropbox.com/s/epjj00zpizs56d0/contigs.fasta
@@ -2048,16 +2048,14 @@ cd PacBio
 ```
 
 ```bash
-https://www.dropbox.com/s/wxroa1w8ywndxyv/BCH709_0001.fastq.gz
-https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
-https://www.dropbox.com/s/2mao3noir60azwu/BCH709_0003.fastq.gz
-https://www.dropbox.com/s/kjqf4faney0nj71/BCH709_0004.fastq.gz
+https://www.dropbox.com/s/7coua2gedbuykl6/BCH709_Pacbio_1.fastq.gz
+https://www.dropbox.com/s/fniub0rxv48hupp/BCH709_Pacbio_2.fastq.gz
 ```
 
 ### Check PacBio reads statistics
 ```bash
-NanoStat --fastq BCH709_0001.fastq.gz 
-NanoPlot -t 2 --fastq  BCH709_0001.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
+NanoStat --fastq BCH709_Pacbio_1.fastq.gz
+NanoPlot -t 2 --fastq  BCH709_Pacbio_1.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
 ```
 
 ### Transfer your result
@@ -2135,7 +2133,7 @@ conda activate genomeassembly
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
-zcat  <LOCATION_BCH709_0001.fastq.gz> <LOCATION_BCH709_0002.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> >> merged_pacbio.fastq
+zcat  <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> >> merged_pacbio.fastq
 spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
 ```
 
@@ -2157,5 +2155,5 @@ conda activate genomeassembly
 #SBATCH -o Canu.out # STDOUT
 #SBATCH -e Canu.err # STDERR
 
-canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_0001.fastq.gz> <LOCATION_BCH709_0002.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> useGrid=false
+canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> useGrid=false
 ```
