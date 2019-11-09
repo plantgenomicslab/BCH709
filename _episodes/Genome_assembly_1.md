@@ -7,7 +7,105 @@ published: true
 Please feel free to fill up below link to review our course.
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
 
->## Homework 11/05/2019 due by 11/05
+
+>## Homework 11/09/2019 Due by 11/14/2019
+>
+>## PacBio reads preprocessing env
+>```bash
+>conda activate preprocessing
+>```
+>### Reads download
+>```bash
+>cd /data/gpfs/assoc/bch709/<YOURID>/genomeassembly/
+>cd PacBio
+>```
+>** if this is not there, please use 'mkdir'
+>
+>### Download below reads
+>```bash
+>https://www.dropbox.com/s/1e4a4jpp3eszt6u/BCH709_Pacbio_02.fastq.gz
+>https://www.dropbox.com/s/au2528hpm8vvr4c/BCH709_Pacbio_01.fastq.gz
+>```
+>
+>### Check PacBio reads statistics *Submit below job*
+>```bash
+>#!/bin/bash
+>#SBATCH --job-name=PacBio_stat
+>#SBATCH --cpus-per-task=64
+>#SBATCH --time=2:00:00
+>#SBATCH --mem=140g
+>#SBATCH --mail-type=all
+>#SBATCH --mail-user=<YOUR ID>@unr.edu
+>#SBATCH -o PacBio_stat.out # STDOUT
+>#SBATCH -e PacBio_stat.err # STDERR
+>
+>NanoStat --fastq BCH709_Pacbio_02.fastq.gz > BCH709_Pacbio_02.stat.txt
+>NanoPlot -t 2 --fastq  BCH709_Pacbio_02.fastq.gz --maxlength 25000 --plots hex dot pauvre -o pacbio_stat
+>
+>
+>NanoStat --fastq BCH709_Pacbio_01.fastq.gz > BCH709_Pacbio_01.stat.txt
+>NanoPlot -t 2 --fastq  BCH709_Pacbio_01.fastq.gz --maxlength 25000 --plots hex dot pauvre -o pacbio_stat
+>```
+>
+>
+>### Transfer your result
+>```bash
+>*.png *.html *.txt
+>```
+>
+>
+>
+>
+>### Genome assembly Spades
+>```bash
+>mkdir Spades_pacbio
+>cd Spades_pacbio
+>conda activate genomeassembly
+>
+>```
+>### Submit below job
+>
+>```bash
+>#!/bin/bash
+>#SBATCH --job-name=Spades_pacbio
+>#SBATCH --cpus-per-task=64
+>#SBATCH --time=2:00:00
+>#SBATCH --mem=140g
+>#SBATCH --mail-type=all
+>#SBATCH --mail-user=<YOUR ID>@unr.edu
+>#SBATCH -o Spades.out # STDOUT
+>#SBATCH -e Spades.err # STDERR
+>zcat  <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> >> merged_pacbio.fastq
+spades.py -k 21,33,55,77 --careful -1 <Illumina_trim_galore output_reads1> -2 <Illumina_trim_galore output_reads2> --pacbio >merged_pacbio.fastq -o spades_output --memory 140 --threads 64
+>```
+>
+>
+>
+>## Canu assembly
+>```
+>mkdir canu_pacbio
+>cd canu_pacbio
+>conda activate genomeassembly
+>```
+>### Submit below job
+>```bash
+>#!/bin/bash
+>#SBATCH --job-name=Canu_pacbio
+>#SBATCH --cpus-per-task=64
+>#SBATCH --time=2:00:00
+>#SBATCH --mem=140g
+>#SBATCH --mail-type=all
+>#SBATCH --mail-user=<YOUR ID>@unr.edu
+>#SBATCH -o Canu.out # STDOUT
+>#SBATCH -e Canu.err # STDERR
+>
+canu -p bch709 -d canu_outdir genomeSize=11m corThreads=30 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 >--mem-per-cpu=6G' corMemory=140 corThreads=30  -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>
+>```
+{: .callout}
+
+
+
+>## Homework 11/05/2019 due by 11/07
 >Please calculate N50 of `before_rr.fasta` and check how many reads in "BCH709_0001.fastq.gz" send to `wyim@unr.edu`
 >
 >### N50 calculation
@@ -28,7 +126,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
 >```
 >Please count how many reads are there. (`zcat`, `wc`, `bc`, etcs)
-{: .callout}
+{: .solution}
 
 
 >## HOMEWORK (10/31/19) due by 11/05
