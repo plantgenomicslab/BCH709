@@ -28,11 +28,7 @@ One of the most fundamental problems in bioinformatics is determining how "simil
 
 ![insertion]({{site.baseurl}}/fig/insertion.png)
 ![mismatch]({{site.baseurl}}/fig/mismatch.png)
-
 ![deletion]({{site.baseurl}}/fig/deletion.png)
-
-![hamming]({{site.baseurl}}/fig/hamming.png)
-![editdistance]({{site.baseurl}}/fig/editdistance.png)
 
 ## Hamming Distance 
 
@@ -42,27 +38,24 @@ One of the most fundamental problems in bioinformatics is determining how "simil
 - Minimum number of substitutions required to change transform A into B
 - Traditionally defined for end-to-end comparisons
 
+![hamming]({{site.baseurl}}/fig/hamming.png)
+
+
 ### Here end-to-end (global) for query, partial (local) for reference
 - Find all occurrences of GATTACA with Hamming Distance ≤ 1
- 
-
-
-
-
-
+ ![editdistance]({{site.baseurl}}/fig/editdistance.png)
 
 ## Local vs Global alignment
 ![ALIGNMENT]({{site.baseurl}}/fig/ALIGNMENT.png)
 
+![local_example]({{site.baseurl}}/fig/local_example.png)
+
+
 The *Smith–Waterman* algorithm finds the segments in two sequences that have similarities while the *Needleman–Wunsch* algorithm aligns two complete sequences. Therefore, they serve different purposes. Both algorithms use the concepts of a substitution matrix, a gap penalty function, a scoring matrix, and a traceback process. 
 
 ![alignment_compare]({{site.baseurl}}/fig/alignment_compare.png)
-
 ![gap]({{site.baseurl}}/fig/gap.png)
 ![transitions]({{site.baseurl}}/fig/transitions.png)
-
-![local_example]({{site.baseurl}}/fig/local_example.png)
-![difference-between-global-and-local]({{site.baseurl}}/fig/difference-between-global-and-local.png)
 
 
 Take the alignment of DNA sequences TGTTACGG and GGTTGACTA as an example. Use the following scheme:
@@ -82,11 +75,11 @@ create `alignment` env, activate and install `blast muscle clustalo` from biocon
 
 
 >## Actual Alignment
-> Match score:	3
-> Mismatch score:	-3
-> Gap penalty:	-2
+> Match score:	3   
+> Mismatch score: -3  
+> Gap penalty:	-2               
 >TAGTAT  
->AAGCCTAAT  
+>AAGCCTAAT    
 {: .callout}
 
 
@@ -102,11 +95,11 @@ create `alignment` env, activate and install `blast muscle clustalo` from biocon
 
 ## Muscle
 
-![muscle]({{site.baseurl}}/fig/muscle.png)
+![muscle]({{site.baseurl}}/fig/muscle.jpg)
 Iterative Progressive Alignment
 
 ## ClustalO
-![HMM]({{site.baseurl}}/fig/HMM.png)
+![HMM]({{site.baseurl}}/fig/HMM.jpeg)
 Hidden Markov Model
 
 ![Global_vs_Local]({{site.baseurl}}/fig/Global_vs_Local.png)
@@ -152,6 +145,18 @@ There are several PAM matrices, each one with a numeric suffix. The PAM1 matrix 
 Protein databases contained many more sequences by the 1990s so a more empirical approach was possible. The BLOSUM matrices were constructed by extracting ungapped segments, or blocks, from a set of multiply aligned protein families, and then further clustering these blocks on the basis of their percent identity. The blocks used to derive the BLOSUM62 matrix, for example, all have at least 62 percent identity to some other member of the block.
 
 
+### BLAST has a number of possible programs to run depending on whether you have nucleotide or protein sequences:
+
+nucleotide query and nucleotide db - blastn
+nucleotide query and nucleotide db - tblastx (includes six frame translation of query and db sequences)
+nucleotide query and protein db - blastx (includes six frame translation of query sequences)
+protein query and nucleotide db - tblastn (includes six frame translation of db sequences)
+protein query and protein db - blastp
+
+
+
+### BLAST Process
+
 
 ![step1]({{site.baseurl}}/fig/step1.png)
 ![step2]({{site.baseurl}}/fig/step2.png)
@@ -161,7 +166,13 @@ Protein databases contained many more sequences by the 1990s so a more empirical
 
 ![blast]({{site.baseurl}}/fig/blast.gif)
 
-###
+
+
+### BLASTN example
+Run blastn against the nt database.
+
+
+```
 
 ATGAAAGCGAAGGTTAGCCGTGGTGGCGGTTTTCGCGGTGCGCTGAACTA
 CGTTTTTGACGTTGGCAAGGAAGCCACGCACACGAAAAACGCGGAGCGAG
@@ -212,15 +223,40 @@ AAAATCACCGGGCGCGAGGTGCGCCAATGGACGCCGAAGCCCGAGCACGG
 CAAGGACTTGGCCGACATGAACGCCCGGCAGGTGGCAGAGATCGAGCGCA
 AGCGACAGGCCGAGATCGAGGCCGAAAGAGCACGAAACCGCGAGCTTTCA
 CGCAAGAGCCGGAGGTATGATGGCCCCAGCTTCGGCAGATAA
+```
+
+### BLASTP Query
+Do a BLASTP on NCBI website with the following protein against nr, but limit the organism to cetartiodactyla using default parameters:
+>query1
+MASGPGGWLGPAFALRLLLAAVLQPVSAFRAEFSSESCRELGFSSNLLCSSCDLLGQFSL
+LQLDPDCRGCCQEEAQFETKKYVRGSDPVLKLLDDNGNIAEELSILKWNTDSVEEFLSEK
+LERI
 
 
-### BLAST has a number of possible programs to run depending on whether you have nucleotide or protein sequences:
 
-nucleotide query and nucleotide db - blastn
-nucleotide query and nucleotide db - tblastx (includes six frame translation of query and db sequences)
-nucleotide query and protein db - blastx (includes six frame translation of query sequences)
-protein query and nucleotide db - tblastn (includes six frame translation of db sequences)
-protein query and protein db - blastp
+Have a look at the multiple sequence alignment, can you explain the results?
+Do a similar blastp vs UniProtKB (UniProt) without post filtering. Select and align all proteins. Can you explain the differences? What do you think of the Bos taurus sequence (A8YXY3) and the pig sequence (A1Z623)?
+
+
+### Running a standalone blast program
+Create the index for the target database using makeblastdb;
+Choose the task program: blastn, blastp, blastx, tblatx, psiblast or deltablast;
+Set the configuration for match, mismatch, gap-open penalty, gap-extension penalty or scoring matrix;
+Set the word size;
+Set the E-value threshold;
+Set the output format and the number of output results
+
+
+### Standalone BLAST
+1. Download the database.
+2. Use makeblastdb to build the index.
+3. Change the scoring matrix, record the changes in the alignment results and interpret the results.
+
+### Run BLAST
+```
+makeblastdb -in plant.1.protein.faa -dbtype prot
+blastx -query spiderman/rnaseq/homework2/Trinity/trinity_out_dir/Trinity.fasta -db plant.1.protein.faa 
+```
 
 
 ### Download Database
@@ -230,13 +266,6 @@ ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 
 ### How many sequences in `plant.1.protein.faa.gz`
 
-
-
-### Run BLAST
-```
-makeblastdb -in plant.1.protein.faa -dbtype prot
-blastx -query spiderman/rnaseq/homework2/Trinity/trinity_out_dir/Trinity.fasta -db plant.1.protein.faa 
-```
 
 ### Tab output
 
