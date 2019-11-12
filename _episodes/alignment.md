@@ -126,6 +126,8 @@ Basic Local Alignment Search Tool (Altschul et al., 1990 & 1997) is a sequence c
 – Heuristic algorithm but evaluates the result statistically.
 
 ![seed]({{site.baseurl}}/fig/seed.png)
+![seed]({{site.baseurl}}/fig/I.7_1_blast_illustration.png)
+
 
 ### E-value
 E-value = the number of HSPs having score S (or higher) expected to occur by chance.
@@ -138,11 +140,13 @@ Bigger E-value , by chance
 
 
 ## PAM and BLOSUM Matrices
-Two different kinds of amino acid scoring matrices, PAM (Percent Accepted Mutation) and BLOSUM (BLOcks SUbstitution Matrix), are in wide use. The PAM matrices were created by Margaret Dayhoff and coworkers and are thus sometimes referred to as the Dayhoff matrices. These scoring matrices have a strong theoretical component and make a few evolutionary assumptions. The BLOSUM matrices, on the other hand, are more empirical and derive from a larger data set. Most researchers today prefer to use BLOSUM matrices because in silico experiments indicate that searches employing BLOSUM matrices have higher sensitivity.
+Two different kinds of amino acid scoring matrices, *PAM (Percent Accepted Mutation) and BLOSUM (BLOcks SUbstitution Matrix)*, are in wide use. The PAM matrices were created by Margaret Dayhoff and coworkers and are thus sometimes referred to as the Dayhoff matrices. These scoring matrices have a strong theoretical component and make a few evolutionary assumptions. The BLOSUM matrices, on the other hand, are more empirical and derive from a larger data set. Most researchers today prefer to use BLOSUM matrices because in silico experiments indicate that searches employing BLOSUM matrices have higher sensitivity.
 
-There are several PAM matrices, each one with a numeric suffix. The PAM1 matrix was constructed with a set of proteins that were all 85 percent or more identical to one another. The other matrices in the PAM set were then constructed by multiplying the PAM1 matrix by itself: 100 times for the PAM100; 160 times for the PAM160; and so on, in an attempt to model the course of sequence evolution. Though highly theoretical (and somewhat suspect), it is certainly a reasonable approach. There was little protein sequence data in the 1970s when these matrices were created, so this approach was a good way to extrapolate to larger distances.
+There are several PAM matrices, each one with a numeric suffix. The PAM1 matrix was constructed with a set of proteins that were all 85 percent or more identical to one another. The other matrices in the PAM set were then constructed by multiplying the PAM1 matrix by itself: 100 times for the PAM100; 160 times for the PAM160; and so on, in an *attempt to model the course of sequence evolution*. Though highly theoretical (and somewhat suspect), it is certainly a reasonable approach. There was little protein sequence data in the 1970s when these matrices were created, so this approach was a good way to extrapolate to larger distances.
 
 Protein databases contained many more sequences by the 1990s so a more empirical approach was possible. The BLOSUM matrices were constructed by extracting ungapped segments, or blocks, from a set of multiply aligned protein families, and then further clustering these blocks on the basis of their percent identity. The blocks used to derive the BLOSUM62 matrix, for example, all have at least 62 percent identity to some other member of the block.
+
+![PAM-250-and-Blosum-62-matrices]({{site.baseurl}}/fig/PAM-250-and-Blosum-62-matrices.png)
 
 
 ### BLAST has a number of possible programs to run depending on whether you have nucleotide or protein sequences:
@@ -153,8 +157,8 @@ nucleotide query and protein db - blastx (includes six frame translation of quer
 protein query and nucleotide db - tblastn (includes six frame translation of db sequences)
 protein query and protein db - blastp
 
-
-
+![blasttype]({{site.baseurl}}/fig/blasttype.png
+)
 ### BLAST Process
 
 
@@ -282,7 +286,12 @@ ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 	evalue 		E-value
 	bitscore	Bit score
 
-### HOME WORK
+## HOME WORK
 Please find the option to save file with the tabular output.
 Paste to `pastebin.com` and send me a link.
+
+
+### Example
+![I.7_8_unix_94_5_blastout]({{site.baseurl}}/fig/I.7_8_unix_94_5_blastout.png)
+
 
