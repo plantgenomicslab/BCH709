@@ -38,6 +38,8 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
 >#SBATCH -o PacBio_stat.out # STDOUT
 >#SBATCH -e PacBio_stat.err # STDERR
+>#SBATCH -p cpu-s2-core-0 
+>#SBATCH -A cpu-s2-bch709-0
 >
 >NanoStat --fastq BCH709_Pacbio_02.fastq.gz > BCH709_Pacbio_02.stat.txt
 >NanoPlot -t 2 --fastq  BCH709_Pacbio_02.fastq.gz --maxlength 25000 --plots hex dot pauvre -o pacbio_stat
@@ -75,8 +77,10 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
 >#SBATCH -o Spades.out # STDOUT
 >#SBATCH -e Spades.err # STDERR
+>#SBATCH -p cpu-s2-core-0 
+>#SBATCH -A cpu-s2-bch709-0
 >zcat  <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> >> merged_pacbio.fastq
-spades.py -k 21,33,55,77 --careful -1 <Illumina_trim_galore output_reads1> -2 <Illumina_trim_galore output_reads2> --pacbio >merged_pacbio.fastq -o spades_output --memory 140 --threads 64
+>spades.py -k 21,33,55,77 --careful -1 <Illumina_trim_galore output_reads1> -2 <Illumina_trim_galore output_reads2> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
 >```
 >
 >
@@ -98,8 +102,10 @@ spades.py -k 21,33,55,77 --careful -1 <Illumina_trim_galore output_reads1> -2 <I
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
 >#SBATCH -o Canu.out # STDOUT
 >#SBATCH -e Canu.err # STDERR
+>#SBATCH -p cpu-s2-core-0 
+>#SBATCH -A cpu-s2-bch709-0
 >
-canu -p bch709 -d canu_outdir genomeSize=11m corThreads=30 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 >--mem-per-cpu=6G' corMemory=140 corThreads=30  -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>
+>canu -p bch709 -d canu_outdir genomeSize=11m corThreads=30 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 --mem-per-cpu=6G' corMemory=140 corThreads=30  -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>   corMemory=186 corThreads=64 batMemory=186  ovbMemory=24 ovbThreads=12 corOutCoverage=120  ovsMemory=32-186 maxMemory=186 ovsThreads=20 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 --mem-per-cpu=6G'
 >```
 {: .callout}
 
