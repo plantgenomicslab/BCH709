@@ -128,8 +128,8 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >```
 >
 >```bash
->https://www.dropbox.com/s/wxroa1w8ywndxyv/BCH709_0001.fastq.gz
->https://www.dropbox.com/s/8kgsvzap6n5050j/BCH709_0002.fastq.gz
+>https://www.dropbox.com/s/1e4a4jpp3eszt6u/BCH709_Pacbio_02.fastq.gz
+>https://www.dropbox.com/s/au2528hpm8vvr4c/BCH709_Pacbio_01.fastq.gz
 >```
 >Please count how many reads are there. (`zcat`, `wc`, `bc`, etcs)
 {: .solution}
