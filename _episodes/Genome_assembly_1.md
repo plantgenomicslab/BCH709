@@ -32,7 +32,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#!/bin/bash
 >#SBATCH --job-name=PacBio_stat
 >#SBATCH --cpus-per-task=64
->#SBATCH --time=2:00:00
+>#SBATCH --time=24:00:00
 >#SBATCH --mem=140g
 >#SBATCH --mail-type=all
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
@@ -71,7 +71,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#!/bin/bash
 >#SBATCH --job-name=Spades_pacbio
 >#SBATCH --cpus-per-task=64
->#SBATCH --time=2:00:00
+>#SBATCH --time=24:00:00
 >#SBATCH --mem=140g
 >#SBATCH --mail-type=all
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
@@ -96,7 +96,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#!/bin/bash
 >#SBATCH --job-name=Canu_pacbio
 >#SBATCH --cpus-per-task=64
->#SBATCH --time=2:00:00
+>#SBATCH --time=24:00:00
 >#SBATCH --mem=140g
 >#SBATCH --mail-type=all
 >#SBATCH --mail-user=<YOUR ID>@unr.edu
