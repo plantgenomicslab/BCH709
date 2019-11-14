@@ -105,7 +105,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#SBATCH -p cpu-s2-core-0 
 >#SBATCH -A cpu-s2-bch709-0
 >
->canu -p bch709 -d canu_outdir genomeSize=11m corThreads=30 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 --mem-per-cpu=6G' corMemory=140 corThreads=30  -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>   corMemory=186 corThreads=64 batMemory=186  ovbMemory=24 ovbThreads=12 corOutCoverage=120  ovsMemory=32-186 maxMemory=186 ovsThreads=20 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
+>canu -p bch709 -d canu_outdir genomeSize=11m -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>   corMemory=186 corThreads=64 batMemory=186  ovbMemory=24 ovbThreads=12 corOutCoverage=120  ovsMemory=32-186 maxMemory=186 ovsThreads=20 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
 >```
 {: .callout}
 
