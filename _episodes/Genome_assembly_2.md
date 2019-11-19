@@ -87,26 +87,30 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 mkdir genomeassembly_results/
 ```
 
-## Activate Your environment
+### Activate Your environment
 
 ```bash
 conda activate genomeassembly
 ```
 
-## Copy Your Assembly Results
+### Copy Your Assembly Results
+
+
+### Check Your Assembly Results
 
 ```bash
 assembly-stats canu.contigs.fasta pacbio_illumina_spades.fasta pacbio_spades.fasta
 ```
-
-## Which one is the best?
-
-
->## If you don't have download below link
+>## If you don't have, download below link
 >```
 >https://www.dropbox.com/s/38xjzxptvj2awjv/assembly.tar.gz
 >```
 {: .solution}
+
+
+## Which one is the best?
+
+
 
 
 ## Install Global Alignmnet Software
@@ -134,8 +138,8 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #SBATCH -e nucmer.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-nucmer  --coords -p canu_spades_pacbio_illumina <canu.contigs.fasta> <pacbio_illumina_spades.fasta>
-nucmer  --coords -p canu_spades_illumina <canu.contigs.fasta> <illumina_spades.fasta>
+nucmer  --coords -p canu_spades_pacbio_illumina <canu.contigs> <pacbio_illumina_spades>
+nucmer  --coords -p canu_spades_illumina <canu.contigs> <illumina_spades>
 ```
 
 
@@ -236,7 +240,7 @@ The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be
 
 ## Visualization
 - Transfer \*.coords.\* files
-- Go to  https://dnanexus.github.io/dot/
+- Go to  [Dot](https://dnanexus.github.io/dot/)
 
 ![dotplot4]({{site.baseurl}}/fig/dotplot4.png)
 
