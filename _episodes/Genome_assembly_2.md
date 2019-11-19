@@ -54,7 +54,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#SBATCH -A cpu-s2-bch709-0
 >#SBATCH -o Canu.out # STDOUT
 >#SBATCH -e Canu.err # STDERR
->canu -p bch709 -d canu_outdir genomeSize=11m -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> executiveMemory=64 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 --mail-user=<YOUREMAIL>@unr.edu --mail-type=all'
+>canu -p bch709 -d canu_outdir_retry genomeSize=11m -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> executiveMemory=64 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0  --mail-user=<YOUREMAIL>@unr.edu --mail-type=all'
 >```
 {: .solution}
 
