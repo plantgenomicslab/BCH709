@@ -69,20 +69,6 @@ ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
 sbatch --dependency=afterok:<123456> hic.sh
 ```
 
-![hic1]({{site.baseurl}}/fig/hic1.png)
-![hic1]({{site.baseurl}}/fig/hic2.png)
-![hic1]({{site.baseurl}}/fig/hic3.png)
-![hic1]({{site.baseurl}}/fig/hic4.png)
-![hic1]({{site.baseurl}}/fig/hic5.png)
-![hic1]({{site.baseurl}}/fig/hic6.png)
-![hic1]({{site.baseurl}}/fig/hic7.png)
-![hic1]({{site.baseurl}}/fig/hic8.png)
-![hic1]({{site.baseurl}}/fig/hic9.png)
-![hic1]({{site.baseurl}}/fig/hic10.png)
-
-[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU "")
-
-
 
 
 
@@ -93,6 +79,40 @@ https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 ```
 3. Send me the capture of dotplot.
 
+
+## BUSCO Error
+
+If you have an error during the BUSCO run, please add `-s arabidopsis` option at the end of the command.
+
+```bash
+conda create -n busco python=3
+conda activate busco
+conda install busco multiqc
+```
+
+```bash
+https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
+```
+
+```bash 
+#!/bin/bash
+#SBATCH --job-name=busco
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o busco.out # STDOUT
+#SBATCH -e busco.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeassembly/config/"
+
+run_busco -i <canu.contigs.fasta> --cpu 24  -o canu  -l embryophyta_odb9 -m geno -s arabidopsis
+run_busco -i <pacbio_illumina_spades.fasta> --cpu 24  -o pacbio_illumina_spades  -l embryophyta_odb9 -m geno -s arabidopsis
+multiqc . -n assembly
+```
 
 
 ###########
