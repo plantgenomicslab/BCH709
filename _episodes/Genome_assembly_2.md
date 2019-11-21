@@ -244,8 +244,7 @@ include "/usr/share/nano/sh.nanorc"
 include "/usr/share/nano/pov.nanorc"
 ```
 
-<<<<<<< HEAD
-=======
+
 ```bash
 nano DotPrep.py
 ```
@@ -277,7 +276,6 @@ The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be
 
 
 
->>>>>>> dc4f0fe9016e3f372a4df82e9adc84aacc523a84
 ## Which one is the best?
 
 
@@ -413,11 +411,12 @@ pilon --genome canu.contigs.fasta --frags canu_illumina_sort.bam --output canu.i
 ```
 
 
-```
+```bash
 sbatch --dependency=afterok:<123456> pilon.sh
 ```
 
 ### How can we improve these genome assemblies?
+
 ![illumina]({{site.baseurl}}/fig/mate.png)
 ![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
 ![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
@@ -494,7 +493,7 @@ sbatch --dependency=afterok:<123456> hic.sh
 ![hic1]({{site.baseurl}}/fig/hic9.png)
 ![hic1]({{site.baseurl}}/fig/hic10.png)
 
-[![](http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU "")
+[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU "")
 
 
 
