@@ -7,6 +7,95 @@ published: true
 Please feel free to fill up below link to review our course.
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
 
+# Assignment by 11/26
+## Chromosome assembly
+```bash
+mkdir /data/gpfs/assoc/bch709/<YOURID>/<g or G TAB>/hic   ## will go to genome assembly folder adn make hic folder
+cd !$
+```
+### HiC
+
+```bash
+conda create -n hic
+
+conda activate hic
+
+conda install samtools bedtools matplotlib numpy scipy bwa
+```
+
+
+### Download
+```bash
+https://www.dropbox.com/s/0waw9b2uy4iarq2/hic_r1.fastq.gz
+https://www.dropbox.com/s/tq0iy4815hw473z/hic_r2.fastq.gz
+https://www.dropbox.com/s/2vku066402h5una/allhic.zip
+```
+### Decompress
+```
+unzip allhic.zip
+```
+
+### Run AllHIC ->  hic.sh
+```bash
+#!/bin/bash
+#SBATCH --job-name=AllHIC
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=48g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUREMAIL>
+#SBATCH -o hic.out # STDOUT
+#SBATCH -e hic.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+unzip allhic.zip
+cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOMEASSEMBLY FOLDER>/pilon/canu.illumina.fasta*  .
+samtools faidx canu.illumina.fasta
+bwa index canu.illumina.fasta
+bwa mem -t 24 -SPM canu.illumina.fasta hic_r1.fastq.gz hic_r2.fastq.gz  > hic.sam
+samtools view -Sb hic.sam -o hic.bam -@ 24
+chmod 775 ALL* all*
+./allhic extract hic.bam canu.illumina.fasta
+./allhic partition hic.counts_GATC.txt hic.pairs.txt 2
+./allhic optimize hic.counts_GATC.2g1.txt  hic.clm
+./allhic optimize hic.counts_GATC.2g2.txt  hic.clm
+./allhic  build hic.counts_GATC.2g1.tour hic.counts_GATC.2g2.tour canu.illumina.fasta bch709_assembly
+cut -f 1,2 canu.illumina.fasta.fai >> chrn.list
+ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
+```
+
+
+```bash
+sbatch --dependency=afterok:<123456> hic.sh
+```
+
+![hic1]({{site.baseurl}}/fig/hic1.png)
+![hic1]({{site.baseurl}}/fig/hic2.png)
+![hic1]({{site.baseurl}}/fig/hic3.png)
+![hic1]({{site.baseurl}}/fig/hic4.png)
+![hic1]({{site.baseurl}}/fig/hic5.png)
+![hic1]({{site.baseurl}}/fig/hic6.png)
+![hic1]({{site.baseurl}}/fig/hic7.png)
+![hic1]({{site.baseurl}}/fig/hic8.png)
+![hic1]({{site.baseurl}}/fig/hic9.png)
+![hic1]({{site.baseurl}}/fig/hic10.png)
+
+[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU "")
+
+
+
+
+
+1. Finish all the job.
+2. Please compare "canu.illumina.fasta" and below fasta file by Mummer and draw the Dot plot.
+```
+https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
+```
+3. Send me the capture of dotplot.
+
+
+
+###########
 ## HPC 
 - S1
 - S2
@@ -357,6 +446,8 @@ We can also use another tool by the same group called Centrifuge. This tool uses
 conda create -n postprocess python=3 -y
 conda activate postprocess
 conda install -y -c bioconda pilon bwa samtools
+
+mkdir pilon ## at your genome assembly folder
 ```
 Pilon uses read alignment analysis to diagnose, report, and automatically improve de novo genome assemblies as well as call variants.
 Pilon then outputs a FASTA file containing an improved representation of the genome from the read data and an optional VCF file detailing variation seen between the read data and the input genome.
@@ -421,11 +512,12 @@ sbatch --dependency=afterok:<123456> pilon.sh
 ![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
 ![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
 
-
+### Assignment by 11/26
 ## Chromosome assembly
-mkdir /data/gpfs/assoc/bch709/<YOURID>/<g TAB>/hic
+```bash
+mkdir /data/gpfs/assoc/bch709/<YOURID>/<g TAB>/hic  
 cd !$
-
+```
 ### HiC
 
 ```bash
@@ -478,7 +570,7 @@ ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
 ```
 
 
-```
+```bash
 sbatch --dependency=afterok:<123456> hic.sh
 ```
 
@@ -498,7 +590,7 @@ sbatch --dependency=afterok:<123456> hic.sh
 
 
 
-### Assignment by 11/26
+
 1. Finish all the job.
 2. Please compare "canu.illumina.fasta" and below fasta file by Mummer and draw the Dot plot.
 ```
