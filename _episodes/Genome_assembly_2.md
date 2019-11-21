@@ -54,7 +54,7 @@ Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayY
 >#SBATCH -A cpu-s2-bch709-0
 >#SBATCH -o Canu.out # STDOUT
 >#SBATCH -e Canu.err # STDERR
->canu -p bch709 -d canu_outdir genomeSize=11m -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>executiveMemory=64 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
+>canu -p bch709 -d canu_outdir_retry genomeSize=11m -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> executiveMemory=64 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0  --mail-user=<YOUREMAIL>@unr.edu --mail-type=all'
 >```
 {: .solution}
 
@@ -87,26 +87,30 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 mkdir genomeassembly_results/
 ```
 
-## Activate Your environment
+### Activate Your environment
 
 ```bash
 conda activate genomeassembly
 ```
 
-## Copy Your Assembly Results
+### Copy Your Assembly Results
+
+
+### Check Your Assembly Results
 
 ```bash
 assembly-stats canu.contigs.fasta pacbio_illumina_spades.fasta pacbio_spades.fasta
 ```
-
-## Which one is the best?
-
-
->## If you don't have download below link
+>## If you don't have, download below link
 >```
 >https://www.dropbox.com/s/38xjzxptvj2awjv/assembly.tar.gz
 >```
 {: .solution}
+
+
+## Which one is the best?
+
+
 
 
 ## Install Global Alignmnet Software
@@ -134,8 +138,8 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #SBATCH -e nucmer.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-nucmer  --coords -p canu_spades_pacbio_illumina <canu.contigs.fasta> <pacbio_illumina_spades.fasta>
-nucmer  --coords -p canu_spades_illumina <canu.contigs.fasta> <illumina_spades.fasta>
+nucmer  --coords -p canu_spades_pacbio_illumina <canu.contigs> <pacbio_illumina_spades>
+nucmer  --coords -p canu_spades_illumina <canu.contigs> <illumina_spades>
 ```
 
 ```bash
@@ -240,6 +244,40 @@ include "/usr/share/nano/sh.nanorc"
 include "/usr/share/nano/pov.nanorc"
 ```
 
+<<<<<<< HEAD
+=======
+```bash
+nano DotPrep.py
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=dot
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2:00:00
+#SBATCH --mem=10g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o nucmer.out # STDOUT
+#SBATCH -e nucmer.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+python DotPrep.py  --delta canu_spades_pacbio_illumina.delta
+python DotPrep.py  --delta canu_spades_illumina.delta
+```
+
+The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be used with Dot for visualization.
+
+
+## Visualization
+- Transfer \*.coords.\* files
+- Go to  [Dot](https://dnanexus.github.io/dot/)
+
+![dotplot4]({{site.baseurl}}/fig/dotplot4.png)
+
+
+
+>>>>>>> dc4f0fe9016e3f372a4df82e9adc84aacc523a84
 ## Which one is the best?
 
 
