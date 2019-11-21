@@ -311,8 +311,8 @@ https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
 
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeassembly/config/"
 
-run_busco -i <canu.contigs.fasta> --cpu 24  -o canu  -l embryophyta_odb9 -m geno
-run_busco -i <pacbio_illumina_spades.fasta> --cpu 24  -o pacbio_illumina_spades  -l embryophyta_odb9 -m geno 
+run_busco -i <canu.contigs.fasta> --cpu 24  -o canu  -l embryophyta_odb9 -m geno -s arabidopsis
+run_busco -i <pacbio_illumina_spades.fasta> --cpu 24  -o pacbio_illumina_spades  -l embryophyta_odb9 -m geno -s arabidopsis
 multiqc . -n assembly
 ```
 
