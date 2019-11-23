@@ -34,6 +34,9 @@ https://www.dropbox.com/s/2vku066402h5una/allhic.zip
 ```
 unzip allhic.zip
 ```
+## canu.illumina.fasta
+**The input of HiC is the output of Pilon. If you don't have it please do Pilon first.**
+
 
 ### Run AllHIC ->  hic.sh
 ```bash
