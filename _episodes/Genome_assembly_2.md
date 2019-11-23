@@ -64,7 +64,7 @@ chmod 775 ALL* all*
 ./allhic optimize hic.counts_GATC.2g2.txt  hic.clm
 ./allhic  build hic.counts_GATC.2g1.tour hic.counts_GATC.2g2.tour canu.illumina.fasta bch709_assembly
 cut -f 1,2 canu.illumina.fasta.fai >> chrn.list
-ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
+ALLHiC_plot  hic.bam bch709_assembly.agp chrn.list 10k pdf
 ```
 
 
@@ -76,11 +76,12 @@ sbatch --dependency=afterok:<123456> hic.sh
 
 
 1. Finish all the job.
-2. Please compare "canu.illumina.fasta" and below fasta file by Mummer and draw the Dot plot.
+2. Please compare "bch709_assembly.fasta" and below fasta file by Mummer and draw the Dot plot.
+3. Please compare "canu.illumina.fasta" and below fasta file by Mummer and draw the Dot plot.
 ```
 https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 ```
-3. Send me the capture of dotplot.
+4. Send me the capture of dotplots.
 
 
 ## BUSCO Error
