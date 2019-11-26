@@ -30,17 +30,20 @@ conda activate genomeannotation
 ### Setting augustus
 ```bash
 ls ~/miniconda3/envs/genomeannotation/config/
+```
 ![config]({{site.baseurl}}/fig/config.png)
-
+```
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 echo $AUGUSTUS_CONFIG_PATH
-![path]({{site.baseurl}}/fig/path.png)
 ```
+![path]({{site.baseurl}}/fig/path.png)
+
 
 ### Setting RepeatMaker
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
+```
 ![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
 
 *PUSH ENTER*
@@ -61,7 +64,7 @@ cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 
 *type 5*
 ![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
-
+```bash
 cd -
 ```
 
@@ -85,9 +88,10 @@ https://www.uniprot.org/
 
 ```bash
 wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=reviewed:yes&compress=yes"
+```
 
 ![uniprotdownload]({{site.baseurl}}/fig/uniprotdownload.png)
-
+```bash
 gunzip uniprot.fasta.gz
 ```
 
@@ -95,14 +99,16 @@ gunzip uniprot.fasta.gz
 ```bash
 maker -CTL
 **This is normal**
+```
 ![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
-
+```bash
 ls 
+```
 ![ctl]({{site.baseurl}}/fig/ctl.png)
 
-```
 
-### Update Control files
+
+### Update Control files with below options
 ```bash
 nano maker_opts.ctl
 ```
@@ -112,19 +118,15 @@ nano maker_opts.ctl
 
 
 ### Update below
+ *NO NEED to replace spiderman to your id*
 ```
-est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta #NO NEED to replace spiderman
-rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta #NO NEED to replace spiderman
+est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta #NO NEED to replace spiderman to your id
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
 TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
 ```
-
-
-
-
-
 
 ### Run Maker
 ```bash
