@@ -132,8 +132,8 @@ nano maker_opts.ctl
 ### Update below
  *NO NEED to replace spiderman to your id*
 ```
-est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta #NO NEED to replace spiderman to your id
-rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta #NO NEED to replace spiderman to your id
+est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
@@ -365,14 +365,13 @@ nano maker_opts.ctl
 ### Update below
  *NO NEED to replace spiderman to your id*
 ```
-est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta #NO NEED to replace spiderman to your id
-rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta #NO NEED to replace spiderman to your id
+est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
 TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
 ```
-
 ### Run Maker
 ```bash
 nano maker.sh
