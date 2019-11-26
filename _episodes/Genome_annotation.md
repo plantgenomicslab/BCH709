@@ -252,30 +252,61 @@ cd !$
 
 ### Conda environment
 ```bash
-conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast
+conda clean --all
+conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
+![krona]({{site.baseurl}}/fig/krona.png)
+
+***Shannon need to replace miniconda3 -> yes***
 
 ### Setting augustus
 ```bash
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+ls ~/miniconda3/envs/genomeannotation/config/
 ```
+![config]({{site.baseurl}}/fig/config.png)
+```
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+echo $AUGUSTUS_CONFIG_PATH
+```
+![path]({{site.baseurl}}/fig/path.png)
+
 
 ### Setting RepeatMaker
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
 ```
+![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
 
-### RMBLAST
+*PUSH ENTER*
+![trf]({{site.baseurl}}/fig/trf.png)
+
+*type 2*
+![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
+
+
+*/data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
+![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
+
+*type Y*
+![RMBLAST3]({{site.baseurl}}/fig/RMBLAST3.png)
+
+
+![RMBLAST4]({{site.baseurl}}/fig/RMBLAST4.png)
+
+*type 5*
+![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
 ```bash
-/data/gpfs/home/wyim/miniconda3/envs/genomeannotation/bin/
+cd -
 ```
-
 
 
 ### Copy your draft genome
 Copy `bch709_assembly.fasta` (from HiC) to current folder (genomeannotation).
+```
+cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOME ASSEMBLY FOLDER>/hic/bch709_assembly.fasta  . 
+```
 
 ### MAKER software
 MAKER is a portable and easily configurable genome annotation pipeline. Its purpose is to allow smaller eukaryotic and prokaryotic genome projects to independently annotate their genomes and to create genome databases. MAKER identifies repeats, aligns ESTs and proteins to a genome, produces ab-initio gene predictions and automatically synthesizes these data into gene annotations having evidence-based quality values. MAKER is also easily trainable: outputs of preliminary runs can be used to automatically retrain its gene prediction algorithm, producing higher quality gene-models on seusequent runs. MAKER's inputs are minimal and its ouputs can be directly loaded into a GMOD database. They can also be viewed in the Apollo genome browser; this feature of MAKER provides an easy means to annotate, view and edit individual contigs and BACs without the overhead of a database. MAKER should prove especially useful for emerging model organism projects with minimal bioinformatics expertise and computer resources.
@@ -289,25 +320,45 @@ maker --help
 https://www.uniprot.org/
 
 ```bash
-wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=rev
-iewed:yes&compress=yes
+wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=reviewed:yes&compress=yes"
+```
 
-gunzip 
+![uniprotdownload]({{site.baseurl}}/fig/uniprotdownload.png)
+```bash
+gunzip uniprot.fasta.gz
 ```
 
 ### Generate Control files
 ```bash
 maker -CTL
+**This is normal**
 ```
+![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
+```bash
+ls 
+```
+![ctl]({{site.baseurl}}/fig/ctl.png)
 
-### Update Control files
+
+
+### Update Control files with below options
+```bash
+nano maker_opts.ctl
 ```
-est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta
-rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta
+![ctl2]({{site.baseurl}}/fig/ctl2.png)
+![ctl3]({{site.baseurl}}/fig/ctl3.png)
+![ctl4]({{site.baseurl}}/fig/ctl4.png)
+
+
+### Update below
+ *NO NEED to replace spiderman to your id*
+```
+est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta #NO NEED to replace spiderman to your id
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
-TMP=/data/gpfs/assoc/bch709/spiderman/tmp 
+TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
 ```
 
 ### Run Maker
