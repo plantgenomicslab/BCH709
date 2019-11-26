@@ -20,7 +20,7 @@ cd !$
 ### Conda environment
 ```bash
 conda clean --all
-conda create -n genomeannotation augustus=3.3.3 busco maker kraken2 bracken krona repeatmasker snap rmblast -y
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2  krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
@@ -268,7 +268,7 @@ cd !$
 ### Conda environment
 ```bash
 conda clean --all
-conda create -n genomeannotation augustus=3.3.3 busco maker kraken2 bracken krona repeatmasker snap rmblast -y
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2  krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
