@@ -40,6 +40,7 @@ echo $AUGUSTUS_CONFIG_PATH
 
 
 ### Setting RepeatMaker
+***Shannon need to replace miniconda3 -> yes***
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
@@ -98,9 +99,10 @@ gunzip uniprot.fasta.gz
 ### Generate Control files
 ```bash
 maker -CTL
-**This is normal**
 ```
+**This is normal**
 ![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
+
 ```bash
 ls 
 ```
@@ -115,6 +117,16 @@ nano maker_opts.ctl
 ![ctl2]({{site.baseurl}}/fig/ctl2.png)
 ![ctl3]({{site.baseurl}}/fig/ctl3.png)
 ![ctl4]({{site.baseurl}}/fig/ctl4.png)
+
+### Update control file example
+
+![ctl_example]({{site.baseurl}}/fig/ctl_example.png)
+![ctl_example2]({{site.baseurl}}/fig/ctl_example2.png)
+
+![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
+![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
+
+***need to do others below***
 
 
 ### Update below
