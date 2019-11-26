@@ -20,7 +20,7 @@ cd !$
 ### Conda environment
 ```bash
 conda clean --all
-conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast -y
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2 bracken krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
@@ -161,6 +161,7 @@ nano maker.sh
 #SBATCH -e maker.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 
 maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
 ```
@@ -267,7 +268,7 @@ cd !$
 ### Conda environment
 ```bash
 conda clean --all
-conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast -y
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2 bracken krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
@@ -408,6 +409,7 @@ nano maker.sh
 #SBATCH -e maker.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 
 maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
 ```
