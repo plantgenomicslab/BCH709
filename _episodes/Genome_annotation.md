@@ -126,6 +126,9 @@ nano maker_opts.ctl
 ![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
 ![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
 
+
+![protein]({{site.baseurl}}/fig/protein.png)
+
 ***need to do others below***
 
 
@@ -134,6 +137,7 @@ nano maker_opts.ctl
 ```
 est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
 rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
+protein=/data/gpfs/assoc/bch709/wyim/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
@@ -248,8 +252,6 @@ The posterior probability P{yn = i | x, Θ} can be computed from
 
 ![HMM2]({{site.baseurl}}/fig/hmm2.png)
 
-
-
 ## Genome Annotation
 ![maker]({{site.baseurl}}/fig/maker.png)
 
@@ -277,7 +279,7 @@ conda activate genomeannotation
 ls ~/miniconda3/envs/genomeannotation/config/
 ```
 ![config]({{site.baseurl}}/fig/config.png)
-```bash
+```
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 echo $AUGUSTUS_CONFIG_PATH
 ```
@@ -285,29 +287,30 @@ echo $AUGUSTUS_CONFIG_PATH
 
 
 ### Setting RepeatMaker
+***Shannon need to replace miniconda3 -> yes***
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
 ```
 ![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
 
-*PUSH ENTER*
+### *PUSH ENTER*
 ![trf]({{site.baseurl}}/fig/trf.png)
 
-*type 2*
+### *type 2*
 ![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
 
 
-*/data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
+### */data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
 ![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
 
-*type Y*
+### *type Y*
 ![RMBLAST3]({{site.baseurl}}/fig/RMBLAST3.png)
 
 
 ![RMBLAST4]({{site.baseurl}}/fig/RMBLAST4.png)
 
-*type 5*
+### *type 5*
 ![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
 ```bash
 cd -
@@ -343,9 +346,10 @@ gunzip uniprot.fasta.gz
 ### Generate Control files
 ```bash
 maker -CTL
-**This is normal**
 ```
+**This is normal**
 ![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
+
 ```bash
 ls 
 ```
@@ -361,17 +365,32 @@ nano maker_opts.ctl
 ![ctl3]({{site.baseurl}}/fig/ctl3.png)
 ![ctl4]({{site.baseurl}}/fig/ctl4.png)
 
+### Update control file example
+
+![ctl_example]({{site.baseurl}}/fig/ctl_example.png)
+![ctl_example2]({{site.baseurl}}/fig/ctl_example2.png)
+
+![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
+![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
+
+
+![protein]({{site.baseurl}}/fig/protein.png)
+
+***need to do others below***
+
 
 ### Update below
  *NO NEED to replace spiderman to your id*
 ```
 est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
 rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
+protein=/data/gpfs/assoc/bch709/wyim/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
 TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
 ```
+
 ### Run Maker
 ```bash
 nano maker.sh
@@ -392,5 +411,4 @@ nano maker.sh
 
 maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
 ```
-
 
