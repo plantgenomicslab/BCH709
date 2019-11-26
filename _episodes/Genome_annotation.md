@@ -47,23 +47,23 @@ cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ```
 ![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
 
-*PUSH ENTER*
+### *PUSH ENTER*
 ![trf]({{site.baseurl}}/fig/trf.png)
 
-*type 2*
+### *type 2*
 ![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
 
 
-*/data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
+### */data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
 ![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
 
-*type Y*
+### *type Y*
 ![RMBLAST3]({{site.baseurl}}/fig/RMBLAST3.png)
 
 
 ![RMBLAST4]({{site.baseurl}}/fig/RMBLAST4.png)
 
-*type 5*
+### *type 5*
 ![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
 ```bash
 cd -
@@ -277,7 +277,7 @@ conda activate genomeannotation
 ls ~/miniconda3/envs/genomeannotation/config/
 ```
 ![config]({{site.baseurl}}/fig/config.png)
-```
+```bash
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 echo $AUGUSTUS_CONFIG_PATH
 ```
