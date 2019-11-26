@@ -89,15 +89,97 @@ The posterior probability P{yn = i | x, Θ} can be computed from
 
 
 
+## Genome Annotation
+![maker]({{site.baseurl}}/fig/maker.png)
 
-## Home work
-```bash
-conda create -n genomeannotation busco maker kraken2 bracken krona
-
-```
 
 ```bash
-conda list >> genomeannoation.yaml
+mkdir /data/gpfs/assoc/bch709/<YOURID>/tmp
+
+mkdir /data/gpfs/assoc/bch709/<YOURID>/genomeannotation
+
+cd !$
 ```
-Please paste your `genomeannoation.yaml` https://forms.gle/wamRhxQ14wMUjCWx8
+
+### Conda environment
+```bash
+conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast
+conda activate genomeannotation
+```
+
+### Setting augustus
+```bash
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+```
+
+### Setting RepeatMaker
+```bash
+cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
+./configure
+```
+
+### RMBLAST
+```bash
+/data/gpfs/home/wyim/miniconda3/envs/genomeannotation/bin/
+```
+
+
+
+### Copy your draft genome
+Copy `bch709_assembly.fasta` (from HiC) to current folder (genomeannotation).
+
+### MAKER software
+MAKER is a portable and easily configurable genome annotation pipeline. Its purpose is to allow smaller eukaryotic and prokaryotic genome projects to independently annotate their genomes and to create genome databases. MAKER identifies repeats, aligns ESTs and proteins to a genome, produces ab-initio gene predictions and automatically synthesizes these data into gene annotations having evidence-based quality values. MAKER is also easily trainable: outputs of preliminary runs can be used to automatically retrain its gene prediction algorithm, producing higher quality gene-models on seusequent runs. MAKER's inputs are minimal and its ouputs can be directly loaded into a GMOD database. They can also be viewed in the Apollo genome browser; this feature of MAKER provides an easy means to annotate, view and edit individual contigs and BACs without the overhead of a database. MAKER should prove especially useful for emerging model organism projects with minimal bioinformatics expertise and computer resources.
+
+### Test MAKER
+```bash
+maker --help
+```
+
+### Download Uniprot database
+https://www.uniprot.org/
+
+```bash
+wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=rev
+iewed:yes&compress=yes
+
+gunzip 
+```
+
+### Generate Control files
+```bash
+maker -CTL
+```
+
+### Update Control files
+```
+est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta
+rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta
+augustus_species=arabidopsis
+est2genome=1
+protein2genome=1
+TMP=/data/gpfs/assoc/bch709/spiderman/tmp 
+```
+
+### Run Maker
+```bash
+nano maker.sh
+```
+
+```bash 
+#!/bin/bash
+#SBATCH --job-name=maker
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o maker.out # STDOUT
+#SBATCH -e maker.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+
+maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
+```
+
 

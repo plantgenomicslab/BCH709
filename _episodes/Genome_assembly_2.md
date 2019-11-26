@@ -119,6 +119,10 @@ multiqc . -n assembly
 ```
 
 
+![alignment_reference]({{site.baseurl}}/fig/alignment_reference.png)
+![structure]({{site.baseurl}}/fig/structure.png)
+
+
 ###########
 ## HPC 
 - S1
@@ -271,8 +275,8 @@ nano DotPrep.py
 #SBATCH -e nucmer.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-python DotPrep.py  --delta canu_spades_pacbio_illumina.delta
-python DotPrep.py  --delta canu_spades_illumina.delta
+python DotPrep.py  --delta canu_spades_pacbio_illumina.delta --out canu_spades_pacbio_illumina
+python DotPrep.py  --delta canu_spades_illumina.delta  --out canu_spades_illumina
 ```
 
 The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be used with Dot for visualization.
@@ -422,7 +426,7 @@ https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeassembly/config/"
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco/config/"
 
 run_busco -i <canu.contigs.fasta> --cpu 24  -o canu  -l embryophyta_odb9 -m geno -s arabidopsis
 run_busco -i <pacbio_illumina_spades.fasta> --cpu 24  -o pacbio_illumina_spades  -l embryophyta_odb9 -m geno -s arabidopsis
