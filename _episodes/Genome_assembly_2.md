@@ -303,7 +303,6 @@ The DotPrep.py script will apply a unique anchor filtering algorithm to mark ali
 
 ```bash
 wget https://dnanexus.github.io/dot/DotPrep.py
-nano DotPrep.py
 ```
 
 
@@ -363,7 +362,7 @@ include "/usr/share/nano/pov.nanorc"
 
 
 ```bash
-nano DotPrep.py
+nano DotPrep.sh
 ```
 
 ```bash

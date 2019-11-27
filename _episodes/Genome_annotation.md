@@ -137,7 +137,7 @@ nano maker_opts.ctl
 ```
 est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
 rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
-protein=/data/gpfs/assoc/bch709/wyim/genomeannotation/uniprot.fasta
+protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
@@ -385,7 +385,7 @@ nano maker_opts.ctl
 ```
 est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
 rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
-protein=/data/gpfs/assoc/bch709/wyim/genomeannotation/uniprot.fasta
+protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
