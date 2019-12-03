@@ -614,8 +614,10 @@ sbatch --dependency=afterok:<123456> hic.sh
 ![hic1]({{site.baseurl}}/fig/hic9.png)
 ![hic1]({{site.baseurl}}/fig/hic10.png)
 
-[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU "")
+[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
+
+![![hic1]({{site.baseurl}}/fig/hic10.png)]({{site.baseurl}}/fig/hicmovie.gif)
 
 
 
