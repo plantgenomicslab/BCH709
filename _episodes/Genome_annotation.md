@@ -388,8 +388,8 @@ Fields must be tab-separated. Also, all but the final field in each feature line
 
 Note that where the attributes contain Parent identifiers, these will be used by Ensembl to display the features as joined blocks.
 
-Structure is as GFF, so the fields are:
-<seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
+### Structure is as GFF, so the fields are:
+```<seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]```
 
 
 ## QI
@@ -405,35 +405,5 @@ Structure is as GFF, so the fields are:
 
 ## Annotation Edit Distance (AED)
 eAED is the the AED edit distance at an exon level, not base pair level like normal AED
-
-
-## RNA reads alignment
-The alignment process consists of choosing an appropriate reference genome to map our reads against and performing the read alignment using one of several splice-aware alignment tools such as STAR or HISAT2. The choice of aligner is often a personal preference and also dependent on the computational resources that are available to you.
-
-## STAR Aligner
-We will align our reads to the reference genome using STAR (Spliced Transcripts Alignment to a Reference). STAR is an aligner designed to specifically address many of the challenges of RNA-seq data mapping using a strategy to account for spliced alignments.
-
-![star]({{site.baseurl}}/fig/STAR.png)
-
-For every read that STAR aligns, STAR will search for the longest sequence that exactly matches one or more locations on the reference genome. These longest matching sequences are called the Maximal Mappable Prefixes (MMPs)
-
-
-
-## Reads preparation
-
-Alignment of Trimmed Reads Using STAR:
-
-For this next step, you will first need to download the reference genome and annotation file for Glycine max (soybean). The files I used can be found at the following link:
-
-Phytozome – Glycine max
-
-You will need to create a user name and password for this database before you download the files. Once you’ve done that, you can download the assembly file Gmax_275_v2 and the annotation file Gmax_275_Wm82.a2.v1.gene_exons. Having the correct files is important for annotating the genes with Biomart later on.
-
-Now that you have the genome and annotation files, you will create a genome index using the following script:
-
-STAR --runMode genomeGenerate --genomeDir /common/RNASeq_Workshop/Soybean/gmax_genome/ --genomeFastaFiles /common/RNASeq_Workshop/S
-
-
-
 
 
