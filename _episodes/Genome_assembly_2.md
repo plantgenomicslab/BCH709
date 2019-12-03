@@ -259,8 +259,14 @@ nucmer  --coords -p canu_spades_pacbio_illumina <canu.contigs> <pacbio_illumina_
 nucmer  --coords -p canu_spades_illumina <canu.contigs> <illumina_spades>
 ```
 
+
+
 ```bash
-nano DotPrep.py
+wget https://dnanexus.github.io/dot/DotPrep.py
+```
+
+```bash
+nano DotPrep.sh
 ```
 
 ```bash
@@ -300,10 +306,6 @@ After aligning genome assemblies or finished genomes against each other with MUM
 To prepare a .delta file (nucmer output) for Dot, run this python (3.6) script first: https://dnanexus.github.io/dot/DotPrep.py
 
 The DotPrep.py script will apply a unique anchor filtering algorithm to mark alignments as unique or repetitive. This algorithm analyzes all of the alignments, and it needs to see unfiltered data to determine which alignments are repetitive, so make sure to run nucmer without any filtering options and without running delta-filter on the .delta file before passing it into DotPrep.py.
-
-```bash
-wget https://dnanexus.github.io/dot/DotPrep.py
-```
 
 
 ### Improve nanorc
