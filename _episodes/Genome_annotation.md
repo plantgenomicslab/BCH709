@@ -3,6 +3,172 @@ layout: page
 title: Genome annoation
 published: true
 ---
+# Assignment due 12/03
+
+## Genome Annotation
+![maker]({{site.baseurl}}/fig/maker.png)
+
+
+```bash
+mkdir /data/gpfs/assoc/bch709/<YOURID>/tmp
+
+mkdir /data/gpfs/assoc/bch709/<YOURID>/genomeannotation
+
+cd !$
+```
+
+### Conda environment
+```bash
+conda clean --all
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2  krona repeatmasker snap rmblast -y
+conda activate genomeannotation
+```
+![krona]({{site.baseurl}}/fig/krona.png)
+
+***Shannon need to replace miniconda3 -> yes***
+
+### Setting augustus
+```bash
+ls ~/miniconda3/envs/genomeannotation/config/
+```
+![config]({{site.baseurl}}/fig/config.png)
+```
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+echo $AUGUSTUS_CONFIG_PATH
+```
+![path]({{site.baseurl}}/fig/path.png)
+
+
+### Setting RepeatMaker
+***Shannon need to replace miniconda3 -> yes***
+```bash
+cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
+./configure
+```
+![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
+
+### *PUSH ENTER*
+![trf]({{site.baseurl}}/fig/trf.png)
+
+### *type 2*
+![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
+
+
+### */data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
+![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
+
+### *type Y*
+![RMBLAST3]({{site.baseurl}}/fig/RMBLAST3.png)
+
+
+![RMBLAST4]({{site.baseurl}}/fig/RMBLAST4.png)
+
+### *type 5*
+![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
+```bash
+cd -
+```
+
+
+### Copy your draft genome
+Copy `bch709_assembly.fasta` (from HiC) to current folder (genomeannotation).
+```
+cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOME ASSEMBLY FOLDER>/hic/bch709_assembly.fasta  . 
+```
+
+### MAKER software
+MAKER is a portable and easily configurable genome annotation pipeline. Its purpose is to allow smaller eukaryotic and prokaryotic genome projects to independently annotate their genomes and to create genome databases. MAKER identifies repeats, aligns ESTs and proteins to a genome, produces ab-initio gene predictions and automatically synthesizes these data into gene annotations having evidence-based quality values. MAKER is also easily trainable: outputs of preliminary runs can be used to automatically retrain its gene prediction algorithm, producing higher quality gene-models on seusequent runs. MAKER's inputs are minimal and its ouputs can be directly loaded into a GMOD database. They can also be viewed in the Apollo genome browser; this feature of MAKER provides an easy means to annotate, view and edit individual contigs and BACs without the overhead of a database. MAKER should prove especially useful for emerging model organism projects with minimal bioinformatics expertise and computer resources.
+
+### Test MAKER
+```bash
+maker --help
+```
+
+### Download Uniprot database
+https://www.uniprot.org/
+
+```bash
+wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=reviewed:yes&compress=yes"
+```
+
+![uniprotdownload]({{site.baseurl}}/fig/uniprotdownload.png)
+```bash
+gunzip uniprot.fasta.gz
+```
+
+### Generate Control files
+```bash
+maker -CTL
+```
+**This is normal**
+![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
+
+```bash
+ls 
+```
+![ctl]({{site.baseurl}}/fig/ctl.png)
+
+
+
+### Update Control files with below options
+```bash
+nano maker_opts.ctl
+```
+![ctl2]({{site.baseurl}}/fig/ctl2.png)
+![ctl3]({{site.baseurl}}/fig/ctl3.png)
+![ctl4]({{site.baseurl}}/fig/ctl4.png)
+
+### Update control file example
+
+![ctl_example]({{site.baseurl}}/fig/ctl_example.png)
+![ctl_example2]({{site.baseurl}}/fig/ctl_example2.png)
+
+![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
+![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
+
+
+![protein]({{site.baseurl}}/fig/protein.png)
+
+***need to do others below***
+
+
+### Update below
+ *NO NEED to replace spiderman to your id*
+```
+est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
+protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
+augustus_species=arabidopsis
+est2genome=1
+protein2genome=1
+TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
+```
+
+### Run Maker
+```bash
+nano maker.sh
+```
+
+```bash 
+#!/bin/bash
+#SBATCH --job-name=maker
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o maker.out # STDOUT
+#SBATCH -e maker.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+
+maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
+```
+
+
+
+
 
 # Genome Annotation
 
@@ -87,8 +253,6 @@ The posterior probability P{yn = i | x, Θ} can be computed from
 
 ![HMM2]({{site.baseurl}}/fig/hmm2.png)
 
-
-
 ## Genome Annotation
 ![maker]({{site.baseurl}}/fig/maker.png)
 
@@ -103,30 +267,62 @@ cd !$
 
 ### Conda environment
 ```bash
-conda create -n genomeannotation busco maker kraken2 bracken krona repeatmasker snap rmblast
+conda clean --all
+conda create -n genomeannotation augustus=3.3.3 busco maker kraken2  krona repeatmasker snap rmblast -y
 conda activate genomeannotation
 ```
+![krona]({{site.baseurl}}/fig/krona.png)
+
+***Shannon need to replace miniconda3 -> yes***
 
 ### Setting augustus
 ```bash
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+ls ~/miniconda3/envs/genomeannotation/config/
 ```
+![config]({{site.baseurl}}/fig/config.png)
+```
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+echo $AUGUSTUS_CONFIG_PATH
+```
+![path]({{site.baseurl}}/fig/path.png)
+
 
 ### Setting RepeatMaker
+***Shannon need to replace miniconda3 -> yes***
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
 ```
+![repeatmasker]({{site.baseurl}}/fig/repeatmasker.png)
 
-### RMBLAST
+### *PUSH ENTER*
+![trf]({{site.baseurl}}/fig/trf.png)
+
+### *type 2*
+![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
+
+
+### */data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/*
+![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
+
+### *type Y*
+![RMBLAST3]({{site.baseurl}}/fig/RMBLAST3.png)
+
+
+![RMBLAST4]({{site.baseurl}}/fig/RMBLAST4.png)
+
+### *type 5*
+![RMBLAST5]({{site.baseurl}}/fig/RMBLAST5.png)
 ```bash
-/data/gpfs/home/wyim/miniconda3/envs/genomeannotation/bin/
+cd -
 ```
-
 
 
 ### Copy your draft genome
 Copy `bch709_assembly.fasta` (from HiC) to current folder (genomeannotation).
+```
+cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOME ASSEMBLY FOLDER>/hic/bch709_assembly.fasta  . 
+```
 
 ### MAKER software
 MAKER is a portable and easily configurable genome annotation pipeline. Its purpose is to allow smaller eukaryotic and prokaryotic genome projects to independently annotate their genomes and to create genome databases. MAKER identifies repeats, aligns ESTs and proteins to a genome, produces ab-initio gene predictions and automatically synthesizes these data into gene annotations having evidence-based quality values. MAKER is also easily trainable: outputs of preliminary runs can be used to automatically retrain its gene prediction algorithm, producing higher quality gene-models on seusequent runs. MAKER's inputs are minimal and its ouputs can be directly loaded into a GMOD database. They can also be viewed in the Apollo genome browser; this feature of MAKER provides an easy means to annotate, view and edit individual contigs and BACs without the overhead of a database. MAKER should prove especially useful for emerging model organism projects with minimal bioinformatics expertise and computer resources.
@@ -140,25 +336,60 @@ maker --help
 https://www.uniprot.org/
 
 ```bash
-wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=rev
-iewed:yes&compress=yes
+wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=reviewed:yes&compress=yes"
+```
 
-gunzip 
+![uniprotdownload]({{site.baseurl}}/fig/uniprotdownload.png)
+```bash
+gunzip uniprot.fasta.gz
 ```
 
 ### Generate Control files
 ```bash
 maker -CTL
 ```
+**This is normal**
+![makerwarning]({{site.baseurl}}/fig/makerwarning.png)
 
-### Update Control files
+```bash
+ls 
 ```
-est=/data/gpfs/assoc/bch709/spiderman/rnaseq/assembly_quality/transrate_results/Trinity/good.Trinity.fasta
-rmlib=/data/gpfs/assoc/pgl/bin/maker/data/te_proteins.fasta
+![ctl]({{site.baseurl}}/fig/ctl.png)
+
+
+
+### Update Control files with below options
+```bash
+nano maker_opts.ctl
+```
+![ctl2]({{site.baseurl}}/fig/ctl2.png)
+![ctl3]({{site.baseurl}}/fig/ctl3.png)
+![ctl4]({{site.baseurl}}/fig/ctl4.png)
+
+### Update control file example
+
+![ctl_example]({{site.baseurl}}/fig/ctl_example.png)
+![ctl_example2]({{site.baseurl}}/fig/ctl_example2.png)
+
+![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
+![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
+
+
+![protein]({{site.baseurl}}/fig/protein.png)
+
+***need to do others below***
+
+
+### Update below
+ *NO NEED to replace spiderman to your id*
+```
+est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
+rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
+protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
-TMP=/data/gpfs/assoc/bch709/spiderman/tmp 
+TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
 ```
 
 ### Run Maker
@@ -178,8 +409,8 @@ nano maker.sh
 #SBATCH -e maker.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 
 maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
 ```
-
 
