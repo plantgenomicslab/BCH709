@@ -85,7 +85,7 @@ Now that you have the genome and annotation files, you will create a genome inde
 #SBATCH -e star.err # STDERR
 #SBATCH -p cpu-s2-core-0
 #SBATCH -A cpu-s2-bch709-0
-
+mkdir reference
 STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --genomeFastaFiles /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709_assembly.fasta --sjdbGTFfile  /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709.gtf --runThreadN 16 --genomeSAindexNbases 10
 
 ## RNA Seq mapping
