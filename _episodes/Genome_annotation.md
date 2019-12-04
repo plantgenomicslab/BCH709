@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Genome annoation
+title: Genome annoatation
 published: true
 ---
 
