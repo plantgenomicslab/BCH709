@@ -41,11 +41,11 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 |Week8|[DESeq2 / EdgeR](https://plantgenomicslab.github.io/BCH709/DEG2/index.html)|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
 |Week9|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|Midterm exam: Transcriptome & Database|
 |Week10|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
-|Week11|Genome assembly|How to annotate genomes|
-|Week12|Genome assembly and annotation|Genome structure|
-|Week13|DEG analaysis|Transcriptome analysis
-|Week14|Variant analaysis|[Thanksgiving](https://giphy.com/search/dance)|
-|Week15|Enrichment analysis|Presentation|
+|Week11|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|[Genome assembly2](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)|
+|Week12|[Genome assembly and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
+|Week13|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
+|Week14|[Genome RNASeq](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)|[Thanksgiving](https://giphy.com/search/dance)|
+|Week15|[DEG analaysis](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)|[Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
 |Week16|Final exam|
 
 
