@@ -17,6 +17,7 @@ Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 >## Environment 
 >```bash
 >conda activate genomeannotation
+>conda install -c bioconda transdecoder
 >```
 >## Make assignment directory
 >```bash
