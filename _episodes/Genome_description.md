@@ -4,15 +4,97 @@ title: Genome description and enrichment test
 published: true
 ---
 
+
 ## Course Evaluation
 
 Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 
 **You can log in with your NetID to [http://www.unr.edu/evaluate](http://www.unr.edu/evaluate) and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.**
 
+
+# Assignment due by next Tuesday.
+
+>## Environment 
+>```bash
+>conda activate genomeannotation
+>```
+>## Make assignment directory
+>```bash
+>/data/gpfs/home/wyim/bch709/<YOURID>/genome_transcriptome_comparison
+>```
+>
+>
+>
+>
+>## BLAST comparison
+>```bash
+>
+>cp /data/gpfs/home/wyim/bch709/Course_material/genome_transcriptome_comparison/* .
+>```
+>
+>## Edit bch709.yml first
+>*protein fasta name is <YOURFULLPATH>/Trinity.aa*
+>
+>![ahrd_yml]({{site.baseurl}}/fig/ahrd_yml.png)
+>
+>
+>
+>### homework.sh
+>```bash
+>#!/bin/bash
+>#SBATCH --job-name=assignment
+>#SBATCH --cpus-per-task=8
+>#SBATCH --time=12:00:00
+>#SBATCH --mem=20g
+>#SBATCH --mail-type=all
+>#SBATCH --mail-user=<EMAIL>@unr.edu
+>#SBATCH -o assignment.out # STDOUT
+>#SBATCH -e assignment.err # STDERR
+>#SBATCH -p cpu-s2-core-0 
+>#SBATCH -A cpu-s2-bch709-0
+>
+>TransDecoder.LongOrfs -t Trinity.fasta
+>cp Trinity.fasta.transdecoder_dir/longest_orfs.pep Trinity.aa
+>
+>makeblastdb -in uniprot.faa -dbtype prot
+>
+>blastp -outfmt 6 -query Trinity.aa -db  uniprot.faa  -out transcriptome_vs_uniprot_blastp.txt -num_threads 8
+>
+>makeblastdb -in arabidopsis.faa -dbtype prot
+>
+>blastp -query Trinity.aa -db arabidopsis.faa -out transcriptome_vs_arabidopsis_blastp.txt -num_threads 8 -outfmt 6
+>
+>
+>
+>perl blast_parse.pl  -q Trinity.aa  -i transcriptome_vs_arabidopsis_blastp.txt -o transcriptome_vs_arabidopsis_blastp_filtered
+>
+>java -Xmx20g -jar ahrd.jar bch709.yml
+>
+>cut -f 1,2 transcriptome_vs_arabidopsis_blastp_filtered | sed 's/\.p.*//g' > id_map
+>map_fasta_ids id_map  Trinity.fasta
+>
+>map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset
+>map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset
+>map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
+>
+>cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset > WT-UP.subset
+>cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset > DT-UP.subset
+>cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset > all.subset
+>```
+>## Results
+>
+>1. compress and send me bch709.transcription.go.tab file
+>
+>2. Please analyze three files independently ( all.subset, WT-UP.subset and DT-UP.subset ) with metascape and send me.
+>
+>
+>
+{: .callout}
+
 ### Environment
 ```bash
 conda activate genomeannotation
+
 ```
 
 ### BLAST comparison
@@ -78,13 +160,6 @@ search a Protein Sequence against a Nucleotide Database, by translating each dat
 ### BLASTX
 search a Nucleotide Sequence against a Protein Database, by first translating the query Nucleotide sequence in all 6 reading frames.
 
-
-
-
-
-
-
-
 ## AHRD
 
 *edit bch709.yml*
@@ -130,14 +205,14 @@ High throughput protein function annotation with Human Readable Description (HRD
 ### Replace Name of Data
 
 ```bash
-cut -f 1,2 genome_vs_arabidopsis_blastp_filtered | sed 's/-mRNA-1//g' >> id_map
+cut -f 1,2 genome_vs_arabidopsis_blastp_filtered | sed 's/-mRNA-1//g' > id_map
 map_fasta_ids id_map  bch709.all.maker.transcripts.fasta
 map_fasta_ids id_map  bch709.all.maker.proteins.fasta
 map_gff_ids id_map bch709_all.gff
 
-map_data_ids  ../id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DT-UP.subset
-map_data_ids  ../id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.WT-UP.subset
-map_data_ids  ../id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DE.subset
+map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DT-UP.subset
+map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.WT-UP.subset
+map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DE.subset
 ```
 
 ![GO]({{site.baseurl}}/fig/GO.png)
@@ -248,79 +323,6 @@ https://david.ncifcrf.gov/
 
 
 
-
-
-# Assignment due by next Tuesday.
-
-## Environment 
-```bash
-conda activate genomeannotation
-```
-## Make assignment directory
-```bash
-/data/gpfs/home/wyim/bch709/<YOURID>/genome_transcriptome_comparison
-```
-
-
-
-
-## BLAST comparison
-```bash
-
-cp /data/gpfs/home/wyim/bch709/Course_material/Genome_description_and_enrichment_test/resources/* .
-```
-
-## Edit bch709.yml first
-*protein fasta name is <YOURFULLPATH>/Trinity.aa*
-
-![ahrd_yml]({{site.baseurl}}/fig/ahrd_yml.png)
-
-
-
-### homework.sh
-```bash
-#!/bin/bash
-#SBATCH --job-name=assignment
-#SBATCH --cpus-per-task=8
-#SBATCH --time=12:00:00
-#SBATCH --mem=20g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<EMAIL>@unr.edu
-#SBATCH -o assignment.out # STDOUT
-#SBATCH -e assignment.err # STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-0
-
-TransDecoder.LongOrfs -t Trinity.fasta
-cp Trinity.fasta.transdecoder_dir/longest_orfs.pep Trinity.aa
-
-makeblastdb -in uniprot.faa -dbtype prot
-
-blastp -outfmt 6 -query Trinity.aa -db  uniprot.faa  -out transcriptome_vs_uniprot_blastp.txt -num_threads 8
-
-makeblastdb -in arabidopsis.faa -dbtype prot
-
-blastp -query Trinity.aa -db arabidopsis.faa -out transcriptome_vs_arabidopsis_blastp.txt -num_threads 8 -outfmt 6
-
-
-
-perl blast_parse.pl  -q Trinity.aa  -i transcriptome_vs_arabidopsis_blastp.txt -o transcriptome_vs_arabidopsis_blastp_filtered
-
-java -Xmx20g -jar ahrd.jar bch709.yml
-
-cut -f 1,2 transcriptome_vs_arabidopsis_blastp_filtered | sed 's/\.p.*//g' > id_map
-map_fasta_ids id_map  Trinity.fasta
-
-map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset
-map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset
-map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
-
-```
-## Results
-
-1. compress and send me bch709.transcription.go.tab file
-
-2. Please analyze three files ( RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset, RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset and RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset) with metascape and send me.
 
 
 

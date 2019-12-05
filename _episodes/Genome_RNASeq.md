@@ -11,10 +11,6 @@ Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 
 **You can log in with your NetID to [http://www.unr.edu/evaluate](http://www.unr.edu/evaluate) and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.**
 
-
-
-
-
 ## RNA reads alignment
 The alignment process consists of choosing an appropriate reference genome to map our reads against and performing the read alignment using one of several splice-aware alignment tools such as STAR or HISAT2. The choice of aligner is often a personal preference and also dependent on the computational resources that are available to you.
 
@@ -22,7 +18,12 @@ The alignment process consists of choosing an appropriate reference genome to ma
 ## Environment
 ```bash
 conda create -n genomernaseq starseqr bioconductor-deseq2 samtools gffread star subread bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster -y
+
 conda activate genomernaseq
+
+conda install -c bioconda bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster -y
+ 
+conda install -c anaconda openblas -y
 
 ```
 ## Location
