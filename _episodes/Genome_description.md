@@ -18,7 +18,7 @@ conda activate genomeannotation
 ### BLAST comparison
 ```bash
 
-cp /data/gpfs/home/wyim/bch709/Course_material/Genome_description_and_enrichment_test/resources/* .
+cp /data/gpfs/assoc/bch709/Course_material/Genome_description_and_enrichment_test/resources/* .
 ```
 
 
