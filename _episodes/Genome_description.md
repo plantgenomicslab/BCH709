@@ -30,7 +30,7 @@ Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 >## BLAST comparison
 >```bash
 >
->cp /data/gpfs/home/wyim/bch709/Course_material/genome_transcriptome_comparison/* .
+>cp /data/gpfs/assoc/bch709/Course_material/genome_transcriptome_comparison/* .
 >```
 >
 >## Edit bch709.yml first
