@@ -84,7 +84,7 @@ Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 >```
 >## Results
 >
->1. compress and send me bch709.transcription.go.tab file
+>1. compress and send me bch709.description.go.tab file
 >
 >2. Please analyze three files independently ( all.subset, WT-UP.subset and DT-UP.subset ) with metascape and send me.
 >
