@@ -71,7 +71,7 @@ Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
 >
 >java -Xmx20g -jar ahrd.jar bch709.yml
 >
->cut -f 1,2 transcriptome_vs_arabidopsis_blastp_filtered | sed 's/\.p.*//g' > id_map
+>cut -f 1,2 transcriptome_vs_arabidopsis_blastp_filtered | sed 's/\.p*.[0-9]//g'> id_map
 >map_fasta_ids id_map  Trinity.fasta
 >
 >map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset
