@@ -227,7 +227,7 @@ GO describes how gene products behave in a cellular context A consistent descrip
 
 ### hypergeometric test
 The hypergeometric distribution is the lesser-known cousin of the binomial distribution, which describes the probability of k successes in n draws with replacement. The hypergeometric distribution describes probabilities of drawing marbles from the jar without putting them back in the jar after each draw.
-The hypergeometric probability mass function is given by (using the original variable convention
+The hypergeometric probability mass function is given by (using the original variable convention)
 
 
 ![hyper_geo]({{site.baseurl}}/fig/hyper_geo.png)

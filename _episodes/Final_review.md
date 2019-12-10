@@ -4,9 +4,20 @@ title: Final Review
 published: true
 ---
 
+• Read all questions carefully before starting. 
+• Write all your answers on the space provided in the link. 
+• Please write neatly. Illegible answers will be assumed to be incorrect. 
+• Remember that concise answers are preferable to wordy ones. 
+• Clearly state any simplifying assumptions you make in solving a problem.
+• No copies of this exam are to be removed from the class-room. 
+• No talking or communication (electronic or otherwise) with your fellow students once the exam has begun.
+• No downloading other people's results
+• Make sure your cell phone and any messaging app on your laptop is switched off. 
+• When you finish please raise your hand so your completed test may be collected. 
 
 
-### K-mer spectrum
+
+## K-mer spectrum
 Analyzing k-mer frequencies in whole-genome sequencing data is becoming a common method for estimating genome size.  Genome size refers to the amount of haploid nuclear DNA of an organism and is typically measured in picograms or megabases (where 1 pg is equivalent to 978 Mb). Assuming that each k-mer is sequenced on average with C copies (k-mer coverage) and N denotes the number of genomic k-mers in the reads, the relationship N = C x (G–k + 1) allows to estimate Genome Size with G ≈ N/C as G ≫ k. Both C and N can be statistically inferred from a k-mer frequency histogram (or k-mer distribution in short), which summarizes how many distinct k-mers occur at a specific frequency within a given whole-genome sequencing data set. 
 
 
@@ -82,14 +93,12 @@ In RNA-seq gene expression data analysis, we come across various expression unit
 I have seen a lot of post of such normalization questions and their confusion among readers. Hence, I attempted here to explain these units in the much simpler way (avoided complex mathematical expressions).
 Note: To use biopython, you need to install it.
 
-## <span style="color:#33a8ff">Why different normalized expression units?</span> ##
-
+### Why different normalized expression units?
 The expression units provide a digital measure of the abundance of transcripts. Normalized expression units are necessary to remove technical biases in sequenced data such as depth of sequencing (more sequencing depth produces more read count for gene expressed at same level) and gene length (differences in gene length generate unequal reads count for genes expressed at the same level; longer the gene more the read count).
 
 
-## <span style="color:#33a8ff"> Gene expression units and calculation </span> ##
-
- **<span style="color:#060606">RPM (Reads per million mapped reads) </span>**
+### Gene expression units and calculation
+ RPM (Reads per million mapped reads)
 
  <img src="https://latex.codecogs.com/gif.latex?\bg_green&space;RPM&space;=&space;\frac{Number&space;\&space;of&space;\&space;reads&space;\&space;mapped&space;\&space;to&space;\&space;gene&space;\times&space;10^6}{Total&space;\&space;number&space;\&space;of&space;\&space;mapped&space;\&space;reads}" />
 
@@ -99,11 +108,10 @@ For example, You have sequenced one library with 5 million(M) reads. Among them,
 
 Notes:
 
- - RPM does not consider the transcript length normalization.
- - RPM Suitable for sequencing protocols where reads are generated irrespective of gene length
+ - RPKM does not consider the transcript length normalization.
+ - RPLM Suitable for sequencing protocols where reads are generated irrespective of gene length
 
-
-**<span style="color:#060606">RPKM (Reads per kilo base per million mapped reads)</span>**
+### RPKM (Reads per kilo base per million mapped reads)
 
  <img src="https://latex.codecogs.com/gif.latex?\bg_green&space;RPKM&space;=&space;\frac{Number&space;\&space;of&space;\&space;reads&space;\&space;mapped&space;\&space;to&space;\&space;gene&space;\times&space;10^3&space;\times&space;10^6}{Total&space;\&space;number&space;\&space;of&space;\&space;mapped&space;\&space;reads&space;\times&space;gene&space;\&space;length&space;\&space;in&space;\&space;bp}" />
 
@@ -122,7 +130,7 @@ Notes:
  - Used in single-end RNA-seq experiments (FPKM for paired-end RNA-seq data)
 
 
-**<span style="color:#060606">TPM (Transcript per million)</span>**
+### TPM (Transcript per million)
 
  <img src="https://latex.codecogs.com/gif.latex?\bg_green&space;TPM&space;=&space;\frac{Number&space;\&space;of&space;\&space;reads&space;\&space;mapped&space;\&space;to&space;\&space;gene&space;\times&space;read&space;\&space;length&space;\times&space;10^6}{Total&space;\&space;number&space;\&space;of&space;\&space;transcripts&space;\&space;sampled&space;\times&space;gene&space;\&space;length&space;\&space;in&space;\&space;bp}" />
 
@@ -138,10 +146,7 @@ Notes:
  - TPM proposed as an alternative to RPKM due to inaccuracy in RPKM measurement (Wagner et al., 2012)
  - TPM is suitable for sequencing protocols where reads sequencing depends on gene length
 
-**<span style="color:#060606">Relationship between RPKM and TPM,</span>**
-
- <img src="https://latex.codecogs.com/gif.latex?\bg_green&space;RPKM&space;=&space;TPM&space;\times&space;\frac{10^3&space;\times&space;total&space;\&space;number&space;\&space;of&space;\&space;transcripts&space;\&space;sampled}{read&space;\&space;length&space;\times&space;total&space;\&space;number&space;\&space;of&space;\&space;mapped&space;\&space;reads}" />
-
+### Relationship between RPKM and TPM
 
 References:
 
@@ -149,15 +154,7 @@ References:
  - Wagner GP, Kin K, Lynch VJ. Measurement of mRNA abundance using RNA-seq data: RPKM measure is inconsistent among samples. Theory in biosciences. 2012 Dec 1;131(4):281-5.
 
 
-**<span style="color:#33a8ff">How to cite?</span>**
 
-Bedre, R. Bioinformatics data analysis and visualization toolkit. GitHub repository, <a href="https://github.com/reneshbedre/bioinfokit">https://github.com/reneshbedre/bioinfokit</a>
-
-
-<span style="color:#9e9696">If you have any questions, comments or recommendations, please email me at 
-<b>reneshbe@gmail.com</b></span>
-
-<span style="color:#9e9696"><i> Last updated: November 25, 2019</i> </span>
 
 
 
