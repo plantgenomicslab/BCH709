@@ -43,6 +43,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week2        | 1/29 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
 | Week3        | 2/3  | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html)|
 | Week3        | 2/5  | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|
+
+
+
 | Week4        | 2/10 | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
 | Week4        | 2/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 | Week5        | 2/17 | Presidents day                                  |
