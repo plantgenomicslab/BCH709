@@ -34,7 +34,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 
-## Course Overview 
+## Tentative Course Schedules
 
 | Week             | Date | Topics        |
 |--------------|------|-------------------------------------------------|

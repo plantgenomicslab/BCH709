@@ -41,8 +41,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 
-## Course Overview 
-|              | Date | Topics                                          |
+## Tentative Course Schedules
+
+| Week             | Date | Topics        |
 |--------------|------|-------------------------------------------------|
 | Week1        | 1/22 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)|
 | Week2        | 1/27 | [Intro Bioinformatics / Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
@@ -74,9 +75,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week14       | 4/27 | Transcriptome analysis                          |
 | Week15       | 4/29 | [Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
 | Week15       | 5/4  | Variant analaysis                               |
-|              | 5/11 | Final                                           |
-
-
+| Final Week15 | 5/11 | Final                                           |
 
 
 ## Optional Additional Meeting
