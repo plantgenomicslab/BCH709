@@ -4,21 +4,21 @@
 The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This illustrates the concept of bioinformatics analysis and Next Generation Sequencing for genomics including hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platforms, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
 
 > ## Class Room location
-> Classroom was changed to Fleischmann Agriculture Building room 109 (FA109)
+> Classroom was changed to Fleischmann Agriculture Building room 234 (FA234)
 > ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
 > 
-> [FA109](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
+> [FA234](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
 {: .prereq}
 
 > ## Class Schedule
-> TuTh 9:00AM - 10:15AM  
-> Aug 26, 2019 - Dec 10, 2019
+> MonWed 9:00AM - 10:15AM  
+> Jan 1, 2020 - May 4, 2020
 {: .prereq}
 
 
 > ## Prerequisites
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
-> - Please fill this [form](https://forms.gle/Mn47oiNiS9GaAN42A)
+> - Please fill this [form](https://forms.gle/AC4uFx9RHQWbZRyq8)
 > - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
@@ -27,43 +27,49 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
 {: .callout}
 
-## Class Overview 
-
-| Week    | Tuesday | Thursday|
-| ------- | ---------- |---------- |
-|Week1|[Intro to Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html)|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-|Week2|[Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|[Linux Environment and Cloud](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
-|Week3|[Compile & Software Installations](https://plantgenomicslab.github.io/BCH709/compile/index.html)|[GitHub and server](https://plantgenomicslab.github.io/BCH709/github_server/index.html)|
-|Week4|[Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|[RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
-|Week5|[Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|Transcriptome algorithms(https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
-|Week6|[Transcriptome assembly II](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly2/index.html)|[DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG/index.html)|
-|Week7|[Introduction of R &  R plotting](https://plantgenomicslab.github.io/BCH709/intro_R/index.html) ([Tong Zhou PhD](http://tongzhoulab.org/))|Database|
-|Week8|[DESeq2 / EdgeR](https://plantgenomicslab.github.io/BCH709/DEG2/index.html)|Special topics ([Tong Zhou PhD](http://tongzhoulab.org/))|
-|Week9|Gene family analysis and phylogenetics ([David Alvarez-Ponce, PhD](https://genomeevol.wordpress.com/))|Midterm exam: Transcriptome & Database|
-|Week10|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
-|Week11|[Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|[Genome assembly2](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)|
-|Week12|[Genome assembly and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
-|Week13|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|[Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
-|Week14|[Genome RNASeq](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)|[Thanksgiving](https://giphy.com/search/dance)|
-|Week15|[DEG analaysis](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)|[Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
-|Week16|Final exam|
-
 
 > ## Course description
 >As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA, and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology, this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
 
-> ## Class Room location
-> Classroom was changed to Fleischmann Agriculture Building room 109 (FA109)
-> ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
-> 
-> [FA109](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
-{: .prereq}
 
-> ## Class Schedule
-> TuTh 9:00AM - 10:15AM  
-> Aug 26, 2019 - Dec 10, 2019
-{: .prereq}
+
+## Course Overview 
+|              | Date | Topics                                          |
+|--------------|------|-------------------------------------------------|
+| Week1        | 1/22 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)                                   |
+| Week2        | 1/27 | [Intro Bioinformatics / Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html) |
+| Week2        | 1/29 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)               |
+| Week3        | 2/3  | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html)      |
+| Week3        | 2/5  | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)  |
+| Week4        | 2/10 | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) |
+| Week4        | 2/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html) |
+| Week5        | 2/17 | Presidents day                                  |
+| Week5        | 2/19 | Sequence similarity searching                   |
+| Week6        | 2/24 | Functional annotation                           |
+| Week6        | 2/26 | Database                                        |
+| Week7        | 3/2  | DEG analysis(https://plantgenomicslab.github.io/BCH709/DEG2/index.html)                                    |
+| Week7        | 3/4  | Gene family analysis and phylogenetics          |
+| Week8        | 3/9  | [Introduction of R R plotting (Heatmap & others)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html) |
+| Week8        | 3/11 | Midterm                                         |
+| Spring Break | 3/16 | Spring Break                                    |
+| Spring Break | 3/18 | Spring Break                                    |
+| Week9        | 3/23 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)                                 |
+| Week9        | 3/25 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)                                 |
+| Week10       | 3/30 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)                                 |
+| Week10       | 4/1  | Hi-C scaffolding                                |
+| Week11       | 4/6  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)                                |
+| Week11       | 4/8  | How to annotate genomes                         |
+| Week12       | 4/13 | Student presentation                            |
+| Week13       | 4/15 | Student presentation                            |
+| Week13       | 4/20 | [Genome assembly and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)                  |
+| Week14       | 4/22 | [DEG analaysis](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)                                   |
+| Week14       | 4/27 | Transcriptome analysis                          |
+| Week15       | 4/29 | [Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)                             |
+| Week15       | 5/4  | Variant analaysis                               |
+|              | 5/11 | Final                                           |
+
+
 
 
 
@@ -134,7 +140,7 @@ Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently, this page is empty, but we wi
 
   
 >## Teaching Platform
-This workshop is designed to be run on [Unix-base system](https://en.wikipedia.org/wiki/Unix) such as 
+This lecture was designed to be run on [Unix-base system](https://en.wikipedia.org/wiki/Unix) such as 
 Ubuntu, mac, etc. All the software and data used in the class will be open source. All example data will be hosted on a Google Cloud Service. If you want to know how to use Unix-base system on your computer, please follow the directions in the [Setup](setup.html) tab.
 {: .prereq}
 

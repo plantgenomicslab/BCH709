@@ -13,11 +13,11 @@ As contemporary biologists, we have entered an age where the use of computers in
 > Office: Howard Medical Scicence Bd. (HMS216)  
 > Phone: 775-682-9447  
 > Email: wyim@unr.edu  
-> Office Hours: Thursday, 10:30-noon by appointment on Tuesday.  
+> Office Hours: Wed, 10:30-noon by appointment on Monday.  
 {: .prereq} 
 
 > ## Office hours:
-> by appointment. Thursday, 10:30-noon by appointment on Tuesday
+> by appointment. Wed, 10:30-noon by appointment on Monday
 {: .prereq}
 
 > ## Prerequisites:
@@ -65,48 +65,59 @@ There will be one midterm and one final exam. Both will be written and will use 
 ### Course Component Points
 - Exams, projects, papers, and the proportion each counts toward the final grade are as follows:
 
-|Components|Point|
-|---|---|
-|Class Participation|20|
-|Homework Assignments|10|
-|Discussion|10|
-|Term paper|10|
-|Midterm exam|20|
-|Final exam|20|
-|Total|100|
+| Points distribution | points   |
+|-------------------------------------|------|
+| Class participation and discussions | 50   |
+| Assignments                         | 300  |
+| Discussion                          | 50   |
+| Presentation                        | 100  |
+| Term paper                          | 100  |
+| Midterm exam                        | 200  |
+| Final exam                          | 200  |
+| Total                               | 1000 |
 
 \* Attendance and participation in lectures and discussions
 
 ### Grading policy will be whole letter grade, as follows:
-
-|Rating|Percentile|Letter Grade|
-|---|---|---|
-|Excellent|90-100%| A |
-|Good |80-89%| B |
-|Fair |70-79%| C |
-|Poor |60-69%| D |
-|Failing Below |60%| F |
+|  | Rating:                               | Percentile: | Letter grade: |
+|--|---------------------------------------|-------------|---------------|
+|  | Excellent                             | 90-100%     | A             |
+|  | Good (acceptable for graduate work)   | 80-89%      | B             |
+|  | Fair (unacceptable for graduate work) | 70-79%      | C             |
+|  | Poor                                  | 60-69%      | D             |
+|  | Failing                               | < 60%       | F             |
 
 
 ## University Policies
-> ## Academic Dishonesty:
-> "The University Academic Standards Policy deﬁnes academic dishonesty and mandates speciﬁc sanctions for violations. See the University Academic Standards policy: [UAM 6,502](https://www.unr.edu/administrative-manual/6000-6999-curricula-teaching-research/instruction-research-procedures/6502-academic-standards)."
-{: .prereq} 
+### Academic dishonesty policy:
+Academic dishonesty is against university as well as the system community standards. Academic dishonesty is defined as: cheating, plagiarism or otherwise obtaining grades under false pretenses. Plagiarism is defined as submitting the language, ideas, thoughts or work of another as one's own; or assisting in the act of plagiarism by allowing one's work to be used in this fashion. Cheating is defined as l) copying homework assignments, 2) cheating on quizzes or exams including sharing answers with students in other sections of the course, 3) obtaining or providing unauthorized information during an examination through verbal, visual or unauthorized use of books, notes, text and other materials; 4) obtaining or providing information concerning all or part of an examination prior to that examination; 5) taking an examination for another student, or arranging for another person to take an exam in one's place; 6) altering or changing test answers after submittal for grading, grades after grades have been awarded, or other academic records once these are official, 7) including information in written assignments without proper citations.  
+	Disciplinary procedures for incidents of academic dishonesty may involve both academic action and administrative action for behavior against the campus regulations for student conduct. The procedures involve the determination by the faculty member pursuing concerns over alleged cheating or plagiarism as to whether administrative action is warranted, in addition to making a determination as to any academic consequence. 
+	Academic dishonesty will not be tolerated and penalties can include: (1) canceling the student's enrollment in the class without a grade; (2) filing a final grade of "F"; (3) awarding a failing mark on the test or paper in question; (4) requiring the student to retake the test or resubmit the paper. See the “Student Conduct Information” section of the UNR General Catalog for specific University policies and procedures regarding academic dishonesty. For more details, see http://www.cis.unr.edu/ecatalog/Default.aspx?article_list_id=11076 UNR General Catalog.
 
-> ## Statement of Disability Services:
-> “Any student with a disability needing academic adjustments or accommodations is requested to speak with me or the Disability Resource Center (Pennington Achievement Center Suite 230) as soon as possible to arrange for appropriate accommodations.”
-> This course may leverage 3rd party web/multimedia content, if you experience any issues accessing this content, please notify your instructor.
-{: .prereq} 
+**Note: all assignments need to be independent work. File sharing, command line sharing will be considered as cheating.**
 
-> ## Statement on Audio and Video Recording:
-> Surreptitious or covert video-taping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy. This class may be videotaped, or audio recorded only with the written permission of the instructor. In order to accommodate students with disabilities, some students may be given permission to record class lectures and discussions. Therefore, students should understand that their comments during class may be recorded.
-{: .prereq} 
 
-> ## Statement on TITLE IX:
-> "The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or oﬀ campus or need information related to immigration concerns, please contact the University's Equal Opportunity & Title IX oﬃce at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit the Equal Opportunity and Title IX page."
-{: .prereq} 
+### Attendance Policy:
+You are required to attend lecture/oral presentation/discussion sessions. If you cannot attend due to circumstances beyond your control, the instructor kindly requests the professional courtesy of being notified of your absence ahead of time. Class participation points will be deducted for each unexcused absence (5 points per class missed without informing the instructor before the class meets). For a full description of UNR’s class attendance policies, please see: “https://www.unr.edu/administrative-manual/3000-3999-students/3020-class-absence-policy.
 
-> ## Academic Success Services:
-> The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus or need information related to immigration concerns, please contact the University's Equal Opportunity & Title IX office at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit:  https://www.unr.edu/equal-opportunity-title-ix  
->Your student fees cover the usage of the University Math Center (http://www.unr.edu/math-center) (775) 784-4433, University Tutoring Center (http://www.unr.edu/tutoring-center) (775) 784-6801, and University University Writing Center (http://www.unr.edu/writing-center) (775) 784-6030. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student.
-{: .prereq}
+### Plagiarism Policy:
+Plagiarism (copying all or part of someone else’s work and passing it off as your own) is a serious form of academic misconduct and will not be tolerated in this class. Plagiarism is defined as submitting the language, ideas, thoughts or work of another as one’s own; or assisting in the act of plagiarism by allowing one’s work to be used in this fashion. “The work of another” does not just mean whole papers or articles copied from another source.  It includes any information, ideas, sentences, or phrases that came from somewhere other than your own head (i.e. books, articles, internet sites, videos, documents, lecture notes or handouts from other courses, and any other sources used in your paper). These must be properly acknowledged by providing references either in the text or in a footnote, along with a bibliography giving the complete publication information for all sources used in your paper. Even if you paraphrase someone else’s ideas and do not quote them directly, you still must acknowledge your source. Citations should also be given for little known facts and statistics. Ignorance is not an excuse for plagiarism. If you are not sure whether you need to provide a source for a piece of information or how to cite a source, ask the course instructor.  
+
+### Students with disabilities statement:
+“Any student with a disability needing academic adjustments or accommodations is requested to speak with me or the Disability Resource Center (Pennington Achievement Center Suite 230) as soon as possible to arrange for appropriate accommodations.” This course may leverage 3rd party web/multimedia content, if you experience any issues accessing this content, please notify your instructor.
+
+### Academic success services:
+The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or off campus or need information related to immigration concerns, please contact the University’s Equal Opportunity & Title IX office at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit: https://www.unr.edu/equal-opportunity-title-ix
+Your student fees cover the usage of the University Math Center (http://www.unr.edu/math-center) (775) 784-4433, University Tutoring Center (http://www.unr.edu/tutoring-center) (775) 784-6801, and University University Writing Center (http://www.unr.edu/writing-center) (775) 784-6030. These centers support your classroom learning; it is your responsibility to take advantage of their services. Keep in mind that seeking help outside of class is the sign of a responsible and successful student.
+
+### Statement on audio and video recording:
+Surreptitious or covert videotaping of class or unauthorized audio recording of class is prohibited by law and by Board of Regents policy.  This class may be videotaped or audio recorded only with the written permission of the instructor.  In order to accommodate students with disabilities, some students may have been given permission to record class lectures and discussions.  Therefore, students should understand that their comments during class might be recorded.
+
+### Statement on Equal Opportunity (Title IX) and Sexual Harassment:
+“The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you believe you have experienced discrimination, sexual harassment, sexual assault, domestic/dating violence, or stalking, whether on or oﬀ campus or need information related to immigration concerns, please contact the University’s Equal Opportunity & Title IX oﬃce at 775-784-1547. Resources and interim measures are available to assist you. For more information, please visit the Equal Opportunity and Title IX page.”
+
+### Statement on Cultural Diversity:
+The University of Nevada, Reno is committed to providing a safe learning and work environment for all. If you are an individual person from an underprivileged or culturally diverse background and you believe you have experienced discrimination, whether on or off campus, please contact please contact Title IX Coordinator at 784-1547. Resources and interim measures involving classes and/or residential life are available to assist you. For more information, please visit: http://www.unr.edu/equal-opportunity-title-ix.  Students, staff, and faculty members should be aware that there can often be obstacles associated with cultural diversity. To counteract or overcome these obstacles, all should become self-aware of your personal cultural biases.  
+
+
+The website theme was adapted from the original by [Data Carpentry](https://datacarpentry.org/). The infrastructure, including adventure-time and docker-browser-server, was built by @maxogden and @mafintosh. The setup of this app was based on the get-data adventure. This adventure app was made by Richard Smith-Unna. The lecture materials were crafted by Won Yim. This work is licensed under a Creative Commons 4.0 International License.
