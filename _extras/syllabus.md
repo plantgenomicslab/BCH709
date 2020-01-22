@@ -79,7 +79,8 @@ There will be one midterm and one final exam. Both will be written and will use 
 \* Attendance and participation in lectures and discussions
 
 ### Grading policy will be whole letter grade, as follows:
-|  | Rating:                               | Percentile: | Letter grade: |
+
+|  | Rating                               | Percentile | Letter grade |
 |--|---------------------------------------|-------------|---------------|
 |  | Excellent                             | 90-100%     | A             |
 |  | Good (acceptable for graduate work)   | 80-89%      | B             |

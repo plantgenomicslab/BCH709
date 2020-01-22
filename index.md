@@ -22,8 +22,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
 > - Please fill this [form](https://forms.gle/AC4uFx9RHQWbZRyq8)
 > - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
-> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
-> -- [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
+> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html); [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
 > - [Setup Slack ID](https://unrrc.slack.com/)
 > - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (1/29/20)**
 {: .callout}
