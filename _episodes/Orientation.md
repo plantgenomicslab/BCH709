@@ -12,7 +12,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Class Room location
 > Classroom was changed to Fleischmann Agriculture Building room 234 (FA234)
-> ![Classroom location](../fig/classroom_location2.png){: width="50%" height="50%"}
+> ![Classroom location](../../fig/classroom_location2.png){: width="50%" height="50%"}
 > 
 > [FA234](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
 {: .prereq}
@@ -89,7 +89,7 @@ Every Friday at 2:00pm to 4:00pm
 
 ### Meetings
 [Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)  
-After Thursday class, we can have a meeting. We are not providing financial aid, but we can discuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Monday class.**   
+We can discuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Monday class.**   
   
 ## Optional Reading materials
 - [Introduction to Bioinformatics (3rd Edition)](http://app.knovel.com/web/toc.v/cid:kpIBE00007/viewerType:toc/ "Introduction to Bioinformatics (3rd Edition)")

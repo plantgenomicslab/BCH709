@@ -105,7 +105,7 @@ Every Friday at 2:00pm to 4:00pm
 
 ### _Meeting_  
 [Howard Molecular Science 216](https://goo.gl/maps/o41BMmcawsTPoES57)  
-After Thursday class, we can have a meeting. We are not providing financial aid, but we can discuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Tuesday class.**   
+We can discuss your research bottleneck in terms of bioinformatics perspective. **Please schedule after Monday class.**   
   
 ## Optional Reading materials
 - [Introduction to Bioinformatics (3rd Edition)](http://app.knovel.com/web/toc.v/cid:kpIBE00007/viewerType:toc/ "Introduction to Bioinformatics (3rd Edition)")
