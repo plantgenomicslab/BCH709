@@ -17,14 +17,15 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Prerequisites
-> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
-> - Please fill this [form](https://forms.gle/AC4uFx9RHQWbZRyq8)
 > - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
-> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
+> - Please fill this [form](https://forms.gle/AC4uFx9RHQWbZRyq8)
 > - [Please apply your Pronghorn account here](https://www.unr.edu/research-computing/hpc-accounts)
+> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > -- [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
-> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (9/3/19)**
+> - [Setup Slack ID](https://unrrc.slack.com/)
+> - [Code academy's Intro to Unix](https://www.codecademy.com/learn/learn-the-command-line "Code academy")  - **Due to Next Tuesday (1/29/20)**
 {: .callout}
 
 
@@ -37,39 +38,37 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 ## Course Overview 
 |              | Date | Topics                                          |
 |--------------|------|-------------------------------------------------|
-| Week1        | 1/22 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)                                   |
-| Week2        | 1/27 | [Intro Bioinformatics / Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html) |
-| Week2        | 1/29 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)               |
-| Week3        | 2/3  | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html)      |
-| Week3        | 2/5  | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)  |
-| Week4        | 2/10 | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) |
-| Week4        | 2/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html) |
+| Week1        | 1/22 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)|
+| Week2        | 1/27 | [Intro Bioinformatics / Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
+| Week2        | 1/29 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
+| Week3        | 2/3  | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html)|
+| Week3        | 2/5  | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|
+| Week4        | 2/10 | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
+| Week4        | 2/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 | Week5        | 2/17 | Presidents day                                  |
 | Week5        | 2/19 | Sequence similarity searching                   |
 | Week6        | 2/24 | Functional annotation                           |
 | Week6        | 2/26 | Database                                        |
-| Week7        | 3/2  | DEG analysis(https://plantgenomicslab.github.io/BCH709/DEG2/index.html)                                    |
+| Week7        | 3/2  | DEG analysis(https://plantgenomicslab.github.io/BCH709/DEG2/index.html)|
 | Week7        | 3/4  | Gene family analysis and phylogenetics          |
 | Week8        | 3/9  | [Introduction of R R plotting (Heatmap & others)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html) |
 | Week8        | 3/11 | Midterm                                         |
 | Spring Break | 3/16 | Spring Break                                    |
 | Spring Break | 3/18 | Spring Break                                    |
-| Week9        | 3/23 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)                                 |
-| Week9        | 3/25 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)                                 |
-| Week10       | 3/30 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)                                 |
+| Week9        | 3/23 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
+| Week9        | 3/25 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
+| Week10       | 3/30 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)|
 | Week10       | 4/1  | Hi-C scaffolding                                |
-| Week11       | 4/6  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)                                |
+| Week11       | 4/6  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
 | Week11       | 4/8  | How to annotate genomes                         |
 | Week12       | 4/13 | Student presentation                            |
 | Week13       | 4/15 | Student presentation                            |
-| Week13       | 4/20 | [Genome assembly and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)                  |
-| Week14       | 4/22 | [DEG analaysis](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)                                   |
+| Week13       | 4/20 | [Genome assembly and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
+| Week14       | 4/22 | [DEG analaysis](https://plantgenomicslab.github.io/BCH709/Genome_RNASeq/index.html)|
 | Week14       | 4/27 | Transcriptome analysis                          |
-| Week15       | 4/29 | [Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)                             |
+| Week15       | 4/29 | [Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
 | Week15       | 5/4  | Variant analaysis                               |
 |              | 5/11 | Final                                           |
-
-
 
 
 
