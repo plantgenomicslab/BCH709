@@ -130,6 +130,12 @@ We can discuss your research bottleneck in terms of bioinformatics perspective. 
 
 ## Other Website
 [Command line website](http://35.199.189.11:8081/  "Command line website")  
+[Command-line bootcamp-server2](http://34.82.237.168:8081/)
+
+[Command-line bootcamp-server3](http://35.247.103.91:8081/)
+
+[Command-line bootcamp-server4](http://34.83.44.229:8081/)
+
 [Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab")
 
   
