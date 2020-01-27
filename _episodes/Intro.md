@@ -17,7 +17,7 @@ The term bioinformatics was coined by Paulien Hogeweg and Ben Hesper to describe
 
 >## Lecture and Reading
 >
-> [Lecture slide](https://drive.google.com/file/d/1oTMrmodBVX9wjfQAExOdn0UKRK3_oX8e/view)
+> [Lecture slide](https://drive.google.com/file/d/1vw4AGDGxzlFO7QIdBwzrGJSHhiTG7pmh/view)
 >
 > Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)  
 > Reading 2: [Attwood 2000](https://science.sciencemag.org/content/290/5491/471)  
