@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Introduction to bioinformatics
+title: 2_Introduction to bioinformatics
 published: true
 ---
 

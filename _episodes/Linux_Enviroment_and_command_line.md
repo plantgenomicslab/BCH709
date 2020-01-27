@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Linux Enviroment and command line
+title: 2_Linux Enviroment and command line
 published: true
 ---
 
