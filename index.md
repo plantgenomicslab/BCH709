@@ -41,17 +41,17 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week1        | 1/22 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)|
 | Week2        | 1/27 | [Intro Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html) / [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
 | Week2        | 1/29 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
-| Week3        | 2/3  | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html)|
-| Week3        | 2/5  | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf)|
-| Week4        | 2/10 | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
-| Week4        | 2/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
+| Week3        | 2/3  | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
+| Week3        | 2/5  | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
+| Week4        | 2/10 | [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf) / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
+| Week4        | 2/12 | [Github / Compile](https://plantgenomicslab.github.io/BCH709/compile/index.html) / Conda |
 | Week5        | 2/17 | Presidents day                                  |
-| Week5        | 2/19 | Sequence similarity searching                   |
-| Week6        | 2/24 | Functional annotation                           |
-| Week6        | 2/26 | Database                                        |
-| Week7        | 3/2  | DEG analysis(https://plantgenomicslab.github.io/BCH709/DEG2/index.html)|
-| Week7        | 3/4  | Gene family analysis and phylogenetics          |
-| Week8        | 3/9  | [Introduction of R R plotting (Heatmap & others)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html) |
+| Week5        | 2/19 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
+| Week6        | 2/24 | [DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG2/index.html)                           |
+| Week6        | 2/26 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html)|
+| Week7        | 3/2  | Functional annotation |
+| Week7        | 3/4  | Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)        |
+| Week8        | 3/9  | Database|
 | Week8        | 3/11 | Midterm                                         |
 | Spring Break | 3/16 | Spring Break                                    |
 | Spring Break | 3/18 | Spring Break                                    |
