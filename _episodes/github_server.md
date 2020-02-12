@@ -7,6 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
+<!--
 ## Last class question
 1. I can't paste (Ubuntu)
 ![paste]({{{site.baseurl}}/fig/paste.png)
@@ -14,6 +15,9 @@ published: true
 
 2. ChIP-Seq
 Maybe we need a special session.
+
+-->
+
 
 
 ## Check your CPUs and Memory
@@ -41,7 +45,8 @@ sudo apt install htop util-linux
 ```
 echo '###BCH709 ' >> ~/.bashrc
 
-echo 'export PS1="\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;33m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;166m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;4m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
+echo '
+tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
 
 echo "alias ls='ls --color=auto'" >> ~/.bashrc
 
@@ -209,8 +214,8 @@ Version control is essential in creating any project that takes longer than 5 mi
 https://github.com/DaehwanKimLab/hisat2
 
 ```
-![github-workflow]({{{site.baseurl}}/fig/hisat2_github.png)
-![github-workflow]({{{site.baseurl}}/fig/hisat2_github2.png)
+![github-workflow]({{{site.baseurl}}/fig/hisat2_git.png)
+![github-workflow]({{{site.baseurl}}/fig/hisat2_git2.png)
 
 ### Download
 ```bash
@@ -225,7 +230,7 @@ $ ls -algh
 
 $ less MANUAL
 ```
-![github-workflow]({{{site.baseurl}}/fig/hisat2_github3.png)
+![github-workflow]({{{site.baseurl}}/fig/hisat2_git3.png)
 
 ### Compile
 ```bash
@@ -349,12 +354,12 @@ There are several different env in this world.
 
 
 ### Reload your enviroment
-#### Ubuntu
+#### Linux
 ```bash
 $ source ~/.bashrc
 ```
 
-#### Ubuntu
+#### Linux
 ```bash
 $ source ~/.bash_profile
 ```
@@ -371,7 +376,7 @@ $ conda init
 
 #### Create a conda environment named test with latest anaconda package.
 ```bash 
-$ conda create -n bch709 python=3
+$ conda create -n bch709 
 ```
 #### Alternatively you can specify python version
 ```bash
@@ -395,7 +400,7 @@ It will show your environment name at the beginning of the prompt.
 
 Install from default conda channel
 You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
-``` 
+``` bash
 $ conda search <package>
 $ conda install <package>
 ```
@@ -468,7 +473,7 @@ $ conda update -n bch709 --all
 ```
 
 #### Uninstall package from the environment
-```   
+```bash 
 $ conda uninstall <package name>
 ```
 
@@ -511,27 +516,27 @@ You can log onto its front-end/job-submission system (pronghorn.rc.unr.edu) usin
 There are a number of ways to transfer data to and from HPC clusters. Which you should use depends on several factors, including the ease of use for you personally, connection speed and bandwidth, and the size and number of files which you intend to transfer. Most common options include scp, rsync (command line) and SCP and SFTP clients (GUI). scp (secure copy) is a simple way of transferring files between two machines that use the SSH (Secure SHell) protocol. You may use scp to connect to any system where you have SSH (login) access. scp is available as a protocol choice in some graphical file transfer programs and also as a command line program on most Linux, UNIX, and Mac OS X systems. scp can copy single files, but will also recursively copy directory contents if given a directory name. scp can be used as follows:
 
 - to a remote system from local
-```
+```bash
 scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
 ```
 - from a remote system to local
-```
+```bash
 scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
 ```
 - recursive directory copy to a remote system from local
-```
+```bash
 scp -r SourceDirectory/ username@pronghorn.rc.unr.edu:somedirectory/
 ```
 
 ***rsync*** is a fast and extraordinarily versatile file copying tool. It can synchronize file trees across local disks, directories or across a network
 
 - Synchronize a local directory with the remote server directory
-```
+```bash
 rsync -avhP path/to/SourceDirectory username@pronghorn.rc.unr.eduu:somedirectory/
 ```
 
 - Synchronize a remote directory with the local directory
-```
+```bash
 rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 ```
 
