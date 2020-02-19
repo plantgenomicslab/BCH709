@@ -900,23 +900,28 @@ $ conda env remove --name rnaseq
 >Conesa, Ana, et al. "A survey of best practices for RNA-seq data analysis." Genome biology 17.1 (2016): 13
 {: .challenge}
 
->## HOME WORK due next Tuesday
->1. Create your enviroment name rnaseq, install following tools
+>## HOME WORK due next Monday
+>### Create your environment name `rnaseq` on Pronghorn, install following tools through Conda
+> 1. Login to Pronghorn
+> 2. Activate your environment
+> 3. Install below software
 >- star  
->- bioconductor-limma  
 >- fastqc  
 >- rsem  
 >- subread  
 >- hisat2  
 >- samtools  
 >- bowtie2  
->- bioconductor-deseq2  
 >- trim-galore   
 >- multiqc  
->- trinity   
->- qorts  
->2. Then export your enviroment to rnaseq.yaml (conda env export ......)
->3. copy contents of rnaseq.yaml and paste to Webcanvas 
+###  export your environment to rnaseq.yaml
+>```bash
+> conda env export  > rnaseq.yaml
+>```
+>### copy contents of rnaseq.yaml and paste to Webcanvas 
+>```bash
+> cat rnaseq.yaml
+>```
 {: .solution}
 
 
