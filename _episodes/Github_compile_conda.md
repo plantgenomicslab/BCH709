@@ -903,8 +903,9 @@ $ conda env remove --name rnaseq
 >## HOME WORK due next Monday
 >### Create your environment name `rnaseq` on Pronghorn, install following tools through Conda
 > 1. Login to Pronghorn
-> 2. Activate your environment
-> 3. Install below software
+> 2. Create environment `rnaseq`
+> 3. Activate your environment
+> 4. Install below software
 >- star  
 >- fastqc  
 >- rsem  
