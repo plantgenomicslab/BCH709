@@ -103,6 +103,8 @@ $ cd hisat2
 $ ls -algh
 
 $ less MANUAL
+
+$ make
 ```
 ![github-workflow]({{{site.baseurl}}/fig/hisat2_git3.png)
 
@@ -177,7 +179,7 @@ There are several different env in this world.
 $ source ~/.bashrc
 ```
 
-### Linux
+### Mac OS
 ```bash
 $ source ~/.bash_profile
 ```
@@ -621,7 +623,7 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-$ conda create -n rnaseq
+$ conda create -n rnaseq python=3
 
 
 $ conda activate rnaseq
@@ -691,7 +693,7 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 
 ### Install Trim Galore
 ```bash
-$ conda install trim-galore
+$ conda install -c bioconda trim-galore
 ```
 
 ### Run trimming
@@ -790,6 +792,7 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
 ```
+$ conda install -c bioconda samtools
 $ samtools view -Sb align.sam > align.bam
 $ samtools sort align.bam  align_sort
 $ samtools index align_sort.bam

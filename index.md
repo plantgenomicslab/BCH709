@@ -50,7 +50,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week6        | 2/24 | [DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG2/index.html)                           |
 | Week6        | 2/26 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html)|
 | Week7        | 3/2  | Functional annotation |
-| Week7        | 3/4  | Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)        |
+| Week7        | 3/4  | Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)  |
 | Week8        | 3/9  | Database|
 | Week8        | 3/11 | Midterm                                         |
 | Spring Break | 3/16 | Spring Break                                    |

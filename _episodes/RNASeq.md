@@ -205,10 +205,14 @@ Everything after the first space is considered the sequence description
 The FastQ sequence identifier generally adheres to a particular format, all of which is information related to the sequencer and its position on the flowcell. The sequence description also follows a particular format and holds information regarding sample information.
 
 
-```
-$ mkdir rnaseq
+```bash
+$ pwd
 
-$ cd rnaseq/
+$ cd ~/
+
+$ mkdir bch709/rnaseq
+
+$ cd bch709/rnaseq/
 
 $ pwd
 
@@ -259,7 +263,7 @@ Once you know what each quality score represents you can then use this chart to 
 
 ### Conda enviroment
 
-```
+```bash
 $ conda create -n rnaseq
 
 
@@ -283,19 +287,14 @@ $ conda activate rnaseq
 
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
-```
-$ conda install fastqc
-```
-***if you have error, please add below first***
-```
-$ conda config --add channels conda-forge
-$ conda config --add channels defaults
-$ conda config --add channels r
-$ conda config --add channels bioconda
+```bash
+$ conda search fastqc
+$ conda install -c bioconda fastqc
 ```
 
+
 ### Run fastqc
-```
+```bash
 $ fastqc --help
 $ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
 
@@ -304,8 +303,10 @@ $ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
 ### How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
-```
-$ conda install multiqc
+```bash
+$ conda search multiqc 
+$
+$ conda install -c bioconda multiqc
 $ multiqc --help
 $ multiqc .
 $ cp -r multiqc* <YOUR DESKTOP FOLDER>
@@ -332,12 +333,12 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)  
 
 ### Install Trim Galore
-```
+```bash
 $ conda install trim-galore
 ```
 
 ### Run trimming
-```
+```bash
 $ trim_galore --help
 
 $ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
@@ -364,11 +365,11 @@ $ multiqc .
 ![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
 
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
-```
-$ conda install hisat2
+```bash
+$ conda install -c bioconda hisat2
 ```
 ### Download reference sequence
-```
+```bash
 $ wget https://www.dropbox.com/s/0onch14nnxx9b94/bch709.fasta
 ```
 ### HISAT2 indexing
@@ -447,7 +448,7 @@ A BAM file (.bam) is the binary version of a SAM file. A SAM file (.sam) is a ta
 
 
 ### Alignment visualization
-```
+```bash
 samtools tview align_sort.bam bch709.fasta
 ```
 ![tview]({{{site.baseurl}}/fig/tview.png)  
@@ -490,7 +491,7 @@ bamtools > stats
 [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)
 [Rcount](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btu680)
 
-```
+```bash
 conda install -c bioconda subread
 conda install -c bioconda rsem
 ```
@@ -521,7 +522,7 @@ DESeq2
 edgeR (Neg-binom > GLM > Test)
 Limma-Voom (Neg-binom > Voom-transform > LM > Test)
 
-```
+```bash
 conda install -c bioconda bioconductor-deseq2
 ```
 
@@ -531,7 +532,7 @@ Gene set enrichment analysis (GSEA)
 Gene ontology / Reactome databases
 
 ### Conda deactivate
-```
+```bash
 $ conda deactivate
 $ conda env remove --name rnaseq
 ```
@@ -555,5 +556,5 @@ $ conda env remove --name rnaseq
 >- trinity   
 >- qorts  
 >2. Then export your enviroment to rnaseq.yaml (conda env export ......)
->3. copy contents of rnaseq.yaml and paste to [this site](https://docs.google.com/forms/d/e/1FAIpQLSe0faV4UHKEQ8CnqJ-iXOTAmKM2IxN6g7ZNSSmtcw5FuPwmWA/viewform?usp=sf_link).
+>3. copy contents of rnaseq.yaml and paste to 
 {: .solution}
