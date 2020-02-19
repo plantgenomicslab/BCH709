@@ -6,6 +6,36 @@ published: true
 
 {% include gh_variables.html %}
 
+
+## Pronghorn request research group access
+
+[Pronghorn request research group access](https://nevada.formstack.com/forms/request_research_group_access)
+
+
+## Command Line Bootcamp
+[Command-line bootcamp-server1](http://35.199.189.11:8081/)
+
+[Command-line bootcamp-server2](http://34.82.237.168:8081/)
+
+[Command-line bootcamp-server3](http://35.247.103.91:8081/)
+
+[Command-line bootcamp-server4](http://34.83.44.229:8081/)
+
+[Command-line bootcamp-server5](http://34.82.234.47:8081/)
+
+[Command-line bootcamp-server6](http://34.83.69.104:8081/)
+
+A tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
+
+
+
+
+## Connect to Pronghorn
+```bash
+ssh <YOURID>@pronghorn.rc.unr.edu
+
+```
+
 ## Your first Unix command.
 ```bash
 echo "Hello World!"

@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Linux command line and cloud
+title: 4_Linux command line and cloud
 published: true
 ---
 
 {% include gh_variables.html %}
 
->## Last class questions
+<!--
 >#### What is ^x at Nano (editor) ? (Circumflex accent + x)
 >- that is CTRL key + X, ^C is *CTRL key + C*
 >
@@ -24,7 +24,7 @@ published: true
 >## Class Web Page
 >https://plantgenomicslab.github.io/BCH709/
 {: .callout}
-
+-->
 
 
 ## Google Cloud Platform
@@ -591,15 +591,102 @@ $ sbatch submit.sh
 sbatch: Submitted batch job 99999999
 ```
 
->## HOME WORK
->
->1. Make `BCH709_homework_0904` folder at your home and go to `BCH709_homework_0904`
->2. Write the number 1 to 9999 and save it to `numbers`
+
+## Yim_basic_setting
+
+### bashrc
+```bash
+nano ~/.bashrc
+```
+
+
+```bash
+######.bashrc
+HISTSIZE=5000
+HISTFILESIZE=9000
+
+alias vi='vim'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias ll='ls -alhg'
+alias la='ls -A'
+alias du='du -h --max-depth=1'
+alias rename='~/scratch/binary/rename'
+
+tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"
+```
+
+
+### Nano RC
+
+```bash
+nano ~/.nanorc
+```
+
+```bash
+set nowrap
+set softwrap
+set const
+## Nanorc files
+include "/usr/share/nano/nanorc.nanorc"
+
+## C/C++
+include "/usr/share/nano/c.nanorc"
+
+## HTML
+include "/usr/share/nano/html.nanorc"
+
+## TeX
+include "/usr/share/nano/tex.nanorc"
+
+## Quoted emails (under e.g. mutt)
+include "/usr/share/nano/mutt.nanorc"
+
+## Patch files
+include "/usr/share/nano/patch.nanorc"
+
+## Manpages
+include "/usr/share/nano/man.nanorc"
+
+## Groff
+include "/usr/share/nano/groff.nanorc"
+
+## Perl
+include "/usr/share/nano/perl.nanorc"
+
+## Python
+include "/usr/share/nano/python.nanorc"
+
+## Ruby
+include "/usr/share/nano/ruby.nanorc"
+
+## Java
+include "/usr/share/nano/java.nanorc"
+
+## Assembler
+include "/usr/share/nano/asm.nanorc"
+
+## Bourne shell scripts
+include "/usr/share/nano/sh.nanorc"
+
+## POV-Ray
+include "/usr/share/nano/pov.nanorc"
+
+```
+
+
+
+
+
+>## Assignment (Due next Monday)
+
+>1. Make `BCH709_homework` folder at your home and go to `BCH709_homework`
+>2. Write the number 1 to 9999 and save it to `numbers.txt`
 >3. Download `ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas` and rename it to `ATH_cDNA.fasta`
 >4. count number of line in  `ATH_cDNA.fasta`
 >5. count DNA in `ATH_cDNA.fasta`
->6. collect `gi` id and save it to file name `ID`
->7. copy your `history` and paste it on the [website](https://docs.google.com/forms/d/e/1FAIpQLSevg7eRd4IYDXe7OvduBgHnU0RxftASSreS0KsTy9xlz80lEQ/viewform?usp=sf_link).
+>6. collect `gi` id and save it to filename `ID.txt`
+>7. copy your `history` and paste it on the [website](https://unr.canvaslms.com/courses/50016/assignments/544564).
 {: .challenge}
 
 

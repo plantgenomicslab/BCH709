@@ -433,7 +433,6 @@ $ brew install openssl readline sqlite3 xz zlib
 
 This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
 
-
 ## Command Line Bootcamp
 [Command-line bootcamp-server1](http://35.199.189.11:8081/)
 
@@ -448,6 +447,11 @@ This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST
 
 
 [Command-line bootcamp-server6](http://34.82.237.168:8081/)
+
+[Command-line bootcamp-server5](http://34.82.234.47:8081/)
+
+[Command-line bootcamp-server6](http://34.83.69.104:8081/)
+
 
 , a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
 
