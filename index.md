@@ -48,7 +48,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week5        | 2/17 | Presidents day                                  |
 | Week5        | 2/19 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 | Week6        | 2/24 | [DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG2/index.html)                           |
-| Week6        | 2/26 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/intro_R/index.html)|
+| Week6        | 2/26 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html)|
 | Week7        | 3/2  | Functional annotation |
 | Week7        | 3/4  | Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)  |
 | Week8        | 3/9  | Database|
