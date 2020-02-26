@@ -151,7 +151,7 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/co-expression_pattern_between.pdf **~/Desktop**
+> scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/co-expression_pattern_between.pdf **~/Desktop**
 
 ```
 
