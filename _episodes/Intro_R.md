@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Introduction of R & R plotting 
+title: 6_Introduction of R & R plotting 
 published: true
 ---
 
@@ -32,15 +32,15 @@ conda activate r_plot
 
 ## Prepare working folder
 ```bash 
-cd /data/gpfs/assoc/bch709/<YOURID>
-mkdir r_plot
+cd /data/gpfs/assoc/bch709/
+
+mkdir -p <YOURID>/r_plot
+
 cd /data/gpfs/assoc/bch709/<YOURID>/r_plot
 ```
 
 ## Prepare data set
 ```bash 
-cd /data/gpfs/assoc/bch709/<YOURID>/r_plot  
-
 pwd
 
 ### your location should be
@@ -63,6 +63,7 @@ L-207B, Center for Molecular Medicine, MS575
 Department of Physiology and Cell Biology  
 University of Nevada, Reno School of Medicine  
 1664 North Virginia Street, Reno , NV 89557  
+
 
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
 
@@ -92,15 +93,15 @@ dev.off()
 ```
 
 ### Download results to ***your laptop***
-***Try this on your laptop***
+### **Try this on your laptop**
 
 ```bash
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  <your_BCH709_Desktop>
+scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/T63_boxplot.pdf  ~/Desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <your_BCH709_Desktop>
+scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/SLC2A1_boxplot2.pdf ~/Desktop
 
 ```
 
@@ -125,7 +126,7 @@ cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <your_BCH709_Desktop>
+scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/TP63_SLC2A1_scatter_plot.pdf **~/Desktop**
 
 ```
 
@@ -150,7 +151,7 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf <your_BCH709_Desktop>
+scp **<YOURID>**@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/**<YOURID>**/r_plot/co-expression_pattern_between.pdf **~/Desktop**
 
 ```
 
