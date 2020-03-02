@@ -565,7 +565,7 @@ $ multiqc . -n rnaseq_data
 ```
 htop
 
-cd ~/rnaseq/transcriptome assembly
+cd /data/gpfs/assoc/bch709/YOURID/rnaseq/transcriptome_assembly
 
 Trinity --seqType fq --max_memory 6G --samples_file samples.txt
 
@@ -577,7 +577,7 @@ https://www.nature.com/articles/nbt.1883
 https://www.nature.com/articles/nprot.2013.084
 
 
->## HOME WORK due next Tuesday
+>## Assignment
 >1. de Bruijn graph construction (10 pts)
 > - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)  
 >ATG  
@@ -590,14 +590,13 @@ https://www.nature.com/articles/nprot.2013.084
 >TTA  
 >TAC  
 >
->***NOT FOR THIS WEEKEND***
->***2. Please run Trinity on your computer with provided reads***
->
+>2. Trimming Practice
+> - Make `Trim` folder under `/data/gpfs/assoc/bch709/YOURID/BCH709_assignment`
+> - Change directory to the folder `Trim`
+> - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fasta` to `Trim` folder
+> - Run `Trim-Galore` and process `MultiQC`
+> - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.
 {: .solution}
-
-
-
-
 
 ### Reference:
 
