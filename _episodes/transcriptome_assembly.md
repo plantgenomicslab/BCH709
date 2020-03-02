@@ -596,6 +596,7 @@ https://www.nature.com/articles/nprot.2013.084
 > - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fasta` to `Trim` folder
 > - Run `Trim-Galore` and process `MultiQC`
 > - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.
+> *** IF YOU USE "LOOP" FOR THIS JOB, YOU WILL GET ADDITIONAL 10 POINTS ***
 {: .solution}
 
 ### Reference:
