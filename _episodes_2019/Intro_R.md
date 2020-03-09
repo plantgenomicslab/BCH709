@@ -93,21 +93,15 @@ dev.off()
 ```
 
 ### Download results to ***your laptop***
-### ***Try this on your laptop**
+### **Try this on your laptop**
 
 ```bash
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  <your_BCH709_Desktop>
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <your_BCH709_Desktop>
-=======
 scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  ~/Desktop
 
 scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
 
 ```
 
@@ -132,11 +126,7 @@ cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <your_BCH709_Desktop>
-=======
 scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
 
 ```
 
@@ -161,11 +151,7 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf <your_BCH709_Desktop>
-=======
 > scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
 
 ```
 

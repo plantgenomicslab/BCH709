@@ -352,15 +352,6 @@ Trinity is run via the script: 'Trinity' found in the base installation director
 
 Usage info is as follows:
 
-```bash
-conda create -n transcriptome_assembly
-
-conda activate transcriptome_assembly
-
-conda install -c bioconda/label/cf201901 trinity
-
-```
-
      ###############################################################################
      #
      #     ______  ____   ____  ____   ____  ______  __ __
@@ -533,7 +524,22 @@ This same samples file can then be used later on with other downstream analysis 
 <a name="typical_options"></a>
 
 
+#### File download
+```
+$ mkdir -p ~/rnaseq/transcriptome_assembly/fastq
 
+$ cd ~/rnaseq/transcriptome_assembly/fastq
+
+$ wget https://www.dropbox.com/s/o8r3279n5grn8el/fastq.tar
+
+```
+
+#### Decompress file
+```
+$ tar xvf fastq.tar
+
+$ ls
+```
 
 #### Sample file
 ```
@@ -548,7 +554,7 @@ $ wget https://www.dropbox.com/s/q1c7t4xf5kkk5um/samples.txt
 
 ### Run trimming
 ```
-$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trimmed_fastq fastq/WTD1_1.fastq.gz fastq/WTD1_2.fastq.gz 
+$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trimmed_fastq fastq/KRWTD1_1.fastq.gz fastq/KRWTD1_2.fastq.gz 
 .
 .
 .
@@ -565,11 +571,96 @@ $ multiqc . -n rnaseq_data
 ```
 htop
 
-cd /data/gpfs/assoc/bch709/YOURID/rnaseq/transcriptome_assembly
+cd ~/rnaseq/transcriptome assembly
 
 Trinity --seqType fq --max_memory 6G --samples_file samples.txt
 
 ```
+
+
+### MacOS Trinity Installation (Please open another iTerms2)
+```
+conda activate rnaseq
+
+conda uninstall trinity
+
+brew install gcc@5 libomp
+
+conda install python=3 jellyfish bowtie2 salmon cmake htop conda-build
+
+cd ~/rnaseq/transcriptome_assembly/
+
+git clone https://github.com/trinityrnaseq/trinityrnaseq
+
+cd trinityrnaseq 
+
+make -j 4
+
+ID=$(whoami)
+
+echo "export PATH=$PATH:~/rnaseq/transcriptome_assembly/trinityrnaseq:~/rnaseq/transcriptome_assembly/trinityrnaseq/trinity-plugins/ParaFly-0.1.0/bin/:" >> ~/.bash_profile
+
+source ~/.bash_profile
+
+conda activate rnaseq
+
+```
+
+
+
+
+
+
+### HPC clusters
+>This exercise mainly deals with using HPC clusters for large scale data (Next Generation Sequencing analysis, Genome annotation, evolutionary studies etc.). These clusters have several processors with large amounts of RAM (compared to typical desktop/laptop), which makes it ideal for running programs that are computationally intensive. The operating system of these clusters are primarily UNIX and are mainly operated via command line. All the commands that you have learned in the previous exercises can be used on HPC.
+>
+>Pronghorn High Performance Computing offers shared cluster computing infrastructure for researchers and students at UNR. Brief descriptions for the available resources can be found here: https://www.unr.edu/research-computing/hpc. To begin with, you need to request permission for accessing these resources either through your department or through your advisor. All workshop attendees will have their account setup on HPC class education cluster and they can use their UNR NetID and the password for logging-in. You should have already received a confirmation email about your account creation with instructions on how to connect to the cluster. In this exercise we will specifically teach you how to connect to a remote server (HPC), transfer files in and out of the server, and running programs by requesting resources.
+>
+>
+You can log onto its front-end/job-submission system (pronghorn.rc.unr.edu) using your UNR NetID and password. Logging into HPC class requires an SSH client if you are >using Windows but Mac/Linux have these built into their OS. There are several available for download for the Windows platform.
+>
+>```
+>ssh <YOURID>@pronghorn.rc.unr.edu
+>```
+{: .prereq}
+
+- to a remote system from local
+```
+scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
+```
+- from a remote system to local
+```
+scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
+```
+- recursive directory copy to a remote system from local
+```
+scp -r SourceDirectory/ username@pronghorn.rc.unr.edu:somedirectory/
+```
+
+***rsync*** is a fast and extraordinarily versatile file copying tool. It can synchronize file trees across local disks, directories or across a network
+
+- Synchronize a local directory with the remote server directory
+```
+rsync -avhP path/to/SourceDirectory username@pronghorn.rc.unr.eduu:somedirectory/
+```
+
+- Synchronize a remote directory with the local directory
+```
+rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
+```
+
+
+### Conda env export
+```
+conda env export --no-build > enviroment.yml
+```
+
+### Conda env import
+```
+conda env create -f enviroment.yml 
+
+```
+
 
 Paper need to read
 https://academic.oup.com/gigascience/article/8/5/giz039/5488105
@@ -577,7 +668,7 @@ https://www.nature.com/articles/nbt.1883
 https://www.nature.com/articles/nprot.2013.084
 
 
->## Assignment
+>## HOME WORK due next Tuesday
 >1. de Bruijn graph construction (10 pts)
 > - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)  
 >ATG  
@@ -590,14 +681,14 @@ https://www.nature.com/articles/nprot.2013.084
 >TTA  
 >TAC  
 >
->2. Trimming Practice
-> - Make `Trim` folder under `/data/gpfs/assoc/bch709/YOURID/BCH709_assignment`
-> - Change directory to the folder `Trim`
-> - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fasta` to `Trim` folder
-> - Run `Trim-Galore` and process `MultiQC`
-> - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.
-> *** IF YOU USE "LOOP" FOR THIS JOB, YOU WILL GET ADDITIONAL 10 POINTS ***
+>***NOT FOR THIS WEEKEND***
+>***2. Please run Trinity on your computer with provided reads***
+>
 {: .solution}
+
+
+
+
 
 ### Reference:
 
