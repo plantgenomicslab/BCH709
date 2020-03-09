@@ -359,7 +359,7 @@ https://www.nature.com/articles/nprot.2013.084
 >1. Trimming Practice
 > - Make `Transcriptome_assembly` folder under `/data/gpfs/assoc/bch709/YOURID/BCH709_assignment`
 > - Change directory to the folder `Transcriptome_assembly`
-> - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq` to `Transcriptome_assembly` folder
+> - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq` to `Transcriptome_assembly` folder  
 > | Sample             | Replication | Forward (read1) | Reverse (read2) | 
 > |--------------------|-------------|-----------------|-----------------| 
 > | Wildtype           | Rep1        | WT1_R1.fastq.gz | WT1_R2.fastq.gz | 
