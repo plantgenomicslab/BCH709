@@ -373,9 +373,9 @@ https://www.nature.com/articles/nprot.2013.084
 > - Change directory to the folder `Transcriptome_assembly`
 > - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq` to `Transcriptome_assembly` folder
 > - Run `Trim-Galore` and process `MultiQC`
-> - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.
-> *** IF YOU USE "LOOP" FOR THIS JOB, PLEASE ATTACH YOUR COMMAND, YOU WILL GET ADDITIONAL 10 POINTS ***
-> Until 3/11/20 9:00AM.
+> - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.  
+> *** IF YOU USE "LOOP" FOR THIS JOB, PLEASE ATTACH YOUR COMMAND, YOU WILL GET ADDITIONAL 10 POINTS ***  
+> Until 3/11/20 9:00AM
 > Late submission will not be allowed. 
 {: .solution}
 
