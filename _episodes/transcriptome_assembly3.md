@@ -382,3 +382,226 @@ https://www.nature.com/articles/nprot.2013.084
 - Conda documentation https://docs.conda.io/en/latest/
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
+
+
+
+## Slurm Quick Start Tutorial
+Resource sharing on a supercomputer dedicated to technical and/or scientific computing is often organized by a piece of software called a resource manager or job scheduler. Users submit jobs, which are scheduled and allocated resources (CPU time, memory, etc.) by the resource manager.
+
+Slurm is a resource manager and job scheduler designed to do just that, and much more. It was originally created by people at the Livermore Computing Center, and has grown into a full-fledge open-source software backed up by a large community, commercially supported by the original developers, and installed in many of the Top500 supercomputers.
+
+Gathering information
+Slurm offers many commands you can use to interact with the system. For instance, the sinfo command gives an overview of the resources offered by the cluster, while the squeue command shows to which jobs those resources are currently allocated.
+
+By default, sinfo lists the partitions that are available. A partition is a set of compute nodes (computers dedicated to... computing) grouped logically. Typical examples include partitions dedicated to batch processing, debugging, post processing, or visualization.
+
+### sinfo 
+Show the State of Nodes
+```bash
+sinfo --all
+```
+```
+PARTITION      AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu-s2-core-0     up 14-00:00:0      2    mix cpu-[8-9]
+cpu-s2-core-0     up 14-00:00:0      7  alloc cpu-[1-2,4-6,78-79]
+cpu-s2-core-0     up 14-00:00:0     44   idle cpu-[0,3,7,10-47,64,76-77]
+cpu-s3-core-0*    up    2:00:00      2    mix cpu-[8-9]
+cpu-s3-core-0*    up    2:00:00      7  alloc cpu-[1-2,4-6,78-79]
+cpu-s3-core-0*    up    2:00:00     44   idle cpu-[0,3,7,10-47,64,76-77]
+gpu-s2-core-0     up 14-00:00:0     11   idle gpu-[0-10]
+cpu-s6-core-0     up      15:00      2   idle cpu-[65-66]
+cpu-s1-pgl-0      up 14-00:00:0      1    mix cpu-49
+cpu-s1-pgl-0      up 14-00:00:0      1  alloc cpu-48
+cpu-s1-pgl-0      up 14-00:00:0      2   idle cpu-[50-51]
+
+```
+In the above example, we see two partitions, named batch and debug. The latter is the default partition as it is marked with an asterisk. All nodes of the debug partition are idle, while two of the batch partition are being used.
+
+The sinfo command also lists the time limit (column TIMELIMIT) to which jobs are subject. On every cluster, jobs are limited to a maximum run time, to allow job rotation and let every user a chance to see their job being started. Generally, the larger the cluster, the smaller the maximum allowed time. You can find the details on the cluster page.
+
+You can actually specify precisely what information you would like sinfo to output by using its --format argument. For more details, have a look at the command manpage with man sinfo.
+
+## sinfo advance
+```
+sinfo $OPTIONS -o "%13n %8t %4c %8z %15C %8O %8m %8G %18P %f"  | egrep s2
+```
+## squeue
+The squeue command shows the list of jobs which are currently running (they are in the RUNNING state, noted as ‘R’) or waiting for resources (noted as ‘PD’, short for PENDING).
+```bash
+squeue
+```
+```
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+            983204 cpu-s2-co    neb_K jzhang23  R 6-09:05:47      1 cpu-6
+            983660 cpu-s2-co   RT3.sl yinghanc  R   12:56:17      1 cpu-9
+            983659 cpu-s2-co   RT4.sl yinghanc  R   12:56:21      1 cpu-8
+            983068 cpu-s2-co Gd-bound   dcantu  R 7-06:16:01      2 cpu-[78-79]
+            983067 cpu-s2-co Gd-unbou   dcantu  R 1-17:41:56      2 cpu-[1-2]
+            983472 cpu-s2-co   ub-all   dcantu  R 3-10:05:01      2 cpu-[4-5]
+            982604 cpu-s1-pg     wrap     wyim  R 12-14:35:23      1 cpu-49
+            983585 cpu-s1-pg     wrap     wyim  R 1-06:28:29      1 cpu-48
+            983628 cpu-s1-pg     wrap     wyim  R   13:44:46      1 cpu-49
+```
+
+## SBATCH
+Now the question is: How do you create a job?
+
+A job consists in two parts: resource requests and job steps. Resource requests consist in a number of CPUs, computing expected duration, amounts of RAM or disk space, etc. Job steps describe tasks that must be done, software which must be run.
+
+The typical way of creating a job is to write a submission script. A submission script is a shell script, e.g. a Bash script, whose comments, if they are prefixed with SBATCH, are understood by Slurm as parameters describing resource requests and other submissions options. You can get the complete list of parameters from the sbatch manpage man sbatch.
+
+>## Important
+>
+>The SBATCH directives must appear at the top of the submission file, before any other line except for the very first line which should be the shebang (e.g. #!/bin/bash).
+>The script itself is a job step. Other job steps are created with the srun command.
+>For instance, the following script, hypothetically named submit.sh,
+{: checklist}
+
+```bash
+ nano submit.sh
+```
+
+```
+#!/bin/bash
+#SBATCH --job-name=test
+#SBATCH --cpus-per-task=16
+#SBATCH --time=10:00
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mem=1g
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+#SBATCH --mail-type=fail
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+echo "Hello Pronghorn"
+seq 1 8000
+
+```
+would request one CPU for 10 minutes, along with 1g of RAM, in the default queue. When started, the job would run a first job step srun hostname, which will launch the UNIX command hostname on the node on which the requested CPU was allocated. Then, a second job step will start the sleep command. Note that the --job-name parameter allows giving a meaningful name to the job and the --output parameter defines the file to which the output of the job must be sent.
+
+Once the submission script is written properly, you need to submit it to slurm through the sbatch command, which, upon success, responds with the jobid attributed to the job. (The dollar sign below is the shell prompt)
+```bash
+$ chmod 775 submit.sh
+$ sbatch submit.sh
+sbatch: Submitted batch job ########
+```
+
+#### File download
+```
+$ mkdir -p ~/rnaseq/transcriptome_assembly/fastq
+
+$ cd ~/rnaseq/transcriptome_assembly/fastq
+```
+
+
+#### Download below files
+```
+https://www.dropbox.com/s/mzvempzve7uuwoa/KRWTD1_1.fastq.gz
+https://www.dropbox.com/s/uv2a10w9wj9tcww/KRWTD1_2.fastq.gz
+https://www.dropbox.com/s/ra0s10g2nag6axp/KRWTD2_1.fastq.gz
+https://www.dropbox.com/s/jao5tb8a1hnzqw4/KRWTD2_2.fastq.gz
+https://www.dropbox.com/s/4gwhz0t1d32cdnw/KRWTD3_1.fastq.gz
+https://www.dropbox.com/s/wp2uk0nafdb74wp/KRWTD3_2.fastq.gz
+https://www.dropbox.com/s/ctzo9k9n8qdpvio/KRWTW1_1.fastq.gz
+https://www.dropbox.com/s/psiak4r2910sjsc/KRWTW1_2.fastq.gz
+https://www.dropbox.com/s/so4zeuyqz64m80z/KRWTW2_1.fastq.gz
+https://www.dropbox.com/s/2ggf2xdiydtehdw/KRWTW2_2.fastq.gz
+https://www.dropbox.com/s/7bfgcq69cymb5yj/KRWTW3_1.fastq.gz
+https://www.dropbox.com/s/lfif4qnbhnfes26/KRWTW3_2.fastq.gz
+```
+
+
+
+#### Run trimming
+```
+$ cd ~/rnaseq/transcriptome_assembly
+$ pwd
+$ nano trim.sh
+```
+
+```
+#!/bin/bash
+#SBATCH --job-name=<TRIM>
+#SBATCH --cpus-per-task=16
+#SBATCH --time=2:00:00
+#SBATCH --mem-per-cpu=1g
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+
+fastqc ~/rnaseq/transcriptome_assembly/fastq/*.gz
+
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o ~/rnaseq/transcriptome_assembly/trimmed_fastq ~/rnaseq/transcriptome_assembly/fastq/KRWTD1_1.fastq.gz ~/rnaseq/transcriptome_assembly/fastq/KRWTD1_2.fastq.gz 
+
+
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o ~/rnaseq/transcriptome_assembly/trimmed_fastq ~/rnaseq/transcriptome_assembly/fastq/KRWTD2_1.fastq.gz ~/rnaseq/transcriptome_assembly/fastq/KRWTD2_2.fastq.gz
+.
+.
+.
+
+fastqc ~/rnaseq/transcriptome_assembly/trimmed_fastq/*
+
+```
+
+
+
+#### Submit job
+```
+chmod 775 trim.sh
+sbatch trim.sh
+```
+
+***PLEASE CHECK YOUR MULTIQC***
+
+#### Merge gz file
+```
+zcat ~/rnaseq/transcriptome_assembly/trimmed_fastq/KRWTD1_1_val_1.fq.gz ........... >> merged_R1.fastq
+
+zcat ~/rnaseq/transcriptome_assembly/trimmed_fastq/KRWTD1_2_val_2.fq.gz ........... >> merged_R2.fastq
+
+```
+
+### Trinity run
+```
+htop
+
+cd ~/rnaseq/transcriptome_assembly 
+
+nano trinity.sh
+
+```
+
+```
+#!/bin/bash
+#SBATCH --job-name=<TRINITY>
+#SBATCH --cpus-per-task=64
+#SBATCH --time=2:00:00
+#SBATCH --mem=100g
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o <TRINITY>.out # STDOUT
+#SBATCH -e <TRINITY>.err # STDERR
+
+Trinity --seqType fq  --CPU 64 --max_memory 100G --left merged_R1.fastq --right merged_R2.fastq
+
+```
+
+### Submit job
+```
+chmod 775 trinity.sh
+
+```
+
+### MultiQC
+```
+cd ~/rnaseq/
+multiqc . -n rnaseq_data
+```
+
+### Please send me the results
+
+```
+mv rnaseq_data.html <your_name>_rnaseq_data.html
+```
+***Use SCP for downloading and send me the file***
