@@ -383,6 +383,8 @@ https://www.nature.com/articles/nprot.2013.084
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
 
+![pronghorn]({{{site.baseurl}}/fig/pronghorn.png)
+
 
 
 ## Slurm Quick Start Tutorial
@@ -457,6 +459,58 @@ The typical way of creating a job is to write a submission script. A submission 
 >For instance, the following script, hypothetically named submit.sh,
 {: checklist}
 
+### nano setting
+```
+set nowrap
+set softwrap
+set const
+## Nanorc files
+include "/usr/share/nano/nanorc.nanorc"
+
+## C/C++
+include "/usr/share/nano/c.nanorc"
+
+## HTML
+include "/usr/share/nano/html.nanorc"
+
+## TeX
+include "/usr/share/nano/tex.nanorc"
+
+## Quoted emails (under e.g. mutt)
+include "/usr/share/nano/mutt.nanorc"
+
+## Patch files
+include "/usr/share/nano/patch.nanorc"
+
+## Manpages
+include "/usr/share/nano/man.nanorc"
+
+## Groff
+include "/usr/share/nano/groff.nanorc"
+
+## Perl
+include "/usr/share/nano/perl.nanorc"
+
+## Python
+include "/usr/share/nano/python.nanorc"
+
+## Ruby
+include "/usr/share/nano/ruby.nanorc"
+
+## Java
+include "/usr/share/nano/java.nanorc"
+
+## Assembler
+include "/usr/share/nano/asm.nanorc"
+
+## Bourne shell scripts
+include "/usr/share/nano/sh.nanorc"
+
+## POV-Ray
+include "/usr/share/nano/pov.nanorc"
+
+```
+
 ```bash
  nano submit.sh
 ```
@@ -468,7 +522,7 @@ The typical way of creating a job is to write a submission script. A submission 
 #SBATCH --time=10:00
 #SBATCH --account=cpu-s2-bch709-0
 #SBATCH --partition=cpu-s2-core-0
-#SBATCH --mem=1g
+#SBATCH --mem-per-cpu=1g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 #SBATCH --mail-type=fail
@@ -486,60 +540,55 @@ $ sbatch submit.sh
 sbatch: Submitted batch job ########
 ```
 
-#### File download
+### Conda env
 ```
-$ mkdir -p ~/rnaseq/transcriptome_assembly/fastq
-
-$ cd ~/rnaseq/transcriptome_assembly/fastq
+conda activate rnaseq
 ```
 
+#### File prepare
+```
+mkdir -p /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq
 
-#### Download below files
+cd /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq
+
+cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq/*.gz .
+
+cd ../
 ```
-https://www.dropbox.com/s/mzvempzve7uuwoa/KRWTD1_1.fastq.gz
-https://www.dropbox.com/s/uv2a10w9wj9tcww/KRWTD1_2.fastq.gz
-https://www.dropbox.com/s/ra0s10g2nag6axp/KRWTD2_1.fastq.gz
-https://www.dropbox.com/s/jao5tb8a1hnzqw4/KRWTD2_2.fastq.gz
-https://www.dropbox.com/s/4gwhz0t1d32cdnw/KRWTD3_1.fastq.gz
-https://www.dropbox.com/s/wp2uk0nafdb74wp/KRWTD3_2.fastq.gz
-https://www.dropbox.com/s/ctzo9k9n8qdpvio/KRWTW1_1.fastq.gz
-https://www.dropbox.com/s/psiak4r2910sjsc/KRWTW1_2.fastq.gz
-https://www.dropbox.com/s/so4zeuyqz64m80z/KRWTW2_1.fastq.gz
-https://www.dropbox.com/s/2ggf2xdiydtehdw/KRWTW2_2.fastq.gz
-https://www.dropbox.com/s/7bfgcq69cymb5yj/KRWTW3_1.fastq.gz
-https://www.dropbox.com/s/lfif4qnbhnfes26/KRWTW3_2.fastq.gz
-```
+
 
 
 
 #### Run trimming
 ```
-$ cd ~/rnaseq/transcriptome_assembly
-$ pwd
-$ nano trim.sh
+pwd
+nano trim.sh
 ```
 
 ```
 #!/bin/bash
 #SBATCH --job-name=<TRIM>
-#SBATCH --cpus-per-task=16
 #SBATCH --time=2:00:00
-#SBATCH --mem-per-cpu=1g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --cpus-per-task=16
+#SBATCH --mem-per-cpu=4g
+#SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 #SBATCH --mail-user=<YOUR ID>@unr.edu
-
-fastqc ~/rnaseq/transcriptome_assembly/fastq/*.gz
-
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o ~/rnaseq/transcriptome_assembly/trimmed_fastq ~/rnaseq/transcriptome_assembly/fastq/KRWTD1_1.fastq.gz ~/rnaseq/transcriptome_assembly/fastq/KRWTD1_2.fastq.gz 
+#SBATCH --output=<TRIM>.out
 
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o ~/rnaseq/transcriptome_assembly/trimmed_fastq ~/rnaseq/transcriptome_assembly/fastq/KRWTD2_1.fastq.gz ~/rnaseq/transcriptome_assembly/fastq/KRWTD2_2.fastq.gz
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT1_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT1_R2.fastq.gz
+
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT2_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT2_R2.fastq.gz
 .
 .
 .
-
-fastqc ~/rnaseq/transcriptome_assembly/trimmed_fastq/*
+.
+.
+.
 
 ```
 
@@ -551,21 +600,15 @@ chmod 775 trim.sh
 sbatch trim.sh
 ```
 
-***PLEASE CHECK YOUR MULTIQC***
+***PLEASE CHECK YOUR MULTIQC after job running***
 
-#### Merge gz file
+### MultiQC
 ```
-zcat ~/rnaseq/transcriptome_assembly/trimmed_fastq/KRWTD1_1_val_1.fq.gz ........... >> merged_R1.fastq
-
-zcat ~/rnaseq/transcriptome_assembly/trimmed_fastq/KRWTD1_2_val_2.fq.gz ........... >> merged_R2.fastq
-
+multiqc  --filename trim  .
 ```
 
 ### Trinity run
 ```
-htop
-
-cd ~/rnaseq/transcriptome_assembly 
 
 nano trinity.sh
 
@@ -574,34 +617,33 @@ nano trinity.sh
 ```
 #!/bin/bash
 #SBATCH --job-name=<TRINITY>
-#SBATCH --cpus-per-task=64
-#SBATCH --time=2:00:00
+#SBATCH --time=6:00:00
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --cpus-per-task=24
 #SBATCH --mem=100g
+#SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 #SBATCH --mail-user=<YOUR ID>@unr.edu
-#SBATCH -o <TRINITY>.out # STDOUT
-#SBATCH -e <TRINITY>.err # STDERR
+#SBATCH --output=<TRINITY>.out
 
-Trinity --seqType fq  --CPU 64 --max_memory 100G --left merged_R1.fastq --right merged_R2.fastq
+
+Trinity --seqType fq  --CPU 24 --max_memory 100G --left trim/DT1_R1_val_1.fq.gz,trim/DT2_R1_val_1.fq.gz,trim/DT3_R1_val_1.fq.gz,trim/WT1_R1_val_1.fq.gz,trim/WT2_R1_val_1.fq.gz,trim/WT3_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz,trim/DT2_R2_val_2.fq.gz,trim/DT3_R2_val_2.fq.gz,trim/WT1_R2_val_2.fq.gz,trim/WT2_R2_val_2.fq.gz,trim/WT3_R2_val_2.fq.gz
 
 ```
+
+***Please consider relative path and absolute path***
 
 ### Submit job
 ```
 chmod 775 trinity.sh
 
+sbatch trinity.sh
 ```
 
 ### MultiQC
 ```
-cd ~/rnaseq/
-multiqc . -n rnaseq_data
-```
-
-### Please send me the results
-
-```
-mv rnaseq_data.html <your_name>_rnaseq_data.html
+multiqc . -n assembly
 ```
 ***Use SCP for downloading and send me the file***

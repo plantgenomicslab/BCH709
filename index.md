@@ -51,8 +51,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week6        | 2/26 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html)|
 | Week7        | 3/2  | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
 | Week7        | 3/4  | Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)  |
-| Week8        | 3/9  | Database|
-| Week8        | 3/11 | Midterm                                         |
+| Week8        | 3/9  | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
+| Week8        | 3/11 |  [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
 | Spring Break | 3/16 | Spring Break                                    |
 | Spring Break | 3/18 | Spring Break                                    |
 | Week9        | 3/23 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
