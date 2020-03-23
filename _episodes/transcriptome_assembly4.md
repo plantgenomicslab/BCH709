@@ -718,6 +718,7 @@ sed -i 's/<TAB>/\t/g' sample.txt
 ```
 ### Linux command explaination
 https://explainshell.com/
+https://explainshell.com/explain?cmd=cat+rsem_outdir_test%2FRSEM.genes.results+%7C+egrep+-v+FPKM+%7C+awk+%27%7B+sum%2B%3D%245%7D+END+%7Bprint+sum%7D%27#
 
 ### SED AWK explaination
 https://emb.carnegiescience.edu/sites/default/files/140602-sedawkbash.key_.pdf
