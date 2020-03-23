@@ -55,8 +55,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week8        | 3/11 |  [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
 | Spring Break | 3/16 | Spring Break                                    |
 | Spring Break | 3/18 | Spring Break                                    |
-| Week9        | 3/23 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
-| Week9        | 3/25 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
+| Week9        | 3/23 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html)|
+| Week9        | 3/25 | [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html)|
 | Week10       | 3/30 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)|
 | Week10       | 4/1  | Hi-C scaffolding                                |
 | Week11       | 4/6  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|

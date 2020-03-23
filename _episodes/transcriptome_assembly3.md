@@ -547,9 +547,9 @@ conda activate rnaseq
 
 #### File prepare
 ```
-mkdir -p /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq
+mkdir -p /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
 
-cd /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq
+cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
 
 cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq/*.gz .
 
