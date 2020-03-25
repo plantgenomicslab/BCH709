@@ -843,6 +843,9 @@ nano deseq.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method DESeq2 
 ```
@@ -862,6 +865,9 @@ nano edgeR.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method edgeR
 ```
 
