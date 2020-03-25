@@ -743,8 +743,10 @@ https://emb.carnegiescience.edu/sites/default/files/140602-sedawkbash.key_.pdf
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 
-align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --output_dir rsem_outdir --samples_file sample.txt
+align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
 ```
 
 
@@ -775,6 +777,8 @@ nano abundance.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 
 abundance_estimates_to_matrix.pl  --est_method RSEM --gene_trans_map none --name_sample_by_basedir  --cross_sample_norm TMM ../WT_REP1/RSEM.isoforms.results ../WT_REP2/RSEM.isoforms.results ../WT_REP3/RSEM.isoforms.results   ../DT_REP1/RSEM.isoforms.results ../DT_REP2/RSEM.isoforms.results ../DT_REP3/RSEM.isoforms.results
 ```
@@ -810,6 +814,8 @@ nano ptr.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 
 PtR  --matrix RSEM.isoform.counts.matrix --samples samples_ptr.txt --CPM --log2 --min_rowSums 10  --compare_replicates
 
