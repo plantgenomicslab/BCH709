@@ -698,8 +698,6 @@ cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/
 
 ### Type sample file
 ```bash
-conda install nano
-
 nano sample.txt
 ```
 
