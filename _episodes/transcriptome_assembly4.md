@@ -516,14 +516,6 @@ TrinityStats.pl /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Tr
 ```
 
 
-### MultiQC
-```
-multiqc . -n assembly
-```
-***Use SCP for downloading and send me the file***
-
-
-
 
 ### RNA-Seq reads Count Analysis
 ```bash
@@ -659,7 +651,7 @@ fpkm
 
 ### Sum of FPKM
 ```bash
-cat rsem_outdir/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$7} END {print sum}'
+cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$7} END {print sum}'
 ```
 ### TPM calculation from FPKM
 
@@ -672,7 +664,7 @@ TPM
 
 ### TPM calculation from reads count
 ```bash
-cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$5/$3} END {print sum}'
+cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$5/$4} END {print sum}'
 ```
 
 ```python
@@ -684,10 +676,24 @@ TPM
 ```
 
 ### Paper read
-[Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)
+[Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)  
+
 [Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
 
 
+## DEG calculation
+
+### Conda env
+```
+conda activate rnaseq
+```
+
+
+#### File prepare
+```
+
+cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/
+```
 
 
 ### Type sample file
@@ -780,35 +786,6 @@ sbatch abundance.sh
 ![RSEM]({{site.baseurl}}/fig/RSEM_result.png)
 
 
-### Paper read
-[Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)
-[Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
-
-
-### Normalization
-
-CPM, RPKM, FPKM, TPM, RLE, MRN, Q, UQ, TMM, VST, RLOG, VOOM ... Too many...  
-
-CPM: Controls for sequencing depth when dividing by total count. Not for within-sample comparison or DE.  
-
-Counts per million (CPM) mapped reads are counts scaled by the number of fragments you sequenced (N) times one million. This unit is related to the FPKM without length normalization and a factor of 10^3:  
-![CPM]({{site.baseurl}}/fig/CPM.png)
-
-RPKM/FPKM: Controls for sequencing depth and gene length. Good for technical replicates, not good for sample-sample due to compositional bias. Assumes total RNA output is same in all samples. Not for DE.  
-
-TPM: Similar to RPKM/FPKM. Corrects for sequencing depth and gene length. Also comparable between samples but no correction for compositional bias.  
-
-TMM/RLE/MRN: Improved assumption: The output between samples for a core set only of genes is similar. Corrects for compositional bias. Used for DE. RLE and MRN are very similar and correlates well with sequencing depth. edgeR::calcNormFactors() implements TMM, TMMwzp, RLE & UQ.   DESeq2::estimateSizeFactors implements median ratio method (RLE). Does not correct for gene length.  
-
-VST/RLOG/VOOM: Variance is stabilised across the range of mean values. For use in exploratory analyses. Not for DE. vst() and rlog() functions from DESeq2. voom() function from Limma converts data to normal distribution.  
-
-geTMM: Gene length corrected TMM.  
-
-For DGE using DGE R packages (DESeq2, edgeR, Limma etc), use raw counts  
-For visualisation (PCA, clustering, heatmaps etc), use TPM or TMM  
-For own analysis with gene length correction, use TPM (maybe geTMM?)  
-Other solutions: spike-ins/house-keeping genes  
-
 
 ### PtR (Quality Check Your Samples and Biological Replicates)
 
@@ -816,6 +793,7 @@ Once you've performed transcript quantification for each of your biological repl
 
 
 ```bash
+
 cut -f 1,2 ../sample.txt >> samples_ptr.txt
 
 nano ptr.sh
@@ -897,14 +875,13 @@ wc -l RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DE.subset
 ## DESeq2 vs EdgeR Normalization method
 DESeq and EdgeR are very similar and both assume that no genes are differentially expressed. DEseq uses a "geometric" normalisation strategy, whereas EdgeR is a weighted mean of log ratios-based method. Both normalise data initially via the calculation of size / normalisation factors.
 
-Here is further information (important parts in bold):
 
 ### DESeq
-DESeq: This normalization method is included in the DESeq Bioconductor package (version 1.6.0) and is based on the hypothesis that most genes are not DE. A DESeq scaling factor for a given lane is computed as the median of the ratio, for each gene, of its read count over its geometric mean across all lanes. The underlying idea is that non-DE genes should have similar read counts across samples, leading to a ratio of 1. Assuming most genes are not DE, the median of this ratio for the lane provides an estimate of the correction factor that should be applied to all read counts of this lane to fulfill the hypothesis. By calling the estimateSizeFactors() and sizeFactors() functions in the DESeq Bioconductor package, this factor is computed for each lane, and raw read counts are divided by the factor associated with their sequencing lane.  
+DESeq: This normalization method is included in the DESeq Bioconductor package (version 1.6.0) and is based on the hypothesis that most genes are not DE. A DESeq scaling factor for a given lane is computed as the median of the ratio, for each gene, of its read count over its geometric mean across all lanes. The underlying idea is that non-DE genes should have similar read counts across samples, leading to a ratio of 1. **Assuming most genes are not DE, the median of this ratio for the lane provides an estimate of the correction factor that should be applied to all read counts of this lane to fulfill the hypothesis.** By calling the estimateSizeFactors() and sizeFactors() functions in the DESeq Bioconductor package, this factor is computed for each lane, and raw read counts are divided by the factor associated with their sequencing lane.  
 [DESeq2](https://www.ncbi.nlm.nih.gov/pubmed/22988256)
 
 ### EdgeR
-Trimmed Mean of M-values (TMM): This normalization method is implemented in the edgeR Bioconductor package (version 2.4.0). It is also based on the hypothesis that most genes are not DE. The TMM factor is computed for each lane, with one lane being considered as a reference sample and the others as test samples. For each test sample, TMM is computed as the weighted mean of log ratios between this test and the reference, after exclusion of the most expressed genes and the genes with the largest log ratios. According to the hypothesis of low DE, this TMM should be close to 1. If it is not, its value provides an estimate of the correction factor that must be applied to the library sizes (and not the raw counts) in order to fulfill the hypothesis. The calcNormFactors() function in the edgeR Bioconductor package provides these scaling factors. To obtain normalized read counts, these normalization factors are re-scaled by the mean of the normalized library sizes. Normalized read counts are obtained by dividing raw read counts by these re-scaled normalization factors.  
+Trimmed Mean of M-values (TMM): This normalization method is implemented in the edgeR Bioconductor package (version 2.4.0). It is also based on the hypothesis that most genes are not DE. The TMM factor is computed for each lane, with one lane being considered as a reference sample and the others as test samples. For each test sample, TMM is computed as the weighted mean of log ratios between this test and the reference, after exclusion of the most expressed genes and the genes with the largest log ratios. **According to the hypothesis of low DE, this TMM should be close to 1. If it is not, its value provides an estimate of the correction factor that must be applied to the library sizes (and not the raw counts) in order to fulfill the hypothesis.** The calcNormFactors() function in the edgeR Bioconductor package provides these scaling factors. To obtain normalized read counts, these normalization factors are re-scaled by the mean of the normalized library sizes. Normalized read counts are obtained by dividing raw read counts by these re-scaled normalization factors.  
 [EdgeR](https://www.ncbi.nlm.nih.gov/pubmed/22988256)
 
 ## DESeq2 vs EdgeR Statistical tests for differential expression
@@ -926,6 +903,7 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 
 ***[DEG software comparison paper](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-13-484)***
 
+*** DEseq uses a "geometric" normalisation strategy, whereas EdgeR is a weighted mean of log ratios-based method. Both normalise data initially via the calculation of size / normalisation factors ***
 
 
 
@@ -936,15 +914,14 @@ conda create -n venn python=2.7
 conda activate venn
 conda install -c bioconda -c r bedtools intervene r-UpSetR r-corrplot r-Cairo
 
-conda activate venn
 ``` 
 
 ```bash
 cd ../
 pwd
 # /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/DEG
-mkdir Venn
-
+mkdir Venn 
+cd Venn
 
 ###DESeq2
 cut -f 1 ../DESeq2.#####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset  | grep -v sample > DESeq.UP.subset
