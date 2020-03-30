@@ -1,220 +1,24 @@
 ---
 layout: page
-title: Genome assembly
+title: 10_Genome assembly
 published: true
 ---
-# Meeting schedule
-Please feel free to fill up below link to review our course.
-Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
+## Env setting
+```bash
+conda create -n preprocessing python=3 -y
 
+conda activate preprocessing
 
->## Homework 11/09/2019 Due by 11/14/2019
->
->## PacBio reads preprocessing env
->```bash
->conda activate preprocessing
->```
->### Reads download
->```bash
->cd /data/gpfs/assoc/bch709/<YOURID>/genomeassembly/
->cd PacBio
->```
->** if this is not there, please use 'mkdir'
->
->### Download below reads
->```bash
->https://www.dropbox.com/s/1e4a4jpp3eszt6u/BCH709_Pacbio_02.fastq.gz
->https://www.dropbox.com/s/au2528hpm8vvr4c/BCH709_Pacbio_01.fastq.gz
->```
->
->### Check PacBio reads statistics *Submit below job*
->```bash
->#!/bin/bash
->#SBATCH --job-name=PacBio_stat
->#SBATCH --cpus-per-task=64
->#SBATCH --time=24:00:00
->#SBATCH --mem=140g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<YOUR ID>@unr.edu
->#SBATCH -o PacBio_stat.out # STDOUT
->#SBATCH -e PacBio_stat.err # STDERR
->#SBATCH -p cpu-s2-core-0 
->#SBATCH -A cpu-s2-bch709-0
->
->NanoStat --fastq BCH709_Pacbio_02.fastq.gz > BCH709_Pacbio_02.stat.txt
->NanoPlot -t 2 --fastq  BCH709_Pacbio_02.fastq.gz --maxlength 25000 --plots hex dot pauvre -o pacbio_stat
->
->
->NanoStat --fastq BCH709_Pacbio_01.fastq.gz > BCH709_Pacbio_01.stat.txt
->NanoPlot -t 2 --fastq  BCH709_Pacbio_01.fastq.gz --maxlength 25000 --plots hex dot pauvre -o pacbio_stat
->```
->
->
->### Transfer your result
->```bash
->*.png *.html *.txt
->```
->
->
->
->
->### Genome assembly Spades
->```bash
->mkdir Spades_pacbio
->cd Spades_pacbio
->conda activate genomeassembly
->
->```
->### Submit below job
->
->```bash
->#!/bin/bash
->#SBATCH --job-name=Spades_pacbio
->#SBATCH --cpus-per-task=64
->#SBATCH --time=24:00:00
->#SBATCH --mem=140g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<YOUR ID>@unr.edu
->#SBATCH -o Spades.out # STDOUT
->#SBATCH -e Spades.err # STDERR
->#SBATCH -p cpu-s2-core-0 
->#SBATCH -A cpu-s2-bch709-0
->zcat  <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz> >> merged_pacbio.fastq
->spades.py -k 21,33,55,77 --careful -1 <Illumina_trim_galore output_reads1> -2 <Illumina_trim_galore output_reads2> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
->```
->
->
->
->## Canu assembly
->```
->mkdir canu_pacbio
->cd canu_pacbio
->conda activate genomeassembly
->```
->### Submit below job
->```bash
->#!/bin/bash
->#SBATCH --job-name=Canu_pacbio
->#SBATCH --cpus-per-task=64
->#SBATCH --time=24:00:00
->#SBATCH --mem=140g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<YOUR ID>@unr.edu
->#SBATCH -o Canu.out # STDOUT
->#SBATCH -e Canu.err # STDERR
->#SBATCH -p cpu-s2-core-0 
->#SBATCH -A cpu-s2-bch709-0
->
->canu -p bch709 -d canu_outdir genomeSize=11M -pacbio-raw <LOCATION_BCH709_Pacbio_02.fastq.gz> <LOCATION_BCH709_Pacbio_01.fastq.gz>   corMemory=186 corThreads=64 batMemory=186  ovbMemory=24 ovbThreads=12 corOutCoverage=120  ovsMemory=32-186 maxMemory=186 ovsThreads=20 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
->```
-{: .callout}
+conda install -c bioconda trim-galore jellyfish multiqc nanostat nanoplot -y
+```
 
+```bash
+conda create -n genomeassembly -y 
+conda activate genomeassembly
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
+```
 
-
->## Homework 11/05/2019 due by 11/07
->Please calculate N50 of `before_rr.fasta` and check how many reads in "BCH709_0001.fastq.gz" send to `wyim@unr.edu`
->
->### N50 calculation
->```bash
->conda activate genomeassembly
->conda install -c bioconda assembly-stats
->assembly-stats before_rr.fasta
->```
->
->### Reads download
->```bash
->mkdir PacBio
->cd PacBio
->```
->
->```bash
->https://www.dropbox.com/s/1e4a4jpp3eszt6u/BCH709_Pacbio_02.fastq.gz
->https://www.dropbox.com/s/au2528hpm8vvr4c/BCH709_Pacbio_01.fastq.gz
->```
->Please count how many reads are there. (`zcat`, `wc`, `bc`, etcs)
-{: .solution}
-
-
->## HOMEWORK (10/31/19) due by 11/05
->### Check Genome Size by Illumina Reads
->
->```bash
->cd /data/gpfs/assoc/bch709/<YOUR_ID>/
->mkdir -p  Genome_assembly/Illumina
->cd Genome_assembly/Illumina
->```
->
->### Create Preprocessing Env
->```bash
->conda create -n preprocessing python=3
->conda install -c bioconda trim-galore jellyfish multiqc
->```
->
->### Reads Download
->```
->https://www.dropbox.com/s/ax38m9wra44lsgi/WGS_R1.fq.gz
->https://www.dropbox.com/s/kp7et2du5c2v385/WGS_R2.fq.gz
->```
->
->
->### Reads Trimming
->
->```bash
->#!/bin/bash
->#SBATCH --job-name=Trim
->#SBATCH --cpus-per-task=32
->#SBATCH --time=2:00:00
->#SBATCH --mem=100g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<YOUR ID>@unr.edu
->#SBATCH -o trim.out # STDOUT
->#SBATCH -e trim.err # STDERR
->
->trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  -o trimmed_fastq <READ_R1> <READ_R2>
->fastqc <READ_R1> <READ_R2>
->multiqc . -n WGS_Illumina
->```
->
->### K-mer counting
->```bash
->mkdir kmer
->cd kmer
->```
->
->```bash
->#!/bin/bash
->#SBATCH --job-name=Trim
->#SBATCH --cpus-per-task=32
->#SBATCH --time=2:00:00
->#SBATCH --mem=100g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<YOUR ID>@unr.edu
->#SBATCH -o trim.out # STDOUT
->#SBATCH -e trim.err # STDERR
->gunzip trimmed_fastq/*.gz
->jellyfish count -C -m 21 -s 1000000000 -t 10 trimmed_fastq/<trim_galore output>  -o reads.jf
->jellyfish histo -t 10 reads.jf > reads.histo
->```
->
->
->
->
->### Count Reads Number in file
->
->```bash
-> echo $(zcat WGS_R1.fq.gz |wc -l)/4 | bc
->```
->
->### Advanced approach
->
->```bash
->for i in `ls *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
->For all gzip compressed fastq files, display the number of reads since 4 lines = 1 reads
->```
->
-> ***Keep all results at Pronghorn***
->
-{: .solution}
 
 
 
@@ -384,16 +188,6 @@ SMRT Sequencing enables simultaneous collection of data from millions of wells u
 - Flusberg, Benjamin A et al. (2010) Direct detection of DNA methylation during single-molecule, real-time sequencing. Nature methods
 - Eid, John et al. (2009) Real-time DNA sequencing from single polymerase molecules. Science
 
-## Homework
-1. Create Conda enviroment named "genomeassembly"  
-2. Please install following software  
-```
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc 
-conda install -c r r-ggplot2 r-stringr r-scales r-argparse
-conda install -c conda-forge nano
-```
-
-
 
 
 ## Repeat in Genome
@@ -541,66 +335,23 @@ Errors include
 
 ```bash
 cd /data/gpfs/assoc/bch709/<YOUR_ID>/
-mkdir Genome_assembly/Illumina
+mkdir -p Genome_assembly/Illumina
 cd Genome_assembly/Illumina
 ```
 
 ### Create Preprocessing Env
 ```bash
-conda create -n preprocessing python=3
-conda install -c bioconda trim-galore jellyfish multiqc 
+conda create -n preprocessing python=3 -y
+
+conda activate preprocessing
+
+conda install -c bioconda trim-galore jellyfish multiqc nanostat nanoplot -y
 ```
 
 ### Reads Download
 ```
 https://www.dropbox.com/s/ax38m9wra44lsgi/WGS_R1.fq.gz
 https://www.dropbox.com/s/kp7et2du5c2v385/WGS_R2.fq.gz
-```
-
-
-### Reads Trimming
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=Trim
-#SBATCH --cpus-per-task=32
-#SBATCH --time=2:00:00
-#SBATCH --mem=100g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<YOUR ID>@unr.edu
-#SBATCH -o trim.out # STDOUT
-#SBATCH -e trim.err # STDERR
-
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  -o trimmed_fastq <READ_R1> <READ_R2>
-fastqc <READ_R1> <READ_R2>
-multiqc . -n WGS_Illumina
-```
-
-### K-mer counting
-```bash
-mkdir kmer
-cd kmer
-```
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=Trim
-#SBATCH --cpus-per-task=32
-#SBATCH --time=2:00:00
-#SBATCH --mem=100g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<YOUR ID>@unr.edu
-#SBATCH -o trim.out # STDOUT
-#SBATCH -e trim.err # STDERR
-gunzip ../trimmed_fastq/*.gz
-jellyfish count -C -m 21 -s 1000000000 -t 10 <trim_galore output>  -o reads.jf
-jellyfish histo -t 10 reads.jf > reads_jf.histo
-```
-
-### for multiqc
-```bash
-jellyfish:
-  fn: '*_jf.hist'
 ```
 
 ### Count Reads Number in file
@@ -614,8 +365,51 @@ echo $(cat WGS_R1.fq |wc -l)/4 | bc
 ### Advanced approach
 
 ```bash
-for i in `ls *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
+for i in `ls -1 *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
+
+
 ***For all gzip compressed fastq files, display the number of reads since 4 lines = 1 reads***
+```
+
+
+### Reads Trimming
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Trim
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2:00:00
+#SBATCH --mem=30g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+
+trim_galore --paired   --three_prime_clip_R1 10 --three_prime_clip_R2 10 --cores 8  --max_n 40  -o trimmed_fastq --fastqc <READ_R1> <READ_R2> 
+
+multiqc . -n WGS_Illumina
+```
+
+### K-mer counting
+```bash
+mkdir kmer && cd kmer
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Trim
+#SBATCH --cpus-per-task=10
+#SBATCH --time=2:00:00
+#SBATCH --mem=10g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o trim.out # STDOUT
+#SBATCH -e trim.err # STDERR
+gunzip ../trimmed_fastq/*.gz
+jellyfish count -C -m 21 -s 100000000 -t 10 ../trimmed_fastq/*.fq -o reads.jf
+jellyfish histo -t 10 reads.jf > reads_jf.histo
 ```
 
 
@@ -624,29 +418,32 @@ http://qb.cshl.edu/genomescope/genomescope2.0
 
 
 
-
-
-
 ### Genome assembly Spades
 ```bash
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/
 mkdir Spades
 cd Spades
+conda create -n genomeassembly -y 
 conda activate genomeassembly
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
 
 ```bash
 #!/bin/bash
 #SBATCH --job-name=Spades
-#SBATCH --cpus-per-task=64
+#SBATCH --cpus-per-task=32
 #SBATCH --time=2:00:00
-#SBATCH --mem=140g
+#SBATCH --mem=64g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
 
-spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 140 --threads 64
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 64 --threads 32
 ```
 
 
@@ -656,7 +453,7 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 ![spades2]({{site.baseurl}}/fig/spades2.jpg)
 ## Log
 ```bash
-Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        140     --threads       64
+Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        120     --threads       32
 
 System information:
   SPAdes version: 3.13.1
@@ -2025,6 +1822,8 @@ Thank you for using SPAdes!
 ### Assembly statistics
 
 ## N50 example
+N50 is a measure to describe the quality of assembled genomes that are fragmented in contigs of different length. The N50 is defined as the minimum contig length needed to cover 50% of the genome.
+
 
 |Contig Length|Cumulative Sum|  
 | --- | --- |  
@@ -2135,10 +1934,6 @@ AAACTTAGTCTTTGCTTGCCCTCAAGCAAAC
 [bandage](https://rrwick.github.io/Bandage/)
 
 
-## Homework 11/05/2019
-Please calculate N50 of `before_rr.fasta` and check how many reads in "BCH709_0001.fastq.gz" send to `wyim@unr.edu`
-
-
 ## PacBio assembly
 ```bash
 conda deactivate
@@ -2233,6 +2028,8 @@ conda activate genomeassembly
 #SBATCH --cpus-per-task=64
 #SBATCH --time=2:00:00
 #SBATCH --mem=140g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Spades.out # STDOUT
@@ -2254,6 +2051,8 @@ conda activate genomeassembly
 #SBATCH --cpus-per-task=64
 #SBATCH --time=2:00:00
 #SBATCH --mem=140g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Canu.out # STDOUT
