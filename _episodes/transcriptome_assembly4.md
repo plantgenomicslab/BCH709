@@ -37,8 +37,8 @@ ls
 #SBATCH --job-name=test
 #SBATCH --cpus-per-task=16
 #SBATCH --time=10:00
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --mem-per-cpu=1g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -69,8 +69,8 @@ nano trim.sh
 #!/bin/bash
 #SBATCH --job-name=<TRIM>
 #SBATCH --time=2:00:00
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
@@ -152,8 +152,8 @@ for fastq in samples:
         fh.writelines("#SBATCH --output=%s.out\n" % fastq)
         fh.writelines("#SBATCH --error=%s.err\n" % fastq)
         fh.writelines("#SBATCH --time=2-00:00\n")
-        fh.writelines("#SBATCH --account=cpu-s2-bch709-0\n")
-        fh.writelines("#SBATCH --partition=cpu-s2-core-0\n")
+        fh.writelines("#SBATCH --account=cpu-s6-test-0\n")
+        fh.writelines("#SBATCH --partition=cpu-s6-core-0\n")
         fh.writelines("#SBATCH --cpus-per-task=16\n")
         fh.writelines("#SBATCH --mem-per-cpu=4g\n")
         fh.writelines("#SBATCH --mail-type=fail\n")
@@ -186,8 +186,8 @@ for fastq in ${fastq[@]}; do
 #SBATCH --output=${fastq}.out
 #SBATCH --error=${fastq}.err
 #SBATCH --time=2-00:00
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
@@ -732,7 +732,10 @@ https://explainshell.com/explain?cmd=cat+rsem_outdir_test%2FRSEM.genes.results+%
 https://emb.carnegiescience.edu/sites/default/files/140602-sedawkbash.key_.pdf
 
 
-
+### Job file create
+```bash
+nano alignment.sh
+```
 
 ### Run alignment 
 ```bash
@@ -747,8 +750,8 @@ https://emb.carnegiescience.edu/sites/default/files/140602-sedawkbash.key_.pdf
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 
 align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
 ```
@@ -781,8 +784,8 @@ nano abundance.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 
 abundance_estimates_to_matrix.pl  --est_method RSEM --gene_trans_map none --name_sample_by_basedir  --cross_sample_norm TMM ../WT_REP1/RSEM.isoforms.results ../WT_REP2/RSEM.isoforms.results ../WT_REP3/RSEM.isoforms.results   ../DT_REP1/RSEM.isoforms.results ../DT_REP2/RSEM.isoforms.results ../DT_REP3/RSEM.isoforms.results
 ```
@@ -818,8 +821,8 @@ nano ptr.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 
 PtR  --matrix RSEM.isoform.counts.matrix --samples samples_ptr.txt --CPM --log2 --min_rowSums 10  --compare_replicates
 
@@ -847,8 +850,8 @@ nano deseq.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method DESeq2 
@@ -869,8 +872,8 @@ nano edgeR.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method edgeR
 ```
