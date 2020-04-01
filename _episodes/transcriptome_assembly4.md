@@ -541,6 +541,9 @@ nano reads_count.sh
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o <JOBNAME>.out # STDOUT
 #SBATCH -e <JOBNAME>.err # STDERR
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
+
 
 align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left trim/DT1_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir rsem_outdir_test  --thread_count  16
 ```
