@@ -68,7 +68,7 @@ nano trim.sh
 ```
 #!/bin/bash
 #SBATCH --job-name=<TRIM>
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --account=cpu-s6-test-0 
 #SBATCH --partition=cpu-s6-core-0
 #SBATCH --cpus-per-task=16
@@ -151,7 +151,7 @@ for fastq in samples:
         fh.writelines("#SBATCH --job-name=%s.job\n" % fastq)
         fh.writelines("#SBATCH --output=%s.out\n" % fastq)
         fh.writelines("#SBATCH --error=%s.err\n" % fastq)
-        fh.writelines("#SBATCH --time=2-00:00\n")
+        fh.writelines("#SBATCH --time=15:00\n")
         fh.writelines("#SBATCH --account=cpu-s6-test-0\n")
         fh.writelines("#SBATCH --partition=cpu-s6-core-0\n")
         fh.writelines("#SBATCH --cpus-per-task=16\n")
@@ -185,7 +185,7 @@ for fastq in ${fastq[@]}; do
 #SBATCH --job-name=${fastq}.job
 #SBATCH --output=${fastq}.out
 #SBATCH --error=${fastq}.err
-#SBATCH --time=2-00:00
+#SBATCH --time=15:00
 #SBATCH --account=cpu-s6-test-0 
 #SBATCH --partition=cpu-s6-core-0
 #SBATCH --cpus-per-task=16
@@ -444,7 +444,7 @@ nano trinity.sh
 ```
 #!/bin/bash
 #SBATCH --job-name=<TRINITY>
-#SBATCH --time=6:00:00
+#SBATCH --time=15:00
 #SBATCH --account=cpu-s2-bch709-0
 #SBATCH --partition=cpu-s2-core-0
 #SBATCH --cpus-per-task=24
@@ -533,7 +533,7 @@ nano reads_count.sh
 #!/bin/bash
 #SBATCH --job-name=<JOBNAME>
 #SBATCH --cpus-per-task=16
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -742,7 +742,7 @@ nano alignment.sh
 #!/bin/bash
 #SBATCH --job-name=<JOB_NAME>
 #SBATCH --cpus-per-task=32
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=64g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -776,7 +776,7 @@ nano abundance.sh
 #!/bin/bash
 #SBATCH --job-name=<JOB_NAME>
 #SBATCH --cpus-per-task=1
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=12g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -813,7 +813,7 @@ nano ptr.sh
 #!/bin/bash
 #SBATCH --job-name=<JOB_NAME>
 #SBATCH --cpus-per-task=1
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=12g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -842,7 +842,7 @@ nano deseq.sh
 #!/bin/bash
 #SBATCH --job-name=<JOB_NAME>
 #SBATCH --cpus-per-task=1
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=12g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -864,7 +864,7 @@ nano edgeR.sh
 #!/bin/bash
 #SBATCH --job-name=<JOB_NAME>
 #SBATCH --cpus-per-task=1
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=12g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
