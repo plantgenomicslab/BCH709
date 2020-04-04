@@ -760,8 +760,12 @@ align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/
 
 ### Install R-packages
 ```bash
+conda config --set allow_conda_downgrades true  
+
 conda install -c bioconda -c r bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue  
 conda install -c r r-ape  r-gplots  r-fastcluster  
+
+conda config --set auto_update_conda false  
 
 ```
 
