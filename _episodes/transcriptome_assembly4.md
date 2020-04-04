@@ -760,7 +760,8 @@ align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/
 
 ### Install R-packages
 ```bash
-conda install -c bioconda -c r bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue r-ape  r-gplots  r-fastcluster
+conda install -c bioconda -c r bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue  
+conda install -c r r-ape  r-gplots  r-fastcluster  
 
 ```
 
@@ -927,9 +928,10 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 
 ### Draw Venn Diagram
 ```bash
-conda create -n venn python=2.7
-conda activate venn
-conda install -c bioconda -c r bedtools intervene r-UpSetR r-corrplot r-Cairo
+conda create -n venn python=2.7  
+conda activate venn  
+conda install -c bioconda  bedtools intervene   
+conda install -c r r-UpSetR r-corrplot r-Cairo  
 
 ``` 
 
