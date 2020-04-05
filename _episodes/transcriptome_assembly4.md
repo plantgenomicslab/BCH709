@@ -753,7 +753,7 @@ nano alignment.sh
 #SBATCH --account=cpu-s6-test-0 
 #SBATCH --partition=cpu-s6-core-0
 
-align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
+align_and_estimate_abundance.pl --thread_count 64 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
 ```
 
 
