@@ -9,14 +9,14 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install -c bioconda trim-galore jellyfish multiqc nanostat nanoplot -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  trim-galore jellyfish multiqc nanostat nanoplot -y
 ```
 
 ```bash
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats -y
-conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda r-ggplot2 r-stringr r-scales r-argparse -y
 ```
 
 

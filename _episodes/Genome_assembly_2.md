@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Genome assembly 2
+title: 11_Genome assembly 2
 published: true
 ---
 
@@ -12,8 +12,8 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
-conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
 
@@ -33,14 +33,12 @@ conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 64 --threads 32
 ```
 
-
-
-###Spade
+### Spade
 ![spades]({{site.baseurl}}/fig/spades.jpg)
 ![spades2]({{site.baseurl}}/fig/spades2.jpg)
 ## Log
 ```bash
-Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        120     --threads       32
+Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/wyim/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/wyim/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/wyim/gee/spades_output       --memory        120     --threads       32
 
 System information:
   SPAdes version: 3.13.1
@@ -56,8 +54,8 @@ Dataset parameters:
   Reads:
     Library number: 1, library type: paired-end
       orientation: fr
-      left reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz']
-      right reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz']
+      left reads: ['/data/gpfs/assoc/bch709/wyim/gee/trimmed_fastq/WGS_R1_val_1.fq.gz']
+      right reads: ['/data/gpfs/assoc/bch709/wyim/gee/trimmed_fastq/WGS_R2_val_2.fq.gz']
       interlaced reads: not specified
       single reads: not specified
       merged reads: not specified
@@ -151,6 +149,11 @@ cd spades_output
 assembly-stats scaffolds.fasta
 assembly-stats contigs.fasta
 ```
+
+![sccaffold]({{site.baseurl}}/fig/sccaffold.png)
+
+
+
 ### Assembly statistics result
 ```bash
 stats for scaffolds.fasta
