@@ -417,8 +417,8 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #SBATCH --mail-user=<YOURID>@unr.edu
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 nucmer  --coords -p canu_pacbio_Spades_illumina <canu.contigs> <illumina_spades_scaffold_file>
 nucmer  --coords -p canu_pacbio_Spades_illumina_pacbio <canu.contigs> <Spades_illumina_pacbio_scaffold_file>
 ```
@@ -454,8 +454,8 @@ nano DotPrep.sh
 #SBATCH --mail-user=wyim@unr.edu
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 python DotPrep.py  --delta canu_pacbio_Spades_illumina.delta --out  canu_pacbio_Spades_illumina
 python DotPrep.py  --delta canu_pacbio_Spades_illumina_pacbio.delta  --out canu_pacbio_Spades_illumina_pacbio
 ```
