@@ -1932,9 +1932,3 @@ AAACTTAGTCTTTGCTTGCCCTCAAGCAAAC
 Please upload Bandage output 
 
 
-
-<<<<<<< HEAD
-=======
-canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> 
-```
->>>>>>> 509d8d2a39fef94156c3de8fc9507ff561b6070d
