@@ -150,7 +150,7 @@ assembly-stats scaffolds.fasta
 assembly-stats contigs.fasta
 ```
 
-![sccaffold]({{site.baseurl}}/fig/sccaffold.png)
+![sccaffold]({{site.baseurl}}/fig/scaffold.png)
 
 
 
