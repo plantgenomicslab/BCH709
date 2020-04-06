@@ -253,14 +253,14 @@ cd PacBio
 ```
 
 ```bash
-/data/gpfs/assoc/bch709/Course_material/2020/PacBio/bch709_pacbio_01.fastq.gz
-/data/gpfs/assoc/bch709/Course_material/2020/PacBio/bch709_pacbio_02.fastq.gz
+/data/gpfs/assoc/bch709/Course_material/2020/PacBio/BCH709_Pacbio_01.fastq.gz
+/data/gpfs/assoc/bch709/Course_material/2020/PacBio/BCH709_Pacbio_02.fastq.gz
 ```
 
 ### Check PacBio reads statistics
 ```bash
-NanoStat --fastq bch709_pacbio_01.fastq.gz
-NanoPlot -t 2 --fastq  bch709_pacbio_01.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
+NanoStat --fastq BCH709_Pacbio_01.fastq.gz BCH709_Pacbio_02.fastq.gz -t 2
+NanoPlot -t 2 --fastq  BCH709_Pacbio_01.fastq.gz BCH709_Pacbio_02.fastq.gz  --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
 ```
 
 ### Transfer your result
@@ -329,7 +329,7 @@ conda activate genomeassembly
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
-zcat  <bch709_pacbio_01.fastq.gz> <Lbch709_pacbio_01.fastq.gz> >> merged_pacbio.fastq
+zcat  <BCH709_Pacbio_01.fastq.gz> <BCH709_Pacbio_02.fastq.gz> >> merged_pacbio.fastq
 spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
 ```
 
