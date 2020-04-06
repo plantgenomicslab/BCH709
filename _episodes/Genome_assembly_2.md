@@ -143,7 +143,7 @@ N50 is a measure to describe the quality of assembled genomes that are fragmente
 
 
 ```bash
-conda install -c bioconda assembly-stats
+conda install -c r -c conda-forge -c anaconda -c bioconda assembly-stats
 cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/Spades
 cd spades_output
 assembly-stats scaffolds.fasta
@@ -243,7 +243,7 @@ Please upload Bandage output
 ```bash
 conda deactivate
 conda activate preprocessing
-conda install -c bioconda nanostat nanoplot 
+conda install -c conda-forge -c anaconda -c bioconda nanostat nanoplot 
 ```
 ### Reads download
 ```bash
@@ -396,7 +396,7 @@ assembly-stats canu.contigs.fasta spades_pacbio_illumina.fasta spades_illumina.f
 
 ## Install Global Alignmnet Software
 ```bash
-conda install mummer
+conda install  -c conda-forge -c anaconda -c bioconda mummer
 ```
 Open source MUMmer 3.0 is described in "Versatile and open software for comparing large genomes." S. Kurtz, A. Phillippy, A.L. Delcher, M. Smoot, M. Shumway, C. Antonescu, and S.L. Salzberg, Genome Biology (2004), 5:R12.
 
@@ -490,7 +490,7 @@ wget https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 ```bash
 conda create -n postprocess python=3 -y
 conda activate postprocess
-conda install -y -c bioconda pilon bwa samtools
+conda install -y -c conda-forge -c anaconda -c bioconda pilon bwa samtools
 
 mkdir pilon ## at your genome assembly folder
 ```
@@ -641,7 +641,7 @@ conda create -n hic
 
 conda activate hic
 
-conda install samtools bedtools matplotlib numpy scipy bwa
+conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa
 ```
 
 
@@ -698,7 +698,7 @@ sbatch --dependency=afterok:<123456> hic.sh
 
 ### Investigate taxa
 ```bash
-conda install kraken kraken2 
+conda install -c r -c conda-forge -c anaconda -c bioconda kraken kraken2 
 ```
 We will be using a tool called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
 
@@ -723,7 +723,7 @@ conda create -n hic
 
 conda activate hic
 
-conda install samtools bedtools matplotlib numpy scipy bwa
+conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa
 ```
 
 
