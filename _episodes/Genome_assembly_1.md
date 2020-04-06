@@ -15,7 +15,7 @@ conda install -c bioconda trim-galore jellyfish multiqc nanostat nanoplot -y
 ```bash
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats -y
 conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 ```
 
@@ -68,7 +68,7 @@ After DNA sequencing is complete, the fragments of DNA that come out of the mach
 ![assembly_depth]({{site.baseurl}}/fig/assembly_depth.png)
 ### Coverage calculation
 
-Example: I know that the genome I am sequencing is 10 Mbases. I want a 50x coverage to do a good assembly. I am ordering 125 bp Illumina reads. How many reads do I need?
+Example: I know that the genome size. I am sequencing 10 Mbases genome species. I want a 50x coverage to do a good assembly. I am ordering 125 bp Illumina reads. How many reads do I need?
 
 - (125xN)/10e+6=50
 - N=(50x10e+6)/125=4e+6 (4 million reads)
@@ -1841,15 +1841,10 @@ N50 is a measure to describe the quality of assembled genomes that are fragmente
 |1290|9340|    
 
 
-### Download or find your results.
-```bash
-https://www.dropbox.com/s/fo41zymzyb0222p/scaffolds.fasta
-https://www.dropbox.com/s/epjj00zpizs56d0/contigs.fasta
-https://www.dropbox.com/s/0dgyfmz4gbkdx3q/assembly_graph.fastg
-```
 
 ```bash
 conda install -c bioconda assembly-stats
+cd spades_output
 assembly-stats scaffolds.fasta
 assembly-stats contigs.fasta
 ```
@@ -1933,129 +1928,8 @@ AAACTTAGTCTTTGCTTGCCCTCAAGCAAAC
 
 [bandage](https://rrwick.github.io/Bandage/)
 
-
-## PacBio assembly
-```bash
-conda deactivate
-conda activate preprocessing
-conda install -c bioconda nanostat nanoplot 
-```
-### Reads download
-```bash
-mkdir PacBio
-cd PacBio
-```
-
-```bash
-https://www.dropbox.com/s/7coua2gedbuykl6/BCH709_Pacbio_1.fastq.gz
-https://www.dropbox.com/s/fniub0rxv48hupp/BCH709_Pacbio_2.fastq.gz
-```
-
-### Check PacBio reads statistics
-```bash
-NanoStat --fastq BCH709_Pacbio_1.fastq.gz
-NanoPlot -t 2 --fastq  BCH709_Pacbio_1.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
-```
-
-### Transfer your result
-```bash
-*.png *.html *.txt
-```
-
-![HistogramReadlength]({{site.baseurl}}/fig/HistogramReadlength.png)
-![LengthvsQualityScatterPlot_hex]({{site.baseurl}}/fig/LengthvsQualityScatterPlot_hex.png)
+## Assignment
+Please upload Bandage output 
 
 
 
-### PacBio reads statistics
-```
-General summary:        
-Mean read length:               9,698.6
-Mean read quality:                  6.6
-Median read length:             8,854.0
-Median read quality:                6.6
-Number of reads:               58,497.0
-Read length N50:               10,901.0
-Total bases:              567,339,600.0
-Number, percentage and megabases of reads above quality cutoffs
->Q5:	58497 (100.0%) 567.3Mb
->Q7:	8260 (14.1%) 78.6Mb
->Q10:	0 (0.0%) 0.0Mb
->Q12:	0 (0.0%) 0.0Mb
->Q15:	0 (0.0%) 0.0Mb
-Top 5 highest mean basecall quality scores and their read lengths
-1:	8.5 (13544)
-2:	8.5 (14158)
-3:	8.5 (9590)
-4:	8.5 (10741)
-5:	8.5 (7529)
-Top 5 longest reads and their mean basecall quality score
-1:	24999 (6.4)
-2:	24992 (6.0)
-3:	24983 (7.0)
-4:	24980 (6.5)
-5:	24977 (6.6)
-```
-
-### How can we calculate coverage?
-
-
-
-## *De novo* assembly
-![De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has](De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has.png)
-
-## Compare Assembly
-![dotplot2]({{site.baseurl}}/fig/dotplot2.png)
-
-
-## Canu
-Canu (Koren et al. 2017) is a fork of the celera assembler and improves upon the earlier PBcR pipeline into a single, comprehensive assembler. Highly repetitive k-mers, which are abundant in all the reads, can be non-informative. Hence term frequency, inverse document frequency (tf-idf), a weighting statistic was added to MinHashing, giving weightage to non-repetitive k-mers as minimum values in the MinHash sketches, and sensitivity has been demonstrated to reach up to 89% without any parameter adjustment. By retrospectively inspecting the assembly graphs and also statistically filtering out repeat-induced overlaps, the chances of mis-assemblies are reduced.
-![canu]({{site.baseurl}}/fig/canu.png)
-
-
-### Genome assembly Spades
-```bash
-mkdir Spades_pacbio
-cd Spades_pacbio
-conda activate genomeassembly
-
-```
-### Submit below job
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=Spades
-#SBATCH --cpus-per-task=64
-#SBATCH --time=2:00:00
-#SBATCH --mem=140g
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<YOUR ID>@unr.edu
-#SBATCH -o Spades.out # STDOUT
-#SBATCH -e Spades.err # STDERR
-zcat  <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> >> merged_pacbio.fastq
-spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
-```
-
-
-
-## Canu assembly
-```
-conda activate genomeassembly
-```
-### Submit below job
-```bash
-#!/bin/bash
-#SBATCH --job-name=Canu
-#SBATCH --cpus-per-task=64
-#SBATCH --time=2:00:00
-#SBATCH --mem=140g
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<YOUR ID>@unr.edu
-#SBATCH -o Canu.out # STDOUT
-#SBATCH -e Canu.err # STDERR
-
-canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> 

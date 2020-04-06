@@ -3,6 +3,369 @@ layout: page
 title: Genome assembly 2
 published: true
 ---
+
+
+### Genome assembly Spades
+```bash
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/
+mkdir Spades
+cd Spades
+conda create -n genomeassembly -y 
+conda activate genomeassembly
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
+
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Spades
+#SBATCH --cpus-per-task=32
+#SBATCH --time=2:00:00
+#SBATCH --mem=64g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Spades.out # STDOUT
+#SBATCH -e Spades.err # STDERR
+
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> -o spades_output --memory 64 --threads 32
+```
+
+
+
+###Spade
+![spades]({{site.baseurl}}/fig/spades.jpg)
+![spades2]({{site.baseurl}}/fig/spades2.jpg)
+## Log
+```bash
+Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        120     --threads       32
+
+System information:
+  SPAdes version: 3.13.1
+  Python version: 3.7.3
+  OS: Linux-3.10.0-957.27.2.el7.x86_64-x86_64-with-centos-7.6.1810-Core
+
+Output dir: /data/gpfs/assoc/bch709/spiderman/gee/spades_output
+Mode: read error correction and assembling
+Debug mode is turned OFF
+
+Dataset parameters:
+  Multi-cell mode (you should set '--sc' flag if input data was obtained with MDA (single-cell) technology or --meta flag if processing metagenomic dataset)
+  Reads:
+    Library number: 1, library type: paired-end
+      orientation: fr
+      left reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz']
+      right reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz']
+      interlaced reads: not specified
+      single reads: not specified
+      merged reads: not specified
+Read error correction parameters:
+  Iterations: 1
+  PHRED offset will be auto-detected
+  Corrected reads will be compressed
+Assembly parameters:
+  k: [21, 33, 55, 77]
+  Repeat resolution is enabled
+  Mismatch careful mode is turned ON
+  MismatchCorrector will be used
+  Coverage cutoff is turned OFF
+Other parameters:
+  Dir for temp files: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp
+  Threads: 64
+  Memory limit (in Gb): 140
+
+
+======= SPAdes pipeline started. Log can be found here: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/spades.log
+
+
+===== Read error correction started.
+
+
+== Running read error correction tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-hammer /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/configs/config.info
+
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  75)   Starting BayesHammer, built from N/A, git revision N/A
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  76)   Loading config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/configs/config.info
+  0:00:00.001     4M / 4M    INFO    General                 (main.cpp                  :  78)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
+  0:00:00.001     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
+  0:00:00.001     4M / 4M    INFO    General                 (main.cpp                  :  86)   Trying to determine PHRED offset
+  0:00:00.038     4M / 4M    INFO    General                 (main.cpp                  :  92)   Determined value is 33
+  0:00:00.038     4M / 4M    INFO    General                 (hammer_tools.cpp          :  36)   Hamming graph threshold tau=1, k=21, subkmer positions = [ 0 10 ]
+  0:00:00.038     4M / 4M    INFO    General                 (main.cpp                  : 113)   Size of aux. kmer data 24 bytes
+     === ITERATION 0 begins ===
+  0:00:00.042     4M / 4M    INFO   K-mer Index Building     (kmer_index_builder.hpp    : 301)   Building kmer index
+  0:00:00.042     4M / 4M    INFO    General                 (kmer_index_builder.hpp    : 117)   Splitting kmer instances into 512 files using 32 threads. This might take a while.
+  0:00:00.043     4M / 4M    INFO    General                 (file_limit.hpp            :  32)   Open file limit set to 65536
+  0:00:00.043     4M / 4M    INFO    General                 (kmer_splitters.hpp        :  89)   Memory available for splitting buffers: 1.45829 Gb
+  0:00:00.043     4M / 4M    INFO    General                 (kmer_splitters.hpp        :  97)   Using cell size of 131072
+  0:00:02.300    17G / 17G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz
+  0:00:19.373    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 107)   Processed 3022711 reads
+  0:00:19.373    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:00:37.483    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 107)   Processed 6045422 reads
+  0:00:37.483    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 112)   Total 6045422 reads processed
+  0:00:39.173   128M / 18G   INFO    General                 (kmer_index_builder.hpp    : 120)   Starting k-mer counting.
+ 
+===== Mismatch correction finished.
+
+ * Corrected reads are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/
+ * Assembled contigs are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/contigs.fasta
+ * Assembled scaffolds are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/scaffolds.fasta
+ * Paths in the assembly graph corresponding to the contigs are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/contigs.paths
+ * Paths in the assembly graph corresponding to the scaffolds are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/scaffolds.paths
+ * Assembly graph is in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/assembly_graph.fastg
+ * Assembly graph in GFA format is in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/assembly_graph_with_scaffolds.gfa
+
+======= SPAdes pipeline finished.
+
+SPAdes log can be found here: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/spades.log
+
+Thank you for using SPAdes!
+```
+
+### Assembly statistics
+
+## N50 example
+N50 is a measure to describe the quality of assembled genomes that are fragmented in contigs of different length. The N50 is defined as the minimum contig length needed to cover 50% of the genome.
+
+
+|Contig Length|Cumulative Sum|  
+| --- | --- |  
+| 1280 | 2570 |
+| 1278 | 3848 |
+| 1020 | 4868 |
+| 990  | 5858 |
+| 950  | 6808 |
+| 852  | 7660 |
+| 750  | 8410 |
+| 400  | 8810 |
+| 230  | 9040 |
+| 200  | 9240 |
+| 100  | 9340 |   
+
+
+```bash
+conda install -c bioconda assembly-stats
+cd spades_output
+assembly-stats scaffolds.fasta
+assembly-stats contigs.fasta
+```
+### Assembly statistics result
+```bash
+stats for scaffolds.fasta
+sum = 11241648, n = 2345, ave = 4793.88, largest = 677246
+N50 = 167555, n = 17
+N60 = 124056, n = 24
+N70 = 97565, n = 34
+N80 = 72177, n = 48
+N90 = 38001, n = 68
+N100 = 78, n = 2345
+N_count = 308
+Gaps = 4
+```
+
+```bash
+stats for contigs.fasta
+sum = 11241391, n = 2349, ave = 4785.61, largest = 666314
+N50 = 167555, n = 17
+N60 = 123051, n = 25
+N70 = 95026, n = 36
+N80 = 70916, n = 50
+N90 = 36771, n = 71
+N100 = 78, n = 2349
+N_count = 0
+Gaps = 0
+```
+```bash
+cat scaffolds.paths
+```
+```bash
+NODE_1_length_677246_cov_27.741934
+5330914+,39250+,5099246-;
+4754344-,4601428-,5180688-,1424894+,5327688+,732820-,5237058-,5052460-,4723018+,4800852+,5331930-,732820-,5019006-,5052460-,4755300-,4800852+,5331932-,5060558+,5185654-,5071338-,5178452+,5178460+,5178468+,5178476+,5254862-,5325448+,88806-,5243982-,5053698+,1425522-,5239940+,5238056-,4867204-,5331654+
+NODE_1_length_677246_cov_27.741934'
+5331654-,4867204+,5238056+,5239940-,1425522+,5053698-,5243982+,88806+,5325448-,5254862+,5178476-,5178468-,5178460-,5178452-,5071338+,5185654+,5060558-,5331932+,4800852-,4755300+,5052460+,5019006+,732820+,5331930+,4800852-,4723018-,5052460+,5237058+,732820+,5327688-,1424894-,5180688+,4601428+,4754344+;
+5099246+,39250-,5330914-
+NODE_2_length_666314_cov_27.644287
+5327204+,103640+,4836832-,4851626+,5361530-,5361524-,5361528-,5329856-,1126012-,5329854-,1126012-,5236812+,5052228+,5236810+,5052228+,5099424-,4479150+,4812968+,4479150+,5062132+,414588+,5051858+,414588+,5331378+,4760742-,4925978+,5327370-,474724-,5094420-,4653402-,5331664-,4961012-,5018412+,5072166+,5040312+,5030606-,4961012-,5236106+,5072166+,5072168+,4915570-,5050466-,4765966-,5059218-,4915570-,5058386-,5236104+,5095538-,5095540-,5095538-,5149466+,4774822-,5017666+,4774822-,5065186-,876886-,4799048-,876886-,5332178-
+NODE_2_length_666314_cov_27.644287'
+5332178+,876886+,4799048+,876886+,5065186+,4774822+,5017666-,4774822+,5149466-,5095538+,5095540+,5095538+,5236104-,5058386+,4915570+,5059218+,4765966+,5050466+,4915570+,5072168-,5072166-,5236106-,4961012+,5030606+,5040312-,5072166-,5018412-,4961012+,5331664+,4653402+,5094420+,474724+,5327370+,4925978-,4760742+,5331378-,414588-,5051858-,414588-,5062132-,4479150-,4812968-,4479150-,5099424+,5052228-,5236810-,5052228-,5236812-,1126012+,5329854+,1126012+,5329856+,5361528+,5361524+,5361530+,4851626-,4836832+,103640-,5327204-
+NODE_3_length_613985_cov_27.733595
+5250014-,5121298+,5057128-,4953418-,5238246+,5264238+,5264242+,4468126+,5331520+,4813546-,4676908-,4813546-,5059540-,4862238+,5032536-,4862238+,5045932+,1122610+,4827200-,928516+,5031788-,4629584+,5007546-,1271448+,4907228+,1271448+,5099418-,5331326-,5030236-,5236282-,5100426-,5100418-,5100430-,139162-,4675324-,5354642-,372-,374+,5044194+,5058512+,5325918+,4544022-,4816684-,427838+,5238146+,269904+,117192-
+NODE_3_length_613985_cov_27.733595'
+117192+,269904-,5238146-,427838-,4816684+,4544022+,5325918-,5058512-,5044194-,374-,372+,5354642+,4675324+,139162+,5100430+,5100418+,5100426+,5236282+,5030236+,5331326+,5099418+,1271448-,4907228-,1271448-,5007546+,4629584-,5031788+,928516-,4827200+,1122610-,5045932-,4862238-,5032536+,4862238-,5059540+,4813546+,4676908+,4813546+,5331520-,4468126-,5264242-,5264238-,5238246-,4953418+,5057128+,5121298-,5250014+
+NODE_4_length_431556_cov_27.699452
+```
+### FASTG file format
+
+```bash
+>EDGE_5360468_length_246_cov_13.568047:EDGE_5284398_length_327_cov_11.636000,EDGE_5354800_length_230_cov_14.470588';
+GCTTCTTCTTGCTTCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCAGATGAGTCTTTATCT
+TTGTATCTTCTAACAAGGAAACACTACTTAGGCTTTTAGGATAAGCTTGCGGTTTAAGTT
+TGTATACTCAATCATACACATGACATCAAGTCATATTCGACTCCAAAACACTAACCAAGC
+TTCTTCTTGCACCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCATATAAGTCTTTGTCTTT
+GTATCT
+>EDGE_5360470_length_161_cov_15.607143:EDGE_5332762_length_98_cov_43.619048';
+GCTTCTTCTTGCTTCTCAAAGCTTTGTTGGTTTAGCCAAAGTCCAGATGAGTCTTTATCT
+TTGTATCTTCTAACAAGAAAACACTACTTACGCTTTTAGGATAATGTTGCGGTTTAAGTT
+CTTATACTCAATCATACACATGACATCAAGTCATATTCGAC
+>EDGE_5354230_length_92_cov_267.066667':EDGE_5354222_length_86_cov_252.444444',EDGE_5355724_length_1189_cov_26.724820;
+AAGCAAAGACTAAGTTTGGGGGAGTTGATAAGTGTGTATTTTGCATGTTTTGAGCATCCA
+TTTGTCATCACTTTAGCATCATATCATCACTG
+>EDGE_5344586_length_373_cov_22.574324:EDGE_5360654_length_82_cov_117.400000';
+GCTAAAGTGATGACAAATGGATGCTCAAAACATGCAAAATACACACTTATCAACTCCCCC
+AAACTTAGTCTTTGCTTAAGAACAAGCTGGAGGTGAGGTTTGAAAGCGGGGACTCAGAGC
+CAAAGCAGCAGATAAACCAGATGAAATCAATGTCCAAGTTGATAGTTCTAAGTTGCGATA
+TGATCGAATTCTACTCAAAAACGTTAGCCATGCCTTTTTATCAATCAATCCGACTCATAT
+GCTCGACCTACACGTGTTTTCAAATCTACCAATCCCTTTAACATTCATTAGCTCTAGAAC
+GTGAATCAAGCAATGCATCATCAATGAACTCATTTGGCTAAGGTAAAAGGTCAAGAGACA
+AAGATGGTCCCTT
+>EDGE_5354236_length_91_cov_242.857143:EDGE_5350728_length_80_cov_275.666667';
+GCTAAAGTGATGACAAATGGATGCTCAAAACATGCAAAATACACACTTATCAACTCCCCC
+AAACTTAGTCTTTGCTTGCCCTCAAGCAAAC
+
+```
+![bandage]({{site.baseurl}}/fig/bandage.png)
+![assembly_spades]({{site.baseurl}}/fig/assembly_spades.png)
+
+[bandage](https://rrwick.github.io/Bandage/)
+
+## Assignment
+Please upload Bandage output 
+
+
+
+
+
+
+
+
+## PacBio assembly
+```bash
+conda deactivate
+conda activate preprocessing
+conda install -c bioconda nanostat nanoplot 
+```
+### Reads download
+```bash
+mkdir PacBio
+cd PacBio
+```
+
+```bash
+https://www.dropbox.com/s/7coua2gedbuykl6/BCH709_Pacbio_1.fastq.gz
+https://www.dropbox.com/s/fniub0rxv48hupp/BCH709_Pacbio_2.fastq.gz
+```
+
+### Check PacBio reads statistics
+```bash
+NanoStat --fastq BCH709_Pacbio_1.fastq.gz
+NanoPlot -t 2 --fastq  BCH709_Pacbio_1.fastq.gz --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
+```
+
+### Transfer your result
+```bash
+*.png *.html *.txt
+```
+
+![HistogramReadlength]({{site.baseurl}}/fig/HistogramReadlength.png)
+![LengthvsQualityScatterPlot_hex]({{site.baseurl}}/fig/LengthvsQualityScatterPlot_hex.png)
+
+
+
+### PacBio reads statistics
+```
+General summary:        
+Mean read length:               9,698.6
+Mean read quality:                  6.6
+Median read length:             8,854.0
+Median read quality:                6.6
+Number of reads:               58,497.0
+Read length N50:               10,901.0
+Total bases:              567,339,600.0
+Number, percentage and megabases of reads above quality cutoffs
+>Q5:	58497 (100.0%) 567.3Mb
+>Q7:	8260 (14.1%) 78.6Mb
+>Q10:	0 (0.0%) 0.0Mb
+>Q12:	0 (0.0%) 0.0Mb
+>Q15:	0 (0.0%) 0.0Mb
+Top 5 highest mean basecall quality scores and their read lengths
+1:	8.5 (13544)
+2:	8.5 (14158)
+3:	8.5 (9590)
+4:	8.5 (10741)
+5:	8.5 (7529)
+Top 5 longest reads and their mean basecall quality score
+1:	24999 (6.4)
+2:	24992 (6.0)
+3:	24983 (7.0)
+4:	24980 (6.5)
+5:	24977 (6.6)
+```
+
+### How can we calculate coverage?
+
+
+
+## *De novo* assembly
+![De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has](De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has.png)
+
+## Compare Assembly
+![dotplot2]({{site.baseurl}}/fig/dotplot2.png)
+
+
+## Canu
+Canu (Koren et al. 2017) is a fork of the celera assembler and improves upon the earlier PBcR pipeline into a single, comprehensive assembler. Highly repetitive k-mers, which are abundant in all the reads, can be non-informative. Hence term frequency, inverse document frequency (tf-idf), a weighting statistic was added to MinHashing, giving weightage to non-repetitive k-mers as minimum values in the MinHash sketches, and sensitivity has been demonstrated to reach up to 89% without any parameter adjustment. By retrospectively inspecting the assembly graphs and also statistically filtering out repeat-induced overlaps, the chances of mis-assemblies are reduced.
+![canu]({{site.baseurl}}/fig/canu.png)
+
+
+### Genome assembly Spades
+```bash
+mkdir Spades_pacbio
+cd Spades_pacbio
+conda activate genomeassembly
+
+```
+### Submit below job
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=Spades
+#SBATCH --cpus-per-task=64
+#SBATCH --time=2:00:00
+#SBATCH --mem=140g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Spades.out # STDOUT
+#SBATCH -e Spades.err # STDERR
+zcat  <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> >> merged_pacbio.fastq
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
+```
+
+
+
+## Canu assembly
+```
+conda activate genomeassembly
+```
+### Submit below job
+```bash
+#!/bin/bash
+#SBATCH --job-name=Canu
+#SBATCH --cpus-per-task=64
+#SBATCH --time=2:00:00
+#SBATCH --mem=140g
+#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUR ID>@unr.edu
+#SBATCH -o Canu.out # STDOUT
+#SBATCH -e Canu.err # STDERR
+
+canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> 
+
 # Meeting schedule
 Please feel free to fill up below link to review our course.
 Meeting schedule [Link](https://docs.google.com/spreadsheets/d/1c4RzQle8AZPRdayYW5Ov3b16uWKMyUVXl8-iNnuCDSI/edit?usp=sharing)
