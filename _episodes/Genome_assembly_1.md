@@ -380,8 +380,8 @@ for i in `ls -1 *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
 #SBATCH --cpus-per-task=8
 #SBATCH --time=2:00:00
 #SBATCH --mem=30g
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 
@@ -401,8 +401,8 @@ mkdir kmer && cd kmer
 #SBATCH --cpus-per-task=10
 #SBATCH --time=2:00:00
 #SBATCH --mem=10g
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o trim.out # STDOUT
@@ -1825,20 +1825,20 @@ Thank you for using SPAdes!
 N50 is a measure to describe the quality of assembled genomes that are fragmented in contigs of different length. The N50 is defined as the minimum contig length needed to cover 50% of the genome.
 
 
-|Contig Length|Cumulative Sum|  
-| --- | --- |  
-|100|100|  
-|200|300|  
-|230|530|  
-|400|930|  
-|750|1680|  
-|852|2532|  
-|950|3482|  
-|990|4472|  
-|1020|5492|  
-|1278|6770|  
-|1280|8050|  
-|1290|9340|    
+|Contig Length| 
+| --- |  
+|100|  
+|200|  
+|230|  
+|400|  
+|750|  
+|852|  
+|950|  
+|990|  
+|1020|  
+|1278|  
+|1280|  
+|1290|    
 
 
 
@@ -1933,3 +1933,8 @@ Please upload Bandage output
 
 
 
+<<<<<<< HEAD
+=======
+canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_0003.fastq.gz> 
+```
+>>>>>>> 509d8d2a39fef94156c3de8fc9507ff561b6070d
