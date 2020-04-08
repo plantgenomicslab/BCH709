@@ -505,6 +505,18 @@ The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be
 
 
 ## Assignment
+Please upload three dot plot from assembly comparison. 
+1. Download below file. 
+https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa. 
+
+2. Align three fasta files (spades_illumina.fasta, spades_pacbio_illumina.fasta, canu.contigs.fasta) to downloaded Athaliana_subset_BCH709.fa by nucmer independently.  
+
+3. Generate coords and coords.idx file using DotPrep.py. 
+
+4. Draw dot plot by DOT website. 
+
+5. Upload three dotplot to Webcanvas.  
+
 ```bash
 wget https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 ```
