@@ -380,7 +380,7 @@ conda activate genomeassembly
 
 ### Copy Your Assembly Results
 ```bash
-cp /data/gpfs/assoc/bch709/wyim/Genome_assembly/PacBio/canu_outdir/canu.contigs.fasta canu.contigs.fasta
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/PacBio/canu_outdir/canu.contigs.fasta canu.contigs.fasta
 
 cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Spades_Illumina_Pacbio/spades_output/scaffolds.fasta spades_pacbio_illumina.fasta 
 
