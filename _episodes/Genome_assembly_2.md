@@ -361,7 +361,7 @@ conda activate genomeassembly
 #SBATCH -o Canu.out # STDOUT
 #SBATCH -e Canu.err # STDERR
 
-canu -p canu -d canu_outdir genomeSize=11m -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
+canu -p canu -d canu_outdir genomeSize=11m -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0 --mail-type=all --mail-user=<YOUR ID>@unr.edu'
 ```
 
 ## Check the Quality of Genome Assembly
