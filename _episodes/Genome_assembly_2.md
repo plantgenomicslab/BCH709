@@ -544,7 +544,9 @@ nano mapping.sh
 #SBATCH -e mapping.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-ln -s /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/canu.contigs.fasta /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon 
+#ln -s /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/canu.contigs.fasta /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon 
+
+ln -s /data/gpfs/assoc/bch709/Course_material/2020/Genome_assembly/canu.contigs.fasta /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon
 
 bwa index canu.contigs.fasta
 
