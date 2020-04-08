@@ -320,9 +320,9 @@ conda activate genomeassembly
 ```bash
 #!/bin/bash
 #SBATCH --job-name=Spades
-#SBATCH --cpus-per-task=64
+#SBATCH --cpus-per-task=16
 #SBATCH --time=12:00:00
-#SBATCH --mem=140g
+#SBATCH --mem=64g
 #SBATCH --account=cpu-s2-bch709-0
 #SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
@@ -330,7 +330,7 @@ conda activate genomeassembly
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
 zcat  <BCH709_Pacbio_01.fastq.gz> <BCH709_Pacbio_02.fastq.gz> >> merged_pacbio.fastq
-spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 140 --threads 64
+spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 64 --threads 16
 ```
 
 ## *De novo* assembly
@@ -351,17 +351,17 @@ conda activate genomeassembly
 ```bash
 #!/bin/bash
 #SBATCH --job-name=Canu
-#SBATCH --cpus-per-task=64
+#SBATCH --cpus-per-task=8
 #SBATCH --time=2:00:00
-#SBATCH --mem=140g
-#SBATCH --account=cpu-s2-bch709-0
-#SBATCH --partition=cpu-s2-core-0
+#SBATCH --mem=24g
+#SBATCH --account=cpu-s6-test-0 
+#SBATCH --partition=cpu-s6-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Canu.out # STDOUT
 #SBATCH -e Canu.err # STDERR
 
-canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
+canu -p canu -d canu_outdir genomeSize=11m -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
 ```
 
 ## Check the Quality of Genome Assembly
