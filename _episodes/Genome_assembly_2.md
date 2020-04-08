@@ -550,14 +550,13 @@ pilon --genome canu.contigs.fasta --frags canu_illumina_sort.bam --output canu.i
 ```bash
 sbatch --dependency=afterok:<123456> pilon.sh
 ```
+### Investigate taxa
+```bash
+conda install -c r -c conda-forge -c anaconda -c bioconda kraken kraken2 
+```
+We will be using a tool called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
 
-### How can we improve these genome assemblies?
-
-![illumina]({{site.baseurl}}/fig/mate.png)
-![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
-![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
-
-
+We can also use another tool by the same group called Centrifuge. This tool uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The result is a classification of the sequence in question to the most likely taxonomic label. If the search sequence is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
 
 
 ## BUSCO
@@ -567,10 +566,9 @@ https://busco.ezlab.org/v2/
 
 
 ```bash
-conda create -n busco python=3
+conda create -n busco4_bch709  python=3.6
 conda activate busco
-conda install busco multiqc
-```
+conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 
 ```bash
 https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
@@ -631,6 +629,14 @@ cd  /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
 mkdir /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/hic   ## will go to genome assembly folder adn make hic folder
 cd !$
 ```
+
+
+### How can we improve these genome assemblies?
+
+![illumina]({{site.baseurl}}/fig/mate.png)
+![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
+![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
+
 
 
 
@@ -695,14 +701,6 @@ sbatch --dependency=afterok:<123456> hic.sh
 ```
 
 
-
-### Investigate taxa
-```bash
-conda install -c r -c conda-forge -c anaconda -c bioconda kraken kraken2 
-```
-We will be using a tool called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
-
-We can also use another tool by the same group called Centrifuge. This tool uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The result is a classification of the sequence in question to the most likely taxonomic label. If the search sequence is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
 
 
 
