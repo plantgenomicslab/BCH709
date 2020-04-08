@@ -334,7 +334,7 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 ```
 
 ## *De novo* assembly
-![De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has](({{site.baseurl}}/fig/De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has.png)
+![De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has]({{site.baseurl}}/fig/De-novo-assembly-High-level-diagram-of-long-read-assembly-pipeline-The-assembly-has.png)
 
 
 ## Canu
