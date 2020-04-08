@@ -379,13 +379,23 @@ conda activate genomeassembly
 ```
 
 ### Copy Your Assembly Results
+
+## Spades
 ```bash
-cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/PacBio/canu_outdir/canu.contigs.fasta canu.contigs.fasta
 
 cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Spades_Illumina_Pacbio/spades_output/scaffolds.fasta spades_pacbio_illumina.fasta 
 
 cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/Spades/spades_output/scaffolds.fasta spades_illumina.fasta
 ```
+## Canu
+```
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/PacBio/canu_outdir/canu.contigs.fasta canu.contigs.fasta
+```
+## Canu results
+```
+ cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_assembly/canu.contigs.fasta canu.contigs.fasta
+```
+
 
 ### Check Your Assembly Results
 
