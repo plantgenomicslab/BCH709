@@ -54,12 +54,25 @@ Click discovered that you exported a UTF-8 locale but the locale system could no
 ```
 
  - solve with below commands
+
 ```bash
 export LC_ALL=en_US.utf-8
 
 export LANG=en_US.utf-8
 ```
 
+
+### Unknown terminal type
+```bash
+test@localhost:~# top
+'xterm-256color': unknown terminal type.
+test@localhost
+```
+## Solution
+```bash
+export TERM=xterm
+
+```
 
 ### Improve nanorc
 ```bash

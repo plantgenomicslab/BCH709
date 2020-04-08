@@ -361,7 +361,7 @@ conda activate genomeassembly
 #SBATCH -o Canu.out # STDOUT
 #SBATCH -e Canu.err # STDERR
 
-canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz>
+canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-0'
 ```
 
 ## Check the Quality of Genome Assembly
@@ -369,6 +369,7 @@ canu -p canu -d canu_outdir genomeSize=11m corThreads=64 -pacbio-raw <LOCATION_B
 ```bash
 cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
 mkdir genomeassembly_results/
+cd genomeassembly_results
 ```
 
 ### Activate Your environment
@@ -379,9 +380,11 @@ conda activate genomeassembly
 
 ### Copy Your Assembly Results
 ```bash
-canu.contigs.fasta
-spades_pacbio_illumina.fasta
-spades_illumina.fasta
+cp /data/gpfs/assoc/bch709/wyim/Genome_assembly/PacBio/canu_outdir/canu.contigs.fasta canu.contigs.fasta
+
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Spades_Illumina_Pacbio/spades_output/scaffolds.fasta spades_pacbio_illumina.fasta 
+
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/Spades/spades_output/scaffolds.fasta spades_illumina.fasta
 ```
 
 ### Check Your Assembly Results
@@ -395,8 +398,16 @@ assembly-stats canu.contigs.fasta spades_pacbio_illumina.fasta spades_illumina.f
 
 
 ## Install Global Alignmnet Software
+
 ```bash
-conda install  -c conda-forge -c anaconda -c bioconda mummer
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
+mkdir genomeassembly_alignment/
+cd genomeassembly_alignment
+```
+
+```bash
+conda activate genomeassembly
+conda install  -c conda-forge -c anaconda -c bioconda mummer -y
 ```
 Open source MUMmer 3.0 is described in "Versatile and open software for comparing large genomes." S. Kurtz, A. Phillippy, A.L. Delcher, M. Smoot, M. Shumway, C. Antonescu, and S.L. Salzberg, Genome Biology (2004), 5:R12.
 
@@ -411,7 +422,7 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #!/bin/bash
 #SBATCH --job-name=nucmer
 #SBATCH --cpus-per-task=2
-#SBATCH --time=2:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=10g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOURID>@unr.edu
@@ -420,6 +431,8 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #SBATCH --account=cpu-s6-test-0 
 #SBATCH --partition=cpu-s6-core-0
 nucmer  --coords -p canu_pacbio_Spades_illumina <canu.contigs> <illumina_spades_scaffold_file>
+
+
 nucmer  --coords -p canu_pacbio_Spades_illumina_pacbio <canu.contigs> <Spades_illumina_pacbio_scaffold_file>
 ```
 
@@ -438,6 +451,8 @@ The DotPrep.py script will apply a unique anchor filtering algorithm to mark ali
 
 ```bash
 wget https://dnanexus.github.io/dot/DotPrep.py
+
+chmod 775 DotPrep.py
 ```
 
 ```bash
@@ -448,7 +463,7 @@ nano DotPrep.sh
 #!/bin/bash
 #SBATCH --job-name=dot
 #SBATCH --cpus-per-task=2
-#SBATCH --time=12:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=10g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
@@ -488,16 +503,24 @@ wget https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 
 ## Pilon
 ```bash
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
+mkdir Pilon
+cd Pilon
+
+conda deactivate
 conda create -n postprocess python=3 -y
 conda activate postprocess
 conda install -y -c conda-forge -c anaconda -c bioconda pilon bwa samtools
-
-mkdir pilon ## at your genome assembly folder
+## at your genome assembly folder
 ```
 Pilon uses read alignment analysis to diagnose, report, and automatically improve de novo genome assemblies as well as call variants.
 Pilon then outputs a FASTA file containing an improved representation of the genome from the read data and an optional VCF file detailing variation seen between the read data and the input genome.
 
 To aid manual inspection and improvement by an analyst, Pilon can optionally produce tracks that can be displayed in genome viewers such as IGV and GenomeView, and it reports other events (such as possible large collapsed repeat regions) in its standard output.
+
+```bash
+nano mapping.sh
+```
 
 ```bash 
 #!/bin/bash
@@ -511,13 +534,15 @@ To aid manual inspection and improvement by an analyst, Pilon can optionally pro
 #SBATCH -e mapping.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
+ln -s /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/canu.contigs.fasta /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon 
 
 bwa index canu.contigs.fasta
-bwa mem canu.contigs.fasta  <Trimmed_illumina_R1 val something> <Trimmed_illumina_R2 val something>  -o canu_illumina.sam
+
+bwa mem -t 24  canu.contigs.fasta  <Trimmed_illumina_R1 val something> <Trimmed_illumina_R2 val something>  -o canu_illumina.sam
 samtools view -Sb canu_illumina.sam -o canu_illumina.bam
 samtools sort canu_illumina.bam -o canu_illumina_sort.bam
 samtools index canu_illumina_sort.bam
-
+samtools faidx canu.contigs.fasta
 ```
 
 ```bash
@@ -535,7 +560,7 @@ nano pilon.sh
 #SBATCH --job-name=pilon
 #SBATCH --cpus-per-task=16
 #SBATCH --time=12:00:00
-#SBATCH --mem=20g
+#SBATCH --mem=40g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUREMAIL>
 #SBATCH -o pilon.out # STDOUT
@@ -543,20 +568,95 @@ nano pilon.sh
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 
-pilon --genome canu.contigs.fasta --frags canu_illumina_sort.bam --output canu.illumina  --vcf --changes
+pilon --genome canu.contigs.fasta --frags canu_illumina_sort.bam --output canu.illumina  --vcf --changes --threads 16
 ```
 
 
 ```bash
 sbatch --dependency=afterok:<123456> pilon.sh
 ```
-### Investigate taxa
+
 ```bash
-conda install -c r -c conda-forge -c anaconda -c bioconda kraken kraken2 
+nano mapping_new.sh
 ```
-We will be using a tool called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
+```bash 
+#!/bin/bash
+#SBATCH --job-name=Illumina_mapping
+#SBATCH --cpus-per-task=16
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOUREMAIL>
+#SBATCH -o mapping.out # STDOUT
+#SBATCH -e mapping.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+
+bwa index canu.illumina.fasta
+
+bwa mem -t 24 canu.illumina.fasta  <Trimmed_illumina_R1 val something> <Trimmed_illumina_R2 val something>  -o canu_illumina_pilon.sam
+samtools view -Sb canu_illumina_pilon.sam -o canu_illumina_pilon.bam
+samtools sort canu_illumina_pilon.bam -o canu_illumina_pilon_sort.bam
+samtools index canu_illumina_pilon.bam
+samtools faidx canu.illumina.fasta
+
+```
+################################
+##Visualization
+
+http://software.broadinstitute.org/software/igv/
+
+The Integrative Genomics Viewer (IGV) is a high-performance visualization tool for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based and next-generation sequence data, and genomic annotations.
+
+IGV is available in multiple forms, including:
+
+the original IGV - a Java desktop application, 
+IGV-Web - a web application, 
+igv.js - a JavaScript component that can be embedded in web pages (for developers)
+
+
+http://software.broadinstitute.org/software/igv/download
+
+
+
+### Investigate taxa
+
+Here we introduce a software called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
+
+```bash
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
+mkdir taxa
+cd taxa 
+
+conda deactivate
+conda create -n taxa -y python=3.6
+conda activate taxa
+conda install -c r -c conda-forge -c anaconda -c bioconda kraken kraken2 -y
+```
 
 We can also use another tool by the same group called Centrifuge. This tool uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The result is a classification of the sequence in question to the most likely taxonomic label. If the search sequence is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
+
+
+
+
+```bash
+conda install -c bioconda centrifuge -y
+```
+
+```bash 
+#!/bin/bash
+#SBATCH --job-name=centrifuge
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o busco.out # STDOUT
+#SBATCH -e busco.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+centrifuge -x p_compressed+h+v -1 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R1_val_1.fq  -2 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R2_val_2.fq  --report-file taxa.illumina --threads 24
+```
 
 
 ## BUSCO
@@ -569,10 +669,8 @@ https://busco.ezlab.org/v2/
 conda create -n busco4_bch709  python=3.6
 conda activate busco
 conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
-
-```bash
-https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
 ```
+
 
 ```bash 
 #!/bin/bash
@@ -589,37 +687,39 @@ https://busco.ezlab.org/v2/datasets/embryophyta_odb9.tar.gz
 
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco/config/"
 
-run_busco -i <canu.contigs.fasta> --cpu 24  -o canu  -l embryophyta_odb9 -m geno -s arabidopsis
-run_busco -i <pacbio_illumina_spades.fasta> --cpu 24  -o pacbio_illumina_spades  -l embryophyta_odb9 -m geno -s arabidopsis
+busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/Illumina/Spades/spades_output/scaffolds.fasta --out BUSCO_Illumina --mode genome  -f
+
+busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/Spades_Illumina_Pacbio/spades_output/scaffolds.fasta --out BUSCO_Illumina_Pacbio --mode genome  -f
+
+busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/PacBio/canu_outdir
+
+
+ --out BUSCO_Pacbio --mode genome  -f
+
+
 multiqc . -n assembly
 ```
 
 ## BUSCO results
 ```
- run_busco -i canu.contigs.fasta  --cpu 16  -o canu  -l embryophyta_odb9 -m geno -r
-INFO    ****************** Start a BUSCO 3.0.2 analysis, current time: 11/21/2019 00:14:45 ******************
-INFO    Configuration loaded from /data/gpfs/home/wyim/miniconda3/envs/busco/bin/../config/config.ini
-INFO    Init tools...
-INFO    Check dependencies...
-INFO    Check input file...
-INFO    To reproduce this run: python /data/gpfs/home/wyim/miniconda3/envs/busco/bin/run_busco -i canu.contigs.fasta -o canu -l embryophyta_odb9/ -m genome -c 16 -sp arabidopsis
-INFO    Mode is: genome
-INFO    The lineage dataset is: embryophyta_odb9 (eukaryota)
-INFO    Temp directory is ./tmp/
-WARNING Restarting an uncompleted run
-INFO    ****** Phase 1 of 2, initial predictions ******
-INFO    Phase 1 was already completed.
-INFO    Results:
-INFO    C:9.2%[S:8.7%,D:0.5%],F:0.8%,M:90.0%,n:1440
-INFO    132 Complete BUSCOs (C)
-INFO    125 Complete and single-copy BUSCOs (S)
-INFO    7 Complete and duplicated BUSCOs (D)
-INFO    11 Fragmented BUSCOs (F)
-INFO    1297 Missing BUSCOs (M)
-INFO    1440 Total BUSCO groups searched
+INFO:   Results:        C:10.8%[S:10.8%,D:0.0%],F:0.5%,M:88.7%,n:425
+
+INFO:
+
+        --------------------------------------------------
+        |Results from dataset viridiplantae_odb10         |
+        --------------------------------------------------
+        |C:10.8%[S:10.8%,D:0.0%],F:0.5%,M:88.7%,n:425     |
+        |46     Complete BUSCOs (C)                       |
+        |46     Complete and single-copy BUSCOs (S)       |
+        |0      Complete and duplicated BUSCOs (D)        |
+        |2      Fragmented BUSCOs (F)                     |
+        |377    Missing BUSCOs (M)                        |
+        |425    Total BUSCO groups searched               |
+        --------------------------------------------------
+INFO:   BUSCO analysis done. Total running time: 123 seconds
 
 ```
-
 
 
 
@@ -638,6 +738,18 @@ cd !$
 ![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
 
 
+![hic1]({{site.baseurl}}/fig/hic1.png)
+![hic1]({{site.baseurl}}/fig/hic2.png)
+![hic1]({{site.baseurl}}/fig/hic3.png)
+![hic1]({{site.baseurl}}/fig/hic4.png)
+![hic1]({{site.baseurl}}/fig/hic5.png)
+![hic1]({{site.baseurl}}/fig/hic6.png)
+![hic1]({{site.baseurl}}/fig/hic7.png)
+![hic1]({{site.baseurl}}/fig/hic8.png)
+![hic1]({{site.baseurl}}/fig/hic9.png)
+![hic1]({{site.baseurl}}/fig/hic10.png)
+
+[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
 
 ### HiC
@@ -770,18 +882,6 @@ ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
 sbatch --dependency=afterok:<123456> hic.sh
 ```
 
-![hic1]({{site.baseurl}}/fig/hic1.png)
-![hic1]({{site.baseurl}}/fig/hic2.png)
-![hic1]({{site.baseurl}}/fig/hic3.png)
-![hic1]({{site.baseurl}}/fig/hic4.png)
-![hic1]({{site.baseurl}}/fig/hic5.png)
-![hic1]({{site.baseurl}}/fig/hic6.png)
-![hic1]({{site.baseurl}}/fig/hic7.png)
-![hic1]({{site.baseurl}}/fig/hic8.png)
-![hic1]({{site.baseurl}}/fig/hic9.png)
-![hic1]({{site.baseurl}}/fig/hic10.png)
-
-[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
 
 ![![hic1]({{site.baseurl}}/fig/hic10.png)]({{site.baseurl}}/fig/hicmovie.gif)
