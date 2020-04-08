@@ -354,8 +354,8 @@ conda activate genomeassembly
 #SBATCH --cpus-per-task=8
 #SBATCH --time=2:00:00
 #SBATCH --mem=24g
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --account=cpu-s2-bch709-0 
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Canu.out # STDOUT
