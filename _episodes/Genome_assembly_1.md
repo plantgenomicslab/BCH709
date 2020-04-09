@@ -9,7 +9,8 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install  -c r -c conda-forge -c anaconda -c bioconda  trim-galore jellyfish multiqc nanostat nanoplot -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  trim-galore jellyfish=2.2.10
+ multiqc nanostat nanoplot -y
 ```
 
 ```bash
@@ -345,7 +346,7 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install -c bioconda trim-galore jellyfish multiqc nanostat nanoplot -y
+conda install -c bioconda trim-galore jellyfish=2.2.10 multiqc nanostat nanoplot -y
 ```
 
 ### Reads Download
