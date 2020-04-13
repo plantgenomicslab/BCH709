@@ -689,7 +689,7 @@ conda install -c bioconda centrifuge -y
 #SBATCH --job-name=centrifuge
 #SBATCH --cpus-per-task=24
 #SBATCH --time=12:00:00
-#SBATCH --mem=48g
+#SBATCH --mem=220g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
 #SBATCH -o busco.out # STDOUT
@@ -697,18 +697,33 @@ conda install -c bioconda centrifuge -y
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 centrifuge -x /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  -1 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R1_val_1.fq  -2 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R2_val_2.fq  --report-file taxa.illumina --threads 24
+
+
+```
+### Centrifuge report
+https://fbreitwieser.shinyapps.io/pavian/
+
+
+```bash
+centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina
 ```
 
 
 ## BUSCO
 BUSCO assessments are implemented in open-source software, with a large selection of lineage-specific sets of Benchmarking Universal Single-Copy Orthologs. These conserved orthologs are ideal candidates for large-scale phylogenomics studies, and the annotated BUSCO gene models built during genome assessments provide a comprehensive gene predictor training set for use as part of genome annotation pipelines.
 
-https://busco.ezlab.org/v2/
+https://busco.ezlab.org/
 
 
 ```bash
-conda create -n busco4_bch709  python=3.6
-conda activate busco
+cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/
+mkdir BUSCO
+cd BUSCO
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/*.fasta .
+ cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon/canu.illumina.fasta .
+
+conda create -n busco4  python=3.6
+conda activate busco4
 conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 ```
 
@@ -728,15 +743,13 @@ conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco/config/"
 
-busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/Illumina/Spades/spades_output/scaffolds.fasta --out BUSCO_Illumina --mode genome  -f
+busco -l viridiplantae_odb10 --cpu 24 --in spades_illumina.fasta --out BUSCO_Illumina --mode genome  -f
 
-busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/Spades_Illumina_Pacbio/spades_output/scaffolds.fasta --out BUSCO_Illumina_Pacbio --mode genome  -f
+busco -l viridiplantae_odb10 --cpu 24 --in spades_pacbio_illumina.fasta --out BUSCO_Illumina_Pacbio --mode genome  -f
 
-busco -l viridiplantae_odb10 --cpu 24 --in /data/gpfs/assoc/bch709/wyim/Genome_assembly/PacBio/canu_outdir
+busco -l viridiplantae_odb10 --cpu 24 --in canu.contigs.fasta   --out BUSCO_Pacbio --mode genome  -f  
 
-
- --out BUSCO_Pacbio --mode genome  -f
-
+busco -l viridiplantae_odb10 --cpu 24 --in canu.illumina.fasta   --out BUSCO_Pacbio_Pilon --mode genome  -f 
 
 multiqc . -n assembly
 ```
