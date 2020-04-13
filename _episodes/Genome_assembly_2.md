@@ -775,6 +775,12 @@ INFO:   BUSCO analysis done. Total running time: 123 seconds
 
 ```
 
+```bash
+mkdir BUSCO_result
+cp BUSCO_*/*.txt BUSCO_result
+generate_plot.py -wd BUSCO_result
+```
+
 
 
 ## Chromosome assembly
