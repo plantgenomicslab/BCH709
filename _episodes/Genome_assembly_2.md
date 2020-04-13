@@ -643,7 +643,7 @@ http://software.broadinstitute.org/software/igv/download
 
 
 ```bash
-cd /data/gpfs/assoc/bch709/<YOUID>/Genome_assembly/pilon
+cd /data/gpfs/assoc/bch709/<YOUID>/Genome_assembly/Pilon
 
 mkdir PrePilon
 mkdir PostPilon
