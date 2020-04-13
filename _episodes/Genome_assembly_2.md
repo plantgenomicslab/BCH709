@@ -625,8 +625,8 @@ samtools index canu_illumina_pilon.bam
 samtools faidx canu.illumina.fasta
 
 ```
-################################
-##Visualization
+
+## Visualization
 
 http://software.broadinstitute.org/software/igv/
 
