@@ -713,9 +713,9 @@ https://fbreitwieser.shinyapps.io/pavian/
 ```bash
 #!/bin/bash
 #SBATCH --job-name=centrifuge
-#SBATCH --cpus-per-task=24
+#SBATCH --cpus-per-task=1
 #SBATCH --time=12:00:00
-#SBATCH --mem=220g
+#SBATCH --mem=10g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
 #SBATCH -o busco.out # STDOUT
