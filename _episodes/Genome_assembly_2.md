@@ -711,7 +711,18 @@ https://fbreitwieser.shinyapps.io/pavian/
 
 
 ```bash
-centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina
+#!/bin/bash
+#SBATCH --job-name=centrifuge
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=220g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o busco.out # STDOUT
+#SBATCH -e busco.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-0
+centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina > taxa.illumina.pavian 
 ```
 
 
