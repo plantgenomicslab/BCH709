@@ -621,7 +621,7 @@ bwa index canu.illumina.fasta
 bwa mem -t 24 canu.illumina.fasta  <Trimmed_illumina_R1 val something> <Trimmed_illumina_R2 val something>  -o canu_illumina_pilon.sam
 samtools view -Sb canu_illumina_pilon.sam -o canu_illumina_pilon.bam
 samtools sort canu_illumina_pilon.bam -o canu_illumina_pilon_sort.bam
-samtools index canu_illumina_pilon.bam
+samtools index canu_illumina_pilon_sort.bam
 samtools faidx canu.illumina.fasta
 
 ```
@@ -642,6 +642,23 @@ igv.js - a JavaScript component that can be embedded in web pages (for developer
 http://software.broadinstitute.org/software/igv/download
 
 
+```bash
+cd /data/gpfs/assoc/bch709/<YOUID>/Genome_assembly/pilon
+
+mkdir PrePilon
+mkdir PostPilon
+
+cp canu_illumina_pilon_sort.bam canu_illumina_pilon_sort.bam.bai canu.illumina.fasta canu.illumina.fasta.fai PostPilon
+
+cp canu_illumina_sort.bam canu_illumina_sort.bam.bai canu.contigs.fasta canu.contigs.fasta.fai PrePilon
+
+```
+#### Local computer Download For Visualization
+```bash
+canu_illumina_pilon_sort.bam canu_illumina_pilon_sort.bam.bai canu.illumina.fasta canu.illumina.fasta.fai 
+
+canu_illumina_sort.bam canu_illumina_sort.bam.bai canu.contigs.fasta canu.contigs.fasta.fai  
+```
 
 ### Investigate taxa
 
@@ -672,14 +689,14 @@ conda install -c bioconda centrifuge -y
 #SBATCH --job-name=centrifuge
 #SBATCH --cpus-per-task=24
 #SBATCH --time=12:00:00
-#SBATCH --mem=20g
+#SBATCH --mem=48g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
 #SBATCH -o busco.out # STDOUT
 #SBATCH -e busco.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-centrifuge -x p_compressed+h+v -1 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R1_val_1.fq  -2 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R2_val_2.fq  --report-file taxa.illumina --threads 24
+centrifuge -x /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  -1 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R1_val_1.fq  -2 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R2_val_2.fq  --report-file taxa.illumina --threads 24
 ```
 
 
