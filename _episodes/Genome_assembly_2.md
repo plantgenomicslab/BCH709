@@ -660,6 +660,11 @@ canu_illumina_pilon_sort.bam canu_illumina_pilon_sort.bam.bai canu.illumina.fast
 canu_illumina_sort.bam canu_illumina_sort.bam.bai canu.contigs.fasta canu.contigs.fasta.fai  
 ```
 
+```bash
+bgzip -@ 2 canu.illumina.vcf
+tabix -p vcf canu.illumina.vcf.gz
+```
+
 ### Investigate taxa
 
 Here we introduce a software called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
