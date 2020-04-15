@@ -76,8 +76,8 @@ conda install -c bioconda centrifuge -y
 #SBATCH --mem=220g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
-#SBATCH -o busco.out # STDOUT
-#SBATCH -e busco.err # STDERR
+#SBATCH -o centrifuge.out # STDOUT
+#SBATCH -e centrifuge.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 centrifuge -x /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  -1 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R1_val_1.fq  -2 /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/trimmed_fastq/WGS_R2_val_2.fq  --report-file taxa.illumina --threads 24
@@ -96,8 +96,8 @@ https://fbreitwieser.shinyapps.io/pavian/
 #SBATCH --mem=10g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
-#SBATCH -o busco.out # STDOUT
-#SBATCH -e busco.err # STDERR
+#SBATCH -o centrifuge.out # STDOUT
+#SBATCH -e centrifuge.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina > taxa.illumina.pavian 
@@ -136,7 +136,7 @@ conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco/config/"
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco4/config/"
 
 busco -l viridiplantae_odb10 --cpu 24 --in spades_illumina.fasta --out BUSCO_Illumina --mode genome  -f
 
