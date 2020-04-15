@@ -188,10 +188,23 @@ cd !$
 
 ### How can we improve these genome assemblies?
 
-![illumina]({{site.baseurl}}/fig/mate.png)
+#### Mate Pair Sequencing
+
+![illumina]({{site.baseurl}}/fig/mate.gif)  
+
+![illumina]({{site.baseurl}}/fig/mate.png)  
+
+
+#### BioNano Optical Mapping
+
 ![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
+
+
+#### Long Read Scaffolding
+
 ![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
 
+#### Chromosome Conformation Scaffolding
 
 ![hic1]({{site.baseurl}}/fig/hic1.png)
 ![hic1]({{site.baseurl}}/fig/hic2.png)
@@ -209,7 +222,7 @@ cd !$
 
 ## Chromosome assembly
 ```bash
-mkdir /data/gpfs/assoc/bch709/<YOURID>/<g TAB>/hic  
+mkdir /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/hic  
 cd !$
 ```
 ### HiC
@@ -232,6 +245,37 @@ https://www.dropbox.com/s/0waw9b2uy4iarq2/hic_r1.fastq.gz
 https://www.dropbox.com/s/tq0iy4815hw473z/hic_r2.fastq.gz
 https://www.dropbox.com/s/2vku066402h5una/allhic.zip
 ```
+# ALLHiC
+Phasing and scaffolding polyploid genomes based on Hi-C data 
+
+### Introduction  
+The major problem of scaffolding polyploid genome is that Hi-C signals are frequently detected between allelic haplotypes and any existing stat of art Hi-C scaffolding program  links the allelic haplotypes together. To solve the problem, we developed a new Hi-C scaffolding pipeline, called ALLHIC, specifically tailored to the polyploid genomes. ALLHIC pipeline contains a total of 5 steps: _prune_, _partition_, _rescue_, _optimize_ and _build_. 
+
+### Overview of ALLHiC  
+
+
+![image](https://www.dropbox.com/s/asiaew4y142acmc/ALLHiC-Overview.png?raw=1)  
+**Figure 1. Overview of major steps in ALLHiC algorithm.** The newly released ALLHiC pipeline contains a total of 5 functions: prune, partition, rescue, optimize and build. Briefly, the prune step removes the inter-allelic links so that the homologous chromosomes are more easily separated individually. The partition function takes pruned bam file as input and clusters the linked contigs based on the linkage suggested by Hi-C, presumably along the same homologous chromosome in a preset number of partitions. The rescue function searches for contigs that are not involved in partition step from original un-pruned bam files and assigned them to specific clusters according Hi-C signal density. The optimize step takes each partition, and optimize the ordering and orientations for all the contigs. Finally, the build step reconstructs each chromosome by concatenating the contigs, adding gaps between the contigs and generating the final genome release in FASTA format.  
+
+### Explanation of _Prune_
+_Prune_ function will firstly allow us to detect allelic contigs, which can be achieved by identifying syntenic genes based on a well-assembled close related species or an assembled monoploid genome. Signals (normalized Hi-C reads) between allelic contigs are removed from the input BAM files. In polyploid genome assembly, haplotypes that share high similarity are likely to be collapsed. Signals between the collapsed regions and nearby phased haplotypes result in chimeric scaffolds. In the prune step, only the best linkage between collapsed coting and phased contig is retained.
+
+![image](https://www.dropbox.com/s/3pt2iezf9w1tq8a/prune-method.png?raw=1) 
+**Figure 2. Description of Hi-C scaffolding problem in polyploid genome and application of prune approach for haplotype phasing.** (a) a schematic diagram of auto-tetraploid genome. Four homologous chromosomes are indicated as different colors (blue, orange, green and purple, respectively). Red regions in the chromosomes indicate sequences with high similarity. (b) Detection of Hi-C signals in the auto-tetraploid genome. Black dash lines indicate Hi-C signals between collapsed regions and un-collpased contigs. Pink dash lines indicate inter-haplotype Hi-C links and grey dash lines indicate intra-haplotype Hi-C links. During assembly, red regions will be collapsed due to high sequence similarity; while, other regions will be separated into different contigs if they have abundant variations. Since the collapsed regions are physically related with contigs from different haplotypes, Hi-C signals will be detected between collapsed regions with all other un-collapsed contigs. (c) Traditional Hi-C scaffolding methods will detect signals among contigs from different haplotypes as well as collapsed regions and cluster all the sequences together. (d) Prune Hi-C signals: 1- remove signals between allelic regions; 2- only retain the strongest signals between collapsed regions and un-collapsed contigs. (e) Partition based on pruned Hi-C information. Contigs are ideally phased into different groups based on prune results.  
+
+### Citations  
+
+Zhang, X. Zhang, S. Zhao, Q. Ming, R. Tang, H. Assembly of allele-aware, chromosomal scale autopolyploid genomes based on Hi-C data. Nature Plants, doi:10.1038/s41477-019-0487-8 (2019).  
+Zhang, J. Zhang, X. Tang, H. Zhang, Q. et al. Allele-defined genome of the autopolyploid sugarcane _Saccharum spontaneum_ L. Nature Genetics, doi:10.1038/s41588-018-0237-2 (2018). 
+
+
+
+### Algorithm demo
+Solving scaffold ordering and orientation (OO) in general is NP-hard. ALLMAPS converts the problem into Traveling Salesman Problem (TSP) and refines scaffold OO using Genetic Algorithm. For rough idea, a 'live' demo of the scaffold OO on yellow catfish chromosome 1 can be viewed in the animation below. 
+
+<a href="https://youtu.be/BUMMhApPCkw?vq=hd1080" target="_blank"><img src="https://www.dropbox.com/s/jfs8xavcxix37se/ALLMAPS.gif?raw=1" alt="ALLMAPS animation" width="600" height="360" border="0" /></a>
+
+
 
 
 ### Run AllHIC ->  hic.sh
@@ -250,8 +294,8 @@ https://www.dropbox.com/s/2vku066402h5una/allhic.zip
 unzip allhic.zip
 chmod 775 ALL* all*
 
-cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOMEASSEMBLY FOLDER>/genomeassembly_results/canu.illumina.fasta*  .
-samtools faidx canu.illumina.fasta
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/canu.illumina.fasta*  .
+
 bwa index canu.illumina.fasta
 bwa mem -t 24 -SPM canu.illumina.fasta hic_r1.fastq.gz hic_r2.fastq.gz  > hic.sam
 samtools view -Sb hic.sam -o hic.bam -@ 24
@@ -261,6 +305,8 @@ samtools view -Sb hic.sam -o hic.bam -@ 24
 ./allhic optimize hic.counts_GATC.2g1.txt  hic.clm
 ./allhic optimize hic.counts_GATC.2g2.txt  hic.clm
 ./allhic  build hic.counts_GATC.2g1.tour hic.counts_GATC.2g2.tour canu.illumina.fasta bch709_assembly
+
+samtools faidx canu.illumina.fasta
 cut -f 1,2 canu.illumina.fasta.fai >> chrn.list
 ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
 ```
