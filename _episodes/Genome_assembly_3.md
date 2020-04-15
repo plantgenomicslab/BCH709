@@ -314,7 +314,7 @@ cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon/canu.illumina.fasta .
 bwa index canu.illumina.fasta
 bwa mem -t 24 -SPM canu.illumina.fasta hic_r1.fastq.gz hic_r2.fastq.gz  > hic.sam
 samtools view -Sb hic.sam -o hic.bam -@ 24
-
+samtools 
 ./allhic extract hic.bam canu.illumina.fasta  
 ./allhic partition hic.counts_GATC.txt hic.pairs.txt 2  
 ./allhic optimize hic.counts_GATC.2g1.txt  hic.clm  
