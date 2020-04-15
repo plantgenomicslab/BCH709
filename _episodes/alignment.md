@@ -157,8 +157,7 @@ nucleotide query and protein db - blastx (includes six frame translation of quer
 protein query and nucleotide db - tblastn (includes six frame translation of db sequences)
 protein query and protein db - blastp
 
-![blasttype]({{site.baseurl}}/fig/blasttype.png
-)
+![blasttype]({{site.baseurl}}/fig/blasttype.png)
 ### BLAST Process
 
 
@@ -170,6 +169,10 @@ protein query and protein db - blastp
 
 ![blast]({{site.baseurl}}/fig/blast.gif)
 
+
+
+### NCBI BLAST
+https://blast.ncbi.nlm.nih.gov/Blast.cgi
 
 
 ### BLASTN example
@@ -231,15 +234,20 @@ CGCAAGAGCCGGAGGTATGATGGCCCCAGCTTCGGCAGATAA
 
 ### BLASTP Query
 Do a BLASTP on NCBI website with the following protein against nr, but limit the organism to cetartiodactyla using default parameters:
->query1
+ 
 MASGPGGWLGPAFALRLLLAAVLQPVSAFRAEFSSESCRELGFSSNLLCSSCDLLGQFSL
 LQLDPDCRGCCQEEAQFETKKYVRGSDPVLKLLDDNGNIAEELSILKWNTDSVEEFLSEK
 LERI
 
 
 
-Have a look at the multiple sequence alignment, can you explain the results?
-Do a similar blastp vs UniProtKB (UniProt) without post filtering. Select and align all proteins. Can you explain the differences? What do you think of the Bos taurus sequence (A8YXY3) and the pig sequence (A1Z623)?
+Have a look at the multiple sequence alignment, can you explain the results?  
+
+Do a similar blastp vs UniProtKB (UniProt) without post filtering.
+
+Select and align all proteins. Can you explain the differences?
+
+What do you think of the Bos taurus sequence (A8YXY3) and the pig sequence (A1Z623)?
 
 
 ### Running a standalone blast program
@@ -256,19 +264,18 @@ Set the output format and the number of output results
 2. Use makeblastdb to build the index.
 3. Change the scoring matrix, record the changes in the alignment results and interpret the results.
 
-### Run BLAST
-```
-makeblastdb -in plant.1.protein.faa -dbtype prot
-blastx -query spiderman/rnaseq/homework2/Trinity/trinity_out_dir/Trinity.fasta -db plant.1.protein.faa 
-```
-
-
 ### Download Database
 ```
 ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ```
-
 ### How many sequences in `plant.1.protein.faa.gz`
+
+
+### Run BLAST
+```
+makeblastdb -in plant.1.protein.faa -dbtype prot
+blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta -db plant.1.protein.faa 
+```
 
 
 ### Tab output
@@ -286,12 +293,7 @@ ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 	evalue 		E-value
 	bitscore	Bit score
 
-## HOME WORK
-Please find the option to save file with the tabular output.
-Paste to `pastebin.com` and send me a link.
 
-
-### Example
-![I.7_8_unix_94_5_blastout]({{site.baseurl}}/fig/I.7_8_unix_94_5_blastout.png)
-
+### Run BLAST
+- find output to file, tab output, threads (CPU) and 
 
