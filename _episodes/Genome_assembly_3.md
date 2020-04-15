@@ -188,23 +188,27 @@ cd !$
 
 ### How can we improve these genome assemblies?
 
-#### Mate Pair Sequencing
+### Mate Pair Sequencing
 
 ![illumina]({{site.baseurl}}/fig/mate.gif)  
 
 ![illumina]({{site.baseurl}}/fig/mate.png)  
 
 
-#### BioNano Optical Mapping
+### BioNano Optical Mapping
+
+
+![optical mapping]({{site.baseurl}}/fig/bionano2.png)
+
 
 ![optical mapping]({{site.baseurl}}/fig/bionano.jpg)
 
 
-#### Long Read Scaffolding
+### Long Read Scaffolding
 
 ![pacbio_scaff]({{site.baseurl}}/fig/pacbio_scaff.png)
 
-#### Chromosome Conformation Scaffolding
+### Chromosome Conformation Scaffolding
 
 ![hic1]({{site.baseurl}}/fig/hic1.png)
 ![hic1]({{site.baseurl}}/fig/hic2.png)
@@ -219,10 +223,17 @@ cd !$
 
 [!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
+### HiC for Genome Assembly
+![hic1]({{site.baseurl}}/fig/starwars.png)
+
+![hic1]({{site.baseurl}}/fig/starwars2.png)
+
+
+
 
 ## Chromosome assembly
 ```bash
-mkdir /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/hic  
+mkdir /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Hic  
 cd !$
 ```
 ### HiC
@@ -232,20 +243,23 @@ conda create -n hic
 
 conda activate hic
 
-conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa
+conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa -y
+
+
 ```
 
 ## canu.illumina.fasta
 **The input of HiC is the output of Pilon. If you don't have it please do Pilon first.**
 
 
-### Download
+### File preparation
 ```bash
-https://www.dropbox.com/s/0waw9b2uy4iarq2/hic_r1.fastq.gz
-https://www.dropbox.com/s/tq0iy4815hw473z/hic_r2.fastq.gz
-https://www.dropbox.com/s/2vku066402h5una/allhic.zip
+cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_assembly/hic_r{1,2}.fastq.gz .
+
+cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_assembly/allhic.zip .
 ```
-# ALLHiC
+
+## ALLHiC
 Phasing and scaffolding polyploid genomes based on Hi-C data 
 
 ### Introduction  
@@ -276,7 +290,8 @@ Solving scaffold ordering and orientation (OO) in general is NP-hard. ALLMAPS co
 <a href="https://youtu.be/BUMMhApPCkw?vq=hd1080" target="_blank"><img src="https://www.dropbox.com/s/jfs8xavcxix37se/ALLMAPS.gif?raw=1" alt="ALLMAPS animation" width="600" height="360" border="0" /></a>
 
 
-
+### Traveling Salesman Problem
+![Traveling Salesman Problem]({{site.baseurl}}/fig/us_state_capitals_tsp.gif)
 
 ### Run AllHIC ->  hic.sh
 ```bash
@@ -294,7 +309,7 @@ Solving scaffold ordering and orientation (OO) in general is NP-hard. ALLMAPS co
 unzip allhic.zip
 chmod 775 ALL* all*
 
-cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/genomeassembly_results/canu.illumina.fasta*  .
+cp /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Pilon/canu.illumina.fasta .
 
 bwa index canu.illumina.fasta
 bwa mem -t 24 -SPM canu.illumina.fasta hic_r1.fastq.gz hic_r2.fastq.gz  > hic.sam
@@ -306,19 +321,17 @@ samtools view -Sb hic.sam -o hic.bam -@ 24
 ./allhic optimize hic.counts_GATC.2g2.txt  hic.clm
 ./allhic  build hic.counts_GATC.2g1.tour hic.counts_GATC.2g2.tour canu.illumina.fasta bch709_assembly
 
-samtools faidx canu.illumina.fasta
-cut -f 1,2 canu.illumina.fasta.fai >> chrn.list
-ALLHiC_plot  hic.bam groups.agp chrn.list 10k pdf
-```
-
-
-```bash
-sbatch --dependency=afterok:<123456> hic.sh
+samtools faidx bch709_assembly.fasta
+cut -f 1,2 bch709_assembly.fasta.fai >> chrn.list
+ALLHiC_plot  hic.bam bch709_assembly.agp chrn.list 10k pdf
 ```
 
 
 
 ![![hic1]({{site.baseurl}}/fig/hic10.png)]({{site.baseurl}}/fig/hicmovie.gif)
+
+
+
 
 
 
