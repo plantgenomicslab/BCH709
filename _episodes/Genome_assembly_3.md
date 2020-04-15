@@ -221,7 +221,7 @@ cd !$
 ![hic1]({{site.baseurl}}/fig/hic9.png)
 ![hic1]({{site.baseurl}}/fig/hic10.png)
 
-[!][(http://img.youtube.com/vi/-MxEw3IXUWU/0.jpg)](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
+[!][Phase Genomics](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
 ### HiC for Genome Assembly
 ![hic1]({{site.baseurl}}/fig/starwars.png)
@@ -315,15 +315,19 @@ bwa index canu.illumina.fasta
 bwa mem -t 24 -SPM canu.illumina.fasta hic_r1.fastq.gz hic_r2.fastq.gz  > hic.sam
 samtools view -Sb hic.sam -o hic.bam -@ 24
 
-./allhic extract hic.bam canu.illumina.fasta
-./allhic partition hic.counts_GATC.txt hic.pairs.txt 2
-./allhic optimize hic.counts_GATC.2g1.txt  hic.clm
-./allhic optimize hic.counts_GATC.2g2.txt  hic.clm
-./allhic  build hic.counts_GATC.2g1.tour hic.counts_GATC.2g2.tour canu.illumina.fasta bch709_assembly
+./allhic extract hic.bam canu.illumina.fasta  
+./allhic partition hic.counts_GATC.txt hic.pairs.txt 2  
+./allhic optimize hic.counts_GATC.2g1.txt  hic.clm  
+./allhic optimize hic.counts_GATC.2g2.txt  hic.clm  
 
-samtools faidx bch709_assembly.fasta
-cut -f 1,2 bch709_assembly.fasta.fai >> chrn.list
-ALLHiC_plot  hic.bam bch709_assembly.agp chrn.list 10k pdf
+ALLHiC_build canu.illumina.fasta  
+
+cp groups.asm.fasta bch709_assembly.fasta  
+
+samtools faidx bch709_assembly.fasta  
+cut -f 1,2 bch709_assembly.fasta.fai >> chrn.list  
+
+ALLHiC_plot  hic.bam groups.agp chrn.list 30k pdf  
 ```
 
 
