@@ -325,9 +325,9 @@ ALLHiC_build canu.illumina.fasta
 cp groups.asm.fasta bch709_assembly.fasta  
 
 samtools faidx bch709_assembly.fasta  
-cut -f 1,2 bch709_assembly.fasta.fai >> chrn.list  
+cut -f 1,2 bch709_assembly.fasta.fai > chrn.list  
 
-ALLHiC_plot  hic.bam groups.agp chrn.list 30k pdf  
+ALLHiC_plot  hic.bam groups.agp chrn.list 20k pdf  
 ```
 
 
