@@ -136,7 +136,7 @@ conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
 
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco4/config/"
+#export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco4/config/"
 
 busco -l viridiplantae_odb10 --cpu 24 --in spades_illumina.fasta --out BUSCO_Illumina --mode genome  -f
 
