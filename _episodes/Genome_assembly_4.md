@@ -199,14 +199,16 @@ nano DotPrep.sh
 python DotPrep.py  --delta bch709_assembly_vs_original_sequence.delta --out  bch709_assembly_vs_original_sequence
 ```
 ## DOT plot
-![alignment_reference]({{site.baseurl}}/fig/doplot_bch709.png)
+https://dnanexus.github.io/dot/
+
+
+![alignment_reference]({{site.baseurl}}/fig/dotplot_bch709.png)
+
 
 
 ## What is the problem?
 
 ![alignment_reference]({{site.baseurl}}/fig/alignment_reference.png)
-
-
 
 
 ![allhic]({{site.baseurl}}/fig/Misjoin1.png)
