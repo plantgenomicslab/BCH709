@@ -663,6 +663,7 @@ canu_illumina_sort.bam canu_illumina_sort.bam.bai canu.contigs.fasta canu.contig
 
 ```bash
 conda activate postprocess
+conda install -c bioconda htslib=1.9
 bgzip -@ 2 canu.illumina.vcf
 tabix -p vcf canu.illumina.vcf.gz
 ```
