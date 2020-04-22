@@ -724,7 +724,7 @@ https://fbreitwieser.shinyapps.io/pavian/
 #SBATCH -e centrifuge.err # STDERR
 #SBATCH -p cpu-s2-core-0 
 #SBATCH -A cpu-s2-bch709-0
-centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina > taxa.illumina.pavian 
+centrifuge-kreport  -x  /data/gpfs/assoc/bch709/Course_material/2020/taxa/nt  taxa.illumina > taxa.illumina_kraken 
 ```
 
 
