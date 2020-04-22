@@ -70,6 +70,12 @@ Initialize and fill the scoring matrix, shown as below. This figure shows the sc
 ![matrix_finish]({{site.baseurl}}/fig/matrix_finish.png)
 ![backtrace]({{site.baseurl}}/fig/backtrace.png)
 
+## location
+```
+ mkdir /data/gpfs/assoc/bch709/<YOURID>/alignment
+ cd $!
+```
+
 ## Install software 
 create `alignment` env, activate and install `blast muscle clustalo` from bioconda
 
@@ -98,6 +104,7 @@ create `alignment` env, activate and install `blast muscle clustalo` from biocon
 
 
 ## Example Protein sequences
+- save it as example.aa
 ```
 >sp|P10242|MYB_HUMAN Transcriptional activator Myb OS=Homo sapiens OX=9606 GN=MYB PE=1 SV=2
 MARRPRHSIYSSDEDDEDFEMCDHDYDGLLPKSGKRHLGKTRWTREEDEKLKKLVEQNGT
@@ -137,9 +144,24 @@ STPLIGHKLTVTTPFHRDQTVKTQKENTVFRTPAIKRSILESSPRTPTPFKHALAAQEIK
 YGPLKMLPQTPSHLVEDLQDVIKQESDESGIVAEFQENGPPLLKKIKQEVESPTDKSGNF
 FCSHHWEGDGLNTQLFTQTSPVADAPNILTSSVLMAPASEDEDNVLKAFTVPKNRSLASP
 LQPCSSTWEPASCGKLEEQMTASSQARKYVNAFSARTLVM
+
+>XP_012418097.1 PREDICTED: transcriptional activator Myb isoform X5 [Odobenus rosmarus divergens]
+MARRPRHSIYSSDEDDEDIEMCDHDYDGLLPKSGKRHLGKTRWTREEDEKLKKLVEQNGTDDWKVIANYL
+PNRTDVQCQHRWQKVLNPELIKGPWTKEEDQRVIELVQKYGPKRWSVIAKHLKGRIGKQCRERWHNHLNP
+EVKKTSWTEEEDRIIYQAHKRLGNRWAEIAKLLPGRTDNAIKNHWNSTMRRKVEQEGYLQESSKASPPTV
+ATSFQKNSHLMGFAHAPPSAHLPPAGQPSVNNDYSYYHISEAQNVSSHVPYPVALHVNIVNVPQPAAAAI
+QRHYNDEDPEKEKRIKELELLLMSTENELKGQQTQNHTCSYPGWHSTTIADHTRPHGDSAPVSCLEEHHS
+TPSLPVDPGSLPEESASPARCMIVHQGTILDNVKNLLEFAETLQFIDSFLNTSGNHENLDLEMPSLTSTP
+LNGHKLTVTTPFHRDQTVKTQKENTIFRTPAIKRSILESSPRTPTPFKHGLAAQEIKYGPLKMLPQTPSH
+LVEDLQDVIKQESDEPGIVAEFQENGPPLLKKIKQEVESPTDKAGNFFCSSHWEGESLNTQLFPQALPVT
+DVPNILTSSVLMTPVSEDEDNVLKAFTVPKNRSLASPLQPCGGAWEAASCGKTEDQMTASGQARKYVNAF
+STRTLVM
+
+
 ```
 
 ### Example Nucleotide Sequence
+- save it as example.fasta
 ```
 >NM_001130173.1
 ATGGCCCGAAGACCCCGGCACAGCATATATAGCAGTGACGAGGATGATGAGGACTTTGAGATGTGTGACC
@@ -243,6 +265,15 @@ AATGCATTCTCAGCCCGGACGCTGGTCATGTGA
 ![muscle]({{site.baseurl}}/fig/muscle.jpg)
 Iterative Progressive Alignment
 
+```bash
+muscle --help
+muscle -in example.aa -out example.aa.muscle
+muscle -in example.aa -out example.aa.muscle.clw -clw
+muscle -in example.fasta -out example.fasta.muscle
+muscle -in example.fasta -out example.fasta.muscle.clw -clw
+```
+
+
 ## ClustalO
 ![HMM]({{site.baseurl}}/fig/HMM.jpeg)
 Hidden Markov Model
@@ -250,6 +281,19 @@ Hidden Markov Model
 ![Global_vs_Local]({{site.baseurl}}/fig/Global_vs_Local.png)
 
 ![local]({{site.baseurl}}/fig/local.png)
+
+
+https://www.ebi.ac.uk/Tools/msa/clustalo/
+
+```bash
+clustalo --help
+clustalo -i example.aa -o example.aa.clustao
+clustalo -i example.aa -o example.aa.clustao.clw --outfmt=clu
+clustalo -i example.fasta -o example.fasta.clustalo
+clustalo -i example.fasta -o example.fasta.clustalo.clw --outfmt=clu
+
+```
+
 
 
 ### Alignmnet Visualization
@@ -406,7 +450,7 @@ Select and align all proteins. Can you explain the differences?
 What do you think of the Bos taurus sequence (A8YXY3) and the pig sequence (A1Z623)?
 
 
-### Running a standalone blast program
+### Running a standalone BLAST program
 Create the index for the target database using makeblastdb;
 Choose the task program: blastn, blastp, blastx, tblatx, psiblast or deltablast;
 Set the configuration for match, mismatch, gap-open penalty, gap-extension penalty or scoring matrix;
@@ -450,5 +494,5 @@ blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trin
 	bitscore	Bit score
 
 
-### Run BLAST
-- find output to file, tab output format and threads (CPU) 
+### Assignment Run standalone BLASTX
+- find output to file, tabular output format, set maximu target sequence to one, and threads (CPU) to four 
