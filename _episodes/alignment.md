@@ -495,4 +495,10 @@ blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trin
 
 
 ### Assignment Run standalone BLASTX
-- find output to file, tabular output format, set maximu target sequence to one, and threads (CPU) to four 
+- find the option below within BLASTX
+1. output to file
+2. tabular output format
+3. set maximum target sequence to one
+4. threads (CPU) to 32
+- Upload your output file to Webcanvas
+
