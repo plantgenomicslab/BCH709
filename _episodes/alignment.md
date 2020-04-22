@@ -248,6 +248,11 @@ Hidden Markov Model
 ![local]({{site.baseurl}}/fig/local.png)
 
 
+### Alignmnet Visualization
+https://www.ebi.ac.uk/Tools/msa/mview/
+
+
+
 ## BLAST
 Basic Local Alignment Search Tool (Altschul et al., 1990 & 1997) is a sequence comparison algorithm optimized for speed used to search sequence databases for optimal local alignments to a query. The initial search is done for a word of length "W" that scores at least "T" when compared to the query using a substitution matrix. Word hits are then extended in either direction in an attempt to generate an alignment with a score exceeding the threshold of "S". The "T" parameter dictates the speed and sensitivity of the search.
 
@@ -442,4 +447,4 @@ blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trin
 
 
 ### Run BLAST
-- find output to file, tab output and threads (CPU) 
+- find output to file, tab output format and threads (CPU) 
