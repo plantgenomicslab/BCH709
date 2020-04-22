@@ -94,7 +94,7 @@ create `alignment` env, activate and install `blast muscle clustalo` from biocon
 |T| | | | | | | |
 
 
-<a id="raw-url" href="https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/data/Needleman-Wunsch%20Algorithm_BCH709.xls">.</a>
+[.](https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/data/Needleman-Wunsch%20Algorithm_BCH709.xls)
 
 
 ## Example Protein sequences
