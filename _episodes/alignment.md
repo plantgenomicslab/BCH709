@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Alignment
+title: 13_Sequence_Alignment
 published: true
 ---
 
@@ -83,15 +83,15 @@ create `alignment` env, activate and install `blast muscle clustalo` from biocon
 {: .callout}
 
 
-| | |T|A|G|T|A|T|
+| |T|T|A|G|T|A|T|
 |---|---|---|---|---|---|---|---|
-|A| | | | | | | |
+|T| | | | | | | |
 |A| | | | | | | |
 |G| | | | | | | |
 |C| | | | | | | |
-|C| | | | | | | |
 |T| | | | | | | |
 |A| | | | | | | |
+|T| | | | | | | |
 
 ## Muscle
 
@@ -148,6 +148,7 @@ Protein databases contained many more sequences by the 1990s so a more empirical
 
 ![PAM-250-and-Blosum-62-matrices]({{site.baseurl}}/fig/PAM-250-and-Blosum-62-matrices.png)
 
+![codon]({{site.baseurl}}/fig/codon.jpg)
 
 ### BLAST has a number of possible programs to run depending on whether you have nucleotide or protein sequences:
 
