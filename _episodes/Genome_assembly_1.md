@@ -382,7 +382,7 @@ for i in `ls -1 *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
 #SBATCH --time=2:00:00
 #SBATCH --mem=30g
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 
@@ -403,7 +403,7 @@ mkdir kmer && cd kmer
 #SBATCH --time=2:00:00
 #SBATCH --mem=10g
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o trim.out # STDOUT

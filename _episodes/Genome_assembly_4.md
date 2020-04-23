@@ -169,7 +169,7 @@ conda activate genomeassembly
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
  nucmer  --coords -p bch709_assembly_vs_original_sequence bch709_assembly.fasta Athaliana_subset_BCH709.fa
 
 ```
@@ -195,7 +195,7 @@ nano DotPrep.sh
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 python DotPrep.py  --delta bch709_assembly_vs_original_sequence.delta --out  bch709_assembly_vs_original_sequence
 ```
 ## DOT plot

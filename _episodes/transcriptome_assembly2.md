@@ -126,7 +126,7 @@ cpu-s3-core-0*    up    2:00:00      2    mix cpu-[8-9]
 cpu-s3-core-0*    up    2:00:00      7  alloc cpu-[1-2,4-6,78-79]
 cpu-s3-core-0*    up    2:00:00     44   idle cpu-[0,3,7,10-47,64,76-77]
 gpu-s2-core-0     up 14-00:00:0     11   idle gpu-[0-10]
-cpu-s6-core-0     up      15:00      2   idle cpu-[65-66]
+cpu-s6-test-0     up      15:00      2   idle cpu-[65-66]
 cpu-s1-pgl-0      up 14-00:00:0      1    mix cpu-49
 cpu-s1-pgl-0      up 14-00:00:0      1  alloc cpu-48
 cpu-s1-pgl-0      up 14-00:00:0      2   idle cpu-[50-51]

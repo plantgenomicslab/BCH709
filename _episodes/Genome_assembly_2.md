@@ -439,7 +439,7 @@ Space efficent suffix trees are described in "Reducing the Space Requirement of 
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 nucmer  --coords -p canu_pacbio_Spades_illumina <canu.contigs> <illumina_spades_scaffold_file>
 
 
@@ -480,7 +480,7 @@ nano DotPrep.sh
 #SBATCH -o nucmer.out # STDOUT
 #SBATCH -e nucmer.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 python DotPrep.py  --delta canu_pacbio_Spades_illumina.delta --out  canu_pacbio_Spades_illumina
 python DotPrep.py  --delta canu_pacbio_Spades_illumina_pacbio.delta  --out canu_pacbio_Spades_illumina_pacbio
 ```

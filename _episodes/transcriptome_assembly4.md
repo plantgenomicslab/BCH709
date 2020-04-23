@@ -38,7 +38,7 @@ ls
 #SBATCH --cpus-per-task=16
 #SBATCH --time=10:00
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 #SBATCH --mem-per-cpu=1g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -70,7 +70,7 @@ nano trim.sh
 #SBATCH --job-name=<TRIM>
 #SBATCH --time=15:00
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
@@ -153,7 +153,7 @@ for fastq in samples:
         fh.writelines("#SBATCH --error=%s.err\n" % fastq)
         fh.writelines("#SBATCH --time=15:00\n")
         fh.writelines("#SBATCH --account=cpu-s6-test-0\n")
-        fh.writelines("#SBATCH --partition=cpu-s6-core-0\n")
+        fh.writelines("#SBATCH --partition=cpu-s6-test-0\n")
         fh.writelines("#SBATCH --cpus-per-task=16\n")
         fh.writelines("#SBATCH --mem-per-cpu=4g\n")
         fh.writelines("#SBATCH --mail-type=fail\n")
@@ -187,7 +187,7 @@ for fastq in ${fastq[@]}; do
 #SBATCH --error=${fastq}.err
 #SBATCH --time=15:00
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
@@ -542,7 +542,7 @@ nano reads_count.sh
 #SBATCH -o <JOBNAME>.out # STDOUT
 #SBATCH -e <JOBNAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 
 align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left trim/DT1_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir rsem_outdir_test  --thread_count  16
@@ -751,7 +751,7 @@ nano alignment.sh
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 align_and_estimate_abundance.pl --thread_count 64 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
 ```
@@ -785,7 +785,7 @@ nano abundance.sh
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 abundance_estimates_to_matrix.pl  --est_method RSEM --gene_trans_map none --name_sample_by_basedir  --cross_sample_norm TMM ../WT_REP1/RSEM.isoforms.results ../WT_REP2/RSEM.isoforms.results ../WT_REP3/RSEM.isoforms.results   ../DT_REP1/RSEM.isoforms.results ../DT_REP2/RSEM.isoforms.results ../DT_REP3/RSEM.isoforms.results
 ```
@@ -822,7 +822,7 @@ nano ptr.sh
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 PtR  --matrix RSEM.isoform.counts.matrix --samples samples_ptr.txt --CPM --log2 --min_rowSums 10  --compare_replicates
 
@@ -851,7 +851,7 @@ nano deseq.sh
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method DESeq2 
@@ -873,7 +873,7 @@ nano edgeR.sh
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
 #SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-core-0
+#SBATCH --partition=cpu-s6-test-0
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method edgeR
 ```
