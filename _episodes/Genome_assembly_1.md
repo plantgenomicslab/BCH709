@@ -16,7 +16,7 @@ multiqc nanostat nanoplot -y
 ```bash
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c conda-forge -c anaconda -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats -y
+conda install -c conda-forge -c anaconda -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats openssl=1.0 -y
 conda install  -c r -c conda-forge -c anaconda -c bioconda  r-ggplot2 r-stringr r-scales r-argparse -y
 ```
 
@@ -426,7 +426,7 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc  openssl=1.0 -y
 conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```

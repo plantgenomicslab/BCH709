@@ -17,7 +17,7 @@ The alignment process consists of choosing an appropriate reference genome to ma
 
 ## Environment
 ```bash
-conda create -n genomernaseq starseqr bioconductor-deseq2 samtools gffread star subread bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster -y
+conda create -n genomernaseq -c bioconda -c conda-forge  starseqr bioconductor-deseq2 samtools gffread star subread bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster openssl=1.0 -y
 
 conda activate genomernaseq
 

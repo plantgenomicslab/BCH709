@@ -38,7 +38,7 @@ conda create -n hic
 
 conda activate hic
 
-conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa -y
+conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa openssl=1.0 -y
 
 
 ```

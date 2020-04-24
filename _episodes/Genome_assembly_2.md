@@ -12,7 +12,7 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install  -c r -c conda-forge -c anaconda -c bioconda  spades canu pacbio_falcon samtools minimap2 multiqc -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  spades canu pacbio_falcon samtools minimap2 multiqc openssl=1.0 -y
 conda install  -c r -c conda-forge -c anaconda -c bioconda  r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
@@ -532,7 +532,7 @@ cd Pilon
 conda deactivate
 conda create -n postprocess python=3 -y
 conda activate postprocess
-conda install -y -c conda-forge -c anaconda -c bioconda pilon bwa samtools
+conda install -y -c conda-forge -c anaconda -c bioconda pilon bwa samtools openssl=1.0 
 ## at your genome assembly folder
 ```
 Pilon uses read alignment analysis to diagnose, report, and automatically improve de novo genome assemblies as well as call variants.
@@ -867,7 +867,7 @@ conda create -n hic
 
 conda activate hic
 
-conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa -y
+conda install -c r -c conda-forge -c anaconda -c bioconda samtools bedtools matplotlib numpy scipy bwa openssl=1.0 -y
 
 
 ```
