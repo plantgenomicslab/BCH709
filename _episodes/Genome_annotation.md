@@ -1,14 +1,15 @@
 ---
 layout: page
-title: Genome annoatation
+title: 14_Genome annoatation
 published: true
 ---
 
 ## Course Evaluation
 
-Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
+Students will have access to course evaluation
+You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.
 
-**You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.**
+**If we can achieve 100% response rate for evaluation, I will give you additional points for your grade**
 
 
 ## Discussion is open
@@ -17,7 +18,7 @@ https://unr.canvaslms.com/courses/44305/discussion_topics
 
 1. Define the biological hypotheses or bottleneck you wish to address which is related to your research, state the approach of your experiment, also state your system, study organism, or study site, and provide justification for what is the goal of your biological hypotheses. Please provide enough background information that the other students can understand your biological hypotheses or bottleneck. If your experiments are complicated, consider briefly explaining the experimental design with reason. If you get more like will get points. (30 Points)
 
-2. Please provide the bioinformatics suggestion that you want to suggest for other people's research hypotheses or bottleneck. It should be scientifically valid methods even if it does not exist. Provide enough information to create an experiment and if you want to create software, please provide reasons and explain what kind of software we need, which part of the hypotheses or bottleneck can be solved. If the software doesn't exist, please provide the design or roadmap of your software. Citation is optional but recommended. Please provide an obstacle to other people's suggestions. In addition, insights and addition will also get points. If you get more like will get points. Lastly, scientifically valid 'Internet Tough Guy' will get the most points. (70 Points)
+2. Please provide the bioinformatics suggestion that you want to suggest for other people's research hypotheses or bottleneck. It should be scientifically valid methods even if it does not exist. Provide enough information to create an experiment and if you want to create software, please provide reasons and explain what kind of software we need, which part of the hypotheses or bottleneck can be solved. If the software doesn't exist, please provide the design or roadmap of your software. Citation is optional but recommended. Please provide an obstacle to other people's suggestions. In addition, insights and addition will also get points. If you get more like will get points. (10 points per valid answer with reference or concept or hyphothesis, a total of 70 Points, seven replies are needed )
 
 
 **Examples are below**
@@ -135,7 +136,6 @@ The posterior probability P{yn = i | x, Θ} can be computed from
 
 
 
-# Assignment due 12/03
 
 ## Genome Annotation
 ![maker]({{site.baseurl}}/fig/maker.png)
@@ -157,7 +157,6 @@ conda activate genomeannotation
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
 
-***Shannon need to replace miniconda3 -> yes***
 
 ### Setting augustus
 ```bash
@@ -172,7 +171,6 @@ echo $AUGUSTUS_CONFIG_PATH
 
 
 ### Setting RepeatMaker
-***Shannon need to replace miniconda3 -> yes***
 ```bash
 cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ./configure
