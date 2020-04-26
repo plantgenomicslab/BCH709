@@ -209,14 +209,16 @@ blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trin
 	bitscore	Bit score
 
 
-### Assignment Run standalone BLASTX
+># Assignment Run standalone BLASTX
 - find the option below within BLASTX
-1. output to file
-2. tabular output format
-3. set maximum target sequence to one
-4. threads (CPU) to 32
-- Upload your output file to Webcanvas
-
+1. Set output to file
+2. Set tabular output format
+3. Set maximum target sequence to one
+4. Set threads (CPU) to 32
+5. Set evalue threshold to 1e-30
+- Run your BLAST by job submition with option of -A cpu-s2-bch709-0 -p cpu-s2-bch709-0 --cpus-per-task=24 --mem=20g and others.
+- Upload your output file and submission file to Webcanvas (File upload)
+{: .prereq}
 
 
 
