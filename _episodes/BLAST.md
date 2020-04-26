@@ -7,7 +7,7 @@ published: true
 
 ## location
 ```
- mkdir /data/gpfs/assoc/bch709/<YOURID>/alignment
+ mkdir /data/gpfs/assoc/bch709/<YOURID>/BLAST
  cd $!
 ```
 
@@ -173,6 +173,18 @@ Set the word size;
 Set the E-value threshold;
 Set the output format and the number of output results
 
+### Standalone BLAST 
+In addition to providing BLAST sequence alignment services on the web, NCBI also makes these sequence alignment utilities available for download through FTP. This allows BLAST searches to be performed on local platforms against databases downloaded from NCBI or created locally. These utilities run through DOS-like command windows and accept input through text-based command line switches. There is no graphic user interface
+
+https://www.ncbi.nlm.nih.gov/books/NBK52640/
+
+ftp://ftp.ncbi.nlm.nih.gov/blast/db/
+
+### NR vs NT
+
+At NCBI they are two different things as well. 'nr' is a database of protein sequences and 'nt' is nucleotide. At one time 'nr' meant non-redundant but it stopped being non-redundant a while ago. nt is a nucleotide database, while nr is a protein database (in amino acids)
+
+
 
 ### Standalone BLAST
 1. Download the database.
@@ -186,10 +198,34 @@ ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ### How many sequences in `plant.1.protein.faa.gz`
 
 
+### Input file
+```bash
+/data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta
+```
+### Subsampling by SeqKit
+
+
+FASTA and FASTQ are basic and ubiquitous formats for storing nucleotide and protein sequences. Common manipulations of FASTA/Q file include converting, searching, filtering, deduplication, splitting, shuffling, and sampling. Existing tools only implement some of these manipulations, and not particularly efficiently, and some are only available for certain operating systems. Furthermore, the complicated installation process of required packages and running environments can render these programs less user friendly.
+
+This project describes a cross-platform ultrafast comprehensive toolkit for FASTA/Q processing. SeqKit provides executable binary files for all major operating systems, including Windows, Linux, and Mac OS X, and can be directly used without any dependencies or pre-configurations. SeqKit demonstrates competitive performance in execution time and memory usage compared to similar tools. The efficiency and usability of SeqKit enable researchers to rapidly accomplish common FASTA/Q file manipulations.
+
+https://bioinf.shenwei.me/seqkit/
+
+https://bioinf.shenwei.me/seqkit/tutorial/
+
+
+```bash
+conda install -c bioconda -c conda-forge seqkit -y
+```
+
+
+
 ### Run BLAST
 ```
 makeblastdb -in plant.1.protein.faa -dbtype prot
-blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta -db plant.1.protein.faa 
+seqkit sample -n 100 /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta > trinity_100.fasta
+
+blastx -query trinity_100.fasta  -db plant.1.protein.faa 
 ```
 
 
@@ -216,7 +252,10 @@ blastx -query /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trin
 3. Set maximum target sequence to one
 4. Set threads (CPU) to 32
 5. Set evalue threshold to 1e-30
-- Run your BLAST by job submition with option of -A cpu-s2-bch709-0 -p cpu-s2-bch709-0 --cpus-per-task=24 --mem=20g and others.
+-  Set the query as /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta
+-  Set the db as plant.1.protein.faa
+- Create submition with option of -A cpu-s2-bch709-0 -p cpu-s2-bch709-0 --cpus-per-task=24 --mem=20g and others.
+- 
 - Upload your output file and submission file to Webcanvas (File upload)
 {: .prereq}
 
@@ -296,7 +335,7 @@ We also recommend to use 'cpanm' https://github.com/miyagawa/cpanminus
 ## Prerequisites by Conda
 
 ```bash
-conda create -n DCBLAST
+conda create -n BLAST
 conda install -c bioconda perl-path-tiny blast perl-data-dumper perl-config-tiny 
 ```
 
@@ -308,11 +347,13 @@ We recommend to copy it on scratch disk.
 
 
 ```bash
-cd ~/scratch/  # We recommend to copy it on scratch disk.
+mkdir /data/gpfs/assoc/bch709/<YOURID>/BLAST
+
+cd /data/gpfs/assoc/bch709/<YOURID>/BLAST
 
 git clone git://github.com/ascendo/DCBLAST.git
 
-cd ~/scratch/DCBLAST
+cd DCBLAST
 
 perl dcblast.pl
 ```
