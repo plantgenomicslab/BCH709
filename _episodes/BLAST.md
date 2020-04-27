@@ -160,9 +160,6 @@ Have a look at the multiple sequence alignment, can you explain the results?
 
 Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 
-Select and align all proteins. Can you explain the differences?
-
-What do you think of the Bos taurus sequence (A8YXY3) and the pig sequence (A1Z623)?
 
 
 ### Running a standalone BLAST program

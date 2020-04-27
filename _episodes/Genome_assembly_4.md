@@ -124,8 +124,8 @@ PreprocessSAMs.pl sample.bwa_aln.sam canu.illumina.fasta MBOI
 filterBAM_forHiC.pl sample.bwa_aln.REduced.paired_only.bam sample.clean.sam
 
 samtools view -bht canu.illumina.fasta.fai sample.bwa_aln.sam  > sample.clean.bam
-
-allhic extract --minLinks 10 sample.clean.bam canu.illumina.fasta
+cp  sample.clean.bam hic.bam
+allhic extract --minLinks 10 hic.bam canu.illumina.fasta
 allhic partition hic.counts_GATC.txt hic.pairs.txt 2  
 allhic optimize hic.counts_GATC.2g1.txt  hic.clm  
 allhic optimize hic.counts_GATC.2g2.txt  hic.clm  
