@@ -1,36 +1,36 @@
 ---
 layout: page
-title: Genome RNASeq
+title: 15_Genome RNASeq
 published: true
 ---
 
 
 ## Course Evaluation
 
-Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
+Students will have access to course evaluation
+You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students. Students will have access to them until 11:59 PM on Wed, May 6, 2020 PDT.
 
-**You can log in with your NetID to [http://www.unr.edu/evaluate](http://www.unr.edu/evaluate) and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.**
+**If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
+
 
 ## RNA reads alignment
 The alignment process consists of choosing an appropriate reference genome to map our reads against and performing the read alignment using one of several splice-aware alignment tools such as STAR or HISAT2. The choice of aligner is often a personal preference and also dependent on the computational resources that are available to you.
 
 
-## Environment
-```bash
-conda create -n genomernaseq -c bioconda -c conda-forge  starseqr bioconductor-deseq2 samtools gffread star subread bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster openssl=1.0 -y
-
-conda activate genomernaseq
-
-conda install -c bioconda bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster -y
- 
-conda install -c anaconda openblas -y
-
-```
 ## Location
 ```
 /data/gpfs/assoc/bch709/<YOURID>/genomernaseq
 ```
 
+## Environment
+```bash
+conda create -n genomernaseq 
+
+conda activate genomernaseq
+
+conda install -c bioconda -c conda-forge bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster openblas starseqr bioconductor-deseq2 samtools gffread star subread bioconductor-qvalue bioconductor-edger bioconductor-deseq2 r-fastcluster openssl=1.0 -y
+
+```
 
 ## Reads preparation
 ```bash
@@ -79,9 +79,9 @@ Now that you have the genome and annotation files, you will create a genome inde
 ```bash
 #!/bin/bash
 #SBATCH --job-name=star
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=2
 #SBATCH --time=12:00:00
-#SBATCH --mem=20g
+#SBATCH --mem=8g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<EMAIL>@unr.edu
 #SBATCH -o star.out # STDOUT
@@ -89,22 +89,48 @@ Now that you have the genome and annotation files, you will create a genome inde
 #SBATCH -p cpu-s2-core-0
 #SBATCH -A cpu-s2-bch709-0
 mkdir reference
-STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --genomeFastaFiles /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709_assembly.fasta --sjdbGTFfile  /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709.gtf --runThreadN 16 --genomeSAindexNbases 10
+STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --genomeFastaFiles /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709_assembly.fasta --sjdbGTFfile  /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709.gtf --runThreadN 2 --genomeSAindexNbases 10
 
 ## RNA Seq mapping
+```
 
+```bash
+#!/bin/bash
+#SBATCH --job-name=star
+#SBATCH --cpus-per-task=2
+#SBATCH --time=12:00:00
+#SBATCH --mem=8g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<EMAIL>@unr.edu
+#SBATCH -o star.out # STDOUT
+#SBATCH -e star.err # STDERR
+#SBATCH -p cpu-s2-core-0
+#SBATCH -A cpu-s2-bch709-0
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R2_val_2.fq.gz --outFileNamePrefix WT1 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R2_val_2.fq.gz --outFileNamePrefix WT1 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R2_val_2.fq.gz --outFileNamePrefix WT2 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R2_val_2.fq.gz --outFileNamePrefix WT2 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R2_val_2.fq.gz --outFileNamePrefix WT3 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R2_val_2.fq.gz --outFileNamePrefix WT3 --readFilesCommand zcat
+```
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R2_val_2.fq.gz --outFileNamePrefix DT1 --readFilesCommand zcat
+```bash
+#!/bin/bash
+#SBATCH --job-name=star
+#SBATCH --cpus-per-task=2
+#SBATCH --time=12:00:00
+#SBATCH --mem=8g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<EMAIL>@unr.edu
+#SBATCH -o star.out # STDOUT
+#SBATCH -e star.err # STDERR
+#SBATCH -p cpu-s2-core-0
+#SBATCH -A cpu-s2-bch709-0
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R2_val_2.fq.gz --outFileNamePrefix DT1 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R2_val_2.fq.gz --outFileNamePrefix DT2 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R2_val_2.fq.gz --outFileNamePrefix DT2 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 16 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R2_val_2.fq.gz --outFileNamePrefix DT3 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R2_val_2.fq.gz --outFileNamePrefix DT3 --readFilesCommand zcat
 ```
 ![igv]({{site.baseurl}}/fig/igv.png)
 
@@ -187,7 +213,7 @@ BCH709.featureCount_count_length.cnt.tpm.tab
 ### DEG subset
 ```bash
 cd rnaseq
-analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
+perl analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
 ```
 
 

@@ -1,15 +1,16 @@
 ---
 layout: page
-title: Genome description and enrichment test
+title: 15 Genome description and enrichment test
 published: true
 ---
 
-
 ## Course Evaluation
 
-Students will have access to them until 11:59 PM on Wed, Dec 11, 2019 PST.
+Students will have access to course evaluation
+You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students. Students will have access to them until 11:59 PM on Wed, May 6, 2020 PDT.
 
-**You can log in with your NetID to [http://www.unr.edu/evaluate](http://www.unr.edu/evaluate) and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.**
+**If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
+
 
 
 # Assignment due by next Tuesday.

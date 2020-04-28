@@ -7,18 +7,21 @@ published: true
 ## Course Evaluation
 
 Students will have access to course evaluation
-You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.
+You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students. Students will have access to them until 11:59 PM on Wed, May 6, 2020 PDT.
 
-**If we can achieve 100% response rate for evaluation, I will give you additional points for your grade**
+**If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
 
 
 ## Discussion is open
-https://unr.canvaslms.com/courses/44305/discussion_topics
+https://unr.canvaslms.com/courses/50016/discussion_topics/416409
 
+Due date is May 13 11:59pm
 
 1. Define the biological hypotheses or bottleneck you wish to address which is related to your research, state the approach of your experiment, also state your system, study organism, or study site, and provide justification for what is the goal of your biological hypotheses. Please provide enough background information that the other students can understand your biological hypotheses or bottleneck. If your experiments are complicated, consider briefly explaining the experimental design with reason. If you get more like will get points. (30 Points)
 
-2. Please provide the bioinformatics suggestion that you want to suggest for other people's research hypotheses or bottleneck. It should be scientifically valid methods even if it does not exist. Provide enough information to create an experiment and if you want to create software, please provide reasons and explain what kind of software we need, which part of the hypotheses or bottleneck can be solved. If the software doesn't exist, please provide the design or roadmap of your software. Citation is optional but recommended. Please provide an obstacle to other people's suggestions. In addition, insights and addition will also get points. If you get more like will get points. (10 points per valid answer with reference or concept or hyphothesis, a total of 70 Points, seven replies are needed )
+2. Please provide the bioinformatics suggestion that you want to suggest for other people's research hypotheses or bottleneck. It should be scientifically valid methods even if it does not exist. Provide enough information to create an experiment and if you want to create software, please provide reasons and explain what kind of software we need, which part of the hypotheses or bottleneck can be solved. If the software doesn't exist, please provide the design or roadmap of your software. Citation is optional but recommended. Please provide an obstacle to other people's suggestions. In addition, insights and addition will also get points. If you get more like will get points. (10 points per valid answer with reference or concept or hypothesis, a total of 70 Points, seven replies are needed )
+
+3.  The suggestion needs to reply as threaded format.
 
 
 **Examples are below**
@@ -150,10 +153,13 @@ cd !$
 ```
 
 ### Conda environment
+**Please use all lower case this time**
 ```bash
 conda clean --all
-conda create -n genomeannotation augustus=3.3.3 busco maker kraken2  krona repeatmasker snap rmblast -y
+conda create -n genomeannotation 
 conda activate genomeannotation
+conda install -c bioconda -c conda-forge augustus=3.3.3 maker  repeatmasker snap  -y
+conda install -c bioconda -c conda-forge -c anaconda rmblast -y
 ```
 ![krona]({{site.baseurl}}/fig/krona.png)
 
@@ -166,7 +172,11 @@ ls ~/miniconda3/envs/genomeannotation/config/
 ```
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 echo $AUGUSTUS_CONFIG_PATH
+ls $AUGUSTUS_CONFIG_PATH
 ```
+**If there's an error, please check typo first**
+
+
 ![path]({{site.baseurl}}/fig/path.png)
 
 
@@ -265,13 +275,13 @@ nano maker_opts.ctl
 ### Update below
  *NO NEED to replace spiderman to your id*
 ```
-est=/data/gpfs/assoc/bch709/env_conda/annotation_files/good.Trinity.fasta #NO NEED to replace spiderman to your id
-rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta #NO NEED to replace spiderman to your id
+est=/data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta  
+rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta
 protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
-TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID #YOURID #YOURID 
+TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID 
 ```
 
 ### Run Maker
