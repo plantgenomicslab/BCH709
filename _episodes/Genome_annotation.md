@@ -211,9 +211,13 @@ cd -
 
 
 ### Copy your draft genome
-Copy `bch709_assembly.fasta` (from HiC) to current folder (genomeannotation).
+
+```bash
+wget https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_BCH709.fa
 ```
-cp /data/gpfs/assoc/bch709/<YOURID>/<YOUR GENOME ASSEMBLY FOLDER>/hic/bch709_assembly.fasta  . 
+
+```bash
+cp Athaliana_subset_BCH709.fa bch709_assembly.fasta
 ```
 
 ### MAKER software
