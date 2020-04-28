@@ -364,6 +364,8 @@ git clone git://github.com/ascendo/DCBLAST.git
 
 cd DCBLAST
 
+cd DCBLAST-SLURM
+
 perl dcblast.pl
 ```
 
