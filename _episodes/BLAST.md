@@ -260,9 +260,9 @@ blastx -query trinity_100.fasta  -db plant.1.protein.faa
 3. Set maximum target sequence to one
 4. Set threads (CPU) to 32
 5. Set evalue threshold to 1e-30
--  Set the query as /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta
+-  Set the query as /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta
 -  Set the db as plant.1.protein.faa
-- Create submition with option of -A cpu-s2-bch709-0 -p cpu-s2-bch709-0 --cpus-per-task=24 --mem=20g and others.
+- Create submission with option of -A cpu-s2-bch709-0 -p cpu-s2-bch709-0 --cpus-per-task=24 --mem=20g and others.
 - 
 - Upload your output file and submission file to Webcanvas (File upload)
 {: .prereq}
