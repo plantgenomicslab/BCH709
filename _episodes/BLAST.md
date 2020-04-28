@@ -344,6 +344,7 @@ We also recommend to use 'cpanm' https://github.com/miyagawa/cpanminus
 
 ```bash
 conda create -n BLAST
+conda activate BLAST
 conda install -c bioconda perl-path-tiny blast perl-data-dumper perl-config-tiny 
 ```
 
