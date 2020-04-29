@@ -161,7 +161,6 @@ conda activate genomeannotation
 conda install -c bioconda -c conda-forge augustus=3.3.3 maker  repeatmasker snap  -y
 conda install -c bioconda -c conda-forge -c anaconda rmblast -y
 ```
-![krona]({{site.baseurl}}/fig/krona.png)
 
 
 ### Setting augustus
