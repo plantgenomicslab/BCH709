@@ -304,7 +304,7 @@ nano maker.sh
 #SBATCH -A cpu-s2-bch709-0
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 
-maker -cpus 24 -base bch709  -genome bch709_assembly.fasta
+maker -cpus 24 -base bch709  -genome bch709_assembly.fasta -fix_nucleotides
 ```
 
 
