@@ -234,6 +234,7 @@ maker --help
 
 ```bash
 cp /data/gpfs/assoc/bch709/Course_material/2020/Uniprot/uniprot-reviewed_no+taxonomy_33090.fasta /data/gpfs/assoc/bch709/<YOURID>/genomeannotation 
+mv uniprot-reviewed_no+taxonomy_33090.fasta  uniprot.fasta
 ```
 
 ### Generate Control files
