@@ -230,16 +230,10 @@ MAKER is a portable and easily configurable genome annotation pipeline. Its purp
 maker --help
 ```
 
-### Download Uniprot database
-https://www.uniprot.org/
+### Copy Uniprot database
 
 ```bash
-wget -O uniprot.fasta.gz "https://www.uniprot.org/uniprot/?query=arabidopsis&format=fasta&force=true&sort=score&fil=reviewed:yes&compress=yes"
-```
-
-![uniprotdownload]({{site.baseurl}}/fig/uniprotdownload.png)
-```bash
-gunzip uniprot.fasta.gz
+cp /data/gpfs/assoc/bch709/Course_material/2020/Uniprot/uniprot-reviewed_no+taxonomy_33090.fasta /data/gpfs/assoc/bch709/<YOURID>/genomeannotation 
 ```
 
 ### Generate Control files
