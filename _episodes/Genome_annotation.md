@@ -195,8 +195,8 @@ cd ~/miniconda3/envs/genomeannotation/share/RepeatMasker
 ![RMBLAST]({{site.baseurl}}/fig/RMBLAST.png)
 
 
-**/data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/bin/**
-	
+## **/data/gpfs/home/YOURID/miniconda3/envs/genomeannotation/bin/**
+
 ![RMBLAST2]({{site.baseurl}}/fig/RMBLAST2.png)
 
 ### *type Y*
