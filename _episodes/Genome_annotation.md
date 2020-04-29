@@ -172,6 +172,8 @@ ls ~/miniconda3/envs/genomeannotation/config/
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 echo $AUGUSTUS_CONFIG_PATH
 ls $AUGUSTUS_CONFIG_PATH
+
+
 ```
 **If there's an error, please check typo first**
 
@@ -276,7 +278,7 @@ nano maker_opts.ctl
 
 
 ### Update below
- *NO NEED to replace spiderman to your id*
+
 ```
 est=/data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta  
 rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta
