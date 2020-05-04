@@ -20,7 +20,7 @@ conda activate genomeannotation
 ### BLAST comparison
 ```bash
 
-cp /data/gpfs/assoc/bch709/Course_material/Genome_description_and_enrichment_test/* .
+cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enrichment_test/* .
 ```
 
 
@@ -29,7 +29,7 @@ cp /data/gpfs/assoc/bch709/Course_material/Genome_description_and_enrichment_tes
 #!/bin/bash
 #SBATCH --job-name=blast
 #SBATCH --cpus-per-task=8
-#SBATCH --time=12:00:00
+#SBATCH --time=3-12:00:00
 #SBATCH --mem=20g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
@@ -40,7 +40,7 @@ cp /data/gpfs/assoc/bch709/Course_material/Genome_description_and_enrichment_tes
 
 makeblastdb -in uniprot.faa -dbtype prot
 
-blastp -outfmt 6 -query bch709.all.maker.proteins.fasta -db  uniprot.faa  -out genome_vs_uniprot_blastp.txt -num_threads 8
+blastp -query bch709.all.maker.proteins.fasta -db  uniprot.faa  -out genome_vs_uniprot_blastp.txt -num_threads 8 -outfmt 6
 
 makeblastdb -in arabidopsis.faa -dbtype prot
 

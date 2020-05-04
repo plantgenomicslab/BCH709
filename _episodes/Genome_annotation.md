@@ -1,6 +1,6 @@
 --
 layout: page
-title: 14_Genome annoatation
+title: 14_Genome_annoatation
 published: true
 ---
 

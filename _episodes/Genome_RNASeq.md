@@ -34,13 +34,13 @@ conda install -c bioconda -c conda-forge bioconductor-qvalue bioconductor-edger 
 
 ## Reads preparation
 ```bash
-/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq
+/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq
 ```
 
 ## Genome annotation preparation
 ```bash
-/data/gpfs/assoc/bch709/Course_material/genome/bch709_assembly.fasta
-/data/gpfs/assoc/bch709/Course_material/genome/bch709.gff
+/data/gpfs/assoc/bch709/Course_material/2020/genome/bch709_assembly.fasta
+/data/gpfs/assoc/bch709/Course_material/2020/genome/bch709.gff
 ```
 
 ## GTF format
@@ -91,8 +91,9 @@ Now that you have the genome and annotation files, you will create a genome inde
 mkdir reference
 STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --genomeFastaFiles /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709_assembly.fasta --sjdbGTFfile  /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/bch709.gtf --runThreadN 2 --genomeSAindexNbases 10
 
+```
+
 ## RNA Seq mapping
-```
 
 ```bash
 #!/bin/bash
@@ -107,11 +108,11 @@ STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genom
 #SBATCH -p cpu-s2-core-0
 #SBATCH -A cpu-s2-bch709-0
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT1_R2_val_2.fq.gz --outFileNamePrefix WT1 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT1_R2_val_2.fq.gz --outFileNamePrefix WT1 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT2_R2_val_2.fq.gz --outFileNamePrefix WT2 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT2_R2_val_2.fq.gz --outFileNamePrefix WT2 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/WT3_R2_val_2.fq.gz --outFileNamePrefix WT3 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/WT3_R2_val_2.fq.gz --outFileNamePrefix WT3 --readFilesCommand zcat
 ```
 
 ```bash
@@ -126,12 +127,15 @@ STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerRead
 #SBATCH -e star.err # STDERR
 #SBATCH -p cpu-s2-core-0
 #SBATCH -A cpu-s2-bch709-0
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT1_R2_val_2.fq.gz --outFileNamePrefix DT1 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT1_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT1_R2_val_2.fq.gz --outFileNamePrefix DT1 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT2_R2_val_2.fq.gz --outFileNamePrefix DT2 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT2_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT2_R2_val_2.fq.gz --outFileNamePrefix DT2 --readFilesCommand zcat
 
-STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/RNASeq_trimmed_fastq/DT3_R2_val_2.fq.gz --outFileNamePrefix DT3 --readFilesCommand zcat
+STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerReadNmax 50000  --runThreadN 2 --outSAMtype BAM SortedByCoordinate  --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genomernaseq/reference --readFilesIn  /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT3_R1_val_1.fq.gz,/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_trimmed_fastq/DT3_R2_val_2.fq.gz --outFileNamePrefix DT3 --readFilesCommand zcat
 ```
+
+
+
 ![igv]({{site.baseurl}}/fig/igv.png)
 
 
@@ -198,7 +202,7 @@ DT.rep_compare.pdf
 ```bash
 cut -f1,6-  BCH709.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g' >> BCH709.featureCount_count_length.cnt
 
-python /data/gpfs/assoc/bch709/Course_material/script/tpm_raw_exp_calculator.py -count BCH709.featureCount_count_length.cnt
+python /data/gpfs/assoc/bch709/Course_material/2020/script/tpm_raw_exp_calculator.py -count BCH709.featureCount_count_length.cnt
 
 ```
 
@@ -212,6 +216,7 @@ BCH709.featureCount_count_length.cnt.tpm.tab
 
 ### DEG subset
 ```bash
+mkdir rnaseq
 cd rnaseq
 perl analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
 ```
