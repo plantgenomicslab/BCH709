@@ -277,6 +277,7 @@ AHRD was applied on all plant genomes present in the public database PlantsDB:
 
 
 # Meeting Schedule
+Please mark time at the below link and send me email before meeting time.
 
 https://docs.google.com/spreadsheets/d/1YxNb6Gfu_LymZ_8r_xQYk4VhK9ZY9eeMtuQqeeNAcVY/edit?usp=sharing
 
