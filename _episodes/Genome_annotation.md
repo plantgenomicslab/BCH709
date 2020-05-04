@@ -1,8 +1,9 @@
---
+---
 layout: page
-title: 14_Genome_annoatation
+title: 14_Genome_annoation
 published: true
 ---
+
 
 ## Course Evaluation
 
