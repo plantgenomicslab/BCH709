@@ -152,14 +152,14 @@ In the case of RNA-Seq, the features are typically genes, where each gene is con
 #!/bin/bash
 #SBATCH --job-name=featureCounts
 #SBATCH --cpus-per-task=16
-#SBATCH --time=12:00:00
+#SBATCH --time=15:00
 #SBATCH --mem=20g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<EMAIL>@unr.edu
 #SBATCH -o featureCounts.out # STDOUT
 #SBATCH -e featureCounts.err # STDERR
-#SBATCH -p cpu-s2-core-0
-#SBATCH -A cpu-s2-bch709-0
+#SBATCH -p cpu-s6-test-0
+#SBATCH -A cpu-s6-test-0
 featureCounts -Q 10 -M -s 0 -T 16 -p -a bch709.gtf WT1Aligned.sortedByCoord.out.bam WT2Aligned.sortedByCoord.out.bam WT3Aligned.sortedByCoord.out.bam DT1Aligned.sortedByCoord.out.bam DT2Aligned.sortedByCoord.out.bam DT3Aligned.sortedByCoord.out.bam -o BCH709.featureCount.cnt
 ```
 ![featurecount2]({{site.baseurl}}/fig/featurecount2.png)
