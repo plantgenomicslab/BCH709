@@ -133,10 +133,16 @@ High throughput protein function annotation with Human Readable Description (HRD
 ### Replace Name of Data
 
 ```bash
+cp ../genomeannotation/bch709.all.maker.transcripts.fasta .
+cp ../genomeannotation/bch709.all.gff
+
 cut -f 1,2 genome_vs_arabidopsis_blastp_filtered | sed 's/-mRNA-1//g' > id_map
 map_fasta_ids id_map  bch709.all.maker.transcripts.fasta
 map_fasta_ids id_map  bch709.all.maker.proteins.fasta
 map_gff_ids id_map bch709_all.gff
+
+
+cp ../genomernaseq/rnaseq/BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results .
 
 map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DT-UP.subset
 map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.WT-UP.subset
