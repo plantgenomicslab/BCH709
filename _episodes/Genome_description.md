@@ -26,7 +26,7 @@ conda activate genomeannotation
 
 ### BLAST comparison
 ```bash
-cp bch709.all.maker.proteins.fasta 
+cp ../genomeannotation/bch709.all.maker.proteins.fasta .
 
 cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enrichment_test/* .
 ```
