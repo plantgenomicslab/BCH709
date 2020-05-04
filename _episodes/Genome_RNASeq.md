@@ -28,7 +28,7 @@ conda create -n genomernaseq
 
 conda activate genomernaseq
 
-conda install -c bioconda bioconductor-qvalue bioconductor-edger bioconductor-deseq2 starseqr samtools gffread star subread -y
+conda install -c bioconda bioconductor-qvalue bioconductor-edger bioconductor-deseq2 starseqr samtools gffread star subread pandas -y
 
 conda install -c r -c bioconda r-fastcluster -y
 
