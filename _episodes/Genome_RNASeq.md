@@ -101,7 +101,7 @@ STAR --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709/<YOURID>/genom
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=star
+#SBATCH --job-name=star_wt
 #SBATCH --cpus-per-task=2
 #SBATCH --time=12:00:00
 #SBATCH --mem=8g
@@ -121,7 +121,7 @@ STAR --alignIntronMax 1000000 --alignEndsType EndToEnd --alignTranscriptsPerRead
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=star
+#SBATCH --job-name=star_dt
 #SBATCH --cpus-per-task=2
 #SBATCH --time=12:00:00
 #SBATCH --mem=8g
