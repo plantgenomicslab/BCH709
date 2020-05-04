@@ -295,7 +295,7 @@ nano maker.sh
 #!/bin/bash
 #SBATCH --job-name=maker
 #SBATCH --cpus-per-task=24
-#SBATCH --time=5-12:00:00
+#SBATCH --time=7-12:00:00
 #SBATCH --mem=20g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=wyim@unr.edu
