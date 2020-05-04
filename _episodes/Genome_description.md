@@ -11,88 +11,6 @@ You can log in with your NetID to http://www.unr.edu/evaluate and check live upd
 
 **If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
 
-
-
-# Assignment due by next Tuesday.
-
->## Environment 
->```bash
->conda activate genomeannotation
->conda install -c bioconda transdecoder
->```
->## Make assignment directory
->```bash
->/data/gpfs/home/wyim/bch709/<YOURID>/genome_transcriptome_comparison
->```
->
->
->
->
->## BLAST comparison
->```bash
->
->cp /data/gpfs/assoc/bch709/Course_material/genome_transcriptome_comparison/* .
->```
->
->## Edit bch709.yml first
->*protein fasta name is <YOURFULLPATH>/Trinity.aa*
->
->![ahrd_yml]({{site.baseurl}}/fig/ahrd_yml.png)
->
->
->
->### homework.sh
->```bash
->#!/bin/bash
->#SBATCH --job-name=assignment
->#SBATCH --cpus-per-task=8
->#SBATCH --time=12:00:00
->#SBATCH --mem=20g
->#SBATCH --mail-type=all
->#SBATCH --mail-user=<EMAIL>@unr.edu
->#SBATCH -o assignment.out # STDOUT
->#SBATCH -e assignment.err # STDERR
->#SBATCH -p cpu-s2-core-0 
->#SBATCH -A cpu-s2-bch709-0
->
->TransDecoder.LongOrfs -t Trinity.fasta
->cp Trinity.fasta.transdecoder_dir/longest_orfs.pep Trinity.aa
->
->makeblastdb -in uniprot.faa -dbtype prot
->
->blastp -outfmt 6 -query Trinity.aa -db  uniprot.faa  -out transcriptome_vs_uniprot_blastp.txt -num_threads 8
->
->makeblastdb -in arabidopsis.faa -dbtype prot
->
->blastp -query Trinity.aa -db arabidopsis.faa -out transcriptome_vs_arabidopsis_blastp.txt -num_threads 8 -outfmt 6
->
->
->
->perl blast_parse.pl  -q Trinity.aa  -i transcriptome_vs_arabidopsis_blastp.txt -o transcriptome_vs_arabidopsis_blastp_filtered
->
->java -Xmx20g -jar ahrd.jar bch709.yml
->
->cut -f 1,2 transcriptome_vs_arabidopsis_blastp_filtered | sed 's/\.p*.[0-9]//g'> id_map
->map_fasta_ids id_map  Trinity.fasta
->
->map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset
->map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset
->map_data_ids  id_map RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
->
->cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset > WT-UP.subset
->cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset > DT-UP.subset
->cut -f 1 RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset > all.subset
->```
->## Results
->
->1. compress and send me bch709.description.go.tab file
->
->2. Please analyze three files independently ( all.subset, WT-UP.subset and DT-UP.subset ) with metascape and send me.
->
->
->
-{: .callout}
-
 ### Environment
 ```bash
 conda activate genomeannotation
@@ -295,12 +213,13 @@ Thus, the probability of oncogene 0.7%.
 hypergeometry.png
 
 ### hypergeometric distribution	value
-|category|probability|
-| -- | -- |
-|probability mass f|	0.0070775932109153651831923063371216961166297|
-|lower cumulative P|	0.99903494867072865323201131115533112651846|
-|upper cumulative Q|	0.0080426445401867119511809951817905695981658|
-|Expectation|	1.5|
+
+|category|probability|  
+| -- | -- |  
+|probability mass f|	0.0070775932109153651831923063371216961166297 |  
+|lower cumulative P|	0.99903494867072865323201131115533112651846 |  
+|upper cumulative Q|	0.0080426445401867119511809951817905695981658 |  
+|Expectation|	1.5|  
 
 
 ### False Discovery Rate (FDR) q-value
