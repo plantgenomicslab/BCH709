@@ -11,6 +11,13 @@ You can log in with your NetID to http://www.unr.edu/evaluate and check live upd
 
 **If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
 
+## Location
+```
+mkdir /data/gpfs/assoc/bch709/<YOURID>/genomedescription
+
+cd /data/gpfs/assoc/bch709/<YOURID>/genomedescription
+```
+
 ### Environment
 ```bash
 conda activate genomeannotation
@@ -19,6 +26,7 @@ conda activate genomeannotation
 
 ### BLAST comparison
 ```bash
+cp bch709.all.maker.proteins.fasta 
 
 cp /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enrichment_test/* .
 ```
@@ -266,3 +274,16 @@ High quality genome projects that used AHRD:
 AHRD was applied on all plant genomes present in the public database PlantsDB:
 
 7. Spannagl, Manuel, Thomas Nussbaumer, Kai C. Bader, Mihaela M. Martis, Michael Seidel, Karl G. Kugler, Heidrun Gundlach, and Klaus F. X. Mayer. “PGSB PlantsDB: Updates to the Database Framework for Comparative Plant Genome Research.” Nucleic Acids Research 44, no. D1 (January 4, 2016): D1141–47. doi:10.1093/nar/gkv1130.
+
+
+# Meeting Schedule
+
+https://docs.google.com/spreadsheets/d/1YxNb6Gfu_LymZ_8r_xQYk4VhK9ZY9eeMtuQqeeNAcVY/edit?usp=sharing
+
+
+
+# Final
+1. Seven questions.
+2. RNA-Seq, Venn diagram, Gene enrichments, etcs.
+3. Will open 5/10 7:00AM to 5/12 7:00PM (No extension will be allowed) on Webcanvas.
+
