@@ -95,7 +95,7 @@ search a Nucleotide Sequence against a Protein Database, by first translating th
 ### ahrd.sh
 ```bash
 #!/bin/bash
-#SBATCH --job-name=blast
+#SBATCH --job-name=ahrd
 #SBATCH --cpus-per-task=8
 #SBATCH --time=12:00:00
 #SBATCH --mem=20g
