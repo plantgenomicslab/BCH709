@@ -28,6 +28,8 @@ conda activate genomeannotation
 ```bash
 cp ../genomeannotation/bch709.all.maker.proteins.fasta .
 
+### If you don't have this bch709.all.maker.proteins.fasta, please use /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enrichment_test/bch709.all.maker.proteins.fasta file.
+
 cp  -r /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enrichment_test/* .
 ```
 
@@ -134,15 +136,17 @@ High throughput protein function annotation with Human Readable Description (HRD
 
 ```bash
 cp ../genomeannotation/bch709.all.maker.transcripts.fasta .
-cp ../genomeannotation/bch709.all.gff
+cp ../genomeannotation/bch709.all.gff .
 
 cut -f 1,2 genome_vs_arabidopsis_blastp_filtered | sed 's/-mRNA-1//g' > id_map
+cut -f 1,2 genome_vs_arabidopsis_blastp_filtered >> id_map
+
 map_fasta_ids id_map  bch709.all.maker.transcripts.fasta
 map_fasta_ids id_map  bch709.all.maker.proteins.fasta
-map_gff_ids id_map bch709_all.gff
+map_gff_ids id_map bch709.all.gff
 
 
-cp ../genomernaseq/rnaseq/BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results .
+cp ../genomernaseq/rnaseq/BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results* .
 
 map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DT-UP.subset
 map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.WT-UP.subset
