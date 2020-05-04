@@ -170,7 +170,7 @@ cut -f1,7-  BCH709.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByC
 
 ### sample files
 ```bash
-nano sample.txt
+nano samples.txt
 ```
 
 ```
@@ -187,7 +187,7 @@ DT<TAB>DT3
 
 Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
 ```bash
-PtR  --matrix BCH709.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix
+PtR  --matrix BCH709.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
 
 ```
 ```output
