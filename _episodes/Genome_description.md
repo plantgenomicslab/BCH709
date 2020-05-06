@@ -297,4 +297,5 @@ https://docs.google.com/spreadsheets/d/1YxNb6Gfu_LymZ_8r_xQYk4VhK9ZY9eeMtuQqeeNA
 1. Seven questions.
 2. RNA-Seq, Venn diagram, Gene enrichments, etcs.
 3. Will open 5/10 7:00AM to 5/12 7:00PM (No extension will be allowed) on Webcanvas.
+4. 200 points for final grade
 
