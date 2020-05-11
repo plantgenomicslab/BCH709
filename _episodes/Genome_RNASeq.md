@@ -220,9 +220,8 @@ BCH709.featureCount_count_length.cnt.tpm.tab
 
 ### DEG subset
 ```bash
-mkdir rnaseq
 cd rnaseq
-perl analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
 ```
 
 
