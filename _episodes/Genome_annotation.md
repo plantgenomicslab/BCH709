@@ -171,7 +171,7 @@ ls ~/miniconda3/envs/genomeannotation/config/
 ```
 ![config]({{site.baseurl}}/fig/config.png)
 ```
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
+export AUGUSTUS_CONFIG_PATH=/data/gpfs/home/<YOURID>/miniconda3/envs/genomeannotation/config/
 echo $AUGUSTUS_CONFIG_PATH
 ls $AUGUSTUS_CONFIG_PATH
 
