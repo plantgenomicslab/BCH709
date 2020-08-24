@@ -25,8 +25,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 {: .callout}
 
 > ## Class Room location
-> Classroom was changed to Fleischmann Agriculture Building room 234 (FA234)
-> ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
+> Classroom is located at Fleischmann Agriculture Building room 234 (FA234)
 > 
 > [FA234](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
 {: .prereq}
@@ -158,7 +157,7 @@ Ubuntu, mac, etc. All the software and data used in the class will be open sourc
 
   
 
-## Grading and grading policy:
+## Grading and grading policy
 *A penalty of 5 points per day will be imposed on a pro rata basis for any late work. You will be graded on the quality of the assignments listed below and the quality and quantity of your participation in class discussions. Final grades may be adjusted at the discretion of the instructor.*
 
 Points will be distributed as follows:
