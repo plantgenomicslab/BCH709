@@ -158,9 +158,10 @@ Ubuntu, mac, etc. All the software and data used in the class will be open sourc
   
 
 ## Grading and grading policy
-*A penalty of 5 points per day will be imposed on a pro rata basis for any late work. You will be graded on the quality of the assignments listed below and the quality and quantity of your participation in class discussions. Final grades may be adjusted at the discretion of the instructor.*
+
 
 Points will be distributed as follows:
+
 | Points distribution | points   |
 |-------------------------------------|------|
 | Class participation and discussions | 160   |
@@ -172,6 +173,7 @@ Points will be distributed as follows:
 | Total                               | 1000 |
 
 Within each category above, the grading scale will be:
+
 |  | Rating                               | Percentile | Letter grade |
 |--|---------------------------------------|-------------|---------------|
 |  | Excellent                             | 90-100%     | A             |

@@ -16,6 +16,14 @@ published: true
 {: .callout}
 
 
+>## Assignments
+> Please finish below assignment before due date  
+> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/14/20  
+> - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/14/20  
+> - [DataCamp Downloading Data on the Command Line](https://learn.datacamp.com/courses/conda-essentials) Due by 9/21/20  
+{: .prereq}
+
+
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
 
 ## History of UNIX 
