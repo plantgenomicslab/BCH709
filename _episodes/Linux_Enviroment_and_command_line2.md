@@ -29,6 +29,8 @@ published: true
 
 A tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
 
+## Explainshell
+[Explainshell](https://explainshell.com/)
 
 
 
