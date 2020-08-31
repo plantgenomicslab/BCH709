@@ -67,6 +67,10 @@ It has since been ported to more computer hardware platforms than any other oper
 
 ![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
+
+[Lnix_family tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)  
+
+
 ## Unix/Linux Main Components
 ### The Unix/Linux computer ecosystem can be divided into three main parts:
 - **User Space**: Defines the applications, libraries, and standard utilities that are user accessible. When we write a program, it is from this perspective that we operate, without concern for the underlying components. For example, writing a "Hello World" program on any computer is the same from the user-perspective, but might be different when it comes to actually executing the program and writing "Hello World" to the terminal.
@@ -416,7 +420,7 @@ $ brew install firefox@68.0.2
 ### Let's install test package!
 On Ubuntu systems:
 ```bash
-$ apt install screenfetch
+$ sudo apt install screenfetch
 ```
 
 On macOS systems: 
@@ -436,6 +440,10 @@ $ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev 
 
 On macOS systems:
 ```bash
+## Install Homebrew
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+$ brew update
 $ brew install openssl readline sqlite3 xz zlib
 ```
 
