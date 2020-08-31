@@ -444,21 +444,9 @@ This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST
 ## Command Line Bootcamp
 [Command-line bootcamp-server1](http://35.199.189.11:8081/)
 
-[Command-line bootcamp-server2](http://34.82.234.47:8081/)
+[Command-line bootcamp-server2](http://35.199.188.125:8081/)
 
-[Command-line bootcamp-server3](http://34.83.173.4:8081/)
-
-[Command-line bootcamp-server4](http://34.83.69.104:8081/)
-
-
-[Command-line bootcamp-server5](http://35.247.103.91:8081/)
-
-
-[Command-line bootcamp-server6](http://34.82.237.168:8081/)
-
-[Command-line bootcamp-server5](http://34.82.234.47:8081/)
-
-[Command-line bootcamp-server6](http://34.83.69.104:8081/)
+[Command-line bootcamp-server3](http://34.105.112.123:8081/)
 
 
 , a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.

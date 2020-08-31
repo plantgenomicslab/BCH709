@@ -11,19 +11,21 @@ published: true
 
 [Pronghorn request research group access](https://nevada.formstack.com/forms/request_research_group_access)
 
+>## Assignments
+> Please finish below assignment before due date  
+> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/14/20  
+> - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/14/20  
+> - [DataCamp Downloading Conda Essentials](https://learn.datacamp.com/courses/conda-essentials) Due by 9/21/20  
+{: .prereq}
+
 
 ## Command Line Bootcamp
 [Command-line bootcamp-server1](http://35.199.189.11:8081/)
 
-[Command-line bootcamp-server2](http://34.82.237.168:8081/)
+[Command-line bootcamp-server2](http://35.199.188.125:8081/)
 
-[Command-line bootcamp-server3](http://35.247.103.91:8081/)
+[Command-line bootcamp-server3](http://34.105.112.123:8081/)
 
-[Command-line bootcamp-server4](http://34.83.44.229:8081/)
-
-[Command-line bootcamp-server5](http://34.82.234.47:8081/)
-
-[Command-line bootcamp-server6](http://34.83.69.104:8081/)
 
 A tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
 

@@ -62,9 +62,9 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week             | Date | Topics        |
 |--------------|------|-------------------------------------------------|
 | Week1        | 8/24 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)|
-| Week1        | 8/26 | [Intro Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html) / [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)|
-| Week2        | 8/31 | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
-| Week2        | 9/2  | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
+| Week1        | 8/26 | [Intro Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html) |
+| Week2        | 8/31 |  [Linux Enviroment](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html) / [Linux command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
+| Week2        | 9/2  | [Linux command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
 | Week3        | 9/7  | LABOR DAY|
 | Week3        | 9/9  | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
 | Week4        | 9/14 |[Github / Compile / Conda](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)  |

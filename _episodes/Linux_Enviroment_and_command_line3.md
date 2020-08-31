@@ -27,17 +27,25 @@ published: true
 -->
 
 
-## Google Cloud Platform
-Here is the URL you will need to access in order to request a Google Cloud Platform coupon. You will be asked to provide your school email address and name. An email will be sent to you to confirm these details before a coupon is sent to you.
+>## Assignments
+> Please finish below assignment before due date  
+> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/14/20  
+> - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/14/20  
+> - [DataCamp Downloading Conda Essentials](https://learn.datacamp.com/courses/conda-essentials) Due by 9/21/20  
+{: .prereq}
 
 
-•   You will be asked for a name and email address, which needs to match the domain. A confirmation email will be sent to you with a coupon code.
-•   You can request a coupon from the URL and redeem it until: 12/25/2019
-•   Coupon valid through: 8/25/2020
-•   You can only request ONE code per unique email address.
+## Command Line Bootcamp
+[Command-line bootcamp-server1](http://35.199.189.11:8081/)
 
-Please contact me if you have any questions or issues.
-[Coupon link](https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgoogle.secure.force.com%2FGCPEDU%3Fcid%3D8Z9f%252BfnQc%252FKa7RcmnZBSSKIaY%252B8A1o%252FsxzvuAeHUmuTK5ii5MrxCDJal6lSYsmE6&data=01%7C01%7Cwyim%40unr.edu%7Cf55ca581af974465e8f608d7144f252e%7C523b4bfc0ebd4c03b2b96f6a17fd31d8%7C1&sdata=fr%2BAN11YuzQW1jMgqn8rmGn45qmusRv0hEjBG9Qhawo%3D&reserved=0)
+[Command-line bootcamp-server2](http://35.199.188.125:8081/)
+
+[Command-line bootcamp-server3](http://34.105.112.123:8081/)
+
+
+A tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
+
+
 
 ## Basic commands
 
