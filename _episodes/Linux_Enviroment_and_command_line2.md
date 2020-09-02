@@ -800,7 +800,8 @@ Print all CDS.
     cat MGI.gff3 | cut -f 3 | grep CDS | 
 
 Print CDS and ID
-```    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
+```bash
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
     cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head  
     cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head  
     cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head  
