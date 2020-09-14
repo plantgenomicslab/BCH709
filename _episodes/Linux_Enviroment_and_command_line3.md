@@ -685,7 +685,7 @@ include "/usr/share/nano/pov.nanorc"
 
 
 
-
+<!--
 >## Assignment (Due next Monday)
 
 >1. Make `BCH709_homework` folder at your home and go to `BCH709_homework`
@@ -696,6 +696,7 @@ include "/usr/share/nano/pov.nanorc"
 >6. collect `gi` id and save it to filename `ID.txt`
 >7. copy your `history` and paste it on the [website](https://unr.canvaslms.com/courses/50016/assignments/544564).
 {: .challenge}
+-->
 
 
 
