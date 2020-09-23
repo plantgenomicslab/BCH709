@@ -70,7 +70,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week4        | 9/14 |[Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html) / [Github / Compile / Conda](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)  |
 | Week4        | 9/16 | [Github / Compile / Conda](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)  |
 | Week5        | 9/21 |  [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf) / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
-| Week5        | 9/23 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
+| Week5        | 9/23 |  [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) / [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 | Week6        | 9/28 | [DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG2/index.html) |
 | Week6        | 9/30  | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
 | Week7        | 10/5  | MIDTERM EXAM
