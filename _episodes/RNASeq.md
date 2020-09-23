@@ -14,7 +14,7 @@ published: true
 
 >## Assignments
 > Please finish below assignment before due date  
-> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/free-introduction-to-r) Due by 10/5/20 noon
+> - [DataCamp Introduction to R](https://learn.datacamp.com/courses/free-introduction-to-r) Due by 10/5/20 noon
 
 {: .prereq}
 
