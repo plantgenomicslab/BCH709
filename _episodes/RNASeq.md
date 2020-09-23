@@ -11,6 +11,14 @@ published: true
 >https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8
 {: .prereq}
 
+
+>## Assignments
+> Please finish below assignment before due date  
+> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/free-introduction-to-r) Due by 10/5/20 noon
+
+{: .prereq}
+
+
 ## RNA Sequencing
 ![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
 
