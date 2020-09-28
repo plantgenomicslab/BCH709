@@ -297,7 +297,7 @@ $ conda activate rnaseq
 
 ```bash
 $ conda search fastqc
-$ conda install -c bioconda fastqc
+$ conda install -c conda-forge -c bioconda fastqc
 ```
 
 
@@ -314,7 +314,7 @@ $ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
 ```bash
 $ conda search multiqc 
 $
-$ conda install -c bioconda multiqc
+$ conda install -c conda-forge -c bioconda multiqc
 $ multiqc --help
 $ multiqc .
 $ cp -r multiqc* <YOUR DESKTOP FOLDER>
@@ -342,7 +342,7 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 
 ### Install Trim Galore
 ```bash
-$ conda install trim-galore
+$ conda install -c bioconda -c conda-forge trim-galore
 ```
 
 ### Run trimming
@@ -374,7 +374,7 @@ $ multiqc .
 
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 ```bash
-$ conda install -c bioconda hisat2
+$ conda install -c conda-forge -c bioconda hisat2
 ```
 ### Download reference sequence
 ```bash
@@ -414,7 +414,7 @@ $ echo 'obase=163;10' | bc
 ```
 If you don't have bc, please install through conda
 ```
-$ conda install bc
+$ conda install -c conda-forge bc
 ```
 
 
@@ -500,8 +500,8 @@ bamtools > stats
 [Rcount](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btu680)
 
 ```bash
-conda install -c bioconda subread
-conda install -c bioconda rsem
+conda install -c conda-forge -c bioconda subread
+conda install -c conda-forge -c bioconda rsem
 ```
 ### Quantification method
 - PCR duplicates
@@ -531,7 +531,7 @@ edgeR (Neg-binom > GLM > Test)
 Limma-Voom (Neg-binom > Voom-transform > LM > Test)
 
 ```bash
-conda install -c bioconda bioconductor-deseq2
+conda install -c conda-forge -c bioconda bioconductor-deseq2
 ```
 
 ### Functional analysis • GO
