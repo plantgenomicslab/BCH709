@@ -11,6 +11,10 @@ published: true
 
 ![basequality]({{{site.baseurl}}/fig/basequality.png)
 
+
+## Pronghorn CPU and storage 
+
+ <!---
 ## RNASeq
 ```
 $ cd /data/gpfs/assoc/bch709/YOURID
@@ -31,17 +35,36 @@ $ cd rnaseq/transcriptome_assembly/fastq
 $ cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq/*.gz .
 
 ```
+-->
 
 ### FASTQC
 ```bash
 $ pwd 
-/data/gpfs/assoc/bch709/YOURID/rnaseq/transcriptome_assembly/fastq
+
+$ ~/bch709/rnaseq
 
 $ conda install -c bioconda fastqc
 
 $ fastqc pair1.fastq.gz pair2.fastq.gz
 
 ```
+### Download to your computer from Pronghorn
+**From your Desktop**
+
+```bash
+$ scp <YOURID>@pronghorn.rc.unr.edu:~/bch709/rnaseq/paired1_fastqc.html ~/Desktop
+
+$ scp <YOURID>@pronghorn.rc.unr.edu:~/bch709/rnaseq/paired2_fastqc.html ~/Desktop
+
+```
+
+
+```bash
+$ scp <YOURID>@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html ~/Desktop
+
+
+```
+
 
 
 ### Trim the reads
@@ -65,21 +88,49 @@ $ fastqc pair1.fastq.gz pair2.fastq.gz
 [Trimmomatics](http://www.usadellab.org/cms/?page=trimmomatic)  
 [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)  
 
+### Activate your environment
+```bash
+conda activate rnaseq
+```
+
 ### Install Trim Galore
 ```
-$ conda install trim-galore
+$ conda install -c bioconda -c conda-forge trim-galore
 ```
 
 ### Run trimming
 ```
 $ trim_galore --help
 
-$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
-
+$ trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 20 --cores 2  --max_n 5  --gzip -o trim paired1.fastq.gz paired2.fastq.gz --fastqc
 
 $ ls trim/
 
 ```
+### Download results
+**Your Desktop**
+
+```
+scp -r <YOURID>@pronghorn.rc.unr.edu:~/bch709/rnaseq/trim ~/Desktop
+```
+
+### How to make a report?
+![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
+[MultiQC](https://multiqc.info/)
+
+### Install multiQC
+```
+conda install -c conda-forge -c bioconda multiqc
+
+```
+
+### Run multiqc
+```
+cd ~/bch709
+multiqc --help
+multiqc . -n trim
+```
+
 
 ### Align the reads (mapping)
 ![mapping]({{{site.baseurl}}/fig/mapping.png)
@@ -101,7 +152,7 @@ $ ls trim/
 
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 ```
-$ conda install hisat2
+$ conda install -c bioconda -c conda-forge  hisat2
 ```
 ### Download reference sequence
 ```
@@ -141,10 +192,8 @@ $ echo 'obase=2;163' | bc
 ```
 If you don't have bc, please install through conda
 ```
-$ conda install bc
+$ conda -c conda-forge install bc
 ```
-
-
 
 ### SAM tag
 There are a bunch of predefined tags, please see the SAM manual for more information. For the tags used in this example:
@@ -193,14 +242,7 @@ SAMTOOLS Tview
 [Tablet](https://ics.hutton.ac.uk/tablet/)    
 
 
-### How to make a report?
-![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
-[MultiQC](https://multiqc.info/)
-```
-$ conda install multiqc
-$ multiqc --help
-$ multiqc .
-```
+
 
 ### Alignment QC
 - Number of reads mapped/unmapped/paired etc
@@ -229,11 +271,11 @@ bamtools > stats
 
 ![count]({{{site.baseurl}}/fig/count.png)
 
-[featureCounts](http://subread.sourceforge.net/)
-[HTSeq](https://htseq.readthedocs.io/en/release_0.11.1/)
-[RSEM](https://deweylab.github.io/RSEM/)
-[Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)
-[Rcount](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btu680)
+[featureCounts](http://subread.sourceforge.net/)  
+[HTSeq](https://htseq.readthedocs.io/en/release_0.11.1/)  
+[RSEM](https://deweylab.github.io/RSEM/)  
+[Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)  
+[Rcount](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btu680)  
 
 ```
 conda install -c bioconda subread
@@ -576,7 +618,7 @@ https://academic.oup.com/gigascience/article/8/5/giz039/5488105
 https://www.nature.com/articles/nbt.1883
 https://www.nature.com/articles/nprot.2013.084
 
-
+<!---
 >## Assignment
 >1. de Bruijn graph construction (10 pts)
 > - Draw (by hand) the de Bruijn graph for the following reads using k=3 (assume all reads are from the forward strand, no sequencing errors)  
@@ -598,7 +640,8 @@ https://www.nature.com/articles/nprot.2013.084
 > - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.
 > *** IF YOU USE "LOOP" FOR THIS JOB, YOU WILL GET ADDITIONAL 10 POINTS ***
 {: .solution}
-
+ --> 
+ 
 ### Reference:
 
 - Conda documentation https://docs.conda.io/en/latest/

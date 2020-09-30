@@ -1,0 +1,38 @@
+fusion_star_seqr
+
+(starseqr) wyim @ cpu-51 22:34:27 ~/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR
+   STAR --runMode genomeGenerate --genomeFastaFiles ref_genome.fa --genomeDir nigra_oleracea/  --sjdbGTFfile ref_annot.gtf --runThreadN 4 --sjdbOverhang 150 --genomeSAsparseD 1
+
+~/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR
+starseqr.py  -1 ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R1_val_1.fq.gz -2 ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R2_val_2.fq.gz -m 0  -p RNA_test -t 64 -i nigra_oleracea/ -g  ref_annot.gtf -r ref_genome.fa -vv
+
+conda activate starseqr
+
+~/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR/arriba_v1.2.0
+
+STAR \
+    --runThreadN 20 \
+    --genomeDir /data/gpfs/home/wyim/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR/nigra_oleracea/ --genomeLoad NoSharedMemory \
+    --readFilesIn ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R1_val_1.fq.gz ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R2_val_2.fq.gz --readFilesCommand zcat \
+    --outStd BAM_Unsorted --outSAMtype BAM Unsorted --outSAMunmapped Within --outBAMcompression 0 \
+    --outFilterMultimapNmax 1 --outFilterMismatchNmax 3 \
+    --chimSegmentMin 10 --chimOutType WithinBAM SoftClip --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0 --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3 |
+~/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR/arriba_v1.2.0/arriba \
+    -x /dev/stdin \
+    -o fusions.tsv -O fusions.discarded.tsv \
+    -a ../ref_genome.fa.gz  -g ../ref_annot.gtf -f blacklist \
+    -T -P
+
+
+
+
+STAR \
+    --runThreadN 20 \
+    --genomeDir /data/gpfs/home/wyim/scratch/data/Brassica/BCEM_post_analysis/fusion_genes/STAR-SEQR/nigra_oleracea/ --genomeLoad NoSharedMemory \
+    --readFilesIn ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R1_val_1.fq.gz ~/scratch/data/Brassica/BCEM_Heatstress/output/Hours8_1/TRIM/Hours8_1_R2_val_2.fq.gz --readFilesCommand zcat \
+    --outStd BAM_Unsorted --outSAMtype BAM Unsorted --outSAMunmapped Within --outBAMcompression 0 \
+    --outFilterMultimapNmax 1 --outFilterMismatchNmax 3 \
+    --chimSegmentMin 10 --chimOutType WithinBAM SoftClip --chimJunctionOverhangMin 10 --chimScoreMin 1 --chimScoreDropMax 30 --chimScoreJunctionNonGTAG 0 --chimScoreSeparation 1 --alignSJstitchMismatchNmax 5 -1 5 5 --chimSegmentReadGapMax 3 --outFileNamePrefix test
+
+
+
