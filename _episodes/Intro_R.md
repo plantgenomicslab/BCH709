@@ -12,7 +12,7 @@ R (www.r-project.org) is a commonly used free Statistics software. R allows you 
 
 
 ## Prepare your laptop
-***Please find your BCH709_Desktop folder in the terminal.***
+***Please find your BCH709 folder in the terminal.***
 
 
 ## Connect to Pronghorn
@@ -21,22 +21,22 @@ ssh <yourID>@<YOURID>@pronghorn.rc.unr.edu
 ```
 
 
-![R](http://mercury.webster.edu/aleshunas/R_learning_infrastructure/images/R.png)
+![R](https://cran.r-project.org/Rlogo.svg)
 
 
 ## R Installation
 ```bash
-conda env create -n r_plot -f /data/gpfs/assoc/bch709/env_conda/r_plot.yaml
+conda env create -n r_plot -f /data/gpfs/assoc/bch709-1/Course_material/conda_env/r_plot.yaml
 conda activate r_plot
 ```
 
 ## Prepare working folder
 ```bash 
-cd /data/gpfs/assoc/bch709/
+cd /data/gpfs/assoc/bch709-1/
 
 mkdir -p <YOURID>/r_plot
 
-cd /data/gpfs/assoc/bch709/<YOURID>/r_plot
+cd /data/gpfs/assoc/bch709-1/<YOURID>/r_plot
 ```
 
 ## Prepare data set
@@ -44,11 +44,11 @@ cd /data/gpfs/assoc/bch709/<YOURID>/r_plot
 pwd
 
 ### your location should be
-### /data/gpfs/assoc/bch709/<YOURID>/r_plot 
+### /data/gpfs/assoc/bch709-1/<YOURID>/r_plot 
 
-cp /data/gpfs/assoc/bch709/Course_material/R/dataset1.txt .
+cp /data/gpfs/assoc/bch709-1/Course_material/R/dataset1.txt .
 
-cp /data/gpfs/assoc/bch709/Course_material/R/excercise.R .
+cp /data/gpfs/assoc/bch709-1/Course_material/R/excercise.R .
 
 ```
 
@@ -69,6 +69,10 @@ The Zhou Lab carries out translational and theoretical research in bioinformatic
 
 
 ## R Plot with Gene Expression Data Read
+```bash
+R
+```
+
 
 ```R
 #1 load the expression data sheet - 78 samples and 72 genes  
