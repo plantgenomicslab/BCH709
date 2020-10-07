@@ -34,9 +34,13 @@ conda activate r_plot
 ```bash 
 cd /data/gpfs/assoc/bch709-1/
 
-mkdir -p <YOURID>/r_plot
+mkdir -p <YOURID>
 
-cd /data/gpfs/assoc/bch709-1/<YOURID>/r_plot
+cd /data/gpfs/assoc/bch709-1/<YOURID>/
+
+mkdir r_plot
+
+cd r_plot
 ```
 
 ## Prepare data set
