@@ -104,18 +104,15 @@ dev.off()
 ### ***Try this on your laptop**
 
 ```bash
+###Please do it on your desktop
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+###Please replace <BCH709> to your linked BCH709 (~/BCH709)
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  <your_BCH709_Desktop>
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/T63_boxplot.pdf  <BCH709>
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <your_BCH709_Desktop>
-=======
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/T63_boxplot.pdf  ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <B<CH709>
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/SLC2A1_boxplot2.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
+
 
 ```
 
@@ -138,13 +135,9 @@ cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+###Please replace <BCH709> to your linked BCH709
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <your_BCH709_Desktop>
-=======
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <BCH709>
 
 ```
 
@@ -167,13 +160,9 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
+###Please replace <BCH709> to your linked BCH709
 
-<<<<<<< HEAD
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf <your_BCH709_Desktop>
-=======
-> scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/co-expression_pattern_between.pdf ~/Desktop
->>>>>>> 379aff1a6ea8ff616d12f1d5ef7f5305a207ee0f
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/co-expression_pattern_between.pdf <BCH709>
 
 ```
 
@@ -211,15 +200,15 @@ dev.off()
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap1.pdf ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap1.pdf ~/BCH709
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap2.pdf  ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap2.pdf  ~/BCH709
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap3.pdf  ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap3.pdf  ~/BCH709
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap4.pdf ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap4.pdf ~/BCH709
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/heatmap5.pdf  ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap5.pdf  ~/BCH709
 ```
 
 
@@ -269,9 +258,9 @@ dev.off()
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/histogram1.pdf  ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/histogram1.pdf  ~/BCH709
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/histogram2.pdf ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/histogram2.pdf ~/BCH709
 
 ```
 
@@ -293,7 +282,7 @@ dev.off()
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/TP63_expression.pdf ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/TP63_expression.pdf ~/BCH709
 ```
 
 
