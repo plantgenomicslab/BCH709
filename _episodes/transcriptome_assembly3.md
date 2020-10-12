@@ -7,7 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 ## RNASeq transcriptome assembly folder
-```
+```bash
 $ cd /data/gpfs/assoc/bch709-1/YOURID
 
 $ mkdir rnaseq/
@@ -83,7 +83,7 @@ fastqc pair1.fastq.gz pair2.fastq.gz
 
 
 ### Run trimming
-```
+```bash
 trim_galore --help
 
 trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5   --max_n 40  --gzip -o trim pair1.fastq.gz pair2.fastq.gz --core 8 --fastqc
@@ -95,7 +95,7 @@ ls trim/
 ### How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
-```
+```bash
 
 multiqc --help
 multiqc --filename transcriptome_assembly .
@@ -104,7 +104,7 @@ multiqc --filename transcriptome_assembly .
 
 
 ***PLEASE CHECK YOUR MULTIQC with SCP from your Desktop***
-```
+```bash
 scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/wyim/rnaseq/transcriptome_assembly/transcriptome_assembly.html ~/Desktop
 ```
 ![MultiQC]({{{site.baseurl}}/fig/Multi_QC_Results.png)
@@ -113,7 +113,7 @@ scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/wyim/rnaseq/transcri
 
 ## Trinity assembly
 
-```
+```bash
 Trinity --seqType fq --max_memory 50G --left <READ1> --right <READ> --CPU <CPU_NUMBER>
 
 ```
