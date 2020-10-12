@@ -8,7 +8,7 @@ published: true
 
 ## RNASeq transcriptome assembly folder
 ```
-$ cd /data/gpfs/assoc/bch709/YOURID
+$ cd /data/gpfs/assoc/bch709-1/YOURID
 
 $ mkdir rnaseq/
 
@@ -18,47 +18,41 @@ $ cd rnaseq
 
 ### File copy
 ```bash
-$ cd  /data/gpfs/assoc/bch709/YOURID/
+$ cd  /data/gpfs/assoc/bch709-1/YOURID/
+
+$ mkdir -p rnaseq/transcriptome_assembly/fastq
 
 $ cd rnaseq/transcriptome_assembly/fastq
 
-$ cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq/*.gz .
+
+$ cp /data/gpfs/assoc/bch709-1/Course_material/2020/RNASeq/*.gz .
 
 ```
 
 ### Conda environment installation
-```
+```bash
 
 conda clean --all
 
 conda env remove -n rnaseq
 
-conda env create -f /data/gpfs/assoc/bch709/env_conda/rnaseq2020.yaml
-
-conda activate rnaseq
-
-conda list
-```
-![conda_installation]({{{site.baseurl}}/fig/conda_installation_rnaseq.png)
-
-
-***If you install by yourself, use below commnad***
-```
 conda create -n rnaseq python=3
 
 conda activate rnaseq
 
-conda install -c bioconda fastqc star rsem subread hisat2 bowtie2 samtools multiqc trim-galore trinity
+conda install -c conda-forge -c bioconda fastqc star rsem subread hisat2 bowtie2 samtools multiqc trim-galore trinity -y
+
+conda install -c conda-forge/label/cf201901 nano -y
+
 ```
-
-
+![conda_installation]({{{site.baseurl}}/fig/conda_installation_rnaseq.png)
 
 
 ### FASTQC
 ```bash
 pwd 
 
-cd /data/gpfs/assoc/bch709/YOURID/rnaseq/transcriptome_assembly/fastq
+cd /data/gpfs/assoc/bch709-1/YOURID/rnaseq/transcriptome_assembly/fastq
 
 fastqc pair1.fastq.gz pair2.fastq.gz
 
@@ -92,7 +86,7 @@ fastqc pair1.fastq.gz pair2.fastq.gz
 ```
 trim_galore --help
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20   --max_n 40  --gzip -o trim pair1.fastq.gz pair2.fastq.gz --core 8 --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5   --max_n 40  --gzip -o trim pair1.fastq.gz pair2.fastq.gz --core 8 --fastqc
 
 ls trim/
 
@@ -111,7 +105,7 @@ multiqc --filename transcriptome_assembly .
 
 ***PLEASE CHECK YOUR MULTIQC with SCP from your Desktop***
 ```
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/wyim/rnaseq/transcriptome_assembly/transcriptome_assembly.html ~/Desktop
+scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/wyim/rnaseq/transcriptome_assembly/transcriptome_assembly.html ~/Desktop
 ```
 ![MultiQC]({{{site.baseurl}}/fig/Multi_QC_Results.png)
 
@@ -120,7 +114,7 @@ scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/wyim/rnaseq/transcript
 ## Trinity assembly
 
 ```
-Trinity --seqType fq --max_memory 50G --left trim/pair1_val_1.fq.gz --right trim/pair2_val_2.fq.gz --CPU 6
+Trinity --seqType fq --max_memory 50G --left <READ1> --right <READ> --CPU <CPU_NUMBER>
 
 ```
 
@@ -187,9 +181,17 @@ conda create -n transcriptome_assembly
 
 conda activate transcriptome_assembly
 
-conda install -c bioconda/label/cf201901 trinity
+conda install -c bioconda/label/cf201901 trinity -y
+
+conda install -c conda-forge/label/cf201901 nano -y
+
 
 ```
+
+```bash
+trinity
+```
+
 
      ###############################################################################
      #
@@ -357,9 +359,9 @@ https://www.nature.com/articles/nprot.2013.084
 
 ## Assignment
 1. Trimming Practice
- - Make `Transcriptome_assembly` folder under `/data/gpfs/assoc/bch709/YOURID/BCH709_assignment`
+ - Make `Transcriptome_assembly` folder under `/data/gpfs/assoc/bch709-1/YOURID/BCH709_assignment`
  - Change directory to the folder `Transcriptome_assembly`
- - Copy all fastq.gz files in `/data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq` to `Transcriptome_assembly` folder  
+ - Copy all fastq.gz files in `/data/gpfs/assoc/bch709-1/Course_material/2020/RNASeq_raw_fastq` to `Transcriptome_assembly` folder  
  
 | Sample             | Replication | Forward (read1) | Reverse (read2) | 
 |--------------------|-------------|-----------------|-----------------| 
@@ -373,7 +375,7 @@ https://www.nature.com/articles/nprot.2013.084
  - Run `Trim-Galore` and process `MultiQC`
  - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas.  
  *** IF YOU USE "LOOP" FOR THIS JOB, PLEASE ATTACH YOUR COMMAND, YOU WILL GET ADDITIONAL 10 POINTS ***  
- Until 3/11/20 9:00AM
+ Until 10/19/20 9:00AM
  Late submission will not be allowed. 
 
 
@@ -520,7 +522,7 @@ include "/usr/share/nano/pov.nanorc"
 #SBATCH --job-name=test
 #SBATCH --cpus-per-task=16
 #SBATCH --time=10:00
-#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --account=cpu-s2-bch709-1
 #SBATCH --partition=cpu-s2-core-0
 #SBATCH --mem-per-cpu=1g
 #SBATCH --mail-type=begin
@@ -541,17 +543,17 @@ sbatch: Submitted batch job ########
 ```
 
 ### Conda env
-```
+```bash
 conda activate rnaseq
 ```
 
 #### File prepare
-```
-mkdir -p /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
+```bash
+mkdir -p /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq
 
-cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
+cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq
 
-cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq/*.gz .
+cp /data/gpfs/assoc/bch709-1/Course_material/2020/RNASeq_raw_fastq/*.gz .
 
 cd ../
 ```
@@ -560,19 +562,19 @@ cd ../
 
 
 #### Run trimming
-```
+```bash
 pwd
 nano trim.sh
 ```
 
-```
+```bash
 #!/bin/bash
 #SBATCH --job-name=<TRIM>
-#SBATCH --time=2:00:00
+#SBATCH --time=4:00:00
 #SBATCH --account=cpu-s2-bch709-0
 #SBATCH --partition=cpu-s2-core-0
-#SBATCH --cpus-per-task=16
-#SBATCH --mem-per-cpu=4g
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=32g
 #SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -580,9 +582,9 @@ nano trim.sh
 #SBATCH --output=<TRIM>.out
 
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT1_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT1_R2.fastq.gz
+trim_galore --paired   --three_prime_clip_R1 10 --three_prime_clip_R2 10 --cores 8  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT1_R1.fastq.gz  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT1_R2.fastq.gz
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT2_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/DT2_R2.fastq.gz
+trim_galore --paired   --three_prime_clip_R1 10 --three_prime_clip_R2 10 --cores 8  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT2_R1.fastq.gz  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT2_R2.fastq.gz
 .
 .
 .
@@ -595,7 +597,7 @@ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores
 
 
 #### Submit job
-```
+```bash
 chmod 775 trim.sh
 sbatch trim.sh
 ```
@@ -608,20 +610,20 @@ multiqc  --filename trim  .
 ```
 
 ### Trinity run
-```
-
+### Need to activate Transcriptome assembly environment
+```bash
 nano trinity.sh
 
 ```
 
-```
+```bash
 #!/bin/bash
 #SBATCH --job-name=<TRINITY>
 #SBATCH --time=6:00:00
-#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --account=cpu-s2-bch709-1
 #SBATCH --partition=cpu-s2-core-0
 #SBATCH --cpus-per-task=24
-#SBATCH --mem=100g
+#SBATCH --mem=60g
 #SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -629,7 +631,7 @@ nano trinity.sh
 #SBATCH --output=<TRINITY>.out
 
 
-Trinity --seqType fq  --CPU 24 --max_memory 100G --left trim/DT1_R1_val_1.fq.gz,trim/DT2_R1_val_1.fq.gz,trim/DT3_R1_val_1.fq.gz,trim/WT1_R1_val_1.fq.gz,trim/WT2_R1_val_1.fq.gz,trim/WT3_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz,trim/DT2_R2_val_2.fq.gz,trim/DT3_R2_val_2.fq.gz,trim/WT1_R2_val_2.fq.gz,trim/WT2_R2_val_2.fq.gz,trim/WT3_R2_val_2.fq.gz
+Trinity --seqType fq  --CPU 4 --max_memory 60G --left trim/DT1_R1_val_1.fq.gz,trim/DT2_R1_val_1.fq.gz,trim/DT3_R1_val_1.fq.gz,trim/WT1_R1_val_1.fq.gz,trim/WT2_R1_val_1.fq.gz,trim/WT3_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz,trim/DT2_R2_val_2.fq.gz,trim/DT3_R2_val_2.fq.gz,trim/WT1_R2_val_2.fq.gz,trim/WT2_R2_val_2.fq.gz,trim/WT3_R2_val_2.fq.gz
 
 ```
 
