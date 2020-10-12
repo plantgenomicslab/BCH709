@@ -114,7 +114,7 @@ scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/wyim/rnaseq/transcri
 ## Trinity assembly
 
 ```bash
-Trinity --seqType fq --max_memory 50G --left <READ1> --right <READ> --CPU <CPU_NUMBER>
+Trinity --seqType fq --max_memory <MEMORY> --left <READ1> --right <READ> --CPU <CPU_NUMBER>
 
 ```
 
