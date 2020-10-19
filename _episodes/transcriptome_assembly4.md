@@ -12,11 +12,11 @@ conda activate rnaseq
 
 #### File prepare
 ```
-mkdir -p /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
+mkdir -p /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq
 
-cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq
+cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq
 
-cp /data/gpfs/assoc/bch709/Course_material/2020/RNASeq_raw_fastq/*.gz .
+cp /data/gpfs/assoc/bch709-1/Course_material/2020/RNASeq_raw_fastq/*.gz .
 
 cd ../
 ls
@@ -37,8 +37,8 @@ ls
 #SBATCH --job-name=test
 #SBATCH --cpus-per-task=16
 #SBATCH --time=10:00
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mem-per-cpu=1g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -57,7 +57,103 @@ $ sbatch submit.sh
 sbatch: Submitted batch job
 ```
 
+## Slurm Quick Start Tutorial
+Resource sharing on a supercomputer dedicated to technical and/or scientific computing is often organized by a piece of software called a resource manager or job scheduler. Users submit jobs, which are scheduled and allocated resources (CPU time, memory, etc.) by the resource manager.
 
+Slurm is a resource manager and job scheduler designed to do just that, and much more. It was originally created by people at the Livermore Computing Center, and has grown into a full-fledge open-source software backed up by a large community, commercially supported by the original developers, and installed in many of the Top500 supercomputers.
+
+Gathering information
+Slurm offers many commands you can use to interact with the system. For instance, the sinfo command gives an overview of the resources offered by the cluster, while the squeue command shows to which jobs those resources are currently allocated.
+
+By default, sinfo lists the partitions that are available. A partition is a set of compute nodes (computers dedicated to... computing) grouped logically. Typical examples include partitions dedicated to batch processing, debugging, post processing, or visualization.
+
+### sinfo 
+Show the State of Nodes
+```bash
+sinfo --all
+```
+```
+PARTITION      AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu-s2-core-0     up 14-00:00:0      2    mix cpu-[8-9]
+cpu-s2-core-0     up 14-00:00:0      7  alloc cpu-[1-2,4-6,78-79]
+cpu-s2-core-0     up 14-00:00:0     44   idle cpu-[0,3,7,10-47,64,76-77]
+cpu-s3-core-0*    up    2:00:00      2    mix cpu-[8-9]
+cpu-s3-core-0*    up    2:00:00      7  alloc cpu-[1-2,4-6,78-79]
+cpu-s3-core-0*    up    2:00:00     44   idle cpu-[0,3,7,10-47,64,76-77]
+gpu-s2-core-0     up 14-00:00:0     11   idle gpu-[0-10]
+cpu-s6-test-0     up      15:00      2   idle cpu-[65-66]
+cpu-s1-pgl-0      up 14-00:00:0      1    mix cpu-49
+cpu-s1-pgl-0      up 14-00:00:0      1  alloc cpu-48
+cpu-s1-pgl-0      up 14-00:00:0      2   idle cpu-[50-51]
+
+```
+In the above example, we see two partitions, named batch and debug. The latter is the default partition as it is marked with an asterisk. All nodes of the debug partition are idle, while two of the batch partition are being used.
+
+The sinfo command also lists the time limit (column TIMELIMIT) to which jobs are subject. On every cluster, jobs are limited to a maximum run time, to allow job rotation and let every user a chance to see their job being started. Generally, the larger the cluster, the smaller the maximum allowed time. You can find the details on the cluster page.
+
+You can actually specify precisely what information you would like sinfo to output by using its --format argument. For more details, have a look at the command manpage with man sinfo.
+
+## sinfo advance
+```
+sinfo $OPTIONS -o "%13n %8t %4c %8z %15C %8O %8m %8G %18P %f"  | egrep s2
+```
+## squeue
+The squeue command shows the list of jobs which are currently running (they are in the RUNNING state, noted as ‘R’) or waiting for resources (noted as ‘PD’, short for PENDING).
+```bash
+squeue
+```
+```
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+            983204 cpu-s2-co    neb_K jzhang23  R 6-09:05:47      1 cpu-6
+            983660 cpu-s2-co   RT3.sl yinghanc  R   12:56:17      1 cpu-9
+            983659 cpu-s2-co   RT4.sl yinghanc  R   12:56:21      1 cpu-8
+            983068 cpu-s2-co Gd-bound   dcantu  R 7-06:16:01      2 cpu-[78-79]
+            983067 cpu-s2-co Gd-unbou   dcantu  R 1-17:41:56      2 cpu-[1-2]
+            983472 cpu-s2-co   ub-all   dcantu  R 3-10:05:01      2 cpu-[4-5]
+            982604 cpu-s1-pg     wrap     wyim  R 12-14:35:23      1 cpu-49
+            983585 cpu-s1-pg     wrap     wyim  R 1-06:28:29      1 cpu-48
+            983628 cpu-s1-pg     wrap     wyim  R   13:44:46      1 cpu-49
+```
+
+## SBATCH
+Now the question is: How do you create a job?
+
+A job consists in two parts: resource requests and job steps. Resource requests consist in a number of CPUs, computing expected duration, amounts of RAM or disk space, etc. Job steps describe tasks that must be done, software which must be run.
+
+The typical way of creating a job is to write a submission script. A submission script is a shell script, e.g. a Bash script, whose comments, if they are prefixed with SBATCH, are understood by Slurm as parameters describing resource requests and other submissions options. You can get the complete list of parameters from the sbatch manpage man sbatch.
+
+>## Important
+>
+>The SBATCH directives must appear at the top of the submission file, before any other line except for the very first line which should be the shebang (e.g. #!/bin/bash).
+>The script itself is a job step. Other job steps are created with the srun command.
+>For instance, the following script, hypothetically named submit.sh,
+{: checklist}
+
+
+#### Submit job
+```
+chmod 775 trim.sh
+sbatch trim.sh
+```
+
+
+## Trimming job running
+1. Trimming Practice
+ - Make `rnaseq_slurm/fastq` folder under `/data/gpfs/assoc/bch709-1/YOURID/`
+ - Change directory to the folder `rnaseq_slurm/fastq`
+ - Copy all fastq.gz files in `/data/gpfs/assoc/bch709-1/Course_material/2020/RNASeq_raw_fastq` to `rnaseq_slurm/fastq` folder  
+ 
+| Sample             | Replication | Forward (read1) | Reverse (read2) | 
+|--------------------|-------------|-----------------|-----------------| 
+| Wildtype           | Rep1        | WT1_R1.fastq.gz | WT1_R2.fastq.gz | 
+| Wildtype           | Rep2        | WT2_R1.fastq.gz | WT2_R2.fastq.gz | 
+| Wildtype           | Rep3        | WT3_R1.fastq.gz | WT3_R2.fastq.gz | 
+| Stressed (drought) | Rep1        | DT1_R1.fastq.gz | DT1_R2.fastq.gz | 
+| Stressed (drought) | Rep2        | DT2_R1.fastq.gz | DT2_R2.fastq.gz | 
+| Stressed (drought) | Rep3        | DT3_R1.fastq.gz | DT3_R2.fastq.gz | 
+
+ - Run `Trim-Galore` and process `MultiQC`
+ - Generate 6 trimmed output from `MultiQC` and upload `html` file to WebCanvas. 
 
 #### Run trimming
 ```
@@ -69,9 +165,9 @@ nano trim.sh
 #!/bin/bash
 #SBATCH --job-name=<TRIM>
 #SBATCH --time=15:00
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
-#SBATCH --cpus-per-task=16
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
+#SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
@@ -80,9 +176,9 @@ nano trim.sh
 #SBATCH --output=<TRIM>.out
 
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq/DT1_R1.fastq.gz  /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq/DT1_R2.fastq.gz
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 8  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT1_R1.fastq.gz  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT1_R2.fastq.gz
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq/DT2_R1.fastq.gz  /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/fastq/DT2_R2.fastq.gz
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT2_R1.fastq.gz  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/fastq/DT2_R2.fastq.gz
 .
 .
 .
@@ -93,11 +189,6 @@ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores
 ```
 
 
-#### Submit job
-```
-chmod 775 trim.sh
-sbatch trim.sh
-```
 ## squeue
 The squeue command shows the list of jobs which are currently running (they are in the RUNNING state, noted as ‘R’) or waiting for resources (noted as ‘PD’, short for PENDING).
 ```bash
@@ -152,8 +243,8 @@ for fastq in samples:
         fh.writelines("#SBATCH --output=%s.out\n" % fastq)
         fh.writelines("#SBATCH --error=%s.err\n" % fastq)
         fh.writelines("#SBATCH --time=15:00\n")
-        fh.writelines("#SBATCH --account=cpu-s6-test-0\n")
-        fh.writelines("#SBATCH --partition=cpu-s6-test-0\n")
+        fh.writelines("#SBATCH --account=cpu-s2-bch709-1\n")
+        fh.writelines("#SBATCH --partition=cpu-s2-core-0\n")
         fh.writelines("#SBATCH --cpus-per-task=16\n")
         fh.writelines("#SBATCH --mem-per-cpu=4g\n")
         fh.writelines("#SBATCH --mail-type=fail\n")
@@ -162,7 +253,7 @@ for fastq in samples:
         fh.writelines("#SBATCH --cpus-per-task=16\n")
         fh.writelines("#SBATCH --mail-type=ALL\n")
         fh.writelines("#SBATCH --mail-user=wyim@unr.edu\n")
-        fh.writelines("trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/%s_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/%s_R2.fastq.gz\n" % (fastq,fastq))
+        fh.writelines("trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm/fastq/%s_R1.fastq.gz  /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm/fastq/%s_R2.fastq.gz\n" % (fastq,fastq))
 
     os.system("sbatch %s" %job_file)
 
@@ -186,8 +277,8 @@ for fastq in ${fastq[@]}; do
 #SBATCH --output=${fastq}.out
 #SBATCH --error=${fastq}.err
 #SBATCH --time=15:00
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4g
 #SBATCH --mail-type=fail
@@ -196,15 +287,12 @@ for fastq in ${fastq[@]}; do
 #SBATCH --cpus-per-task=16
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=wyim@unr.edu
-trim_galore --paired --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/${fastq}_R1.fastq.gz  /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/fastq/${fastq}_R2.fastq.gz"> $job_file
+trim_galore --paired --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 16  --max_n 40  --gzip -o trim /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm/fastq/${fastq}_R1.fastq.gz  /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm/fastq/${fastq}_R2.fastq.gz"> $job_file
 
 sbatch $job_file
 
 done
 ```
-
-
-
 
 ### Youtube Video for Slurm
 https://www.youtube.com/watch?v=U42qlYkzP9k
@@ -447,8 +535,8 @@ nano trinity.sh
 #SBATCH --time=15:00
 #SBATCH --account=cpu-s2-bch709-0
 #SBATCH --partition=cpu-s2-core-0
-#SBATCH --cpus-per-task=24
-#SBATCH --mem=100g
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80g
 #SBATCH --mail-type=fail
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -456,7 +544,7 @@ nano trinity.sh
 #SBATCH --output=<TRINITY>.out
 
 
-Trinity --seqType fq  --CPU 24 --max_memory 100G --left trim/DT1_R1_val_1.fq.gz,trim/DT2_R1_val_1.fq.gz,trim/DT3_R1_val_1.fq.gz,trim/WT1_R1_val_1.fq.gz,trim/WT2_R1_val_1.fq.gz,trim/WT3_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz,trim/DT2_R2_val_2.fq.gz,trim/DT3_R2_val_2.fq.gz,trim/WT1_R2_val_2.fq.gz,trim/WT2_R2_val_2.fq.gz,trim/WT3_R2_val_2.fq.gz
+Trinity --seqType fq  --CPU 24 --max_memory 80G --left trim/DT1_R1_val_1.fq.gz,trim/DT2_R1_val_1.fq.gz,trim/DT3_R1_val_1.fq.gz,trim/WT1_R1_val_1.fq.gz,trim/WT2_R1_val_1.fq.gz,trim/WT3_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz,trim/DT2_R2_val_2.fq.gz,trim/DT3_R2_val_2.fq.gz,trim/WT1_R2_val_2.fq.gz,trim/WT2_R2_val_2.fq.gz,trim/WT3_R2_val_2.fq.gz
 
 ```
 
@@ -506,11 +594,11 @@ https://colab.research.google.com/drive/12AIJ21eGQ2npxeHcU3h4fT7OxEzxxzin#scroll
 
 ### Please check the result
 ```bash
-cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/trinity_out_dir/
 
-egrep -c ">" /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta 
+egrep -c ">" /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta 
 
-TrinityStats.pl /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta  >> <YOURID>.trinity.stat
+TrinityStats.pl /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta  >> <YOURID>.trinity.stat
 
 <YOURID>.trinity.stat
 ```
@@ -521,7 +609,7 @@ TrinityStats.pl /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Tr
 ```bash
 pwd
 ### Your current location is 
-## /data/gpfs/assoc/bch709/wyim/rnaseq_slurm
+## /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm
 align_and_estimate_abundance.pl
 
 
@@ -541,8 +629,8 @@ nano reads_count.sh
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o <JOBNAME>.out # STDOUT
 #SBATCH -e <JOBNAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 
 align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --seqType fq --left trim/DT1_R1_val_1.fq.gz --right trim/DT1_R2_val_2.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir rsem_outdir_test  --thread_count  16
@@ -695,7 +783,7 @@ conda activate rnaseq
 #### File prepare
 ```
 
-cd /data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/
 ```
 
 
@@ -750,8 +838,8 @@ nano alignment.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 align_and_estimate_abundance.pl --thread_count 64 --transcripts trinity_out_dir/Trinity.fasta --seqType fq  --est_method RSEM --aln_method bowtie2  --trinity_mode --prep_reference --samples_file sample.txt
 ```
@@ -784,8 +872,8 @@ nano abundance.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 abundance_estimates_to_matrix.pl  --est_method RSEM --gene_trans_map none --name_sample_by_basedir  --cross_sample_norm TMM ../WT_REP1/RSEM.isoforms.results ../WT_REP2/RSEM.isoforms.results ../WT_REP3/RSEM.isoforms.results   ../DT_REP1/RSEM.isoforms.results ../DT_REP2/RSEM.isoforms.results ../DT_REP3/RSEM.isoforms.results
 ```
@@ -821,8 +909,8 @@ nano ptr.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 PtR  --matrix RSEM.isoform.counts.matrix --samples samples_ptr.txt --CPM --log2 --min_rowSums 10  --compare_replicates
 
@@ -850,8 +938,8 @@ nano deseq.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method DESeq2 
@@ -872,8 +960,8 @@ nano edgeR.sh
 #SBATCH --mail-user=<YOUR ID>@nevada.unr.edu
 #SBATCH -o <JOB_NAME>.out # STDOUT
 #SBATCH -e <JOB_NAME>.err # STDERR
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 
 run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method edgeR
 ```
@@ -937,7 +1025,7 @@ conda install -c r r-UpSetR r-corrplot r-Cairo
 ```bash
 cd ../
 pwd
-# /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/DEG
+# /data/gpfs/assoc/bch709-1/wyim/rnaseq_slurm/DEG
 mkdir Venn 
 cd Venn
 
