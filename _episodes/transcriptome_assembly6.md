@@ -46,7 +46,9 @@ ls
 ```bash
 nano trinity.sh
 ```
+``
 **Please change <SOMETHING> to your input**
+``
 
 ```bash
 #!/bin/bash
