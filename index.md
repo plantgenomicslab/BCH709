@@ -78,7 +78,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week8        | 10/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
 | Week8        | 10/14 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
 | Week9        | 10/19 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html)|
-| Week9       | 10/21 | [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html) |
+| Week9       | 10/21 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly5/index.html) [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html) |
 | Week10       | 10/26  | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)|
 | Week10       | 10/28 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html)|
 | Week11       | 11/2  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
