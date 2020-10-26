@@ -167,7 +167,10 @@ align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity.fasta --se
 ![RSEM]({{site.baseurl}}/fig/RSEM4.png)
 
 
-
+### Install package
+```bash
+conda install -c bioconda rsem
+```
 
 
 ### Job submission
@@ -315,7 +318,7 @@ conda activate transcriptome_assembly
 #### File prepare
 ```
 
-cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_slurm/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_assembly/
 ```
 
 
