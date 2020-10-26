@@ -251,9 +251,9 @@ Fragments per Kilobase of transcript per million mapped reads
 
 
 ```python
-X = 2012.00
-Number_Reads_mapped = 559779
-Length = 650.92
+X = 3752
+Number_Reads_mapped = 559192
+Length = 651.04
 fpkm= X*(1000/Length)*(1000000/Number_Reads_mapped)
 fpkm
 ```
@@ -282,8 +282,8 @@ cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$7} END {p
 ### TPM calculation from FPKM
 
 ```python
-FPKM = 5521.839239919676
-SUM_FPKM = 931616
+FPKM = 10306.16
+SUM_FPKM = 882349
 TPM=(FPKM/SUM_FPKM)*10**6
 TPM
 ```
@@ -294,9 +294,9 @@ cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$5/$4} END
 ```
 
 ```python
-sum_count_per_length = 521.494
-X = 2012.00
-Length = 650.92
+sum_count_per_length = 493.403
+X = 3752
+Length = 651.04
 TPM = (X/Length)*(1/sum_count_per_length )*10**6
 TPM
 ```
