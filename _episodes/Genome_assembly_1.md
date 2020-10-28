@@ -335,7 +335,7 @@ Errors include
 ## Check Genome Size by Illumina Reads
 
 ```bash
-cd /data/gpfs/assoc/bch709/<YOUR_ID>/
+cd /data/gpfs/assoc/bch709-1/<YOUR_ID>/
 mkdir -p Genome_assembly/Illumina
 cd Genome_assembly/Illumina
 ```
@@ -381,8 +381,8 @@ for i in `ls -1 *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
 #SBATCH --cpus-per-task=8
 #SBATCH --time=2:00:00
 #SBATCH --mem=30g
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 
@@ -402,8 +402,8 @@ mkdir kmer && cd kmer
 #SBATCH --cpus-per-task=10
 #SBATCH --time=2:00:00
 #SBATCH --mem=10g
-#SBATCH --account=cpu-s6-test-0 
-#SBATCH --partition=cpu-s6-test-0
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o trim.out # STDOUT
@@ -421,7 +421,7 @@ http://qb.cshl.edu/genomescope/genomescope2.0
 
 ### Genome assembly Spades
 ```bash
-cd /data/gpfs/assoc/bch709/<YOURID>/Genome_assembly/Illumina/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/Illumina/
 mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
@@ -437,7 +437,7 @@ conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 #SBATCH --cpus-per-task=32
 #SBATCH --time=2:00:00
 #SBATCH --mem=64g
-#SBATCH --account=cpu-s2-bch709-0
+#SBATCH --account=cpu-s2-bch709-1 
 #SBATCH --partition=cpu-s2-core-0
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR ID>@unr.edu
@@ -454,14 +454,14 @@ spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore outpu
 ![spades2]({{site.baseurl}}/fig/spades2.jpg)
 ## Log
 ```bash
-Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709/spiderman/gee/spades_output       --memory        120     --threads       32
+Command line: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades.py -k21,33,55,77     --careful       -1      /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz    -2      /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz    -o      /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output       --memory        120     --threads       32
 
 System information:
   SPAdes version: 3.13.1
   Python version: 3.7.3
   OS: Linux-3.10.0-957.27.2.el7.x86_64-x86_64-with-centos-7.6.1810-Core
 
-Output dir: /data/gpfs/assoc/bch709/spiderman/gee/spades_output
+Output dir: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output
 Mode: read error correction and assembling
 Debug mode is turned OFF
 
@@ -470,8 +470,8 @@ Dataset parameters:
   Reads:
     Library number: 1, library type: paired-end
       orientation: fr
-      left reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz']
-      right reads: ['/data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz']
+      left reads: ['/data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz']
+      right reads: ['/data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz']
       interlaced reads: not specified
       single reads: not specified
       merged reads: not specified
@@ -486,21 +486,21 @@ Assembly parameters:
   MismatchCorrector will be used
   Coverage cutoff is turned OFF
 Other parameters:
-  Dir for temp files: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp
+  Dir for temp files: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/tmp
   Threads: 64
   Memory limit (in Gb): 140
 
 
-======= SPAdes pipeline started. Log can be found here: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/spades.log
+======= SPAdes pipeline started. Log can be found here: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/spades.log
 
 
 ===== Read error correction started.
 
 
-== Running read error correction tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-hammer /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/configs/config.info
+== Running read error correction tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-hammer /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/corrected/configs/config.info
 
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  75)   Starting BayesHammer, built from N/A, git revision N/A
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  76)   Loading config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/configs/config.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  76)   Loading config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/corrected/configs/config.info
   0:00:00.001     4M / 4M    INFO    General                 (main.cpp                  :  78)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.001     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
   0:00:00.001     4M / 4M    INFO    General                 (main.cpp                  :  86)   Trying to determine PHRED offset
@@ -513,9 +513,9 @@ Other parameters:
   0:00:00.043     4M / 4M    INFO    General                 (file_limit.hpp            :  32)   Open file limit set to 65536
   0:00:00.043     4M / 4M    INFO    General                 (kmer_splitters.hpp        :  89)   Memory available for splitting buffers: 1.45829 Gb
   0:00:00.043     4M / 4M    INFO    General                 (kmer_splitters.hpp        :  97)   Using cell size of 131072
-  0:00:02.300    17G / 17G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz
+  0:00:02.300    17G / 17G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz
   0:00:19.373    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 107)   Processed 3022711 reads
-  0:00:19.373    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:00:19.373    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             :  97)   Processing /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
   0:00:37.483    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 107)   Processed 6045422 reads
   0:00:37.483    17G / 18G   INFO   K-mer Splitting          (kmer_data.cpp             : 112)   Total 6045422 reads processed
   0:00:39.173   128M / 18G   INFO    General                 (kmer_index_builder.hpp    : 120)   Starting k-mer counting.
@@ -529,8 +529,8 @@ Other parameters:
   0:05:15.609     5G / 18G   INFO    General                 (main.cpp                  : 155)   Extracting clusters
   0:06:20.894     5G / 18G   INFO    General                 (main.cpp                  : 167)   Clustering done. Total clusters: 47999941
   0:06:20.900     2G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 376)   Collecting K-mer information, this takes a while.
-  0:06:23.367     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 382)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz
-  0:06:41.328     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 382)   Processing /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:06:23.367     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 382)   Processing /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz
+  0:06:41.328     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 382)   Processing /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
   0:06:59.453     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 389)   Collection done, postprocessing.
   0:07:00.669     9G / 18G   INFO   K-mer Counting           (kmer_data.cpp             : 403)   There are 318799406 kmers in total. Among them 268145204 (84.1109%) are singletons.
   0:07:00.669     9G / 18G   INFO    General                 (main.cpp                  : 173)   Subclustering Hamming graph
@@ -553,18 +553,18 @@ Other parameters:
   0:18:47.540     9G / 18G   INFO    General                 (main.cpp                  : 218)   Solid k-mers iteration 6 produced 7 new k-mers.
   0:18:47.540     9G / 18G   INFO    General                 (main.cpp                  : 222)   Solid k-mers finalized
   0:18:47.540     9G / 18G   INFO    General                 (hammer_tools.cpp          : 220)   Starting read correction in 32 threads.
-  0:18:47.540     9G / 18G   INFO    General                 (hammer_tools.cpp          : 233)   Correcting pair of reads: /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz and /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:18:47.540     9G / 18G   INFO    General                 (hammer_tools.cpp          : 233)   Correcting pair of reads: /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz and /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
   0:19:07.696    12G / 18G   INFO    General                 (hammer_tools.cpp          : 168)   Prepared batch 0 of 3022711 reads.
   0:19:28.112    12G / 18G   INFO    General                 (hammer_tools.cpp          : 175)   Processed batch 0
   0:19:33.861    12G / 18G   INFO    General                 (hammer_tools.cpp          : 185)   Written batch 0
   0:19:35.020     9G / 18G   INFO    General                 (hammer_tools.cpp          : 274)   Correction done. Changed 10322067 bases in 4896755 reads.
   0:19:35.020     9G / 18G   INFO    General                 (hammer_tools.cpp          : 275)   Failed to correct 299 bases out of 782307432.
-  0:19:35.053   128M / 18G   INFO    General                 (main.cpp                  : 255)   Saving corrected dataset description to /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/corrected.yaml
+  0:19:35.053   128M / 18G   INFO    General                 (main.cpp                  : 255)   Saving corrected dataset description to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/corrected/corrected.yaml
   0:19:35.054   128M / 18G   INFO    General                 (main.cpp                  : 262)   All done. Exiting.
 
 == Compressing corrected reads (with pigz)
 
-== Dataset description file was created: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/corrected.yaml
+== Dataset description file was created: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/corrected/corrected.yaml
 
 
 ===== Read error correction finished.
@@ -575,12 +575,12 @@ Other parameters:
 
 == Running assembler: K21
 
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K21/configs/config.info
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K21/configs/careful_mode.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K21/configs/config.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K21/configs/careful_mode.info
   0:00:00.000     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  87)   Starting SPAdes, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  88)   Maximum k-mer length: 128
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709/spiderman/gee/spades_output/dataset.info) with K=21
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/dataset.info) with K=21
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  90)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  52)   SPAdes started
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  59)   Starting from stage: construction
@@ -778,19 +778,19 @@ Other parameters:
   0:01:27.076   240M / 18G   INFO    General                 (simplification.cpp        : 470)   Counting average coverage
   0:01:27.092   240M / 18G   INFO    General                 (simplification.cpp        : 476)   Average coverage = 64.7081
   0:01:27.092   240M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Contig Output
-  0:01:27.092   240M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K21/simplified_contigs.fasta
+  0:01:27.092   240M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K21/simplified_contigs.fasta
   0:01:27.662   240M / 18G   INFO    General                 (launch.hpp                : 151)   SPAdes finished
   0:01:27.853   128M / 18G   INFO    General                 (main.cpp                  : 109)   Assembling time: 0 hours 1 minutes 27 seconds
 Max read length detected as 130
 
 == Running assembler: K33
 
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K33/configs/config.info
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K33/configs/careful_mode.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K33/configs/config.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K33/configs/careful_mode.info
   0:00:00.000     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  87)   Starting SPAdes, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  88)   Maximum k-mer length: 128
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709/spiderman/gee/spades_output/dataset.info) with K=33
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/dataset.info) with K=33
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  90)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  52)   SPAdes started
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  59)   Starting from stage: construction
@@ -973,18 +973,18 @@ Max read length detected as 130
   0:00:49.865   148M / 18G   INFO    General                 (simplification.cpp        : 470)   Counting average coverage
   0:00:49.872   148M / 18G   INFO    General                 (simplification.cpp        : 476)   Average coverage = 55.1933
   0:00:49.873   148M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Contig Output
-  0:00:49.873   148M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K33/simplified_contigs.fasta
+  0:00:49.873   148M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K33/simplified_contigs.fasta
   0:00:50.194   148M / 18G   INFO    General                 (launch.hpp                : 151)   SPAdes finished
   0:00:50.309   128M / 18G   INFO    General                 (main.cpp                  : 109)   Assembling time: 0 hours 0 minutes 50 seconds
 
 == Running assembler: K55
 
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K55/configs/config.info
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K55/configs/careful_mode.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K55/configs/config.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K55/configs/careful_mode.info
   0:00:00.000     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  87)   Starting SPAdes, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  88)   Maximum k-mer length: 128
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709/spiderman/gee/spades_output/dataset.info) with K=55
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/dataset.info) with K=55
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  90)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  52)   SPAdes started
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  59)   Starting from stage: construction
@@ -1211,18 +1211,18 @@ Max read length detected as 130
   0:01:12.572   656M / 18G   INFO    General                 (simplification.cpp        : 470)   Counting average coverage
   0:01:12.577   656M / 18G   INFO    General                 (simplification.cpp        : 476)   Average coverage = 40.7622
   0:01:12.577   656M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Contig Output
-  0:01:12.577   656M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K55/simplified_contigs.fasta
+  0:01:12.577   656M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K55/simplified_contigs.fasta
   0:01:12.782   656M / 18G   INFO    General                 (launch.hpp                : 151)   SPAdes finished
   0:01:13.385   132M / 18G   INFO    General                 (main.cpp                  : 109)   Assembling time: 0 hours 1 minutes 13 seconds
 
 == Running assembler: K77
 
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K77/configs/config.info
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709/spiderman/gee/spades_output/K77/configs/careful_mode.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K77/configs/config.info
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  74)   Loaded config from /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/K77/configs/careful_mode.info
   0:00:00.000     4M / 4M    INFO    General                 (memory_limit.cpp          :  49)   Memory limit set to 140 Gb
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  87)   Starting SPAdes, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  88)   Maximum k-mer length: 128
-  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709/spiderman/gee/spades_output/dataset.info) with K=77
+  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  89)   Assembling dataset (/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/dataset.info) with K=77
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  90)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  52)   SPAdes started
   0:00:00.000     4M / 4M    INFO    General                 (launch.hpp                :  59)   Starting from stage: construction
@@ -1455,10 +1455,10 @@ Max read length detected as 130
   0:01:20.797   528M / 18G   INFO    General                 (mismatch_shall_not_pass.hp: 290)   All edges processed
   0:01:20.801   528M / 18G   INFO    General                 (mismatch_correction.cpp   :  27)   Corrected 1 nucleotides
   0:01:20.802   528M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Contig Output
-  0:01:20.802   528M / 18G   INFO    General                 (contig_output_stage.cpp   :  45)   Writing GFA to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/assembly_graph_with_scaffolds.gfa
-  0:01:20.925   528M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/before_rr.fasta
-  0:01:21.100   528M / 18G   INFO    General                 (contig_output_stage.cpp   :  56)   Outputting FastG graph to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/assembly_graph.fastg
-  0:01:21.620   528M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/final_contigs.fasta
+  0:01:20.802   528M / 18G   INFO    General                 (contig_output_stage.cpp   :  45)   Writing GFA to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/assembly_graph_with_scaffolds.gfa
+  0:01:20.925   528M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/before_rr.fasta
+  0:01:21.100   528M / 18G   INFO    General                 (contig_output_stage.cpp   :  56)   Outputting FastG graph to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/assembly_graph.fastg
+  0:01:21.620   528M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/final_contigs.fasta
   0:01:21.789   528M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Paired Information Counting
   0:01:21.811   528M / 18G   INFO    General                 (graph_pack.hpp            : 109)   Normalizing k-mer map. Total 587550 kmers to process
   0:01:22.130   528M / 18G   INFO    General                 (graph_pack.hpp            : 111)   Normalizing done
@@ -1552,11 +1552,11 @@ Max read length detected as 130
   0:01:36.817   756M / 18G   INFO    General                 (launcher.cpp              : 257)   Paths finalized
   0:01:36.817   756M / 18G   INFO    General                 (launcher.cpp              : 534)   ExSPAnder repeat resolving tool finished
   0:01:37.096   632M / 18G   INFO   StageManager             (stage.cpp                 : 132)   STAGE == Contig Output
-  0:01:37.096   632M / 18G   INFO    General                 (contig_output_stage.cpp   :  45)   Writing GFA to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/assembly_graph_with_scaffolds.gfa
-  0:01:37.226   628M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/before_rr.fasta
-  0:01:37.397   628M / 18G   INFO    General                 (contig_output_stage.cpp   :  56)   Outputting FastG graph to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/assembly_graph.fastg
-  0:01:37.923   636M / 18G   INFO    General                 (contig_output_stage.cpp   :  20)   Outputting FastG paths to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/final_contigs.paths
-  0:01:38.152   628M / 18G   INFO    General                 (contig_output_stage.cpp   :  20)   Outputting FastG paths to /data/gpfs/assoc/bch709/spiderman/gee/spades_output//K77/scaffolds.paths
+  0:01:37.096   632M / 18G   INFO    General                 (contig_output_stage.cpp   :  45)   Writing GFA to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/assembly_graph_with_scaffolds.gfa
+  0:01:37.226   628M / 18G   INFO    General                 (contig_output.hpp         :  22)   Outputting contigs to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/before_rr.fasta
+  0:01:37.397   628M / 18G   INFO    General                 (contig_output_stage.cpp   :  56)   Outputting FastG graph to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/assembly_graph.fastg
+  0:01:37.923   636M / 18G   INFO    General                 (contig_output_stage.cpp   :  20)   Outputting FastG paths to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/final_contigs.paths
+  0:01:38.152   628M / 18G   INFO    General                 (contig_output_stage.cpp   :  20)   Outputting FastG paths to /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output//K77/scaffolds.paths
   0:01:38.380   632M / 18G   INFO    General                 (launch.hpp                : 151)   SPAdes finished
   0:01:38.643   132M / 18G   INFO    General                 (main.cpp                  : 109)   Assembling time: 0 hours 1 minutes 38 seconds
 
@@ -1568,18 +1568,18 @@ Max read length detected as 130
 == Processing of contigs
 
 
-== Running contig polishing tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-corrector-core /data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/corrector.info /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta
+== Running contig polishing tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-corrector-core /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/corrector.info /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta
 
 
-== Dataset description file was created: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/corrector.info
+== Dataset description file was created: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/corrector.info
 
-/data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/log.properties  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  58)   Starting MismatchCorrector, built from N/A, git revision N/A
+/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/contigs/configs/log.properties  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  58)   Starting MismatchCorrector, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  59)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 195)   Splitting assembly...
-  0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 196)   Assembly file: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta
+  0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 196)   Assembly file: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta
   0:00:00.818     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 203)   Processing paired sublib of number 0
-  0:00:00.818     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 206)   /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
-  0:00:00.818     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 140)   Running bwa index ...: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta
+  0:00:00.818     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 206)   /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:00:00.818     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 140)   Running bwa index ...: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta
 [bwa_index] Pack FASTA... 0.07 sec
 [bwa_index] Construct BWT for the packed sequence...
 [bwa_index] 2.29 seconds elapse.
@@ -1587,13 +1587,13 @@ Max read length detected as 130
 [bwa_index] Pack forward-only FASTA... 0.05 sec
 [bwa_index] Construct SA from BWT and Occ... 1.14 sec
 [main] Version: 0.7.12-r1039
-[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta
+[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta
 [main] Real time: 3.655 sec; CPU: 3.623 sec
-  0:00:04.571     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 149)   Running bwa mem ...:/data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem  -v 1 -t 32 /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz  > /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp/corrector_pjylxnuu/lib0_QpuVB2/tmp.sam
+  0:00:04.571     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 149)   Running bwa mem ...:/data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem  -v 1 -t 32 /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz  > /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/tmp/corrector_pjylxnuu/lib0_QpuVB2/tmp.sam
 [main] Version: 0.7.12-r1039
-[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem -v 1 -t 32 /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_contigs.fasta /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem -v 1 -t 32 /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_contigs.fasta /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
 [main] Real time: 46.713 sec; CPU: 975.503 sec
-  0:00:51.355     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 209)   Adding samfile /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp/corrector_pjylxnuu/lib0_QpuVB2/tmp.sam
+  0:00:51.355     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 209)   Adding samfile /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/tmp/corrector_pjylxnuu/lib0_QpuVB2/tmp.sam
   0:00:57.140    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 1000000reads, flushing
   0:01:01.054    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 2000000reads, flushing
   0:01:04.946    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 3000000reads, flushing
@@ -1688,18 +1688,18 @@ Max read length detected as 130
 == Processing of scaffolds
 
 
-== Running contig polishing tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-corrector-core /data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/corrector.info /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
+== Running contig polishing tool: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-corrector-core /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/corrector.info /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
 
 
-== Dataset description file was created: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/corrector.info
+== Dataset description file was created: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/corrector.info
 
-/data/gpfs/assoc/bch709/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/log.properties  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  58)   Starting MismatchCorrector, built from N/A, git revision N/A
+/data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/mismatch_corrector/scaffolds/configs/log.properties  0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  58)   Starting MismatchCorrector, built from N/A, git revision N/A
   0:00:00.000     4M / 4M    INFO    General                 (main.cpp                  :  59)   Maximum # of threads to use (adjusted due to OMP capabilities): 32
   0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 195)   Splitting assembly...
-  0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 196)   Assembly file: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
+  0:00:00.000     4M / 4M    INFO   DatasetProcessor         (dataset_processor.cpp     : 196)   Assembly file: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
   0:00:01.572     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 203)   Processing paired sublib of number 0
-  0:00:01.572     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 206)   /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
-  0:00:01.572     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 140)   Running bwa index ...: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
+  0:00:01.572     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 206)   /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+  0:00:01.572     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 140)   Running bwa index ...: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
 [bwa_index] Pack FASTA... 0.07 sec
 [bwa_index] Construct BWT for the packed sequence...
 [bwa_index] 2.35 seconds elapse.
@@ -1707,13 +1707,13 @@ Max read length detected as 130
 [bwa_index] Pack forward-only FASTA... 0.05 sec
 [bwa_index] Construct SA from BWT and Occ... 1.16 sec
 [main] Version: 0.7.12-r1039
-[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
+[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa index -a is /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta
 [main] Real time: 3.718 sec; CPU: 3.687 sec
-  0:00:05.440     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 149)   Running bwa mem ...:/data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem  -v 1 -t 32 /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz  > /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp/corrector_govedfg7/lib0_QiPZI2/tmp.sam
+  0:00:05.440     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 149)   Running bwa mem ...:/data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem  -v 1 -t 32 /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz  > /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/tmp/corrector_govedfg7/lib0_QiPZI2/tmp.sam
 [main] Version: 0.7.12-r1039
-[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem -v 1 -t 32 /data/gpfs/assoc/bch709/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
+[main] CMD: /data/gpfs/home/wyim/miniconda3/envs/genomeassembly/bin/spades-bwa mem -v 1 -t 32 /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/misc/assembled_scaffolds.fasta /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R1_val_1.fq.gz /data/gpfs/assoc/bch709-1/spiderman/gee/trimmed_fastq/WGS_R2_val_2.fq.gz
 [main] Real time: 46.552 sec; CPU: 969.363 sec
-  0:00:52.072     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 209)   Adding samfile /data/gpfs/assoc/bch709/spiderman/gee/spades_output/tmp/corrector_govedfg7/lib0_QiPZI2/tmp.sam
+  0:00:52.072     4M / 8M    INFO   DatasetProcessor         (dataset_processor.cpp     : 209)   Adding samfile /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/tmp/corrector_govedfg7/lib0_QiPZI2/tmp.sam
   0:00:56.688    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 1000000reads, flushing
   0:01:00.368    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 2000000reads, flushing
   0:01:04.180    52M / 52M   INFO   DatasetProcessor         (dataset_processor.cpp     : 105)   processed 3000000reads, flushing
@@ -1805,17 +1805,17 @@ Max read length detected as 130
 
 ===== Mismatch correction finished.
 
- * Corrected reads are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/corrected/
- * Assembled contigs are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/contigs.fasta
- * Assembled scaffolds are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/scaffolds.fasta
- * Paths in the assembly graph corresponding to the contigs are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/contigs.paths
- * Paths in the assembly graph corresponding to the scaffolds are in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/scaffolds.paths
- * Assembly graph is in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/assembly_graph.fastg
- * Assembly graph in GFA format is in /data/gpfs/assoc/bch709/spiderman/gee/spades_output/assembly_graph_with_scaffolds.gfa
+ * Corrected reads are in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/corrected/
+ * Assembled contigs are in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/contigs.fasta
+ * Assembled scaffolds are in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/scaffolds.fasta
+ * Paths in the assembly graph corresponding to the contigs are in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/contigs.paths
+ * Paths in the assembly graph corresponding to the scaffolds are in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/scaffolds.paths
+ * Assembly graph is in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/assembly_graph.fastg
+ * Assembly graph in GFA format is in /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/assembly_graph_with_scaffolds.gfa
 
 ======= SPAdes pipeline finished.
 
-SPAdes log can be found here: /data/gpfs/assoc/bch709/spiderman/gee/spades_output/spades.log
+SPAdes log can be found here: /data/gpfs/assoc/bch709-1/spiderman/gee/spades_output/spades.log
 
 Thank you for using SPAdes!
 ```
@@ -1844,7 +1844,7 @@ N50 is a measure to describe the quality of assembled genomes that are fragmente
 
 
 ```bash
-conda install -c bioconda assembly-stats
+conda install -c bioconda -c conda-forge assembly-stats
 cd spades_output
 assembly-stats scaffolds.fasta
 assembly-stats contigs.fasta
