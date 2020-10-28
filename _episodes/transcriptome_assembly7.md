@@ -176,8 +176,8 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 conda deactivate
 conda create -n venn python=3.6  
 conda activate venn  
-conda install -c bioconda  bedtools intervene pybedtools pandas seaborn   
-conda install -c r r-UpSetR r-corrplot r-Cairo  
+conda install -c bioconda  bedtools intervene pybedtools pandas seaborn -y  
+conda install -c r r-UpSetR r-corrplot r-Cairo -y  
 
 ``` 
 
