@@ -47,12 +47,40 @@ sbatch abundance.sh
 Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression).  
 
 
+
+*** We have some conflict in transcriptome_assembly environment ***
+*** Please reinstall environment with below insteuction ***
+*** Thanks Cassandra and Sophia ***
+```bash
+conda deactive transcriptome_assembly
+
+conda env remove -n transcriptome_assembly
+
+conda create -n transcriptome_assembly python=3.6
+
+conda activate transcriptome_assembly
+
+conda install -y -c anaconda boost=1.64
+
+conda install -y -c bioconda -c conda-forge salmon=0.9.1
+
+conda install -y -c bioconda samtools openssl=1.0 bowtie2 bowtie
+
+conda install -y -c r -c bioconda  r-base=3.5.1 icu=58.2
+
+conda install -y  -c conda-forge -c bioconda  bioconductor-ctc  bioconductor-deseq2=1.20.0 bioconductor-edger=3.26.0 bioconductor-biobase=2.40.0  bioconductor-qvalue=2.16.0 r-ape  r-gplots   r-fastcluster=1.1.25
+```
+
+
+
 ```bash
 
 cut -f 1,2 ../sample.txt >> samples_ptr.txt
 
 nano ptr.sh
 ```
+
+
 
 ```bash
 

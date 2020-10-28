@@ -7,21 +7,24 @@ published: true
 ## Trinity installation
 
 ```bash
-conda clean --all -y
+conda deactive transcriptome_assembly
+
+conda env remove -n transcriptome_assembly
 
 conda create -n transcriptome_assembly python=3.6
 
 conda activate transcriptome_assembly
 
-conda install -y -c anaconda boost
+conda install -y -c anaconda boost=1.64
 
 conda install -y -c bioconda -c conda-forge salmon=0.9.1
 
 conda install -y -c bioconda samtools openssl=1.0 bowtie2 bowtie
 
-conda install -y -c r -c conda-forge -c anaconda -c bioconda  bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue  r-ape  r-gplots  r-fastcluster
+conda install -y -c r -c bioconda  r-base=3.5.1 icu=58.2
 
-conda install -y -c bioconda trinity -y
+conda install -y  -c conda-forge -c bioconda  bioconductor-ctc  bioconductor-deseq2=1.20.0 bioconductor-edger=3.26.0 bioconductor-biobase=2.40.0  bioconductor-qvalue=2.16.0 r-ape  r-gplots   r-fastcluster=1.1.25
+
 ```
 
 ## Processing location and input files
