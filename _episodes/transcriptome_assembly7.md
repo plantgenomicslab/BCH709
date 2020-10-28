@@ -48,7 +48,7 @@ Once you've performed transcript quantification for each of your biological repl
 
 
 
-**We have some conflict in transcriptome_assembly environment**  
+**We have some conflicts in transcriptome_assembly environment**  
 **Please reinstall environment with below insteuction**  
 **Thanks Cassandra and Sophia**  
 
