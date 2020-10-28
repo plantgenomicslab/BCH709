@@ -73,6 +73,8 @@ conda install -y  -c conda-forge -c bioconda  bioconductor-ctc  bioconductor-des
 
 conda install -c bioconda trinity
 
+conda install -c conda-forge libiconv
+
 ```
 
 

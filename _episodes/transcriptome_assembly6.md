@@ -25,6 +25,8 @@ conda install -y -c r -c bioconda  r-base=3.5.1 icu=58.2
 
 conda install -y  -c conda-forge -c bioconda  bioconductor-ctc  bioconductor-deseq2=1.20.0 bioconductor-edger=3.26.0 bioconductor-biobase=2.40.0  bioconductor-qvalue=2.16.0 r-ape  r-gplots   r-fastcluster=1.1.25
 
+conda install -c conda-forge libiconv
+
 conda install -c bioconda trinity
 
 ```
