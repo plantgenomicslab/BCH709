@@ -81,7 +81,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week9       | 10/21 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly5/index.html) [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html) |
 | Week10       | 10/26  |[DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly6/index.html) |
 | Week10       | 10/28 | [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly7/index.html) [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html) |
-| Week11       | 11/2  | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html) [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
+| Week11       | 11/2  | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html) [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html) | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
 | Week11       | 11/4 | How to annotate genomes                         |
 | Week12       | 11/9 |Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)   |
 | Week12       | 11/11 | Vertans Day |
