@@ -669,13 +669,13 @@ cd PacBio
 ```
 
 ```bash
-/data/gpfs/assoc/bch709-1/Course_material/2020/PacBio/bch709-1_Pacbio_01.fastq.gz
-/data/gpfs/assoc/bch709-1/Course_material/2020/PacBio/bch709-1_Pacbio_02.fastq.gz
+/data/gpfs/assoc/bch709-1/Course_material/2020/PacBio/BCH709_Pacbio_01.fastq.gz
+/data/gpfs/assoc/bch709-1/Course_material/2020/PacBio/BCH709_Pacbio_02.fastq.gz
 ```
 
 ### Check PacBio reads statistics
 ```bash
-NanoStat --fastq bch709-1_Pacbio_01.fastq.gz bch709-1_Pacbio_02.fastq.gz -t 2
+NanoStat --fastq BCH709_Pacbio_01.fastq.gz BCH709_Pacbio_02.fastq.gz -t 2
 NanoPlot -t 2 --fastq  bch709-1_Pacbio_01.fastq.gz bch709-1_Pacbio_02.fastq.gz  --maxlength 40000 --plots hex dot pauvre -o pacbio_stat
 ```
 
@@ -745,7 +745,7 @@ conda activate genomeassembly
 #SBATCH --mail-user=<YOUR ID>@unr.edu
 #SBATCH -o Spades.out # STDOUT
 #SBATCH -e Spades.err # STDERR
-zcat  <bch709-1_Pacbio_01.fastq.gz> <bch709-1_Pacbio_02.fastq.gz> >> merged_pacbio.fastq
+zcat  <BCH709_Pacbio_01.fastq.gz> <BCH709_Pacbio_02.fastq.gz> >> merged_pacbio.fastq
 spades.py -k 21,33,55,77 --careful -1 <trim_galore output> -2 <trim_galore output> --pacbio merged_pacbio.fastq -o spades_output --memory 64 --threads 16
 ```
 
@@ -777,7 +777,7 @@ conda activate genomeassembly
 #SBATCH -o Canu.out # STDOUT
 #SBATCH -e Canu.err # STDERR
 
-canu -p canu -d canu_outdir genomeSize=11m -pacbio <LOCATION_bch709-1_Pacbio_1.fastq.gz> <LOCATION_bch709-1_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-1 --mail-type=all --mail-user=<YOUR ID>@unr.edu'
+canu -p canu -d canu_outdir genomeSize=11m -pacbio <LOCATION_BCH709_Pacbio_1.fastq.gz> <LOCATION_BCH709_Pacbio_1.fastq.gz> corThreads=8 batMemory=64  ovbMemory=32 ovbThreads=8 corOutCoverage=32  ovsMemory=32-186 maxMemory=128 ovsThreads=8 oeaMemory=16  executiveMemory=32 gridOptions='--time=12-00:00:00 -p cpu-s2-core-0 -A cpu-s2-bch709-1 --mail-type=all --mail-user=<YOUR ID>@unr.edu'
 ```
 
 ## Check the Quality of Genome Assembly
