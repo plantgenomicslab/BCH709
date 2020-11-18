@@ -198,23 +198,12 @@ conda create -n busco4  python=3.6
 conda activate busco4
 conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
 ```
-
+### Create job file
+```bash
+nano busco.sh
+```
 
 ```bash 
-#!/bin/bash
-#SBATCH --job-name=busco
-#SBATCH --cpus-per-task=24
-#SBATCH --time=12:00:00
-#SBATCH --mem=20g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=wyim@unr.edu
-#SBATCH -o busco.out # STDOUT
-#SBATCH -e busco.err # STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
-
-export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco4/config/"
-
 busco -l viridiplantae_odb10 --cpu 24 --in spades_illumina.fasta --out BUSCO_Illumina --mode genome  -f
 
 busco -l viridiplantae_odb10 --cpu 24 --in spades_pacbio_illumina.fasta --out BUSCO_Illumina_Pacbio --mode genome  -f
@@ -225,6 +214,12 @@ busco -l viridiplantae_odb10 --cpu 24 --in canu.illumina.fasta   --out BUSCO_Pac
 
 multiqc . -n assembly
 ```
+#### Execute
+```bash
+chmod 775 busco.sh
+./busco.sh
+```
+
 
 ## BUSCO results
 ```
