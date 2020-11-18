@@ -243,7 +243,8 @@ mkdir BUSCO_result
 cp BUSCO_*/*.txt BUSCO_result
 generate_plot.py -wd BUSCO_result
 ```
-
+## Assignment
+Please generate report by MultiQC and upload your results to WebCampus.
 
 
 # Genome Annotation
