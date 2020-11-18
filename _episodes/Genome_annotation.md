@@ -114,6 +114,12 @@ nucmer  --coords -p canu_pacbio_Spades_illumina <canu.contigs> <spades_illumina_
 
 nucmer  --coords -p canu_pacbio_Spades_illumina_pacbio <canu.contigs> <Spades_illumina_pacbio_scaffold_file>
 ```
+### Conda environment
+```bash
+conda create -n busco4  python=3.6
+conda activate busco4
+conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
+```
 
 ### Dot 
 Dot is an interactive dot plot viewer for genome-genome alignments.
@@ -129,6 +135,9 @@ The DotPrep.py script will apply a unique anchor filtering algorithm to mark ali
 
 
 ```bash
+conda activate genomeassembly
+cd /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/genomeassembly_alignment/
+
 wget https://dnanexus.github.io/dot/DotPrep.py
 
 chmod 775 DotPrep.py
@@ -249,6 +258,18 @@ Please generate report by MultiQC and upload your results to WebCampus.
 
 # Genome Annotation
 
+## Conda environment
+**Please use all lower case this time**
+```bash
+conda deactivate
+conda create -n genomeannotation  -y 
+conda activate genomeannotation
+conda install -c bioconda -c conda-forge augustus=3.3.3 maker  repeatmasker snap  -y
+conda install -c bioconda -c conda-forge -c anaconda rmblast -y
+```
+
+
+
 After the sections of DNA sequence have been assembled into a complete genome sequence we need to identify where the genes and key features are. We have our aligned and assembled genome sequence but how do we identify where the genes and other functional regions of the genome are located.
 
 - Annotation involves marking where the genes start and stop in the DNA sequence and also where other relevant and interesting regions are in the sequence.
@@ -348,8 +369,7 @@ cd !$
 ### Conda environment
 **Please use all lower case this time**
 ```bash
-conda clean --all
-conda create -n genomeannotation 
+conda create -n genomeannotation -y
 conda activate genomeannotation
 conda install -c bioconda -c conda-forge augustus=3.3.3 maker  repeatmasker snap  -y
 conda install -c bioconda -c conda-forge -c anaconda rmblast -y
@@ -573,10 +593,13 @@ Fields must be tab-separated. Also, all but the final field in each feature line
 Note that where the attributes contain Parent identifiers, these will be used by Ensembl to display the features as joined blocks.
 
 ### Structure is as GFF, so the fields are:
-```<seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]```
+```
+<seqname> <source> <feature> <start> <end> <score> <strand> <frame> [attributes] [comments]
+```
 
 
 ## QI
+```
 - Length of the 5 UTR
 - Fraction of splice sites confirmed by an EST alignment
 - Fraction of exons that overlap an EST alignment
@@ -586,7 +609,7 @@ Note that where the attributes contain Parent identifiers, these will be used by
 - Number of exons in the mRNA
 - Length of the 3 UTR
 - Length of the protein sequence produced by the mRNA
-
+```
 ## Annotation Edit Distance (AED)
 eAED is the the AED edit distance at an exon level, not base pair level like normal AED
 
