@@ -59,7 +59,7 @@ The props area can be calculated with number of pixels from the centroid approac
 ## Assignment
 Please upload three dot plot from assembly comparison. 
 1. Download below file. 
-https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_bch709-1.fa. 
+https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_bch709-1.fa 
 
 2. Align three fasta files (spades_illumina.fasta, spades_pacbio_illumina.fasta, canu.contigs.fasta) to downloaded Athaliana_subset_bch709-1.fa by nucmer independently.  
 
@@ -447,18 +447,6 @@ nano maker_opts.ctl
 ![ctl4]({{site.baseurl}}/fig/ctl4.png)
 
 ### Update control file example
-
-![ctl_example]({{site.baseurl}}/fig/ctl_example.png)
-![ctl_example2]({{site.baseurl}}/fig/ctl_example2.png)
-
-![ctl_example3]({{site.baseurl}}/fig/ctl_example3.png)
-![ctl_example4]({{site.baseurl}}/fig/ctl_example4.png)
-
-
-![protein]({{site.baseurl}}/fig/protein.png)
-
-***need to do others below***
-
 
 ### Update below
 
