@@ -9,15 +9,17 @@ published: true
 ## Course Evaluation
 
 Students will have access to course evaluation
-You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students. Students will have access to them until 11:59 PM on Wed, May 6, 2020 PDT.
+You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students.
 
 **If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
 
 
 ## Discussion is open
-https://unr.canvaslms.com/courses/50016/discussion_topics/416409
+https://unr.canvaslms.com/courses/56453/discussion_topics/514795
 
-Due date is May 13 11:59pm
+The due date for the question is November 23rd  11:59pm
+The due date for discussion is December 4th  11:59pm
+
 
 1. Define the biological hypotheses or bottleneck you wish to address which is related to your research, state the approach of your experiment, also state your system, study organism, or study site, and provide justification for what is the goal of your biological hypotheses. Please provide enough background information that the other students can understand your biological hypotheses or bottleneck. If your experiments are complicated, consider briefly explaining the experimental design with reason. If you get more like will get points. (30 Points)
 
@@ -53,6 +55,194 @@ I don't know how to code python, but there are several image analysis packages s
 Base on scikit software, you can calculate circularity with "4 * pi * props.area / props.perimeter ** 2" 
 
 The props area can be calculated with number of pixels from the centroid approach. The axis location and length can be converted by using orientation value from props and axis value can be estimated cos(orientation) * length/ 2 and sin (orientation) * length/ 2.
+
+## Assignment
+Please upload three dot plot from assembly comparison. 
+1. Download below file. 
+https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_bch709-1.fa. 
+
+2. Align three fasta files (spades_illumina.fasta, spades_pacbio_illumina.fasta, canu.contigs.fasta) to downloaded Athaliana_subset_bch709-1.fa by nucmer independently.  
+
+3. Generate coords and coords.idx file using DotPrep.py. 
+
+4. Draw dot plot by DOT website. 
+
+5. Upload three dotplot to Webcanvas.  
+
+```bash
+wget https://www.dropbox.com/s/xpnhj6j99dr1kum/Athaliana_subset_bch709-1.fa
+```
+
+
+## Install Global Alignmnet Software
+
+```bash
+cd /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/
+mkdir genomeassembly_alignment/
+cd genomeassembly_alignment
+```
+
+```bash
+conda activate genomeassembly
+conda install  -c conda-forge -c anaconda -c bioconda mummer -y
+```
+Open source MUMmer 3.0 is described in "Versatile and open software for comparing large genomes." S. Kurtz, A. Phillippy, A.L. Delcher, M. Smoot, M. Shumway, C. Antonescu, and S.L. Salzberg, Genome Biology (2004), 5:R12.
+
+MUMmer 2.1, NUCmer, and PROmer are described in "Fast Algorithms for Large-scale Genome Alignment and Comparision." A.L. Delcher, A. Phillippy, J. Carlton, and S.L. Salzberg, Nucleic Acids Research (2002), Vol. 30, No. 11 2478-2483.
+
+MUMmer 1.0 is described in "Alignment of Whole Genomes." A.L. Delcher, S. Kasif, R.D. Fleischmann, J. Peterson, O. White, and S.L. Salzberg, Nucleic Acids Research, 27:11 (1999), 2369-2376.
+
+Space efficent suffix trees are described in "Reducing the Space Requirement of Suffix Trees." S. Kurtz, Software-Practice and Experience, 29(13): 1149-1171, 1999.
+
+## Run Genome Wide Global Alignmnet Software
+```bash
+#!/bin/bash
+#SBATCH --job-name=nucmer
+#SBATCH --cpus-per-task=2
+#SBATCH --time=15:00
+#SBATCH --mem=10g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<YOURID>@unr.edu
+#SBATCH -o nucmer.out # STDOUT
+#SBATCH -e nucmer.err # STDERR
+#SBATCH --account=cpu-s2-bch709-1 
+#SBATCH --partition=cpu-s2-core-0
+
+
+nucmer  --coords -p canu_pacbio_Spades_illumina <canu.contigs> <spades_illumina_scaffold_file>
+
+
+nucmer  --coords -p canu_pacbio_Spades_illumina_pacbio <canu.contigs> <Spades_illumina_pacbio_scaffold_file>
+```
+
+### Dot 
+Dot is an interactive dot plot viewer for genome-genome alignments.
+
+Dot is publicly available here: https://dnanexus.github.io/dot And can also be used locally by cloning this repository and simply opening the index.html file in a web browser.
+
+
+After aligning genome assemblies or finished genomes against each other with MUMmer's nucmer, the alignments can be visualized with Dot. Instead of generating static dot plot images on the command-line, Dot lets you interact with the alignments by zooming in and investigating regions in detail.
+
+To prepare a .delta file (nucmer output) for Dot, run this python (3.6) script first: https://dnanexus.github.io/dot/DotPrep.py
+
+The DotPrep.py script will apply a unique anchor filtering algorithm to mark alignments as unique or repetitive. This algorithm analyzes all of the alignments, and it needs to see unfiltered data to determine which alignments are repetitive, so make sure to run nucmer without any filtering options and without running delta-filter on the .delta file before passing it into DotPrep.py.
+
+
+```bash
+wget https://dnanexus.github.io/dot/DotPrep.py
+
+chmod 775 DotPrep.py
+```
+
+```bash
+nano DotPrep.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=dot
+#SBATCH --cpus-per-task=2
+#SBATCH --time=15:00
+#SBATCH --mem=10g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o nucmer.out # STDOUT
+#SBATCH -e nucmer.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-1
+python DotPrep.py  --delta canu_pacbio_Spades_illumina.delta --out  canu_pacbio_Spades_illumina
+python DotPrep.py  --delta canu_pacbio_Spades_illumina_pacbio.delta  --out canu_pacbio_Spades_illumina_pacbio
+```
+The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be used with Dot for visualization.
+
+
+## Visualization
+- Transfer \*.coords.\* files
+- Go to  https://dnanexus.github.io/dot/
+
+![dotplot4]({{site.baseurl}}/fig/dotplot4.png)
+
+
+The output of DotPrep.py includes the \*.coords and \*.coords.idx that should be used with Dot for visualization.
+
+
+## Which one is the best?
+
+![alignment_reference]({{site.baseurl}}/fig/alignment_reference.png)
+![structure]({{site.baseurl}}/fig/structure.png)
+
+
+## BUSCO
+BUSCO assessments are implemented in open-source software, with a large selection of lineage-specific sets of Benchmarking Universal Single-Copy Orthologs. These conserved orthologs are ideal candidates for large-scale phylogenomics studies, and the annotated BUSCO gene models built during genome assessments provide a comprehensive gene predictor training set for use as part of genome annotation pipelines.
+
+https://busco.ezlab.org/
+
+
+```bash
+cd /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/
+mkdir BUSCO
+cd BUSCO
+cp /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/genomeassembly_results/*.fasta .
+ cp /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/Pilon/canu.illumina.fasta .
+
+conda create -n busco4  python=3.6
+conda activate busco4
+conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
+```
+
+
+```bash 
+#!/bin/bash
+#SBATCH --job-name=busco
+#SBATCH --cpus-per-task=24
+#SBATCH --time=12:00:00
+#SBATCH --mem=20g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=wyim@unr.edu
+#SBATCH -o busco.out # STDOUT
+#SBATCH -e busco.err # STDERR
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-1
+
+export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/busco4/config/"
+
+busco -l viridiplantae_odb10 --cpu 24 --in spades_illumina.fasta --out BUSCO_Illumina --mode genome  -f
+
+busco -l viridiplantae_odb10 --cpu 24 --in spades_pacbio_illumina.fasta --out BUSCO_Illumina_Pacbio --mode genome  -f
+
+busco -l viridiplantae_odb10 --cpu 24 --in canu.contigs.fasta   --out BUSCO_Pacbio --mode genome  -f  
+
+busco -l viridiplantae_odb10 --cpu 24 --in canu.illumina.fasta   --out BUSCO_Pacbio_Pilon --mode genome  -f 
+
+multiqc . -n assembly
+```
+
+## BUSCO results
+```
+INFO:   Results:        C:10.8%[S:10.8%,D:0.0%],F:0.5%,M:88.7%,n:425
+
+INFO:
+
+        --------------------------------------------------
+        |Results from dataset viridiplantae_odb10         |
+        --------------------------------------------------
+        |C:10.8%[S:10.8%,D:0.0%],F:0.5%,M:88.7%,n:425     |
+        |46     Complete BUSCOs (C)                       |
+        |46     Complete and single-copy BUSCOs (S)       |
+        |0      Complete and duplicated BUSCOs (D)        |
+        |2      Fragmented BUSCOs (F)                     |
+        |377    Missing BUSCOs (M)                        |
+        |425    Total BUSCO groups searched               |
+        --------------------------------------------------
+INFO:   BUSCO analysis done. Total running time: 123 seconds
+
+```
+
+```bash
+mkdir BUSCO_result
+cp BUSCO_*/*.txt BUSCO_result
+generate_plot.py -wd BUSCO_result
+```
 
 
 
@@ -147,9 +337,9 @@ The posterior probability P{yn = i | x, Θ} can be computed from
 
 
 ```bash
-mkdir /data/gpfs/assoc/bch709/<YOURID>/tmp
+mkdir /data/gpfs/assoc/bch709-1/<YOURID>/tmp
 
-mkdir /data/gpfs/assoc/bch709/<YOURID>/genomeannotation
+mkdir /data/gpfs/assoc/bch709-1/<YOURID>/genomeannotation
 
 cd !$
 ```
@@ -232,12 +422,6 @@ MAKER is a portable and easily configurable genome annotation pipeline. Its purp
 maker --help
 ```
 
-### Copy Uniprot database
-
-```bash
-cp /data/gpfs/assoc/bch709/Course_material/2020/Uniprot/uniprot-reviewed_no+taxonomy_33090.fasta /data/gpfs/assoc/bch709/<YOURID>/genomeannotation 
-mv uniprot-reviewed_no+taxonomy_33090.fasta  uniprot.fasta
-```
 
 ### Generate Control files
 ```bash
@@ -278,13 +462,13 @@ nano maker_opts.ctl
 ### Update below
 
 ```
-est=/data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta  
-rmlib=/data/gpfs/assoc/bch709/env_conda/annotation_files/te_proteins.fasta
-protein=/data/gpfs/assoc/bch709/<YOURID>/genomeannotation/uniprot.fasta
+est=/data/gpfs/assoc/bch709-1/Course_material/maker/Trinity.fasta
+rmlib=/data/gpfs/assoc/bch709-1/Course_material/maker/te_proteins.fasta
+protein=/data/gpfs/assoc/bch709-1/Course_material/maker/uniprot_sprot.fasta
 augustus_species=arabidopsis
 est2genome=1
 protein2genome=1
-TMP=/data/gpfs/assoc/bch709/<YOURID>/tmp  #YOURID 
+TMP=/data/gpfs/assoc/bch709-1/<YOURID>/tmp  #YOURID 
 ```
 
 ### Run Maker
@@ -303,7 +487,7 @@ nano maker.sh
 #SBATCH -o maker.out # STDOUT
 #SBATCH -e maker.err # STDERR
 #SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-0
+#SBATCH -A cpu-s2-bch709-1
 export AUGUSTUS_CONFIG_PATH="~/miniconda3/envs/genomeannotation/config/"
 
 maker -cpus 24 -base bch709  -genome bch709_assembly.fasta -fix_nucleotides
@@ -312,7 +496,7 @@ maker -cpus 24 -base bch709  -genome bch709_assembly.fasta -fix_nucleotides
 
 ## Genome annotation Results
 ```bash
-cd /data/gpfs/assoc/bch709/<YOURID>/genomeannotation/bch709.maker.output
+cd /data/gpfs/assoc/bch709-1/<YOURID>/genomeannotation/bch709.maker.output
 
 cat maker.err
 ```
