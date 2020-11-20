@@ -118,7 +118,7 @@ nucmer  --coords -p canu_pacbio_Spades_illumina_pacbio <canu.contigs> <Spades_il
 ```bash
 conda create -n busco4  python=3.6
 conda activate busco4
-conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
+conda install -c bioconda -c conda-forge busco=4.0.5 multiqc=1.9 biopython
 ```
 
 ### Dot 
