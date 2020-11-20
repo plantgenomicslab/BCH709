@@ -196,7 +196,7 @@ cp /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/genomeassembly_results/*.f
 
 conda create -n busco4  python=3.6
 conda activate busco4
-conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
+conda install -c bioconda -c conda-forge busco=4.0.5 multiqc=1.9 biopython
 ```
 ### Create job file
 ```bash
