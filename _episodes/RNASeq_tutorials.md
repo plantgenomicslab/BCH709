@@ -311,10 +311,6 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA638422
 | SRR11968961 | 6/9/2020 17:15 | 6/9/2020 17:11 | 16343251 | 1650668351 | 0                | 101       | 498     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra70/SRR/011688/SRR11968961 | SRX8512715 | 3w1118-uc   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811236 | SAMN15192433 | simple     | 7227  | Drosophila melanogaster | w1118-uc-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 1725A91FA94755464378D8FF0F18A197 | 870D1C8B738F5A31C179B44124757B27 |
 
 
-
-IMAGE
-
-
 Fig 2. Transcriptome summaries from unchallenged whole larvae and hemocytes from unchallenged and infected larvae.
 (A) Transcriptome summary showing the number of reads for each triplicate in all experimental conditions with their corresponding number of mapped reads and the average percentage of alignment to the D. melanogaster genome. (B) Venn diagram representing the quantity of shared genes between all experimental treatments: Unchallenged wandering L3 larvae, hemocytes from unchallenged larvae, hemocytes from clean-pricked larvae (CI), hemocytes from larvae pricked with Escherichia coli (Ec), hemocytes from larvae pricked with Staphylococcus aureus (Sa). 
 
