@@ -58,7 +58,10 @@ Base on scikit software, you can calculate circularity with "4 * pi * props.area
 
 The props area can be calculated with number of pixels from the centroid approach. The axis location and length can be converted by using orientation value from props and axis value can be estimated cos(orientation) * length/ 2 and sin (orientation) * length/ 2.
 
-
+### Delete previous work
+```bash
+rm -rf  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_assembly/trinity_out_dir
+```
 
 ### WORKTING PATH
 ```bash
