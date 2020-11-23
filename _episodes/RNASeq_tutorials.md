@@ -273,6 +273,10 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 ```
 
+## Replace YOURID to your id
+sed -i 's/<YOURID>/your id/g' mapping.sh
+
+
 ## Conda Environment
 ```bash
 conda activate BCH709
