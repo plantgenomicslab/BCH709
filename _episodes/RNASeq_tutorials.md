@@ -65,7 +65,7 @@ rm -rf  /data/gpfs/assoc/bch709-1/<YOURID>/rnaseq_assembly/trinity_out_dir
 
 ### WORKTING PATH
 ```bash
-mkdir cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
+mkdir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
 cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
 ```
 
