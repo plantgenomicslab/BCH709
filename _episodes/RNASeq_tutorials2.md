@@ -278,7 +278,7 @@ wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_16gb_20200919.tar.gz
 cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example
 
 mkdir Kraken2 && cd Kraken2
-kraken2-inspect --db EXAMPLE_DB | head -5
+kraken2-inspect --db  /data/gpfs/assoc/bch709-1/Course_material/database/  | head -5
 ```
 
 
