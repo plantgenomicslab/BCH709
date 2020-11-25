@@ -263,15 +263,6 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 ```
 
 
-## Assignment
-```bash
-cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example
-multiqc . -n rnaseq1
-```
-Please upload rnaseq1.html to Webcampus.
-
-
-
 ### Investigate taxa
 
 Here we introduce a software called Kraken2. This tool uses k-mers to assign a taxonomic labels in form of NCBI Taxonomy to the sequence (if possible). The taxonomic label is assigned based on similar k-mer content of the sequence in question to the k-mer content of reference genome sequence. The result is a classification of the sequence in question to the most likely taxonomic label. If the k-mer content is not similar to any genomic sequence in the database used, it will not assign any taxonomic label.
