@@ -3,11 +3,6 @@ layout: page
 title: 15_RNA-Seq tutorial
 published: true
 ---
-
-## Importing Data from the NCBI Sequence Read Archive (SRA) using the DE
-
-
-
 ## Course Evaluation
 
 Students will have access to course evaluation
@@ -69,6 +64,13 @@ mkdir cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
 cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
 ```
 
+### Check previous results
+```bash
+ll /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam
+
+
+
+```
 
 
 ### Conda environment
@@ -83,199 +85,6 @@ CONDA_INSTRUMENTATION_ENABLED=1 conda install -y -c bioconda -c conda-forge  sra
 CONDA_INSTRUMENTATION_ENABLED=1 conda install -y -c bioconda -c conda-forge -c r openssl=1.0 r-base icu=58.2 bioconductor-ctc  bioconductor-deseq2=1.20.0 bioconductor-biobase=2.40.0  bioconductor-qvalue=2.16.0 r-ape  r-gplots r-fastcluster=1.1.25 libiconv
 ```
 
-> ## SRA
-> Sequence Read Archive (SRA) data, available through multiple cloud providers and NCBI servers, is the largest publicly available repository of high throughput sequencing data. The archive accepts data from all branches of life as well as metagenomic and environmental surveys.
-> 
-> Searching the SRA: Searching the SRA can be complicated. Often a paper or reference will specify the accession number(s) connected to a dataset. You can search flexibly using a number of terms (such as the organism name) or the filters (e.g. DNA vs. RNA). The SRA Help Manual provides several useful explanations. It is important to know is that projects are organized and related at several levels, and some important terms include:
-> 
-> Bioproject: A BioProject is a collection of biological data related to a single initiative, originating from a single organization or from a consortium of coordinating organizations; see for example Bio Project 272719
-> Bio Sample: A description of the source materials for a project
-> Run: These are the actual sequencing runs (usually starting with SRR); see for example SRR1761506
-
-{: .prereq}
-
-
-> ### Publication (Arabidopsis)
-> 
-> [Kim JS et al., "ROS1-Dependent DNA Demethylation Is Required for ABA-Inducible NIC3 Expression.", Plant Physiol, 2019 Apr;179(4):1810-1821](http://www.plantphysiol.org/content/179/4/1810)
-> 
-{: .callout}
-
-
-### SRA Bioproject site 
-
-```bash
-https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
-```
-
-
-### Runinfo
-
-
-
-| Run        | ReleaseDate     | LoadDate        | spots    | bases      | spots_with_mates | avgLength | size_MB | AssemblyName | download_path                                                                           | Experiment | LibraryName | LibraryStrategy | LibrarySelection | LibrarySource  | LibraryLayout | InsertSize | InsertDev | Platform | Model               | SRAStudy  | BioProject  | Study_Pubmed_id | ProjectID | Sample    | BioSample    | SampleType | TaxID | ScientificName       | SampleName | g1k_pop_code | source | g1k_analysis_group | Subject_ID | Sex | Disease | Tumor | Affection_Status | Analyte_Type | Histological_Type | Body_Site | CenterName | Submission | dbgap_study_accession | Consent | RunHash                          | ReadHash                         |
-|------------|-----------------|-----------------|----------|------------|------------------|-----------|---------|--------------|-----------------------------------------------------------------------------------------|------------|-------------|-----------------|------------------|----------------|---------------|------------|-----------|----------|---------------------|-----------|-------------|-----------------|-----------|-----------|--------------|------------|-------|----------------------|------------|--------------|--------|--------------------|------------|-----|---------|-------|------------------|--------------|-------------------|-----------|------------|------------|-----------------------|---------|----------------------------------|----------------------------------|
-| SRR1761506 | 1/15/2016 15:51 | 1/15/2015 12:43 | 7379945  | 1490748890 | 7379945          | 202       | 899     |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761506/SRR1761506.1 | SRX844600  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820503 | SAMN03285048 | simple     | 3702  | Arabidopsis thaliana | GSM1585887 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | F335FB96DDD730AC6D3AE4F6683BF234 | 12818EB5275BCB7BCB815E147BFD0619 |
-| SRR1761507 | 1/15/2016 15:51 | 1/15/2015 12:43 | 9182965  | 1854958930 | 9182965          | 202       | 1123    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761507/SRR1761507.1 | SRX844601  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820504 | SAMN03285045 | simple     | 3702  | Arabidopsis thaliana | GSM1585888 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 00FD62759BF7BBAEF123BF5960B2A616 | A61DCD3B96AB0796AB5E969F24F81B76 |
-| SRR1761508 | 1/15/2016 15:51 | 1/15/2015 12:47 | 19060611 | 3850243422 | 19060611         | 202       | 2324    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761508/SRR1761508.1 | SRX844602  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820505 | SAMN03285046 | simple     | 3702  | Arabidopsis thaliana | GSM1585889 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | B75A3E64E88B1900102264522D2281CB | 657987ABC8043768E99BD82947608CAC |
-| SRR1761509 | 1/15/2016 15:51 | 1/15/2015 12:51 | 16555739 | 3344259278 | 16555739         | 202       | 2016    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761509/SRR1761509.1 | SRX844603  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820506 | SAMN03285049 | simple     | 3702  | Arabidopsis thaliana | GSM1585890 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 27CA2B82B69EEF56EAF53D3F464EEB7B | 2B56CA09F3655F4BBB412FD2EE8D956C |
-| SRR1761510 | 1/15/2016 15:51 | 1/15/2015 12:46 | 12700942 | 2565590284 | 12700942         | 202       | 1552    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761510/SRR1761510.1 | SRX844604  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820508 | SAMN03285050 | simple     | 3702  | Arabidopsis thaliana | GSM1585891 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | D3901795C7ED74B8850480132F4688DA | 476A9484DCFCF9FFFDAADAAF4CE5D0EA |
-| SRR1761511 | 1/15/2016 15:51 | 1/15/2015 12:44 | 13353992 | 2697506384 | 13353992         | 202       | 1639    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761511/SRR1761511.1 | SRX844605  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820507 | SAMN03285047 | simple     | 3702  | Arabidopsis thaliana | GSM1585892 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 5078379601081319FCBF67C7465C404A | E3B4195AFEA115ACDA6DEF6E4AA7D8DF |
-| SRR1761512 | 1/15/2016 15:51 | 1/15/2015 12:44 | 8134575  | 1643184150 | 8134575          | 202       | 1067    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761512/SRR1761512.1 | SRX844606  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820509 | SAMN03285051 | simple     | 3702  | Arabidopsis thaliana | GSM1585893 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | DDB8F763B71B1E29CC9C1F4C53D88D07 | 8F31604D3A4120A50B2E49329A786FA6 |
-| SRR1761513 | 1/15/2016 15:51 | 1/15/2015 12:43 | 7333641  | 1481395482 | 7333641          | 202       | 960     |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761513/SRR1761513.1 | SRX844607  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820510 | SAMN03285053 | simple     | 3702  | Arabidopsis thaliana | GSM1585894 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 4068AE245EB0A81DFF02889D35864AF2 | 8E05C4BC316FBDFEBAA3099C54E7517B |
-| SRR1761514 | 1/15/2016 15:51 | 1/15/2015 12:44 | 6160111  | 1244342422 | 6160111          | 202       | 807     |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761514/SRR1761514.1 | SRX844608  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820511 | SAMN03285059 | simple     | 3702  | Arabidopsis thaliana | GSM1585895 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 0A1F3E9192E7F9F4B3758B1CE514D264 | 81BFDB94C797624B34AFFEB554CE4D98 |
-| SRR1761515 | 1/15/2016 15:51 | 1/15/2015 12:44 | 7988876  | 1613752952 | 7988876          | 202       | 1048    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761515/SRR1761515.1 | SRX844609  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820512 | SAMN03285054 | simple     | 3702  | Arabidopsis thaliana | GSM1585896 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 39B37A0BD484C736616C5B0A45194525 | 85B031D74DF90AD1815AA1BBBF1F12BD |
-| SRR1761516 | 1/15/2016 15:51 | 1/15/2015 12:44 | 8770090  | 1771558180 | 8770090          | 202       | 1152    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761516/SRR1761516.1 | SRX844610  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820514 | SAMN03285055 | simple     | 3702  | Arabidopsis thaliana | GSM1585897 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | E4728DFBF0F9F04B89A5B041FA570EB3 | B96545CB9C4C3EE1C9F1E8B3D4CE9D24 |
-| SRR1761517 | 1/15/2016 15:51 | 1/15/2015 12:44 | 8229157  | 1662289714 | 8229157          | 202       | 1075    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761517/SRR1761517.1 | SRX844611  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820513 | SAMN03285058 | simple     | 3702  | Arabidopsis thaliana | GSM1585898 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | C05BC519960B075038834458514473EB | 4EF7877FC59FF5214DBF2E2FE36D67C5 |
-| SRR1761518 | 1/15/2016 15:51 | 1/15/2015 12:44 | 8760931  | 1769708062 | 8760931          | 202       | 1072    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761518/SRR1761518.1 | SRX844612  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820515 | SAMN03285052 | simple     | 3702  | Arabidopsis thaliana | GSM1585899 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 7D8333182062545CECD5308A222FF506 | 382F586C4BF74E474D8F9282E36BE4EC |
-| SRR1761519 | 1/15/2016 15:51 | 1/15/2015 12:44 | 6643107  | 1341907614 | 6643107          | 202       | 811     |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761519/SRR1761519.1 | SRX844613  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820516 | SAMN03285056 | simple     | 3702  | Arabidopsis thaliana | GSM1585900 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 163BD8073D7E128D8AD1B253A722DD08 | DFBCC891EB5FA97490E32935E54C9E14 |
-| SRR1761520 | 1/15/2016 15:51 | 1/15/2015 12:44 | 8506472  | 1718307344 | 8506472          | 202       | 1040    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761520/SRR1761520.1 | SRX844614  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820517 | SAMN03285062 | simple     | 3702  | Arabidopsis thaliana | GSM1585901 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 791BD0D8840AA5F1D74E396668638DA1 | AF4694425D34F84095F6CFD6F4A09936 |
-| SRR1761521 | 1/15/2016 15:51 | 1/15/2015 12:46 | 13166085 | 2659549170 | 13166085         | 202       | 1609    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761521/SRR1761521.1 | SRX844615  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820518 | SAMN03285057 | simple     | 3702  | Arabidopsis thaliana | GSM1585902 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 47C40480E9B7DB62B4BEE0F2193D16B3 | 1443C58A943C07D3275AB12DC31644A9 |
-| SRR1761522 | 1/15/2016 15:51 | 1/15/2015 12:49 | 9496483  | 1918289566 | 9496483          | 202       | 1162    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761522/SRR1761522.1 | SRX844616  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820519 | SAMN03285061 | simple     | 3702  | Arabidopsis thaliana | GSM1585903 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | BB05DF11E1F95427530D69DB5E0FA667 | 7706862FB2DF957E4041D2064A691CF6 |
-| SRR1761523 | 1/15/2016 15:51 | 1/15/2015 12:46 | 14999315 | 3029861630 | 14999315         | 202       | 1832    |              | https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos1/sra-pub-run-5/SRR1761523/SRR1761523.1 | SRX844617  |             | RNA-Seq         | cDNA             | TRANSCRIPTOMIC | PAIRED        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP052302 | PRJNA272719 | 3               | 272719    | SRS820520 | SAMN03285060 | simple     | 3702  | Arabidopsis thaliana | GSM1585904 |              |        |                    |            |     |         | no    |                  |              |                   |           | GEO        | SRA232612  |                       | public  | 101D3A151E632224C09A702BD2F59CF5 | 0AC99FAA6B8941F89FFCBB8B1910696E |
-
-
-### Subset of data
-
-| Sample information | Run        |
-|--------------------|------------|
-| WT_rep1            | SRR1761506 |
-| WT_rep2            | SRR1761507 |
-| WT_rep3            | SRR1761508 |
-| ABA_rep1           | SRR1761509 |
-| ABA_rep2           | SRR1761510 |
-| ABA_rep3           | SRR1761511 |
-
-
-```bash
-mkdir ATH && cd ATH
-
-mkdir raw_data
-
-mkdir trim
-```
-
-### fastq-dump submission
-```bash
-#!/bin/bash
-#SBATCH --job-name=fastqdump_ATH
-#SBATCH --cpus-per-task=2
-#SBATCH --time=2-15:00:00
-#SBATCH --mem=16g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
-#SBATCH -o fastq-dump.out # STDOUT & STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
-
-fastq-dump SRR1761506 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761507 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761508 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761509 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761510 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761511 --split-3 --outdir ./raw_data  --gzip
-```
-## Trim-galore
-```bash
-#!/bin/bash
-#SBATCH --job-name=trim_ATH
-#SBATCH --cpus-per-task=2
-#SBATCH --time=2-15:00:00
-#SBATCH --mem=16g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
-#SBATCH -o trim.out # STDOUT & STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
-#SBATCH --dependency=afterok:<PREVIOUS_JOBID>
-
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761506_1.fastq.gz raw_data/SRR1761506_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761507_1.fastq.gz raw_data/SRR1761507_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761508_1.fastq.gz raw_data/SRR1761508_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761509_1.fastq.gz raw_data/SRR1761509_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761510_1.fastq.gz raw_data/SRR1761510_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761511_1.fastq.gz raw_data/SRR1761511_2.fastq.gz --fastqc
-```
-
-### Reference downloads
-https://www.arabidopsis.org/
-
-https://phytozome.jgi.doe.gov/pz/portal.html
-
-```bash
-
-cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH
-
-mkdir bam
-
-mkdir reference && cd reference
-
-wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas --no-check-certificate
-
-wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff  --no-check-certificate
-
-wget ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas --no-check-certificate
-
-seqkit stats TAIR10_chr_all.fas 
-
-seqkit stats ATH_cDNA_sequences_20101108.fas
-
-```
-## Reference index
-```bash
-#!/bin/bash
-#SBATCH --job-name=reference_ATH
-#SBATCH --cpus-per-task=2
-#SBATCH --time=2-15:00:00
-#SBATCH --mem=16g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
-#SBATCH -o trim.out # STDOUT & STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
-
-gffread  TAIR10_GFF3_genes.gff -T -o TAIR10_GFF3_genes.gtf
-
-STAR  --runThreadN <YOUR THREAD> --runMode genomeGenerate --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --genomeFastaFiles  /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_chr_all.fas --sjdbGTFfile  /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
-```
-
-> ### ERROR
-> Fatal INPUT FILE error, no valid exon lines in the GTF file: /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf
-> Solution: check the formatting of the GTF file. One likely cause is the difference in chromosome naming between GTF and FASTA file.
-{: .prereq} 
-
-```bash
-head  /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf
-head  /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_chr_all.fas
-sed -i 's/Chr//g' TAIR10_GFF3_genes.gtf
-```
-
-## Mapping
-```bash
-#!/bin/bash
-#SBATCH --job-name=mapping_ATH
-#SBATCH --cpus-per-task=2
-#SBATCH --time=2-15:00:00
-#SBATCH --mem=16g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
-#SBATCH -o mapping.out # STDOUT & STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
-#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>
-
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761506_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761506_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761506.bam
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761507_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761507_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761507.bam
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761508_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761508_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761508.bam
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761509_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761509_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761509.bam
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761510_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761510_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761510.bam
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/ --readFilesIn /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761511_1_val_1.fq.gz /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/trim/SRR1761511_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/bam/SRR1761511.bam
-
-```
-
-## Replace YOURID to your id
-sed -i 's/<YOURID>/your id/g' mapping.sh
-
 
 ## Conda Environment
 ```bash
@@ -283,7 +92,6 @@ conda activate BCH709
 
 CONDA_INSTRUMENTATION_ENABLED=1 conda install -y -c bioconda -c conda-forge  sra-tools minimap2 trinity star multiqc=1.9 samtools=1.9 trim-galore gffread seqkit kraken2
 ```
-
 
 
 
@@ -480,6 +288,21 @@ cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example
 
 mkdir Kraken2 && cd Kraken2
 kraken2-inspect --db EXAMPLE_DB | head -5
+```
+
+
+```bash
+```bash
+#!/bin/bash
+#SBATCH --job-name=Kraken_Droso
+#SBATCH --cpus-per-task=2
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<youremail>
+#SBATCH -o trim.out # STDOUT & STDERR
+#SBATCH -p cpu-s2-core-0
+#SBATCH -A cpu-s2-bch709-1
 
 kraken2  --threads 24 --report SRR11968954 --db /data/gpfs/assoc/bch709-1/Course_material/database/ /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/Drosophila/raw_data/SRR11968954.fastq.gz
 ```
@@ -487,5 +310,31 @@ kraken2  --threads 24 --report SRR11968954 --db /data/gpfs/assoc/bch709-1/Course
 "C"/"U": a one letter code indicating that the sequence was either classified or unclassified.
 ```
 ```bash
+/data/gpfs/assoc/bch709-1/Course_material/kraken2_example
+
 https://fbreitwieser.shinyapps.io/pavian/
 ```
+
+
+## Assignment1
+```bash
+cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example
+multiqc . -n rnaseq1
+```
+Please upload rnaseq1.html to Webcampus.
+
+## Assignment2
+Please run Kraken2 below six samples and generate Multiqc report for Kranken results only.
+
+| Sample information  | Run         |
+|---------------------|-------------|
+| 22w1118-l3          | SRR11968964 |
+| 23w1118-l3          | SRR11968963 |
+| 24w1118-l3          | SRR11968962 |
+| 10w1118-sa          | SRR11968954 |
+| 11w1118-sa          | SRR11968966 |
+| 12w1118-sa          | SRR11968965 |
+
+
+
+
