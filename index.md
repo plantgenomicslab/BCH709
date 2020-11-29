@@ -89,8 +89,8 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 | Week13       | 11/18 | [Genome annotation and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
 | Week14       | 11/23 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials/index.html)                          |
 | Week14       | 11/25 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials2/index.html)  |[Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
-| Week15       | 11/30  |  Transcriptome analysis |
-| Week15 | 12/2 |  Transcriptome analysis   |
+| Week15       | 11/30  | CANCEL DUE TO PRONGHORN CONDITION [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials3/index.html) |
+| Week15 | 12/2 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials3/index.html) |
 
 
 
