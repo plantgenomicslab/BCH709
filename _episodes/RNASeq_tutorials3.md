@@ -46,6 +46,32 @@ Fields must be tab-separated. Also, all but the final field in each feature line
 
 
 
+## Arabidopsis
+### Environment
+```bash
+conda activate BCH709
+
+CONDA_INSTRUMENTATION_ENABLED=1 conda install -c bioconda intervene pybedtools pandas seaborn bedtools subread -y
+
+CONDA_INSTRUMENTATION_ENABLED=1 conda install -y -c bioconda -c conda-forge  sra-tools minimap2 trinity star multiqc=1.9 samtools=1.9 trim-galore gffread seqkit kraken2
+
+
+CONDA_INSTRUMENTATION_ENABLED=1 conda install -c r r-UpSetR r-corrplot r-Cairo r-ape   -y
+
+conda update --all
+
+CONDA_INSTRUMENTATION_ENABLED=1 conda install -y -c bioconda r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-biobase=2.40.0  bioconductor-qvalue  bioconductor-limma bioconductor-edger  bioconductor-genomeinfodb bioconductor-deseq2 bioconductor-genomeinfodbdata r-rcurl
+
+
+
+```
+
+
+### Working PATH
+```bash
+conda activate BCH709
+cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH
+```
 
 
 
@@ -53,6 +79,18 @@ Fields must be tab-separated. Also, all but the final field in each feature line
 In the case of RNA-Seq, the features are typically genes, where each gene is considered here as the union of all its exons. Counting RNA-seq reads is complex because of the need to accommodate exon splicing. The common approach is to summarize counts at the gene level, by counting all reads that overlap any exon for each gene. In this method, gene annotation file from RefSeq or Ensembl is often used for this purpose. So far there are two major feature counting tools: featureCounts (Liao et al.) and htseq-count (Anders et al.)
 
 ![featurecount]({{site.baseurl}}/fig/featurecount.png)
+
+
+```bash
+mkdir DEG
+cd bam
+
+ls -1 *.bam
+
+ls -1 *.bam |  tr '\n' ' '
+
+nano readscount.sh
+```
 
 ```bash
 #!/bin/bash
@@ -64,106 +102,372 @@ In the case of RNA-Seq, the features are typically genes, where each gene is con
 #SBATCH --mail-user=<EMAIL>@unr.edu
 #SBATCH -o featureCounts.out # STDOUT
 #SBATCH -e featureCounts.err # STDERR
-#SBATCH -p cpu-s6-test-0
-#SBATCH -A cpu-s6-test-0
-featureCounts -Q 10 -M -s 0 -T 16 -p -a bch709.gtf WT1Aligned.sortedByCoord.out.bam WT2Aligned.sortedByCoord.out.bam WT3Aligned.sortedByCoord.out.bam DT1Aligned.sortedByCoord.out.bam DT2Aligned.sortedByCoord.out.bam DT3Aligned.sortedByCoord.out.bam -o BCH709.featureCount.cnt
+#SBATCH -p cpu-s2-core-0 
+#SBATCH -A cpu-s2-bch709-1
+featureCounts -Q 10 -M -s 0 -T 16 -p -a /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761511.bamAligned.sortedByCoord.out.bam -o ATH.featureCount.cnt
+
+featureCounts -g transcript_id -t transcript -f  -Q 10 -M -s 0 -T 16 -p -a /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761511.bamAligned.sortedByCoord.out.bam -o ATH.featureCount_isoform.cnt
 ```
 ![featurecount2]({{site.baseurl}}/fig/featurecount2.png)
 
+
 ```bash
-cut -f1,7-  BCH709.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g' >> BCH709.featureCount_count_only.cnt
+sed -i 's/<YOURID>/\t/g' readscount.sh
 ```
+
+```bash
+head ATH.featureCount.cnt 
+```
+
+```bash
+cut -f1,7-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> ATH.featureCount_count_only.cnt
+```
+### Go to DEG
+```bash
+cd ../DEG
+cp ../bam/ATH.featureCount* .
+ls
+
+pwd
+
+/data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG
+```
+
+
+### Data list
+
+| Sample information | Run        |
+|--------------------|------------|
+| WT_rep1            | SRR1761506 |
+| WT_rep2            | SRR1761507 |
+| WT_rep3            | SRR1761508 |
+| ABA_rep1           | SRR1761509 |
+| ABA_rep2           | SRR1761510 |
+| ABA_rep3           | SRR1761511 |
+
 
 ### sample files
 ```bash
 nano samples.txt
 ```
 
-```
-WT<TAB>WT1
-WT<TAB>WT2
-WT<TAB>WT3
-DT<TAB>DT1
-DT<TAB>DT2
-DT<TAB>DT3
+```bash
+WT<TAB>SRR1761506
+WT<TAB>SRR1761507
+WT<TAB>SRR1761508
+ABA<TAB>SRR1761509
+ABA<TAB>SRR1761510
+ABA<TAB>SRR1761511
 ```
 
+```bash
+sed -i 's/<TAB>/\t/g' samples.txt
+```
 
 
 ### PtR (Quality Check Your Samples and Biological Replicates)
 
 Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
 ```bash
-PtR  --matrix BCH709.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
 
 ```
 ```output
 WT.rep_compare.pdf
-DT.rep_compare.pdf
+ABA.rep_compare.pdf
 ```
 
 
 ### DEG calculation
 ```bash
- run_DE_analysis.pl --matrix BCH709.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+R
+```
+
+```R
+install.packages("blob")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("GenomeInfoDb","DESeq2"))
+
+quit()
+```
+
+```bash
+run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+### DEG output
+```bash
+ls rnaseq
+```
+
+```
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.count_matrix
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.Rscript
 ```
 
 ### TPM and FPKM calculation
 
 ```bash
-cut -f1,6-  BCH709.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g' >> BCH709.featureCount_count_length.cnt
+cut -f1,6-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> ATH.featureCount_count_length.cnt
 
-python /data/gpfs/assoc/bch709/Course_material/2020/script/tpm_raw_exp_calculator.py -count BCH709.featureCount_count_length.cnt
+python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
 
 ```
 
+
+
 ### TPM and FPKM calculation output
 ```bash
-BCH709.featureCount_count_length.cnt.fpkm.xls
-BCH709.featureCount_count_length.cnt.fpkm.tab
-BCH709.featureCount_count_length.cnt.tpm.xls
-BCH709.featureCount_count_length.cnt.tpm.tab
+ATH.featureCount_count_length.cnt.fpkm.xls
+ATH.featureCount_count_length.cnt.fpkm.tab
+ATH.featureCount_count_length.cnt.tpm.xls
+ATH.featureCount_count_length.cnt.tpm.tab
 ```
 
 ### DEG subset
 ```bash
 cd rnaseq
-analyze_diff_expr.pl --samples ../samples.txt  --matrix ../BCH709.featureCount_count_length.cnt.tpm.tab
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+```
+
+### DEG output
+```
+ATH.matrix.log2.centered.sample_cor_matrix.pdf
+ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.DE.subset
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.DE.subset
 ```
 
 
 
+## Draw Venn Diagram
 
-### DEG calculation
+### Venn Diagram
 ```
-run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method DESeq2 
-run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_ptr.txt --method edgeR
-
-
-cd DESeq2.XXXXX.dir
-
-analyze_diff_expr.pl --matrix ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
-wc -l RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
-cd ../
-
-cd edgeR.XXXXX.dir
-
-analyze_diff_expr.pl --matrix ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
-wc -l RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DE.subset
+conda activate venn
 ```
 
-### Draw Venn Diagram
+
+### Venn Diagram environment creation
 ```bash
-conda create -n venn python=2.7
+conda create -n venn python=3.5
 conda activate venn
 conda install -c bioconda bedtools intervene r-UpSetR r-corrplot r-Cairo
 ``` 
 
 ```bash
-cd ../
-pwd
-# /data/gpfs/assoc/bch709/spiderman/rnaseq/DEG2
-mkdir Venn
+# /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG/rnaseq
+mkdir venn
+cd venn
+#/data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG/rnaseq/venn
+```
+
+```bash
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.ABA-UP.subset |  grep -v sample > DESeq.UP_4fold.subset
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset  |  grep -v sample > DESeq.DOWN_4fold.subset 
+
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.ABA-UP.subset |  grep -v sample > DESeq.UP_2fold.subset
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.WT-UP.subset  |  grep -v sample > DESeq.DOWN_2fold.subset
+```
+
+```bash
+ wc -l *
+```
+```
+  789 DESeq.DOWN_2fold.subset
+  275 DESeq.DOWN_4fold.subset
+ 1305 DESeq.UP_2fold.subset
+  515 DESeq.UP_4fold.subset
+ 2884 total
+```
+
+```bash
+intervene venn --type list --save-overlaps -i <INPUT> 
+intervene upset --type list --save-overlaps -i <INPUT> 
+```
+```bash
+cd Intervene_results
+```
+
+```
+Intervene_upset_combinations.txt
+Intervene_upset.pdf
+Intervene_upset.R
+Intervene_venn.pdf
+sets
+```
+
+```bash
+cd sets
+```
+```
+0010_DESeq.UP_2fold.txt
+0011_DESeq.UP_2fold_DESeq.UP_4fold.txt
+1000_DESeq.DOWN_2fold.txt
+1100_DESeq.DOWN_2fold_DESeq.DOWN_4fold.txt
+```
+
+### Gene Ontology
+Gene Ontology project is a major bioinformatics initiative Gene ontology is an annotation system The project provides the controlled and consistent vocabulary of terms and gene product annotations, i.e. terms occur only once, and there is a dictionary of allowed words
+GO describes how gene products behave in a cellular context A consistent description of gene products attributes in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner Each GO term consists of a unique alphanumerical identifier, a common name, synonyms (if applicable), and a definition Each term is assigned to one of the three ontologies Terms have a textual definition When a term has multiple meanings depending on species, the GO uses a "sensu" tag to differentiate among them (trichome differentiation (sensu Magnoliophyta) 
+
+
+![GO]({{site.baseurl}}/fig/GO.png)
+
+![kegg]({{site.baseurl}}/fig/kegg.png)
+
+### hypergeometric test
+The hypergeometric distribution is the lesser-known cousin of the binomial distribution, which describes the probability of k successes in n draws with replacement. The hypergeometric distribution describes probabilities of drawing marbles from the jar without putting them back in the jar after each draw.
+The hypergeometric probability mass function is given by (using the original variable convention)
+
+
+![hyper_geo]({{site.baseurl}}/fig/hyper_geo.png)
+![combination]({{site.baseurl}}/fig/combination.png)
+![FWER]({{site.baseurl}}/fig/FWER.png)
+
+#### FWER
+The FWER for the other tests is computed in the same way: the gene-associated variables (scores or counts) are permuted while the annotations of genes to GO-categories stay fixed. Then the statistical tests are evaluated again for every GO-category.
+
+
+## Hypergeometric Test Example 1
+Suppose we randomly select 2 cards without replacement from an ordinary deck of playing cards. What is the probability of getting exactly 2 cards you want (i.e., Ace or 10)?
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 52; since there are 52 cards in a deck.
+k = 16; since there are 16 Ace or 10 cards in a deck.
+n = 2; since we randomly select  cards from the deck.
+x = 2; since 2 of the cards we select are red.
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(2; 52, 2, 16) = [ 16C2 ] [ 48C1 ] / [ 52C2 ]
+
+h(2; 52, 2, 16) = [ 325 ] [  1 ] / [ 1,326 ]
+
+h(2; 52, 2, 16) = 0.0904977
+
+Thus, the probability of randomly selecting 2 Ace or 10 cards is 9%
+
+|category|probability|
+| -- | -- |
+|probability mass f|	0.09049773755656108597285|
+|lower cumulative P|	1|
+|upper cumulative Q|	0.09049773755656108597285|
+|Expectation|	0.6153846153846153846154|
+
+
+## Hypergeometric Test Example 2
+Suppose we have 30 DEGs in human genome (200). What is the probability of getting 10 oncogene?
+
+*An oncogene is a gene that has the potential to cause cancer.*
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 200; since there are 200 genes in human genome 
+k = 10; since there are 10 oncogenes in human
+n = 30; since 30 DEGs
+x = 5; since 5 of the oncogenes in DEGs.
+
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(5; 200, 30, 10) = [ 10C5 ] [ 190C25 ] / [ 200C30 ]
+
+h(5; 200, 30, 10) = [ 252 ] [  11506192278177947613740456466942 ] / [ 409681705022127773530866523638950880 ]
+
+h(5; 200, 30, 10) = 0.007078
+
+Thus, the probability of oncogene 0.7%.
+
+hypergeometry.png
+
+### hypergeometric distribution	value
+
+|category|probability|  
+| -- | -- |  
+|probability mass f|	0.0070775932109153651831923063371216961166297 |  
+|lower cumulative P|	0.99903494867072865323201131115533112651846 |  
+|upper cumulative Q|	0.0080426445401867119511809951817905695981658 |  
+|Expectation|	1.5|  
+
+
+### False Discovery Rate (FDR) q-value
+The false discovery rate (FDR) is a method of conceptualizing the rate of type I errors in null hypothesis testing when conducting multiple comparisons. FDR-controlling procedures are designed to control the expected proportion of "discoveries" (rejected null hypotheses) that are false (incorrect rejections).
+
+- Benjamini–Yekutieli 
+- Benjamini–Hochberg 
+- Bonferroni-Selected–Bonferroni
+- Bonferroni and Sidak 
+
+### REViGO 
+http://revigo.irb.hr/revigo.jsp
+
+### cleverGO 
+http://www.tartaglialab.com/GO_analyser/tutorial
+
+### MetaScape
+http://metascape.org/gp/index.html#/main/step1
+
+### DAVID
+https://david.ncifcrf.gov/
+
+
+### Araport
+
+
+
+
+
+
+
+
+## BLAST (Basic Local Alignment Search Tool) 
+BLAST is a popular program for searching biosequences against databases. BLAST was developed and is maintained by a group at the National Center for Biotechnology Information (NCBI). Salient characteristics of BLAST are:
+
+### Local alignments
+BLAST tries to find patches of regional similarity, rather than trying to find the best alignment between your entire query and an entire database sequence.
+### Ungapped alignments
+Alignments generated with BLAST do not contain gaps. BLAST's speed and statistical model depend on this, but in theory it reduces sensitivity. However, BLAST will report multiple local alignments between your query and a database sequence.
+
+### Explicit statistical theory
+BLAST is based on an explicit statistical theory developed by Samuel Karlin and Steven Altschul (PNAS 87:2284-2268. 1990) The original theory was later extended to cover multiple weak matches between query and database entry PNAS 90:5873. 1993).
+
+CAUTION: the repetitive nature of many biological sequences (particularly naive translations of DNA/RNA) violates assumptions made in the Karlin & Altschul theory. While the P values provided by BLAST are a good rule-of-thumb for initial identification of promising matches, care should be taken to ensure that matches are not due simply to biased amino acid composition.
+
+CAUTION: The databases are contaminated with numerous artifacts. The intelligent use of filters can reduce problems from these sources. Remember that the statistical theory only covers the likelihood of finding a match by chance under particular assumptions; it does not guarantee biological importance.
+
+### Heuristic
+BLAST is not guaranteed to find the best alignment between your query and the database; it may miss matches. This is because it uses a strategy which is expected to find most matches, but sacrifices complete sensitivity in order to gain speed. However, in practice few biologically significant matches are missed by BLAST which can be found with other sequence search programs. BLAST searches the database in two phases. First it looks for short subsequences which are likely to produce significant matches, and then it tries to extend these subsequences.
+A substitution matrix is used during all phases of protein searches (BLASTP, BLASTX, TBLASTN)
+Both phases of the alignment process (scanning & extension) use a substitution matrix to score matches. This is in contrast to FASTA, which uses a substitution matrix only for the extension phase. Substitution matrices greatly improve sensitivity.
+
+## Popular BLAST software
+### BLASTP
+search a Protein Sequence against a Protein Database.
+### BLASTN
+search a Nucleotide Sequence against a Nucleotide Database.
+### TBLASTN
+search a Protein Sequence against a Nucleotide Database, by translating each database Nucleotide sequence in all 6 reading frames.
+### BLASTX
+search a Nucleotide Sequence against a Protein Database, by first translating the query Nucleotide sequence in all 6 reading frames.
+
+
+
 
 
 ###DESeq2
@@ -174,32 +478,22 @@ cut -f 1 ../DESeq2.91008.dir/RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_resul
 cut -f 1 ../edgeR.91693.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DT-UP.subset   | grep -v sample > edgeR.UP.subset
 cut -f 1 ../edgeR.91693.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.WT-UP.subset   | grep -v sample > edgeR.DOWN.subset
 
-
+```
 ### Drawing
+```bash
 intervene venn -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
 intervene upset -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
 intervene pairwise  -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list
 ```
 
 
+### Sequence analaysis
 
-## Course Evaluation
 
-Students will have access to course evaluation
-You can log in with your NetID to http://www.unr.edu/evaluate and check live updating response rates for your course evaluations. Our institutional goal is to achieve an 85% response rate for all evaluations, and to help us achieve that, we rely on you as well as the students. Students will have access to them until 11:59 PM on Wed, May 6, 2020 PDT.
-
-**If we can achieve 100% response rate for evaluation, I will give you additional points for all of you.**
-
-## Location
-```
-mkdir /data/gpfs/assoc/bch709/<YOURID>/genomedescription
-
-cd /data/gpfs/assoc/bch709/<YOURID>/genomedescription
-```
 
 ### Environment
 ```bash
-conda activate genomeannotation
+
 
 ```
 
@@ -221,7 +515,7 @@ cp  -r /data/gpfs/assoc/bch709/Course_material/2020/Genome_description_and_enric
 #SBATCH --time=3-12:00:00
 #SBATCH --mem=20g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=wyim@unr.edu
+#SBATCH --mail-user=<YOURID>@unr.edu
 #SBATCH -o blast.out # STDOUT
 #SBATCH -e blast.err # STDERR
 #SBATCH -p cpu-s2-core-0 
@@ -269,75 +563,15 @@ search a Protein Sequence against a Nucleotide Database, by translating each dat
 ### BLASTX
 search a Nucleotide Sequence against a Protein Database, by first translating the query Nucleotide sequence in all 6 reading frames.
 
-## AHRD
-
-*edit bch709.yml*
-
-### ahrd.sh
-```bash
-#!/bin/bash
-#SBATCH --job-name=ahrd
-#SBATCH --cpus-per-task=8
-#SBATCH --time=12:00:00
-#SBATCH --mem=20g
-#SBATCH --mail-type=all
-#SBATCH --mail-user=wyim@unr.edu
-#SBATCH -o blast.out # STDOUT
-#SBATCH -e blast.err # STDERR
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-0
- java -Xmx8g -jar ahrd.jar bch709.yml
-```
-
-## AHRD
-High throughput protein function annotation with Human Readable Description (HRDs) and Gene Ontology (GO) Terms. https://www.cropbio.uni-bonn.de/
-![AHRD]({{site.baseurl}}/fig/AHRD.jpg)
-
-1. Choose best scoring blast results, 200 from each database searched
-2. Filter description lines of above blast-results using regular expressions:
-	- Reject those matched by any regex given in e.g. ./test/resources/blacklist_descline.txt,
-	- Delete those parts of each description line, matching any regex in e.g. ./test/resources/filter_descline_sprot.txt.
-3. Divide each description line into tokens (characters of collective meaning)
-	-	In terms of score ignore any tokens matching regexs given e.g. in ./test/resources/blacklist_token.txt.
-4. Token score (calculated from: bitscore, database weight, overlap score)
-5. Lexical score (calculated from: Token score, High score factor, Pattern factor, Correction factor)
-6. Description score (calculated from: Lexical score and Blast score)
-7. Choose best scoring description line
 
 
-### Find best BLAST match
-
-```bash
- perl blast_parse.pl  -q bch709.all.maker.proteins.fasta -i genome_vs_arabidopsis_blastp.txt -o genome_vs_arabidopsis_blastp_filtered
-```
-
-### Replace Name of Data
-
-```bash
-cp ../genomeannotation/bch709.all.maker.transcripts.fasta .
-cp ../genomeannotation/bch709.all.gff .
-
-cut -f 1,2 genome_vs_arabidopsis_blastp_filtered | sed 's/-mRNA-1//g' > id_map
-cut -f 1,2 genome_vs_arabidopsis_blastp_filtered >> id_map
-
-map_fasta_ids id_map  bch709.all.maker.transcripts.fasta
-map_fasta_ids id_map  bch709.all.maker.proteins.fasta
-map_gff_ids id_map bch709.all.gff
-
-
-cp ../genomernaseq/rnaseq/BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results* .
-
-map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DT-UP.subset
-map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.WT-UP.subset
-map_data_ids  id_map BCH709.featureCount_count_only.cnt.DT_vs_WT.DESeq2.DE_results.P0.001_C2.DE.subset
-```
-
-![GO]({{site.baseurl}}/fig/GO.png)
 
 ### Gene Ontology
 Gene Ontology project is a major bioinformatics initiative Gene ontology is an annotation system The project provides the controlled and consistent vocabulary of terms and gene product annotations, i.e. terms occur only once, and there is a dictionary of allowed words
 GO describes how gene products behave in a cellular context A consistent description of gene products attributes in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner Each GO term consists of a unique alphanumerical identifier, a common name, synonyms (if applicable), and a definition Each term is assigned to one of the three ontologies Terms have a textual definition When a term has multiple meanings depending on species, the GO uses a "sensu" tag to differentiate among them (trichome differentiation (sensu Magnoliophyta) 
 
+
+![GO]({{site.baseurl}}/fig/GO.png)
 
 ![kegg]({{site.baseurl}}/fig/kegg.png)
 
@@ -689,7 +923,7 @@ STAR  --runThreadN <YOUR THREAD> --runMode genomeGenerate --genomeDir /data/gpfs
 ```
 
 > ### ERROR
-> Fatal INPUT FILE error, no valid exon lines in the GTF file: /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf
+> Fatal INPUT FILE error, no valid exon lines in the GTF file: /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf
 > Solution: check the formatting of the GTF file. One likely cause is the difference in chromosome naming between GTF and FASTA file.
 {: .prereq} 
 
@@ -789,7 +1023,7 @@ Fig 2. Transcriptome summaries from unchallenged whole larvae and hemocytes from
 
 
 ```bash
-cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/
 mkdir Drosophila && cd Drosophila
 
 mkdir raw_data
@@ -906,7 +1140,7 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 ## Assignment
 ```bash
-cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example
+cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example
 multiqc . -n rnaseq1
 ```
 Please upload rnaseq1.html to Webcampus.
