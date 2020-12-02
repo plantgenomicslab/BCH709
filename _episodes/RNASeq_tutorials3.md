@@ -726,7 +726,7 @@ https://www.uniprot.org/
 
 ### Assignment
 
-Please upload below files by 12/05/20
+Please upload below files by 12/06/20 to Webcampus
 1. Arabidopsis RNA-Seq analysis
 
 WT.rep_compare.pdf
