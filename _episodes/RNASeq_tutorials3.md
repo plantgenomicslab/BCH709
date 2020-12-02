@@ -560,6 +560,28 @@ Will give you error
 run_DE_analysis.pl --matrix dmel.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
 ```
 
+### If you have an error, Please do this
+
+```bash
+conda install -c conda-forge xorg-libxt
+```
+
+
+```bash
+R
+```
+
+
+```
+install.packages("blob")
+source("https://bioconductor.org/biocLite.R")
+
+BiocInstaller::biocLite(c("GenomeInfoDbData","DESeq2"))
+quit()
+
+```
+
+
 ### DEG output
 ```bash
 ls rnaseq
