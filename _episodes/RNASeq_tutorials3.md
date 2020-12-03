@@ -573,7 +573,7 @@ R
 
 
 ```
-install.packages("blob")
+install.packages(c("blob","stringi"))
 source("https://bioconductor.org/biocLite.R")
 
 BiocInstaller::biocLite(c("GenomeInfoDbData","DESeq2"))
@@ -597,14 +597,16 @@ dmel.featureCount_count_only.cnt.l3_vs_sa.DESeq2.Rscript
 ### TPM and FPKM calculation
 
 ```bash
-cd ..
-
 cut -f1,6-  dmel.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> dmel.featureCount_count_length.cnt
 
 python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count dmel.featureCount_count_length.cnt
 
 ```
+### If you have an error, Please do this
 
+```bash
+conda install -c bioconda -c conda-forge pandas
+```
 
 
 ### TPM and FPKM calculation output
@@ -703,9 +705,9 @@ https://metascape.org/gp/index.html
 
 ## Sequence sampling
 ```bash
-cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example/Drosophila/
+cd /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/Drosophila/
 
-seqkit sample  --number 5 /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example/Drosophila/reference/dmel-all-CDS-r6.36.fasta -o random.fasta
+seqkit sample  --number 5 /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/Drosophila/reference/dmel-all-CDS-r6.36.fasta -o random.fasta
 
 seqkit translate random.fasta -o random.aa
 
@@ -751,18 +753,18 @@ https://www.uniprot.org/
 Please upload below files by 12/06/20 to Webcampus
 1. Arabidopsis RNA-Seq analysis
 
-WT.rep_compare.pdf
-ABA.rep_compare.pdf
-ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
-ATH.matrix.log2.centered.sample_cor_matrix.pdf
-ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf
-Intervene_upset.pdf
-Intervene_venn.pdf
+WT.rep_compare.pdf  
+ABA.rep_compare.pdf  
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf  
+ATH.matrix.log2.centered.sample_cor_matrix.pdf  
+ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf  
+Intervene_upset.pdf  
+Intervene_venn.pdf  
 
 
-2. Drosophila RNA-Seq analysis
-dmel.featureCount_count_only.cnt.l3_vs_sa.DESeq2.DE_results.MA_n_Volcano.pdf
-Intervene_upset.pdf
-Intervene_venn.pdf
+2. Drosophila RNA-Seq analysis  
+dmel.featureCount_count_only.cnt.l3_vs_sa.DESeq2.DE_results.MA_n_Volcano.pdf  
+Intervene_upset.pdf  
+Intervene_venn.pdf  
 
 
