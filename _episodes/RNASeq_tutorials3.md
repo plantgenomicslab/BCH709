@@ -213,7 +213,7 @@ ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.Rscript
 ### TPM and FPKM calculation
 
 ```bash
-cut -f1,6-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> ATH.featureCount_count_length.cnt
+cut -f1,6-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > ATH.featureCount_count_length.cnt
 
 python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
 
@@ -597,7 +597,7 @@ dmel.featureCount_count_only.cnt.l3_vs_sa.DESeq2.Rscript
 ### TPM and FPKM calculation
 
 ```bash
-cut -f1,6-  dmel.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> dmel.featureCount_count_length.cnt
+cut -f1,6-  dmel.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > dmel.featureCount_count_length.cnt
 
 python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count dmel.featureCount_count_length.cnt
 
