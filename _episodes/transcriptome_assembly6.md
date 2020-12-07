@@ -561,7 +561,7 @@ conda deactivate
 conda create -n venn python=2.7  
 conda activate venn  
 conda install -c bioconda  bedtools intervene   
-conda install -c r r-UpSetR r-corrplot r-Cairo  
+conda install -c r r-UpSetR=1.4.0 r-corrplot r-Cairo  
 
 ``` 
 
