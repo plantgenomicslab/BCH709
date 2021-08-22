@@ -46,8 +46,9 @@ Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 
 
 ## Tentative Course Schedules
-| Week1  | 8/23/2021  | Monday    | Introduction                                                      |
+
 |--------|------------|-----------|-------------------------------------------------------------------|
+| Week1  | 8/23/2021  | Monday    | Introduction                                                      |
 | Week1  | 8/25/2021  | Wednesday | Introduction to Bioinformatics                                    |
 | Week2  | 8/30/2021  | Monday    | Linux Environment and command line                                |
 | Week2  | 9/1/2021   | Wednesday | Linux Environment and command line                                |
