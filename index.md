@@ -25,18 +25,6 @@ Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 {: .prereq}
 
 
-> ## Prerequisites
-> - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
-> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
-> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
-> - [Please apply your Pronghorn account here](https://nevada.formstack.com/forms/high_performance_computing_application) ; [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
-> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
-> - [Setup Slack ID](https://unrrc.slack.com/)
-> - Please register by using UNR email [datacamp](https://www.datacamp.com/)
-> - Please fill this [form](https://forms.gle/6K1P2Xc4BjzQ358F8)
-{: .callout}
-
-
 > ## Course description
 > As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA, and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology, this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
@@ -77,6 +65,18 @@ Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 | Week15 | 11/29/2021 | Monday    | Presentation & Discussions                                        |
 | Week16 | 12/1/2021  | Wednesday | Class Review                                                      |
 | Week16 | 12/6/2021  | Monday    | Final Exam                                                        |
+
+> ## Prerequisites
+> - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
+> Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
+> - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
+> - [Please apply your Pronghorn account here](https://nevada.formstack.com/forms/high_performance_computing_application) ; [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
+> - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
+> - [Setup Slack ID](https://unrrc.slack.com/)
+> - Please register by using UNR email [datacamp](https://www.datacamp.com/)
+> - Please fill this [form](https://forms.gle/6K1P2Xc4BjzQ358F8)
+{: .callout}
+
 
 
 > ## Getting Started
