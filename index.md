@@ -5,37 +5,23 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Class Schedule
-> MonWed 9:00AM - 10:15AM  
-> Aug 24, 2020 - Dec 18 2020
+> MonWed 9:00AM - 10:10AM  
+> Aug 23, 2021 - Dec 6 2021
 {: .prereq}
 
 
+
 > ## Modes of Instruction
-> Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
->
-> **Alternative HyFlex**: Course originally scheduled to be delivered in-person, but will have attendance adjustments so students will alternate in-person and remote participation.  Students will receive communication directly from their instructors with specifics. Fully remotely participation by students can be accommodated for those with extenuating circumstances. 
->
-> **In addition, we will provide recorded video for everyone.**
+> This course will be accommodated in-person. This semester we will not offer Online or Alternative HyFlex course model
+Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 {: .callout}
+
 
 
 > ## Class Room location
 > Classroom was changed to Fleischmann Agriculture Building room 234 (FA234)
 > ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
-> 
 > [FA234](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
-{: .prereq}
-
-> ## Class Room location
-> Alternative participate via Zoom
-> Join Zoom Meeting
-> [Zoom link](https://unr.zoom.us/j/6314611123?pwd=SE5ZOGNlcjIrZEszcnl6cElTQ3U1Zz09)
-> Meeting ID: 631 461 1123
-> Passcode: 709
-> One tap mobile
-> +16699006833,,6314611123# US (San Jose)
-> +12532158782,,6314611123# US (Tacoma)
->
 {: .prereq}
 
 
@@ -43,11 +29,13 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 > - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
-> - Please fill this [form](https://forms.gle/91784nfQnj2QweHS9)
 > - [Please apply your Pronghorn account here](https://nevada.formstack.com/forms/high_performance_computing_application) ; [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - [Setup Slack ID](https://unrrc.slack.com/)
-> - Please register [datacamp](https://www.datacamp.com/)
+> - Please register by using UNR email [datacamp](https://www.datacamp.com/)
+> - Please fill this [form](https://forms.gle/6K1P2Xc4BjzQ358F8)
+
+
 {: .callout}
 
 
@@ -58,40 +46,38 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 ## Tentative Course Schedules
-
-| Week             | Date | Topics        |
-|--------------|------|-------------------------------------------------|
-| Week1        | 8/24 | [Orientation](https://plantgenomicslab.github.io/BCH709/Orientation/index.html)|
-| Week1        | 8/26 | [Intro Bioinformatics](https://plantgenomicslab.github.io/BCH709/Intro/index.html) |
-| Week2        | 8/31 |  [Linux Enviroment](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html) / [Linux command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
-| Week2        | 9/2  | [Linux command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line2/index.html)|
-| Week3        | 9/7  | LABOR DAY|
-| Week3        | 9/9  | [Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)|
-| Week4        | 9/14 |[Linux Enviroment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html) / [Github / Compile / Conda](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)  |
-| Week4        | 9/16 | [Github / Compile / Conda](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)  |
-| Week5        | 9/21 |  [Sequencing methods and strategies](https://www.dropbox.com/s/5ajz4e6kd9twxux/Sequencing.pdf) / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)|
-| Week5        | 9/23 |  [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) / [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
-| Week6        | 9/28 |  [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) / [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html) / [DEG analysis](https://plantgenomicslab.github.io/BCH709/DEG2/index.html) |
-| Week6        | 9/30  | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly/index.html)|
-| Week7        | 10/5  | MIDTERM EXAM
-| Week7        | 10/7 | [Introduction of R R plotting (Dr. Tong Zhou)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html)|
-| Week8        | 10/12 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
-| Week8        | 10/14 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly3/index.html) |
-| Week9        | 10/19 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html)|
-| Week9       | 10/21 | [Transcriptome assembly](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly5/index.html) [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly4/index.html) |
-| Week10       | 10/26  |[DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly6/index.html) |
-| Week10       | 10/28 | [DEG](https://plantgenomicslab.github.io/BCH709/transcriptome_assembly7/index.html) [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html) |
-| Week11       | 11/2  | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_1/index.html)  | [Genome structure](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
-| Week11       | 11/4 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2/index.html) |
-| Week12       | 11/9 |Gene family analysis and phylogenetics  (Dr. David Alvarez-Ponce)   |
-| Week12       | 11/11 | Vertans Day |
-| Week13       | 11/16 | [Genome assembly](https://plantgenomicslab.github.io/BCH709/Genome_assembly_2_1/index.html)
-| Week13       | 11/18 | [Genome annotation and annotation](https://plantgenomicslab.github.io/BCH709/Genome_annotation/index.html)|
-| Week14       | 11/23 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials/index.html)                          |
-| Week14       | 11/25 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials2/index.html)  |[Enrichment analysis](https://plantgenomicslab.github.io/BCH709/Genome_description/index.html)|
-| Week15       | 11/30  | CANCEL DUE TO PRONGHORN CONDITION [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials3/index.html) |
-| Week15 | 12/2 | [RNA-Seq tutorial](https://plantgenomicslab.github.io/BCH709/RNASeq_tutorials3/index.html) |
-
+| Week1  | 8/23/2021  | Monday    | Introduction                                                      |
+|--------|------------|-----------|-------------------------------------------------------------------|
+| Week1  | 8/25/2021  | Wednesday | Introduction to Bioinformatics                                    |
+| Week2  | 8/30/2021  | Monday    | Linux Environment and command line                                |
+| Week2  | 9/1/2021   | Wednesday | Linux Environment and command line                                |
+| Week3  | 9/6/2021   | Monday    | Labor Day                                                         |
+| Week3  | 9/8/2021   | Wednesday | Linux Environment and Cloud                                       |
+| Week4  | 9/13/2021  | Monday    | Conda, Compile & Software Installations                           |
+| Week4  | 9/15/2021  | Wednesday | GitHub and server                                                 |
+| Week5  | 9/20/2021  | Monday    | Sequencing methods and strategies                                 |
+| Week5  | 9/22/2021  | Wednesday | Sequence manipulation                                             |
+| Week6  | 9/27/2021  | Monday    | RNA-Seq                                                           |
+| Week6  | 9/29/2021  | Wednesday | Transcriptome assembly                                            |
+| Week7  | 10/4/2021  | Monday    | Transcriptome algorithms                                          |
+| Week7  | 10/6/2021  | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
+| Week8  | 10/11/2021 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
+| Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
+| Week9  | 10/18/2021 | Monday    | DEG analysis                                                      |
+| Week10 | 10/20/2021 | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
+| Week10 | 10/25/2021 | Monday    | Database & file format                                            |
+| Week11 | 10/27/2021 | Wednesday | BLAST search and gene alignment                                   |
+| Week11 | 11/1/2021  | Monday    | Genome assembly                                                   |
+| Week12 | 11/3/2021  | Wednesday | Genome annotation                                                 |
+| Week12 | 11/8/2021  | Monday    | Genome structure                                                  |
+| Week13 | 11/10/2021 | Wednesday | Variant analysis                                                  |
+| Week13 | 11/15/2021 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/17/2021 | Wednesday | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/22/2021 | Monday    | Enrichment analysis                                               |
+| Week15 | 11/24/2021 | Wednesday | Presentation & Discussions                                        |
+| Week15 | 11/29/2021 | Monday    | Presentation & Discussions                                        |
+| Week16 | 12/1/2021  | Wednesday | Class Review                                                      |
+| Week16 | 12/6/2021  | Monday    | Final Exam                                                        |
 
 
 > ## Getting Started
@@ -149,12 +135,6 @@ I prefer to have online meeting through SLACK.
 **Note: all reading material can be freely accessed and downloaded from the UNR internet.**
 
 ## Other Website
-[Command line website](http://35.199.189.11:8081/  "Command line website")  
-[Command-line bootcamp-server2](http://34.82.237.168:8081/)
-
-[Command-line bootcamp-server3](http://35.247.103.91:8081/)
-
-[Command-line bootcamp-server4](http://34.83.44.229:8081/)
 
 [Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab")
 
