@@ -29,10 +29,15 @@ Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 > As contemporary biologists we have entered an age where the use of computers in our daily work has become all but essential. The manipulation and analysis of DNA, RNA, and protein data by electronic means has become a routine task. Further, the amount of DNA, RNA and protein sequence data we are putting into databases every day is expanding at a geometric rate, and with coming advances in sequencing technology, this rate is only expected to increase. With all this new data, analysis by individual humans is simply not possible. Thus, in the past 15 years, computational biology has emerged as a field concerned with storage, manipulation, and extraction of valuable information from all this new data. However, because computational biology is an emerging field, organized courses are generally saved for higher-level study, and often are not required parts of an undergraduate curriculum. We seek to fill this void in education and create a course that will introduce students to bioinformatics at an earlier point in their education. This knowledge will prove to be not simply useful, but essential, for any student considering a degree in any area of biology and medical science.
 {: .prereq}
 
+
+> ## Syllabus  
+Please read our [Syllabus](./syllabus/BCH709_2021fall.pdf).
+{: .prereq}
+
 ## Tentative Course Schedules
 
 | Week   | date  |  Day of the week  | Course |
-|--------|------------|-----------|-------------------------------------------------------------------|
+|--------|------------|:-----:|:-----------------------|
 | Week1  | 8/23/2021  | Monday    | Introduction                                                      |
 | Week1  | 8/25/2021  | Wednesday | Introduction to Bioinformatics                                    |
 | Week2  | 8/30/2021  | Monday    | Linux Environment and command line                                |
