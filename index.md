@@ -84,6 +84,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 > - [Please apply your Pronghorn account here](https://nevada.formstack.com/forms/high_performance_computing_application) ; [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - [Setup Slack ID](https://unrrc.slack.com/)
+> - [Setup Github ID](https://github.com/)
 > - Please register by using UNR email [datacamp](https://www.datacamp.com/)
 > - Please fill this [form](https://forms.gle/6K1P2Xc4BjzQ358F8)
 >
