@@ -148,7 +148,8 @@ I prefer to have online meeting through SLACK.
 ## Other Website
 
 [Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab")
-
+[Lecture website](https://plantgenomicslab.github.io/BCH709/)
+[Lecture Github](https://github.com/plantgenomicslab/BCH709)
   
 > ## Frequently Asked Questions  
 Read our [FAQ](./_episodes/FAQ/FAQ.md). Currently, this page is empty, but we will build it through the class.
