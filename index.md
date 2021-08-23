@@ -13,7 +13,6 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Modes of Instruction
 > This course will be accommodated in-person. This semester we will not offer Online or Alternative HyFlex course model
-Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 {: .callout}
 
 
