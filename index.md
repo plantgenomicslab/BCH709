@@ -34,6 +34,11 @@ Response to COVID-19, BCH709 will offer Alternative HyFlex course model.
 Please read our [Syllabus](./syllabus/BCH709_2021fall.pdf).
 {: .prereq}
 
+> ## Rubric  
+Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
+{: .prereq}
+
+
 ## Tentative Course Schedules
 
 | Week   | date  |  Day of the week  | Course |
