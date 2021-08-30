@@ -1153,7 +1153,7 @@ There are several options for archiving and compressing groups of files or direc
 >zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
 >zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
 >unzip SOMEFILE.zip
-{: checklist}
+{: .checklist}
 
 >## TAR compression/extraction
 >```bash
