@@ -16,6 +16,7 @@ published: true
 >## Assignments
 > Please finish below assignment
 > - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) 
+{: .callout}
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
 

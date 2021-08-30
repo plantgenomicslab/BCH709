@@ -44,8 +44,8 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 |--------|------------|:-----:|:-----------------------|
 | Week1  | 8/23/2021  | Monday    | Introduction                                                      |
 | Week1  | 8/25/2021  | Wednesday | Introduction to Bioinformatics                                    |
-| Week2  | 8/30/2021  | Monday    | Linux Environment and command line                                |
-| Week2  | 9/1/2021   | Wednesday | Linux Environment and command line                                |
+| Week2  | 8/30/2021  | Monday    | [Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)                                |
+| Week2  | 9/1/2021   | Wednesday | [Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)                                |
 | Week3  | 9/6/2021   | Monday    | Labor Day                                                         |
 | Week3  | 9/8/2021   | Wednesday | Linux Environment and Cloud                                       |
 | Week4  | 9/13/2021  | Monday    | Conda, Compile & Software Installations                           |

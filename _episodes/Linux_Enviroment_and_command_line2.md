@@ -634,7 +634,8 @@ Of course you can use `sort` independently.
 >$ uniq --help
 >```
 >![uniq3]({{site.baseurl}}/fig/uniq3.png)
-{: checklist}
+>
+{: .checklist} 
 
 >## diff 
 >diff (difference) reports differences between files. A simple example for diff usage would be
@@ -652,16 +653,16 @@ Of course you can use `sort` independently.
 >```bash
 >$ sort os.txt | diff -y - os_sort.txt
 >```
-{: checklist}
+{: .checklist} 
 
 
 ### There are still a lot of command that you can use. Such as `paste`, `comm`, `join`, `split` etc.
 
-### Oneliners
+## Oneliners
 Oneliner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
 [For advanced usage, please check this](https://plantgenomicslab.github.io/BCH709/onliner/index.html) 
 
-### FASTA format
+## FASTA format
 The original FASTA/Pearson format is described in the documentation for the FASTA suite of programs. It can be downloaded with any free distribution of FASTA (see fasta20.doc, fastaVN.doc or fastaVN.me—where VN is the Version Number).
 
 The first line in a FASTA file started either with a ">" (greater-than; Right angle braket) symbol or, less frequently, a ";" (semicolon) was taken as a comment. Subsequent lines starting with a semicolon would be ignored by software. Since the only comment used was the first, it quickly became used to hold a summary description of the sequence, often starting with a unique library accession number, and with time it has become commonplace to always use ">" for the first line and to not use ";" comments (which would otherwise be ignored).
@@ -670,7 +671,7 @@ Following the initial line (used for a unique description of the sequence) is th
 
 ![fasta]({{site.baseurl}}/fig/fasta.png)
 
-#### Description line
+### Description line
 The description line (defline) or header/identifier line, which begins with '>', gives a name and/or a unique identifier for the sequence, and may also contain additional information. In a deprecated practice, the header line sometimes contained more than one header, separated by a ^A (Control-A) character. In the original Pearson FASTA format, one or more comments, distinguished by a semi-colon at the beginning of the line, may occur after the header. Some databases and bioinformatics applications do not recognize these comments and follow the [NCBI FASTA specification](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp). 
 
 ### FASTA file handling with command line.
@@ -717,47 +718,40 @@ Please use `grep`  `cut` to find number.
 The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
 
 Please download below file
-`
+```bash
 http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
-`
+```
 What is `.gz` ?
-`
+```bash
 file MGI.gff3.gz
-`
+```
 
 
-### Compression
+## Compression
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
 
->## ZIP compression/extraction
+>### ZIP compression/extraction
 >zip OUTFILE.zip INFILE.txt Compress INFILE.txt
->zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
->zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
+>zip -r OUTDIR.zip ## DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
+>zip -r OUTFILE.zip . -i \*.txt ## Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
 >unzip SOMEFILE.zip
 {: checklist}
 
->## TAR compression/extraction
+>### TAR compression/extraction
 >tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
-tar -cvf OUTFILE.tar INFILE
-archive INFILE
-tar -czvf OUTFILE.tar.gz INFILE
-archive and compress file INFILE
-tar -tvf SOMEFILE.tar
-list contents of archive SOMEFILE.tar
-tar -xvf SOMEFILE.tar
->
->
->extract contents of SOMEFILE.tar
->tar -xzvf SOMEFILE.tar.gz
->extract contents of gzipped archive SOMEFILE.tar.gz
->tar -czvf OUTFILE.tar.gz DIRECTORY
->archive and compress all files in a directory into one archive file
->tar -czvf OUTFILE.tar.gz \*.txt
->archive and compress all ".txt" files in current directory into one archive file
+>```bash
+>tar -cvf OUTFILE.tar INFILE # archive INFILE 
+>tar -czvf OUTFILE.tar.gz INFILE # archive and compress file INFILE
+>tar -tvf SOMEFILE.tar #list contents of archive SOMEFILE.tar 
+>tar -xvf SOMEFILE.tar # extract contents of SOMEFILE.tar
+>tar -xzvf SOMEFILE.tar.gz #extract contents of gzipped archive SOMEFILE.tar.gz
+>tar -czvf OUTFILE.tar.gz DIRECTORY #archive and compress all files in a directory into one archive file
+>tar -czvf OUTFILE.tar.gz \*.txt #archive and compress all ".txt" files in current directory into one archive file
 >tar -czvf backup.tar.gz BACKUP_WORKSHOP
+>```
 {: checklist}
 
-## Gzip compression/extraction
+>## Gzip compression/extraction
 >gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
 >gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
 >gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file)
@@ -777,28 +771,29 @@ tar -xvf SOMEFILE.tar
 
 
 Print all sequences annotated in a GFF3 file.
-
-    cut -s -f 1,9 MGI.gff3 | grep $'\t' | cut -f 1 | sort | uniq
-
+```bash
+cut -s -f 1,9 MGI.gff3 | grep $'\t' | cut -f 1 | sort | uniq
+```
 
 Determine all feature types annotated in a GFF3 file.
-
-    grep -v '^#' MGI.gff3 | cut -s -f 3 | sort | uniq
-
+```bash
+grep -v '^#' MGI.gff3 | cut -s -f 3 | sort | uniq
+```
 
 Determine the number of genes annotated in a GFF3 file.
-
-    grep -c $'\tgene\t' MGI.gff3
-
+```bash
+grep -c $'\tgene\t' MGI.gff3
+```
 
 Extract all gene IDs from a GFF3 file.
-
-    grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+```bash
+grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+```
 
 Print all CDS.
-    
-    cat MGI.gff3 | cut -f 3 | grep CDS | 
-
+```bash    
+cat MGI.gff3 | cut -f 3 | grep CDS | 
+```
 Print CDS and ID
 ```bash
     cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
@@ -808,12 +803,15 @@ Print CDS and ID
     cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head  
 ```
 Print length of each gene in a GFF3 file.
+```bash
 
     grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
-
+```
 Extract all gene IDs from a GFF3 file.
+```bash
 
     grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+```
 
 Time and again we are surprised by just how many applications it has, and how frequently
 problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
