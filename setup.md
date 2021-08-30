@@ -16,7 +16,7 @@ This lecture is designed to be run on a terminal program. With the exception of 
 
 > ## Windows 10
 > - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/) or [connect this site](https://oit.unr.edu/services-and-support/data-storage/office-365/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
-
+>
 > If you use the most reent version of Windows
 > Step 1 - Enable the Windows Subsystem for Linux
 > You must first enable the "Windows Subsystem for Linux" optional feature before installing any Linux distributions on Windows.
@@ -31,6 +31,7 @@ This lecture is designed to be run on a terminal program. With the exception of 
 >  - **Please install Ubuntu 18.04 LTS.**
 > Open the [Microsoft Store](https://aka.ms/wslstore) and select your favorite Linux distribution.
 > ![Ubuntu](https://i0.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-7.jpeg?w=800&ssl=1){: width="70%" height="70%"}
+>
 >
 > - **If you use older version of Windows 10**
 > - Install [Bash on Windows](https://www.linux.com/news/bash-windows-what-does-it-mean/) by Enable “Windows Subsystem for Linux” feature.
