@@ -54,7 +54,7 @@ published: true
 >Let's downloading one file from website. There are several command to download file. Such as 'wget','curl','rsync' etcs. but this time we will use `curl`.
 >File location
 >```
->https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/bch709_student.txt
+>https://raw.githubusercontent.com/plantgenomicslab/BCH709/6055e8c5faf400119dc78b4d36f6b93814d9f76d/bch709_student.txt
 >```
 >How to use curl?
 >![curl]({{site.baseurl}}/fig/curl.png)
