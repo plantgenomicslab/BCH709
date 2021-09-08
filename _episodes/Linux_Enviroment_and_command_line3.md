@@ -397,10 +397,12 @@ file MGI.gff3.gz
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
 
 >## ZIP compression/extraction
->zip OUTFILE.zip INFILE.txt Compress INFILE.txt
->zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
->zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
->unzip SOMEFILE.zip
+>```bash
+>zip OUTFILE.zip INFILE.txt ## Compress INFILE.txt  
+>zip -r OUTDIR.zip DIRECTORY ## Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
+>zip -r OUTFILE.zip . -i \*.txt ## Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip) 
+>unzip SOMEFILE.zip  ## Decompress
+>```
 {: .checklist}
 
 >## TAR compression/extraction
@@ -758,6 +760,7 @@ A tutorial that teaches you how to work at the command-line. You'll learn all th
 - `fortune`, `ddate`, and `sl`: um, well, it depends on whether you consider steam locomotives and Zippy quotations "useful"
 
 
+## Recent unix command
 
 {{< rawhtml >}}
 <h1 align="center">Modern Unix</h1>
@@ -828,7 +831,7 @@ A tutorial that teaches you how to work at the command-line. You'll learn all th
   </h1>
   <p align="center">A new way to see and navigate directory <code>tree</code>s</p>
   <p align="center">
-    <img src="https://github.com/Canop/broot/blob/master/website/docs/img/20200629-overview.png" width="600" />
+    <img src="https://github.com/Canop/broot/raw/master/website/docs/img/20200629-overview.png" width="600" />
   </p>
 </p>
 
@@ -878,7 +881,7 @@ A tutorial that teaches you how to work at the command-line. You'll learn all th
   </h1>
   <p align="center">Fly through your shell <code>history</code>. Great Scott! </p>
   <p align="center">
-    <img src="https://github.com/cantino/mcfly/blob/master/docs/screenshot.png" width="600" />
+    <img src="https://github.com/cantino/mcfly/raw/master/docs/screenshot.png" width="600" />
   </p>
 </p>
 
