@@ -29,18 +29,544 @@ published: true
 
 >## Assignments
 > Please finish below assignment before due date  
-> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/14/20  
-> - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/14/20  
-> - [DataCamp Downloading Conda Essentials](https://learn.datacamp.com/courses/conda-essentials) Due by 9/21/20  
+> - [Introduction to Git](https://campus.datacamp.com/courses/introduction-to-gi) Due by 9/12/21  
 {: .prereq}
 
 
-## Command Line Bootcamp
-[Command-line bootcamp-server1](http://35.199.189.11:8081/)
+>## Clean up and start new
+>Before we start other session, let's clean up folders
+>```bash
+>$ cd ~/
+>$ ls 
+>```
+>Please do it first and check the solution below.
+{: .challenge}
 
-[Command-line bootcamp-server2](http://35.199.188.125:8081/)
+>## Clean the folder with contents
+>How can we clean up `bch709_test`  `Hello` ?
+>```bash
+>rm -R  <folder name>
+>```
+{: .solution}
 
-[Command-line bootcamp-server3](http://34.105.112.123:8081/)
+
+>## Downloading file
+>Let's downloading one file from website. There are several command to download file. Such as 'wget','curl','rsync' etcs. but this time we will use `curl`.
+>File location
+>```
+>https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/bch709_student.txt
+>```
+>How to use curl?
+>![curl]({{site.baseurl}}/fig/curl.png)
+>
+>How to download from web file?
+>
+>```
+>curl -L -o <output_name> <link>
+>```
+>```bash
+>curl -L -o bch709_student.txt https://raw.githubusercontent.com/plantgenomicslab/BCH709/6055e8c5faf400119dc78b4d36f6b93814d9f76d/bch709_student.txt
+> ls bch709_student.txt
+>```
+{: .keypoints}
+
+>## Viewing file contents
+>There are various commands to print the contents of the file in bash. Most of these commands are often used in specific contexts. All these commands when executed with filenames displays the contents on the screen. Most common ones are less, more, cat, head and tail.
+>`less` FILENAME try this: `less bch709_student.txt` Displays file contents on the screen with line scrolling (to scroll you can use arrow keys, PgUp/PgDn keys, space bar or Enter key). When you are done press q to exit.  
+>`more` FILENAME try this: `more bch709_student.txt` Like less command, also, displays file contents on the screen with line scrolling but uses only space bar or Enter key to scroll. When you are done press q to exit.  
+>`cat` FILENAME try this: `cat bch709_student.txt` Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing  
+>`head` FILENAME try this: `head bch709_student.txt` Displays only the starting lines of a file. The default is first ten lines. But, any number of lines can be displayed using –n option (followed by required number of lines).  
+>`tail` FILENAME try this: `tail bch709_student.txtSimilar` to head, but displays the last 10 lines. Again –n option can be used to change this. More information about any of these commands can be found in man pages (man command)  
+{: .keypoints}
+
+>## Let's Download bigger data
+>Please go to below wesite.
+>```
+>ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/
+>```
+>Please download yellow marked file.
+>![download]({{site.baseurl}}/fig/download.png)
+{: .keypoints}
+
+>## How to download
+>![download2]({{site.baseurl}}/fig/download2.png)
+>```bash
+>curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
+>```
+{: .solution}
+
+>## Viewing file contents
+>What is the difference in `less`, `tail`, `more` and `head`?
+{: .discussion}
+
+
+>## What are flags (parameters / options)?
+>A “flag” in Unix terminology is a parameter added to the command. See for example
+>```
+>$ ls
+>```
+>versus
+>```
+>$ ls -l
+>```
+>Typically flags make programs behave differently or report their information in different ways.
+{: .checklist} 
+
+>## How to find out what flags are available?
+>You can use the manual to learn more about a command:
+>```bash
+>$ man ls
+>```
+>will produce
+>![man]({{site.baseurl}}/fig/man.png)
+{: .checklist} 
+
+>## What if the tools does not have manual page?
+>Only tools that come with Unix will have a manual. For other software the -h, -help or
+>--help command will typically print instructions for their use.
+>```bash
+>$ curl --help
+>```
+>If the help flag is not recognized you will need to find the manual for the software.
+{: .checklist} 
+
+>## What are flag formats?
+>Traditionally Unix tools use two flag forms:
+>- short form: single minus - then one letter, like -o, ’-L‘
+>
+>- long form: double minus -- then a word, like --output, --Location
+>In each case the parameter may stand alone as a toggle (on/off) or may take additional values after the flag. -o <filename> or -L
+>Now some bioinformatics tools do not follow this tradition and use a single - character for both short and long options. -g and -genome.
+>**Using flags is a essential to using Unix. Bioinformatics tools typically take a large number of parameters specified *via* flags**. The correctness of the results critically depends on the proper use of these parameters and flags.
+{: .checklist} 
+
+
+>## How many lines does the file have?
+>You can pipe the output of you stream into another program rather than the screen. Use the | (Vertical Bar) character to connect the programs. For example, the wc program is the word counter.
+>```bash
+>cat bch709_student.txt | wc
+```
+>prints the number of lines, words, and characters in the stream:
+>```
+>     41     141     900
+>```
+>How many lines?
+>```bash
+>cat bch709_student.txt | wc -l
+>```
+>```output
+>41
+>```
+> *of course we can use `wc` directly*
+>```bash
+>wc -l bch709_student.txt 
+>```
+> That is equivalent to:
+>```bash
+>cat bch709_student.txt  | wc -l
+>```
+>In general, it is a better option to open a stream with cat then pipe the flow into the next program. Later you will see that it is easier to design, build and understand more complex pipelines when the data stream is opened at the beginning as a separate step.
+>
+>Again, let's do head.
+>```bash
+>cat bch709_student.txt  | head
+>```
+>![head]({{site.baseurl}}/fig/head.png)
+>>## is this equivalent to?
+>>```bash
+>>head bch709_student.txt
+>>```
+>{: .solution}
+{: .checklist}
+
+>## grep 
+>Globally search a Regular Expression and Print is one of the most useful commands in UNIX and it is commonly used to filter a file/input, line by line, against a pattern eg., to print each line of a file which contains a match for pattern.
+>Please check option with :
+>```bash
+>grep --help
+>```
+>With options, syntax is
+>```
+>grep [OPTIONS] PATTERN FILENAME
+>```
+>Let's find how many people use macOS?
+>First we need to check file.
+>```bash
+>$ wc -l bch709_student.txt
+>```
+>```bash
+>$ less bch709_student.txt
+>```
+>How can we find the macOS people?
+>Now we can use `grep`
+>```bash
+>$ cat bch709_student.txt | grep MacOS
+>```
+>How can we count?
+>```bash
+>$ cat bch709_student.txt | grep MacOS | wc -l
+>```
+>How about this?
+>```bash
+>$ grep MacOS bch709_student.txt | wc -l
+>```
+>How about this?
+>```bash
+>$ grep -c MacOS bch709_student.txt
+>```
+>With other options (flags)
+>```bash
+>$ grep -v Windows  bch709_student.txt
+>```
+>With multiple options (flags)
+>```bash
+>$ grep -c -v Windows  bch709_student.txt
+>```
+>
+>```bash
+>$ grep --color  -i macos  bch709_student.txt
+>```
+{: checklist}
+
+>## How do I store the results in a new file?  
+>The > character is the redirection.
+>```bash 
+>$ grep  -i macos  bch709_student.txt > mac_student
+>```
+>```bash
+>$ cat bch709_student.txt | grep -i windows > windows_student
+>```
+>Please check with `cat` or `less`
+{: checklist}
+
+>## Do you want to check difference?
+>```bash
+>$ diff mac_student windows_student
+>```
+>```bash
+>$ diff -y  mac_student windows_student
+>```
+{: .keypoints}
+
+>## How can I select name only? (cut)
+>```bash
+>$ cat bch709_student.txt  | cut -f 1
+>```
+>```bash
+>$ cut -f 1 bch709_student.txt
+>```
+{: .keypoints}
+
+>## How can I sort it ? (sort)
+>```bash
+>cut -f 1 bch709_student.txt | sort
+>```
+>```bash
+>$ sort bch709_student.txt
+>$ sort -k 2 bch709_student.txt
+>$ sort -k 1 bch709_student.txt
+>```
+>```bash
+>$ sort -k 1 bch709_student.txt | cut -f 1
+>```
+>Save?
+>```bash
+>sort -k 1 bch709_student.txt | cut -f 1 > name_sort
+>```
+{: .keypoints}
+
+
+>## uniq 
+>uniq command removes duplicate lines from a **sorted file**, retaining only one instance of the running matching lines. Optionally, it can show only lines that appear exactly once, or lines that appear more than once. uniq requires sorted input since it compares only consecutive lines.
+>```bash
+>$ cut -f 2 bch709_student.txt > os.txt
+>```
+>```bash
+>$ uniq -c os.txt
+>```
+>![uniq]({{site.baseurl}}/fig/uniq.png)
+>```bash
+>$ sort os.txt | uniq -c
+>```
+>![uniq2]({{site.baseurl}}/fig/uniq2.png)
+Of course you can use `sort` independently.
+>```bash
+>$ sort os.txt > os_sort.txt
+>$ uniq -c os_sort.txt
+>```
+>```bash
+>$ uniq --help
+>```
+>![uniq3]({{site.baseurl}}/fig/uniq3.png)
+{: .checklist}
+
+>## diff 
+>diff (difference) reports differences between files. A simple example for diff usage would be
+>`
+>$ diff FILEA FILEB
+>`
+>When you try to use new command, please check with `--help`.
+>![diff]({{site.baseurl}}/fig/diff.png)
+>```bash
+>$ diff  os.txt  os_sort.txt
+>```
+>```bash
+>$ diff -y os.txt  os_sort.txt
+>```
+>```bash
+>$ sort os.txt | diff -y - os_sort.txt
+>```
+{: .checklist}
+
+
+### There are still a lot of command that you can use. Such as `paste`, `comm`, `join`, `split` etc.
+
+### One liners
+Oneliner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
+[For advanced usage, please check this](https://plantgenomicslab.github.io/BCH709/onliner/index.html) 
+
+### FASTA format
+The original FASTA/Pearson format is described in the documentation for the FASTA suite of programs. It can be downloaded with any free distribution of FASTA (see fasta20.doc, fastaVN.doc or fastaVN.me—where VN is the Version Number).
+
+The first line in a FASTA file started either with a ">" (greater-than; Right angle braket) symbol or, less frequently, a ";" (semicolon) was taken as a comment. Subsequent lines starting with a semicolon would be ignored by software. Since the only comment used was the first, it quickly became used to hold a summary description of the sequence, often starting with a unique library accession number, and with time it has become commonplace to always use ">" for the first line and to not use ";" comments (which would otherwise be ignored).
+
+Following the initial line (used for a unique description of the sequence) is the actual sequence itself in standard one-letter character string. Anything other than a valid character would be ignored (including spaces, tabulators, asterisks, etc...). Originally it was also common to end the sequence with an "\*" (asterisk) character (in analogy with use in PIR formatted sequences) and, for the same reason, to leave a blank line between the description and the sequence.
+
+![fasta]({{site.baseurl}}/fig/fasta.png)
+
+#### Description line
+The description line (defline) or header/identifier line, which begins with '>', gives a name and/or a unique identifier for the sequence, and may also contain additional information. In a deprecated practice, the header line sometimes contained more than one header, separated by a ^A (Control-A) character. In the original Pearson FASTA format, one or more comments, distinguished by a semi-colon at the beginning of the line, may occur after the header. Some databases and bioinformatics applications do not recognize these comments and follow the [NCBI FASTA specification](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp). 
+
+### FASTA file handling with command line.
+Please check one fasta file
+```bash
+$ ls ATH_cDNA_sequences_20101108.fas
+```
+
+>## previous example
+>![download2]({{site.baseurl}}/fig/download2.png)
+>```bash
+>curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
+>```
+{: .solution}
+
+### count cDNA
+How many cDNA in this fasta file?
+Please use `grep`  `wc` to find number.
+>## fasta count
+>![fasta_count]({{site.baseurl}}/fig/fasta_count.png)
+{: .solution}
+
+>## count DNA letter
+>How many sequences (DNA letter) in this fasta file?
+>Please use `grep`  `wc` to find number.
+{: .discussion}
+
+
+### what is GI and GB?
+[NCBI identifiers](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/)
+![NCBI identifiers]({{site.baseurl}}/fig/NCBI_identifiers.png)
+
+### Collect GI
+How can I collect GI from FASTA description line?
+Please use `grep`  `cut` to find number.
+
+
+>## Sequence redundancy
+>Does GI have any redundancy?
+>Please use `grep`  `wc` `diff` to solve.
+{: .discussion}
+
+
+## GFF file
+The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 [(http://gmod.org/wiki/GFF3)](http://gmod.org/wiki/GFF3) specifications.
+
+Please download below file
+```bash
+http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
+```
+
+What is `.gz` ?
+```bash
+file MGI.gff3.gz
+```
+
+
+
+### Compression
+There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
+
+>## ZIP compression/extraction
+>zip OUTFILE.zip INFILE.txt Compress INFILE.txt
+>zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
+>zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
+>unzip SOMEFILE.zip
+{: .checklist}
+
+>## TAR compression/extraction
+>```bash
+>tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
+>tar -xzvf SOMEFILE.tar.gz # extract contents of SOMEFILE.tar
+>tar -czvf OUTFILE.tar.gz DIRECTORY #extract contents of gzipped archive SOMEFILE.tar.gz
+>tar -czvf OUTFILE.tar.gz \*.txt #archive and compress all files in a directory into one archive file
+>tar -czvf backup.tar.gz BACKUP_WORKSHOP #archive and compress all ".txt" files in current directory into one archive file
+>```
+{: .checklist}
+
+## Gzip compression/extraction
+>gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
+>gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
+>gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file)
+>
+>gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
+>```bash
+>$ gunzip MGI.gff3.gz
+>$ ls –lh
+>$ gzip MGI.gff3
+>$ ls -lh
+>$ gunzip MGI.gff3.gz
+>```
+{: .checklist}
+
+
+## GFF3 Annotations
+
+
+Print all sequences annotated in a GFF3 file.
+```bash
+cut -s -f 1,9 MGI.gff3 | grep $'\t' | cut -f 1 | sort | uniq
+```
+
+Determine all feature types annotated in a GFF3 file.
+```bash
+grep -v '^#' MGI.gff3 | cut -s -f 3 | sort | uniq
+```
+
+Determine the number of genes annotated in a GFF3 file.
+```bash
+grep -c $'\tgene\t' MGI.gff3
+```
+
+Extract all gene IDs from a GFF3 file.
+```bash
+grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+```
+
+Print all CDS.
+```bash  
+cat MGI.gff3 | cut -f 3 | grep CDS | 
+```
+Print CDS and ID
+```bash
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head  
+    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head  
+```
+Print length of each gene in a GFF3 file.
+```bash
+grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
+```
+
+Extract all gene IDs from a GFF3 file.
+```bash
+grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
+```
+
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.
+
+<!--
+FASTA header lines to GFF format (assuming the length is in the header as an appended "\_length" as in [Velvet](http://www.ebi.ac.uk/~zerbino/velvet/) assembled transcripts):
+
+    grep '>' file.fasta | awk -F "_" 'BEGIN{i=1; print "##gff-version 3"}{ print $0"\t BLAT\tEXON\t1\t"$10"\t95\t+\t.\tgene_id="$0";transcript_id=Transcript_"i;i++ }' > file.gff
+
+
+###
+
+16 centromere
+16 centromere_DNA_Element_I
+16 centromere_DNA_Element_II
+16 centromere_DNA_Element_III
+8 external_transcribed_spacer_region
+24 five_prime_UTR_intron
+To find out the most frequent unique elements, we need to sort the output of uniq.
+cat types.txt | sort | uniq -c | sort -rn | head
+it now prints:
+7074 CDS
+6604 ORF
+484 noncoding_exon
+383 long_terminal_repeat
+377 intron
+352 ARS
+299 tRNA_gene
+196 ARS_consensus_sequence
+91 transposable_element_gene
+77 snoRNA_gene
+
+
+
+
+cat MGI.gff3 | cut -f 2 | head
+Build your commands one step at a time, always checking that you are on the right track:
+cat MGI.gff3 | head
+cat MGI.gff3 | cut -f 2 | head
+cat MGI.gff3 | cut -f 2 | grep ORF | head
+12.3.16 How many genes are there?
+cat MGI.gff3 | cut -f 2 | grep ORF | wc -l
+12.3.17 Can I select multiple columns?
+cat MGI.gff3 | cut -f 2,3,4 | grep ORF | head
+What does this do?
+cat MGI.gff3 | cut -f 2,3,4 | grep ORF | grep -v Dubious | wc -l
+12.4 How many feature types are in this data?
+We are going to use this data a lot, so place it into a separate file for now.
+cat MGI.gff3 | cut -f 2 > types.txt
+Sorting places identical consecutive entries next to one another.
+cat types.txt | sort | head
+Find unique words. The uniq command collapses consecutive identical words into one.
+cat types.txt | sort | uniq | head
+Using -c flag to uniq will not only collapse consecutive entries it will print their counts.
+cat types.txt | sort | uniq -c | head
+prints:
+352 ARS
+196 ARS_consensus_sequence
+6 blocked_reading
+
+
+12.5 The single most useful Unix pattern
+The pattern sort | uniq -c | sort -rn is perhaps the most useful simple unix command
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.pattern that you will ever learn.
+Time and again we are surprised by just how many applications it has, and how frequently
+problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts.
+The skill of using Unix is not just that of understanding the commands themselves. It is
+more about recognizing when a pattern, such as the one that we show above, is the solution
+to the problem that you wish to solve. The easiest way to learn to apply these patterns is
+by looking at how others solve problems, then adapting it to your needs.
+
+
+-->
+
+
+This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
+
+, a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
+
+
+This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
+
 
 
 A tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
@@ -255,27 +781,6 @@ Please check one fasta file
 $ ls ATH_cDNA_sequences_20101108.fas
 ```
 
->## Previous example
->![download2]({{site.baseurl}}/fig/download2.png)
->```bash
->curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
->```
-{: .solution}
-
-
-### count cDNA
-How many cDNA in this fasta file?
-Please use `grep`  `wc` to find number.
->## fasta count
->![fasta_count]({{site.baseurl}}/fig/fasta_count.png)
-{: .solution}
-
->## count DNA letter
->How many sequences (DNA letter) in this fasta file?
->Please use `grep`  `wc` to find number.
-{: .discussion}
-
-
 ### what is GI and GB?
 [NCBI identifiers](https://www.ncbi.nlm.nih.gov/genbank/sequenceids/)
 ![NCBI identifiers]({{site.baseurl}}/fig/NCBI_identifiers.png)
@@ -291,95 +796,44 @@ Please use `grep`  `cut` to find number.
 {: .discussion}
 
 ### Split fasta
-
+```bash
     	awk '/^>/{f=++d".fasta"} {print > f}'  ATH_cDNA_sequences_20101108.fas
-
+```
 ### Merge fasta
+```bash
     cat 1.fasta 2.fasta 3.fasta >> myfasta.fasta
     cat ?.fasta 
     cat ??.fasta 
-
+```
 ### Search fasta
+```bash
+
     grep -n  --color "GAATTC" ATH_cDNA_sequences_20101108.fas
     grep -n  --color -E 'GAA?TTC' ATH_cDNA_sequences_20101108.fas
-
+```
 
 ### Regular Expression
 A regular expression is a pattern that the regular expression engine attempts to match in input text. A pattern consists of one or more character literals, operators, or constructs.
-Please play [this](http://play.inginf.units.it/#/)
+Please play [this](https://regexone.com/lesson)
 
 
 ## GFF file
-The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
+The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 [(http://gmod.org/wiki/GFF3)](http://gmod.org/wiki/GFF3) specifications.
 
 Please download below file
-```
+```bash
 http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
 ```
 
 What is `.gz` ?
-```
+```bash
 file MGI.gff3.gz
 ```
 
 
-### Compression
-There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
-![data_compression](http://stoimen.com/wp-content/uploads/2012/01/Run-lengthEncoding1.png)
-
-## ZIP compression/extraction
-```zip OUTFILE.zip INFILE.txt```
-Compress INFILE.txt  
-
-```zip -r OUTDIR.zip DIRECTORY```
-Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
-
-```zip -r OUTFILE.zip . -i \*.txt ```
-    Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)  
-```unzip SOMEFILE.zip```
-
-
-## TAR compression/extraction  
-tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.  
-- archive INFILE
-```tar -cvf OUTFILE.tar INFILE ```  
-- archive and compress file INFILE
-```tar -czvf OUTFILE.tar.gz INFILE  ```
-![tar]({{site.baseurl}}/fig/tar.png)  
-- list contents of archive SOMEFILE.tar
-```tar -tvf SOMEFILE.tar ``` 
-```tar -xvf SOMEFILE.tar  ```
-![tar2]({{site.baseurl}}/fig/tar2.png)  
-
-- extract contents of SOMEFILE.tar.gz
-```tar -xvf SOMEFILE.tar```
-
-- extract contents of gzipped archive SOMEFILE.tar.gz
-```tar -zxvf SOMEFILE.tar.gz  ```
-![tar3]({{site.baseurl}}/fig/tar3.png)  
-- archive and compress all files in a directory into one archive file
-```tar -czvf OUTFILE.tar.gz DIRECTORY ``` 
-- archive and compress all ".txt" files in current directory into one archive file  
-```tar -czvf OUTFILE.tar.gz \*.txt ``` 
-```tar -czvf backup.tar.gz BACKUP_WORKSHOP ``` 
-
-## Gzip compression/extraction
-gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
-gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
-```gunzip SOMEFILE.gz```
-- uncompress SOMEFILE.gz (also removes compressed file)
-
-gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
-```bash
-$ gunzip MGI.gff3.gz
-$ ls –lh
-$ gzip MGI.gff3
-$ ls -lh
-$ gunzip MGI.gff3.gz
-```
 
 ### Check file with `less` or `cat`
-`less` ** QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ **
+`less` ** Q**
 
 `cat` **Ctrl+C can be used to stop any command in terminal safely.**
 
@@ -396,63 +850,21 @@ $ gunzip MGI.gff3.gz
 - phase - One of '0', '1' or '2'. '0' indicates that the first base of the feature is the first base of a codon, '1' that the second base is the first base of a codon, and so on..
 attributes - A semicolon-separated list of tag-value pairs, providing additional information about each feature. Some of these tags are predefined, e.g. ID, Name, Alias, Parent - see the GFF documentation for [more details](http://gmod.org/wiki/GFF3).
 
-
-
-## GFF3 Annotations
-
-Print all sequences annotated in a GFF3 file.
-
-    cut -s -f 1,9 MGI.gff3 | grep $'\t' | cut -f 1 | sort | uniq
-
-
-Determine all feature types annotated in a GFF3 file.
-
-    grep -v '^#' MGI.gff3 | cut -s -f 3 | sort | uniq
-
-
-Determine the number of genes annotated in a GFF3 file.
-
-    grep -c $'\tgene\t' MGI.gff3
-
-
-Extract all gene IDs from a GFF3 file.
-
-    grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
-
-Print all CDS.
-    
-    cat MGI.gff3 | cut -f 3 | grep CDS | 
-
-Print CDS and ID
-```
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head    
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head    
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head    
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head    
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head    
-```
-Print length of each gene in a GFF3 file.
-
-    grep $'\tgene\t' MGI.gff3 | cut -s -f 4,5 | perl -ne '@v = split(/\t/); printf("%d\n", $v[1] - $v[0] + 1)'
-
-Extract all gene IDs from a GFF3 file.
-
-    grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
-
 Returns all lines on Chr 10 between 5.2MB and 5.45MB in  MGI.gff3. (assumes) chromosome in column 1 and position in column 4:
-     
+  ```bash   
     cat MGI.gff3 | awk '$1=="10"' | awk '$4>=5200000' | awk '$4<=5450000' 
 
     cat MGI.gff3 | awk '$1=="10"' | awk '$4>=5200000' | awk '$4<=5450000' |  grep mRNA 
 
     cat MGI.gff3 | awk '$1=="10"' | awk '$4>=5200000' | awk '$4<=5450000' |  grep mRNA | awk '{print $0,$5-$4}' 
-
+```
 Returns specific lines
+```bash
 
     sed -n '1,10p' MGI.gff3
 
-    sed -n '52p' FILENAME
-
+    sed -n '52p' MGI.gff3
+```
 
 
 Time and again we are surprised by just how many applications it has, and how frequently problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
@@ -503,6 +915,18 @@ The ssh command is pre-installed. It means Secure Shell.
     rsync -avhP  username@pronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 ```
     (Synchronize a remote directory with the local directory)
+
+
+## Windows user Desktop location
+
+```bash
+/mnt/c/Users/[WINDOWS LOGIN ID]/Desktop/
+```
+## Mac user Desktop location
+
+```bash
+~/Desktop/
+```
 
 
 ## Slurm Quick Start Tutorial
@@ -571,7 +995,7 @@ The typical way of creating a job is to write a submission script. A submission 
 >The SBATCH directives must appear at the top of the submission file, before any other line except for the very first line which should be the shebang (e.g. #!/bin/bash).
 >The script itself is a job step. Other job steps are created with the srun command.
 >For instance, the following script, hypothetically named submit.sh,
-{: checklist}
+{: .checklist}
 
 ```bash
  nano submit.sh
@@ -619,7 +1043,6 @@ alias egrep='egrep --color=auto'
 alias ll='ls -alhg'
 alias la='ls -A'
 alias du='du -h --max-depth=1'
-alias rename='~/scratch/binary/rename'
 
 tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"
 ```
