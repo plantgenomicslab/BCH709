@@ -29,7 +29,7 @@ published: true
 
 >## Assignments
 > Please finish below assignment before due date  
-> - [Introduction to Git](https://campus.datacamp.com/courses/introduction-to-gi) Due by 9/12/21  
+> - [Introduction to Git](https://campus.datacamp.com/courses/introduction-to-git) Due by 9/12/21  
 {: .prereq}
 
 
