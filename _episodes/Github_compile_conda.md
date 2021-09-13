@@ -25,7 +25,7 @@ $ htop
 
 ### Prompt Customization
 
-```
+```bash
 echo '###BCH709 ' >> ~/.bashrc
 
 echo 'tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
@@ -46,30 +46,9 @@ source ~/.bashrc
 | [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) | 2.1.0| [Link](https://ccb.jhu.edu/software/hisat2/index.shtml) | Linux, MacOS, Windows | Mapping RNA sequences against genome |
 | [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
 
-## QuickStart Software Installation Instructions
-​
-First, I would recommend to put all the software under `~/bch709/bin` folder.
-Please use `mkdir -p ~/bch709/bin` 
-
-
-### Download example
-Second please make example folder below `~/bch709/`
-Such as `~/bch709/example`  and download below files.
-
-#### Download reads example 
-```
-https://www.dropbox.com/s/p11a5cw5lb5y0un/test.fq
-```
-
-#### Download genome example
-```
-https://www.dropbox.com/s/q2srdymrp76jevm/test_genome.fasta
-```
 
 ## Current location
 Please check your current location and move to   `~/bch709/example`
-
-
 
 
 ## Different way to install software?
