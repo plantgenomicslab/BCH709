@@ -48,7 +48,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week2  | 9/1/2021   | Wednesday | [Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)                                |
 | Week3  | 9/6/2021   | Monday    | Labor Day                                                         |
 | Week3  | 9/8/2021   | Wednesday | [Linux Environment and Cloud](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)                                       |
-| Week4  | 9/13/2021  | Monday    | Conda, Compile & Software Installations                           |
+| Week4  | 9/13/2021  | Monday    | [Conda, Compile & Software Installations](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)                         |
 | Week4  | 9/15/2021  | Wednesday | GitHub and server                                                 |
 | Week5  | 9/20/2021  | Monday    | Sequencing methods and strategies                                 |
 | Week5  | 9/22/2021  | Wednesday | Sequence manipulation                                             |
