@@ -53,9 +53,9 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week5  | 9/20/2021  | Monday    | [Sequencing methods and strategies](https://unr.canvaslms.com/files/7985263/download?download_frd=1)                                 |
 | Week5  | 9/22/2021  | Wednesday | Sequence manipulation                                             |
 | Week6  | 9/27/2021  | Monday    | RNA-Seq                                                           |
-| Week6  | 9/29/2021  | Wednesday | Transcriptome assembly                                            |
+| Week6  | 9/29/2021  | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
 | Week7  | 10/4/2021  | Monday    | Transcriptome algorithms                                          |
-| Week7  | 10/6/2021  | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
+| Week7  | 10/6/2021  | Wednesday | Transcriptome assembly                                           |
 | Week8  | 10/11/2021 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
 | Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
 | Week9  | 10/18/2021 | Monday    | DEG analysis                                                      |
