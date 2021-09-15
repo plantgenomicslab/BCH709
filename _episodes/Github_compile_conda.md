@@ -450,13 +450,11 @@ isogenic replicates and >0.8 between anisogenic replicates.
 - Extraction method bias (GC bias)
 
 >## Reading materials
->Romero, Irene Gallego, et al. "RNA-seq: impact of RNA degradation on transcript quantification." BMC biology 12.1 (2014): 42
->Kim, Young-Kook, et al. "Short structured RNAs with low GC content are selectively lost during extraction from a small number of cells." Molecular cell 46.6 (2012): 893-89500481-9).
+>Romero, Irene Gallego, et al. "RNA-seq: impact of RNA degradation on transcript quantification." BMC biology 12.1 (2014): 42  
+>Kim, Young-Kook, et al. "Short structured RNAs with low GC content are selectively lost during extraction from a small number of cells." Molecular cell 46.6 (2012): 893-89500481-9).  
 {: .prereq}
 
-### RNA Quantification and Quality Control: When working with bulk samples, throughout the various
-steps we periodically assess the quality and quantity of the RNA. This is typically done on a
-BioAnalyzer. Points to check are:
+**RNA Quantification and Quality Control: When working with bulk samples, throughout the various steps we periodically assess the quality and quantity of the RNA. This is typically done on a BioAnalyzer. Points to check are:**
 a. Total RNA
 b. After oligo-dT size selections
 c. After rRNA-depletions
@@ -557,10 +555,10 @@ $ cd bch709/rnaseq/
 
 $ pwd
 
-$ wget https://www.dropbox.com/s/pfu2r922esr1ccf/paired2.fastq.gz
+$ wget https://www.dropbox.com/s/y7yehmfze1l6cgz/pair1.fastq.gz
 
-$ wget https://www.dropbox.com/s/o642h0ca6djdbib/paired1.fastq.gz
-
+$ wget https://www.dropbox.com/s/xsrth6icapyr4p0/pair2.fastq.gz
+ 
 $ ls -algh
 
 $ zcat paired2.fastq.gz | head
@@ -605,10 +603,10 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-$ conda create -n rnaseq python=3
+$ conda create -n rnaseq_test python=3
 
 
-$ conda activate rnaseq
+$ conda activate rnaseq_test
 
 
 ```
@@ -682,7 +680,7 @@ $ conda install -c bioconda trim-galore
 ```bash
 $ trim_galore --help
 
-$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
+$ trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
 
 $ multiqc .
 ```
