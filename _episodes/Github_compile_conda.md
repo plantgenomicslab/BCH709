@@ -73,6 +73,8 @@ https://github.com/DaehwanKimLab/hisat2
 ### Download
 ```bash
 
+$ mkdir -p ~/bch709/bin
+
 $ cd ~/bch709/bin
 
 $ git clone https://github.com/DaehwanKimLab/hisat2.git
