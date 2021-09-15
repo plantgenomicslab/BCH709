@@ -47,10 +47,6 @@ source ~/.bashrc
 | [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
 
 
-## Current location
-Please check your current location and move to   `~/bch709/example`
-
-
 ## Different way to install software?
 ## Github
 ### What is Git and why use it?
