@@ -1,3 +1,10 @@
+---
+layout: page
+title: seqkit_tutorial
+published: true
+---
+
+
 # Tutorial
 
 ## Some manipulations on big genomes
