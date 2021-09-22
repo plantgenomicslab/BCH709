@@ -51,7 +51,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week4  | 9/13/2021  | Monday    | [Conda, Compile & Software Installations](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)                         |
 | Week4  | 9/15/2021  | Wednesday | [GitHub and server](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html) |
 | Week5  | 9/20/2021  | Monday    | [Sequencing methods and strategies](https://unr.canvaslms.com/files/7985263/download?download_frd=1)                                 |
-| Week5  | 9/22/2021  | Wednesday | Sequence manipulation                                             |
+| Week5  | 9/22/2021  | Wednesday | [Sequence manipulation](https://plantgenomicslab.github.io/BCH709/seqkit_tutorial/index.html)                                             |
 | Week6  | 9/27/2021  | Monday    | RNA-Seq                                                           |
 | Week6  | 9/29/2021  | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
 | Week7  | 10/4/2021  | Monday    | Transcriptome algorithms                                          |
