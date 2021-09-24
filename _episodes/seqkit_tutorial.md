@@ -339,7 +339,7 @@ Examples
 
     We could specify chromesomes and features.
 
-        $ seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr 1 --feature cds  GRCh38_latest_genomic.fna.gz > chr1.gtf.cds.fa
+        $ seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr NC_000001.11 --feature cds  GRCh38_latest_genomic.fna.gz > chr1.gtf.cds.fa
 
         $ seqkit stat chr1.gtf.cds.fa
         file             format  type  num_seqs    sum_len  min_len  avg_len  max_len
