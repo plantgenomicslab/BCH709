@@ -208,6 +208,7 @@ The FastQ sequence identifier generally adheres to a particular format, all of w
 
 ```bash
 pwd
+<<<<<<< Updated upstream
 
 cd ~/
 
@@ -222,6 +223,22 @@ wget https://nevada.box.com/shared/static/g9dc1dn6h23u6tktv0uttdw2q1ad3xuz.gz -O
 wget https://nevada.box.com/shared/static/y320e7atipagawwvl4plkclmeh86a1vg.gz -O pair2.fastq.gz
 ls -algh
 
+=======
+
+cd ~/
+
+mkdir -p bch709/rnaseq
+
+cd bch709/rnaseq/
+
+pwd
+
+wget https://nevada.box.com/shared/static/g9dc1dn6h23u6tktv0uttdw2q1ad3xuz.gz -O pair1.fastq.gz
+
+wget https://nevada.box.com/shared/static/y320e7atipagawwvl4plkclmeh86a1vg.gz -O pair2.fastq.gz
+ls -algh
+
+>>>>>>> Stashed changes
 zcat paired2.fastq.gz | head
  ```
 
@@ -388,8 +405,12 @@ conda install -c conda-forge -c bioconda hisat2
 ```
 ### Download reference sequence
 ```bash
+<<<<<<< Updated upstream
 wget https://www.dropbox.com/s/851ob9e3ktxhyxz/bch709.fasta  -O bch709.fasta
 
+=======
+wget https://nevada.box.com/shared/static/bk0dy45rpa78wotkpt83qbyb408yyxg5.fasta -O bch709.fasta
+>>>>>>> Stashed changes
 ```
 ### HISAT2 indexing
 ```bash
@@ -399,8 +420,12 @@ hisat2-build bch709.fasta bch709
 
 ### HISAT2 mapping
 ```bash
+<<<<<<< Updated upstream
 
 hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam 2> summarymetrics.txt
+=======
+hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam
+>>>>>>> Stashed changes
 ```
 
 ### SAM file format
@@ -453,7 +478,11 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
 ```bash
 samtools view -Sb align.sam > align.bam
+<<<<<<< Updated upstream
 samtools sort align.bam  -o align_sort.bam
+=======
+samtools sort align.bam  align_sort
+>>>>>>> Stashed changes
 samtools index align_sort.bam
 ```
 
@@ -564,4 +593,8 @@ Gene ontology / Reactome databases
 
 ### Please revisit
 Introduction to R
+<<<<<<< Updated upstream
 https://learn.datacamp.com/courses/free-introduction-to-r
+=======
+https://learn.datacamp.com/courses/free-introduction-to-r
+>>>>>>> Stashed changes
