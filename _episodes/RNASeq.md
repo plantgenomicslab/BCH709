@@ -399,6 +399,7 @@ hisat2-build bch709.fasta bch709
 
 ### HISAT2 mapping
 ```bash
+
 hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam 2> summarymetrics.txt
 ```
 
