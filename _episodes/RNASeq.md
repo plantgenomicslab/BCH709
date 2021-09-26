@@ -12,13 +12,6 @@ published: true
 {: .prereq}
 
 
->## Assignments
-> Please finish below assignment before due date  
-> - [DataCamp Introduction to R](https://learn.datacamp.com/courses/free-introduction-to-r) Due by 10/5/20 noon
-
-{: .prereq}
-
-
 ## RNA Sequencing
 ![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
 
@@ -35,7 +28,7 @@ published: true
 
 ![RNA Sequencing workflow]({{{site.baseurl}}/fig/rnaseq_workflow.png)
 
-### Seven stages to data science
+## Seven stages to data science
 1. Define the question of interest
 2. Get the data
 3. Clean the data
@@ -44,7 +37,7 @@ published: true
 6. Communicate the results
 7. Make your analysis reproducible
 
-### What do we need to prepare ?
+## What do we need to prepare ?
 ### Sample Information
 a. What kind of material it is should be noted: Tissue, cell line, primary cell type, etc…
 b. It’s ontology term (a DCC wrangler will work with you to obtain this)
@@ -214,23 +207,22 @@ The FastQ sequence identifier generally adheres to a particular format, all of w
 
 
 ```bash
-$ pwd
+pwd
 
-$ cd ~/
+cd ~/
 
-$ mkdir bch709/rnaseq
+mkdir -p bch709/rnaseq
 
-$ cd bch709/rnaseq/
+cd bch709/rnaseq/
 
-$ pwd
+pwd
 
-$ wget https://www.dropbox.com/s/pfu2r922esr1ccf/paired2.fastq.gz
+wget https://nevada.box.com/shared/static/g9dc1dn6h23u6tktv0uttdw2q1ad3xuz.gz -O pair1.fastq.gz
 
-$ wget https://www.dropbox.com/s/o642h0ca6djdbib/paired1.fastq.gz
+wget https://nevada.box.com/shared/static/y320e7atipagawwvl4plkclmeh86a1vg.gz -O pair2.fastq.gz
+ls -algh
 
-$ ls -algh
-
-$ zcat paired2.fastq.gz | head
+zcat paired2.fastq.gz | head
  ```
 
 ```
@@ -272,10 +264,10 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-$ conda create -n rnaseq
+conda create -n rnaseq_test
 
 
-$ conda activate rnaseq
+conda activate rnaseq_test
 
 
 ```
@@ -296,29 +288,47 @@ $ conda activate rnaseq
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 ```bash
-$ conda search fastqc
-$ conda install -c conda-forge -c bioconda fastqc
+conda search fastqc
+conda install -c conda-forge -c bioconda fastqc
 ```
 
 
 ### Run fastqc
 ```bash
-$ fastqc --help
-$ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
+fastqc --help
+fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
 
+```
+### Download folder setting
+*in your desktop*
+#### Windows
+```bash
+mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop 
+ln -s /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop ~/bch709
+```
+#### MacOS
+```bash
+mkdir ~/Desktop/BCH709_Desktop 
+ln -s ~/Desktop/BCH709_Desktop ~/bch709
+```
+### Download results
+*in your desktop*
+```bash
+scp pronghorn:~/bch709/rnaseq/*_fastqc.html ~/bch709
 ```
 
 ### How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```bash
-$ conda search multiqc 
-$
-$ conda install -c conda-forge -c bioconda multiqc
-$ multiqc --help
-$ multiqc .
-$ cp -r multiqc* <YOUR DESKTOP FOLDER>
+conda search multiqc 
+conda install -c conda-forge -c bioconda multiqc
+multiqc --help
+multiqc .
 ```
+
+
+
 ### Trim the reads
 - Trim IF necessary
    - Synthetic bases can be an issue for SNP calling
@@ -342,16 +352,16 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 
 ### Install Trim Galore
 ```bash
-$ conda install -c bioconda -c conda-forge trim-galore
+conda install -c bioconda -c conda-forge trim-galore
 ```
 
 ### Run trimming
 ```bash
-$ trim_galore --help
+trim_galore --help
 
-$ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz --fastq
 
-$ multiqc .
+multiqc .
 ```
 
 ### Align the reads (mapping)
@@ -374,29 +384,29 @@ $ multiqc .
 
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 ```bash
-$ conda install -c conda-forge -c bioconda hisat2
+conda install -c conda-forge -c bioconda hisat2
 ```
 ### Download reference sequence
 ```bash
-$ wget https://www.dropbox.com/s/0onch14nnxx9b94/bch709.fasta
+wget https://www.dropbox.com/s/851ob9e3ktxhyxz/bch709.fasta  -O bch709.fasta
+
 ```
 ### HISAT2 indexing
-```
-$ hisat2-build --help
-$ hisat2-build bch709.fasta bch709
+```bash
+hisat2-build --help
+hisat2-build bch709.fasta bch709
 ```
 
 ### HISAT2 mapping
-
-```
-$ hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam
+```bash
+hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam 2> summarymetrics.txt
 ```
 
 ### SAM file format
 
 Check result
-```
-$ head align.sam
+```bash
+head align.sam
 ```
 ### SAM file
 
@@ -409,12 +419,12 @@ $ head align.sam
 ![flag]({{{site.baseurl}}/fig/flag.jpg)  
 
 ### Demical to binary
-```
-$ echo 'obase=163;10' | bc
+```bash
+echo 'obase=163;10' | bc
 ```
 If you don't have bc, please install through conda
-```
-$ conda install -c conda-forge bc
+```bash
+conda install -c conda-forge bc
 ```
 
 
@@ -440,10 +450,10 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 - Allows the file to be indexed by genomic position to efficiently retrieve all reads aligning to a locus.
 
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
-```
-$ samtools view -Sb align.sam > align.bam
-$ samtools sort align.bam  align_sort
-$ samtools index align_sort.bam
+```bash
+samtools view -Sb align.sam > align.bam
+samtools sort align.bam  -o align_sort.bam
+samtools index align_sort.bam
 ```
 
 ### BAM file
@@ -503,6 +513,14 @@ bamtools > stats
 conda install -c conda-forge -c bioconda subread
 conda install -c conda-forge -c bioconda rsem
 ```
+
+```bash
+wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
+
+featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
+```
+
+
 ### Quantification method
 - PCR duplicates
  - Ignore for RNA-Seq data
@@ -539,30 +557,10 @@ Gene enrichment analysis (Hypergeometric test)
 Gene set enrichment analysis (GSEA)
 Gene ontology / Reactome databases
 
-### Conda deactivate
-```bash
-$ conda deactivate
-$ conda env remove --name rnaseq
-```
 >## Reading material
 >Conesa, Ana, et al. "A survey of best practices for RNA-seq data analysis." Genome biology 17.1 (2016): 13
 {: .challenge}
 
->## HOME WORK due next Tuesday
->1. Create your enviroment name rnaseq, install following tools
->- star  
->- bioconductor-limma  
->- fastqc  
->- rsem  
->- subread  
->- hisat2  
->- samtools  
->- bowtie2  
->- bioconductor-deseq2  
->- trim-galore   
->- multiqc  
->- trinity   
->- qorts  
->2. Then export your enviroment to rnaseq.yaml (conda env export ......)
->3. copy contents of rnaseq.yaml and paste to 
-{: .solution}
+### Please revisit
+Introduction to R
+https://learn.datacamp.com/courses/free-introduction-to-r
