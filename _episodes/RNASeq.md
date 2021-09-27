@@ -301,16 +301,29 @@ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
 ```
 ### Download folder setting
 *in your desktop*
+### identify your current location in Windows
+```
+wslpath -u
+```
 #### Windows
 ```bash
 mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop 
 ln -s /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop ~/bch709
+```
+### open current location in Windows
+```bash
+explorer.exe .
 ```
 #### MacOS
 ```bash
 mkdir ~/Desktop/BCH709_Desktop 
 ln -s ~/Desktop/BCH709_Desktop ~/bch709
 ```
+### MacOS open curretn directory
+```
+open .
+```
+
 ### Download results
 *in your desktop*
 ```bash
