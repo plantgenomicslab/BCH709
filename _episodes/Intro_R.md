@@ -24,7 +24,7 @@ R (www.r-project.org) is a commonly used free Statistics software. R allows you 
 
 ## R Installation
 ```bash
-conda env create -n r_plot -f /data/gpfs/assoc/bch709-1/Course_material/conda_env/r_plot.yaml
+conda env create -n r_plot -f r_plot.yaml
 conda activate r_plot
 ```
 
@@ -34,7 +34,7 @@ mkdir r_plot
 cd r_plot
 wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
 wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
-conda env create -n r_plot -f /data/gpfs/assoc/bch709-1/Course_material/conda_env/r_plot.yaml
+conda env create -n r_plot -f r_plot.yaml
 conda activate r_plot
 ```
 ## In your local terminal
