@@ -9,19 +9,17 @@ published: true
 
 ## Introduction to R
 R (www.r-project.org) is a commonly used free Statistics software. R allows you to carry out statistical analyses in an interactive mode, as well as allowing simple programming.
-
+![R](https://cran.r-project.org/Rlogo.svg)
 
 ## Prepare your laptop
-***Please find your BCH709 folder in the terminal.***
+#### Open two terminal
+##### Connect one to pronghorn
+```ssh <yourID>@pronghorn.rc.unr.edu```
 
+#### Open web browser
+##### Connect to https://pastebin.com/6rba4Q9x
+##### Connect to https://plantgenomicslab.github.io/BCH709/Intro_R/index.html
 
-## Connect to Pronghorn
-```
-ssh <yourID>@<YOURID>@pronghorn.rc.unr.edu
-```
-
-
-![R](https://cran.r-project.org/Rlogo.svg)
 
 
 ## R Installation
@@ -30,31 +28,22 @@ conda env create -n r_plot -f /data/gpfs/assoc/bch709-1/Course_material/conda_en
 conda activate r_plot
 ```
 
-## Prepare working folder
+## Prepare working folder in Pronghorn
 ```bash 
-cd /data/gpfs/assoc/bch709-1/
-
-mkdir -p <YOURID>
-
-cd /data/gpfs/assoc/bch709-1/<YOURID>/
-
 mkdir r_plot
-
 cd r_plot
+wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
+wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
+conda env create -n r_plot -f /data/gpfs/assoc/bch709-1/Course_material/conda_env/r_plot.yaml
+conda activate r_plot
 ```
-
-## Prepare data set
-```bash 
-pwd
-
-### your location should be
-### /data/gpfs/assoc/bch709-1/<YOURID>/r_plot 
-
-cp /data/gpfs/assoc/bch709-1/Course_material/R/dataset1.txt .
-
-cp /data/gpfs/assoc/bch709-1/Course_material/R/excercise.R .
-
-```
+## In your local terminal
+### Windows
+```explorer.exe .```
+### MacOS
+```open .```
+### Git Bash
+```explorer.exe .```
 
 ## Start R
 ```bash
@@ -106,14 +95,9 @@ dev.off()
 ```bash
 ###Please do it on your desktop
 ###Please replace <YOURID> to your id.
-###Please replace <BCH709> to your linked BCH709 (~/BCH709)
 
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/T63_boxplot.pdf  <BCH709>
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/SLC2A1_boxplot2.pdf <B<CH709>
-
-
-
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/T63_boxplot.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/SLC2A1_boxplot2.pdf .
 ```
 
 ## Co-expression pattern 1
@@ -135,10 +119,7 @@ cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <BCH709> to your linked BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/TP63_SLC2A1_scatter_plot.pdf <BCH709>
-
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_SLC2A1_scatter_plot.pdf .
 ```
 
 ## Co-expression pattern 2
@@ -160,10 +141,7 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <BCH709> to your linked BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/co-expression_pattern_between.pdf <BCH709>
-
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/co-expression_pattern_between.pdf .
 ```
 
 
@@ -198,17 +176,11 @@ dev.off()
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap1.pdf ~/BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap2.pdf  ~/BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap3.pdf  ~/BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap4.pdf ~/BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/heatmap5.pdf  ~/BCH709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap1.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap2.pdf  .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap3.pdf  .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap4.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap5.pdf .
 ```
 
 
@@ -231,10 +203,7 @@ dev.off()
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709/<YOURID>/r_plot/PCA_plot.pdf ~/Desktop
-
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/PCA_plot.pdf .
 ```
 
 ## Histogram of the gene expression
@@ -256,12 +225,8 @@ dev.off()
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/histogram1.pdf  ~/BCH709
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/histogram2.pdf ~/BCH709
-
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram1.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram2.pdf .
 ```
 
 
@@ -281,8 +246,7 @@ dev.off()
 ```bash
 ###Please replace <YOURID> to your id.
 ###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
-
-scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/<YOURID>/r_plot/TP63_expression.pdf ~/BCH709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_expression.pdf .
 ```
 
 
