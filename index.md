@@ -54,7 +54,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week5  | 9/22/2021  | Wednesday | [Sequence manipulation](https://plantgenomicslab.github.io/BCH709/seqkit_tutorial/index.html)                                             |
 | Week6  | 9/27/2021  | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                                           |
 | Week6  | 9/29/2021  | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html) [PPT](https://unr.canvaslms.com/courses/71895/files?preview=8058341)                   |
-| Week7  | 10/4/2021  | Monday    | Transcriptome algorithms                                          |
+| Week7  | 10/4/2021  | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                      |
 | Week7  | 10/6/2021  | Wednesday | Transcriptome assembly                                           |
 | Week8  | 10/11/2021 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
 | Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
