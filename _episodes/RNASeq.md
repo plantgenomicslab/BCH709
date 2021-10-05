@@ -349,9 +349,6 @@ https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/differenc
 https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/Homo_sapiens.GRCh38.cds.all.fa.gz
 ```
 
-
-
-
 ### How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
