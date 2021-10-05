@@ -222,7 +222,7 @@ wget https://nevada.box.com/shared/static/g9dc1dn6h23u6tktv0uttdw2q1ad3xuz.gz -O
 wget https://nevada.box.com/shared/static/y320e7atipagawwvl4plkclmeh86a1vg.gz -O pair2.fastq.gz
 ls -algh
 
-zcat paired2.fastq.gz | head
+zcat pair2.fastq.gz | head
  ```
 
 ```
@@ -302,39 +302,55 @@ conda install -c conda-forge -c bioconda fastqc
 ### Run fastqc
 ```bash
 fastqc --help
-fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
+fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
 
 ```
 ### Download folder setting
 *in your desktop*
-### identify your current location in Windows
-```bash
-wslpath -u
-```
+
 #### Windows
 ```bash
 mkdir /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop 
 ln -s /mnt/c/Users/<YOURID_WINDOWSID>/Desktop/BCH709_Desktop ~/bch709
 ```
-### open current location in Windows
-```bash
-explorer.exe .
-```
+
 #### MacOS
 ```bash
 mkdir ~/Desktop/BCH709_Desktop 
 ln -s ~/Desktop/BCH709_Desktop ~/bch709
 ```
-### MacOS open curretn directory
-```bash
-open .
-```
 
 ### Download results
 *in your desktop*
 ```bash
-scp pronghorn:~/bch709/rnaseq/*_fastqc.html ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/bch709/rnaseq/*_fastqc.html ~/bch709
+cd  ~/bch709
 ```
+
+#### open current location in Windows
+```bash
+explorer.exe .
+```
+
+#### MacOS open curretn directory
+```bash
+open .
+```
+
+### Practice downloading
+```bash
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/10x.jpg
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/Global_vs_Local.png
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/SNPS.png
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/Multi_QC_Results.png
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/HMM.jpeg
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/hicmovie.gif
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/fig/difference-between-global-and-local.html
+https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/Homo_sapiens.GRCh38.cds.all.fa.gz
+```
+
+
+
 
 ### How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
@@ -407,7 +423,7 @@ conda install -c conda-forge -c bioconda hisat2
 ```
 ### Download reference sequence
 ```bash
-wget https://www.dropbox.com/s/851ob9e3ktxhyxz/bch709.fasta  -O bch709.fasta
+wget https://nevada.box.com/shared/static/5v14j6gjt16c7k5d42b7g51csjmmj16l.fasta -O bch709.fasta
 
 ```
 ### HISAT2 indexing
