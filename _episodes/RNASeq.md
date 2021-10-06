@@ -391,7 +391,7 @@ conda install -c bioconda -c conda-forge trim-galore
 ```bash
 trim_galore --help
 
-trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim paired1.fastq.gz paired2.fastq.gz --fastq
+trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores 2  --max_n 40  --gzip -o trim pair1.fastq.gz pair2.fastq.gz --fastqc
 
 multiqc .
 ```
