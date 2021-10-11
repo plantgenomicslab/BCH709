@@ -4,6 +4,10 @@ title: midterm_review
 published: true
 ---
 
+# Midterm 
+### Six questions  
+### 1hour  
+
 {% include gh_variables.html %}
 
 ## Pronghorn  
@@ -16,13 +20,13 @@ ssh <yourID>@pronghorn.rc.unr.edu
 ### How to download file from Pronghorn in your local  
 
 ```bash
-scp <yourID>@pronghorn.rc.unr.edu:~/[FOLDER AND FILE] [LOCAL directory]
+scp <yourID>@pronghorn.rc.unr.edu:~/[FOLDER AND FILE] [LOCAL directory]  
 ```
 
 ## Conda  
 ### Conda installation  
 ```bash
-search on web browser [software name & conda] on Google ex: 'hisat2 conda'
+search on web browser [software name & conda] on Google ex: 'hisat2 conda'  
 ```
 ```bash
 conda install [package name]
@@ -35,10 +39,10 @@ conda env export  > [Name].yaml
 
 ## Sequencing  
 ### Illumina sequencing  
-![Illumina](https://www.1010genome.com/wp-content/uploads/2018/06/image002.jpg)
+![Illumina](https://www.1010genome.com/wp-content/uploads/2018/06/image002.jpg)  
 
 ### PacBio sequencing
-![PacBio](https://www.pacb.com/wp-content/uploads/Infographic_SMRT-Sequencing-How-it-Works.png)
+![PacBio](https://www.pacb.com/wp-content/uploads/Infographic_SMRT-Sequencing-How-it-Works.png)  
 
 
 
