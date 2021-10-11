@@ -3,12 +3,12 @@ layout: page
 title: midterm_review
 published: true
 ---
+{% include gh_variables.html %}
 
 # Midterm 
 ### Six questions  
 ### 1hour  
 
-{% include gh_variables.html %}
 
 ## Pronghorn  
 ### Connect to Pronghorn  
