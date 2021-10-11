@@ -75,55 +75,6 @@ conda env export  > [Name].yaml
 2. Data comes from functional units (coding regions)
 3. Only a tiny fraction of the genome
 
-## Basic Unix/Linux command
-
-### `cd` 
-```
-cd /data/gpfs/assoc/bch709/<YOUR_FOLDER>
-```
-### `mkdir`
-```
-mkdir RNASEQ_REVIEW
-cd RNASEQ_REVIEW
-```
-### `pwd`
-```bash
-pwd
-```
-
-### `wget` 
-file download
-```
-wget https://www.dropbox.com/s/o8r3279n5grn8el/fastq.tar https://www.dropbox.com/s/mlyrk2osnoo47em/fastq.zip
-```
-
-### Decompress `tar` file
-```
-tar xvf fastq.tar
-
-ls
-```
-### Decompress `zip` file
-```
-unzip fastq.zip
-
-ls
-```
-### `gz` file
-
-### `zcat`
-
-### pipe `\|`
-
-### `wc `
-
-### `rm`
-
-
-
-
-
-
 
 >## Paper reading
 >Please read this paper
@@ -179,51 +130,49 @@ conda list
 
 ## Basic Unix/Linux command
 
-### `cd` 
+### cd
 ```
 cd /data/gpfs/assoc/bch709/<YOUR_FOLDER>
 ```
-### `mkdir`
+### mkdir
 ```
 mkdir RNASEQ_REVIEW
 cd RNASEQ_REVIEW
 ```
-### `pwd`
+### pwd
 ```bash
 pwd
 ```
 
-### `wget` 
+### wget
 file download
 ```
 wget https://www.dropbox.com/s/o8r3279n5grn8el/fastq.tar https://www.dropbox.com/s/mlyrk2osnoo47em/fastq.zip
 ```
 
-### Decompress `tar` file
+### Decompress tar file
 ```
 tar xvf fastq.tar
 
 ls
 ```
-### Decompress `zip` file
+### Decompress zip file
 ```
 unzip fastq.zip
 
 ls
 ```
-### `gz` file
+### gz file
 
-### `zcat`
+### zcat
 
-### pipe `\|`
+### pipe 
 
-### `wc `
+### wc
 
-### `rm`
-
+### rm
 
 ## RNA-Seq
-
 ![RNA Sequencing workflow]({{{site.baseurl}}/fig/rnaseq_workflow.png)
 
 
@@ -231,7 +180,7 @@ ls
 ### Seqkit
 https://plantgenomicslab.github.io/BCH709/seqkit_tutorial/index.html
 
-## Trim-Galore!
+## Trim-Galore
 
 ### Install Trim Galore
 ```bash
@@ -253,7 +202,6 @@ conda install -c conda-forge -c bioconda hisat2
 ### Download reference sequence
 ```bash
 wget https://nevada.box.com/shared/static/5v14j6gjt16c7k5d42b7g51csjmmj16l.fasta -O bch709.fasta
-
 ```
 ### HISAT2 indexing
 ```bash
@@ -315,8 +263,7 @@ featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
 
 
 
-### Reference:
-
+### References:
 - Conda documentation https://docs.conda.io/en/latest/
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
