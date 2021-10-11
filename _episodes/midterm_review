@@ -4,6 +4,10 @@ title: midterm_review
 published: true
 ---
 
+{% include gh_variables.html %}
+
+
+
 ## Pronghorn
 ### Connect to Pronghorn
 ```bash
