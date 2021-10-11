@@ -56,7 +56,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week6  | 9/29/2021  | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html) [PPT](https://unr.canvaslms.com/courses/71895/files?preview=8058341)                   |
 | Week7  | 10/4/2021  | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                      |
 | Week7  | 10/6/2021  | Wednesday | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                         |
-| Week8  | 10/11/2021 | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) & [Review](https://plantgenomicslab.github.io/BCH709/review_RNASeq/index.html)          |
+| Week8  | 10/11/2021 | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) & [Review](https://plantgenomicslab.github.io/BCH709/midterm_review/index.html)          |
 | Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
 | Week9  | 10/18/2021 | Monday    | DEG analysis /  RNA-Seq / DESeq2 / EdgeR                          |
 | Week10 | 10/20/2021 | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
