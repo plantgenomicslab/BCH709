@@ -58,7 +58,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week7  | 10/6/2021  | Wednesday | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                         |
 | Week8  | 10/11/2021 | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) & [Review](https://plantgenomicslab.github.io/BCH709/midterm_review/index.html)          |
 | Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
-| Week9  | 10/18/2021 | Monday    | [Midterm Review]([Review](https://plantgenomicslab.github.io/BCH709/midterm_review/index.html) DEG analysis / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                       |
+| Week9  | 10/18/2021 | Monday    | [Midterm Review](https://plantgenomicslab.github.io/BCH709/midterm_review2/index.html) DEG analysis / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                       |
 | Week10 | 10/20/2021 | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
 | Week10 | 10/25/2021 | Monday    | Database & file format                                            |
 | Week11 | 10/27/2021 | Wednesday | BLAST search and gene alignment                                   |
