@@ -60,14 +60,14 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
 | Week9  | 10/18/2021 | Monday    | [Midterm Review](https://plantgenomicslab.github.io/BCH709/midterm_review2/index.html) DEG analysis / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                       |
 | Week10 | 10/20/2021 | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
-| Week10 | 10/25/2021 | Monday    | Database & file format                                            |
-| Week11 | 10/27/2021 | Wednesday | BLAST search and gene alignment                                   |
-| Week11 | 11/1/2021  | Monday    | Genome assembly                                                   |
+| Week10 | 10/25/2021 | Monday    | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
+| Week11 | 10/27/2021 | Wednesday | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
+| Week11 | 11/1/2021  | Monday    | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
 | Week12 | 11/3/2021  | Wednesday | Genome annotation                                                 |
 | Week12 | 11/8/2021  | Monday    | Genome structure                                                  |
-| Week13 | 11/10/2021 | Wednesday | Variant analysis                                                  |
-| Week13 | 11/15/2021 | Monday    | Transcriptome analysis (Genome based)                             |
-| Week14 | 11/17/2021 | Wednesday | Transcriptome analysis (Genome based)                             |
+| Week13 | 11/10/2021 | Wednesday | Database & file format                                            |
+| Week13 | 11/15/2021 | Monday    |  BLAST search and gene alignment                             |
+| Week14 | 11/17/2021 | Wednesday | Genome structure     |
 | Week14 | 11/22/2021 | Monday    | Enrichment analysis                                               |
 | Week15 | 11/24/2021 | Wednesday | Presentation & Discussions                                        |
 | Week15 | 11/29/2021 | Monday    | Presentation & Discussions                                        |
