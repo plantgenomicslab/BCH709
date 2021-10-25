@@ -13,9 +13,6 @@ Pronghorn is composed of CPU, GPU, and Storage subsystems interconnected by a 10
 
 Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of the University of Nevada, Reno. Switch is the definitive leader of sustainable data center design and operation. The Switch Citadel is rated Tier 5 Platinum, and will be the largest, most advanced data center campus on the planet.
 
-Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
-[Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
-
 ![Pronghorn system map](../fig/pronghorn.png){: width="70%" height="70%"}
 
 
