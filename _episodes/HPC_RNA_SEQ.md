@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 	HPC_RNA-Seq
+title: 	HPC_RNA_Seq
 published: true
 ---
 
