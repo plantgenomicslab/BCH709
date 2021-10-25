@@ -1,3 +1,10 @@
+---
+layout: page
+title: 	HPC_RNA-Seq
+published: true
+---
+
+
 ## Using Pronghorn (High-Performance Computing)
 
 **Pronghorn** is the University of Nevada, Reno's new High-Performance Computing (HPC) cluster. The GPU-accelerated system is designed, built and maintained by the Office of Information Technology's HPC Team. Pronghorn and the HPC Team supports general research across the Nevada System of Higher Education (NSHE).
