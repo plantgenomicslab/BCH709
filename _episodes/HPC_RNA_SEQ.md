@@ -16,7 +16,7 @@ Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of th
 Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
 [Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
 
-![Pronghorn system map](./fig/pronghorn.png){: width="70%" height="70%"}
+![Pronghorn system map](../fig/pronghorn.png){: width="70%" height="70%"}
 
 
 ## Slurm Start Tutorial
@@ -133,7 +133,7 @@ scancel <JOB ID>
 
 
 ## Create scratch disk space
-![Pronghorn system map](./fig/pronghorn.png){: width="70%" height="70%"}
+![Pronghorn system map](../fig/pronghorn.png){: width="70%" height="70%"}
 
 ```bash
 cd /data/gpfs/assoc/bch709-2/
@@ -169,7 +169,6 @@ conda activate RNASEQ_bch709
 > Bioproject: A BioProject is a collection of biological data related to a single initiative, originating from a single organization or from a consortium of coordinating organizations; see for example Bio Project 272719
 > Bio Sample: A description of the source materials for a project
 > Run: These are the actual sequencing runs (usually starting with SRR); see for example SRR1761506
-
 {: .prereq}
 
 
