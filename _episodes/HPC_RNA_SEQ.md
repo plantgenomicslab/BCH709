@@ -421,6 +421,7 @@ Fig 2. Transcriptome summaries from unchallenged whole larvae and hemocytes from
 
 
 ```bash
+cd  ~/bch709_scratch/RNA-Seq_example/
 mkdir Drosophila && cd Drosophila
 mkdir raw_data trim bam reference
 pwd
