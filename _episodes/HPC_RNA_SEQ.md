@@ -219,6 +219,7 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
 
 
 ```bash
+mkdir ~/bch709_scratch/RNA-Seq_example/
 cd ~/bch709_scratch/RNA-Seq_example/
 mkdir ATH && cd ATH
 mkdir raw_data
@@ -227,6 +228,10 @@ pwd
 ```
 
 ### fastq-dump submission
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/ATH
+nano fastq-dump.sh
+```
 ```bash
 #!/bin/bash
 #SBATCH --job-name=fastqdump_ATH
@@ -250,17 +255,20 @@ fastq-dump SRR1761511 --split-3 --outdir ./raw_data  --gzip
 
 ## Trim-galore
 ```bash
+cd  ~/bch709_scratch/RNA-Seq_example/ATH
+nano trim.sh
+```
+```bash
 #!/bin/bash
 #SBATCH --job-name=trim_ATH
 #SBATCH --cpus-per-task=2
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
 #SBATCH -o trim.out # STDOUT & STDERR
-#SBATCH --dependency=afterok:<PREVIOUS_JOBID>
-#SBATCH -p cpu-s2-core-0 
-#SBATCH -A cpu-s2-bch709-1
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
 
 trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761506_1.fastq.gz raw_data/SRR1761506_2.fastq.gz --fastqc
 trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim raw_data/SRR1761507_1.fastq.gz raw_data/SRR1761507_2.fastq.gz --fastqc
@@ -282,7 +290,82 @@ cd ~/bch709_scratch/RNA-Seq_example/ATH
 mkdir bam
 mkdir reference && cd reference
 pwd
+```
 
+## Download Arabidopsis thaliana TAIR10
+https://phytozome-next.jgi.doe.gov/info/Athaliana_TAIR10
+
+```
+Athaliana_167_gene.gff3.gz
+Athaliana_167.fa.gz 
 ```
 
 
+## Unzip file
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/ATH/reference
+unzip download.#######.zip
+zcat phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa.gz | head
+zcat phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3.gz | head
+gunzip phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3.gz 
+gunzip phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa.gz
+```
+**Your location might be different**
+
+## Convert GFF to GTF
+```bash
+
+gffread phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3 -T -F --keep-exon-attrs -o TAIR10_GFF3_genes.gtf
+```
+## Create reference index
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/ATH/reference
+ls -algh
+nano index.sh
+```
+```bash
+#!/bin/bash
+#SBATCH --job-name=index_ATH
+#SBATCH --cpus-per-task=12
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=48g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+ STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles   phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa  --sjdbGTFfile TAIR10_GFF3_genes.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+```
+
+## Mapping the reads to genome index
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/ATH/
+ls -algh
+nano align.sh
+```
+```bash
+#!/bin/bash
+#SBATCH --job-name=align_ATH
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=32g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761506.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761507.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761508.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761509.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761510.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_1_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
+```
