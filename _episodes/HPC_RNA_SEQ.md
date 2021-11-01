@@ -539,6 +539,13 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
 
 SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and current evidence suggests severe disease is associated with dysregulated immunity within the respiratory tract1,2. However, the innate immune mechanisms that mediate protection during COVID-19 are not well defined. Here we characterize a mouse model of SARS-CoV-2 infection and find that early CCR2-dependent infiltration of monocytes restricts viral burden in the lung. We find that a recently developed mouse-adapted MA-SARS-CoV-2 strain, as well as the emerging B.1.351 variant, trigger an inflammatory response in the lung characterized by expression of pro-inflammatory cytokines and interferon-stimulated genes. Using intravital antibody labeling, we demonstrate that MA-SARS-CoV-2 infection leads to increases in circulating monocytes and an influx of CD45+ cells into the lung parenchyma that is dominated by monocyte-derived cells. scRNA-seq analysis of lung homogenates identified a hyper-inflammatory monocyte profile. We utilize this model to demonstrate that mechanistically, CCR2 signaling promotes infiltration of classical monocytes into the lung and expansion of monocyte-derived cells. Parenchymal monocyte-derived cells appear to play a protective role against MA-SARS-CoV-2, as mice lacking CCR2 showed higher viral loads in the lungs, increased lung viral dissemination, and elevated inflammatory cytokine responses. These studies have identified a CCR2-monocyte axis that is critical for promoting viral control and restricting inflammation within the respiratory tract during SARS-CoV-2 infection. Overall design: 8 samples in total corresponding to different mice. 4 samples are from mock, control mice. 4 samples are from SARS-CoV-2 infected mice.
 
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/
+mkdir Mus && cd Mus
+mkdir raw_data trim bam reference
+pwd
+```
+
 SRR16526489 Mock 1; Mus musculus; RNA-Seq
 SRR16526488 Mock 2; Mus musculus; RNA-Seq
 SRR16526486 Mock 3; Mus musculus; RNA-Seq
