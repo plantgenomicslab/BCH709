@@ -369,11 +369,13 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
-
+```bash
+conda install -c conda-forge tree
+```
 # Drosophila
 > ## Publication (Drosophila)
 > 
-> [Ramond E et al., "Comparative RNA-Seq analyses of Drosophila plasmatocytes reveal gene specific signatures in response to clean injury and septic injury", Plos one, 2019 June 29, 2020](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0235294#sec008)
+> Not published.
 > 
 {: .callout}
 
@@ -440,6 +442,7 @@ fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Droso
 ## fastq trim
 ```bash
 cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+mkdir trim
 nano trim.sh
 
 ```
@@ -542,7 +545,7 @@ SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and 
 
 ```bash
 cd  ~/bch709_scratch/RNA-Seq_example/
-mkdir Mus && cd Mus
+mkdir Mmusculus && cd Mmusculus
 mkdir raw_data trim bam reference
 pwd
 ```
@@ -556,5 +559,34 @@ SRR16526479 CoV2 2; Mus musculus; RNA-Seq
 SRR16526481 CoV2 1; Mus musculus; RNA-Seq
 SRR16526475 CoV2 4; Mus musculus; RNA-Seq
 ```
+
+
+
+# Solanum lycopersicum
+
+## Project site
+Whole genome sequencing and transcriptome sequencing of Solanum lycopersicum, M82
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA753098
+
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/
+mkdir Slycopersium && cd Slycopersium
+mkdir raw_data trim bam reference
+pwd
+```
+
+```
+SRR15607542 Root control Rep1 
+SRR15607543 Root control Rep2 
+SRR15607544 Root control Rep3
+SRR15607552 Root salt treatment Rep1
+SRR15607553 Root salt treatment Rep2
+SRR15607554 Root salt treatment Rep3
+```
+
+
+
+
+
 
 
