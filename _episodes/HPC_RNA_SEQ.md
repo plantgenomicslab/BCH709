@@ -370,7 +370,8 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
 
-> ### Publication (Drosophila)
+# Drosophila
+> ## Publication (Drosophila)
 > 
 > [Ramond E et al., "Comparative RNA-Seq analyses of Drosophila plasmatocytes reveal gene specific signatures in response to clean injury and septic injury", Plos one, 2019 June 29, 2020](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0235294#sec008)
 > 
@@ -387,7 +388,7 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA770108
 We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to food containing 5% ethanol (v/v) for 6 conscutive days, and (2) an age-matched untreated control larvae, that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: Examination of mRNA levels in brains of D. melanogaster larvae after chronich ethanol exposure was performed using next generation sequencing (NGS) technology (RNA-seq)
 
 
-### Subset of data
+## Subset of data
 
 
 | Sample information  | Run         |
@@ -408,8 +409,8 @@ pwd
 ```
 
 
-<!--
-### fastq donwload
+
+## fastq donwload
 
 ```bash
 cd ~/bch709_scratch/RNA-Seq_example/Drosophila
@@ -436,7 +437,7 @@ fastq-dump SRR16287548 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Droso
 fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
 ```
 
-### fastq trim
+## fastq trim
 ```bash
 cd ~/bch709_scratch/RNA-Seq_example/Drosophila
 nano trim.sh
@@ -461,7 +462,7 @@ trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2
 trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287548 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_2.fastq.gz --fastqc
 trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287550 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_2.fastq.gz --fastqc
 ```
-### Reference donwload
+## Reference donwload
 
 ```bash
 cd  ~/bch709_scratch/RNA-Seq_example/Drosophila/reference
@@ -472,7 +473,7 @@ gunzip dmel-all-r6.42.gtf.gz
 ls -algh
 ```
 
-### Reference index
+## Reference index
 
 ```
 nano index.sh
@@ -494,7 +495,7 @@ STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles
 ```
 
 
-### Mapping
+## Mapping
 ```
 nano mapping.sh
 ```
@@ -526,13 +527,13 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 
 
-### Featurecount
+## Featurecount
 
 ```bash
-featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
+featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
 ```
 
-
+# Mus Musculus
 ## Data Download
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
 **CCR2-dependent monocyte-derived cells restrict SARS-CoV-2 infection (house mouse)**
@@ -545,7 +546,7 @@ mkdir Mus && cd Mus
 mkdir raw_data trim bam reference
 pwd
 ```
-
+```
 SRR16526489 Mock 1; Mus musculus; RNA-Seq
 SRR16526488 Mock 2; Mus musculus; RNA-Seq
 SRR16526486 Mock 3; Mus musculus; RNA-Seq
@@ -554,8 +555,6 @@ SRR16526477 CoV2 3; Mus musculus; RNA-Seq
 SRR16526479 CoV2 2; Mus musculus; RNA-Seq
 SRR16526481 CoV2 1; Mus musculus; RNA-Seq
 SRR16526475 CoV2 4; Mus musculus; RNA-Seq
- 
+```
 
 
- 
- -->
