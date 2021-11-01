@@ -407,9 +407,144 @@ mkdir raw_data trim bam reference
 pwd
 ```
 
-## Download reference
-```
-http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz
 
-http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz
+<!--
+### fastq donwload
+
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+
+nano fastq-dump.sh
 ```
+```bash
+#!/bin/bash
+#SBATCH --job-name=fastqdump_Drosophila
+#SBATCH --cpus-per-task=2
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<youremail>
+#SBATCH -o fastq-dump.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+fastq-dump SRR16287545 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287546 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287547 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287549 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287548 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+```
+
+### fastq trim
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+nano trim.sh
+
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=trim_Drosophila
+#SBATCH --cpus-per-task=2
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o trim.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287545 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287546  ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287547 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287549 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287548 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287550 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_2.fastq.gz --fastqc
+```
+### Reference donwload
+
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/Drosophila/reference
+wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz 
+wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz
+gunzip dmel-all-chromosome-r6.42.fasta.gz
+gunzip dmel-all-r6.42.gtf.gz
+ls -algh
+```
+
+### Reference index
+
+```
+nano index.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=index_Drosophila
+#SBATCH --cpus-per-task=12
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=48g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel-all-chromosome-r6.42.fasta --sjdbGTFfile dmel-all-r6.42.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+```
+
+
+### Mapping
+```
+nano mapping.sh
+```
+```bash
+#!/bin/bash
+#SBATCH --job-name=align_Drosophila
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=32g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_Drosophila)>
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287547.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287548.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287549.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287550.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287545.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287546.bam
+```
+
+
+
+### Featurecount
+
+```bash
+featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
+```
+
+
+## Data Download
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
+**CCR2-dependent monocyte-derived cells restrict SARS-CoV-2 infection (house mouse)**
+
+SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and current evidence suggests severe disease is associated with dysregulated immunity within the respiratory tract1,2. However, the innate immune mechanisms that mediate protection during COVID-19 are not well defined. Here we characterize a mouse model of SARS-CoV-2 infection and find that early CCR2-dependent infiltration of monocytes restricts viral burden in the lung. We find that a recently developed mouse-adapted MA-SARS-CoV-2 strain, as well as the emerging B.1.351 variant, trigger an inflammatory response in the lung characterized by expression of pro-inflammatory cytokines and interferon-stimulated genes. Using intravital antibody labeling, we demonstrate that MA-SARS-CoV-2 infection leads to increases in circulating monocytes and an influx of CD45+ cells into the lung parenchyma that is dominated by monocyte-derived cells. scRNA-seq analysis of lung homogenates identified a hyper-inflammatory monocyte profile. We utilize this model to demonstrate that mechanistically, CCR2 signaling promotes infiltration of classical monocytes into the lung and expansion of monocyte-derived cells. Parenchymal monocyte-derived cells appear to play a protective role against MA-SARS-CoV-2, as mice lacking CCR2 showed higher viral loads in the lungs, increased lung viral dissemination, and elevated inflammatory cytokine responses. These studies have identified a CCR2-monocyte axis that is critical for promoting viral control and restricting inflammation within the respiratory tract during SARS-CoV-2 infection. Overall design: 8 samples in total corresponding to different mice. 4 samples are from mock, control mice. 4 samples are from SARS-CoV-2 infected mice.
+
+SRR16526489 Mock 1; Mus musculus; RNA-Seq
+SRR16526488 Mock 2; Mus musculus; RNA-Seq
+SRR16526486 Mock 3; Mus musculus; RNA-Seq
+SRR16526483 Mock 4; Mus musculus; RNA-Seq
+SRR16526477 CoV2 3; Mus musculus; RNA-Seq
+SRR16526479 CoV2 2; Mus musculus; RNA-Seq
+SRR16526481 CoV2 1; Mus musculus; RNA-Seq
+SRR16526475 CoV2 4; Mus musculus; RNA-Seq
+ -->
