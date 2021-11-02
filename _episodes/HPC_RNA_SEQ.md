@@ -512,7 +512,7 @@ nano mapping.sh
 #SBATCH --mem=32g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
-#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
 #SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_Drosophila)>
