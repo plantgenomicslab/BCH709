@@ -352,7 +352,7 @@ nano align.sh
 #SBATCH --mem=32g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
-#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
 #SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>
@@ -369,10 +369,13 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
-
-> ### Publication (Drosophila)
+```bash
+conda install -c conda-forge tree
+```
+# Drosophila
+> ## Publication (Drosophila)
 > 
-> [Ramond E et al., "Comparative RNA-Seq analyses of Drosophila plasmatocytes reveal gene specific signatures in response to clean injury and septic injury", Plos one, 2019 June 29, 2020](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0235294#sec008)
+> Not published.
 > 
 {: .callout}
 
@@ -380,44 +383,24 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 ### SRA Bioproject site 
 
 ```bash
-https://www.ncbi.nlm.nih.gov/bioproject/PRJNA638422
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA770108
 ```
+**Gene expression profiling of Drosophila melanogaster larval brains after chronich alcohol exposure (fruit fly)**
 
-| Run         | ReleaseDate    | LoadDate       | spots    | bases      | spots_with_mates | avgLength | size_MB | AssemblyName | download_path                                                             | Experiment | LibraryName | LibraryStrategy | LibrarySelection | LibrarySource  | LibraryLayout | InsertSize | InsertDev | Platform | Model               | SRAStudy  | BioProject  | Study_Pubmed_id | ProjectID | Sample     | BioSample    | SampleType | TaxID | ScientificName          | SampleName    | g1k_pop_code | source | g1k_analysis_group | Subject_ID | Sex     | Disease | Tumor | Affection_Status | Analyte_Type | Histological_Type | Body_Site | CenterName                                     | Submission | dbgap_study_accession | Consent | RunHash                          | ReadHash                         |
-|-------------|----------------|----------------|----------|------------|------------------|-----------|---------|--------------|---------------------------------------------------------------------------|------------|-------------|-----------------|------------------|----------------|---------------|------------|-----------|----------|---------------------|-----------|-------------|-----------------|-----------|------------|--------------|------------|-------|-------------------------|---------------|--------------|--------|--------------------|------------|---------|---------|-------|------------------|--------------|-------------------|-----------|------------------------------------------------|------------|-----------------------|---------|----------------------------------|----------------------------------|
-| SRR11968960 | 6/9/2020 17:10 | 6/9/2020 17:09 | 12256307 | 1237887007 | 0                | 101       | 378     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra23/SRR/011688/SRR11968960 | SRX8512716 | 4w1118-ci   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811237 | SAMN15192434 | simple     | 7227  | Drosophila melanogaster | w1118-ci-rep1 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 3D3A8EBF0A13F90F9305C5DD917E9AE2 | A111523A7FB7106EE54D2D8337D2E8F2 |
-| SRR11968959 | 6/9/2020 17:09 | 6/9/2020 17:07 | 14144827 | 1428627527 | 0                | 101       | 432     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra1/SRR/011688/SRR11968959  | SRX8512717 | 5w1118-ci   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811238 | SAMN15192435 | simple     | 7227  | Drosophila melanogaster | w1118-ci-rep2 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 5515CADB5697C29CDC396F942C24F387 | 6D312D3B5BF5001309FF93CB968E584B |
-| SRR11968958 | 6/9/2020 17:11 | 6/9/2020 17:09 | 16118803 | 1627999103 | 0                | 101       | 495     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra60/SRR/011688/SRR11968958 | SRX8512718 | 6w1118-ci   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811239 | SAMN15192436 | simple     | 7227  | Drosophila melanogaster | w1118-ci-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | FCC81714EB524E34632C58BDC1E4C162 | 9F494AF29716E7175EA1E4652B08F0B7 |
-| SRR11968957 | 6/9/2020 17:07 | 6/9/2020 17:05 | 6215784  | 627794184  | 0                | 101       | 188     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra47/SRR/011688/SRR11968957 | SRX8512719 | 7w1118-ec   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811240 | SAMN15192437 | simple     | 7227  | Drosophila melanogaster | w1118-ec-rep1 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 9FA82BA9A828F9BDDE839810689EFA4F | CC558BFAAE5EE65BDD1CC1C690575F9D |
-| SRR11968956 | 6/9/2020 19:58 | 6/9/2020 19:56 | 46628659 | 4709494559 | 0                | 101       | 1573    |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra59/SRR/011688/SRR11968956 | SRX8512720 | 8w1118-ec   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811241 | SAMN15192438 | simple     | 7227  | Drosophila melanogaster | w1118-ec-rep2 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 16E3AE29FAC6BDFDB2B60F5300A02302 | 0F7770A244784C635FEC2DC814A1040C |
-| SRR11968955 | 6/9/2020 17:13 | 6/9/2020 17:11 | 16299093 | 1646208393 | 0                | 101       | 496     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra62/SRR/011688/SRR11968955 | SRX8512721 | 9w1118-ec   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811242 | SAMN15192439 | simple     | 7227  | Drosophila melanogaster | w1118-ec-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | CFA33A602A41E07AC4EFBEED3D2A0FE3 | 4F5983B317885D4E8FFC4B3D312B7674 |
-| SRR11968964 | 6/9/2020 17:15 | 6/9/2020 17:12 | 22436848 | 2266121648 | 0                | 101       | 843     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra49/SRR/011688/SRR11968964 | SRX8512712 | 22w1118-l3  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811233 | SAMN15192443 | simple     | 7227  | Drosophila melanogaster | w1118-l3-rep1 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 2D2BB637C1817EC80B369D1EF0B39615 | 2136B5CFE75B7833A2A6927CF26E701E |
-| SRR11968963 | 6/9/2020 19:33 | 6/9/2020 17:14 | 19826612 | 2002487812 | 0                | 101       | 740     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra45/SRR/011688/SRR11968963 | SRX8512713 | 23w1118-l3  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811234 | SAMN15192444 | simple     | 7227  | Drosophila melanogaster | w1118-l3-rep2 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | A832FE389916D06C16C6F21DB93AD77A | CE81D58F649BBBCECE551891816145AF |
-| SRR11968962 | 6/9/2020 17:15 | 6/9/2020 17:12 | 20056763 | 2025733063 | 0                | 101       | 750     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra11/SRR/011688/SRR11968962 | SRX8512714 | 24w1118-l3  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811235 | SAMN15192445 | simple     | 7227  | Drosophila melanogaster | w1118-l3-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 3F651F739352EAC0B28096237F2254EC | 98BD1486600E785F9B5F8AC7DBCD4EA6 |
-| SRR11968954 | 6/9/2020 17:13 | 6/9/2020 17:10 | 16301608 | 1646462408 | 0                | 101       | 499     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra20/SRR/011688/SRR11968954 | SRX8512722 | 10w1118-sa  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811243 | SAMN15192440 | simple     | 7227  | Drosophila melanogaster | w1118-sa-rep1 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 55D22FA303406FAE40145D8A1E62598B | 3E5BEB8C6FF03B853BA64D10989542E1 |
-| SRR11968966 | 6/9/2020 17:10 | 6/9/2020 17:08 | 16076977 | 1623774677 | 0                | 101       | 485     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra50/SRR/011688/SRR11968966 | SRX8512710 | 11w1118-sa  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811231 | SAMN15192441 | simple     | 7227  | Drosophila melanogaster | w1118-sa-rep2 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 9789FA28D07EBFD979E3DAE45E9D8CDF | 54D9D5C5343EB9C9A7817434F1D4BB8B |
-| SRR11968965 | 6/9/2020 17:10 | 6/9/2020 17:08 | 10379871 | 1048366971 | 0                | 101       | 316     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra76/SRR/011688/SRR11968965 | SRX8512711 | 12w1118-sa  | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811232 | SAMN15192442 | simple     | 7227  | Drosophila melanogaster | w1118-sa-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 908A23B3924A405F6BE6D5362130E7B3 | 8BD0419DF27093A94546D02492F6661C |
-| SRR11968968 | 6/9/2020 17:11 | 6/9/2020 17:09 | 16112703 | 1627383003 | 0                | 101       | 494     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra51/SRR/011688/SRR11968968 | SRX8512708 | 1w1118-uc   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811229 | SAMN15192431 | simple     | 7227  | Drosophila melanogaster | w1118-uc-rep1 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 39E07B4F04BC5A14AE664312E4DD5E67 | 27280649B15E4B766D86363C23679BE1 |
-| SRR11968967 | 6/9/2020 17:08 | 6/9/2020 17:06 | 9828233  | 992651533  | 0                | 101       | 302     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra46/SRR/011688/SRR11968967 | SRX8512709 | 2w1118-uc   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811230 | SAMN15192432 | simple     | 7227  | Drosophila melanogaster | w1118-uc-rep2 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | C9868075DE213901336D4DD9D22A9B72 | 558FD3E03B55FA60A231537D5E8EE198 |
-| SRR11968961 | 6/9/2020 17:15 | 6/9/2020 17:11 | 16343251 | 1650668351 | 0                | 101       | 498     |              | https://sra-download.ncbi.nlm.nih.gov/traces/sra70/SRR/011688/SRR11968961 | SRX8512715 | 3w1118-uc   | RNA-Seq         | Oligo-dT         | TRANSCRIPTOMIC | SINGLE        | 0          | 0         | ILLUMINA | Illumina HiSeq 2500 | SRP266662 | PRJNA638422 |                 | 638422    | SRS6811236 | SAMN15192433 | simple     | 7227  | Drosophila melanogaster | w1118-uc-rep3 |              |        |                    |            | unknown |         | no    |                  |              |                   |           | SWISS FEDERAL INSTITUTE OF TECHNOLOGY LAUSANNE | SRA1085163 |                       | public  | 1725A91FA94755464378D8FF0F18A197 | 870D1C8B738F5A31C179B44124757B27 |
+We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to food containing 5% ethanol (v/v) for 6 conscutive days, and (2) an age-matched untreated control larvae, that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: Examination of mRNA levels in brains of D. melanogaster larvae after chronich ethanol exposure was performed using next generation sequencing (NGS) technology (RNA-seq)
 
 
-Fig 2. Transcriptome summaries from unchallenged whole larvae and hemocytes from unchallenged and infected larvae.
-(A) Transcriptome summary showing the number of reads for each triplicate in all experimental conditions with their corresponding number of mapped reads and the average percentage of alignment to the D. melanogaster genome. (B) Venn diagram representing the quantity of shared genes between all experimental treatments: Unchallenged wandering L3 larvae, hemocytes from unchallenged larvae, hemocytes from clean-pricked larvae (CI), hemocytes from larvae pricked with Escherichia coli (Ec), hemocytes from larvae pricked with Staphylococcus aureus (Sa). 
-
-
-
-### Subset of data
+## Subset of data
 
 
 | Sample information  | Run         |
 |---------------------|-------------|
-| 22w1118-l3          | SRR11968964 |
-| 23w1118-l3          | SRR11968963 |
-| 24w1118-l3          | SRR11968962 |
-| 10w1118-sa          | SRR11968954 |
-| 11w1118-sa          | SRR11968966 |
-| 12w1118-sa          | SRR11968965 |
+| Control         | SRR16287545 |
+| Control          | SRR16287546 |
+| Control          | SRR16287547 |
+| Ethanol treatment         | SRR16287549 |
+| Ethanol treatment          | SRR16287548 |
+| Ethanol treatment          | SRR16287550 |
 
 
 ```bash
@@ -427,11 +410,186 @@ mkdir raw_data trim bam reference
 pwd
 ```
 
-## Download reference
-```
-http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz
 
-http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz
+
+## fastq donwload
+
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+
+nano fastq-dump.sh
+```
+```bash
+#!/bin/bash
+#SBATCH --job-name=fastqdump_Drosophila
+#SBATCH --cpus-per-task=2
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<youremail>
+#SBATCH -o fastq-dump.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+fastq-dump SRR16287545 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287546 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287547 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287549 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287548 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
+fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
 ```
 
+<<<<<<< HEAD
+=======
+## fastq trim
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+mkdir trim
+nano trim.sh
+
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=trim_Drosophila
+#SBATCH --cpus-per-task=2
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o trim.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287545 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287546  ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287547 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287549 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287548 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_2.fastq.gz --fastqc
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287550 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_2.fastq.gz --fastqc
+```
+## Reference donwload
+
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/Drosophila/reference
+wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz 
+wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz
+gunzip dmel-all-chromosome-r6.42.fasta.gz
+gunzip dmel-all-r6.42.gtf.gz
+ls -algh
+```
+
+## Reference index
+
+```
+nano index.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=index_Drosophila
+#SBATCH --cpus-per-task=12
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=48g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel-all-chromosome-r6.42.fasta --sjdbGTFfile dmel-all-r6.42.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+```
+
+
+## Mapping
+```
+nano mapping.sh
+```
+```bash
+#!/bin/bash
+#SBATCH --job-name=align_Drosophila
+#SBATCH --cpus-per-task=8
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=32g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_Drosophila)>
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287547.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287548.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287549.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287550.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287545.bam
+
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287546.bam
+```
+
+
+
+## Featurecount
+
+```bash
+featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
+```
+
+# Mus Musculus
+## Data Download
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
+**CCR2-dependent monocyte-derived cells restrict SARS-CoV-2 infection (house mouse)**
+
+SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and current evidence suggests severe disease is associated with dysregulated immunity within the respiratory tract1,2. However, the innate immune mechanisms that mediate protection during COVID-19 are not well defined. Here we characterize a mouse model of SARS-CoV-2 infection and find that early CCR2-dependent infiltration of monocytes restricts viral burden in the lung. We find that a recently developed mouse-adapted MA-SARS-CoV-2 strain, as well as the emerging B.1.351 variant, trigger an inflammatory response in the lung characterized by expression of pro-inflammatory cytokines and interferon-stimulated genes. Using intravital antibody labeling, we demonstrate that MA-SARS-CoV-2 infection leads to increases in circulating monocytes and an influx of CD45+ cells into the lung parenchyma that is dominated by monocyte-derived cells. scRNA-seq analysis of lung homogenates identified a hyper-inflammatory monocyte profile. We utilize this model to demonstrate that mechanistically, CCR2 signaling promotes infiltration of classical monocytes into the lung and expansion of monocyte-derived cells. Parenchymal monocyte-derived cells appear to play a protective role against MA-SARS-CoV-2, as mice lacking CCR2 showed higher viral loads in the lungs, increased lung viral dissemination, and elevated inflammatory cytokine responses. These studies have identified a CCR2-monocyte axis that is critical for promoting viral control and restricting inflammation within the respiratory tract during SARS-CoV-2 infection. Overall design: 8 samples in total corresponding to different mice. 4 samples are from mock, control mice. 4 samples are from SARS-CoV-2 infected mice.
+
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/
+mkdir Mmusculus && cd Mmusculus
+mkdir raw_data trim bam reference
+pwd
+```
+```
+SRR16526489 Mock 1; Mus musculus; RNA-Seq
+SRR16526488 Mock 2; Mus musculus; RNA-Seq
+SRR16526486 Mock 3; Mus musculus; RNA-Seq
+SRR16526483 Mock 4; Mus musculus; RNA-Seq
+SRR16526477 CoV2 3; Mus musculus; RNA-Seq
+SRR16526479 CoV2 2; Mus musculus; RNA-Seq
+SRR16526481 CoV2 1; Mus musculus; RNA-Seq
+SRR16526475 CoV2 4; Mus musculus; RNA-Seq
+```
+
+
+
+# Solanum lycopersicum
+
+## Project site
+Whole genome sequencing and transcriptome sequencing of Solanum lycopersicum, M82
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA753098
+
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/
+mkdir Slycopersium && cd Slycopersium
+mkdir raw_data trim bam reference
+pwd
+```
+
+```
+SRR15607542 Root control Rep1 
+SRR15607543 Root control Rep2 
+SRR15607544 Root control Rep3
+SRR15607552 Root salt treatment Rep1
+SRR15607553 Root salt treatment Rep2
+SRR15607554 Root salt treatment Rep3
+```
+
+
+
+
+
+
+>>>>>>> origin/wyim-pgl-patch-1
 
