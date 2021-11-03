@@ -545,16 +545,18 @@ mkdir Mmusculus && cd Mmusculus
 mkdir raw_data trim bam reference
 pwd
 ```
-```
-SRR16526489 Mock 1; Mus musculus; RNA-Seq
-SRR16526488 Mock 2; Mus musculus; RNA-Seq
-SRR16526486 Mock 3; Mus musculus; RNA-Seq
-SRR16526483 Mock 4; Mus musculus; RNA-Seq
-SRR16526477 CoV2 3; Mus musculus; RNA-Seq
-SRR16526479 CoV2 2; Mus musculus; RNA-Seq
-SRR16526481 CoV2 1; Mus musculus; RNA-Seq
-SRR16526475 CoV2 4; Mus musculus; RNA-Seq
-```
+
+| Run ID      | LibraryName                   |
+|-------------|-------------------------------|
+| SRR16526489 | Mock 1; Mus musculus; RNA-Seq |
+| SRR16526488 | Mock 2; Mus musculus; RNA-Seq |
+| SRR16526486 | Mock 3; Mus musculus; RNA-Seq |
+| SRR16526483 | Mock 4; Mus musculus; RNA-Seq |
+| SRR16526477 | CoV2 3; Mus musculus; RNA-Seq |
+| SRR16526479 | CoV2 2; Mus musculus; RNA-Seq |
+| SRR16526481 | CoV2 1; Mus musculus; RNA-Seq |
+| SRR16526475 | CoV2 4; Mus musculus; RNA-Seq |
+
 
 
 ## Reference download
@@ -580,14 +582,16 @@ mkdir raw_data trim bam reference
 pwd
 ```
 
-```
-SRR15607542 Root control Rep1 
-SRR15607543 Root control Rep2 
-SRR15607544 Root control Rep3
-SRR15607552 Root salt treatment Rep1
-SRR15607553 Root salt treatment Rep2
-SRR15607554 Root salt treatment Rep3
-```
+
+| Run ID      | LibraryName              |
+|-------------|--------------------------|
+| SRR15607542 | Root control Rep1        |
+| SRR15607543 | Root control Rep1        |
+| SRR15607544 | Root control Rep1        |
+| SRR15607552 | Root Salt treatment Rep1 |
+| SRR15607553 | Root Salt treatment Rep2 |
+| SRR15607554 | Root Salt treatment Rep3 |
+
 
 
 ## Reference Download
@@ -747,12 +751,14 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
 
 
 ## SRA read download
-SRR1851022
-SRR1851024
-SRR1851026
-SRR1851027
-SRR1851028
-SRR1851030
+| Run ID     | LibraryName                                   |
+|------------|-----------------------------------------------|
+| SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
+| SRR1851024 | Anopheles stephensi male RNAseq replicate 2   |
+| SRR1851026 | Anopheles stephensi male RNAseq replicate 3   |
+| SRR1851027 | Anopheles stephensi female RNAseq replicate 1 |
+| SRR1851028 | Anopheles stephensi female RNAseq replicate 2 |
+| SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
 
 ## Reference genome (VectorBase)
 https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
@@ -760,4 +766,6 @@ https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
 ### Reference Download Link
 https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta
 https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff
+
+
 
