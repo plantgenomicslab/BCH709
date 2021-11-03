@@ -751,10 +751,12 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
 
 
 ## Folder preparation
-cd  ~/bch709_scratch/RNA-Seq_example/
-mkdir Astephensi && cd Astephensi
-mkdir raw_data trim bam reference
-pwd
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/  
+mkdir Astephensi && cd Astephensi  
+mkdir raw_data trim bam reference  
+pwd 
+```
 
 ## SRA read download
 
