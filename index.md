@@ -63,7 +63,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week10 | 10/25/2021 | Monday    | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
 | Week11 | 10/27/2021 | Wednesday | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
 | Week11 | 11/1/2021  | Monday    | [RNA_Seq example: Arabidopsis/Drosophila](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
-| Week12 | 11/3/2021  | Wednesday | Genome annotation                                                 |
+| Week12 | 11/3/2021  | Wednesday | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)                                         |
 | Week12 | 11/8/2021  | Monday    | Genome structure                                                  |
 | Week13 | 11/10/2021 | Wednesday | Database & file format                                            |
 | Week13 | 11/15/2021 | Monday    |  BLAST search and gene alignment                             |
