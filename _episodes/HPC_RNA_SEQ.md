@@ -757,6 +757,7 @@ mkdir raw_data trim bam reference
 pwd
 
 ## SRA read download
+
 | Run ID     | LibraryName                                   |
 |------------|-----------------------------------------------|
 | SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
