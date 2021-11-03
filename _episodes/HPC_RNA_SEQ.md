@@ -740,3 +740,24 @@ TPM
 ```
 
 
+
+# Mosquito (Anopheles stephensi)
+RNAseq from adult male and female Anopheles stephensi
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
+
+
+## SRA read download
+SRR1851022
+SRR1851024
+SRR1851026
+SRR1851027
+SRR1851028
+SRR1851030
+
+## Reference genome (VectorBase)
+https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
+
+### Reference Download Link
+https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta
+https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff
+
