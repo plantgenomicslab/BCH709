@@ -154,7 +154,7 @@ pwd
 
 ### Conda environment
 ```bash
-conda create -n RNASEQ_bch709 -c bioconda -c conda-forge  -c r  sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools multiqc
+conda create -n RNASEQ_bch709 -c bioconda -c conda-forge  -c r  sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools multiqc subread
 conda activate RNASEQ_bch709
 ```
 
@@ -439,8 +439,7 @@ fastq-dump SRR16287548 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Droso
 fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data --gzip
 ```
 
-<<<<<<< HEAD
-=======
+
 ## fastq trim
 ```bash
 cd ~/bch709_scratch/RNA-Seq_example/Drosophila
@@ -532,16 +531,11 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 
 
-## Featurecount
-
-```bash
-featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
-```
-
 # Mus Musculus
 ## Data Download
-https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
-**CCR2-dependent monocyte-derived cells restrict SARS-CoV-2 infection (house mouse)**
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499 
+
+**CCR2-dependent monocyte-derived cells restrict SARS-CoV-2 infection (house mouse)**  
 
 SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and current evidence suggests severe disease is associated with dysregulated immunity within the respiratory tract1,2. However, the innate immune mechanisms that mediate protection during COVID-19 are not well defined. Here we characterize a mouse model of SARS-CoV-2 infection and find that early CCR2-dependent infiltration of monocytes restricts viral burden in the lung. We find that a recently developed mouse-adapted MA-SARS-CoV-2 strain, as well as the emerging B.1.351 variant, trigger an inflammatory response in the lung characterized by expression of pro-inflammatory cytokines and interferon-stimulated genes. Using intravital antibody labeling, we demonstrate that MA-SARS-CoV-2 infection leads to increases in circulating monocytes and an influx of CD45+ cells into the lung parenchyma that is dominated by monocyte-derived cells. scRNA-seq analysis of lung homogenates identified a hyper-inflammatory monocyte profile. We utilize this model to demonstrate that mechanistically, CCR2 signaling promotes infiltration of classical monocytes into the lung and expansion of monocyte-derived cells. Parenchymal monocyte-derived cells appear to play a protective role against MA-SARS-CoV-2, as mice lacking CCR2 showed higher viral loads in the lungs, increased lung viral dissemination, and elevated inflammatory cytokine responses. These studies have identified a CCR2-monocyte axis that is critical for promoting viral control and restricting inflammation within the respiratory tract during SARS-CoV-2 infection. Overall design: 8 samples in total corresponding to different mice. 4 samples are from mock, control mice. 4 samples are from SARS-CoV-2 infected mice.
 
@@ -561,6 +555,15 @@ SRR16526479 CoV2 2; Mus musculus; RNA-Seq
 SRR16526481 CoV2 1; Mus musculus; RNA-Seq
 SRR16526475 CoV2 4; Mus musculus; RNA-Seq
 ```
+
+
+## Reference download
+https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus
+
+### Download files
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.fna.gz
+
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.gff.gz
 
 
 
@@ -587,9 +590,153 @@ SRR15607554 Root salt treatment Rep3
 ```
 
 
+## Reference Download
+https://phytozome-next.jgi.doe.gov/info/Slycopersicum_ITAG4_0
+
+
+### Download files
+Slycopersicum_691_ITAG4.0.gene.gff3.gz  
+Slycopersicum_691_SL4.0.fa.gz   
 
 
 
 
->>>>>>> origin/wyim-pgl-patch-1
+
+# Expression values and Normalization
+
+CPM, RPKM, FPKM, TPM, RLE, MRN, Q, UQ, TMM, VST, RLOG, VOOM ... Too many...  
+
+CPM: Controls for sequencing depth when dividing by total count. Not for within-sample comparison or DE.  
+
+Counts per million (CPM) mapped reads are counts scaled by the number of fragments you sequenced (N) times one million. This unit is related to the FPKM without length normalization and a factor of 10^6:  
+![CPM]({{site.baseurl}}/fig/CPM.png)
+
+RPKM/FPKM: Controls for sequencing depth and gene length. Good for technical replicates, not good for sample-sample due to compositional bias. Assumes total RNA output is same in all samples. Not for DE.  
+
+TPM: Similar to RPKM/FPKM. Corrects for sequencing depth and gene length. Also comparable between samples but no correction for compositional bias.  
+
+TMM/RLE/MRN: Improved assumption: The output between samples for a core set only of genes is similar. Corrects for compositional bias. Used for DE. RLE and MRN are very similar and correlates well with sequencing depth. edgeR::calcNormFactors() implements TMM, TMMwzp, RLE & UQ.   DESeq2::estimateSizeFactors implements median ratio method (RLE). Does not correct for gene length.  
+
+VST/RLOG/VOOM: Variance is stabilised across the range of mean values. For use in exploratory analyses. Not for DE. vst() and rlog() functions from DESeq2. voom() function from Limma converts data to normal distribution.  
+
+geTMM: Gene length corrected TMM.  
+
+**For DEG using DEG R packages (DESeq2, edgeR, Limma etc), use raw counts  
+For visualisation (PCA, clustering, heatmaps etc), use TPM or TMM  
+For own analysis with gene length correction, use TPM (maybe geTMM?)  
+Other solutions: spike-ins/house-keeping genes**
+
+
+## FPKM
+![FPKM]({{site.baseurl}}/fig/FPKM.png)
+
+X = mapped reads count
+N = number of reads
+L = Length of transcripts
+
+
+'length' is this transcript's sequence length (poly(A) tail is not counted). 'effective_length' counts only the positions that can generate a valid fragment.
+
+
+
+### FPKM 
+Fragments per Kilobase of transcript per million mapped reads
+
+
+```python
+X = 3752
+Number_Reads_mapped = 559192
+Length = 651.04
+fpkm= X*(1000/Length)*(1000000/Number_Reads_mapped)
+fpkm
+```
+
+#### ten to the ninth power = 10\*\*9
+
+
+### TPM
+ Transcripts Per Million
+
+![TPM]({{site.baseurl}}/fig/TPM.png)
+
+![TPM2]({{site.baseurl}}/fig/TPM2.png)
+
+
+
+### Paper read
+[Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)  
+
+[Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
+
+
+
+# Featurecount
+```
+featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
+```
+```bash
+conda activate RNASEQ_bch709
+cd ~/bch709_scratch/RNA-Seq_example/ATH/bam
+featureCounts -o ATH.featureCount.cnt -p  -a ~/bch709/wyim/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
+```
+
+
+
+
+### FPKM 
+Fragments per Kilobase of transcript per million mapped reads
+
+```
+awk 'FNR > 2 { sum+=$7 } END {print sum}' ATH.featureCount.cnt
+```
+### Example AT1G01060.TAIR10 
+```python
+Length = 976 
+X = 500
+Number_Reads_mapped = 5949384
+fpkm= X*(1000/Length)*(1000000/Number_Reads_mapped)
+fpkm
+```
+
+#### ten to the ninth power = 10\*\*9
+
+```python
+fpkm=X/(Number_Reads_mapped*Length)*10**9
+fpkm
+```
+## TPM
+### sum_count_per_length
+```
+awk 'FNR > 2 { sum+=$7/$6 } END {print sum}' ATH.featureCount.cnt
+```
+### TPM calculation from reads count
+```python
+
+sum_count_per_length =  4747.27
+X = 500
+Length = 976
+TPM = (X/Length)*(1/sum_count_per_length )*10**6
+TPM
+```
+
+
+### TPM and FPKM calculation
+
+```bash
+cut -f1,6-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > ATH.featureCount_count_length.cnt
+
+python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
+
+```
+
+
+### TPM calculation from FPKM
+
+```python
+FPKM = 86.10892858272605
+SUM_FPKM = 797942
+TPM=(FPKM/SUM_FPKM)*10**6
+TPM
+```
+
 
