@@ -603,6 +603,39 @@ Slycopersicum_691_ITAG4.0.gene.gff3.gz
 Slycopersicum_691_SL4.0.fa.gz   
 
 
+# Mosquito (Anopheles stephensi)
+RNAseq from adult male and female Anopheles stephensi
+https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
+
+
+## Folder preparation
+```bash
+cd  ~/bch709_scratch/RNA-Seq_example/  
+mkdir Astephensi && cd Astephensi  
+mkdir raw_data trim bam reference  
+pwd 
+```
+
+## SRA read download
+
+| Run ID     | LibraryName                                   |
+|------------|-----------------------------------------------|
+| SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
+| SRR1851024 | Anopheles stephensi male RNAseq replicate 2   |
+| SRR1851026 | Anopheles stephensi male RNAseq replicate 3   |
+| SRR1851027 | Anopheles stephensi female RNAseq replicate 1 |
+| SRR1851028 | Anopheles stephensi female RNAseq replicate 2 |
+| SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
+
+## Reference genome (VectorBase)
+https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
+
+### Reference Download Link
+https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta
+https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff
+
+
+
 
 
 
@@ -629,6 +662,20 @@ geTMM: Gene length corrected TMM.
 For visualisation (PCA, clustering, heatmaps etc), use TPM or TMM  
 For own analysis with gene length correction, use TPM (maybe geTMM?)  
 Other solutions: spike-ins/house-keeping genes**
+
+
+# Featurecount
+```
+featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
+```
+
+```bash
+conda activate RNASEQ_bch709
+cd ~/bch709_scratch/RNA-Seq_example/ATH/bam
+featureCounts -o ATH.featureCount.cnt -p  -a ~/bch709/wyim/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
+```
+
+
 
 
 ## FPKM
@@ -673,20 +720,6 @@ fpkm
 [Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
 
 
-
-# Featurecount
-```
-featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...... -o counts.txt
-```
-```bash
-conda activate RNASEQ_bch709
-cd ~/bch709_scratch/RNA-Seq_example/ATH/bam
-featureCounts -o ATH.featureCount.cnt -p  -a ~/bch709/wyim/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
-```
-
-
-
-
 ### FPKM 
 Fragments per Kilobase of transcript per million mapped reads
 
@@ -712,6 +745,7 @@ fpkm
 ### sum_count_per_length
 ```
 awk 'FNR > 2 { sum+=$7/$6 } END {print sum}' ATH.featureCount.cnt
+egrep AT1G01060 ATH.featureCount.cnt
 ```
 ### TPM calculation from reads count
 ```python
@@ -729,13 +763,12 @@ TPM
 ```bash
 cut -f1,6-  ATH.featureCount.cnt |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > ATH.featureCount_count_length.cnt
 
-python /data/gpfs/assoc/bch709-1/Course_material/script/tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
+python /data/gpfs/assoc/bch709-2/Course_material/script/tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
 
 ```
 
 
 ### TPM calculation from FPKM
-
 ```python
 FPKM = 86.10892858272605
 SUM_FPKM = 797942
@@ -744,37 +777,17 @@ TPM
 ```
 
 
-
-# Mosquito (Anopheles stephensi)
-RNAseq from adult male and female Anopheles stephensi
-https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
-
-
-## Folder preparation
-```bash
-cd  ~/bch709_scratch/RNA-Seq_example/  
-mkdir Astephensi && cd Astephensi  
-mkdir raw_data trim bam reference  
-pwd 
-```
-
-## SRA read download
-
-| Run ID     | LibraryName                                   |
-|------------|-----------------------------------------------|
-| SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
-| SRR1851024 | Anopheles stephensi male RNAseq replicate 2   |
-| SRR1851026 | Anopheles stephensi male RNAseq replicate 3   |
-| SRR1851027 | Anopheles stephensi female RNAseq replicate 1 |
-| SRR1851028 | Anopheles stephensi female RNAseq replicate 2 |
-| SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
-
-## Reference genome (VectorBase)
-https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
-
-### Reference Download Link
-https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta
-https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff
+## Featurecount calculation
+Use GTF and BAM file under reference and bam folder, respectively.
+### Drosophila
+### Mus musculus
+### Solanum lycopersicum
+### Mosquito (Anopheles stephensi)
 
 
-
+## MultiQC summary
+### Drosophila
+### Mus musculus
+### Solanum lycopersicum
+### Mosquito (Anopheles stephensi)
+### Arabidopsis
