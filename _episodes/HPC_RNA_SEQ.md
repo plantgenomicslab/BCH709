@@ -796,3 +796,375 @@ Use GTF and BAM file under reference and bam folder, respectively.
 ### Solanum lycopersicum
 ### Mosquito (Anopheles stephensi)
 ### Arabidopsis
+
+
+
+## DESeq2 vs EdgeR Normalization method
+DESeq and EdgeR are very similar and both assume that no genes are differentially expressed. DEseq uses a "geometric" normalisation strategy, whereas EdgeR is a weighted mean of log ratios-based method. Both normalise data initially via the calculation of size / normalisation factors.
+
+Here is further information (important parts in bold):
+
+### DESeq
+DESeq: This normalization method is included in the DESeq Bioconductor package (version 1.6.0) and is based on the hypothesis that most genes are not DE. A DESeq scaling factor for a given lane is computed as the median of the ratio, for each gene, of its read count over its geometric mean across all lanes. The underlying idea is that non-DE genes should have similar read counts across samples, leading to a ratio of 1. Assuming most genes are not DE, the median of this ratio for the lane provides an estimate of the correction factor that should be applied to all read counts of this lane to fulfill the hypothesis. By calling the estimateSizeFactors() and sizeFactors() functions in the DESeq Bioconductor package, this factor is computed for each lane, and raw read counts are divided by the factor associated with their sequencing lane.  
+[DESeq2](https://www.ncbi.nlm.nih.gov/pubmed/22988256)
+
+ϕ was assumed to be a function of μ determined by nonparametric regression. The recent version used in this paper follows a more versatile procedure. Firstly, for each transcript, an estimate of the dispersion is made, presumably using maximum likelihood. Secondly, the estimated dispersions for all transcripts are fitted to the functional form:  
+ϕ=a+bμ(DESeq parametric fit), using a gamma-family generalised linear model  (Using regression)
+
+This normalization method is included in the DESeq Bioconductor package and is based on the hypothesis that most genes are not DE. A DESeq scaling factor for a given lane is computed as the median of the ratio, for each gene, of its read count over its geometric mean across all lanes. The underlying idea is that non-DE genes should have similar read counts across samples, leading to a ratio of 1. Assuming most genes are not DE, the median of this ratio for the lane provides an estimate of the correction factor that should be applied to all read counts of this lane to fulfill the hypothesis. By calling the estimateSizeFactors() and sizeFactors() functions in the DESeq Bioconductor package, this factor is computed for each lane, and raw read counts are divided by the factor associated with their sequencing lane.
+
+### EdgeR
+Trimmed Mean of M-values (TMM): This normalization method is implemented in the edgeR Bioconductor package (version 2.4.0). It is also based on the hypothesis that most genes are not DE. The TMM factor is computed for each lane, with one lane being considered as a reference sample and the others as test samples. For each test sample, TMM is computed as the weighted mean of log ratios between this test and the reference, after exclusion of the most expressed genes and the genes with the largest log ratios. According to the hypothesis of low DE, this TMM should be close to 1. If it is not, its value provides an estimate of the correction factor that must be applied to the library sizes (and not the raw counts) in order to fulfill the hypothesis. The calcNormFactors() function in the edgeR Bioconductor package provides these scaling factors. To obtain normalized read counts, these normalization factors are re-scaled by the mean of the normalized library sizes. Normalized read counts are obtained by dividing raw read counts by these re-scaled normalization factors.  
+[EdgeR](https://www.ncbi.nlm.nih.gov/pubmed/22988256)
+
+edgeR recommends a “tagwise dispersion” function, which estimates the dispersion on a gene-by-gene basis, and implements an empirical Bayes strategy for squeezing the estimated dispersions towards the common dispersion. Under the default setting, the degree of squeezing is adjusted to suit the number of biological replicates within each condition: more biological replicates will need to borrow less information from the complete set of transcripts and require less squeezing.  
+
+Trimmed Mean of M-values (TMM): This normalization method hypothesis that most genes are not DE. The TMM factor is computed for each lane, with one lane being considered as a reference sample and the others as test samples. For each test sample, TMM is computed as the weighted mean of log ratios between this test and the reference, after exclusion of the most expressed genes and the genes with the largest log ratios. According to the hypothesis of low DE, this TMM should be close to 1. If it is not, its value provides an estimate of the correction factor that must be applied to the library sizes (and not the raw counts) in order to fulfill the hypothesis. The calcNormFactors() function in the edgeR Bioconductor package provides these scaling factors. To obtain normalized read counts, these normalization factors are re-scaled by the mean of the normalized library sizes. Normalized read counts are obtained by dividing raw read counts by these re-scaled normalization factors.
+
+
+## DESeq2 vs EdgeR Statistical tests for differential expression
+### DESeq2
+DESeq2 uses raw counts, rather than normalized count data, and models the normalization to fit the counts within a Generalized Linear Model (GLM) of the negative binomial family with a logarithmic link. Statistical tests are then performed to assess differential expression, if any.  
+
+### EdgeR
+Data are normalized to account for sample size differences and variance among samples. The normalized count data are used to estimate per-gene fold changes and to perform statistical tests of whether each gene is likely to be differentially expressed.  
+EdgeR uses an exact test under a negative binomial distribution (Robinson and Smyth, 2008). The statistical test is related to Fisher's exact test, though Fisher uses a different distribution.  
+
+
+### Major difference
+The major differences between the two methods are in some of the defaults. DESeq2 by default does a couple things (which can all optionally be turned off): it finds an optimal value at which to filter low count genes, flags genes with large outlier counts or removes these outlier values when there are sufficient samples per group (n>6), excludes from the estimation of the dispersion prior and dispersion moderation those genes with very high within-group variance, and moderates log fold changes which have small statistical support (e.g. from low count genes). edgeR offers similar functionality, for example, it offers a robust dispersion estimation function, estimateGLMRobustDisp, which reduces the effect of individual outlier counts, and a robust argument to estimateDisp so that hyperparameters are not overly affected by genes with very high within-group variance. And the default steps in the edgeR User Guide for filtering low counts genes both increases power by reducing multiple testing burden and removes genes with uninformative log fold changes.
+
+***[DEG software comparison paper](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-13-484)***
+
+
+## Fold change
+Fold change (FC) is a measure describing the degree of quantity change between control and treatment value. For instance, for a data set with an control of 20 and a treatment of 80, the corresponding fold change is 3, or in common terms, a three-fold increase. Fold change is computed simply as the ratio of the changes between treatment value and the control value over the initial value. Thus, if the control value is X and treatment value is Y, the fold change is (Y - X)/X or equivalently Y/X - 1. As another example, a change from 60 to 30 would be a fold change of -0.5, while a change from 30 to 60 would be a fold change of 1 (a change of 2 times the original).
+
+Likely because of this definition, many researchers use both“fold”and“fold change” to be synonymous with "times," as in "2-fold larger" = "2 times larger." Among some experts in this field use persists of fold change as in "40 is 1-fold greater than 20." Therefore, one could argue that the use of fold change, as in "X is 3-fold greater than 15" should be avoided altogether, since some will interpret this to mean X is 45 whereas others will understand this to mean that A is 60.
+
+
+In DESeq2 Fold change is typically calculated by simply average of group 2/ average of group 1. 
+
+(average in group2)/(average in group1)
+
+The question is why would you want to do this? There are good Bioconductor packages that can do that for you. For example, DESeq2 applies shrinkage methods to the fold-changes. Raw fold-change is not informative in bioinformatic statistical analysis, because it doesn't address the expression level (and variance) of the gene. Highly and lowly expressed genes can give you the same fold-change, and you don't want this to happen.
+
+
+
+
+## Hypothesis testing using the Wald test
+The first step in hypothesis testing is to set up a null hypothesis for each gene. In our case is, the null hypothesis is that there is no differential expression across the two sample groups (LFC == 0). Notice that we can do this without observing any data, because it is based on a thought experiment. Second, we use a statistical test to determine if based on the observed data, the null hypothesis is true.
+With DESeq2, the Wald test is commonly used for hypothesis testing when comparing two groups. A Wald test statistic is computed along with a probability that a test statistic at least as extreme as the observed value were selected at random. This probability is called the p-value of the test. If the p-value is small we reject the null hypothesis and state that there is evidence against the null (i.e. the gene is differentially expressed).
+
+## Multiple test correction
+Note that we have pvalues and p-adjusted values in the output. Which should we use to identify significantly differentially expressed genes?
+
+If we used the p-value directly from the Wald test with a significance cut-off of p < 0.05, that means there is a 5% chance it is a false positives. Each p-value is the result of a single test (single gene). The more genes we test, the more we inflate the false positive rate. This is the multiple testing problem. For example, if we test 20,000 genes for differential expression, at p < 0.05 we would expect to find 1,000 genes by chance. If we found 3000 genes to be differentially expressed total, roughly one third of our genes are false positives. We would not want to sift through our “significant” genes to identify which ones are true positives.
+
+DESeq2 helps reduce the number of genes tested by removing those genes unlikely to be significantly DE prior to testing, such as those with low number of counts and outlier samples (gene-level QC). However, we still need to correct for multiple testing to reduce the number of false positives, and there are a few common approaches:
+
+### Bonferroni
+The adjusted p-value is calculated by: p-value * m (m = total number of tests). This is a very conservative approach with a high probability of false negatives, so is generally not recommended.
+
+### FDR/Benjamini-Hochberg
+Benjamini and Hochberg (1995) defined the concept of FDR and created an algorithm to control the expected FDR below a specified level given a list of independent p-values. An interpretation of the BH method for controlling the FDR is implemented in DESeq2 in which we rank the genes by p-value, then multiply each ranked p-value by m/rank.
+
+### Q-value / Storey method
+The minimum FDR that can be attained when calling that feature significant. For example, if gene X has a q-value of 0.013 it means that 1.3% of genes that show p-values at least as small as gene X are false positives
+
+### Deafault test
+In DESeq2, the p-values attained by the Wald test are corrected for multiple testing using the Benjamini and Hochberg method by default. There are options to use other methods in the results() function. The p-adjusted values should be used to determine significant genes. The significant genes can be output for visualization and/or functional analysis.
+
+```
+So what does FDR < 0.05 mean? By setting the FDR cutoff to < 0.05, we’re saying that the proportion of false positives we expect amongst our differentially expressed genes is 5%. For example, if you call 500 genes as differentially expressed with an FDR cutoff of 0.05, you expect 25 of them to be false positives.
+
+```
+## Environment
+```bash
+conda create -n DEG_bch709 -y
+
+conda activate DEG_bch709
+conda config --set channel_priority false
+conda update --all --yes
+conda install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-biobase=2.40.0  bioconductor-qvalue  bioconductor-limma bioconductor-edger  bioconductor-genomeinfodb bioconductor-deseq2 bioconductor-genomeinfodbdata r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
+```
+## ATH DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/RNA-Seq_example/ATH
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/ATH/bam/ATH.featureCount* .
+
+cut -f1,7- ATH.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.TAIR10//g' > ATH.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Control<TAB>SRR1761506
+Control<TAB>SRR1761507
+Control<TAB>SRR1761508
+ABA<TAB>SRR1761509
+ABA<TAB>SRR1761510
+ABA<TAB>SRR1761511
+```
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+
+Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
+```bash
+PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+```
+```output
+WT.rep_compare.pdf
+ABA.rep_compare.pdf
+```
+
+
+### DEG calculation
+```bash
+R
+```
+
+```R
+install.packages("blob")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("GenomeInfoDb","DESeq2"))
+
+quit()
+
+```
+
+```bash
+run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+Arabidopsis
+| Sample information | Run        |
+|--------------------|------------|
+| WT_rep1            | SRR1761506 |
+| WT_rep2            | SRR1761507 |
+| WT_rep3            | SRR1761508 |
+| ABA_rep1           | SRR1761509 |
+| ABA_rep2           | SRR1761510 |
+| ABA_rep3           | SRR1761511 |
+
+
+Slycopersium
+| Run ID      | LibraryName              |
+|-------------|--------------------------|
+| SRR15607542 | Root control Rep1        |
+| SRR15607543 | Root control Rep1        |
+| SRR15607544 | Root control Rep1        |
+| SRR15607552 | Root Salt treatment Rep1 |
+| SRR15607553 | Root Salt treatment Rep2 |
+| SRR15607554 | Root Salt treatment Rep3 |
+
+Astephensi
+| SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
+| SRR1851024 | Anopheles stephensi male RNAseq replicate 2   |
+| SRR1851026 | Anopheles stephensi male RNAseq replicate 3   |
+| SRR1851027 | Anopheles stephensi female RNAseq replicate 1 |
+| SRR1851028 | Anopheles stephensi female RNAseq replicate 2 |
+| SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
+
+Mmusculus
+| Run ID      | LibraryName                   |
+|-------------|-------------------------------|
+| SRR16526489 | Mock 1; Mus musculus; RNA-Seq |
+| SRR16526488 | Mock 2; Mus musculus; RNA-Seq |
+| SRR16526486 | Mock 3; Mus musculus; RNA-Seq |
+| SRR16526483 | Mock 4; Mus musculus; RNA-Seq |
+| SRR16526477 | CoV2 3; Mus musculus; RNA-Seq |
+| SRR16526479 | CoV2 2; Mus musculus; RNA-Seq |
+| SRR16526481 | CoV2 1; Mus musculus; RNA-Seq |
+| SRR16526475 | CoV2 4; Mus musculus; RNA-Seq |
+
+
+Drosophila
+| Sample information  | Run         |
+|---------------------|-------------|
+| Control         | SRR16287545 |
+| Control          | SRR16287546 |
+| Control          | SRR16287547 |
+| Ethanol treatment         | SRR16287549 |
+| Ethanol treatment          | SRR16287548 |
+| Ethanol treatment          | SRR16287550 |
+
+
+<!--
+
+
+cd ../DEG
+cp ../bam/ATH.featureCount* .
+ls
+
+pwd
+
+/data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG
+Data list
+Sample information  Run
+WT_rep1 SRR1761506
+WT_rep2 SRR1761507
+WT_rep3 SRR1761508
+ABA_rep1    SRR1761509
+ABA_rep2    SRR1761510
+ABA_rep3    SRR1761511
+sample files
+
+
+
+
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+
+Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
+```bash
+PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+```
+```output
+WT.rep_compare.pdf
+ABA.rep_compare.pdf
+```
+
+
+### DEG calculation
+```bash
+R
+```
+
+```R
+install.packages("blob")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("GenomeInfoDb","DESeq2"))
+
+quit()
+
+```
+
+```bash
+run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+
+### DEG output
+```bash
+ls rnaseq
+```
+
+```
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.count_matrix
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.Rscript
+```
+### TPM and FPKM calculation output
+```bash
+ATH.featureCount_count_length.cnt.fpkm.xls
+ATH.featureCount_count_length.cnt.fpkm.tab
+ATH.featureCount_count_length.cnt.tpm.xls
+ATH.featureCount_count_length.cnt.tpm.tab
+```
+
+### DEG subset
+```bash
+cd rnaseq
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+```
+
+### DEG output
+```
+ATH.matrix.log2.centered.sample_cor_matrix.pdf
+ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.DE.subset
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.DE.subset
+```
+
+
+
+## Draw Venn Diagram
+
+### Venn Diagram
+```
+conda activate venn
+```
+
+
+### Venn Diagram environment creation
+```bash
+conda create -n venn python=3.5
+conda activate venn
+conda install -c bioconda bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo
+``` 
+
+```bash
+# /data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG/rnaseq
+mkdir venn
+cd venn
+#/data/gpfs/assoc/bch709-1/<YOURID>/RNA-Seq_example/ATH/DEG/rnaseq/venn
+```
+
+```bash
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.ABA-UP.subset |  grep -v sample > DESeq.UP_4fold.subset
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset  |  grep -v sample > DESeq.DOWN_4fold.subset 
+
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.ABA-UP.subset |  grep -v sample > DESeq.UP_2fold.subset
+cut -f 1 ../ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.WT-UP.subset  |  grep -v sample > DESeq.DOWN_2fold.subset
+```
+
+```bash
+ wc -l *
+```
+```
+```
+  789 DESeq.DOWN_2fold.subset
+  275 DESeq.DOWN_4fold.subset
+ 1305 DESeq.UP_2fold.subset
+  515 DESeq.UP_4fold.subset
+ 2884 total
+```
+```bash
+intervene venn --type list --save-overlaps -i <INPUT> 
+intervene upset --type list --save-overlaps -i <INPUT> 
+```
+```bash
+cd Intervene_results
+```
+```
+Intervene_upset_combinations.txt
+Intervene_upset.pdf
+Intervene_upset.R
+Intervene_venn.pdf
+sets
+```
+```bash
+cd sets
+```
+```
+0010_DESeq.UP_2fold.txt
+0011_DESeq.UP_2fold_DESeq.UP_4fold.txt
+1000_DESeq.DOWN_2fold.txt
+1100_DESeq.DOWN_2fold_DESeq.DOWN_4fold.txt
+```
+-->
