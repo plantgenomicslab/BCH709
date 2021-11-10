@@ -928,21 +928,7 @@ ABA.rep_compare.pdf
 
 
 ### DEG calculation
-```bash
-R
-```
 
-```R
-install.packages("blob")
-
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install(c("GenomeInfoDb","DESeq2"))
-
-quit()
-
-```
 
 ```bash
 run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
@@ -1010,6 +996,22 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 
 
 <!--
+
+```bash
+R
+```
+
+```R
+install.packages("blob")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("GenomeInfoDb","DESeq2"))
+
+quit()
+
+```
 
 
 cd ../DEG
