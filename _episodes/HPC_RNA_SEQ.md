@@ -886,12 +886,13 @@ conda create -n DEG_bch709 -y
 conda activate DEG_bch709
 conda config --set channel_priority false
 conda update --all --yes
-conda install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-biobase=2.40.0  bioconductor-qvalue  bioconductor-limma bioconductor-edger  bioconductor-genomeinfodb bioconductor-deseq2 bioconductor-genomeinfodbdata r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
+conda install -y -c bioconda -c conda-forge mamba
+mamba install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
 ```
 ## ATH DEG
 ```bash
 
-cd ~/bch709_scratch/RNA-Seq_example/RNA-Seq_example/ATH
+cd ~/bch709_scratch/RNA-Seq_example/ATH
 mkdir DEG
 cd DEG
 cp ~/bch709_scratch/RNA-Seq_example/ATH/bam/ATH.featureCount* .
