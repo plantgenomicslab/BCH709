@@ -950,6 +950,7 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 
 
 ## Arabidopsis
+
 | Sample information | Run        |
 |--------------------|------------|
 | WT_rep1            | SRR1761506 |
@@ -961,6 +962,7 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 
 
 ## Slycopersium
+
 | Run ID      | LibraryName              |
 |-------------|--------------------------|
 | SRR15607542 | Root control Rep1        |
@@ -971,6 +973,9 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 | SRR15607554 | Root Salt treatment Rep3 |
 
 ## Astephensi
+
+| Run ID      | LibraryName              |
+|-------------|--------------------------|
 | SRR1851022 | Anopheles stephensi male RNAseq replicate 1   |
 | SRR1851024 | Anopheles stephensi male RNAseq replicate 2   |
 | SRR1851026 | Anopheles stephensi male RNAseq replicate 3   |
@@ -979,6 +984,7 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 | SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
 
 ## Mmusculus
+
 | Run ID      | LibraryName                   |
 |-------------|-------------------------------|
 | SRR16526489 | Mock 1; Mus musculus; RNA-Seq |
