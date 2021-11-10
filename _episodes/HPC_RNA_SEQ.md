@@ -568,7 +568,6 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39
 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.gff.gz
 
 
-
 # Solanum lycopersicum
 
 ## Project site
@@ -673,6 +672,12 @@ featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...
 conda activate RNASEQ_bch709
 cd ~/bch709_scratch/RNA-Seq_example/ATH/bam
 featureCounts -o ATH.featureCount.cnt -p  -a ~/bch709_scratch/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
+```
+
+```bash
+conda activate RNASEQ_bch709
+cd ~/bch709_scratch/RNA-Seq_example/Mmusculus/bam
+featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/bch709_scratch/RNA-Seq_example/Mmusculus/reference/GCF_000001635.27_GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
 ```
 
 
