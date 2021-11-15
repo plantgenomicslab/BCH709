@@ -889,51 +889,6 @@ conda update --all --yes
 conda install -y -c bioconda -c conda-forge mamba
 mamba install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
 ```
-## ATH DEG
-```bash
-
-cd ~/bch709_scratch/RNA-Seq_example/ATH
-mkdir DEG
-cd DEG
-cp ~/bch709_scratch/RNA-Seq_example/ATH/bam/ATH.featureCount* .
-
-cut -f1,7- ATH.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.TAIR10//g' > ATH.featureCount_count_only.cnt 
-```
-
-### Sample file
-```bash
-nano samples.txt
-```
-
-```
-Control<TAB>SRR1761506
-Control<TAB>SRR1761507
-Control<TAB>SRR1761508
-ABA<TAB>SRR1761509
-ABA<TAB>SRR1761510
-ABA<TAB>SRR1761511
-```
-
-### PtR (Quality Check Your Samples and Biological Replicates)
-
-Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
-```bash
-PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
-
-```
-```output
-WT.rep_compare.pdf
-ABA.rep_compare.pdf
-```
-
-
-### DEG calculation
-
-
-```bash
-run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
-```
-
 
 ## Arabidopsis
 
@@ -993,6 +948,287 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 | Ethanol treatment         | SRR16287549 |
 | Ethanol treatment          | SRR16287548 |
 | Ethanol treatment          | SRR16287550 |
+
+
+## ATH DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/ATH
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/ATH/bam/ATH.featureCount* .
+
+cut -f1,7- ATH.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.TAIR10//g' > ATH.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Control<TAB>SRR1761506
+Control<TAB>SRR1761507
+Control<TAB>SRR1761508
+ABA<TAB>SRR1761509
+ABA<TAB>SRR1761510
+ABA<TAB>SRR1761511
+```
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+
+Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
+```bash
+PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+```
+```output
+WT.rep_compare.pdf
+ABA.rep_compare.pdf
+```
+
+
+### DEG calculation
+
+
+```bash
+run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+
+
+## Slycopersium DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/Slycopersium
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/Slycopersium/bam/Slycopersium.featureCount* .
+
+cut -f1,7- Slycopersium.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.ITAG4\.0//g' > Slycopersium.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Control SRR15607542
+Control SRR15607543
+Control SRR15607544
+Salt    SRR15607552
+Salt    SRR15607553
+Salt    SRR15607554
+```
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+PtR  --matrix Slycopersium.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+### DEG calculation
+```bash
+run_DE_analysis.pl --matrix Slycopersium.featureCount_count_only.cnt  --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+## Astephensi DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/Astephensi
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/Astephensi/bam/*.featureCount* .
+
+cut -f1,7- Astephensi.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g;' > Astephensi.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Male    SRR1851022
+Male    SRR1851024
+Male    SRR1851026
+Female  SRR1851027
+Female  SRR1851028
+Female  SRR1851030
+```
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+PtR  --matrix Astephensi.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+
+### DEG calculation
+```bash
+run_DE_analysis.pl --matrix Astephensi.featureCount_count_only.cnt  --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+## Mmusculus DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/Mmusculus
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/Mmusculus/bam/*.featureCount* .
+
+cut -f1,7- Mmusculus.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g' > Mmusculus.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Mock    SRR16526489
+Mock    SRR16526488
+Mock    SRR16526486
+Mock    SRR16526483
+Cov SRR16526477
+Cov SRR16526479
+CoV SRR16526481
+CoV SRR16526475
+```
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+PtR  --matrix Mmusculus.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+
+### DEG calculation
+```bash
+run_DE_analysis.pl --matrix Mmusculus.featureCount_count_only.cnt  --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+## Drosophila DEG
+```bash
+
+cd ~/bch709_scratch/RNA-Seq_example/Drosophila
+mkdir DEG
+cd DEG
+cp ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/*.featureCount* .
+
+cut -f1,7- Drosophila.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g' > Drosophila.featureCount_count_only.cnt 
+```
+
+### Sample file
+```bash
+nano samples.txt
+```
+
+```
+Control SRR16287545
+Control SRR16287546
+Control SRR16287547
+Ethanol SRR16287550
+Ethanol SRR16287548
+Ethanol SRR16287549
+```
+
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+PtR  --matrix Drosophila.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+
+### DEG calculation
+```bash
+run_DE_analysis.pl --matrix Drosophila.featureCount_count_only.cnt  --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+
+
+
+
+## RNA-Seq subset
+
+### DEG subset
+```bash
+cd rnaseq
+## 4-fold and p-value 0.01
+analyze_diff_expr.pl --samples ~/bch709_scratch/RNA-Seq_example/ATH/DEG/samples.txt  --matrix ~/bch709_scratch/RNA-Seq_example/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+
+## 2-fold and p-value 0.01
+analyze_diff_expr.pl --samples  ~/bch709_scratch/RNA-Seq_example/ATH/DEG/samples.txt   --matrix ~/bch709_scratch/RNA-Seq_example/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+```
+
+### DEG output
+```
+ATH.matrix.log2.centered.sample_cor_matrix.pdf
+ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf
+
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.Control-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.DE.subset
+
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C1.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C1.Control-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C1.DE.subset
+```
+
+
+## Venn diagram
+
+### Intervene installation
+```bash
+mamba install -c bioconda bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo
+```
+
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/ATH/DEG/rnaseq
+cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.ABA-UP.subset |  grep -v sample > DESeq.UP_4fold.subset
+cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.Control-UP.subset  |  grep -v sample > DESeq.DOWN_4fold.subset 
+
+cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C1.ABA-UP.subset |  grep -v sample > DESeq.UP_2fold.subset
+cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C1.Control-UP.subset  |  grep -v sample >DESeq.DOWN_2fold.subset
+```
+
+```bash
+ wc -l DESeq*subset
+```
+```
+  701 DESeq.DOWN_2fold.subset
+  227 DESeq.DOWN_4fold.subset
+ 1218 DESeq.UP_2fold.subset
+  463 DESeq.UP_4fold.subset
+ 2609 total
+```
+
+```bash
+intervene venn --type list --save-overlaps -i DESeq.DOWN_2fold.subset DESeq.DOWN_4fold.subset DESeq.UP_2fold.subset DESeq.UP_4fold.subset
+intervene upset --type list --save-overlaps -i DESeq.DOWN_2fold.subset DESeq.DOWN_4fold.subset DESeq.UP_2fold.subset DESeq.UP_4fold.subset 
+```
+
+### Result
+```bash
+cd Intervene_results
+ls 
+```
+```
+Intervene_upset_combinations.txt
+Intervene_upset.pdf
+Intervene_upset.R
+Intervene_venn.pdf
+sets
+```
+
+```bash
+cd sets
+```
+```
+0010_DESeq.UP_2fold.txt
+0011_DESeq.UP_2fold_DESeq.UP_4fold.txt
+1000_DESeq.DOWN_2fold.txt
+1100_DESeq.DOWN_2fold_DESeq.DOWN_4fold.txt
+```
+
+
+
+
+
+
 
 
 <!--
