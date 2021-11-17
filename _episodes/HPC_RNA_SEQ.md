@@ -1225,10 +1225,445 @@ cd sets
 ```
 
 
+## Gene Ontology
+Gene Ontology project is a major bioinformatics initiative Gene ontology is an annotation system The project provides the controlled and consistent vocabulary of terms and gene product annotations, i.e. terms occur only once, and there is a dictionary of allowed words
+GO describes how gene products behave in a cellular context A consistent description of gene products attributes in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner Each GO term consists of a unique alphanumerical identifier, a common name, synonyms (if applicable), and a definition Each term is assigned to one of the three ontologies Terms have a textual definition When a term has multiple meanings depending on species, the GO uses a "sensu" tag to differentiate among them (trichome differentiation (sensu Magnoliophyta) 
+
+
+![GO]({{site.baseurl}}/fig/GO.png)
+
+![kegg]({{site.baseurl}}/fig/kegg.png)
+
+### hypergeometric test
+The hypergeometric distribution is the lesser-known cousin of the binomial distribution, which describes the probability of k successes in n draws with replacement. The hypergeometric distribution describes probabilities of drawing marbles from the jar without putting them back in the jar after each draw.
+The hypergeometric probability mass function is given by (using the original variable convention)
+
+
+![hyper_geo]({{site.baseurl}}/fig/hyper_geo.png)
+![combination]({{site.baseurl}}/fig/combination.png)
+![FWER]({{site.baseurl}}/fig/FWER.png)
+
+#### FWER
+The FWER for the other tests is computed in the same way: the gene-associated variables (scores or counts) are permuted while the annotations of genes to GO-categories stay fixed. Then the statistical tests are evaluated again for every GO-category.
+
+
+## Hypergeometric Test Example 1
+Suppose we randomly select 2 cards without replacement from an ordinary deck of playing cards. What is the probability of getting exactly 2 cards you want (i.e., Ace or 10)?
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 52; since there are 52 cards in a deck.
+k = 16; since there are 16 Ace or 10 cards in a deck.
+n = 2; since we randomly select  cards from the deck.
+x = 2; since 2 of the cards we select are red.
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(2; 52, 2, 16) = [ 16C2 ] [ 48C1 ] / [ 52C2 ]
+
+h(2; 52, 2, 16) = [ 325 ] [  1 ] / [ 1,326 ]
+
+h(2; 52, 2, 16) = 0.0904977
+
+Thus, the probability of randomly selecting 2 Ace or 10 cards is 9%
+
+|category|probability|
+| -- | -- |
+|probability mass f|    0.09049773755656108597285|
+|lower cumulative P|    1|
+|upper cumulative Q|    0.09049773755656108597285|
+|Expectation|   0.6153846153846153846154|
+
+
+## Hypergeometric Test Example 2
+Suppose we have 30 DEGs in human genome (200). What is the probability of getting 10 oncogene?
+
+*An oncogene is a gene that has the potential to cause cancer.*
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 200; since there are 200 genes in human genome 
+k = 10; since there are 10 oncogenes in human
+n = 30; since 30 DEGs
+x = 5; since 5 of the oncogenes in DEGs.
+
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(5; 200, 30, 10) = [ 10C5 ] [ 190C25 ] / [ 200C30 ]
+
+h(5; 200, 30, 10) = [ 252 ] [  11506192278177947613740456466942 ] / [ 409681705022127773530866523638950880 ]
+
+h(5; 200, 30, 10) = 0.007078
+
+Thus, the probability of oncogene 0.7%.
+
+hypergeometry.png
+
+### hypergeometric distribution value
+
+|category|probability|  
+| -- | -- |  
+|probability mass f|    0.0070775932109153651831923063371216961166297 |  
+|lower cumulative P|    0.99903494867072865323201131115533112651846 |  
+|upper cumulative Q|    0.0080426445401867119511809951817905695981658 |  
+|Expectation|   1.5|  
+
+
+### False Discovery Rate (FDR) q-value
+The false discovery rate (FDR) is a method of conceptualizing the rate of type I errors in null hypothesis testing when conducting multiple comparisons. FDR-controlling procedures are designed to control the expected proportion of "discoveries" (rejected null hypotheses) that are false (incorrect rejections).
+
+- Benjamini–Yekutieli 
+- Benjamini–Hochberg 
+- Bonferroni-Selected–Bonferroni
+- Bonferroni and Sidak 
+
+### Gene ontology
+http://geneontology.org/
+
+### REViGO 
+http://revigo.irb.hr/revigo.jsp
+
+### cleverGO 
+http://www.tartaglialab.com/GO_analyser/tutorial
+
+### MetaScape
+http://metascape.org/gp/index.html
+
+### DAVID
+https://david.ncifcrf.gov/
+
+
+### Araport
+https://bar.utoronto.ca/thalemine/begin.do
 
 
 
+### Arabidopsis
+```bash
+cd ~/bch709_scratch/RNA-Seq_example/ATH/DEG/rnaseq
 
+cat DESeq.DOWN_4fold.subset
+cat DESeq.UP_4fold.subset
+```
+
+### Mouse
+```bash
+~/bch709_scratch/RNA-Seq_example/Mmusculus/DEG/rnaseq
+ cut -f 1 Mmusculus.featureCount_count_only.cnt.CoV_vs_Mock.DESeq2.DE_results.P0.01_C2.Mock-UP.subset | egrep -v sample
+```
+https://reactome.org/PathwayBrowser/#/DTAB=AN&ANALYSIS=MjAyMTExMTcwNjE3MjNfNTU5MTM%253D
+
+### Tomato
+```bash
+~/bch709_scratch/RNA-Seq_example/Slycopersium/DEG/rnaseq
+
+```
+```
+Error, no counts from matrix for Solyc12g017350 at /data/gpfs/home/wyim/scratch/bin/miniconda3/envs/DEG_bch709/bin/analyze_diff_expr.pl line 363, <$fh> line 2.
+```
+```bash
+sed -i 's/\.ITAG4\.0//g' Slycopersium.featureCount_count_length.cnt.tpm.tab
+```
+
+
+analyze_diff_expr.pl --samples ../samples.txt  --matrix ../Slycopersium.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output Slycopersium
+
+
+
+## BLAST (Basic Local Alignment Search Tool) 
+BLAST is a popular program for searching biosequences against databases. BLAST was developed and is maintained by a group at the National Center for Biotechnology Information (NCBI). Salient characteristics of BLAST are:
+
+### Local alignments
+BLAST tries to find patches of regional similarity, rather than trying to find the best alignment between your entire query and an entire database sequence.
+### Ungapped alignments
+Alignments generated with BLAST do not contain gaps. BLAST's speed and statistical model depend on this, but in theory it reduces sensitivity. However, BLAST will report multiple local alignments between your query and a database sequence.
+
+### Explicit statistical theory
+BLAST is based on an explicit statistical theory developed by Samuel Karlin and Steven Altschul (PNAS 87:2284-2268. 1990) The original theory was later extended to cover multiple weak matches between query and database entry PNAS 90:5873. 1993).
+
+CAUTION: the repetitive nature of many biological sequences (particularly naive translations of DNA/RNA) violates assumptions made in the Karlin & Altschul theory. While the P values provided by BLAST are a good rule-of-thumb for initial identification of promising matches, care should be taken to ensure that matches are not due simply to biased amino acid composition.
+
+CAUTION: The databases are contaminated with numerous artifacts. The intelligent use of filters can reduce problems from these sources. Remember that the statistical theory only covers the likelihood of finding a match by chance under particular assumptions; it does not guarantee biological importance.
+
+### Heuristic
+BLAST is not guaranteed to find the best alignment between your query and the database; it may miss matches. This is because it uses a strategy which is expected to find most matches, but sacrifices complete sensitivity in order to gain speed. However, in practice few biologically significant matches are missed by BLAST which can be found with other sequence search programs. BLAST searches the database in two phases. First it looks for short subsequences which are likely to produce significant matches, and then it tries to extend these subsequences.
+A substitution matrix is used during all phases of protein searches (BLASTP, BLASTX, TBLASTN)
+Both phases of the alignment process (scanning & extension) use a substitution matrix to score matches. This is in contrast to FASTA, which uses a substitution matrix only for the extension phase. Substitution matrices greatly improve sensitivity.
+
+## Popular BLAST software
+### BLASTP
+search a Protein Sequence against a Protein Database.
+### BLASTN
+search a Nucleotide Sequence against a Nucleotide Database.
+### TBLASTN
+search a Protein Sequence against a Nucleotide Database, by translating each database Nucleotide sequence in all 6 reading frames.
+### BLASTX
+search a Nucleotide Sequence against a Protein Database, by first translating the query Nucleotide sequence in all 6 reading frames.
+
+### BLAST site
+https://blast.ncbi.nlm.nih.gov/Blast.cgi
+https://www.uniprot.org/
+
+
+
+### Rapidly compare a sequence Q to a database to find all sequences in the database with an score above some cutoff S.
+- Which protein is most similar to a newly sequenced one?
+- Where does this sequence of DNA originate?
+- Speed achieved by using a procedure that typically finds *most* matches with scores > S.
+- Tradeoff between sensitivity and specificity/speed
+- Sensitivity – ability to find all related sequences
+- Specificity – ability to reject unrelated sequences 
+
+
+### Homologous sequence are likely to contain a short high scoring word pair, a seed.
+– Unlike Baeza-Yates, BLAST *doesn't* make explicit guarantees 
+
+### BLAST then tries to extend high scoring word pairs to compute maximal high scoring segment pairs (HSPs).
+– Heuristic algorithm but evaluates the result statistically.
+
+![seed]({{site.baseurl}}/fig/seed.png)
+![seed]({{site.baseurl}}/fig/I.7_1_blast_illustration.png)
+
+
+### E-value
+E-value = the number of HSPs having score S (or higher) expected to occur by chance.
+
+Smaller E-value, more significant in statistics
+Bigger E-value , by chance
+
+** E[# occurrences of a string of length m in reference of length L] ~ L/4m **
+
+
+
+## PAM and BLOSUM Matrices
+Two different kinds of amino acid scoring matrices, *PAM (Percent Accepted Mutation) and BLOSUM (BLOcks SUbstitution Matrix)*, are in wide use. The PAM matrices were created by Margaret Dayhoff and coworkers and are thus sometimes referred to as the Dayhoff matrices. These scoring matrices have a strong theoretical component and make a few evolutionary assumptions. The BLOSUM matrices, on the other hand, are more empirical and derive from a larger data set. Most researchers today prefer to use BLOSUM matrices because in silico experiments indicate that searches employing BLOSUM matrices have higher sensitivity.
+
+There are several PAM matrices, each one with a numeric suffix. The PAM1 matrix was constructed with a set of proteins that were all 85 percent or more identical to one another. The other matrices in the PAM set were then constructed by multiplying the PAM1 matrix by itself: 100 times for the PAM100; 160 times for the PAM160; and so on, in an *attempt to model the course of sequence evolution*. Though highly theoretical (and somewhat suspect), it is certainly a reasonable approach. There was little protein sequence data in the 1970s when these matrices were created, so this approach was a good way to extrapolate to larger distances.
+
+Protein databases contained many more sequences by the 1990s so a more empirical approach was possible. The BLOSUM matrices were constructed by extracting ungapped segments, or blocks, from a set of multiply aligned protein families, and then further clustering these blocks on the basis of their percent identity. The blocks used to derive the BLOSUM62 matrix, for example, all have at least 62 percent identity to some other member of the block.
+
+![PAM-250-and-Blosum-62-matrices]({{site.baseurl}}/fig/PAM-250-and-Blosum-62-matrices.png)
+
+![codon]({{site.baseurl}}/fig/codon.jpg)
+
+### BLAST has a number of possible programs to run depending on whether you have nucleotide or protein sequences:
+
+nucleotide query and nucleotide db - blastn
+nucleotide query and nucleotide db - tblastx (includes six frame translation of query and db sequences)
+nucleotide query and protein db - blastx (includes six frame translation of query sequences)
+protein query and nucleotide db - tblastn (includes six frame translation of db sequences)
+protein query and protein db - blastp
+
+![blasttype]({{site.baseurl}}/fig/blasttype.png)
+### BLAST Process
+
+
+![step1]({{site.baseurl}}/fig/step1.png)
+![step2]({{site.baseurl}}/fig/step2.png)
+![step3]({{site.baseurl}}/fig/step3.png)
+![step4]({{site.baseurl}}/fig/step4.png)
+
+
+![blast]({{site.baseurl}}/fig/blast.gif)
+
+
+
+### NCBI BLAST
+https://blast.ncbi.nlm.nih.gov/Blast.cgi
+
+### Uniprot
+
+https://www.uniprot.org/
+
+
+### BLASTN example
+Run blastn against the nt database.
+
+
+```
+
+ATGAAAGCGAAGGTTAGCCGTGGTGGCGGTTTTCGCGGTGCGCTGAACTA
+CGTTTTTGACGTTGGCAAGGAAGCCACGCACACGAAAAACGCGGAGCGAG
+TCGGCGGCAACATGGCCGGGAATGACCCCCGCGAACTGTCGCGGGAGTTC
+TCAGCCGTGCGCCAGTTGCGCCCGGACATCGGCAAGCCCGTCTGGCATTG
+CTCGCTGTCACTGCCTCCCGGCGAGCGCCTGAGCGCCGAGAAGTGGGAAG
+CCGTCGCGGCTGACTTCATGCAGCGCATGGGCTTTGACCAGACCAATACG
+CCGTGGGTGGCCGTGCGCCACCAGGACACGGACAAGGATCACATCCACAT
+CGTGGCCAGCCGGGTAGGGCTGGACGGGAAAGTGTGGCTGGGCCAGTGGG
+AAGCCCGCCGCGCCATCGAGGCGACCCAAGAGCTTGAGCATACCCACGGC
+CTGACCCTGACGCCGGGGCTGGGCGATGCGCGGGCCGAGCGCCGGAAGCT
+GACCGACAAGGAGATCAACATGGCCGTGAGAACGGGCGATGAACCGCCGC
+GCCAGCGTCTGCAACGGCTGCTGGATGAGGCGGTGAAGGACAAGCCGACC
+GCGCTAGAACTGGCCGAGCGGCTACAGGCCGCAGGCGTAGGCGTCCGGGC
+AAACCTCGCCAGCACCGGGCGCATGAACGGCTTTTCCTTCGAGGTGGCCG
+GAGTGCCGTTCAAAGGCAGCGACTTGGGCAAGGGCTACACATGGGCGGGG
+CTACAGAAAGCAGGGGTGACTTATGACGAAGCTAGAGACCGTGCGGGCCT
+TGAACGATTCAGGCCCACAGTTGCAGATCGTGGAGAGCGTCAGGACGTTG
+CAGCAGTCCGTGAGCCTGATGCACGAGGACTTGAAGCGCCTACCGGGCGC
+AGTCTCGACCGAGACGGCGCAGACCTTGGAACCGCTGGCCCGACTCCGGC
+AGGACGTGACGCAGGTTCTGGAAGCCTACGACAAGGTGACGGCCATTCAG
+CGCAAGACGCTGGACGAGCTGACGCAGCAGATGAGCGCGAGCGCGGCGCA
+GGCCTTCGAGCAGAAGGCCGGGAAGCTGGACGCGACCATCTCCGACCTGT
+CGCGCAGCCTGTCAGGGCTGAAAACGAGCCTCAGCAGCATGGAGCAGACC
+GCGCAGCAGGTGGCGACCTTGCCGGGCAAGCTGGCGAGCGCACAGCAGGG
+CATGACGAAAGCCGCCGACCAACTGACCGAGGCAGCGAACGAGACGCGCC
+CGCGCCTTTGGCGGCAGGCGCTGGGGCTGATTCTGGCCGGGGCCGTGGGC
+GCGATGCTGGTAGCGACTGGGCAAGTCGCTTTAAACAGGCTAGTGCCGCC
+AAGCGACGTGCAGCAGACGGCAGACTGGGCCAACGCGATTTGGAACAAGG
+CCACGCCCACGGAGCGCGAGTTGCTGAAACAGATCGCCAATCGGCCCGCG
+AACTAGACCCGACCGCCTACCTTGAGGCCAGCGGCTACACCGTGAAGCGA
+GAAGGGCGGCACCTGTCCGTCAGGGCGGGCGGTGATGAGGCGTACCGCGT
+GACCCGGCAGCAGGACGGGCGCTGGCTCTGGTGCGACCGCTACGGCAACG
+ACGGCGGGGACAATATCGACCTGGTGCGCGAGATCGAACCCGGCACCGGC
+TACGCCGAGGCCGTCTATCGGCTTTCAGGTGCGCCGACAGTCCGGCAGCA
+ACCGCGCCCGAGCGAGCCGAAGCGCCAACCGCCGCAGCTACCGGCGCAAG
+GGCTGGCAGCCCGCGAGCATGGCCGCGACTACCTCAAGGGCCGGGGCATC
+AGCCAGGACACCATCGAGCACGCCGAGAAGGCGGGCATGGTGCGCTATGC
+AGACGGTGGAGTGCTGTTCGTCGGCTACGACCGTGCAGGCACCGCGCAGA
+ACGCCACACGCCGCGCCATTGCCCCCGCTGACCCGGTGCAGAAGCGCGAC
+CTACGCGGCAGCGACAAGAGCTATCCGCCGATCCTGCCGGGCGACCCGGC
+AAAGGTCTGGATCGTGGAAGGTGGCCCGGATGCGCTGGCCCTGCACGACA
+TCGCCAAGCGCAGCGGCCAGCAGCCGCCCACCGTCATCGTGTCAGGCGGG
+GCGAACGTGCGCAGCTTCTTGGAGCGGGCCGACGTGCAAGCGATCCTGAA
+GCGGGCCGAGCGCGTCACCGTGGCCGGGGAAAACGAGAAGAACCCCGAGG
+CGCAGGCAAAGGCCGACGCCGGGCACCAGAAGCAGGCGCAGCGGGTGGCC
+AAAATCACCGGGCGCGAGGTGCGCCAATGGACGCCGAAGCCCGAGCACGG
+CAAGGACTTGGCCGACATGAACGCCCGGCAGGTGGCAGAGATCGAGCGCA
+AGCGACAGGCCGAGATCGAGGCCGAAAGAGCACGAAACCGCGAGCTTTCA
+CGCAAGAGCCGGAGGTATGATGGCCCCAGCTTCGGCAGATAA
+```
+
+### BLASTP Query
+Do a BLASTP on NCBI website with the following protein against nr, but limit the organism to cetartiodactyla using default parameters:
+
+```
+MASGPGGWLGPAFALRLLLAAVLQPVSAFRAEFSSESCRELGFSSNLLCSSCDLLGQFSL
+LQLDPDCRGCCQEEAQFETKKYVRGSDPVLKLLDDNGNIAEELSILKWNTDSVEEFLSEK
+LERI
+```
+
+
+Have a look at the multiple sequence alignment, can you explain the results?  
+
+Do a similar blastp vs UniProtKB (UniProt) without post filtering.
+
+
+## Running a standalone BLAST program
+### location
+```
+ mkdir ~/bch709_scratch/BLAST
+ cd $!
+```
+
+### ENV
+```bash
+conda create -n blast
+conda activate blast
+conda install -c bioconda -c conda-forge  perl-path-tiny blast perl-data-dumper perl-config-tiny seqkit
+```
+
+### Running a standalone BLAST program
+Create the index for the target database using makeblastdb;
+Choose the task program: blastn, blastp, blastx, tblatx, psiblast or deltablast;
+Set the configuration for match, mismatch, gap-open penalty, gap-extension penalty or scoring matrix;
+Set the word size;
+Set the E-value threshold;
+Set the output format and the number of output results
+
+### Standalone BLAST 
+In addition to providing BLAST sequence alignment services on the web, NCBI also makes these sequence alignment utilities available for download through FTP. This allows BLAST searches to be performed on local platforms against databases downloaded from NCBI or created locally. These utilities run through DOS-like command windows and accept input through text-based command line switches. There is no graphic user interface
+
+https://www.ncbi.nlm.nih.gov/books/NBK52640/
+
+ftp://ftp.ncbi.nlm.nih.gov/blast/db/
+
+### NR vs NT
+
+At NCBI they are two different things as well. 'nr' is a database of protein sequences and 'nt' is nucleotide. At one time 'nr' meant non-redundant but it stopped being non-redundant a while ago. nt is a nucleotide database, while nr is a protein database (in amino acids)
+
+
+
+## Standalone BLAST
+1. Download the database.
+2. Use makeblastdb to build the index.
+3. Change the scoring matrix, record the changes in the alignment results and interpret the results.
+
+
+### How many sequences in `plant.1.protein.faa.gz`
+
+
+### Subsampling by SeqKit
+
+FASTA and FASTQ are basic and ubiquitous formats for storing nucleotide and protein sequences. Common manipulations of FASTA/Q file include converting, searching, filtering, deduplication, splitting, shuffling, and sampling. Existing tools only implement some of these manipulations, and not particularly efficiently, and some are only available for certain operating systems. Furthermore, the complicated installation process of required packages and running environments can render these programs less user friendly.
+
+This project describes a cross-platform ultrafast comprehensive toolkit for FASTA/Q processing. SeqKit provides executable binary files for all major operating systems, including Windows, Linux, and Mac OS X, and can be directly used without any dependencies or pre-configurations. SeqKit demonstrates competitive performance in execution time and memory usage compared to similar tools. The efficiency and usability of SeqKit enable researchers to rapidly accomplish common FASTA/Q file manipulations.
+
+https://bioinf.shenwei.me/seqkit/
+
+https://bioinf.shenwei.me/seqkit/tutorial/
+
+### Download Database
+```bash
+mkdir ~/bch709_scratch/BLAST
+cd ~/bch709_scratch/BLAST
+ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+```
+
+### Run BLASTX
+```bash
+cd ~/bch709_scratch/BLAST
+gunzip plant.1.protein.faa.gz
+makeblastdb -in plant.1.protein.faa -dbtype prot
+seqkit sample -n 100 /data/gpfs/assoc/bch709-2/Course_material/test_mrna.fna > test_mrna.fasta
+seqkit sample -n 100 plant.1.protein.faa > test_protein.fasta
+blastx -query test_mrna.fasta  -db plant.1.protein.faa 
+blastx -query test_mrna.fasta  -db plant.1.protein.faa -outfmt 7
+```
+
+### Run BLASTP
+```bash
+blastp -query test_protein.fasta -db plant.1.protein.faa -outfmt 7
+
+```
+### Run BLASTN
+```bash
+makeblastdb -in test_mrna.fasta -dbtype nucl
+blastn -query test_mrna.fasta  -db test_mrna.fasta -outfmt 7 -out blastn.output
+```
+
+### Tab output
+
+    qseqid      Query sequence ID
+    sseqid      Subject (ie DB) sequence ID
+    pident      Percent Identity across the alignment
+    length      Alignment length
+    mismatch    # of mismatches
+    gapopen     Number of gap openings
+    qstart      Start of alignment in query
+    qend        End of alignment in query 
+    sstart      Start of alignment in subject
+    send        End of alignment in subject
+    evalue      E-value
+    bitscore    Bit score
+
+
+# DCBLAST
+
+The Basic Local Alignment Search Tool (BLAST) is by far best the most widely used tool in for sequence analysis for rapid sequence similarity searching among nucleic acid or amino acid sequences. Recently, cluster, HPC, grid, and cloud environmentshave been are increasing more widely used and more accessible as high-performance computing systems. Divide and Conquer BLAST (DCBLAST) has been designed to perform run on grid system with query splicing which can run National Center for Biotechnology Information (NCBI) BLASTBLAST search comparisons  over withinthe cluster, grid, and cloud computing grid environment by using a query sequence distribution approach NCBI BLAST. This is a promising tool to accelerate BLAST job dramatically accelerates the execution of BLAST query searches using a simple, accessible, robust, and practical approach. 
+
+- DCBLAST can run BLAST job across HPC.
+- DCBLAST suppport all NCBI-BLAST+ suite.
+- DCBLAST generate exact same NCBI-BLAST+ result.
+- DCBLAST can use all options in NCBI-BLAST+ suite.
+
+
+![blast](https://raw.githubusercontent.com/wyim-pgl/DCBLAST/master/fig/fig-1-2x.jpg)
+
+## Citation
+Won C. Yim and John C. Cushman (2017) Divide and Conquer BLAST: using grid engines to accelerate BLAST and other sequence analysis tools. PeerJ 10.7717/peerj.3486 https://peerj.com/articles/3486/
 
 
 <!--
