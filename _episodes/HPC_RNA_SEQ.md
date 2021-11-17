@@ -1229,6 +1229,9 @@ cd sets
 Gene Ontology project is a major bioinformatics initiative Gene ontology is an annotation system The project provides the controlled and consistent vocabulary of terms and gene product annotations, i.e. terms occur only once, and there is a dictionary of allowed words
 GO describes how gene products behave in a cellular context A consistent description of gene products attributes in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner Each GO term consists of a unique alphanumerical identifier, a common name, synonyms (if applicable), and a definition Each term is assigned to one of the three ontologies Terms have a textual definition When a term has multiple meanings depending on species, the GO uses a "sensu" tag to differentiate among them (trichome differentiation (sensu Magnoliophyta) 
 
+http://geneontology.org/docs/ontology-documentation/
+
+
 
 ![GO]({{site.baseurl}}/fig/GO.png)
 
@@ -1323,11 +1326,8 @@ The false discovery rate (FDR) is a method of conceptualizing the rate of type I
 ### Gene ontology
 http://geneontology.org/
 
-### REViGO 
-http://revigo.irb.hr/revigo.jsp
-
 ### cleverGO 
-http://www.tartaglialab.com/GO_analyser/tutorial
+http://s.tartaglialab.com/page/clever_suite
 
 ### MetaScape
 http://metascape.org/gp/index.html
@@ -1335,11 +1335,11 @@ http://metascape.org/gp/index.html
 ### DAVID
 https://david.ncifcrf.gov/
 
-
 ### Araport
 https://bar.utoronto.ca/thalemine/begin.do
 
-
+### REViGO 
+http://revigo.irb.hr/
 
 ### Arabidopsis
 ```bash
@@ -1366,11 +1366,9 @@ Error, no counts from matrix for Solyc12g017350 at /data/gpfs/home/wyim/scratch/
 ```
 ```bash
 sed -i 's/\.ITAG4\.0//g' Slycopersium.featureCount_count_length.cnt.tpm.tab
-```
-
 
 analyze_diff_expr.pl --samples ../samples.txt  --matrix ../Slycopersium.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output Slycopersium
-
+```
 
 
 ## BLAST (Basic Local Alignment Search Tool) 
@@ -1429,6 +1427,8 @@ https://www.uniprot.org/
 
 
 ### E-value
+The Expect value (E) is a parameter that describes the number of hits one can "expect" to see by chance when searching a database of a particular size. It decreases exponentially as the Score (S) of the match increases. Essentially, the E value describes the random background noise.
+
 E-value = the number of HSPs having score S (or higher) expected to occur by chance.
 
 Smaller E-value, more significant in statistics
