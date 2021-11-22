@@ -1371,8 +1371,8 @@ analyze_diff_expr.pl --samples ../samples.txt  --matrix ../Slycopersium.featureC
 ```
 
 
-## BLAST (Basic Local Alignment Search Tool) 
-BLAST is a popular program for searching biosequences against databases. BLAST was developed and is maintained by a group at the National Center for Biotechnology Information (NCBI). Salient characteristics of BLAST are:
+## BLAST
+BLAST (Basic Local Alignment Search Tool) is a popular program for searching biosequences against databases. BLAST was developed and is maintained by a group at the National Center for Biotechnology Information (NCBI). Salient characteristics of BLAST are:
 
 ### Local alignments
 BLAST tries to find patches of regional similarity, rather than trying to find the best alignment between your entire query and an entire database sequence.

@@ -66,9 +66,9 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week12 | 11/3/2021  | Wednesday | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)                                         |
 | Week12 | 11/8/2021  | Monday    | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)    |
 | Week13 | 11/10/2021 | Wednesday | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)   |
-| Week13 | 11/15/2021 | Monday    |  [Enrichment analaysis] (https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)   |
-| Week14 | 11/17/2021 | Wednesday |  [Enrichment analaysis] (https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html) |
-| Week14 | 11/22/2021 | Monday    |  [BLAST search and gene alignment] (https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html) |
+| Week13 | 11/15/2021 | Monday    |  [Enrichment analaysis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-gene-ontology)   |
+| Week14 | 11/17/2021 | Wednesday |  [Enrichment analaysis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-gene-ontology) |
+| Week14 | 11/22/2021 | Monday    |  [BLAST search and gene alignment](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-blast) |
 | Week15 | 11/24/2021 | Wednesday | Presentation & Discussions                                        |
 | Week15 | 11/29/2021 | Monday    | Presentation & Discussions                                        |
 | Week16 | 12/1/2021  | Wednesday | Class Review                                                      |
