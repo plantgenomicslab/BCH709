@@ -1666,6 +1666,32 @@ The Basic Local Alignment Search Tool (BLAST) is by far best the most widely use
 Won C. Yim and John C. Cushman (2017) Divide and Conquer BLAST: using grid engines to accelerate BLAST and other sequence analysis tools. PeerJ 10.7717/peerj.3486 https://peerj.com/articles/3486/
 
 
+## Ortholog
+### Example 1
+![](https://i.imgur.com/9fyoBzO.png)
+
+### Example 2
+![](https://i.imgur.com/VDPIFPa.png)
+
+
+
+## Synteny
+![](https://i.imgur.com/FSd0SfM.png)
+
+![](https://i.imgur.com/FGRcgmZ.png)
+
+![](https://i.imgur.com/WDG6uZq.png)
+
+## Genome Evolution
+![](https://i.imgur.com/E4pmA0f.png)
+
+
+
+## Chromosomal Evolution
+![](https://i.imgur.com/L9WoJuL.png)
+
+
+
 <!--
 
 ```bash
