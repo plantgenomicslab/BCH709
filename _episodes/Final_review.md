@@ -16,7 +16,7 @@ conda create -n DEG_bch709 -y
 
 conda activate DEG_bch709
 conda install -y -c bioconda -c conda-forge mamba
-mamba install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
+mamba install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo pybedtools
 ```
 
 ## Publication (Arabidopsis)
