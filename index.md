@@ -41,7 +41,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 ## Tentative Course Schedules
 
 | Week   | Date     | Days      | Subject                                                           |
-| ------ | -------- | --------- | ----------------------------------------------------------------- |
+|--------|----------|-----------|-------------------------------------------------------------------|
 | Week1  | 8/29/22  | Monday    | Introduction                                                      |
 | Week1  | 8/31/22  | Wednesday | Introduction to Bioinformatics                                    |
 | Week2  | 9/5/22   | Monday    | Labor Day                                                         |
@@ -75,6 +75,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week16 | 12/12/22 | Monday    | Class Review                                                      |
 | Week17 | 12/14/22 | Wednesday | Prepday                                                           |
 | Week17 | 12/19/22 | Monday    | Final Exam                                                        |
+
 
 
 > ## Prerequisites
