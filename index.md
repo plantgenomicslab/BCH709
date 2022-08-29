@@ -6,7 +6,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Class Schedule
 > MonWed 9:00AM - 10:10AM  
-> Aug 23, 2021 - Dec 6 2022
+> Aug 29, 2022 - Dec 19 2022
 {: .prereq}
 
 
@@ -30,7 +30,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Syllabus  
-Please read our [Syllabus](./syllabus/BCH709_2021fall.pdf).
+Please read our [Syllabus](./syllabus/BCH709_2022fall.pdf).
 {: .prereq}
 
 > ## Rubric  
@@ -80,12 +80,11 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 > - Computer with ethernet port or wifi (If in case you bring your **desktop**, please do not bring your monitor. we have a monitor in our classroom)
 > Online introduction to Linux. Students must complete one of the following online tutorials (or both) before class begins.
 > - UNR affilated email **\<ID\>@unr.edu or \<ID\>@nevada.unr.edu** - [How to Activate](https://oit.unr.edu/services-and-support/login-ids-and-passwords/netid/netid-activation/)
-> - [Please apply your Pronghorn account here](https://nevada.formstack.com/forms/high_performance_computing_application) ; [Please follow this instrunction](https://plantgenomicslab.github.io/BCH709/pronghorn/index.html)
 > - [Setup your computer](https://plantgenomicslab.github.io/BCH709/setup.html)
 > - [Setup Slack ID](https://unrrc.slack.com/)
 > - [Setup Github ID](https://github.com/)
 > - Please register by using UNR email [datacamp](https://www.datacamp.com/)
-> - Please fill this [form](https://forms.gle/6K1P2Xc4BjzQ358F8)
+> - Please fill this [form](https://forms.gle/2sho6Nbh2PQ8akC1A)
 >
 {: .callout}
 
