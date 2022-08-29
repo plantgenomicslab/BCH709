@@ -6,7 +6,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Class Schedule
 > MonWed 9:00AM - 10:10AM  
-> Aug 23, 2021 - Dec 6 2021
+> Aug 29, 2022 - Dec 19 2022
 {: .prereq}
 
 
@@ -39,41 +39,41 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 
 
 ## Tentative Course Schedules
-
-| Week   | date  |  Day of the week  | Course |
-|--------|------------|:-----:|:-----------------------|
-| Week1  | 8/23/2021  | Monday    | Introduction                                                      |
-| Week1  | 8/25/2021  | Wednesday | Introduction to Bioinformatics                                    |
-| Week2  | 8/30/2021  | Monday    | [Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)                                |
-| Week2  | 9/1/2021   | Wednesday | [Linux Environment and command line](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line/index.html)                                |
-| Week3  | 9/6/2021   | Monday    | Labor Day                                                         |
-| Week3  | 9/8/2021   | Wednesday | [Linux Environment and Cloud](https://plantgenomicslab.github.io/BCH709/Linux_Enviroment_and_command_line3/index.html)                                       |
-| Week4  | 9/13/2021  | Monday    | [Conda, Compile & Software Installations](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html)                         |
-| Week4  | 9/15/2021  | Wednesday | [GitHub and server](https://plantgenomicslab.github.io/BCH709/Github_compile_conda/index.html) |
-| Week5  | 9/20/2021  | Monday    | [Sequencing methods and strategies](https://unr.canvaslms.com/files/7985263/download?download_frd=1)                                 |
-| Week5  | 9/22/2021  | Wednesday | [Sequence manipulation](https://plantgenomicslab.github.io/BCH709/seqkit_tutorial/index.html)                                             |
-| Week6  | 9/27/2021  | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                                           |
-| Week6  | 9/29/2021  | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](https://plantgenomicslab.github.io/BCH709/Intro_R/index.html) [PPT](https://unr.canvaslms.com/courses/71895/files?preview=8058341)                   |
-| Week7  | 10/4/2021  | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                      |
-| Week7  | 10/6/2021  | Wednesday | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                                         |
-| Week8  | 10/11/2021 | Monday    | [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html) & [Review](https://plantgenomicslab.github.io/BCH709/midterm_review/index.html)          |
-| Week8  | 10/13/2021 | Wednesday | Midterm Exam                                                      |
-| Week9  | 10/18/2021 | Monday    | [Midterm Review](https://plantgenomicslab.github.io/BCH709/midterm_review2/index.html) DEG analysis / [RNA-Seq](https://plantgenomicslab.github.io/BCH709/RNASeq/index.html)                       |
-| Week10 | 10/20/2021 | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
-| Week10 | 10/25/2021 | Monday    | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
-| Week11 | 10/27/2021 | Wednesday | [RNA_Seq example: Arabidopsis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
-| Week11 | 11/1/2021  | Monday    | [RNA_Seq example: Arabidopsis/Drosophila](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)  |
-| Week12 | 11/3/2021  | Wednesday | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)                                         |
-| Week12 | 11/8/2021  | Monday    | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)    |
-| Week13 | 11/10/2021 | Wednesday | [RNA_Seq example: Arabidopsis/Drosophila/Tomato/Mouse](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html)   |
-| Week13 | 11/15/2021 | Monday    |  [Enrichment analaysis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-gene-ontology)   |
-| Week14 | 11/17/2021 | Wednesday |  [Enrichment analaysis](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-gene-ontology) |
-| Week14 | 11/22/2021 | Monday    |  [BLAST search and gene alignment](https://plantgenomicslab.github.io/BCH709/HPC_RNA_SEQ/index.html#markdown-header-blast) |
-| Week15 | 11/24/2021 | Wednesday | Presentation & Discussions                                        |
-| Week15 | 11/29/2021 | Monday    | Presentation & Discussions                                        |
-| Week16 | 12/1/2021  | Wednesday | [Final review]http://bch709.plantgenomicslab.org/Final_review/index.html                                                     |
-| Week16 | 12/6/2021  | Monday    | Final Exam                                                        |
-
+| Week   | Date     | Days      | Subject                                                           |
+| ------ | -------- | --------- | ----------------------------------------------------------------- |
+| Week1  | 8/29/22  | Monday    | Introduction                                                      |
+| Week1  | 8/31/22  | Wednesday | Introduction to Bioinformatics                                    |
+| Week2  | 9/5/22   | Monday    | Labor Day                                                         |
+| Week2  | 9/7/22   | Wednesday | Linux Environment and command line                                |
+| Week3  | 9/12/22  | Monday    | Labor Day                                                         |
+| Week3  | 9/14/22  | Wednesday | Linux Environment and Cloud                                       |
+| Week4  | 9/19/22  | Monday    | Conda, Compile & Software Installations                           |
+| Week4  | 9/21/22  | Wednesday | GitHub and server                                                 |
+| Week5  | 9/26/22  | Monday    | Sequencing methods and strategies                                 |
+| Week5  | 9/28/22  | Wednesday | Sequence manipulation                                             |
+| Week6  | 10/3/22  | Monday    | RNA-Seq                                                           |
+| Week6  | 10/5/22  | Wednesday | Transcriptome assembly                                            |
+| Week7  | 10/10/22 | Monday    | Transcriptome algorithms                                          |
+| Week7  | 10/12/22 | Wednesday | Small RNA (Tong Zhou PhD)                                         |
+| Week8  | 10/17/22 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
+| Week8  | 10/19/22 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
+| Week9  | 10/24/22 | Monday    | Midterm Exam                                                      |
+| Week10 | 10/26/22 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
+| Week10 | 10/31/22 | Monday    | BLAST search and gene alignment                                   |
+| Week11 | 11/2/22  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
+| Week11 | 11/7/22  | Monday    | Database & file format                                            |
+| Week12 | 11/9/22  | Wednesday | Genome assembly & annotation & structure                          |
+| Week12 | 11/14/22 | Monday    | Genome structure                                                  |
+| Week13 | 11/16/22 | Wednesday | Variant analysis                                                  |
+| Week13 | 11/21/22 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/23/22 | Wednesday | Nextday is Thanksgiving                                           |
+| Week14 | 11/28/22 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week15 | 11/30/22 | Wednesday | Enrichment analysis                                               |
+| Week15 | 12/5/22  | Monday    | Presentation & Discussions                                        |
+| Week16 | 12/7/22  | Wednesday | Presentation & Discussions                                        |
+| Week16 | 12/12/22 | Monday    | Class Review                                                      |
+| Week17 | 12/14/22 | Wednesday | Prepday                                                           |
+| Week17 | 12/19/22 | Monday    | Final Exam                                                        |
 
 
 > ## Prerequisites
@@ -147,8 +147,8 @@ I prefer to have online meeting through SLACK.
 
 ## Other Website
 
-[Plant Genomics Lab](https://www.plantbioinformatics.org/ "Plant Genomics Lab")  
-[Lecture website](https://plantgenomicslab.github.io/BCH709/)  
+[Plant Genomics Lab](https://www.plantgenomicslab.org/ "Plant Genomics Lab")  
+[Lecture website](https://bch709.plantgenomicslab.org/)  
 [Lecture Github](https://github.com/plantgenomicslab/BCH709)  
   
 > ## Frequently Asked Questions  
