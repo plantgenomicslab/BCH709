@@ -40,13 +40,13 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 
 ## Tentative Course Schedules
 
-| Week   | Date     | Days      | Subject                                                           |
+|| Week   | Date     | Days      | Subject                                                           |
 |--------|----------|-----------|-------------------------------------------------------------------|
 | Week1  | 8/29/22  | Monday    | Introduction                                                      |
 | Week1  | 8/31/22  | Wednesday | Introduction to Bioinformatics                                    |
 | Week2  | 9/5/22   | Monday    | Labor Day                                                         |
 | Week2  | 9/7/22   | Wednesday | Linux Environment and command line                                |
-| Week3  | 9/12/22  | Monday    | Labor Day                                                         |
+| Week3  | 9/12/22  | Monday    | Linux Environment and command line                                |
 | Week3  | 9/14/22  | Wednesday | Linux Environment and Cloud                                       |
 | Week4  | 9/19/22  | Monday    | Conda, Compile & Software Installations                           |
 | Week4  | 9/21/22  | Wednesday | GitHub and server                                                 |
