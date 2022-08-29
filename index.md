@@ -6,7 +6,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 > ## Class Schedule
 > MonWed 9:00AM - 10:10AM  
-> Aug 23, 2021 - Dec 6 2021
+> Aug 23, 2021 - Dec 6 2022
 {: .prereq}
 
 
