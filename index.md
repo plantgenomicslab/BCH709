@@ -39,6 +39,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 
 
 ## Tentative Course Schedules
+
 |  Week      |  Date          | Days          | Subject                                                                   |
 |--------|------------|-----------|-------------------------------------------------------------------|
 | Week1  | 8/29/2022  | Monday    | Introduction                                                      |
