@@ -39,43 +39,41 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 
 
 ## Tentative Course Schedules
-
-|| Week   | Date     | Days      | Subject                                                           |
-|--------|----------|-----------|-------------------------------------------------------------------|
-| Week1  | 8/29/22  | Monday    | Introduction                                                      |
+|  Week      |  Date          | Days          | Subject                                                                   |
+|--------|------------|-----------|-------------------------------------------------------------------|
+| Week1  | 8/29/2022  | Monday    | Introduction                                                      |
 | Week1  | 8/31/22  | Wednesday | [Introduction to Bioinformatics](https://webcampus.unr.edu/courses/85519/modules)                                    |
-| Week2  | 9/5/22   | Monday    | Labor Day                                                         |
-| Week2  | 9/7/22   | Wednesday | Linux Environment and command line                                |
-| Week3  | 9/12/22  | Monday    | Linux Environment and command line                                |
-| Week3  | 9/14/22  | Wednesday | Linux Environment and Cloud                                       |
-| Week4  | 9/19/22  | Monday    | Conda, Compile & Software Installations                           |
-| Week4  | 9/21/22  | Wednesday | GitHub and server                                                 |
-| Week5  | 9/26/22  | Monday    | Sequencing methods and strategies                                 |
-| Week5  | 9/28/22  | Wednesday | Sequence manipulation                                             |
-| Week6  | 10/3/22  | Monday    | RNA-Seq                                                           |
-| Week6  | 10/5/22  | Wednesday | Transcriptome assembly                                            |
-| Week7  | 10/10/22 | Monday    | Transcriptome algorithms                                          |
-| Week7  | 10/12/22 | Wednesday | Small RNA (Tong Zhou PhD)                                         |
-| Week8  | 10/17/22 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
-| Week8  | 10/19/22 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
-| Week9  | 10/24/22 | Monday    | Midterm Exam                                                      |
-| Week10 | 10/26/22 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
-| Week10 | 10/31/22 | Monday    | BLAST search and gene alignment                                   |
-| Week11 | 11/2/22  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
-| Week11 | 11/7/22  | Monday    | Database & file format                                            |
-| Week12 | 11/9/22  | Wednesday | Genome assembly & annotation & structure                          |
-| Week12 | 11/14/22 | Monday    | Genome structure                                                  |
-| Week13 | 11/16/22 | Wednesday | Variant analysis                                                  |
-| Week13 | 11/21/22 | Monday    | Transcriptome analysis (Genome based)                             |
-| Week14 | 11/23/22 | Wednesday | Nextday is Thanksgiving                                           |
-| Week14 | 11/28/22 | Monday    | Transcriptome analysis (Genome based)                             |
-| Week15 | 11/30/22 | Wednesday | Enrichment analysis                                               |
-| Week15 | 12/5/22  | Monday    | Presentation & Discussions                                        |
-| Week16 | 12/7/22  | Wednesday | Presentation & Discussions                                        |
-| Week16 | 12/12/22 | Monday    | Class Review                                                      |
-| Week17 | 12/14/22 | Wednesday | Prepday                                                           |
-| Week17 | 12/19/22 | Monday    | Final Exam                                                        |
-
+| Week2  | 9/5/2022   | Monday    | Labor Day                                                         |
+| Week2  | 9/7/2022   | Wednesday | Linux Environment and command line                                |
+| Week3  | 9/12/2022  | Monday    | Labor Day                                                         |
+| Week3  | 9/14/2022  | Wednesday | Linux Environment and Cloud                                       |
+| Week4  | 9/19/2022  | Monday    | Conda, Compile & Software Installations                           |
+| Week4  | 9/21/2022  | Wednesday | GitHub and server                                                 |
+| Week5  | 9/26/2022  | Monday    | Sequencing methods and strategies                                 |
+| Week5  | 9/28/2022  | Wednesday | Sequence manipulation                                             |
+| Week6  | 10/3/2022  | Monday    | RNA-Seq                                                           |
+| Week6  | 10/5/2022  | Wednesday | Transcriptome assembly                                            |
+| Week7  | 10/10/2022 | Monday    | Transcriptome algorithms                                          |
+| Week7  | 10/12/2022 | Wednesday | Small RNA (Tong Zhou PhD)                                         |
+| Week8  | 10/17/2022 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
+| Week8  | 10/19/2022 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
+| Week9  | 10/24/2022 | Monday    | Midterm Exam                                                      |
+| Week9  | 10/26/2022 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
+| Week10 | 10/31/2022 | Monday    | BLAST search and gene alignment                                   |
+| Week10 | 11/2/2022  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
+| Week11 | 11/7/2022  | Monday    | Database & file format                                            |
+| Week11 | 11/9/2022  | Wednesday | Genome assembly & annotation & structure                          |
+| Week12 | 11/14/2022 | Monday    | Genome structure                                                  |
+| Week12 | 11/16/2022 | Wednesday | Variant analysis                                                  |
+| Week13 | 11/21/2022 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week13 | 11/23/2022 | Wednesday | Nextday is Thanksgiving                                           |
+| Week14 | 11/28/2022 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/30/2022 | Wednesday | Enrichment analysis                                               |
+| Week15 | 12/5/2022  | Monday    | Presentation & Discussions                                        |
+| Week15 | 12/7/2022  | Wednesday | Presentation & Discussions                                        |
+| Week16 | 12/12/2022 | Monday    | Class Review                                                      |
+| Week16 | 12/14/2022 | Wednesday | Prepday                                                           |
+| Week17 | 12/19/2022 | Monday    | Final Exam                                                        |
 
 
 > ## Prerequisites
