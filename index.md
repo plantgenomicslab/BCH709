@@ -45,10 +45,10 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week1  | 8/29/2022  | Monday    | Introduction                                                      |
 | Week1  | 8/31/22  | Wednesday | [Introduction to Bioinformatics](https://webcampus.unr.edu/courses/85519/modules)                                    |
 | Week2  | 9/5/2022   | Monday    | Labor Day                                                         |
-| Week2  | 9/7/2022   | Wednesday | Linux Environment and command line                                |
-| Week3  | 9/12/2022  | Monday    | Labor Day                                                         |
-| Week3  | 9/14/2022  | Wednesday | Linux Environment and Cloud                                       |
-| Week4  | 9/19/2022  | Monday    | Conda, Compile & Software Installations                           |
+| Week2  | 9/7/2022   | Wednesday | Won Yim NSF meeting                                |
+| Week3  | 9/12/2022  | Monday    | [Linux Environment and command line](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html)                                                  |
+| Week3  | 9/14/2022  | Wednesday | [Linux Environment and Cloud](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html)                                      |
+| Week4  | 9/19/2022  | Monday    | [Conda, Compile & Software Installations](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)                           |
 | Week4  | 9/21/2022  | Wednesday | GitHub and server                                                 |
 | Week5  | 9/26/2022  | Monday    | Sequencing methods and strategies                                 |
 | Week5  | 9/28/2022  | Wednesday | Sequence manipulation                                             |
