@@ -15,7 +15,7 @@ $ free
 $ htop
 ```
 
-### Prompt Customization
+### Prompt Customization for Pronghorn and Ubuntu
 
 ```bash
 echo '###BCH709 ' >> ~/.bashrc
@@ -23,7 +23,12 @@ echo '###BCH709 ' >> ~/.bashrc
 echo 'tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
 ```
 
-
+### Prompt Customization for Mac
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo '###BCH709 ' >> ~/.zshrc
+echo 'ZSH_THEME="macovsky-ruby"' >> ~/.zshrc
+```
 More information is [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
 
 

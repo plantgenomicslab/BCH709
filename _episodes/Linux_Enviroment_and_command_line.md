@@ -16,9 +16,10 @@ published: true
 
 >## Assignments
 > Please finish below assignment before due date  
-> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/19/22  
+> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/21/22  
 > - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/19/22  
-> - [DataCamp Downloading Conda Essentials](https://learn.datacamp.com/courses/conda-essentials) Due by 9/21/20  
+> - [File permission and chmod](https://www.youtube.com/watch?v=3gcSeDoQ_rU) Due by 9/19/22 
+> - [Nano Text Editor Basics](https://www.youtube.com/watch?v=Jf0ZJZJ8jlI) Due by 9/19/22 
 {: .prereq}
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
