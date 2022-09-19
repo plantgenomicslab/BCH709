@@ -14,14 +14,25 @@ $ lscpu
 $ free
 $ htop
 ```
+### RC file such as .bashrc, .zshrc
 
+In Unix-like operating systems such as Linux, rc is a file name extension which stands for "run commands." An rc file contains several statements or commands, one per line, to be executed or evaluated by the shell. Its purpose is to configure the environment and prepare the system to run specific software.
+
+:::memo
 ### Prompt Customization for Pronghorn and Ubuntu
 
 ```bash
 echo '###BCH709 ' >> ~/.bashrc
 
 echo 'tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
+echo "alias ls='ls --color=auto'" >> ~/.bashrc
+
 ```
+
+```bash
+source ~/.bashrc
+```
+:::
 
 ### Prompt Customization for Mac
 ```bash
@@ -29,12 +40,17 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 echo '###BCH709 ' >> ~/.zshrc
 echo 'ZSH_THEME="macovsky-ruby"' >> ~/.zshrc
 ```
+
+```bash
+source ~/.zshrc
+```
+
 More information is [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
 
 
-```
-source ~/.bashrc
-```
+
+## Linux family tree
+[Linux family tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
 
 
 > ## Package Management Concepts
