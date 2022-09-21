@@ -6,6 +6,16 @@ published: true
 
 {% include gh_variables.html %}
 
+>## Assignments
+> Please download below file and compress by using Tar.
+> 1. upload your tar.gz file.
+> 2. please describe your commands.
+> - [File A link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_cdna_20101214_representative_gene_model) Due by 9/26/22 
+> - [File B link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_pep_20101214_representative_gene_model)
+> Due by 9/26/22 
+{: .prereq}
+
+
 
 ## Check your CPUs and Memory
 
@@ -18,7 +28,6 @@ $ htop
 
 In Unix-like operating systems such as Linux, rc is a file name extension which stands for "run commands." An rc file contains several statements or commands, one per line, to be executed or evaluated by the shell. Its purpose is to configure the environment and prepare the system to run specific software.
 
-:::memo
 ### Prompt Customization for Pronghorn and Ubuntu
 
 ```bash
@@ -32,20 +41,17 @@ echo "alias ls='ls --color=auto'" >> ~/.bashrc
 ```bash
 source ~/.bashrc
 ```
-:::
 
 ### Prompt Customization for Mac
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-echo '###BCH709 ' >> ~/.zshrc
-echo 'ZSH_THEME="macovsky-ruby"' >> ~/.zshrc
 ```
 
 ```bash
 source ~/.zshrc
 ```
 
-More information is [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
+#### *More information is* [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
 
 
 
@@ -363,7 +369,7 @@ Using conda environment on BioHPC
 ### Miniconda3
 
 Miniconda is a package manager that simplifies the installation process. Please first install miniconda3 (installation instructions below), and then proceed to the installation of individual tools. 
-​​
+
 ### Install Miniconda
 Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and get ready to download the installer of your choice/system.
 
@@ -411,8 +417,9 @@ $ source ~/.bashrc
 ### Mac OS
 ```bash
 $ source ~/.bash_profile
+$ source ~/.zshrc
 ```
-​
+
 ### Initialize Miniconda3
 
 ```bash
@@ -997,7 +1004,6 @@ $ conda install bc
 ```
 
 
-
 ### SAM tag
 There are a bunch of predefined tags, please see the SAM manual for more information. For the tags used in this example:
 
@@ -1127,6 +1133,10 @@ $ conda env remove --name rnaseq
 >## Reading material
 >Conesa, Ana, et al. "A survey of best practices for RNA-seq data analysis." Genome biology 17.1 (2016): 13
 {: .challenge}
+
+
+
+
 
 >## HOME WORK due next Monday
 >### Create your environment name `rnaseq` on Pronghorn, install following tools through Conda
