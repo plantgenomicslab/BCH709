@@ -931,10 +931,12 @@ file MGI.gff3.gz
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
 
 >## ZIP compression/extraction
->zip OUTFILE.zip INFILE.txt Compress INFILE.txt
->zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)
->zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)
+>```bash
+>zip OUTFILE.zip INFILE.txt Compress INFILE.txt  
+>zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
+>zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)   
 >unzip SOMEFILE.zip
+>```
 {: .checklist}
 
 >## TAR compression/extraction

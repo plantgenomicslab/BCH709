@@ -7,12 +7,13 @@ published: true
 {% include gh_variables.html %}
 
 >## Assignments
-> Please download below file and compress by using Tar.
-> 1. upload your tar.gz file.
-> 2. please describe your commands.
+> 1. Please download below file and compress by using Tar.
+> A. upload your tar.gz file.
+> B. please describe your commands.
 > - [File A link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_cdna_20101214_representative_gene_model) Due by 9/26/22 
 > - [File B link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_pep_20101214_representative_gene_model)
-> Due by 9/26/22 
+> Due by 9/26/22
+> 2. Please finish [Git course](https://app.datacamp.com/learn/courses/introduction-to-git-for-data-science) by 10/3/22 
 {: .prereq}
 
 
@@ -1136,7 +1137,7 @@ $ conda env remove --name rnaseq
 
 
 
-
+<!--
 
 >## HOME WORK due next Monday
 >### Create your environment name `rnaseq` on Pronghorn, install following tools through Conda
@@ -1162,8 +1163,7 @@ $ conda env remove --name rnaseq
 > cat rnaseq.yaml
 >```
 {: .solution}
-
-
+-->
 
 ### Reference:
 
