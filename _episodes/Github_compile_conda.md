@@ -10,8 +10,8 @@ published: true
 > 1. Please download below file and compress by using Tar.
 > A. upload your tar.gz file.
 > B. please describe your commands.
-> - [File A link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_cdna_20101214_representative_gene_model) Due by 9/26/22 
-> - [File B link](https://www.arabidopsis.org/download_files/Sequences/TAIR10_blastsets/TAIR10_pep_20101214_representative_gene_model)
+> - [File A link](https://raw.githubusercontent.com/plantgenomicslab/Ice-plant-transcriptome-profiling/main/circadian_gene_suppl/Mcr1G00700_DT_ZT_timecourse.png) Due by 9/26/22 
+> - [File B link](https://raw.githubusercontent.com/plantgenomicslab/Ice-plant-transcriptome-profiling/main/circadian_gene_suppl/Mcr1G04920_DT_ZT_timecourse.png)
 > Due by 9/26/22
 > 2. Please finish [Git course](https://app.datacamp.com/learn/courses/introduction-to-git-for-data-science) by 10/3/22 
 {: .prereq}
