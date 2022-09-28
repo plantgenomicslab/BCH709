@@ -24,18 +24,15 @@ Pronghorn is composed of CPU, GPU, and Storage subsystems interconnected by a 10
 
 Pronghorn is collocated at the Switch Citadel Campus located 25 miles East of the University of Nevada, Reno. Switch is the definitive leader of sustainable data center design and operation. The Switch Citadel is rated Tier 5 Platinum, and will be the largest, most advanced data center campus on the planet.
 
-Pronghorn is available to all University of Nevada, Reno faculty, staff, students, and sponsored affiliates. Priority access to the system is available for purchase.
-[Please apply your account here](https://www.unr.edu/research-computing/hpc-accounts)
-
-![Pronghorn system map](./fig/pronghorn.png){: width="70%" height="70%"}
+![Pronghorn system map](../fig/pronghorn.png){: width="70%" height="70%"}
 
 
 
-### File transfer
+## File transfer
 
 There are a number of ways to transfer data to and from HPC clusters. Which you should use depends on several factors, including the ease of use for you personally, connection speed and bandwidth, and the size and number of files which you intend to transfer. Most common options include scp, rsync (command line) and SCP and SFTP clients (GUI). scp (secure copy) is a simple way of transferring files between two machines that use the SSH (Secure SHell) protocol. You may use scp to connect to any system where you have SSH (login) access. scp is available as a protocol choice in some graphical file transfer programs and also as a command line program on most Linux, UNIX, and Mac OS X systems. scp can copy single files, but will also recursively copy directory contents if given a directory name. scp can be used as follows:
 
-#### to a remote system from local
+### to a remote system from local
 ```bash
 scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
 ```
@@ -44,7 +41,7 @@ scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
 echo "hello world" >> test_uploading_file.txt
 scp test_uploading_file.txt username@pronghorn.rc.unr.edu:~/
 ```
-#### from a remote system to local
+### from a remote system to local
 ```bash
 scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
 ```
@@ -68,7 +65,7 @@ explorer.exe .
 open .
 ```
   
-## Rsync
+### Rsync
   
 ***rsync*** is a fast and extraordinarily versatile file copying tool. It can synchronize file trees across local disks, directories or across a network
 
@@ -98,8 +95,7 @@ rsync -avhP username@hpronghorn.rc.unr.edu:SourceDirectory/ path/to/Destination/
 ![conda2]({{site.baseurl}}/fig/conda_excute2.png)
 
   
-  
-  ## Prompt Customization for Pronghorn
+## Prompt Customization for Pronghorn
 
 ```bash
 echo '###BCH709 ' >> ~/.bashrc
@@ -113,8 +109,8 @@ echo "alias ls='ls --color=auto'" >> ~/.bashrc
 source ~/.bashrc
 ```
 
- ## Conda cheatsheet
-  [cheatsheet](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)
+## Conda cheatsheet
+[cheatsheet](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)
   
   
 >## Assignment due next Monday
@@ -144,8 +140,7 @@ source ~/.bashrc
 
 
 
-### Reference:
-
+### References:
 - Conda documentation https://docs.conda.io/en/latest/
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
