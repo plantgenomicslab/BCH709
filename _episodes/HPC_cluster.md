@@ -41,6 +41,7 @@ scp sourcefile username@pronghorn.rc.unr.edu:somedirectory/
 echo "hello world" >> test_uploading_file.txt
 scp test_uploading_file.txt username@pronghorn.rc.unr.edu:~/
 ```
+  
 ### from a remote system to local
 ```bash
 scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
@@ -50,7 +51,7 @@ scp username@pronghorn.rc.unr.edu:somedirectory/sourcefile destinationfile
 scp username@pronghorn.rc.unr.edu:~/test_uploading_file.txt ~/
 ```
 
-- recursive directory copy to a remote system from local
+### recursive directory copy to a remote system from local
 ```bash
 scp -r SourceDirectory/ username@pronghorn.rc.unr.edu:somedirectory/
 ```
