@@ -52,7 +52,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week4  | 9/21/2022  | Wednesday | [GitHub and server](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)                   |
 | Week5  | 9/26/2022  | Monday    | [Conda, Compile & Software Installations](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)    |
 | Week5  | 9/28/2022  | Wednesday | [Pronghorn](http://bch709.plantgenomicslab.org/HPC_cluster/index.html) & [Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules)                                          |
-| Week6  | 10/3/2022  | Monday    |[Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) & [RNA-Seq turorial] (http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
+| Week6  | 10/3/2022  | Monday    |[Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) & [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
 | Week6  | 10/5/2022  | Wednesday | Transcriptome assembly                                            |
 | Week7  | 10/10/2022 | Monday    | Transcriptome algorithms                                          |
 | Week7  | 10/12/2022 | Wednesday | Small RNA (Tong Zhou PhD)                                         |
