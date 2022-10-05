@@ -220,7 +220,7 @@ $ wget https://www.dropbox.com/s/xsrth6icapyr4p0/pair2.fastq.gz
  
 $ ls -algh
 
-$ zcat paired2.fastq.gz | head
+$ zcat pair2.fastq.gz | head
  ```
 
 ```
