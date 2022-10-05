@@ -262,7 +262,7 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-$ conda create -n rnaseq python=3 multiqc
+$ conda create -n rnaseq2 python=3
 
 ```
 
@@ -283,7 +283,7 @@ $ conda create -n rnaseq python=3 multiqc
 
 ```bash
 $ conda search fastqc
-$ conda install -c bioconda fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 seqkit
+$ conda install -c bioconda fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
 ```
 
 
