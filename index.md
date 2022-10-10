@@ -52,12 +52,12 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week4  | 9/21/2022  | Wednesday | [GitHub and server](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)                   |
 | Week5  | 9/26/2022  | Monday    | [Conda, Compile & Software Installations](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)    |
 | Week5  | 9/28/2022  | Wednesday | [Pronghorn](http://bch709.plantgenomicslab.org/HPC_cluster/index.html) & [Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules)                                          |
-| Week6  | 10/3/2022  | Monday    |[Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) & [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
+| Week6  | 10/3/2022  | Monday    |[Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) |
 | Week6  | 10/5/2022  | Wednesday | [Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) & [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
-| Week7  | 10/10/2022 | Monday    | Transcriptome algorithms                                          |
-| Week7  | 10/12/2022 | Wednesday | R in RNA-Seq / DESeq2 / EdgeR                                     | 
-| Week8  | 10/17/2022 | Monday    | Small RNA (Tong Zhou PhD)        |
-| Week8  | 10/19/2022 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)  |
+| Week7  | 10/10/2022 | Monday    | [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
+| Week7  | 10/12/2022 | Wednesday | R in RNA-Seq / DESeq2 / EdgeR  | 
+| Week8  | 10/17/2022 | Monday    | Introduction of R & R plotting (Tong Zhou PhD) |
+| Week8  | 10/19/2022 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD) |
 | Week9  | 10/24/2022 | Monday    | Midterm Exam                                                      |
 | Week9  | 10/26/2022 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
 | Week10 | 10/31/2022 | Monday    | BLAST search and gene alignment                                   |

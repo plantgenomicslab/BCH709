@@ -510,7 +510,7 @@ Gene ontology / Reactome databases
 ### Conda deactivate
 ```bash
 $ conda deactivate
-$ conda env remove --name rnaseq
+$ conda env remove --name rnaseq2
 ```
 >## Reading material
 >Conesa, Ana, et al. "A survey of best practices for RNA-seq data analysis." Genome biology 17.1 (2016): 13
