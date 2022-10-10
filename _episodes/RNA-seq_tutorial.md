@@ -57,6 +57,7 @@ etc.. those methods should be noted.
 
 
 
+
 ### RNA Information: 
 RNAs come in all shapes and sizes. Some of the key properties to report are:
 a. Total RNA, Poly-A(+) RNA, Poly-A(-) RNA
@@ -289,7 +290,7 @@ conda install -c bioconda fastqc trim-galore hisat2 samtools subread bioconducto
 ### Run fastqc
 ```bash
 $ fastqc --help
-$ fastqc -t <YOUR CPU COUNT> paired1.fastq.gz  paired2.fastq.gz
+$ fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
 
 ```
 
