@@ -426,6 +426,7 @@ hisat2-build bch709.fasta bch709
 
 ```
 hisat2 -x bch709 --threads 2 -1 trim/pair1_val_1.fq.gz -2 trim/pair2_val_2.fq.gz  -S align.sam --summary-file alignment.txt
+cat alignment.txt
 ```
 
 ### SAM file format
@@ -479,7 +480,8 @@ SAM Tools provide various utilities for manipulating alignments in the SAM forma
 samtools view -Sb align.sam > align.bam
 samtools sort align.bam  -o align_sort.bam
 samtools index align_sort.bam
-samtools stats  align_sort.bam > align_sort.bam.stat
+samtools stats align_sort.bam > align_sort.bam.stat
+cat align_sort.bam.stat
 ls -algh
 ls -alghtr
 ```
