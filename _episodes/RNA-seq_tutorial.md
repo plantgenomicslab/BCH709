@@ -289,8 +289,8 @@ conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subr
 
 ### Run fastqc
 ```bash
-$ fastqc --help
-$ fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
+fastqc --help
+fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
 
 ```
 
@@ -414,7 +414,8 @@ scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/De
 
 ### Download reference sequence
 ```bash
- curl $'https://dl.boxcloud.com/d/1/b1\u0021ZhE_jd40CSpGUwQhksF5HhMR8S9AOOBaxu2mRy91zUyYknrL7rd9pEKbFDZkVFim1lh2gs7qkZkixiFQlV8trR_GZ0whl-cJN5aY5i5AvrS6gUBF_CKrlhzPhgZCTdnuzuVC2DuCsPV9HAXucew-w249SC9cHZGZLVAzFlHd0eXP01e8hY_LRSUV8B16P1cqnsrcLI3sDt_7MZlVLyoH0lRKZZiQeJcZs3dG_-yxbSe23ywRa94rKBUuSgyijEDnpo0HxpW-oQhrp2Ng6j9pVXDE-93Nu5nWJKMsgoeKxhEuYfUKXXSMjamGt90i4sokA49_HppmUaKHxKyx6x6BqVJdRvluRehuIAsPWuh2TVbxbf8I_43kfyRsJZeMyvoDVb_1_hvGiAR7Aa_tmEIlDUU3ASq1RzJnuishVliwLpe404c2S7s_FgfxlUpbTLAyLAPfEWGldcOdUys8bdi8kzoNXPl3MWY3KuO7fXwg4CWPO_m62e226GPwOHmfu9uHoXmu6qDaJmeNTXMNXJ5TmKVgb_XhRiSTHMz3mb68B6CSWyeVvy-XyAND3GWeEnIdiJ7Q5Y37iz3202I5N63v3rWlJav8F1ad23TOhaIAuHuMxog6pr-c1NxI8ZUCmVQkDM8pQE6d9vTDFLk0TQL7pA4Ls-MYBoYyzE2y5ufzeBMkwTj6PieqaL1WEBbM3q4vP9gPHAjxKjdxKoMqAfC0q-IYJhuTtxpmT-10mo8uVgQpMRMOFJvgSdF0Z_Zg6CCk6q7GKUNP3pO3lSoVve1rdvuigdNmGvNgmlHkkN0tLauFHRE_nGBKYbYYM8j5iz7M3Gz8bulhkLyI3L4nghaSYN4_iPidc9qm4t30wy5dLiXin6oyTyftaRKV_cjUfWBTHKcPWse5r2y-YApjEig1kclOnopLH4HwF74SZQK-iRndUVQ1bDx-fHnebnawDB9pWyVkd4-13sKI6NPrmb2RpPKjE0QwRy9cGy9NRNSE-9TNcGPBdfyNWVDh7dCYuuSkQ_X6Hdb38hUZ6h3ZyfyR4YZ1y9Ki8EiS96ifi2pR28yaHg4uzgFyc2EHgkxwgjnKnJC_o-nHnNYGaZonyn9ihdHvsgp1Am2G6mc3ZPmw-jOVO9UgaoSU4wj3x32ov-zaOfNiAmoerHTt-rV4BQGj6n26ISFQCJ50qjD1Z-0Zw0STN9qlq4bwUvlm4xanknlkTaw_zIx2E7cbY_YPRut_cj8bJT8lmf01S2uzI9d7km2-xklo2FUbCHEZCDglup9G87atbGqVRyCrMA4TG-2WpjMKvupM7y5fURj5j_csy-XDJAg./download'   -H 'authority: dl.boxcloud.com'   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'   -H 'accept-language: en-US,en;q=0.9'   -H 'referer: https://nevada.app.box.com/'   -H 'sec-ch-ua: "Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"'   -H 'sec-ch-ua-mobile: ?0'   -H 'sec-ch-ua-platform: "Windows"'   -H 'sec-fetch-dest: iframe'   -H 'sec-fetch-mode: navigate'   -H 'sec-fetch-site: cross-site'   -H 'sec-fetch-user: ?1'   -H 'upgrade-insecure-requests: 1'   -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'   --compressed -o bch709.fasta
+wget https://www.dropbox.com/s/851ob9e3ktxhyxz/bch709.fasta
+wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
 ```
 ### HISAT2 indexing
 ```
