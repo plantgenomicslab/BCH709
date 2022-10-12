@@ -283,7 +283,7 @@ $ conda create -n rnaseq2 python=3
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 ```bash
-conda install -c bioconda fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
+conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
 ```
 
 
@@ -294,14 +294,59 @@ $ fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
 
 ```
 
-### How to make a report?
+## How to make a report?
 ![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```bash
-$ multiqc --help
-$ multiqc .
-$ cp -r multiqc* <YOUR DESKTOP FOLDER>
+conda activate rnaseq2
+conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
 ```
+### Move to working path
+```bash
+cd ~/bch709/rnaseq
+```
+
+### run multiqc
+```bash
+multiqc --help
+multiqc .
+```
+
+### Download file **in your local terminal**
+```bash
+scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html .
+```
+
+### MacOS **JUST ONE TIME**
+```bash
+echo 'setopt nonomatch' >> ~/.zshrc
+```
+
+### MacOS to Desktop folder
+```bash
+mkdir ~/Desktop/BCH709
+cp -r multiqc* ~/Desktop/BCH709
+```
+### MacOS open file
+```bash
+open 
+```
+
+
+
+### Windows to Desktop folder
+You'll find the Windows C:\ structure at /mnt/c/ in the Bash environment.
+Therefore, my Documents folder is at /mnt/c/Users/USERNAME/Desktop/
+
+```bash
+mkdir /mnt/c/Users/USERNAME/Desktop/BCH709
+cp -r multiqc* /mnt/c/Users/USERNAME/Desktop/BCH709
+```
+### Windows open file
+```bash
+explorer.exe .
+```
+
 ### Trim the reads
 - Trim IF necessary
    - Synthetic bases can be an issue for SNP calling
@@ -326,12 +371,26 @@ $ cp -r multiqc* <YOUR DESKTOP FOLDER>
 
 ### Run trimming
 ```bash
-$ trim_galore --help
+cd ~/bch709/rnaseq
 
-$ trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o trim paired1.fastq.gz paired2.fastq.gz 
+trim_galore --help
 
-$ multiqc .
+trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o trim pair1.fastq.gz pair2.fastq.gz 
+
+multiqc --dirs ~/bch709/rnaseq --filename trim
 ```
+
+
+### Download file **in your local terminal**
+#### MacOS
+```bash
+scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html ~/Desktop/BCH709
+```
+#### Windows
+```bash
+scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/Desktop/BCH709
+```
+
 
 ### Align the reads (mapping)
 ![mapping]({{{site.baseurl}}/fig/mapping.png)
@@ -355,25 +414,25 @@ $ multiqc .
 
 ### Download reference sequence
 ```bash
-$ wget https://www.dropbox.com/s/0onch14nnxx9b94/bch709.fasta
+ curl $'https://dl.boxcloud.com/d/1/b1\u0021ZhE_jd40CSpGUwQhksF5HhMR8S9AOOBaxu2mRy91zUyYknrL7rd9pEKbFDZkVFim1lh2gs7qkZkixiFQlV8trR_GZ0whl-cJN5aY5i5AvrS6gUBF_CKrlhzPhgZCTdnuzuVC2DuCsPV9HAXucew-w249SC9cHZGZLVAzFlHd0eXP01e8hY_LRSUV8B16P1cqnsrcLI3sDt_7MZlVLyoH0lRKZZiQeJcZs3dG_-yxbSe23ywRa94rKBUuSgyijEDnpo0HxpW-oQhrp2Ng6j9pVXDE-93Nu5nWJKMsgoeKxhEuYfUKXXSMjamGt90i4sokA49_HppmUaKHxKyx6x6BqVJdRvluRehuIAsPWuh2TVbxbf8I_43kfyRsJZeMyvoDVb_1_hvGiAR7Aa_tmEIlDUU3ASq1RzJnuishVliwLpe404c2S7s_FgfxlUpbTLAyLAPfEWGldcOdUys8bdi8kzoNXPl3MWY3KuO7fXwg4CWPO_m62e226GPwOHmfu9uHoXmu6qDaJmeNTXMNXJ5TmKVgb_XhRiSTHMz3mb68B6CSWyeVvy-XyAND3GWeEnIdiJ7Q5Y37iz3202I5N63v3rWlJav8F1ad23TOhaIAuHuMxog6pr-c1NxI8ZUCmVQkDM8pQE6d9vTDFLk0TQL7pA4Ls-MYBoYyzE2y5ufzeBMkwTj6PieqaL1WEBbM3q4vP9gPHAjxKjdxKoMqAfC0q-IYJhuTtxpmT-10mo8uVgQpMRMOFJvgSdF0Z_Zg6CCk6q7GKUNP3pO3lSoVve1rdvuigdNmGvNgmlHkkN0tLauFHRE_nGBKYbYYM8j5iz7M3Gz8bulhkLyI3L4nghaSYN4_iPidc9qm4t30wy5dLiXin6oyTyftaRKV_cjUfWBTHKcPWse5r2y-YApjEig1kclOnopLH4HwF74SZQK-iRndUVQ1bDx-fHnebnawDB9pWyVkd4-13sKI6NPrmb2RpPKjE0QwRy9cGy9NRNSE-9TNcGPBdfyNWVDh7dCYuuSkQ_X6Hdb38hUZ6h3ZyfyR4YZ1y9Ki8EiS96ifi2pR28yaHg4uzgFyc2EHgkxwgjnKnJC_o-nHnNYGaZonyn9ihdHvsgp1Am2G6mc3ZPmw-jOVO9UgaoSU4wj3x32ov-zaOfNiAmoerHTt-rV4BQGj6n26ISFQCJ50qjD1Z-0Zw0STN9qlq4bwUvlm4xanknlkTaw_zIx2E7cbY_YPRut_cj8bJT8lmf01S2uzI9d7km2-xklo2FUbCHEZCDglup9G87atbGqVRyCrMA4TG-2WpjMKvupM7y5fURj5j_csy-XDJAg./download'   -H 'authority: dl.boxcloud.com'   -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'   -H 'accept-language: en-US,en;q=0.9'   -H 'referer: https://nevada.app.box.com/'   -H 'sec-ch-ua: "Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"'   -H 'sec-ch-ua-mobile: ?0'   -H 'sec-ch-ua-platform: "Windows"'   -H 'sec-fetch-dest: iframe'   -H 'sec-fetch-mode: navigate'   -H 'sec-fetch-site: cross-site'   -H 'sec-fetch-user: ?1'   -H 'upgrade-insecure-requests: 1'   -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'   --compressed -o bch709.fasta
 ```
 ### HISAT2 indexing
 ```
-$ hisat2-build --help
-$ hisat2-build bch709.fasta bch709
+hisat2-build --help
+hisat2-build bch709.fasta bch709
 ```
 
 ### HISAT2 mapping
 
 ```
-$ hisat2 -x bch709 --threads <YOUR CPU COUNT> -1 trim/paired1_val_1.fq.gz -2 trim/paired2_val_2.fq.gz  -S align.sam
+hisat2 -x bch709 --threads 2 -1 trim/pair1_val_1.fq.gz -2 trim/pair2_val_2.fq.gz  -S align.sam --summary-file alignment.txt
 ```
 
 ### SAM file format
 
 Check result
 ```
-$ head align.sam
+head align.sam
 ```
 ### SAM file
 
@@ -387,11 +446,11 @@ $ head align.sam
 
 ### Demical to binary
 ```
-$ echo 'obase=163;10' | bc
+echo 'obase=163;10' | bc
 ```
 If you don't have bc, please install through conda
 ```
-$ conda install -c conda-forge bc
+conda install -c conda-forge bc
 ```
 
 
@@ -417,9 +476,12 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
 ```
-$ samtools view -Sb align.sam > align.bam
-$ samtools sort align.bam  align_sort
-$ samtools index align_sort.bam
+samtools view -Sb align.sam > align.bam
+samtools sort align.bam  -o align_sort.bam
+samtools index align_sort.bam
+samtools stats  align_sort.bam > align_sort.bam.stat
+ls -algh
+ls -alghtr
 ```
 
 ### BAM file
@@ -433,14 +495,27 @@ A BAM file (.bam) is the binary version of a SAM file. A SAM file (.sam) is a ta
 
 ### Alignment visualization
 ```bash
-samtools tview align_sort.bam bch709.fasta
+COLUMNS=150 samtools tview -d t align_sort.bam bch709.fasta
+
 ```
 ![tview]({{{site.baseurl}}/fig/tview.png)  
-
 [IGV](https://software.broadinstitute.org/software/igv/)  
-SAMTOOLS Tview  
 [Tablet](https://ics.hutton.ac.uk/tablet/)    
 
+### Alignment QC
+```bash
+ multiqc --dirs ~/bch709/rnaseq --filename align
+```
+
+### Download file **in your local terminal**
+#### MacOS
+```bash
+scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html ~/Desktop/BCH709
+```
+#### Windows
+```bash
+scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/Desktop/BCH709
+```
 
 ### Alignment QC
 - Number of reads mapped/unmapped/paired etc
