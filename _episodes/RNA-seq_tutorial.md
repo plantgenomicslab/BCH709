@@ -283,7 +283,7 @@ $ conda create -n rnaseq2 python=3
 [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
 
 ```bash
-conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
+conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 multiqc
 ```
 
 
