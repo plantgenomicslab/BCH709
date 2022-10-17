@@ -205,7 +205,7 @@ dev.off()
 
 ```R
 pdf("lineplot.pdf") 
-plot(1:10, 1:10, type=“l”)
+plot(1:10, 1:10, type="l")
 dev.off()
 ```
 
