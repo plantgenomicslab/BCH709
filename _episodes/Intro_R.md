@@ -7,48 +7,6 @@ published: true
 {% include gh_variables.html %}
 
 
-## Introduction to R
-R (www.r-project.org) is a commonly used free Statistics software. R allows you to carry out statistical analyses in an interactive mode, as well as allowing simple programming.
-![R](https://cran.r-project.org/Rlogo.svg)
-
-## Prepare your laptop
-#### Open two terminal
-##### Connect one to pronghorn
-```ssh <yourID>@pronghorn.rc.unr.edu```
-
-#### Open web browser
-##### Connect to https://pastebin.com/6rba4Q9x
-##### Connect to https://plantgenomicslab.github.io/BCH709/Intro_R/index.html
-
-
-
-## R Installation
-```bash
-conda env create -n r_plot -f r_plot.yaml
-conda activate r_plot
-```
-
-## Prepare working folder in Pronghorn
-```bash 
-mkdir r_plot
-cd r_plot
-wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
-wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
-conda env create -n r_plot -f r_plot.yaml
-conda activate r_plot
-```
-## In your local terminal
-### Windows
-```explorer.exe .```
-### MacOS
-```open .```
-### Git Bash
-```explorer.exe .```
-
-## Start R
-```bash
-R
-```
 
 ## PhD Tong Zhou
 Tong Zhou, PhD  
@@ -61,11 +19,242 @@ University of Nevada, Reno School of Medicine
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
 
 
+## Introduction to R
+R (www.r-project.org) is a commonly used free Statistics software. R allows you to carry out statistical analyses in an interactive mode, as well as allowing simple programming.
+![R](https://cran.r-project.org/Rlogo.svg)
+
+## Prepare your laptop
+#### Open two terminal
+##### Connect one to pronghorn
+```ssh <yourID>@pronghorn.rc.unr.edu```
+
+#### Open web browser
+##### Connect to https://pastebin.com/6rba4Q9x
+
+
+## R Installation
+
+### Prepare working folder in Pronghorn
+```bash 
+cd ~/
+mkdir r_plot
+cd r_plot
+wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
+wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
+conda env create -n r_plot -f r_plot.yaml
+conda activate r_plot
+```
+
+## Start R
+```bash
+R
+```
+
+
 ## R Plot with Gene Expression Data Read
 ```bash
 R
 ```
 
+## Getting help with functions and features
+### Getting information on any specific named function
+```R
+help(plot)
+?plot
+```
+### Getting information on a feature specified by special characters
+```R
+help("%%")
+? "%%"
+```
+### Launching a web browser for help
+```R
+help.start()
+```
+
+## Vectors and assignment
+### Setting up a vector named a, consisting of five numbers
+```R
+a <- c(1, 4, 6, 7, 20)
+a = c(1, 4, 6, 7, 20)
+```
+### Setting up a vector named b, consisting of two sequences of characters (strings)
+```R
+b <- c("Hello", "world")
+b = c("Hello", "world")
+```
+
+### Setting up a logical vector named x
+```R
+x = c(TRUE, TRUE, FALSE, FALSE)
+x = c(T, T, F, F)
+```
+
+## Arithmetic operators
+```R
+x = c(8, 4, 2, 1)
+y = c(2, 2, 2, 2)
+x + y
+x - y
+x * y
+x / y
+x ^ y
+x %% y
+```
+
+### Functions mean(), sd(), and sum()
+```R
+mean(x)
+sd(x)
+sum(x
+```
+
+## Logical operators
+```R
+x = c(8, 4, 2, 1)
+y = c(2, 2, 2, 2)
+x > y; x >= y
+x < y; x <= y
+x == y
+x != y
+```
+
+```R
+a = 5
+b = 0
+a > 0 & b > 0 # and
+a < 0 | b > 0 # or
+! a == 5 # not
+```
+```bash
+TRUE & TRUE == TRUE
+TRUE & FALSE == FALSE
+FALSE & FALSE == FALSE
+TRUE | TRUE == TRUE
+TRUE | FALSE == TRUE 
+FALSE | FALSE == FALSE
+! TRUE == FALSE
+! FALSE == TRUE
+```
+
+## Generating regular sequences
+### Generating a vector c(1, 2, …, 29, 30)
+```R
+1:30
+1:30*2
+# What is the difference between 1:30-1 and 1:(30-1) ?
+```
+
+### Function seq()
+```R
+seq(from=3, to=20); seq(3, 20); 3:20
+seq(3, 20, by=0.5)
+```
+
+### Function rep()
+```R
+rep(-2, 20)
+rep(c(1, 4, 5, 6), 10)
+```
+
+
+## Selecting subsets of a vector
+```R
+age = c(20, 19, 25, 26, 33, 24)
+id= c("Tom", "Susan", "David", "Lauren", "Joe", "Nancy")
+names(age) = id
+```
+### Pick up the first three elements of the “age” vector
+```R
+age[1:3]
+age[c("Tom", "Susan", "David")]
+```
+
+### Pick up the last three elements of the “age” vector
+```R
+age[4:6]
+age[-(1:3)]
+age[c("Lauren", "Joe", "Nancy")]
+```
+## Exercise
+
+### Generate a vector containing the odd numbers between 1 and 100
+```R
+1:50*2-1
+seq(1, 100, by=2)
+```
+### Pick up the integers from 1 to 100 that can be divided by both 3 and 4
+```R
+x = 1:100
+x[x %% 3 == 0 & x %% 4 == 0]
+```
+### Pick up the integers from 300 to 1000 that can be divided by either 12 or 16
+```R
+x = 300:1000
+x[x %% 12 == 0 | x %% 16 == 0]
+```
+
+## Basic function: plot() 
+### Scatter plot
+```R
+pdf("plot.pdf") 
+plot(1:10, 1:10)
+dev.off()
+```
+### Line plot
+
+```R
+pdf("lineplot.pdf") 
+plot(1:10, 1:10, type=“l”)
+dev.off()
+```
+
+### Plot a curve
+
+```R
+pdf("curveplot.pdf") 
+x = seq(0, 2*pi, by=0.01)
+plot(x, sin(x), type="l", col="red")
+dev.off()
+```
+
+
+### Download results to ***your laptop***
+### ***Try this on your laptop**
+
+```bash
+###Please do it on your desktop
+###Please replace <YOURID> to your id.
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/plot.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/lineplot.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/curveplot.pdf .
+```
+## In your local terminal
+### Windows
+```explorer.exe .```
+### MacOS
+```open .```
+### Git Bash
+```explorer.exe .```
+
+
+
+## Dataset
+### Dataset (dataset1.txt)
+
+```bash
+cat dataset1.txt
+```
+
+```bash
+Gene expression dataset of lung tissue samples (72×78)
+72 genes
+78 samples
+30 samples from normal tissues
+48 samples from tumor tissues
+```
+
+## Loading data frame
 
 ```R
 #1 load the expression data sheet - 78 samples and 72 genes  
@@ -99,6 +288,15 @@ dev.off()
 scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/T63_boxplot.pdf .
 scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/SLC2A1_boxplot2.pdf .
 ```
+## In your local terminal
+### Windows
+```explorer.exe .```
+### MacOS
+```open .```
+### Git Bash
+```explorer.exe .```
+
+
 
 ## Co-expression pattern 1
 
