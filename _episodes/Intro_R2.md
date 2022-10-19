@@ -135,20 +135,25 @@ colSums(m)
 
 ## Exercise
 
-* Generate a matrix with elements from 1 to 80 (10 rows and 8 columns)
-```r
-m = matrix(1:80, nrow=10)
-```
+>### Generate a matrix with elements from 1 to 80 (10 rows and 8 columns)
+>```r
+>m = matrix(1:80, nrow=10)
+>```
+{: .solution}
 
-* Change the values in the matrix that are divisible by 3 or 7 to 100
-```r
-m[m%%3==0 | m%%7==0] = 100
-```
+>### Change the values in the matrix that are divisible by 3 or 7 to 100
+>```r
+>m[m%%3==0 | m%%7==0] = 100
+>```
+{: .solution}
 
-* Pick up the rows with row mean > 70
-```r
-m[rowMeans(m)>70,]
-```
+
+>* Pick up the rows with row mean > 70
+>```r
+>m[rowMeans(m)>70,]
+>```
+{: .solution}
+
 
 ## Data frame
 
@@ -204,21 +209,23 @@ dev.off()
 
 ## Exercise
 
-* Extract the female subjects with age>50
+>## Extract the female subjects with age>50
+{: .solution}
 
-* Plot a boxplot showing the group difference in age among the male subjects
-
-```r
-data[data$Sex=="F" & data$Age>50,]
-pdf(file="boxplot_age2.pdf", width=3, height=4)
-male = data[data$Sex=="M",]
-boxplot(male$Age ~ male$Type)
-dev.off()
-#Alternative solution
-pdf(file="boxplot_age2.pdf", width=3, height=4)
-boxplot(data$Age[data$Sex=="M"] ~ data$Type[data$Sex=="M"])
-dev.off()
-```
+>## Plot a boxplot showing the group difference in age among the male subjects
+>
+>```r
+>data[data$Sex=="F" & data$Age>50,]
+>pdf(file="boxplot_age2.pdf", width=3, height=4)
+>male = data[data$Sex=="M",]
+>boxplot(male$Age ~ male$Type)
+>dev.off()
+>#Alternative solution
+>pdf(file="boxplot_age2.pdf", width=3, height=4)
+>boxplot(data$Age[data$Sex=="M"] ~ data$Type[data$Sex=="M"])
+>dev.off()
+>```
+{: .solution}
 
 # R plotting
 
@@ -267,24 +274,24 @@ dev.off()
 ![]({{site.baseurl}}/fig/Introduction of R & R plotting part21.png)
 
 ## Exercise
-
-* Based on “dataset1.txt”, generate boxplots showing the difference in expression of  _IGSF10_ ,  _SFTPH_ , and  _FMO2_  between normal and tumor tissues
-```r
- # boxplot showing the difference in expression of IGSF10, SFTPH, and FMO2 between normal and tumor tissues
- pdf(file="boxplot_three_genes.pdf", width=8, height=4)
- split.screen(c(1, 4))
- screen(1)
- boxplot(t(expr["IGSF10",])~cl, xlab="", ylab="Expression", main="IGSF10", col=c("grey80", "orange"), xaxt="n")
- screen(2)
- boxplot(t(expr["SFTPH",])~cl, xlab="", ylab="Expression", main="SFTPH", col=c("grey80", "orange"), xaxt="n")
- screen(3)
- boxplot(t(expr["FMO2",])~cl, xlab="", ylab="Expression", main="FMO2", col=c("grey80", "orange"), xaxt="n")
- screen(4)
- legend("left", fill=c("grey80", "orange"), c("Normal", "Tumor"), bty="n")
- close.screen(all = TRUE)
- dev.off()
-```
-![]({{site.baseurl}}/fig/Introduction of R & R plotting part22.png)
+>## Based on “dataset1.txt”, generate boxplots showing the difference in expression of  _IGSF10_ ,  _SFTPH_ , and  _FMO2_  between normal and tumor tissues
+>```r
+># boxplot showing the difference in expression of IGSF10, SFTPH, and FMO2 between normal and tumor tissues
+>pdf(file="boxplot_three_genes.pdf", width=8, height=4)
+>split.screen(c(1, 4))
+>screen(1)
+>boxplot(t(expr["IGSF10",])~cl, xlab="", ylab="Expression", main="IGSF10", col=c("grey80", "orange"), xaxt="n")
+>screen(2)
+>boxplot(t(expr["SFTPH",])~cl, xlab="", ylab="Expression", main="SFTPH", col=c("grey80", "orange"), xaxt="n")
+>screen(3)
+>boxplot(t(expr["FMO2",])~cl, xlab="", ylab="Expression", main="FMO2", col=c("grey80", "orange"), xaxt="n")
+>screen(4)
+>legend("left", fill=c("grey80", "orange"), c("Normal", "Tumor"), bty="n")
+>close.screen(all = TRUE)
+>dev.off()
+>```
+>![]({{site.baseurl}}/fig/Introduction of R & R plotting part22.png)
+{: .solution}
 
 ## par()
 
@@ -360,27 +367,31 @@ dev.off()
   * Plot the distribution of the linear/circular RNA expression
   * Perform Pearson/Spearman correlation test in expression between linear and circular transcripts
   * Plot the correlation in expression between linear and circular transcripts in liver
-```r
- #Correlation in expression between linear and circular transcripts in liver
- expr = read.delim("liver.txt", row.names="gene")
- pdf(file="expression_distribution3.pdf", width=4, height=4)
- par(mai=c(0.8, 0.8, 0.3, 0.3), mgp=c(2, 0.5, 0), tck=-0.03, cex.main=1, font.main=1)
- plot(density(log10(expr$linear)), col="red", main="Liver", xlab="log10 (TPM)", ylab="Density")
- lines(density(log10(expr$circular)), col="blue")
- dev.off()
- ```
- ```r
- cor.test(expr$linear, expr$circular)
- cor.test(expr$linear, expr$circular, method="spearman")
- pdf(file="correlation_liver.pdf", width=4, height=4, useDingbats=FALSE)
- par(mai=c(0.8, 0.8, 0.3, 0.3), mgp=c(2, 0.5, 0), tck=-0.03, cex.main=1, font.main=1)
+
+>## Solution
+>```r
+>#Correlation in expression between linear and circular transcripts in liver
+>expr = read.delim("liver.txt", row.names="gene")
+>pdf(file="expression_distribution3.pdf", width=4, height=4)
+>par(mai=c(0.8, 0.8, 0.3, 0.3), mgp=c(2, 0.5, 0), tck=-0.03, cex.main=1, font.main=1)
+>plot(density(log10(expr$linear)), col="red", main="Liver", xlab="log10 (TPM)", ylab="Density")
+>lines(density(log10(expr$circular)), col="blue")
+>dev.off()
+>```
+>```r
+>cor.test(expr$linear, expr$circular)
+>cor.test(expr$linear, expr$circular, method="spearman")
+>pdf(file="correlation_liver.pdf", width=4, height=4, useDingbats=FALSE)
+>par(mai=c(0.8, 0.8, 0.3, 0.3), mgp=c(2, 0.5, 0), tck=-0.03, cex.main=1, font.main=1)
  plot(log10(expr$linear), log10(expr$circular), xlim=c(-4, 4), ylim=c(-4, 4), col="grey70", pch=20, cex=0.5, xlab=expression(paste("Mean ", TPM[linear])), ylab=expression(paste("Mean ", TPM[circ])), main="Liver", axes=F)
- lines(lowess(log10(expr$linear), log10(expr$circular), f=1/3), col="red", lty=1)
- abline(a=0, b=1, lty=2)
- axis(1, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
- axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
- dev.off()
-```
+>lines(lowess(log10(expr$linear), log10(expr$circular), f=1/3), col="red", lty=1)
+>abline(a=0, b=1, lty=2)
+>axis(1, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
+>axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
+>dev.off()
+>```
+{: .solution}
+
 ![]({{site.baseurl}}/fig/Introduction of R & R plotting part28.png)
 
 # Contact information
