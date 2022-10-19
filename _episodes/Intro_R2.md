@@ -210,6 +210,9 @@ dev.off()
 ## Exercise
 
 >## Extract the female subjects with age>50
+>```r
+>data[data$Sex == "F" & data&Age>50,]
+>```
 {: .solution}
 
 >## Plot a boxplot showing the group difference in age among the male subjects
