@@ -284,7 +284,7 @@ dev.off()
  close.screen(all = TRUE)
  dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part22.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part22.png)
 
 ## par()
 
@@ -295,7 +295,7 @@ dev.off()
   * font.main: the font to be used for main titles
   * mgp: the location for the axis labels, tick mark labels, and tick marks relative to the plot
 
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part23.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part23.png)
 
 # Dataset “heart.txt”
 
@@ -319,9 +319,9 @@ lines(density(log10(expr$circular)), col="blue")
 dev.off()
 ```
 
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part24.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part24.png)
 
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part25.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part25.png)
 
 
 * Test relationship between linear and circular transcripts in heart
@@ -337,7 +337,7 @@ dev.off()
   axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
   dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part26.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part26.png)
 ```r
 #Linear regression
 relation = lm(log10(expr$circular)~log10(expr$linear))
@@ -351,7 +351,7 @@ axis(1, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), 
 axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
 dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part27.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part27.png)
 
 ## Exercise
 
@@ -381,7 +381,7 @@ dev.off()
  axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
  dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part28.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part28.png)
 
 # Contact information
 
