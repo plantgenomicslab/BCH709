@@ -49,6 +49,7 @@ mkdir r_plot
 cd r_plot
 wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
 conda env create -n r_plot -f r_plot.yaml
+conda activate r_plot
 ````
 
 ### Download results to ***your laptop***
