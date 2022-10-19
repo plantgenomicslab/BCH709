@@ -135,20 +135,20 @@ colSums(m)
 
 ## Exercise
 
->### Generate a matrix with elements from 1 to 80 (10 rows and 8 columns)
+>## Generate a matrix with elements from 1 to 80 (10 rows and 8 columns)
 >```r
 >m = matrix(1:80, nrow=10)
 >```
 {: .solution}
 
->### Change the values in the matrix that are divisible by 3 or 7 to 100
+>## Change the values in the matrix that are divisible by 3 or 7 to 100
 >```r
 >m[m%%3==0 | m%%7==0] = 100
 >```
 {: .solution}
 
 
->* Pick up the rows with row mean > 70
+>## Pick up the rows with row mean > 70
 >```r
 >m[rowMeans(m)>70,]
 >```
