@@ -391,11 +391,11 @@ If you have any question, please contact me by email.
 
 
 >## Reading materials
->The R Project for Statistical Computing https://www.r-project.org/
->R Graphic cookbook https://learning.oreilly.com/library/view/r-graphics-cookbook/9781491978597/
->R workshop https://bioinformatics.ca/workshops/2018-introduction-to-R/
->RStudio https://www.rstudio.com/
->Wikipedia R (programming language) https://en.wikipedia.org/wiki/R_(programming_language)
->Wikipedia RStudio https://en.wikipedia.org/wiki/RStudio
+>The R Project for Statistical Computing https://www.r-project.org/  
+>R Graphic cookbook https://learning.oreilly.com/library/view/r-graphics-cookbook/9781491978597/  
+>R workshop https://bioinformatics.ca/workshops/2018-introduction-to-R/  
+>RStudio https://www.rstudio.com/  
+>Wikipedia R (programming language) https://en.wikipedia.org/wiki/R_(programming_language)  
+>Wikipedia RStudio https://en.wikipedia.org/wiki/RStudio  
 {: .prereq}
 
