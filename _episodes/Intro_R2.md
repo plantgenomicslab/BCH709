@@ -56,7 +56,6 @@ conda env create -n r_plot -f r_plot.yaml
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
 scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/*.pdf .
 ```
 
