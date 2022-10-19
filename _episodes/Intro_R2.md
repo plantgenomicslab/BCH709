@@ -242,7 +242,7 @@ dev.off()
  close.screen(all = TRUE)	# exit split-screen mode
  dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part20.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part20.png)
 
 ## Dataset “Dataset1.txt”
 
@@ -264,7 +264,7 @@ dev.off()
   close.screen(all = TRUE)
   dev.off()
 ```
-![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part21.png)
+![]({{site.baseurl}}/fig/Introduction of R & R plotting part21.png)
 
 ## Exercise
 
