@@ -9,7 +9,7 @@ published: true
 
 # Introduction of R & R plotting II
 ## Ph.D. Tong Zhou
-*Tong Zhou, Ph.D.*
+*Tong Zhou, Ph.D.*  
 L-207B, Center for Molecular Medicine, MS575  
 Department of Physiology and Cell Biology  
 University of Nevada, Reno School of Medicine  
