@@ -37,8 +37,8 @@ mkdir r_plot
 cd r_plot
 wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
 wget -O dataset2.txt https://pastebin.com/raw/nAMG57Qy
-wget -O heart.txt https://pastebin.com/pN4Tjkkp
-wget -O liver.txt https://pastebin.com/Df8vh0Gz
+wget -O heart.txt https://pastebin.com/raw/pN4Tjkkp
+wget -O liver.txt https://pastebin.com/raw/Df8vh0Gz
 conda activate r_plot
 ```
 
@@ -198,7 +198,7 @@ table(data$Type, data$Sex)
 aggregate(data$Age~data$Type, FUN=mean)
 #Plot a boxplot showing the difference in agtween the control and glioma groups
 pdf(file="boxplot_age1.pdf", width=3, height=4)
-boxplot(data$Age ~ data$Type, col=c("grey80"range"), xlab="", ylab="Age")
+boxplot(data$Age ~ data$Type, col=c("grey80","orange"), xlab="", ylab="Age")
 dev.off()
 ```
 
@@ -256,11 +256,11 @@ dev.off()
   pdf(file="boxplot_two_genes.pdf", width=6, height=4)
   split.screen(c(1, 3))
   screen(1)
-  boxplot(t(expr["TP63",])~cl, xlab="", ylab="Expression", main="TP63", col=c("grey80", range"), xaxt="n")
+  boxplot(t(expr["TP63",])~cl, xlab="", ylab="Expression", main="TP63", col=c("grey80", "orange"), xaxt="n")
   screen(2)
-  boxplot(t(expr["SLC2A1",])~cl, xlab="", ylab="Expression", main="SLC2A1", col=c("grey80", range"), xaxt="n")
+  boxplot(t(expr["SLC2A1",])~cl, xlab="", ylab="Expression", main="SLC2A1", col=c("grey80", "orange"), xaxt="n")
   screen(3)
-  legend("left", fill=c("grey80", "orange"), "Normal", "Tumor"), bty="n")
+  legend("left", fill=c("grey80", "orange"), c("Normal", "Tumor"), bty="n")
   close.screen(all = TRUE)
   dev.off()
 ```
