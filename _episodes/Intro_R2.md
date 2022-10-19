@@ -35,15 +35,21 @@ R (www.r-project.org) is a commonly used free Statistics software. R allows you 
 cd ~/
 mkdir r_plot
 cd r_plot
-wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
 wget -O dataset1.txt https://pastebin.com/raw/N5g8bXg6
 wget -O dataset2.txt https://pastebin.com/raw/nAMG57Qy
 wget -O heart.txt https://pastebin.com/pN4Tjkkp
 wget -O liver.txt https://pastebin.com/Df8vh0Gz
-conda env create -n r_plot -f r_plot.yaml
 conda activate r_plot
 ```
 
+### If you missed previous class
+```bash
+cd ~/
+mkdir r_plot
+cd r_plot
+wget -O r_plot.yaml https://pastebin.com/raw/kSAC1AsK
+conda env create -n r_plot -f r_plot.yaml
+````
 
 ### Download results to ***your laptop***
 ***Try this on your laptop***
@@ -219,7 +225,7 @@ dev.off()
 
 
 ## Split display and plot figures
-
+```r
  pdf(file="split_screen.pdf", width=8, height=7)
  split.screen(c(2, 3))	# split display into six sreens
  screen(1)		# prepare screen 1 for output
@@ -236,7 +242,7 @@ dev.off()
  plot(1:10, col="purple")
  close.screen(all = TRUE)	# exit split-screen mode
  dev.off()
-
+```
 ![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part20.png)
 
 ## Dataset “Dataset1.txt”
