@@ -72,7 +72,6 @@ R
 
 * matrix() function
   * Taking the data you input and the number of rows you input (nrow) and making a matrix by filling down each column from the left to the right
-
 ```r
 matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9), nrow = 3)
 ```
@@ -243,7 +242,7 @@ dev.off()
  close.screen(all = TRUE)	# exit split-screen mode
  dev.off()
 ```
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part20.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part20.png)
 
 ## Dataset “Dataset1.txt”
 
@@ -265,7 +264,7 @@ dev.off()
   close.screen(all = TRUE)
   dev.off()
 ```
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part21.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part21.png)
 
 ## Exercise
 
@@ -285,7 +284,7 @@ dev.off()
  close.screen(all = TRUE)
  dev.off()
 ```
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part22.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part22.png)
 
 ## par()
 
@@ -296,7 +295,7 @@ dev.off()
   * font.main: the font to be used for main titles
   * mgp: the location for the axis labels, tick mark labels, and tick marks relative to the plot
 
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part23.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part23.png)
 
 # Dataset “heart.txt”
 
@@ -312,7 +311,6 @@ plot(density(expr$linear), col="red", main="Heart", xlab="TPM", ylab="Density")
 lines(density(expr$circular), col="blue")
 dev.off()
 ```
-
 ```r
 pdf(file="expression_distribution2.pdf", width=4, height=4)
 par(mai=c(0.8, 0.8, 0.3, 0.3), mgp=c(2, 0.5, 0), tck=-0.03, cex.main=1, font.main=1)
@@ -321,9 +319,9 @@ lines(density(log10(expr$circular)), col="blue")
 dev.off()
 ```
 
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part24.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part24.png)
 
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part25.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part25.png)
 
 
 * Test relationship between linear and circular transcripts in heart
@@ -339,8 +337,7 @@ dev.off()
   axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
   dev.off()
 ```
-
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part26.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part26.png)
 ```r
 #Linear regression
 relation = lm(log10(expr$circular)~log10(expr$linear))
@@ -354,7 +351,7 @@ axis(1, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), 
 axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
 dev.off()
 ```
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part27.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part27.png)
 
 ## Exercise
 
@@ -384,8 +381,7 @@ dev.off()
  axis(2, at=-2:2*2, c(expression(10^-4), expression(10^-2), 1, expression(10^2), expression(10^4)), cex.axis=1)
  dev.off()
 ```
-
-![](./fig/Introduction%20of%20R%20%26%20R%20plotting%20part28.png)
+![]({{site.baseurl}}/fig/Introduction%20of%20R%20%26%20R%20plotting%20part28.png)
 
 # Contact information
 
