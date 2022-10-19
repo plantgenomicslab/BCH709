@@ -56,8 +56,8 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week6  | 10/5/2022  | Wednesday | [Sequencing methods and strategies](https://webcampus.unr.edu/courses/85519/modules) & [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
 | Week7  | 10/10/2022 | Monday    | [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   |
 | Week7  | 10/12/2022 | Wednesday | [RNA-Seq turorial](http://bch709.plantgenomicslab.org/RNA-seq_tutorial/index.html)   | 
-| Week8  | 10/17/2022 | Monday    | [Introduction of R & R plotting (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R/index.html) |
-| Week8  | 10/19/2022 | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R2/index.html) |
+| Week8  | 10/17/2022 | Monday    | [Introduction of R & R plotting I (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R/index.html) |
+| Week8  | 10/19/2022 | Wednesday | [Introduction of R & R plotting II (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R2/index.html) |
 | Week9  | 10/24/2022 | Monday    | Midterm Exam                                                      |
 | Week9  | 10/26/2022 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
 | Week10 | 10/31/2022 | Monday    | BLAST search and gene alignment                                   |
