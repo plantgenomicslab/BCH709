@@ -1,15 +1,15 @@
 ---
 layout: page
-title: 6_Introduction of R & R plotting 2
+title: 6_Introduction of R & R plotting II
 published: true
 ---
 
 {% include gh_variables.html %}
 
 
-
-## PhD Tong Zhou
-Tong Zhou, PhD  
+# Introduction of R & R plotting II
+## Ph.D. Tong Zhou
+*Tong Zhou, Ph.D.*
 L-207B, Center for Molecular Medicine, MS575  
 Department of Physiology and Cell Biology  
 University of Nevada, Reno School of Medicine  
@@ -19,7 +19,7 @@ University of Nevada, Reno School of Medicine
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
 
 
-## Introduction to R
+# Introduction to R
 R (www.r-project.org) is a commonly used free Statistics software. R allows you to carry out statistical analyses in an interactive mode, as well as allowing simple programming.
 ![R](https://cran.r-project.org/Rlogo.svg)
 
