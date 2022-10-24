@@ -16,6 +16,14 @@ ssh <yourID>@pronghorn.rc.unr.edu
 ```
 
 
+### What is file permission?
+```
+ -    (rw-)   (rw-)   (r--) 1 john sap
+|      |       |       |
+type  owner  group   others
+```
+
+
 ### How to download file from Pronghorn in your local  
 
 ```bash
