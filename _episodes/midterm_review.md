@@ -6,9 +6,8 @@ published: true
 {% include gh_variables.html %}
 
 # Midterm 
-### Six questions  
-### 1hour  
-
+- Six questions  
+- Wednesday (10:00AM) to Friday (6:00PM)
 
 ## Pronghorn  
 ### Connect to Pronghorn  
@@ -84,8 +83,6 @@ conda env export  > [Name].yaml
 {: .prereq}  
 
 
-
-
 ## Conda  
 - Dependencies is one of the main reasons to use Conda.  
 Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.  
@@ -125,12 +122,12 @@ conda list
 
 ### cd
 ```
-cd /data/gpfs/assoc/bch709/<YOUR_FOLDER>
+cd /data/gpfs/assoc/bch709/<YOUR_ID>
 ```
 ### mkdir
 ```
-mkdir RNASEQ_REVIEW
-cd RNASEQ_REVIEW
+mkdir BCH709_midterm
+cd BCH709_midterm
 ```
 ### pwd
 ```bash
@@ -139,8 +136,8 @@ pwd
 
 ### wget
 file download
-```
-wget https://www.dropbox.com/s/o8r3279n5grn8el/fastq.tar https://www.dropbox.com/s/mlyrk2osnoo47em/fastq.zip
+```bash
+wget https://www.dropbox.com/s/yqvfm70yz79jvij/fasta.zip https://www.dropbox.com/s/jjz6aip3euh0d7q/fastq.tar
 ```
 
 ### Decompress tar file
@@ -151,7 +148,7 @@ ls
 ```
 ### Decompress zip file
 ```
-unzip fastq.zip
+unzip fasta.zip
 
 ls
 ```
@@ -188,7 +185,10 @@ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cores
 ```
 
 ## HISAT2  
+#### Example
+
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)  
+
 ```bash
 conda install -c conda-forge -c bioconda hisat2
 ```
@@ -222,7 +222,7 @@ SAM (Sequence Alignment/Map) format is a generic format for storing large nucleo
 
 SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
 ```bash
-samtools view -Sb align.sam > align.bam
+samtools view -Sb align.sam -o align.bam
 
 samtools sort align.bam  -o align_sort.bam
 
@@ -253,6 +253,14 @@ conda install -c conda-forge -c bioconda subread
 wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
 featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
 ```
+
+## Rplot Drawing
+## Boxplot
+## Lineplot
+
+### split.screen
+
+
 
 
 

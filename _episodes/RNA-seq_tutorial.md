@@ -570,6 +570,16 @@ bamtools > stats
    - Prioritise features (Rcount)
    - Probabilistic assignment with EM (RSEM)
 
+### mapping count
+```bash
+conda install -c conda-forge -c bioconda subread
+```
+
+```bash
+wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
+featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
+```
+
 >## Reference
 >Fu, Yu, et al. "Elimination of PCR duplicates in RNA-seq and small RNA-seq using unique molecular identifiers." BMC genomics 19.1 (2018): 531
 >Parekh, Swati, et al. "The impact of amplification on differential expression analyses by RNA-seq." Scientific reports 6 (2016): 25533
