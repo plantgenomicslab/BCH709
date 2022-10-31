@@ -7,13 +7,13 @@ published: true
 
 ## location
 ```
- mkdir /data/gpfs/assoc/bch709/<YOURID>/BLAST
+ mkdir /data/gpfs/assoc/bch709-3/<YOURID>/BLAST
  cd $!
 ```
 
 ## ENV
 ```bash
-conda activate alignment
+ conda create -n blast -c bioconda  -c conda-forge blast seqkit -y
 ```
 
 ## BLAST
@@ -44,7 +44,7 @@ E-value = the number of HSPs having score S (or higher) expected to occur by cha
 Smaller E-value, more significant in statistics
 Bigger E-value , by chance
 
-** E[# occurrences of a string of length m in reference of length L] ~ L/4m **
+**E[# occurrences of a string of length m in reference of length L] ~ L/4m**
 
 
 
@@ -164,13 +164,12 @@ Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 ## Running a standalone BLAST program
 ### location
 ```
- mkdir /data/gpfs/assoc/bch709/<YOURID>/BLAST
- cd $!
+cd /data/gpfs/assoc/bch709-3/<YOURID>/BLAST
 ```
 
 ### ENV
 ```bash
-conda activate alignment
+conda activate blast
 ```
 
 ### Running a standalone BLAST program
@@ -201,15 +200,26 @@ At NCBI they are two different things as well. 'nr' is a database of protein seq
 
 ### Download Database
 ```
-ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+wget ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ```
 ### How many sequences in `plant.1.protein.faa.gz`
 
 
 ### Input file
 ```bash
-/data/gpfs/assoc/bch709/<YOURID>/rnaseq_slurm/trinity_out_dir/Trinity.fasta
+/data/gpfs/assoc/bch709-3/Course_materials/BLAST/Athaliana_167_TAIR10.cds.fa.gz
 ```
+
+
+### Example Input sequence
+
+```bash
+seqkit stats /data/gpfs/assoc/bch709-3/Course_materials/BLAST/Athaliana_167_TAIR10.cds.fa.gz -T
+file	format	type	num_seqs	sum_len	min_len	avg_len	max_len
+/data/gpfs/assoc/bch709-3/Course_materials/BLAST/Athaliana_167_TAIR10.cds.fa.gz	FASTA	DNA	35386	43546761	22	1230.6	16182
+```
+
+
 ### Subsampling by SeqKit
 
 FASTA and FASTQ are basic and ubiquitous formats for storing nucleotide and protein sequences. Common manipulations of FASTA/Q file include converting, searching, filtering, deduplication, splitting, shuffling, and sampling. Existing tools only implement some of these manipulations, and not particularly efficiently, and some are only available for certain operating systems. Furthermore, the complicated installation process of required packages and running environments can render these programs less user friendly.
@@ -221,19 +231,25 @@ https://bioinf.shenwei.me/seqkit/
 https://bioinf.shenwei.me/seqkit/tutorial/
 
 
+
+## Run BLAST
+### Make BLAST DB
+
 ```bash
-conda install -c bioconda -c conda-forge seqkit -y
+makeblastdb -in your-nucleotide-db.fa -dbtype nucl ###for nucleotide sequence
 ```
 
-
-
-### Run BLAST
+```bash
+makeblastdb -in your-protein-db.fas -dbtype prot ###for protein sequence
 ```
+
+### Run BLASTX
+```bash
+cd /data/gpfs/assoc/bch709-3/<YOURID>/BLAST
 gunzip plant.1.protein.faa.gz
 makeblastdb -in plant.1.protein.faa -dbtype prot
-seqkit sample -n 100 /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta > trinity_100.fasta
-
-blastx -query trinity_100.fasta  -db plant.1.protein.faa 
+seqkit sample -n 100 /data/gpfs/assoc/bch709-3/Course_materials/BLAST/Athaliana_167_TAIR10.cds.fa.gz > ATH_100.fasta
+blastx -query ATH_100.fasta  -db plant.1.protein.faa -outfmt 8
 ```
 
 
@@ -253,18 +269,13 @@ blastx -query trinity_100.fasta  -db plant.1.protein.faa
 	bitscore	Bit score
 
 
-># Assignment Run standalone BLASTX
+># Question
 - find the option below within BLASTX
 1. Set output to file
 2. Set tabular output format
 3. Set maximum target sequence to one
 4. Set threads (CPU) to 32
 5. Set evalue threshold to 1e-30
--  Set the query as /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta
--  Set the db as plant.1.protein.faa
-- Create submission with option of -A cpu-s2-bch709-0 -p cpu-s2-core-0 --cpus-per-task=24 --mem=20g and others.
-- 
-- Upload your output file and submission file to Webcanvas (File upload)
 {: .prereq}
 
 
@@ -343,9 +354,8 @@ We also recommend to use 'cpanm' https://github.com/miyagawa/cpanminus
 ## Prerequisites by Conda
 
 ```bash
-conda create -n BLAST
-conda activate BLAST
-conda install -c bioconda perl-path-tiny blast perl-data-dumper perl-config-tiny 
+conda activate blast
+conda install -c bioconda perl-path-tiny blast perl-data-dumper perl-config-tiny -y
 ```
 
 ## Installation
@@ -356,15 +366,22 @@ We recommend to copy it on scratch disk.
 
 
 ```bash
-mkdir /data/gpfs/assoc/bch709/<YOURID>/BLAST
+cp /data/gpfs/assoc/bch709-3/Course_materials/BLAST/Athaliana_167_TAIR10.cds.fa.gz /data/gpfs/assoc/bch709-3/<YOURID>/BLAST
 
-cd /data/gpfs/assoc/bch709/<YOURID>/BLAST
+gunzip /data/gpfs/assoc/bch709-3/<YOURID>/BLAST/Athaliana_167_TAIR10.cds.fa.gz 
 
-git clone git://github.com/ascendo/DCBLAST.git
 
-cd DCBLAST
+cd /data/gpfs/assoc/bch709-3/<YOURID>/BLAST
 
-cd DCBLAST-SLURM
+mkdir /data/gpfs/assoc/bch709-3/<YOURID>/BLAST/
+
+git clone git@github.com:wyim-pgl/DCBLAST.git
+
+cd DCBLAST/DCBLAST-SLURM
+
+pwd
+
+chmod 775 dcblast.pl
 
 perl dcblast.pl
 ```
@@ -390,7 +407,7 @@ Usage : dcblast.pl --ini config.ini --input input-fasta --size size-of-group --o
 
 ### Configuration
 
-**Please edit config.ini before you run!!**
+**Please edit config.ini with `nano` before you run!!**
 
 ```bash
 [dcblast]
@@ -401,13 +418,13 @@ job_name_prefix=dcblast
 ##BLAST options
 
 ##BLAST path (your blast+ path); $ which blastn; then remove "blastn"
-path=~/bin/blast/ncbi-blast-2.2.30+/bin/
+path=~/miniconda3/envs/blast/bin/
 
 ##DB path (build your own BLAST DB)
 ##example
 ##makeblastdb -in example/test_db.fas -dbtype nucl (for nucleotide sequence)
 ##makeblastdb -in example/your-protein-db.fas -dbtype prot (for protein sequence)
-db=example/test_db.fas
+db=/data/gpfs/assoc/bch709-3/<YOURID>/BLAST/plant.1.protein.faa 
 
 ##Evalue cut-off (See BLAST manual)
 evalue=1e-05
@@ -416,7 +433,7 @@ evalue=1e-05
 num_threads=2
 
 ##Max target sequence output (See BLAST manual)
-max_target_seqs=1
+max_target_seqs=10
 
 ##Output format (See BLAST manual)
 outfmt=6
@@ -444,10 +461,9 @@ cpus-per-task=1
 mem-per-cpu=800M
 ntasks=1
 output=log
-hint=compute_bound
 error=error
-partition=cpu-s2-core-0
-account=cpu-s2-bch709-0
+partition=cpu-core-0
+account=cpu-s5-bch709-3
 mail-type=all
 mail-user=<YOURID>@unr.edu
 
@@ -456,230 +472,19 @@ If you need any other options for your enviroment please contant us or admin
 
 PBS & LSF need simple code hack. If you need it please request through issue.
 
-## Examples
+## Run DCBLAST
 
-### Dryrun (--dryrun option will only split fasta file into chunks)
+### Run (--dryrun option will only split fasta file into chunks)
 ```bash
-perl dcblast.pl --ini config.ini --input example/test_query.fas --output test --size 20 --blast blastn --dryrun
-```
-```bash
-DRYRUN COMMAND : [qsub -M your@email -cwd -j yes -o log -pe SharedMem 1 -q common.q -N dcblast_split -t 1-20 dcblast_blastcmd.sh]
-DRYRUN COMMAND : [qsub -M your@email -cwd -j yes -o log -pe SharedMem 1 -q common.q -hold_jid dcblast_split -N dcblast_merge dcblast_merge.sh test/results 20]
-DRYRUN COMMAND : [qstat]
-DONE
-```
-Check the test folder "test/chunks/" for sequence split result.
-
-### Example sequence
-
-This sequences are randomly selected from plant species.
-The size and gene number informations are below.
-
-```bash
-test_db.fas
-
-Number of gene	35386
-Total size of gene	43546761
-Longest gene	16182
-Shortest gene	22
+perl dcblast.pl --ini config.ini --input /data/gpfs/assoc/bch709-3/<YOURID>/BLAST/Athaliana_167_TAIR10.cds.fa --output test --size 100 --blast blastx 
 ```
 
 ```bash
-test_query.fas
-
-Number of gene	6282
-Total size of gene	7247997
-Longest gene	11577
-Shortest gene	22
+squeue
 ```
 
-**It usually finish within ~20min depends on HPC status and CPU speed.**
+**It usually finish within up to 20min depends on HPC status and CPU speed.**
 
-
-
-## Usage
-```bash
-perl dcblast.pl
-
-Usage : dcblast.pl --ini config.ini --input input-fasta --size size-of-group --output output-filename-prefix  --blast blast-program-name
-
-  --ini <ini filename> ##config file ex)config.ini
-
-  --input <input filename> ##query fasta file
-
-  --size <output size> ## size of chunks usually all core x 2, if you have 160 core in nodes, you can use 320. please check it to your admin.
-
-  --output <output filename> ##output folder name
-
-  --blast <blast name> ##blastp, blastx, blastn and etcs.
-
-  --dryrun Option will only split fasta file into chunks
-```
-
-### Run with example
-You don't need to run "dryrun" everytime.
-
-```bash
-perl dcblast.pl --ini config.ini --input example/test_query.fas --output test --size 20 --blast blastn 
-```
-
-This run will splits file into 20 chunks, run on 20 cores and generated BLAST output file "test/results/merged" and chunked input file "test/chunks/"
-
-It will finish their search within ~20min depends on HPC status and CPU speed.
-For your research, please format database according to NCBI-BLAST+ instruction.
-Here is the brief examples.
-
-```bash
-makeblastdb -in your-nucleotide-db.fa -dbtype nucl ###for nucleotide sequence
-```
-
-```bash
-makeblastdb -in your-protein-db.fas -dbtype prot ###for protein sequence
-```
-## Run Trinity output BLAST
-
-
-
-### Configuration
-```bash
-nano config.ini
-```
-
-
-**Please edit config.ini before you run!!**
-
-```bash
-[dcblast]
-##Name of job (will use for SGE job submission name)
-job_name_prefix=dcblast
-
-[blast]
-##BLAST options
-
-##BLAST path (your blast+ path); $ which blastn; then remove "blastn"
-path=~/bin/blast/ncbi-blast-2.2.30+/bin/
-
-##DB path (build your own BLAST DB)
-##example
-##makeblastdb -in example/test_db.fas -dbtype nucl (for nucleotide sequence)
-##makeblastdb -in example/your-protein-db.fas -dbtype prot (for protein sequence)
-db=example/
-
-##Evalue cut-off (See BLAST manual)
-evalue=1e-05
-
-##number of threads in each job. If your CPU is AMD it needs to be set 1.
-num_threads=2
-
-##Max target sequence output (See BLAST manual)
-max_target_seqs=1
-
-##Output format (See BLAST manual)
-outfmt=6
-
-##any other option can be add it this area
-#matrix=BLOSUM62
-#gapopen=11
-#gapextend=1
-
-[oldsge]
-##Grid job submission commands
-##please check your job submission scripts
-##Especially Queue name (q) and Threads option (pe) will be different depends on your system
-
-pe=SharedMem 1
-M=your@email
-q=common.q
-j=yes
-o=log
-cwd=
-
-[slurm]
-time=04:00:00
-cpus-per-task=1
-mem-per-cpu=800M
-ntasks=1
-output=log
-hint=compute_bound
-error=error
-partition=cpu-s2-core-0
-account=cpu-s2-bch709-0
-mail-type=all
-mail-user=<YOURID>@unr.edu
-
-```
-If you need any other options for your enviroment please contant us or admin
-
-PBS & LSF need simple code hack. If you need it please request through issue.
-
-## Examples
-
-### Dryrun (--dryrun option will only split fasta file into chunks)
-```bash
-perl dcblast.pl --ini config.ini --input example/test_query.fas --output test --size 20 --blast blastn --dryrun
-```
-```bash
-DRYRUN COMMAND : [qsub -M your@email -cwd -j yes -o log -pe SharedMem 1 -q common.q -N dcblast_split -t 1-20 dcblast_blastcmd.sh]
-DRYRUN COMMAND : [qsub -M your@email -cwd -j yes -o log -pe SharedMem 1 -q common.q -hold_jid dcblast_split -N dcblast_merge dcblast_merge.sh test/results 20]
-DRYRUN COMMAND : [qstat]
-DONE
-```
-Check the test folder "test/chunks/" for sequence split result.
-
-### Example sequence
-
-This sequences are randomly selected from plant species.
-The size and gene number informations are below.
-
-```bash
-test_db.fas
-
-Number of gene	35386
-Total size of gene	43546761
-Longest gene	16182
-Shortest gene	22
-```
-
-```bash
-test_query.fas
-
-Number of gene	6282
-Total size of gene	7247997
-Longest gene	11577
-Shortest gene	22
-```
-
-**It usually finish within ~20min depends on HPC status and CPU speed.**
-
-
-
-## Usage
-```bash
-perl dcblast.pl
-
-Usage : dcblast.pl --ini config.ini --input input-fasta --size size-of-group --output output-filename-prefix  --blast blast-program-name
-
-  --ini <ini filename> ##config file ex)config.ini
-
-  --input <input filename> ##query fasta file
-
-  --size <output size> ## size of chunks usually all core x 2, if you have 160 core in nodes, you can use 320. please check it to your admin.
-
-  --output <output filename> ##output folder name
-
-  --blast <blast name> ##blastp, blastx, blastn and etcs.
-
-  --dryrun Option will only split fasta file into chunks
-```
-
-
-
-### Run with example
-You don't need to run "dryrun" everytime.
-
-```bash
-perl dcblast.pl --ini config.ini --input /data/gpfs/assoc/bch709/wyim/rnaseq_slurm/trinity_out_dir/Trinity.fasta --output Trinity --size 2000 --blast blastx 
-```
 
 
 ## Citation
