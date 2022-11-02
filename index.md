@@ -59,7 +59,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week8  | 10/17/2022 | Monday    | [Introduction of R & R plotting I (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R/index.html) |
 | Week8  | 10/19/2022 | Wednesday | [Introduction of R & R plotting II (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R2/index.html) |
 | Week9  | 10/24/2022 | Monday    | [Midterm Exam Review](http://bch709.plantgenomicslab.org/midterm_review/index.html)  |
-| Week9  | 10/26/2022 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
+| Week9  | 10/26/2022 | Wednesday | [Viral variant identification in NGS data (Richard Tillet, Ph. D)](https://lor.instructure.com/resources/4d1c98a33f7645a2a563b2e1cc5df9ee?shared)  |
 | Week10 | 10/31/2022 | Monday    | [BLAST search and gene alignment](http://bch709.plantgenomicslab.org/BLAST/index.html)  |                                   |
 | Week10 | 11/2/2022  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
 | Week11 | 11/7/2022  | Monday    | Database & file format                                            |
