@@ -62,7 +62,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week9  | 10/26/2022 | Wednesday | [Viral variant identification in NGS data (Richard Tillet, Ph. D)](https://lor.instructure.com/resources/4d1c98a33f7645a2a563b2e1cc5df9ee?shared)  |
 | Week10 | 10/31/2022 | Monday    | [BLAST search and gene alignment](http://bch709.plantgenomicslab.org/BLAST/index.html)  |                                   |
 | Week10 | 11/2/2022  | Wednesday | [Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)](https://lor.instructure.com/resources/edbb0c52f9224c69a1a69df9775fe7cf?shared) |
-| Week11 | 11/7/2022  | Monday    | Database & file format                                            |
+| Week11 | 11/7/2022  | Monday    | [Database & file format](https://lor.instructure.com/resources/7e7aa7d16b6e491cafccc1524e514050?shared)                                            |
 | Week11 | 11/9/2022  | Wednesday | Genome assembly & annotation & structure                          |
 | Week12 | 11/14/2022 | Monday    | Genome structure                                                  |
 | Week12 | 11/16/2022 | Wednesday | Variant analysis                                                  |
