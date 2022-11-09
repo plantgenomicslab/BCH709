@@ -5,7 +5,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Class Schedule
-> MonWed 9:00AM - 10:10AM  
+> MonWed 9:00AM - 10:15AM  
 > Aug 29, 2022 - Dec 19 2022
 {: .prereq}
 
@@ -63,12 +63,12 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week10 | 10/31/2022 | Monday    | [BLAST search and gene alignment](http://bch709.plantgenomicslab.org/BLAST/index.html)  |                                   |
 | Week10 | 11/2/2022  | Wednesday | [Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)](https://lor.instructure.com/resources/edbb0c52f9224c69a1a69df9775fe7cf?shared) |
 | Week11 | 11/7/2022  | Monday    | [Database & file format](https://lor.instructure.com/resources/7e7aa7d16b6e491cafccc1524e514050?shared)                                            |
-| Week11 | 11/9/2022  | Wednesday | Genome assembly & annotation & structure                          |
-| Week12 | 11/14/2022 | Monday    | Genome structure                                                  |
-| Week12 | 11/16/2022 | Wednesday | Variant analysis                                                  |
-| Week13 | 11/21/2022 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week11 | 11/9/2022  | Wednesday | [Genome assembly & annotation](http://bch709.plantgenomicslab.org/Genome_assembly_annoation/index.html)                          |
+| Week12 | 11/14/2022 | Monday    | Genome assembly & annotation                                                   |
+| Week12 | 11/16/2022 | Wednesday | Transcriptome analysis (Genome based)   |
+| Week13 | 11/21/2022 | Monday    | Transcriptome analysis (Genome based)   |
 | Week13 | 11/23/2022 | Wednesday | Nextday is Thanksgiving                                           |
-| Week14 | 11/28/2022 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/28/2022 | Monday    | Transcriptome analysis (Genome based)   |
 | Week14 | 11/30/2022 | Wednesday | Enrichment analysis                                               |
 | Week15 | 12/5/2022  | Monday    | Presentation & Discussions                                        |
 | Week15 | 12/7/2022  | Wednesday | Presentation & Discussions                                        |
