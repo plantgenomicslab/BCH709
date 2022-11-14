@@ -380,19 +380,6 @@ N50 is a measure to describe the quality of assembled genomes that are fragmente
 [!][Phase Genomics](http://www.youtube.com/watch?v=-MxEw3IXUWU " ")
 
 
-### Chromosome Conformation Scaffolding
-
-![hic1]({{site.baseurl}}/fig/hic1.png)
-![hic1]({{site.baseurl}}/fig/hic2.png)
-![hic1]({{site.baseurl}}/fig/hic3.png)
-![hic1]({{site.baseurl}}/fig/hic4.png)
-![hic1]({{site.baseurl}}/fig/hic5.png)
-![hic1]({{site.baseurl}}/fig/hic6.png)
-![hic1]({{site.baseurl}}/fig/hic7.png)
-![hic1]({{site.baseurl}}/fig/hic8.png)
-![hic1]({{site.baseurl}}/fig/hic9.png)
-![hic1]({{site.baseurl}}/fig/hic10.png)
-
 
 ### HiC for Genome Assembly
 ![hic1]({{site.baseurl}}/fig/starwars.png)
