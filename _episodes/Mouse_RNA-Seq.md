@@ -110,17 +110,17 @@ ls /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq
 
 ## Create file list
 ```bash
-cd /data/gpfs/assoc/bch709-3/${USER}/mouse/
+cd /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq
 
-ls -1 /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/*.gz 
+ls -1 *.gz 
 
-ls -1 /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/*.gz | sed 's/_R.\.fastq\.gz//g'
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g'
 
-ls -1 /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/*.gz | sed 's/_R.\.fastq\.gz//g' | sort -u
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u
 
-ls -1 /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/*.gz | sed 's/_R.\.fastq\.gz//g' | sort -u >> ../filelist
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u >> /data/gpfs/assoc/bch709-3/${USER}/mouse/filelist
 
-cat ../filelist
+cat /data/gpfs/assoc/bch709-3/${USER}/mouse/filelist
 ```
 ## Regular expression
 
