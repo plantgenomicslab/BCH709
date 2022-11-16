@@ -15,6 +15,7 @@ mamba install -c bioconda -c conda-forge -c anaconda trim-galore=0.6.7 sra-tools
 # Mouse RNA-Seq
 ![](https://i.imgur.com/rqNc6OA.png)
 
+https://www.sciencedirect.com/science/article/pii/S2211124722011111
 
 
 ## Slurm
