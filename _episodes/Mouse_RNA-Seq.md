@@ -334,6 +334,10 @@ sbatch count.sh
 ```
 
 # Assignment
+Please do samething with human data
+Fastq location is `/data/gpfs/assoc/bch709-3/Course_materials/human/fastq`
+Reference location is `/data/gpfs/assoc/bch709-3/Course_materials/human/ref`
+
 ```bash
 /data/gpfs/assoc/bch709-3/Course_materials/human/
 ```
