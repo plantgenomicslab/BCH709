@@ -336,6 +336,9 @@ sbatch count.sh
 
 # Assignment
 Please do samething with human data
+https://www.sciencedirect.com/science/article/pii/S2211124720316235#fig1
+
+
 Fastq location is `/data/gpfs/assoc/bch709-3/Course_materials/human/fastq`
 Reference location is `/data/gpfs/assoc/bch709-3/Course_materials/human/ref`
 
