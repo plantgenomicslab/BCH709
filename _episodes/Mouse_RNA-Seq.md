@@ -139,6 +139,7 @@ trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2 
 ## Prepare templet
 ```bash
 cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/trim.sh
+sed -i "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/mouse/fastq/trim.sh
 ```
 
 ## Edit templet
@@ -185,7 +186,7 @@ for i in `cat ../filelist`
         echo "trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-3/${USER}/mouse/trim $read1 $read2" | cat trim.sh - 
 done
 
-
+## THIS IS FINAL one
 ## add trim-galore command and trim.sh to new file
 for i in `cat ../filelist`
     do
@@ -226,6 +227,7 @@ cd /data/gpfs/assoc/bch709-3/${USER}/mouse/trim
 
 ### Copy templet
 cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-3/${USER}/mouse/trim/mapping.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/mouse/trim/mapping.sh
 
 ### Edit templet
 nano mapping.sh
@@ -288,9 +290,9 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```bash
 jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 
-for i in `ls -1 *.sh`
+for i in `ls -1 *_mapping.sh`
 do
-    sbatch $i --dependency=afterany:${jobid}
+    sbatch --dependency=afterany:${jobid} $i 
 done
 
 ```
@@ -298,6 +300,7 @@ done
 ```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
 ```
+
 ## FeatureCounts execute location
 
 ```bash
@@ -308,7 +311,7 @@ ls -1 *.bam
 
 ### Copy templet
 cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-3/${USER}/mouse/bam/count.sh
-
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/mouse/bam/count.sh
 
 ```
 
@@ -340,7 +343,7 @@ squeue --noheader --format %i --user ${USER}
 ```bash
 jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 
-sbatch count.sh  --dependency=afterany:${jobid}
+sbatch --dependency=afterany:${jobid} count.sh 
 ```
 
 
