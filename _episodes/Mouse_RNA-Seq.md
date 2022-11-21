@@ -279,8 +279,8 @@ for i in `cat ../filelist`
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --user ${USER} --name Mapping | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER} 
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```
 
 
@@ -288,7 +288,7 @@ squeue --noheader --format %i --user ${USER} --name Mapping | tr '\n'  ':'
 ```bash
 for i in `ls -1 *.sh`
 do
-    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} --name Mapping | tr '\n'  ':')1 $i
+    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1 $i
 done
 
 ```
@@ -331,8 +331,7 @@ featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --user ${USER} --name Align
+squeue --noheader --format %i --user ${USER} 
 ```
 
 ## Submit
@@ -577,8 +576,8 @@ for i in `cat ../filelist`
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --user ${USER} --name Trim | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER}  
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```
 
 
@@ -586,7 +585,7 @@ squeue --noheader --format %i --user ${USER} --name Trim | tr '\n'  ':'
 ```bash
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} --name Trim | tr '\n'  ':')1 $i
+    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1 $i
 done
 
 ```
@@ -633,8 +632,8 @@ featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --user ${USER} --name Align | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER} 
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```
 
 
@@ -642,6 +641,6 @@ squeue --noheader --format %i --user ${USER} --name Align | tr '\n'  ':'
 ```bash
 cd /data/gpfs/assoc/bch709-3/${USER}/human/bam 
 
-sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER}  --name Align | tr '\n'  ':')1 count.sh
+sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1 count.sh
 
 ```
