@@ -279,36 +279,30 @@ for i in `cat ../filelist`
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --name Trim | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
+squeue --noheader --format %i --user ${USER} --name Mapping | tr '\n'  ':'
 ```
 
 
-##  Job submission dependency on Trim
+##  Job submission dependency on Mapping
 ```bash
 for i in `ls -1 *.sh`
 do
-    sbatch --dependency=afterany:$(squeue --noheader --format %i --name Trim | tr '\n'  ':')1 $i
+    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} --name Mapping | tr '\n'  ':')1 $i
 done
 
 ```
 
-
-## 
-
-
-s
-[Bioinformatics, Volume 30, Issue 7, 1 April 2014, Pages 923–930](https://doi.org/10.1093/bioinformatics/btt656)
-![]({{{site.baseurl}}/fig/featurecount.png)
-
-```bash!
+```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
 ```
-## FeatureCounts location
+## FeatureCounts execute location
 
 ```bash
 ### Move to trim folder
 cd /data/gpfs/assoc/bch709-3/${USER}/mouse/bam 
+
+ls -1 *.bam
 
 ### Copy templet
 cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-3/${USER}/mouse/bam/count.sh
@@ -320,7 +314,7 @@ cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch7
 ## FeatureCounts read bam file
 ```bash
 cd /data/gpfs/assoc/bch709-3/${USER}/mouse/bam 
-ls -1 *.bam 
+ls -1 *.sortedByCoord.out.bam
 ls -1 *.sortedByCoord.out.bam| tr '\n' ' '
 ```
 ## Edit templet
@@ -337,8 +331,8 @@ featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --name Align
+squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
+squeue --noheader --format %i --user ${USER} --name Align
 ```
 
 ## Submit
@@ -347,12 +341,12 @@ sbatch count.sh
 ```
 
 
-# human RNA-Seq
+# Human RNA-Seq
 [***Transcriptome alterations in myotonic dystrophy frontal cortex***](https://www.sciencedirect.com/science/article/pii/S2211124720316235)
 
 ![](https://i.imgur.com/BrugOCz.png)
 
-https://doi.org/10.1016/j.celrep.2020.108634
+[](https://doi.org/10.1016/j.celrep.2020.108634)
 
 
 ## Environment activation
@@ -396,8 +390,6 @@ wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refs
 gunzip GRCh38_latest_genomic.fna.gz
 gunzip GRCh38_latest_genomic.gff.gz
 
-## Copy templet
-cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/ref/ref_build.sh
 
 
 gffread  GRCh38_latest_genomic.gff  --keep-exon-attrs -F -T -o GRCh38_latest_genomic.gtf
@@ -405,6 +397,9 @@ gffread  GRCh38_latest_genomic.gff  --keep-exon-attrs -F -T -o GRCh38_latest_gen
 
 ## STAR aligner reference build on Pronghorn
 ```bash
+## Copy templet
+cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/ref/ref_build.sh
+
 #open text editor
 nano ref_build.sh
 
@@ -574,7 +569,7 @@ for i in `cat ../filelist`
         read1=${i}_R1_val_1.fq.gz
         read2=${read1//_R1_val_1.fq.gz/_R2_val_2.fq.gz}
         echo $read1 $read2
-        echo "STAR --runMode alignReads --runThreadN 4 --outFilterMultimapNmax 100 --alignIntronMin 25 --alignIntronMax 50000 --genomeDir /data/gpfs/assoc/bch709-3/${USER}/human/ref  --readFilesCommand gunzip -c --readFilesIn /data/gpfs/assoc/bch709-3/${USER}/human/trim/${read1} /data/gpfs/assoc/bch709-3/${USER}/human/trim/${read2} --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-3/${USER}/human/bam/${i}.bam" | cat mapping.sh - > ${i}_mapping.sh
+        echo "STAR --runMode alignReads --runThreadN 4 --outFilterMultimapNmax 100 --alignIntronMin 25 --alignIntronMax 50000 --genomeDir /data/gpfs/assoc/bch709-3/${USER}/human/ref --outSAMtype BAM SortedByCoordinate --readFilesCommand gunzip -c --readFilesIn /data/gpfs/assoc/bch709-3/${USER}/human/trim/${read1} /data/gpfs/assoc/bch709-3/${USER}/human/trim/${read2} --outFileNamePrefix /data/gpfs/assoc/bch709-3/${USER}/human/bam/${i}.bam" | cat mapping.sh - > ${i}_mapping.sh
     done
 ```
 
@@ -582,8 +577,8 @@ for i in `cat ../filelist`
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --name Trim | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
+squeue --noheader --format %i --user ${USER} --name Trim | tr '\n'  ':'
 ```
 
 
@@ -591,7 +586,7 @@ squeue --noheader --format %i --name Trim | tr '\n'  ':'
 ```bash
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch --dependency=afterany:$(squeue --noheader --format %i --name Trim | tr '\n'  ':')1 $i
+    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} --name Trim | tr '\n'  ':')1 $i
 done
 
 ```
@@ -600,7 +595,7 @@ done
 [Bioinformatics, Volume 30, Issue 7, 1 April 2014, Pages 923–930](https://doi.org/10.1093/bioinformatics/btt656)
 ![]({{{site.baseurl}}/fig/featurecount.png)
 
-```bash!
+```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
 ```
 ## FeatureCounts location
@@ -638,8 +633,8 @@ featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -
 ## Job submission dependency
 
 ```bash
-squeue --noheader --format %i --name [YOUR_PREVIOUS_JOBNAME] 
-squeue --noheader --format %i --name Align | tr '\n'  ':'
+squeue --noheader --format %i --user ${USER} --name [YOUR_PREVIOUS_JOBNAME] 
+squeue --noheader --format %i --user ${USER} --name Align | tr '\n'  ':'
 ```
 
 
@@ -647,6 +642,6 @@ squeue --noheader --format %i --name Align | tr '\n'  ':'
 ```bash
 cd /data/gpfs/assoc/bch709-3/${USER}/human/bam 
 
-sbatch --dependency=afterany:$(squeue --noheader --format %i --name Align | tr '\n'  ':')1 count.sh
+sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER}  --name Align | tr '\n'  ':')1 count.sh
 
 ```
