@@ -286,9 +286,11 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 
 ##  Job submission dependency on Mapping
 ```bash
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+
 for i in `ls -1 *.sh`
 do
-    sbatch $i
+    sbatch $i --dependency=afterany:${jobid}
 done
 
 ```
@@ -335,8 +337,10 @@ squeue --noheader --format %i --user ${USER}
 ```
 
 ## Submit
-```
-sbatch count.sh
+```bash
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+
+sbatch count.sh  --dependency=afterany:${jobid}
 ```
 
 
@@ -400,6 +404,8 @@ gffread  GRCh38_latest_genomic.gff  --keep-exon-attrs -F -T -o GRCh38_latest_gen
 cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/ref/ref_build.sh
 
 #open text editor
+## PLEASE RENAME EMAIL AND JOB NAME
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/ref_build/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/human/ref/ref_build.sh
 nano ref_build.sh
 
 # Add below command to ref_build.sh
@@ -414,7 +420,7 @@ STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles G
 sbach ref_build.sh
 
 #check job
-squeue
+squeue -u ${USER}
 ```
 
 
@@ -451,8 +457,9 @@ https://regex101.com/
 ## Prepare templet
 ```bash
 cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/fastq/trim.sh
-```
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/human/fastq/trim.sh
 
+```
 ## Edit templet
 ```bash
 nano /data/gpfs/assoc/bch709-3/${USER}/human/fastq/trim.sh
@@ -464,41 +471,11 @@ nano /data/gpfs/assoc/bch709-3/${USER}/human/fastq/trim.sh
 cat ../filelist
 nano trim.sh
 
-
 # Loop file list
 ## Add Forward read to variable
 ## Add reverse read from forward read name substitution
-
-for i in `cat ../filelist`
-    do
-
-    read1=${i}_R1.fastq.gz
-        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
-        echo $read1 $read2
-done
-
-
-# Loop file list
 ## add file name from variable to trim-galore
-
-for i in `cat ../filelist`
-    do
-        read1=${i}_R1.fastq.gz
-        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
-        echo $read1 $read2
-        echo "trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-3/${USER}/human/trim $read1 $read2" 
-done
-
 ## merge trim-galore command and trim.sh
-for i in `cat ../filelist`
-    do
-        read1=${i}_R1.fastq.gz
-        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
-        echo $read1 $read2
-        echo "trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-3/${USER}/human/trim $read1 $read2" | cat trim.sh - 
-done
-
-
 ## add trim-galore command and trim.sh to new file
 for i in `cat ../filelist`
     do
@@ -511,15 +488,7 @@ done
 ```
 ## Batch submission
 ```bash
-ls *.sh
-ls -1 *.sh
-
-## Loop *.sh printing
-for i in `ls -1 *.sh`
-do
-    echo $i
-done
-
+ls -1 *_trim.sh
 ## Loop *.sh submission
 for i in `ls -1 *_trim.sh`
 do
@@ -539,6 +508,8 @@ cd /data/gpfs/assoc/bch709-3/${USER}/human/trim
 
 ### Copy templet
 cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/trim/mapping.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Mapping/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-3/${USER}/human/trim/mapping.sh
+
 
 ### Edit templet
 nano mapping.sh
@@ -583,9 +554,11 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 
 ##  Job submission dependency on Trim
 ```bash
+
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch $i
+    sbatch  --dependency=afterany:${jobid} $i 
 done
 
 ```
@@ -605,10 +578,13 @@ cd /data/gpfs/assoc/bch709-3/${USER}/human/bam
 
 ### Copy templet
 cp /data/gpfs/assoc/bch709-3/Course_materials/human/run.sh /data/gpfs/assoc/bch709-3/${USER}/human/bam/count.sh
+
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g"  /data/gpfs/assoc/bch709-3/${USER}/human/bam/count.sh
 ```
 
 
 ## FeatureCounts command to count.sh
+### LOOP example
 ```bash
 cd /data/gpfs/assoc/bch709-3/${USER}/human/bam 
 
@@ -616,7 +592,7 @@ ls -1 *.bam
 
 for i in `cat /data/gpfs/assoc/bch709-3/wyim/human/filelist`
 do 
-echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' '
+echo ${i}.bamAligned.sortedByCoord.out.bam | tr '\n' ' '
 done
 ```
 
@@ -625,7 +601,7 @@ done
 ## FeatureCount 
 ```bash
 
-featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-3/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-3/wyim/mouse/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
+echo "featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-3/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-3/wyim/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
 ```
 
 
@@ -641,6 +617,6 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```bash
 cd /data/gpfs/assoc/bch709-3/${USER}/human/bam 
 
-sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1 count.sh
-
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+sbatch  --dependency=afterany:${jobid} count.sh 
 ```
