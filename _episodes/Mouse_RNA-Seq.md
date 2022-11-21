@@ -585,7 +585,7 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```bash
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch --dependency=afterany:$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1 $i
+    sbatch $i
 done
 
 ```
