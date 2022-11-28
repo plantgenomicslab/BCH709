@@ -68,7 +68,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | Week12 | 11/16/2022 | Wednesday | [Mouse RNA-Seq](http://bch709.plantgenomicslab.org/Mouse_RNA-Seq/index.html)   |
 | Week13 | 11/21/2022 | Monday    | [Mouse and Human RNA-Seq](http://bch709.plantgenomicslab.org/Mouse_RNA-Seq/index.html)   |
 | Week13 | 11/23/2022 | Wednesday | Nextday is Thanksgiving                                           |
-| Week14 | 11/28/2022 | Monday    | Transcriptome analysis (Genome based)   |
+| Week14 | 11/28/2022 | Monday    | Mouse and Human RNA-Seq](http://bch709.plantgenomicslab.org/rnaseq_human_mouse/index.html)   |   |
 | Week14 | 11/30/2022 | Wednesday | Enrichment analysis                                               |
 | Week15 | 12/5/2022  | Monday    | Presentation & Discussions                                        |
 | Week15 | 12/7/2022  | Wednesday | Presentation & Discussions                                        |
