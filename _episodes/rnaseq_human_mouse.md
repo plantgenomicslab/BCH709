@@ -242,7 +242,7 @@ STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles G
 ### Submit job to HPC
 ```bash
 #submit job
-sbach ref_build.sh
+sbatch ref_build.sh
 
 #check job
 squeue -u ${USER}
