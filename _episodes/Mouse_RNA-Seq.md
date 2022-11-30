@@ -388,18 +388,14 @@ cd /data/gpfs/assoc/bch709-3/${USER}/human/ref
 
 
 ### download
-wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz
 
 wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
 
 
 ### decompress
 gunzip GRCh38_latest_genomic.fna.gz
-gunzip GRCh38_latest_genomic.gff.gz
-
-
-
-gffread  GRCh38_latest_genomic.gff  --keep-exon-attrs -F -T -o GRCh38_latest_genomic.gtf
+gunzip hg38.refGene.gtf.gz
 ```
 
 ## STAR reference build

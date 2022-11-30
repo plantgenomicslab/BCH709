@@ -208,18 +208,14 @@ cd /data/gpfs/assoc/bch709-3/${USER}/human/ref
 
 
 ### download
-wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz
 
 wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
 
 
 ### decompress
 gunzip GRCh38_latest_genomic.fna.gz
-gunzip GRCh38_latest_genomic.gff.gz
-
-
-
-gffread  GRCh38_latest_genomic.gff  --keep-exon-attrs -F -T -o GRCh38_latest_genomic.gtf
+gunzip hg38.refGene.gtf.gz
 ```
 
 ## STAR reference build
@@ -235,7 +231,7 @@ nano ref_build.sh
 
 # Add below command to ref_build.sh
 
-STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile GRCh38_latest_genomic.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile hg38.refGene.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
@@ -426,7 +422,7 @@ done
 ### FeatureCount 
 ```bash
 
-echo "featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-3/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-3/wyim/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
+echo "featureCounts -o /data/gpfs/assoc/bch709-3/${USER}//human/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-3/${USER}/human/ref/hg38.refGene.gtf $(for i in `cat /data/gpfs/assoc/bch709-3/wyim/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
 ```
 
 
@@ -503,12 +499,12 @@ L = Length of transcripts
 
 ### Featurecount output (Read count)
 ```bash
-head -n 2 /data/gpfs/assoc/bch709-3/Course_materials/mouse/featurecount.txt
+head -n 2 /data/gpfs/assoc/bch709-3/Course_materials/mouse/mouse_featurecount.txt
 ```
 
-### Sum of FPKM for 12WK_R6-2_Rep_1.bamAligned.sortedByCoord.out.bam
+### Sum of FPKM for 12WK_R6-2_Rep_1
 ```bash
-cat /data/gpfs/assoc/bch709-3/Course_materials/mouse/featurecount.txt | egrep -v Geneid | awk '{ sum+=$7} END {print sum}'
+cat /data/gpfs/assoc/bch709-3/Course_materials/mouse/mouse_featurecount.txt | egrep -v Geneid | awk '{ sum+=$7} END {print sum}'
 ```
 
 ### Call Python
@@ -546,7 +542,7 @@ fpkm
 
 ### TPM calculation from reads count
 ```bash
-cat /data/gpfs/assoc/bch709-3/Course_materials/mouse/featurecount.txt | egrep -v Geneid | awk '{ if($6 >= 0) sum+=$7/$6} END {print sum}'
+cat /data/gpfs/assoc/bch709-3/Course_materials/mouse/mouse_featurecount.txt | egrep -v Geneid | awk '{ if($6 >= 0) sum+=$7/$6} END {print sum}'
 ```
 
 ```python
