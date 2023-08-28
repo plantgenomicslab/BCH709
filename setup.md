@@ -15,40 +15,24 @@ This lecture is designed to be run on a terminal program. With the exception of 
 ## Required Operating System + Laptop
 
 > ## Windows 10 or 11
-
 > - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/) or [connect this site](https://oit.unr.edu/services-and-support/data-storage/office-365/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
-
-> - Windows Subsystem for Linux (WSL2)
-
+> ### Windows Subsystem for Linux (WSL2)
 > Developers can access the power of both Windows and Linux at the same time on a Windows machine. The Windows Subsystem for Linux (WSL) lets developers install a Linux distribution (such as Ubuntu, OpenSUSE, Kali, Debian, Arch Linux, etc) and use Linux applications, utilities, and Bash command-line tools directly on Windows, unmodified, without the overhead of a traditional virtual machine or dualboot setup.
-
-> Prerequisites
+> ### Prerequisites
 > -------------
-
 > You must be running Windows 10 version 2004 and higher (Build 19041 and higher) or Windows 11 to use the commands below. If you are on earlier versions please see [the manual install page](https://learn.microsoft.com/en-us/windows/wsl/install-manual).
-
-> Install WSL command
+> ### Install WSL command
 > -------------------
-
 > You can now install everything you need to run WSL with a single command. Open PowerShell or Windows Command Prompt in **administrator** mode by right-clicking and selecting "Run as administrator", enter the wsl --install command, then restart your machine.
-
->    ```wsl --install --distribution ubuntu```
-    
-
+>    ```wsl --install --distribution ubuntu```  
 > This command will enable the features necessary to run WSL and install the Ubuntu distribution of Linux. ([This default distribution can be changed](https://learn.microsoft.com/en-us/windows/wsl/basic-commands#install)).
-
-
 > The first time you launch a newly installed Linux distribution, a console window will open and you'll be asked to wait for files to de-compress and be stored on your machine. All future launches should take less than a second.
-
-> Note
-
-> Set up your Linux user info
+> 
+> ### Set up your Linux user info
 > ---------------------------
 > Once you have installed WSL, you will need to create a user account (Please use your NETID @ UNR) and password for your newly installed Linux distribution. See the [Best practices for setting up a WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment#set-up-your-linux-username-and-password) guide to learn more.
-
-> Set up and best practices
+> ### Set up and best practices
 > -------------------------
-
 > We recommend following our [Best practices for setting up a WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) guide for a step-by-step walk-through of how to set up a user name and password for your installed Linux distribution(s), using basic WSL commands, installing and customizing Windows Terminal, set up for Git version control, code editing and debugging using the VS Code remote server, good practices for file storage, setting up a database, mounting an external drive, setting up GPU acceleration, and more.
 {: .solution}
 
