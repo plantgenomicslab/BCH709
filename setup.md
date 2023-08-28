@@ -15,51 +15,41 @@ This lecture is designed to be run on a terminal program. With the exception of 
 ## Required Operating System + Laptop
 
 > ## Windows 10
+
 > - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/) or [connect this site](https://oit.unr.edu/services-and-support/data-storage/office-365/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
->
-> If you use the most reent version of Windows
-> Step 1 - Enable the Windows Subsystem for Linux
-> You must first enable the "Windows Subsystem for Linux" optional feature before installing any Linux distributions on Windows.
-> Open PowerShell as Administrator and run:
-> - Open PowerShell with right click and "choose Run it as administrator."
->![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install.jpeg?w=800&ssl=1){: width="50%" height="50%"}
-> PowerShell
->~~~
->dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
->~~~
-> Install your Linux distribution of choice
->  - **Please install Ubuntu 18.04 LTS.**
-> Open the [Microsoft Store](https://aka.ms/wslstore) and select your favorite Linux distribution.
-> ![Ubuntu](https://i0.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-7.jpeg?w=800&ssl=1){: width="70%" height="70%"}
->
->
-> - **If you use older version of Windows 10**
-> - Install [Bash on Windows](https://www.linux.com/news/bash-windows-what-does-it-mean/) by Enable “Windows Subsystem for Linux” feature.
-> - Open PowerShell with right click and "choose Run it as administrator."
->![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install.jpeg?w=800&ssl=1){: width="50%" height="50%"}
->Once you have the PowerShell running, use the command below to enable Bash in Windows 10.
->~~~
->Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
->~~~
->- You’ll be asked to confirm your choice. Type Y or press enter:
->![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install-2.jpeg?w=799&ssl=1){: width="70%" height="70%"}
-> - Now you should be asked to reboot. Even if you are not asked to, you must restart your system. Once your system has rebooted, go to the Windows Store and search for “Linux.”
->![Windows Store](https://i2.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-3-1.jpeg?w=800&ssl=1){: width="70%" height="70%"}
-> - **Please install Ubuntu 18.04 LTS.**
-> Open the [Microsoft Store](https://aka.ms/wslstore) and select your favorite Linux distribution.
->![Ubuntu](https://i0.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-7.jpeg?w=800&ssl=1){: width="70%" height="70%"}
-> - Once you choose the distribution of your choice, you’ll see the option to install it. Do note that it will download files of around 1Gb in size. So you should have a good internet connection here.
-> - Press "windows key + s" and search "ubuntu". *If you have Contana, you can use it at home*.
-> - Please be patience then it will ask id and password. 
->![Linux](https://i2.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-10.jpeg?w=800&ssl=1){: width="70%" height="70%"}
->- If you find the following message, please go back to the top of this article and do it again.
->~~~
->The WSL optional component is not enabled. Please enable it and try again.
->See https://aka.ms/wslinstall for details.
->Error: 0x8007007e
->Press any key to continue...
->~~~
->- If you cannot get the Fall Creator’s update on Windows 10 for some reason, please update your Windows 10 first. If you still have trouble, please follow "Windows 7 and under the section."
+
+> - Windows Subsystem for Linux (WSL2)
+
+> Developers can access the power of both Windows and Linux at the same time on a Windows machine. The Windows Subsystem for Linux (WSL) lets developers install a Linux distribution (such as Ubuntu, OpenSUSE, Kali, Debian, Arch Linux, etc) and use Linux applications, utilities, and Bash command-line tools directly on Windows, unmodified, without the overhead of a traditional virtual machine or dualboot setup.
+
+> Prerequisites
+> -------------
+
+> You must be running Windows 10 version 2004 and higher (Build 19041 and higher) or Windows 11 to use the commands below. If you are on earlier versions please see [the manual install page](https://learn.microsoft.com/en-us/windows/wsl/install-manual).
+
+> Install WSL command
+> -------------------
+
+> You can now install everything you need to run WSL with a single command. Open PowerShell or Windows Command Prompt in **administrator** mode by right-clicking and selecting "Run as administrator", enter the wsl --install command, then restart your machine.
+
+>    ```wsl --install --distribution ubuntu```
+    
+
+> This command will enable the features necessary to run WSL and install the Ubuntu distribution of Linux. ([This default distribution can be changed](https://learn.microsoft.com/en-us/windows/wsl/basic-commands#install)).
+
+
+> The first time you launch a newly installed Linux distribution, a console window will open and you'll be asked to wait for files to de-compress and be stored on your machine. All future launches should take less than a second.
+
+> Note
+
+> Set up your Linux user info
+> ---------------------------
+> Once you have installed WSL, you will need to create a user account (Please use your NETID @ UNR) and password for your newly installed Linux distribution. See the [Best practices for setting up a WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment#set-up-your-linux-username-and-password) guide to learn more.
+
+> Set up and best practices
+> -------------------------
+
+> We recommend following our [Best practices for setting up a WSL development environment](https://learn.microsoft.com/en-us/windows/wsl/setup/environment) guide for a step-by-step walk-through of how to set up a user name and password for your installed Linux distribution(s), using basic WSL commands, installing and customizing Windows Terminal, set up for Git version control, code editing and debugging using the VS Code remote server, good practices for file storage, setting up a database, mounting an external drive, setting up GPU acceleration, and more.
 {: .solution}
 
 
