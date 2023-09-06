@@ -5,21 +5,21 @@ published: true
 ---
 
 {% include gh_variables.html %}
->## Reading and Slack
+>## Reading and Watching
 >
 >- Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)  
 >- Reading 2: [Attwood 2000](https://science.sciencemag.org/content/290/5491/471)  
->- Reading 3: [Smith 2018](https://www.embopress.org/doi/full/10.15252/embr.201846262)  
+>- Reading 3: [Smith 2018](https://www.embopress.org/doi/full/10.15252/embr.201846262) 
+>- [File permission and chmod](https://www.youtube.com/watch?v=3gcSeDoQ_rU) Due by 9/19/22 
+>- [Nano Text Editor Basics](https://www.youtube.com/watch?v=Jf0ZJZJ8jlI) Due by 9/19/22 
 {: .callout}
 
 
 
 >## Assignments
 > Please finish below assignment before due date  
-> - [DataCamp Introduction to Shell](https://learn.datacamp.com/courses/introduction-to-shell) Due by 9/21/22  
-> - [DataCamp Downloading Data on the Command Line](https://campus.datacamp.com/courses/data-processing-in-shell/downloading-data-on-the-command-line?ex=1) Due by 9/19/22 
-> - [File permission and chmod](https://www.youtube.com/watch?v=3gcSeDoQ_rU) Due by 9/19/22 
-> - [Nano Text Editor Basics](https://www.youtube.com/watch?v=Jf0ZJZJ8jlI) Due by 9/19/22 
+> - DataCamp Introduction to Shell
+> - DataCamp Downloading Data on the Command Line
 {: .prereq}
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
@@ -932,9 +932,9 @@ There are several options for archiving and compressing groups of files or direc
 
 >## ZIP compression/extraction
 >```bash
->zip OUTFILE.zip INFILE.txt Compress INFILE.txt  
->zip -r OUTDIR.zip DIRECTORY Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
->zip -r OUTFILE.zip . -i \*.txt Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)   
+>zip OUTFILE.zip INFILE.txt # Compress INFILE.txt  
+>zip -r OUTDIR.zip DIRECTORY # Compress all files in a DIRECTORY into one archive file (OUTDIR.zip)  
+>zip -r OUTFILE.zip . -i \*.txt # Compress all txt files in a DIRECTORY into one archive file (OUTFILE.zip)   
 >unzip SOMEFILE.zip
 >```
 {: .checklist}
