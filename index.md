@@ -46,7 +46,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 9/4/2023   | M | Week2  | 9/4/2023   | Monday    | Labor Day                                                         |
 | 9/6/2023   | W | Week2  | 9/6/2023   | Wednesday | [Linux Environment and command line](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html) |
 | 9/11/2023  | M | Week3  | 9/11/2023  | Monday    | [Linux Environment and Cloud](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html)  |
-| 9/13/2023  | W | Week3  | 9/13/2023  | Wednesday | Conda, Compile & Software Installations                           |
+| 9/13/2023  | W | Week3  | 9/13/2023  | Wednesday | [Conda, Compile & Software Installations](http://bch709.plantgenomicslab.org/compile/index.html)                           |
 | 9/18/2023  | M | Week4  | 9/18/2023  | Monday    | GitHub and server                                                 |
 | 9/20/2023  | W | Week4  | 9/20/2023  | Wednesday | Sequencing methods and strategies                                 |
 | 9/25/2023  | M | Week5  | 9/25/2023  | Monday    | Sequencing methods and strategies                                 |
