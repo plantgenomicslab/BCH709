@@ -800,9 +800,9 @@ $ cd bch709/rnaseq/
 
 $ pwd
 
-$ wget https://www.dropbox.com/s/y7yehmfze1l6cgz/pair1.fastq.gz
+$ ls /data/gpfs/assoc/bch709-4/data/
 
-$ wget https://www.dropbox.com/s/xsrth6icapyr4p0/pair2.fastq.gz
+$ cp /data/gpfs/assoc/bch709-4/data/*.gz .
  
 $ ls -algh
 
@@ -848,7 +848,7 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-$ conda create -n rnaseq_test python=3
+$ conda create -n rnaseq_test python=3 -c bioconda multiqc fastqc trim-galore hisat2 bc
 
 
 $ conda activate rnaseq_test
@@ -954,7 +954,7 @@ $ conda install -c bioconda hisat2
 ```
 ### Download reference sequence
 ```bash
-$ wget https://www.dropbox.com/s/0onch14nnxx9b94/bch709.fasta
+$ cp /data/gpfs/assoc/bch709-4/data/bch709.fasta .
 ```
 ### HISAT2 indexing
 ```
