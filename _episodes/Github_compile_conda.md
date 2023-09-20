@@ -6,17 +6,6 @@ published: true
 
 {% include gh_variables.html %}
 
->## Assignments
-> 1. Please download below file and compress by using Tar.
-> A. upload your tar.gz file.
-> B. please describe your commands.
-> - [File A link](https://raw.githubusercontent.com/plantgenomicslab/Ice-plant-transcriptome-profiling/main/circadian_gene_suppl/Mcr1G00700_DT_ZT_timecourse.png) Due by 9/26/22 
-> - [File B link](https://raw.githubusercontent.com/plantgenomicslab/Ice-plant-transcriptome-profiling/main/circadian_gene_suppl/Mcr1G04920_DT_ZT_timecourse.png)
-> Due by 9/26/22
-> 2. Please finish [Git course](https://app.datacamp.com/learn/courses/introduction-to-git-for-data-science) by 10/3/22 
-{: .prereq}
-
-
 
 ## Check your CPUs and Memory
 
