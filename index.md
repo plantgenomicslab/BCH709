@@ -50,7 +50,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 9/18/2023  | M | Week4  | 9/18/2023  | Monday    | [GitHub and server](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)                                                 |
 | 9/20/2023  | W | Week4  | 9/20/2023  | Wednesday | Sequencing methods and strategies                                 |
 | 9/25/2023  | M | Week5  | 9/25/2023  | Monday    | Sequencing methods and strategies                                 |
-| 9/27/2023  | W | Week5  | 9/27/2023  | Wednesday | Sequence manipulation                                             |
+| 9/27/2023  | W | Week5  | 9/27/2023  | Wednesday | [Sequence manipulation](http://bch709.plantgenomicslab.org/seqkit_tutorial/index.html)                                             |
 | 10/2/2023  | M | Week6  | 10/2/2023  | Monday    | RNA-Seq                                                           |
 | 10/4/2023  | W | Week6  | 10/4/2023  | Wednesday | Transcriptome assembly                                            |
 | 10/9/2023  | M | Week7  | 10/9/2023  | Monday    | Transcriptome algorithms                                          |
