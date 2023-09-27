@@ -232,22 +232,23 @@ Examples
 
 1. Read and print
 
-    - From file:
+- From file:
 ```bash
 cat hairpin.fa
 seqkit seq hairpin.fa
-
 ```
+
 ```bash
 zcat test.fastq.gz
 seqkit seq test.fastq.gz
 ```
-    - From stdin:
+
+- From stdin:
 ```bash
 zcat hairpin.fa.gz | seqkit seq
 ```
 
-1. Sequence types
+2. Sequence types
 
 - By default, `seqkit seq` automatically detect the sequence type
 ```bash
@@ -260,7 +261,7 @@ echo -e ">seq\nACGUN ACGUN" | seqkit stat
 echo -e ">seq\nabcdefghijklmnpqrstvwyz" | seqkit stat
 ```
 
-1. Only print names
+3. Only print names
 
 - Full name:
 ```bash
@@ -279,24 +280,24 @@ seqkit seq hairpin.fa -n -i --id-regexp "^[^\s]+\s([^\s]+)\s"
 
 Please check regular expression in [Regex](https://regex101.com/)
 
-1. Only print seq (global flag `-w` defines the output line width, 0 for no wrap)
+4. Only print seq (global flag `-w` defines the output line width, 0 for no wrap)
 
 ```bash
 seqkit seq hairpin.fa -s -w 0
 ```
 
-1. Reverse comlement sequence
+5. Reverse comlement sequence
 ```bash
 seqkit seq hairpin.fa.gz -r -p
 ```
 
-1. Remove gaps and to lower/upper case
+6. Remove gaps and to lower/upper case
 ```bash
 echo -e ">seq\nACGT-ACTGC-ACC" | seqkit seq -g -u
 ```
 
 
-1. RNA to DNA
+7. RNA to DNA
 ```bash
 echo -e ">seq\nUCAUAUGCUUGUCUCAAAGAUUA" | seqkit seq --rna2dna
 ```
@@ -365,7 +366,8 @@ cat hairpin.fa | seqkit subseq -r 13:-13
 #### Human genome example:
 ***AVOID loading all data from GRCh38_latest_genomic.gtf.gz, the uncompressed data are so big and may exhaust your RAM.***
 
-    We could specify chromesomes and features.
+We could specify chromesomes and features.
+
 ```bash
 seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr NC_000001.11 --feature CDS  GRCh38_latest_genomic.fna.gz > chr1.gtf.cds.fa
 ```
@@ -374,7 +376,7 @@ seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr NC_000001.11 --feature CD
 seqkit stat chr1.gtf.cds.fa
 ```
 
-1. Get subsequences by BED file.
+5. Get subsequences by BED file.
 ```bash
 seqkit subseq --bed GRCh38_latest_genomic.bed.gz --chr NC_000001.11 GRCh38_latest_genomic.fna.gz >  chr1.bed.gz.fa
 ```
@@ -384,6 +386,7 @@ We may need to remove duplicated sequences
 ```bash
 seqkit subseq --bed GRCh38_latest_genomic.bed.gz --chr NC_000001.11  GRCh38_latest_genomic.fna.gz | seqkit rmdup > chr1.bed.rmdup.fa
 ```
+
 ```bash
 seqkit stat chr1.gz.*.fa
 ```
@@ -421,10 +424,11 @@ echo -e ">seq\nACGTacgtNN" | seqkit sliding -s 3 -W 6 -C
 cat hairpin.fa | seqkit fx2tab | head -n 1 | seqkit tab2fx | seqkit sliding -s 5 -W 30 | seqkit fx2tab -n -g
 ```
 
-#### stat
+## stat
 
 Usage
 simple statistics of FASTA files
+
 ```
 Usage:
   seqkit stat [flags]
@@ -445,7 +449,7 @@ Usage:
   seqkit fq2fa [flags]
 
 ```bash
-seqkit fq2fa test.fastq.gz -o test_.fa.
+seqkit fq2fa test.fastq.gz -o test_.fa.gz
 zcat test_.fa.gz
 zcat test.fastq.gz
 ```
@@ -470,8 +474,6 @@ Flags:
   -n, --name                 only print names (no sequences and qualities)
   -i, --only-id              print ID instead of full head
 
-```
-
 Usage (tab2fx)
 covert tabular format (first two/three columns) to FASTA/Q format
 
@@ -487,6 +489,7 @@ Flags:
 Examples
 
 1. Default output
+
 ```bash
 seqkit fx2tab hairpin.fa| head -n 2
 ```
@@ -494,31 +497,36 @@ seqkit fx2tab hairpin.fa| head -n 2
 1. Print sequence length, GC content, and only print names (no sequences),
 we could also print title line by flag `-T`.
 
- ```bash
- seqkit fx2tab hairpin.fa -l -g -n -i -H | head -n 4 | csvtk -t -C '&' pretty
- ```
+```bash
+seqkit fx2tab hairpin.fa -l -g -n -i -H | head -n 4 | csvtk -t -C '&' pretty
+```
+
 1. Use fx2tab and tab2fx in pipe
 ```bash
 cat hairpin.fa | seqkit fx2tab | seqkit tab2fx
 zcat test.fastq.gz | seqkit fx2tab | seqkit tab2fx
 ```
+
 1. Sort sequences by length (use `seqkit sort -l`)
 ```bash
 cat hairpin.fa | seqkit fx2tab -l | sort -t"`echo -e '\t'`" -n -k4,4 | seqkit tab2fx
 ```
+
 ```bash
 seqkit sort -l hairpin.fa
 ```
+
 1. Sorting or filtering by GC (or other base by -flag `-B`) content could also achieved in similar way.
 
 1. Get first 1000 sequences
+
 ```bash
 seqkit fx2tab hairpin.fa | head -n 1000 | seqkit tab2fx
 
 seqkit fx2tab test.fastq.gz | head -n 1000 | seqkit tab2fx
 ```
 
-**Extension**
+***Extension***
 
 After converting FASTA to tabular format with `seqkit fx2tab`,
 it could be handled with CSV/TSV tools,
@@ -530,6 +538,8 @@ as `seqkit common -n` along with shell.
 - `csvtk join` joins multiple CSV/TSV files by multiple IDs.
 - [csv_melt](https://github.com/shenwei356/datakit/blob/master/csv_melt)
 provides melt function, could be used in preparation of data for ploting.
+
+
 
 
 ## grep
