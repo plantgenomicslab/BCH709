@@ -146,17 +146,17 @@ Datasets from [The miRBase Sequence Database -- Release 21](ftp://mirbase.org/pu
 
 - [`hairpin.fa`](https://mirbase.org/download/hairpin.fa)
 ```bash
-wget https://mirbase.org/download/hairpin.fa
+wget --no-check-certificate https://mirbase.org/download/hairpin.fa
 ll -tr
 ```
 - [`mature.fa.gz`](https://mirbase.org/download/mature.fa)
 ```bash
-wget https://mirbase.org/download/mature.fa
+wget --no-check-certificate https://mirbase.org/download/mature.fa
 ll -tr
 ```
 - [`miRNA.diff`](https://mirbase.org/download/miRNA.diff)
 ```bash
-wget https://mirbase.org/download/miRNA.diff
+wget --no-check-certificate https://mirbase.org/download/miRNA.diff
 ll -tr
 ```
 Human genome from [NCBI](https://www.ncbi.nlm.nih.gov/genome/guide/human/) (For `seqkit subseq`)
@@ -166,13 +166,13 @@ https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_id
 
 - [`GRCh38_latest_genomic.fna.gz`](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 ```bash
-wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
+wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
 ls -algh
 ```
 
 - [`GRCh38_latest_genomic.gtf.gz`](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gtf.gz)
 ```bash
-wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gtf.gz
+wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gtf.gz
 ls -algh
 ```
 
@@ -388,12 +388,13 @@ seqkit subseq --bed GRCh38_latest_genomic.bed.gz --chr NC_000001.11  GRCh38_late
 ```
 
 ```bash
-seqkit stat chr1.gz.*.fa
+seqkit stat chr1.fa.gz
 ```
 
 ## sliding
 
 - sliding sequences, circular genome supported
+  
 ```
 Usage:
   seqkit sliding [flags]
@@ -573,7 +574,7 @@ cat hairpin.fa | seqkit grep -r -p ^hsa
 cat hairpin.fa| seqkit grep -r -p ^hsa -p ^mmu -v
 ```
 
-1. Extract new entries by information from miRNA.diff.gz
+1. Extract new entries by information from miRNA.diff
 
     1. Get IDs of new entries.
 ```bash
@@ -1040,7 +1041,7 @@ seqkit stat hairpin.fa
 
 ```bash
 cat hairpin.fa | seqkit subseq -r 1:10 | seqkit sort -s | seqkit seq -s | head -n 10
-
+```
 ### Repeated hairpin sequences
 
 We may want to check how may identical hairpins among different species there are.
@@ -1073,13 +1074,14 @@ A custom ID parsing regular expression is used, `^([\w]+)\-`.
 ```bash
 seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" --two-pass
 ```
+
     ***To reduce memory usage when splitting big file, we should always use flag `--two-pass`***
 
 3. Species with most miRNA hairpins. Third column is the sequences number.
 ```bash
 cd hairpin.fa.split/;
 seqkit stat hairpin.part_* | csvtk space2tab | csvtk -t sort -k num_seqs:nr | csvtk -t pretty| more
- 
+ ```
 Here, a CSV/TSV tool [csvtk](https://github.com/shenwei356/csvtk) is used to sort and view the result.
 
 
