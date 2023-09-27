@@ -52,7 +52,7 @@ seqkit --help
 ```
 
 ### make homework folder
-```
+```bash
 mkdir /data/gpfs/assoc/bch709-4/${USER}
 rm -rf ~/bch709
 ln -s /data/gpfs/assoc/bch709-4/${USER} ~/bch709
@@ -394,7 +394,7 @@ seqkit stat chr1.gz.*.fa
 ## sliding
 
 - sliding sequences, circular genome supported
-
+```
 Usage:
   seqkit sliding [flags]
 
@@ -482,8 +482,6 @@ Usage:
 
 Flags:
   -p, --comment-line-prefix value   comment line prefix (default [#,//])
-
-
 ```
 
 Examples
@@ -538,8 +536,6 @@ as `seqkit common -n` along with shell.
 - `csvtk join` joins multiple CSV/TSV files by multiple IDs.
 - [csv_melt](https://github.com/shenwei356/datakit/blob/master/csv_melt)
 provides melt function, could be used in preparation of data for ploting.
-
-
 
 
 ## grep
@@ -698,6 +694,7 @@ Flags:
 
 Examples
 1. Create file
+
 ```bash
 echo -e ">1234\nATGGTATTAGATA" >> file1.fa
 echo -e ">2234\nATGGTATTTGATA" >> file1.fa
@@ -707,7 +704,7 @@ echo -e ">4234\nATGGTATTAGATA" >> file2.fa
 echo -e ">2234\nATGGTATTGGGATA" >> file2.fa
 cat file1.fa
 cat file2.fa
-
+```
 
 1. By ID (default)
 ```bash
@@ -772,24 +769,23 @@ Examples
 seqkit split hairpin.fa -s 10000
 ```
 
-1. Split sequences into 4 parts
+2. Split sequences into 4 parts
 
 ```bash
 seqkit split hairpin.fa -p 4
 ```
-    ***To reduce memory usage when spliting big file, we should alwasy use flag `--two-pass`***
+***To reduce memory usage when spliting big file, we should alwasy use flag `--two-pass`***
 
 ```bash
 seqkit split hairpin.fa -p 4 -2
 ```
 
-
-1. Split sequences by species. i.e. by custom IDs (first three letters)
+3. Split sequences by species. i.e. by custom IDs (first three letters)
 ```bash
 seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" -2
 ```
 
-1. Split sequences by sequence region (for example, sequence barcode)
+4. Split sequences by sequence region (for example, sequence barcode)
 ```bash
 seqkit split hairpin.fa -r 1:3 -2
 ```
@@ -839,7 +835,7 @@ cat hairpin.fa | seqkit sample -p 0.1 | seqkit head -n 1000 -o sample.fa.gz
 ```
 
 1. Set rand seed to reproduce the result
-```
+```bash
 cat hairpin.fa | seqkit sample -p 0.1 -s 11
 ```
 
@@ -872,9 +868,6 @@ Examples
 ```bash
 seqkit head -n 1 hairpin.fa
 ```
-        >cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
-        UACACUGUGGAUCCGGUGAGGUAGUAGGUUGUAUAGUUUGGAAUAUUACCACCGGUGAAC
-        UAUGCAAUUUUCUACCUUACCGGAGACAGAACUCUUCGA
 
 1. FASTQ
 ```bash
@@ -899,13 +892,12 @@ more on: http://shenwei356.github.io/seqkit/usage/#replace
 
 Usage:
   seqkit replace [flags]
-
+```
 Flags:
   -s, --by-seq               replace seq
   -i, --ignore-case          ignore case
   -p, --pattern string       search regular expression
   -r, --replacement string   replacement. supporting capture variables.  e.g. $1 represents the text of the first submatch. ATTENTION: use SINGLE quote NOT double quotes in *nix OS or use the \ escape character. record number is also supported by "{NR}"
-
 ```
 
 Examples
@@ -934,7 +926,6 @@ echo -e ">seq1 abc-123\nACGT-ACGT" | seqkit replace -p "(.)" -r '$1 ' -s
 ```bash
 echo -e ">seq1\nACTGACGT\n>seq2\nactgccgt" | seqkit replace -p "(.)" -r     "\$1 " -s | seqkit seq -s -u | csvtk space2tab | csvtk -t transpose
 ```
-
 
 1. Rename with number of record
 ```bash
@@ -1046,6 +1037,7 @@ seqkit stat hairpin.fa
 ```
 
 1. First 10 bases
+
 ```bash
 cat hairpin.fa | seqkit subseq -r 1:10 | seqkit sort -s | seqkit seq -s | head -n 10
 
@@ -1076,28 +1068,14 @@ The first three letters (e.g. `cel`) are the abbreviation of species names. So w
 
 By default, `seqkit` takes the first non-space letters as sequence ID.
 
-For example,
-
-    |   FASTA head                                                  |     ID                                            |
-    |:--------------------------------------------------------------|:--------------------------------------------------|
-    | >123456 gene name                                             | 123456                                            |
-    | >longname                                                     | longname                                          |
-    | >gi&#124;110645304&#124;ref&#124;NC_002516.2&#124; Pseudomona | gi&#124;110645304&#124;ref&#124;NC_002516.2&#124; |
-
-    But for some sequences from NCBI,
-    e.g. `>gi|110645304|ref|NC_002516.2| Pseudomona`, the ID is `NC_002516.2`.
-    In this case, we could set sequence ID parsing regular expression by flag
-    `--id-regexp "\|([^\|]+)\| "` or just use flag `--id-ncbi`. If you want
-    the `gi` number, then use `--id-regexp "^gi\|([^\|]+)\|"`.
-
-1. Split sequences by species.
+2. Split sequences by species.
 A custom ID parsing regular expression is used, `^([\w]+)\-`.
 ```bash
 seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" --two-pass
 ```
     ***To reduce memory usage when splitting big file, we should always use flag `--two-pass`***
 
-2. Species with most miRNA hairpins. Third column is the sequences number.
+3. Species with most miRNA hairpins. Third column is the sequences number.
 ```bash
 cd hairpin.fa.split/;
 seqkit stat hairpin.part_* | csvtk space2tab | csvtk -t sort -k num_seqs:nr | csvtk -t pretty| more
