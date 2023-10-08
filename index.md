@@ -52,7 +52,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 9/25/2023  | M | Week5  | 9/25/2023  | Monday    | Sequencing methods and strategies                                 |
 | 9/27/2023  | W | Week5  | 9/27/2023  | Wednesday | [Sequence manipulation](http://bch709.plantgenomicslab.org/seqkit_tutorial/index.html)                                             |
 | 10/2/2023  | M | Week6  | 10/2/2023  | Monday    | [RNA-Seq](http://bch709.plantgenomicslab.org/RNASeq/index.html)                                                           |
-| 10/4/2023  | W | Week6  | 10/4/2023  | Wednesday | Transcriptome assembly                                            |
+| 10/4/2023  | W | Week6  | 10/4/2023  | Wednesday | [Transcriptome assembly](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html) |
 | 10/9/2023  | M | Week7  | 10/9/2023  | Monday    | Transcriptome algorithms                                          |
 | 10/11/2023 | W | Week7  | 10/11/2023 | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)  |
 | 10/16/2023 | M | Week8  | 10/16/2023 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
