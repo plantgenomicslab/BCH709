@@ -260,6 +260,13 @@ Once you know what each quality score represents you can then use this chart to 
 ![FASTQ quality]({{{site.baseurl}}/fig/quality.png)
 
 
+## BW algorithm
+![algorithm]({{{site.baseurl}}/fig/algorithm.png)
+![banana]({{{site.baseurl}}/fig/banana.png)
+![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
+
+
+
 ### Conda enviroment
 
 ```bash
@@ -333,6 +340,8 @@ mkdir /data/gpfs/assoc/bch709-4/${USER}
 mv ~/bch709 ~/bch709_seqkit
 ln -s /data/gpfs/assoc/bch709-4/${USER} ~/bch709
 cd ~/bch709
+# if this is not working follow this
+mkdir -p ~/bch709/rnaseq
 ```
 
 ### Move to working path
@@ -455,9 +464,6 @@ open ~/bch709
 
 [Baruzzo, Giacomo, et al. "Simulation-based comprehensive benchmarking of RNA-seq aligners." Nature methods 14.2 (2017): 135](https://www.nature.com/articles/nmeth.4106)
 
-![algorithm]({{{site.baseurl}}/fig/algorithm.png)
-![banana]({{{site.baseurl}}/fig/banana.png)
-![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
 
 ## HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 
