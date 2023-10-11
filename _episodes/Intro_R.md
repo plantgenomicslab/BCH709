@@ -9,14 +9,17 @@ published: true
 
 
 ## PhD Tong Zhou
-Tong Zhou, PhD  
+Tong Zhou, PhD
+[https://tongzhoulab.org/](https://tongzhoulab.org/)
+`
 L-207B, Center for Molecular Medicine, MS575  
 Department of Physiology and Cell Biology  
 University of Nevada, Reno School of Medicine  
 1664 North Virginia Street, Reno , NV 89557  
-
-
+`
+`
 The Zhou Lab carries out translational and theoretical research in bioinformatics and computational biology. Much of our research addresses questions of computational molecular medicine and molecular evolution, in particular about the use of genomic data to understand the pathobiology and develop biomarkers for human diseases and to understand the mechanism of exnoic sequence evolution.
+`
 
 
 ## Introduction to R
@@ -52,10 +55,6 @@ R
 
 
 ## R Plot with Gene Expression Data Read
-```bash
-R
-```
-
 ## Getting help with functions and features
 ### Getting information on any specific named function
 ```R
@@ -77,17 +76,20 @@ help.start()
 ```R
 a <- c(1, 4, 6, 7, 20)
 a = c(1, 4, 6, 7, 20)
+a
 ```
 ### Setting up a vector named b, consisting of two sequences of characters (strings)
 ```R
 b <- c("Hello", "world")
 b = c("Hello", "world")
+b
 ```
 
 ### Setting up a logical vector named x
 ```R
 x = c(TRUE, TRUE, FALSE, FALSE)
 x = c(T, T, F, F)
+x
 ```
 
 ## Arithmetic operators
@@ -208,7 +210,6 @@ pdf("lineplot.pdf")
 plot(1:10, 1:10, type="l")
 dev.off()
 ```
-
 ### Plot a curve
 
 ```R
@@ -225,23 +226,30 @@ dev.off()
 ```bash
 ###Please do it on your desktop
 ###Please replace <YOURID> to your id.
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/plot.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/lineplot.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/curveplot.pdf .
+### If this is not working raise your hand and find me.
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/plot.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/lineplot.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/curveplot.pdf ~/bch709
 ```
 ## In your local terminal
 ### Windows
-```explorer.exe .```
+```bash
+cd ~/bch709
+explorer.exe .
+```
 ### MacOS
-```open .```
+```bash
+cd ~/bch709
+open .
+```
 ### Git Bash
-```explorer.exe .```
-
-
+```bash
+cd ~/bch709
+explorer.exe .
+```
 
 ## Dataset
 ### Dataset (dataset1.txt)
-
 ```bash
 cat dataset1.txt
 ```
@@ -285,16 +293,25 @@ dev.off()
 ###Please do it on your desktop
 ###Please replace <YOURID> to your id.
 
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/T63_boxplot.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/SLC2A1_boxplot2.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/T63_boxplot.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/SLC2A1_boxplot2.pdf ~/bch709
 ```
 ## In your local terminal
 ### Windows
-```explorer.exe .```
+```bash
+cd ~/bch709
+explorer.exe .
+```
 ### MacOS
-```open .```
+```bash
+cd ~/bch709
+open .
+```
 ### Git Bash
-```explorer.exe .```
+```bash
+cd ~/bch709
+explorer.exe .
+```
 
 
 
@@ -317,7 +334,7 @@ cor.test(t(expr["TP63",]), t(expr["SLC2A1",]))
 
 ```bash
 ###Please replace <YOURID> to your id.
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_SLC2A1_scatter_plot.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_SLC2A1_scatter_plot.pdf  ~/bch709
 ```
 
 ## Co-expression pattern 2
@@ -336,17 +353,14 @@ cor.test(t(expr["TP63",]), t(expr["TSHZ2",]))
 
 ### Download results to ***your laptop***
 ***Try this on your laptop***
-
 ```bash
 ###Please replace <YOURID> to your id.
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/co-expression_pattern_between.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/co-expression_pattern_between.pdf  ~/bch709
 ```
-
 
 ## Heatmap of the gene expression
 
 ```R
-
 #9 gene expression heatmap
 pdf("heatmap1.pdf")
 heatmap(as.matrix(expr), col=cm.colors(256), scale='row')
@@ -374,11 +388,11 @@ dev.off()
 
 ```bash
 ###Please replace <YOURID> to your id.
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap1.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap2.pdf  .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap3.pdf  .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap4.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap5.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap1.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap2.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap3.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap4.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/heatmap5.pdf ~/bch709
 ```
 
 
@@ -420,13 +434,11 @@ dev.off()
 
 ### Download results to ***your laptop***
 ***Try this on your laptop***
-
 ```bash
 ###Please replace <YOURID> to your id.
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram1.pdf .
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram2.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram1.pdf ~/bch709
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/histogram2.pdf ~/bch709
 ```
-
 
 ## Distribution of the gene expression
 
@@ -443,8 +455,7 @@ dev.off()
 
 ```bash
 ###Please replace <YOURID> to your id.
-###Please replace <your_BCH709_Desktop> to your linked BCH709_desktop
-scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_expression.pdf .
+scp <YOURID>@pronghorn.rc.unr.edu:~/r_plot/TP63_expression.pdf ~/bch709
 ```
 
 
