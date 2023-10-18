@@ -7,7 +7,7 @@ published: true
 
 # Midterm 
 - Six questions  
-- Wednesday (10:00AM) to Friday (6:00PM)
+- Thursday (10:00AM) to Tuesday (10:00AM)
 
 ## Pronghorn  
 ### Connect to Pronghorn  
@@ -130,13 +130,14 @@ conda list
 
 ### cd
 ```
-cd /data/gpfs/assoc/bch709/<YOUR_ID>
+cd /data/gpfs/assoc/bch709-4/<YOUR_ID>
 ```
 ### mkdir
 ```
 mkdir BCH709_midterm
 cd BCH709_midterm
 ```
+
 ### pwd
 ```bash
 pwd
@@ -146,6 +147,7 @@ pwd
 file download
 ```bash
 wget https://www.dropbox.com/s/yqvfm70yz79jvij/fasta.zip https://www.dropbox.com/s/jjz6aip3euh0d7q/fastq.tar
+wget https://www.dropbox.com/s/szzyb3l4243xcsu/bch709.py 
 ```
 
 ### Decompress tar file
@@ -261,16 +263,6 @@ conda install -c conda-forge -c bioconda subread
 wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
 featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
 ```
-
-## Rplot Drawing
-## Boxplot
-## Lineplot
-
-### split.screen
-
-
-
-
 
 ### References:
 - Conda documentation https://docs.conda.io/en/latest/
