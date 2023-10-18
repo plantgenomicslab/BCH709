@@ -56,7 +56,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 10/9/2023  | M | Week7  | 10/9/2023  | Monday    | Transcriptome algorithms                                          |
 | 10/11/2023 | W | Week7  | 10/11/2023 | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R/index.html)   |
 | 10/16/2023 | M | Week8  | 10/16/2023 | Monday    |  [RNA-Seq](http://bch709.plantgenomicslab.org/RNASeq/index.html) [R in RNA-Seq / DESeq2 / EdgeR](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html)                                      |
-| 10/18/2023 | W | Week8  | 10/18/2023 | Wednesday | Review                   |
+| 10/18/2023 | W | Week8  | 10/18/2023 | Wednesday | [Review](http://bch709.plantgenomicslab.org/midterm_review/index.html)               |
 | 10/23/2023 | M | Week9  | 10/23/2023 | Monday    | Midterm Exam                                                      |
 | 10/25/2023 | W | Week10 | 10/25/2023 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
 | 10/30/2023 | M | Week10 | 10/30/2023 | Monday    | BLAST search and gene alignment                                   |
