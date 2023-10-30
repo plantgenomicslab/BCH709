@@ -36,7 +36,7 @@ ls
 ```
 conda deactive 
 
-conda activate rnaseq
+conda activate transcriptome_assembly
 ```
 
 
