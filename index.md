@@ -59,7 +59,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 10/18/2023 | W | Week8  | 10/18/2023 | Wednesday | [Review](http://bch709.plantgenomicslab.org/midterm_review/index.html)               |
 | 10/23/2023 | M | Week9  | 10/23/2023 | Monday    | Midterm Exam                                                      |
 | 10/25/2023 | W | Week10 | 10/25/2023 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
-| 10/30/2023 | M | Week10 | 10/30/2023 | Monday    | BLAST search and gene alignment                                   |
+| 10/30/2023 | M | Week10 | 10/30/2023 | Monday    |  [R in RNA-Seq / DESeq2 / EdgeR](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html) BLAST search and gene alignment |
 | 11/1/2023  | W | Week11 | 11/1/2023  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
 | 11/6/2023  | M | Week11 | 11/6/2023  | Monday    | Database & file format                                            |
 | 11/8/2023  | W | Week12 | 11/8/2023  | Wednesday | Genome assembly & annotation & structure                          |
