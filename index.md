@@ -62,8 +62,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 10/30/2023 | M | Week10 | 10/30/2023 | Monday    |  [R in RNA-Seq / DESeq2 / EdgeR](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html) BLAST search and gene alignment |
 | 11/1/2023  | W | Week11 | 11/1/2023  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
 | 11/6/2023  | M | Week11 | 11/6/2023  | Monday    | Database & file format                                            |
-| 11/8/2023  | W | Week12 | 11/8/2023  | Wednesday | [RNA-Seq 
- & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Genome assembly & annotation & structure                          |
+| 11/8/2023  | W | Week12 | 11/8/2023  | Wednesday | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Genome assembly & annotation & structure                          |
 | 11/13/2023 | M | Week12 | 11/13/2023 | Monday    | Genome structure                                                  |
 | 11/15/2023 | W | Week13 | 11/15/2023 | Wednesday | Variant analysis                                                  |
 | 11/20/2023 | M | Week13 | 11/20/2023 | Monday    | Transcriptome analysis (Genome based)                             |
