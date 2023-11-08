@@ -17,7 +17,7 @@ conda activate transcriptome_assembly
 ```
 
 ### Conda env
-```
+```bash
 conda activate transcriptome_assembly
 ```
 
@@ -27,9 +27,6 @@ conda activate transcriptome_assembly
 cd /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/
 nano trinity.sh
 ```
-``
-**Please change <SOMETHING> to your input**
-``
 
 ```bash
 #!/bin/bash
@@ -51,7 +48,7 @@ Trinity --seqType fq  --CPU 8 --max_memory 80G --left trim/DT1_R1_val_1.fq.gz,tr
 
 ### Job submission
 
-```
+```bash
 sbatch trinity.sh
 ```
 
@@ -78,9 +75,14 @@ align_and_estimate_abundance.pl
 
 nano reads_count.sh
 ```
+**JOBNAME and JOBID need to be changed**
+### To check JOBID
+```bash
+squeue -u ${USER}
+```
 
 ### RNA-Seq reads Count Analysis job script
-```
+```bash
 #!/bin/bash
 #SBATCH --job-name=<JOBNAME>
 #SBATCH --dependency=afterok:<JOBID>
@@ -108,15 +110,17 @@ sbatch reads_count.sh
 ```
 
 ### Job check
-```
-squeue
+```bash
+squeue -u ${USER}
 ```
 ### Job running check
 ```bash
-## do ```ls``` first
-ls
-cat slurm_<JOBID>.out 
 
+## do ```ls``` first
+## CHANGE JOBNAME to your JOBNAME
+ls
+cat <JOBNAME>.out
+cat <JOBNAME>.out 
 ```
 
 
@@ -167,7 +171,7 @@ head -n 2 rsem_outdir_test/RSEM.genes.results
 #### Reads count
 ```bash
 samtools flagstat rsem_outdir_test/bowtie2.bam
-
+less rsem_outdir_test/RSEM.genes.results
 cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$5} END {print sum}'
 ```
 ### Call Python
@@ -180,10 +184,10 @@ Fragments per Kilobase of transcript per million mapped reads
 
 
 ```python
-X = 3752
-Number_Reads_mapped = 559192
-Length = 651.04
-fpkm= X*(1000/Length)*(1000000/Number_Reads_mapped)
+expectied_count = 14
+Number_Reads_mapped =  1.4443e+06
+Effective_Length = 1929.93
+fpkm= expectied_count*(1000/Effective_Length)*(1000000/Number_Reads_mapped)
 fpkm
 ```
 
@@ -191,7 +195,7 @@ fpkm
 
 
 ```python
-fpkm=X/(Number_Reads_mapped*Length)*10**9
+fpkm=expectied_count/(Number_Reads_mapped*Effective_Length)*10**9
 fpkm
 ```
 
@@ -203,32 +207,33 @@ fpkm
 
 ![TPM2]({{site.baseurl}}/fig/TPM2.png)
 
-
-### Sum of FPKM
-```bash
-cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$7} END {print sum}'
-```
-### TPM calculation from FPKM
-
-```python
-FPKM = 10306.16
-SUM_FPKM = 882349
-TPM=(FPKM/SUM_FPKM)*10**6
-TPM
-```
-
 ### TPM calculation from reads count
 ```bash
 cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$5/$4} END {print sum}'
 ```
 
 ```python
-sum_count_per_length = 493.403
-X = 3752
-Length = 651.04
-TPM = (X/Length)*(1/sum_count_per_length )*10**6
+sum_count_per_length = 1169.65
+expectied_count = 14
+Effective_Length = 1929.93
+TPM = (expectied_count/Effective_Length)*(1/sum_count_per_length )*10**6
 TPM
 ```
+
+
+### TPM calculation from FPKM
+#### Sum of FPKM
+```bash
+cat rsem_outdir_test/RSEM.genes.results | egrep -v FPKM | awk '{ sum+=$7} END {print sum}'
+```
+```python
+FPKM = 5.022605493468516
+SUM_FPKM = 809843
+TPM=(FPKM/SUM_FPKM)*10**6
+TPM
+```
+
+
 
 ### Paper read
 [Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)  
@@ -288,6 +293,7 @@ https://emb.carnegiescience.edu/sites/default/files/140602-sedawkbash.key_.pdf
 ```bash
 nano alignment.sh
 ```
+**JOBNAME and JOBID need to be changed**
 
 ### Run alignment 
 ```bash
@@ -318,6 +324,8 @@ align_and_estimate_abundance.pl --thread_count 32 --transcripts trinity_out_dir.
 mkdir DEG && cd DEG
 nano abundance.sh
 ```
+**JOBNAME and JOBID need to be changed**
+
 
 ```bash
 #!/bin/bash
@@ -338,7 +346,7 @@ nano abundance.sh
 
 abundance_estimates_to_matrix.pl  --est_method RSEM --gene_trans_map none --name_sample_by_basedir  --cross_sample_norm TMM ../WT_REP1/RSEM.isoforms.results ../WT_REP2/RSEM.isoforms.results ../WT_REP3/RSEM.isoforms.results   ../DT_REP1/RSEM.isoforms.results ../DT_REP2/RSEM.isoforms.results ../DT_REP3/RSEM.isoforms.results
 ```
-```
+```bash
 sbatch abundance.sh
 ```
 ![RSEM]({{site.baseurl}}/fig/RSEM_result.png)
@@ -356,6 +364,8 @@ cut -f 1,2 ../sample.txt >> samples_ptr.txt
 
 nano ptr.sh
 ```
+**JOBNAME and JOBID need to be changed**
+
 
 ```bash
 
@@ -387,6 +397,8 @@ PtR  --matrix RSEM.isoform.counts.matrix --samples samples_ptr.txt --CPM  --log2
 ```bash
 nano deseq.sh
 ```
+**JOBNAME and JOBID need to be changed**
+
 ```bash
 
 #!/bin/bash
@@ -430,6 +442,7 @@ run_DE_analysis.pl --matrix RSEM.isoform.counts.matrix --samples_file samples_pt
 ```
 
 ```bash
+# XXXX is different everytime. Please change it.
 cd DESeq2.XXXXX.dir
 analyze_diff_expr.pl --matrix ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
 wc -l RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
@@ -479,7 +492,7 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 ### Draw Venn Diagram
 ```bash
 conda deactivate
-conda create -n venn python=2.7  -c bioconda -c r bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo  
+conda create -y  -n venn  -c bioconda -c r python=2.7 bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo  
 conda activate venn  
 ``` 
 
