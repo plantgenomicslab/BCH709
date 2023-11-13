@@ -56,9 +56,9 @@ sbatch trinity.sh
 ### Please check the result
 ```bash
 
-cd /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/trinity_out_dir/
+cd /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly
 
-egrep -c ">" Trinity.fasta
+egrep -c ">"  trinity_out_dir.Trinity.fasta
 
 TrinityStats.pl /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/trinity_out_dir.Trinity.fasta  > ${USER}.trinity.stat
 
