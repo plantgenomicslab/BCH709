@@ -493,12 +493,12 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 ```bash
 ## IF YOU ARE NOT IN BASE ENVIRONMENT
 ## DO `conda deactivate`
-conda env update -n transcriptome_assembly --file /data/gpfs/assoc/bch709-4/Course_materials/transcriptome.yaml
-conda activate transcriptome_assembly  
+conda env update -n venn --file /data/gpfs/assoc/bch709-4/Course_materials/venn.yaml
+conda activate venn
 ``` 
 
 ```bash
-cd ../
+cd  /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/DEG
 pwd
 # /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/DEG
 mkdir Venn 
