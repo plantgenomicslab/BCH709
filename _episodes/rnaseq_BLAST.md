@@ -304,7 +304,7 @@ nano alignment.sh
 #SBATCH -e <JOBNAME>.err # STDERR
 #SBATCH --mail-user=${USER}@unr.edu
 #SBATCH --cpus-per-task=32
-#SBATCH --time=15:00
+#SBATCH --time=1:15:00
 #SBATCH --mem=64g
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
@@ -491,9 +491,10 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 
 ### Draw Venn Diagram
 ```bash
-conda deactivate
-conda create -y  -n venn  -c bioconda -c r python=2.7 bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo  
-conda activate venn  
+## IF YOU ARE NOT IN BASE ENVIRONMENT
+## DO `conda deactivate`
+conda env update -n transcriptome_assembly --file /data/gpfs/assoc/bch709-4/Course_materials/transcriptome.yaml
+conda activate transcriptome_assembly  
 ``` 
 
 ```bash
