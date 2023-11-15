@@ -490,14 +490,20 @@ edgeR recommends a “tagwise dispersion” function, which estimates the disper
 
 ### Draw Venn Diagram
 ```bash
-## IF YOU ARE NOT IN BASE ENVIRONMENT
-## DO `conda deactivate`
-conda env update -n venn --file /data/gpfs/assoc/bch709-4/Course_materials/venn.yaml
-conda activate venn
-``` 
+conda activte transcriptome_assembly
+path=$(dirname $(which Trinity))
+directory=$(dirname "$path")
+heatmap_script=$(find $directory -name heatmap.3.R)
 
-```bash
+sed 's/is.null(Rowv)/is.null(dim(Rowv))/g; s/is.na(Rowv)/is.na(dim(Rowv))/g;  s/is.null(Colv)/is.null(dim(Colv))/g; s/is.na(Colv)/is.na(dim(Colv))/g' $heatmap_script
+
 cd  /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/DEG
+### ***#### is number, it is in your folder name***
+cd DESeq2.####.dir
+analyze_diff_expr.pl --matrix  ../RSEM.isoform.TMM.EXPR.matrix  -P 0.001 -C 1  --samples ../samples_ptr.txt
+wc -l RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DE.subset
+cd ../
+
 pwd
 # /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/DEG
 mkdir Venn 
@@ -511,6 +517,12 @@ cut -f 1 ../DEG/DESeq2.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_re
 cut -f 1 ../DEG/edgeR.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DT-UP.subset   | grep -v sample > edgeR.UP.subset
 cut -f 1 ../DEG/edgeR.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.WT-UP.subset   | grep -v sample > edgeR.DOWN.subset
 
+```
+```bash
+## IF YOU ARE NOT IN BASE ENVIRONMENT
+conda deactivate
+conda env update -n venn --file /data/gpfs/assoc/bch709-4/Course_materials/venn.yaml
+conda activate venn
 
 ### Drawing
 intervene venn -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
@@ -519,7 +531,7 @@ intervene pairwise  -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR
 ```
 ### Assignment
 
-Upload three Venn diagram, Upset and Pairwise figures to Webcampus
+Upload three Venn diagram, Upset and Pairwise figures to Webcampus. Pairwise might not work.
 
 
 
