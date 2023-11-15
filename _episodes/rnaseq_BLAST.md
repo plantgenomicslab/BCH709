@@ -340,7 +340,6 @@ nano abundance.sh
 #SBATCH --mail-type=begin
 #SBATCH --mail-type=end
 #SBATCH --mail-type=fail
-#SBATCH --mail-user=${USER}@nevada.unr.edu
 #SBATCH --account=cpu-s5-bch709-4 
 #SBATCH --partition=cpu-core-0
 
