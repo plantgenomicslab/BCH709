@@ -495,7 +495,7 @@ path=$(dirname $(which Trinity))
 directory=$(dirname "$path")
 heatmap_script=$(find $directory -name heatmap.3.R)
 
-sed 's/is.null(Rowv)/is.null(dim(Rowv))/g; s/is.na(Rowv)/is.na(dim(Rowv))/g;  s/is.null(Colv)/is.null(dim(Colv))/g; s/is.na(Colv)/is.na(dim(Colv))/g' $heatmap_script
+sed -i 's/is.null(Rowv)/is.null(dim(Rowv))/g; s/is.na(Rowv)/is.na(dim(Rowv))/g;  s/is.null(Colv)/is.null(dim(Colv))/g; s/is.na(Colv)/is.na(dim(Colv))/g' $heatmap_script
 
 cd  /data/gpfs/assoc/bch709-4/${USER}/rnaseq_assembly/DEG
 ### ***#### is number, it is in your folder name***
