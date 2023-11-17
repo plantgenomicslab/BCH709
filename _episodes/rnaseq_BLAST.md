@@ -523,11 +523,11 @@ cut -f 1 ../DEG/edgeR.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_resu
 conda deactivate
 conda env update -n venn --file /data/gpfs/assoc/bch709-4/Course_materials/venn.yaml
 conda activate venn
+pip install --upgrade numpy pandas
 
 ### Drawing
 intervene venn -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
 intervene upset -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
-intervene pairwise  -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list
 ```
 ### Assignment
 
