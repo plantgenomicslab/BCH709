@@ -513,10 +513,6 @@ cd Venn
 cut -f 1 ../DEG/DESeq2.#####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.DT-UP.subset  | grep -v sample > DESeq.UP.subset
 cut -f 1 ../DEG/DESeq2.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.DESeq2.DE_results.P0.001_C1.WT-UP.subset  | grep -v sample > DESeq.DOWN.subset
 
-###edgeR
-cut -f 1 ../DEG/edgeR.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.DT-UP.subset   | grep -v sample > edgeR.UP.subset
-cut -f 1 ../DEG/edgeR.####.dir/RSEM.isoform.counts.matrix.DT_vs_WT.edgeR.DE_results.P0.001_C1.WT-UP.subset   | grep -v sample > edgeR.DOWN.subset
-
 ```
 ```bash
 ## IF YOU ARE NOT IN BASE ENVIRONMENT
@@ -526,8 +522,8 @@ conda activate venn
 pip install --upgrade numpy pandas
 
 ### Drawing
-intervene venn -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
-intervene upset -i DESeq.DOWN.subset DESeq.UP.subset edgeR.DOWN.subset edgeR.UP.subset  --type list --save-overlaps
+intervene venn -i DESeq.DOWN.subset DESeq.UP.subset   --type list --save-overlaps
+intervene upset -i DESeq.DOWN.subset DESeq.UP.subset   --type list --save-overlaps
 ```
 ### Assignment
 
