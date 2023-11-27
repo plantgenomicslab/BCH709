@@ -67,7 +67,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 11/15/2023 | W | Week13 | 11/15/2023 | Wednesday | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Variant analysis                                                  |
 | 11/20/2023 | M | Week13 | 11/20/2023 | Monday    | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Variant analysis  Transcriptome analysis (Genome based)                             |
 | 11/22/2023 | W | Week14 | 11/22/2023 | Wednesday | Nextday is Thanksgiving                                           |
-| 11/27/2023 | M | Week14 | 11/27/2023 | Monday    | Transcriptome analysis (Genome based)                             |
+| 11/27/2023 | M | Week14 | 11/27/2023 | Monday    | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) [Genomics](https://webcampus.unr.edu/courses/99671/files/12721000?module_item_id=2955554)|
 | 11/29/2023 | W | Week15 | 11/29/2023 | Wednesday | Enrichment analysis                                               |
 | 12/4/2023  | M | Week15 | 12/4/2023  | Monday    | Presentation & Discussions                                        |
 | 12/6/2023  | W | Week16 | 12/6/2023  | Wednesday | Presentation & Discussions                                        |
