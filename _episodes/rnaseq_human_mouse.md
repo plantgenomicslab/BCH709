@@ -393,11 +393,10 @@ cd /data/gpfs/assoc/bch709-4/${USER}/human/ref
 ### download
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz
 
-wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
-
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 
 ### decompress
-gunzip GRCh38_latest_genomic.fna.gz
+gunzip hg38.fa.gz
 gunzip hg38.refGene.gtf.gz
 
 ```
@@ -415,7 +414,7 @@ nano ref_build.sh
 
 # Add below command to ref_build.sh
 
-STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile hg38.refGene.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles hg38.fa --sjdbGTFfile hg38.refGene.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
