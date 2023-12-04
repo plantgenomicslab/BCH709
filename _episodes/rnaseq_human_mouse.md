@@ -399,6 +399,7 @@ wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refs
 ### decompress
 gunzip GRCh38_latest_genomic.fna.gz
 gunzip hg38.refGene.gtf.gz
+
 ```
 
 ## STAR reference build
@@ -414,7 +415,7 @@ nano ref_build.sh
 
 # Add below command to ref_build.sh
 
-STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile GRCh38_latest_genomic.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile hg38.refGene.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
