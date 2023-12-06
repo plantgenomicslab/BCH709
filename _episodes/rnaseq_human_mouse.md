@@ -292,11 +292,10 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 
 ###  Job submission dependency on Mapping
 ```bash
-jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch --dependency=afterany:${jobid} $i 
+    sbatch $i 
 done
 
 ```
@@ -345,8 +344,7 @@ squeue --noheader --format %i --user ${USER}
 
 ### Submit
 ```bash
-jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
-
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':'| sed 's/:$//g')
 sbatch --dependency=afterany:${jobid} count.sh 
 ```
 
@@ -556,13 +554,11 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```
 
 
-###  Job submission dependency on Trim
+###  Job submission dependency
 ```bash
-
-jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 for i in `ls -1 *_mapping.sh`
 do
-    sbatch  --dependency=afterany:${jobid} $i 
+    sbatch  $i 
 done
 
 ```
@@ -621,6 +617,6 @@ squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
 ```bash
 cd /data/gpfs/assoc/bch709-4/${USER}/human/bam 
 
-jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':'| sed 's/:$//g')
 sbatch  --dependency=afterany:${jobid} count.sh 
 ```
