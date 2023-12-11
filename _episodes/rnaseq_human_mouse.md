@@ -332,7 +332,7 @@ nano count.sh
 
 ```bash
 #paste this to count.sh
-featureCounts -o /data/gpfs/assoc/bch709-4/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-4/${USER}/mouse/ref/refGene.gtf $(for i in `cat /data/gpfs/assoc/bch709-4/wyim/mouse/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
+featureCounts -o /data/gpfs/assoc/bch709-4/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-4/${USER}/mouse/ref/refGene.gtf $(for i in `cat /data/gpfs/assoc/bch709-4/${USER}/mouse/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
 ```
 
 
@@ -590,7 +590,7 @@ cd /data/gpfs/assoc/bch709-4/${USER}/human/bam
 
 ls -1 *.bam 
 
-for i in `cat /data/gpfs/assoc/bch709-4/wyim/human/filelist`
+for i in `cat /data/gpfs/assoc/bch709-4/${USER}/human/filelist`
 do 
 echo ${i}.bamAligned.sortedByCoord.out.bam | tr '\n' ' '
 done
@@ -601,7 +601,7 @@ done
 ### FeatureCount 
 ```bash
 
-echo "featureCounts -o /data/gpfs/assoc/bch709-4/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-4/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-4/wyim/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
+echo "featureCounts -o /data/gpfs/assoc/bch709-4/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-4/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-4/${USER}/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
 ```
 
 
