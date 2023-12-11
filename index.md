@@ -71,7 +71,7 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 | 11/29/2023 | W | Week15 | 11/29/2023 | Wednesday | Enrichment analysis                                               |
 | 12/4/2023  | M | Week15 | 12/4/2023  | Monday    | [RNA-Seq mouse and human](http://bch709.plantgenomicslab.org/rnaseq_human_mouse/index.html)                                      |
 | 12/6/2023  | W | Week16 | 12/6/2023  | Wednesday | [RNA-Seq mouse and human](http://bch709.plantgenomicslab.org/rnaseq_human_mouse/index.html)                                       |
-| 12/11/2023 | M | Week16 | 12/11/2023 | Monday    | Class Review                                                      |
+| 12/11/2023 | M | Week16 | 12/11/2023 | Monday    | Class Review [DEG](http://bch709.plantgenomicslab.org/DEG2023/index.html)                |
 | 12/13/2023 | W | Week17 | 12/13/2023 | Wednesday | Prepday                                                           |
 | 12/18/2023 | M | Week17 | 12/18/2023 | Monday    | Final Exam                                                        |
 
