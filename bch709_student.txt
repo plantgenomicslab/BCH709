@@ -1,106 +1,104 @@
-Won
-Ryu
-Ken
-Iron Man
-Captain America
-Thor
-Hulk
-Black Widow
-Hawkeye
-Spider-Man
-Doctor Strange
-Black Panther
-Scarlet Witch
-Vision
-Ant-Man
-Wasp
-Captain Marvel
-Star-Lord
-Gamora
-Drax
-Rocket Raccoon
-Groot
-Winter Soldier (Bucky Barnes)
-Falcon (Sam Wilson)
-Loki
-Thanos
-Ultron
-Red Skull
-Nick Fury
-War Machine
-Shuri
-Mantis
-Nebula
-Yondu
-Valkyrie
-Okoye
-Quicksilver
-Killmonger
-Deadpool
-Venom
-Jessica Jones
-Luke Cage
-Daredevil
-The Punisher
-Ghost Rider
-Electra
-Kingpin
-The Mandarin
-Taskmaster
-She-Hulk
-Moon Knight
-Shang-Chi
-Hela
-Dormammu
-Kang
-Mickey Mouse
-Donald Duck
-Goofy
-Pluto
-Minnie Mouse
-Daisy Duck
-Simba
-Mufasa
-Scar
-Nala
-Ariel
-Prince Eric
-Sebastian
-Ursula
-Belle
-Beast
-Lumiere
-Cogsworth
-Gaston
-Jasmine
-Aladdin
-Genie
-Jafar
-Raja
-Elsa
-Anna
-Olaf
-Kristoff
-Sven
-Hercules
-Megara
-Hades
-Zeus
-Tinker Bell
-Peter Pan
-Wendy Darling
-Captain Hook
-Pinocchio
-Jiminy Cricket
-Bambi
-Thumper
-Cinderella
-Fairy Godmother
-Prince Charming
-Maleficent
-Aurora
-Rapunzel
-Pascal
-Moana
-Maui
-Stitch
+Won  Mac
+IronMan	Linux
+CaptainAmerica  Windows
+Thor	Mac
+Hulk	Linux
+BlackWidow	Windows
+Hawkeye	Mac
+SpiderMan	Linux
+DoctorStrange	Windows
+BlackPanther	Mac
+ScarletWitch	Linux
+Vision	Windows
+AntMan	Mac
+Wasp	Linux
+CaptainMarvel	Windows
+StarLord	Mac
+Gamora	Linux
+Drax	Windows
+RocketRaccoon	Mac
+Groot	Linux
+WinterSoldier	Windows
+Falcon	Mac
+Loki	Linux
+Thanos	Windows
+Ultron	Mac
+RedSkull	Linux
+NickFury	Windows
+WarMachine	Mac
+Shuri	Linux
+Mantis	Windows
+Nebula	Mac
+Yondu	Linux
+Valkyrie	Windows
+Okoye	Mac
+Quicksilver	Linux
+Killmonger	Windows
+Deadpool	Mac
+Venom	Linux
+JessicaJones	Windows
+LukeCage	Mac
+Daredevil	Linux
+Punisher	Windows
+GhostRider	Mac
+Electra	Linux
+Kingpin	Windows
+TheMandarin	Mac
+Taskmaster	Linux
+SheHulk	Windows
+MoonKnight	Mac
+ShangChi	Linux
+Hela	Windows
+Dormammu	Mac
+KangTheConqueror	Linux
+MickeyMouse	Windows
+DonaldDuck	Mac
+Goofy	Linux
+Pluto	Windows
+MinnieMouse	Mac
+DaisyDuck	Linux
+Simba	Windows
+Mufasa	Mac
+Scar	Linux
+Nala	Windows
+Ariel	Mac
+PrinceEric	Linux
+Sebastian	Windows
+Ursula	Mac
+Belle	Linux
+Beast	Windows
+Lumiere	Mac
+Cogsworth	Linux
+Gaston	Windows
+Jasmine	Mac
+Aladdin	Linux
+Genie	Windows
+Jafar	Mac
+Raja	Linux
+Elsa	Windows
+Anna	Mac
+Olaf	Linux
+Kristoff	Windows
+Sven	Mac
+Hercules	Linux
+Megara	Windows
+Hades	Mac
+Zeus	Linux
+TinkerBell	Windows
+PeterPan	Mac
+WendyDarling	Linux
+CaptainHook	Windows
+Pinocchio	Mac
+JiminyCricket	Linux
+Bambi	Windows
+Thumper	Mac
+Cinderella	Linux
+FairyGodmother	Windows
+PrinceCharming	Mac
+Maleficent	Linux
+Aurora	Windows
+Rapunzel	Mac
+Pascal	Linux
+Moana	Windows
+Maui	Mac
+Stitch	Linux
