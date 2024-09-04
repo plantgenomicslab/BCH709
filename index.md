@@ -1,12 +1,12 @@
 ---
 ---
 
-The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researchers basic concepts, skills, and tools for working with data so that student can get their own bioinformatics work done without pain. This illustrates the concept of bioinformatics analysis and Next Generation Sequencing for genomics including hands-on bioinformatics, understanding genomics through bioinformatics, use of command-line in multiple platforms, use of command-line tools to analyze sequencing data, and connecting to and using cloud computing.
+The philosophy of BCH709: Introduction to Bioinformatics is to equip researchers with essential concepts, skills, and tools for handling data, enabling them to carry out their own bioinformatics tasks efficiently. This course covers key aspects of bioinformatics analysis, with a focus on Next Generation Sequencing (NGS) in genomics. It includes hands-on bioinformatics practice, understanding genomics through bioinformatics tools, using the command-line interface across different platforms, applying command-line tools for sequencing data analysis, and accessing cloud computing resources for bioinformatics workflows.
 
 
 > ## Class Schedule
-> MonWed 9:00AM - 10:15AM  
-> Aug 29, 2023 - Dec 18 2023
+> MoWe 9:00AM - 10:15AM 
+> Aug 26, 2024 - Dec 18 2023
 {: .prereq}
 
 
@@ -18,9 +18,11 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Class Room location
-> Classroom was changed to Fleischmann Agriculture Building room 234 (FA234)
+> William N. Pennington Medical Education
+> Building Code: PMB
+> Building Number: 121
+> Classroom: PMB 16
 > ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
-> [FA234](https://www.google.com/maps/place/39%C2%B032'15.7%22N+119%C2%B048'43.5%22W/@39.5385648,-119.8114072,17.67z/data=!4m5!3m4!1s0x0:0x0!8m2!3d39.5376946!4d-119.81208)  
 {: .prereq}
 
 
@@ -30,7 +32,7 @@ The philosophy of 'BCH709 Introduction to Bioinformatics' is to teach researcher
 
 
 > ## Syllabus  
-Please read our [Syllabus](./syllabus/BCH709_2023fall.pdf).
+Please read our [Syllabus](./syllabus/BCH709_2024fall.pdf).
 {: .prereq}
 
 > ## Rubric  
@@ -40,40 +42,41 @@ Please read our [Rubric](./syllabus/BCH709_rubric.pdf).
 
 ## Tentative Course Schedules
 
-| 8/28/2023  | M | Week1  | 8/28/2023  | Monday    | Introduction                                                      |
-| ---------- | - | ------ | ---------- | --------- | ----------------------------------------------------------------- |
-| 8/30/2023  | W | Week1  | 8/30/2023  | Wednesday | Introduction to Bioinformatics                                    |
-| 9/4/2023   | M | Week2  | 9/4/2023   | Monday    | Labor Day                                                         |
-| 9/6/2023   | W | Week2  | 9/6/2023   | Wednesday | [Linux Environment and command line](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html) |
-| 9/11/2023  | M | Week3  | 9/11/2023  | Monday    | [Linux Environment and Cloud](http://bch709.plantgenomicslab.org/Linux_Enviroment_and_command_line/index.html)  |
-| 9/13/2023  | W | Week3  | 9/13/2023  | Wednesday | [Conda, Compile & Software Installations](http://bch709.plantgenomicslab.org/compile/index.html)   |
-| 9/18/2023  | M | Week4  | 9/18/2023  | Monday    | [GitHub and server](http://bch709.plantgenomicslab.org/Github_compile_conda/index.html)                                                 |
-| 9/20/2023  | W | Week4  | 9/20/2023  | Wednesday | Sequencing methods and strategies                                 |
-| 9/25/2023  | M | Week5  | 9/25/2023  | Monday    | Sequencing methods and strategies                                 |
-| 9/27/2023  | W | Week5  | 9/27/2023  | Wednesday | [Sequence manipulation](http://bch709.plantgenomicslab.org/seqkit_tutorial/index.html)                                             |
-| 10/2/2023  | M | Week6  | 10/2/2023  | Monday    | [RNA-Seq](http://bch709.plantgenomicslab.org/RNASeq/index.html)                                                           |
-| 10/4/2023  | W | Week6  | 10/4/2023  | Wednesday | [Transcriptome assembly](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html) |
-| 10/9/2023  | M | Week7  | 10/9/2023  | Monday    | Transcriptome algorithms                                          |
-| 10/11/2023 | W | Week7  | 10/11/2023 | Wednesday | [Introduction of R & R plotting (Tong Zhou PhD)](http://bch709.plantgenomicslab.org/Intro_R/index.html)   |
-| 10/16/2023 | M | Week8  | 10/16/2023 | Monday    |  [RNA-Seq](http://bch709.plantgenomicslab.org/RNASeq/index.html) [R in RNA-Seq / DESeq2 / EdgeR](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html)                                      |
-| 10/18/2023 | W | Week8  | 10/18/2023 | Wednesday | [Review](http://bch709.plantgenomicslab.org/midterm_review/index.html)               |
-| 10/23/2023 | M | Week9  | 10/23/2023 | Monday    | Midterm Exam                                                      |
-| 10/25/2023 | W | Week10 | 10/25/2023 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
-| 10/30/2023 | M | Week10 | 10/30/2023 | Monday    |  [R in RNA-Seq / DESeq2 / EdgeR](http://bch709.plantgenomicslab.org/transcriptome_assembly6/index.html) BLAST search and gene alignment |
-| 11/1/2023  | W | Week11 | 11/1/2023  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
-| 11/6/2023  | M | Week11 | 11/6/2023  | Monday    | Database & file format                                            |
-| 11/8/2023  | W | Week12 | 11/8/2023  | Wednesday | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Genome assembly & annotation & structure                          |
-| 11/13/2023 | M | Week12 | 11/13/2023 | Monday    | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Genome structure                                                  |
-| 11/15/2023 | W | Week13 | 11/15/2023 | Wednesday | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Variant analysis                                                  |
-| 11/20/2023 | M | Week13 | 11/20/2023 | Monday    | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) Variant analysis  Transcriptome analysis (Genome based)                             |
-| 11/22/2023 | W | Week14 | 11/22/2023 | Wednesday | Nextday is Thanksgiving                                           |
-| 11/27/2023 | M | Week14 | 11/27/2023 | Monday    | [RNA-Seq & BLAST](http://bch709.plantgenomicslab.org/rnaseq_BLAST/index.html) [Genomics](https://webcampus.unr.edu/courses/99671/files/12721000?module_item_id=2955554)|
-| 11/29/2023 | W | Week15 | 11/29/2023 | Wednesday | Enrichment analysis                                               |
-| 12/4/2023  | M | Week15 | 12/4/2023  | Monday    | [RNA-Seq mouse and human](http://bch709.plantgenomicslab.org/rnaseq_human_mouse/index.html)                                      |
-| 12/6/2023  | W | Week16 | 12/6/2023  | Wednesday | [RNA-Seq mouse and human](http://bch709.plantgenomicslab.org/rnaseq_human_mouse/index.html)                                       |
-| 12/11/2023 | M | Week16 | 12/11/2023 | Monday    | Class Review [DEG](http://bch709.plantgenomicslab.org/DEG2023/index.html)                |
-| 12/13/2023 | W | Week17 | 12/13/2023 | Wednesday | Prepday                                                           |
-| 12/18/2023 | M | Week17 | 12/18/2023 | Monday    | Final Exam                                                        |
+| Week   | Date       | Days      | Subject                                                           |
+| ------ | ---------- | --------- | ----------------------------------------------------------------- |
+| Week1  | 8/26/2024  | Monday    | Introduction                                                      |
+| Week1  | 8/28/2024  | Wednesday | Introduction to Bioinformatics                                    |
+| Week2  | 9/2/2024   | Monday    | Labor Day                                                         |
+| Week2  | 9/4/2024   | Wednesday | Linux Environment and command line                                |
+| Week3  | 9/9/2024   | Monday    | Linux Environment and command line                                |
+| Week3  | 9/11/2024  | Wednesday | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD) |
+| Week4  | 9/16/2024  | Monday    | Conda, Compile & Software Installations                           |
+| Week4  | 9/18/2024  | Wednesday | Conda, Compile & Software Installations                           |
+| Week5  | 9/23/2024  | Monday    | GitHub and server                                                 |
+| Week5  | 9/25/2024  | Wednesday | Sequencing methods and strategies                                 |
+| Week6  | 9/30/2024  | Monday    | Sequencing methods and strategies                                 |
+| Week6  | 10/2/2024  | Wednesday | Sequence manipulation                                             |
+| Week7  | 10/7/2024  | Monday    | Sequence manipulation                                             |
+| Week7  | 10/9/2024  | Wednesday | Introduction of R & R plotting (Tong Zhou PhD)                    |
+| Week8  | 10/14/2024 | Monday    | Transcriptome assembly                                            |
+| Week8  | 10/16/2024 | Wednesday | RNA-Seq                                                           |
+| Week9  | 10/21/2024 | Monday    | Midterm Exam                                                      |
+| Week10 | 10/23/2024 | Wednesday | R in RNA-Seq / DESeq2 / EdgeR                                     |
+| Week10 | 10/28/2024 | Monday    | R in RNA-Seq / DESeq2 / EdgeR                                     |
+| Week11 | 10/30/2024 | Wednesday | Viral variant identification in NGS data (Richard Tillet, Ph. D)  |
+| Week11 | 11/4/2024  | Monday    | BLAST search and gene alignment                                   |
+| Week12 | 11/6/2024  | Wednesday | Genome assembly & annotation & structure                          |
+| Week12 | 11/11/2024 | Monday    | Veterans Day                                                      |
+| Week13 | 11/13/2024 | Wednesday | Variant analysis                                                  |
+| Week13 | 11/18/2024 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week14 | 11/20/2024 | Wednesday | Nextday is Thanksgiving                                           |
+| Week14 | 11/25/2024 | Monday    | Transcriptome analysis (Genome based)                             |
+| Week15 | 11/27/2024 | Wednesday | Enrichment analysis                                               |
+| Week15 | 12/2/2024  | Monday    | Presentation & Discussions                                        |
+| Week16 | 12/4/2024  | Wednesday | Presentation & Discussions                                        |
+| Week16 | 12/9/2024  | Monday    | Class Review                                                      |
+| Week17 | 12/11/2024 | Wednesday | Prepday                                                           |
+| Week17 | 12/16/2024 | Monday    | Final Exam                                                        |
 
 
 > ## Prerequisites
