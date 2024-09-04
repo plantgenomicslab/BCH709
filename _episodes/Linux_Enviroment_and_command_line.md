@@ -18,8 +18,8 @@ published: true
 > ## Assignments
 >
 > Please complete the following assignments before the due date:  
-> - DataCamp: Introduction to Shell  
-> - DataCamp: Downloading Data on the Command Line
+> - [DataCamp: Introduction to Shell](https://app.datacamp.com/learn/courses/introduction-to-shell)
+> - [Data Processing in Shell](https://app.datacamp.com/learn/courses/data-processing-in-shell)
 {: .prereq}
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
