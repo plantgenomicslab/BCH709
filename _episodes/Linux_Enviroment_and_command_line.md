@@ -470,263 +470,274 @@ ssh <YOURID>@pronghorn.rc.unr.edu
 > ```
 > Example:
 > ```bash
-> curl -L -o bch709_student.txt https://raw.githubusercontent.com/plantgenomicslab/BCH709/bch709_student.txt
+> curl -L -o bch709_student.txt https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/bch709_student.txt
 > ls bch709_student.txt
 > ```
 {: .keypoints}
 
 
->## Viewing file contents
->There are various commands to print the contents of the file in bash. Most of these commands are often used in specific contexts. All these commands when executed with filenames displays the contents on the screen. Most common ones are less, more, cat, head and tail.
->`less` FILENAME try this: `less bch709_student.txt` Displays file contents on the screen with line scrolling (to scroll you can use arrow keys, PgUp/PgDn keys, space bar or Enter key). When you are done press q to exit.  
->`more` FILENAME try this: `more bch709_student.txt` Like less command, also, displays file contents on the screen with line scrolling but uses only space bar or Enter key to scroll. When you are done press q to exit.  
->`cat` FILENAME try this: `cat bch709_student.txt` Simplest form of displaying contents. It catalogs the entire contents of the file on the screen. In case of large files, entire file will scroll on the screen without pausing  
->`head` FILENAME try this: `head bch709_student.txt` Displays only the starting lines of a file. The default is first ten lines. But, any number of lines can be displayed using –n option (followed by required number of lines).  
->`tail` FILENAME try this: `tail bch709_student.txtSimilar` to head, but displays the last 10 lines. Again –n option can be used to change this. More information about any of these commands can be found in man pages (man command)  
+> ## Viewing file contents
+> There are various commands to print the contents of a file in bash. Each command is often used in specific contexts, and when executed with filenames, they display the contents on the screen. Common commands include `less`, `more`, `cat`, `head`, and `tail`.
+>
+> - **`less` FILENAME**: Try this: `less bch709_student.txt`. It displays the file contents with line scrolling (use arrow keys, PgUp/PgDn, space bar, or Enter to scroll). Press `q` to exit.
+> - **`more` FILENAME**: Try this: `more bch709_student.txt`. Similar to `less`, but you scroll using only the space bar or Enter. Press `q` to exit.
+> - **`cat` FILENAME**: Try this: `cat bch709_student.txt`. This command displays the entire file content at once, which may result in the file scrolling off the screen for large files.
+> - **`head` FILENAME**: Try this: `head bch709_student.txt`. It shows only the first 10 lines by default, but you can specify a different number using the `-n` option (e.g., `head -n 20`).
+> - **`tail` FILENAME**: Try this: `tail bch709_student.txt`. It displays the last 10 lines by default, and similar to `head`, you can modify the number of lines with `-n`. 
 {: .keypoints}
 
->## Let's Download bigger data
->Please go to below wesite.
->```
->https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/
->```
->Please download yellow marked file.
->![download]({{site.baseurl}}/fig/download.png)
-{: .keypoints}
-
->## How to download
->![download2]({{site.baseurl}}/fig/download2.png)
->```bash
->curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
->gunzip mrna.fa.gz
->```
-{: .solution}
-
->## Viewing file contents
->What is the difference in `less`, `tail`, `more` and `head`?
-{: .discussion}
-
-
->## What are flags (parameters / options)?
->A “flag” in Unix terminology is a parameter added to the command. See for example
->```
->$ ls
->```
->versus
->```
->$ ls -l
->```
->Typically flags make programs behave differently or report their information in different ways.
-{: .checklist} 
-
->## How to find out what flags are available?
->You can use the manual to learn more about a command:
->```bash
->$ man ls
->```
->will produce
->![man]({{site.baseurl}}/fig/man.png)
-{: .checklist} 
-
->## What if the tools does not have manual page?
->Only tools that come with Unix will have a manual. For other software the -h, -help or
->--help command will typically print instructions for their use.
->```bash
->$ curl --help
->```
->If the help flag is not recognized you will need to find the manual for the software.
-{: .checklist} 
-
->## What are flag formats?
->Traditionally Unix tools use two flag forms:
->- short form: single minus - then one letter, like -o, ’-L‘
+> ## How many lines does the file have?
+> You can pipe the output of your stream into another program rather than displaying it on the screen. Use the `|` (Vertical Bar) character to connect the programs. For example, the `wc` (word count) program:
+> ```bash
+> cat bch709_student.txt | wc
+> ```
+> prints the number of lines, words, and characters in the stream:
+> ```output
+>     106     140    956
+> ```
+> To count just the lines:
+> ```bash
+> cat bch709_student.txt | wc -l
+> ```
+> ```output
+> 106
+> ```
+> *Of course, we can use `wc` directly:*
+> ```bash
+> wc -l bch709_student.txt 
+> ```
+> This is equivalent to:
+> ```bash
+> cat bch709_student.txt | wc -l
+> ```
+> In general, it is better to open a stream with `cat` and then pipe it into the next program. This method simplifies building and understanding more complex pipelines.
 >
->- long form: double minus -- then a word, like --output, --Location
->In each case the parameter may stand alone as a toggle (on/off) or may take additional values after the flag. -o <filename> or -L
->Now some bioinformatics tools do not follow this tradition and use a single - character for both short and long options. -g and -genome.
->**Using flags is a essential to using Unix. Bioinformatics tools typically take a large number of parameters specified *via* flags**. The correctness of the results critically depends on the proper use of these parameters and flags.
-{: .checklist} 
-
-
->## How many lines does the file have?
->You can pipe the output of you stream into another program rather than the screen. Use the | (Vertical Bar) character to connect the programs. For example, the wc program is the word counter.
->```bash
->cat bch709_student.txt | wc
-```
->prints the number of lines, words, and characters in the stream:
->```
->     41     141     900
->```
->How many lines?
->```bash
->cat bch709_student.txt | wc -l
->```
->```output
->41
->```
-> *of course we can use `wc` directly*
->```bash
->wc -l bch709_student.txt 
->```
-> That is equivalent to:
->```bash
->cat bch709_student.txt  | wc -l
->```
->In general, it is a better option to open a stream with cat then pipe the flow into the next program. Later you will see that it is easier to design, build and understand more complex pipelines when the data stream is opened at the beginning as a separate step.
->
->Again, let's do head.
->```bash
->cat bch709_student.txt  | head
->```
->![head]({{site.baseurl}}/fig/head.png)
->>## is this equivalent to?
->>```bash
->>head bch709_student.txt
->>```
->{: .solution}
+> Let's also check the first few lines of the file using `head`:
+> ```bash
+> cat bch709_student.txt | head
+> ```
+> ![head]({{site.baseurl}}/fig/head.png)
+> 
+> Is this equivalent to running?
+> ```bash
+> head bch709_student.txt
+> ```
+> {: .solution}
 {: .checklist}
 
->## grep 
->Globally search a Regular Expression and Print is one of the most useful commands in UNIX and it is commonly used to filter a file/input, line by line, against a pattern eg., to print each line of a file which contains a match for pattern.
->Please check option with :
->```bash
->grep --help
->```
->With options, syntax is
->```
->grep [OPTIONS] PATTERN FILENAME
->```
->Let's find how many people use macOS?
->First we need to check file.
->```bash
->$ wc -l bch709_student.txt
->```
->```bash
->$ less bch709_student.txt
->```
->How can we find the macOS people?
->Now we can use `grep`
->```bash
->$ cat bch709_student.txt | grep MacOS
->```
->How can we count?
->```bash
->$ cat bch709_student.txt | grep MacOS | wc -l
->```
->How about this?
->```bash
->$ grep MacOS bch709_student.txt | wc -l
->```
->How about this?
->```bash
->$ grep -c MacOS bch709_student.txt
->```
->With other options (flags)
->```bash
->$ grep -v Windows  bch709_student.txt
->```
->With multiple options (flags)
->```bash
->$ grep -c -v Windows  bch709_student.txt
->```
->
->```bash
->$ grep --color  -i macos  bch709_student.txt
->```
-{: checklist}
-
->## How do I store the results in a new file?  
->The > character is the redirection.
->```bash 
->$ grep  -i macos  bch709_student.txt > mac_student
->```
->```bash
->$ cat bch709_student.txt | grep -i windows > windows_student
->```
->Please check with `cat` or `less`
-{: checklist}
-
->## Do you want to check difference?
->```bash
->$ diff mac_student windows_student
->```
->```bash
->$ diff -y  mac_student windows_student
->```
-{: .keypoints}
-
->## How can I select name only? (cut)
->```bash
->$ cat bch709_student.txt  | cut -f 1
->```
->```bash
->$ cut -f 1 bch709_student.txt
->```
-{: .keypoints}
-
->## How can I sort it ? (sort)
->```bash
->cut -f 1 bch709_student.txt | sort
->```
->```bash
->$ sort bch709_student.txt
->$ sort -k 2 bch709_student.txt
->$ sort -k 1 bch709_student.txt
->```
->```bash
->$ sort -k 1 bch709_student.txt | cut -f 1
->```
->Save?
->```bash
->sort -k 1 bch709_student.txt | cut -f 1 > name_sort
->```
-{: .keypoints}
-
-
->## uniq 
->uniq command removes duplicate lines from a **sorted file**, retaining only one instance of the running matching lines. Optionally, it can show only lines that appear exactly once, or lines that appear more than once. uniq requires sorted input since it compares only consecutive lines.
->```bash
->$ cut -f 2 bch709_student.txt > os.txt
->```
->```bash
->$ uniq -c os.txt
->```
->![uniq]({{site.baseurl}}/fig/uniq.png)
->```bash
->$ sort os.txt | uniq -c
->```
->![uniq2]({{site.baseurl}}/fig/uniq2.png)
-Of course you can use `sort` independently.
->```bash
->$ sort os.txt > os_sort.txt
->$ uniq -c os_sort.txt
->```
->```bash
->$ uniq --help
->```
->![uniq3]({{site.baseurl}}/fig/uniq3.png)
+> ## grep 
+> `grep` (Global Regular Expression Print) is one of the most useful commands in Unix. It is commonly used to filter a file/input, line by line, against a pattern. It prints each line of the file containing a match for the pattern.
+> Check available options with:
+> ```bash
+> grep --help
+> ```
+> Syntax:
+> ```
+> grep [OPTIONS] PATTERN FILENAME
+> ```
+> Let's find how many people use macOS. First, check the file:
+> ```bash
+> wc -l bch709_student.txt
+> ```
+> ```bash
+> less bch709_student.txt
+> ```
+> To find the macOS users:
+> ```bash
+> cat bch709_student.txt | grep MacOS
+> ```
+> To count the number of macOS users:
+> ```bash
+> cat bch709_student.txt | grep MacOS | wc -l
+> ```
+> Alternatively:
+> ```bash
+> grep MacOS bch709_student.txt | wc -l
+> ```
+> Or simply:
+> ```bash
+> grep -c MacOS bch709_student.txt
+> ```
+> Using flags to filter lines that don’t contain "Windows":
+> ```bash
+> grep -v Windows bch709_student.txt
+> ```
+> Combining multiple flags:
+> ```bash
+> grep -c -v Windows bch709_student.txt
+> ```
+> With case-insensitive search and colored output:
+> ```bash
+> grep --color -i macos bch709_student.txt
+> ```
 {: .checklist}
 
->## diff 
->diff (difference) reports differences between files. A simple example for diff usage would be
->`
->$ diff FILEA FILEB
->`
->When you try to use new command, please check with `--help`.
->![diff]({{site.baseurl}}/fig/diff.png)
->```bash
->$ diff  os.txt  os_sort.txt
->```
->```bash
->$ diff -y os.txt  os_sort.txt
->```
->```bash
->$ sort os.txt | diff -y - os_sort.txt
->```
+> ## How do I store the results in a new file?
+> Use the `>` character for redirection:
+> ```bash 
+> grep -i macos bch709_student.txt > mac_student
+> ```
+> ```bash
+> cat bch709_student.txt | grep -i windows > windows_student
+> ```
+> You can check the new files with `cat` or `less`.
+{: .checklist}
+
+> ## Do you want to check the differences between two files?
+> ```bash
+> diff mac_student windows_student
+> ```
+> ```bash
+> diff -y mac_student windows_student
+> ```
+{: .keypoints}
+
+> ## How can I select the name only? (cut)
+> To extract specific columns, use `cut`:
+> ```bash
+> cat bch709_student.txt | cut -f 1
+> ```
+> Or:
+> ```bash
+> cut -f 1 bch709_student.txt
+> ```
+{: .keypoints}
+
+> ## How can I sort it? (sort)
+> Sorting names:
+> ```bash
+> cut -f 1 bch709_student.txt | sort
+> ```
+> Sorting by the second field:
+> ```bash
+> sort -k 2 bch709_student.txt
+> ```
+> Sorting by the first field:
+> ```bash
+> sort -k 1 bch709_student.txt
+> ```
+> Sorting and extracting names:
+> ```bash
+> sort -k 1 bch709_student.txt | cut -f 1
+> ```
+> Save the sorted names:
+> ```bash
+> sort -k 1 bch709_student.txt | cut -f 1 > name_sort
+> ```
+{: .keypoints}
+
+> ## uniq
+> The `uniq` command removes duplicate lines from a **sorted file**, retaining only one instance of matching lines. Optionally, it can show lines that appear exactly once or more than once. Note that `uniq` requires sorted input.
+> ```bash
+> cut -f 2 bch709_student.txt > os.txt
+> ```
+> To count duplicates:
+> ```bash
+> uniq -c os.txt
+> ```
+> ![uniq]({{site.baseurl}}/fig/uniq.png)
+> To sort and then count:
+> ```bash
+> sort os.txt | uniq -c
+> ```
+> ![uniq2]({{site.baseurl}}/fig/uniq2.png)
+> Of course, you can sort independently:
+> ```bash
+> sort os.txt > os_sort.txt
+> uniq -c os_sort.txt
+> ```
+> To learn more about `uniq`:
+> ```bash
+> uniq --help
+> ```
+> ![uniq3]({{site.baseurl}}/fig/uniq3.png)
+{: .checklist}
+
+> ## diff
+> The `diff` command compares the differences between two files.
+> Example usage:
+> ```bash
+> diff FILEA FILEB
+> ```
+> When trying new commands, always check with `--help`:
+> ![diff]({{site.baseurl}}/fig/diff.png)
+> Compare the contents of `os.txt` and `os_sort.txt`:
+> ```bash
+> diff os.txt os_sort.txt
+> ```
+> Side-by-side comparison:
+> ```bash
+> diff -y os.txt os_sort.txt
+> ```
+> You can also pipe sorted data into `diff`:
+> ```bash
+> sort os.txt | diff -y - os_sort.txt
+> ```
 {: .checklist}
 
 
 ### There are still a lot of command that you can use. Such as `paste`, `comm`, `join`, `split` etc.
+> ## Let's Download Bigger Data
+> Please visit the following website to download larger data:
+> ```
+> https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/
+> ```
+> Download the file marked in yellow.
+> ![download]({{site.baseurl}}/fig/download.png)
+{: .keypoints}
+
+> ## How to Download
+> ![download2]({{site.baseurl}}/fig/download2.png)
+> To download a file from a URL, use the following command:
+> ```bash
+> curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
+> gunzip mrna.fa.gz
+> ```
+{: .solution}
+
+> ## Viewing File Contents
+> What is the difference between `less`, `tail`, `more`, and `head`?
+{: .discussion}
+
+> ## What Are Flags (Parameters/Options)?
+> A "flag" in Unix terminology is a parameter that is added to a command to modify its behavior. For example:
+> ```bash
+> $ ls
+> ```
+> versus
+> ```bash
+> $ ls -l
+> ```
+> The `-l` flag changes the output of `ls` to display detailed information about each file. Flags help commands behave differently or report information in various formats.
+{: .checklist}
+
+> ## How to Find Available Flags
+> You can use the manual (man) to learn more about a command and its available flags:
+> ```bash
+> $ man ls
+> ```
+> This will display the manual page for `ls`, detailing all available flags and their purposes.
+> ![man]({{site.baseurl}}/fig/man.png)
+{: .checklist}
+
+> ## What if the Tool Doesn’t Have a Manual Page?
+> Not all tools include a manual page, especially third-party software. In those cases, use the `-h`, `-help`, or `--help` options:
+> ```bash
+> $ curl --help
+> ```
+> If these flags do not work, you may need to refer to external documentation or online resources.
+{: .checklist}
+
+> ## What Are Flag Formats?
+> Unix tools typically follow two flag formats:
+> - **Short form**: A single minus `-` followed by a single letter, like `-o`, `-L`.
+> - **Long form**: Double minus `--` followed by a word, like `--output`, `--Location`.
+> 
+> Flags may act as toggles (on/off) or accept additional values (e.g., `-o <filename>` or `--output <filename>`).
+> Some bioinformatics tools diverge from this format and use a single `-` for both short and long options (e.g., `-g`, `-genome`).
+> 
+> **Using flags is essential in Unix, especially in bioinformatics, where tools rely on a large number of parameters. Proper flag usage ensures the accuracy of results.**
+{: .checklist}
 
 ### Oneliners
 Oneliner, textual input to the command-line of an operating system shell that performs some function in just one line of input. This need to be done with "|".
@@ -747,15 +758,8 @@ The description line (defline) or header/identifier line, which begins with '>',
 ### FASTA file handling with command line.
 Please check one fasta file
 ```bash
-$ ls ATH_cDNA_sequences_20101108.fas
+$ ls mrna.fa
 ```
-
->## previous example
->![download2]({{site.baseurl}}/fig/download2.png)
->```bash
->curl -L -O ftp://ftp.arabidopsis.org/home/tair/Sequences/ATH_cDNA_EST_sequences_FASTA/ATH_cDNA_sequences_20101108.fas
->```
-{: .solution}
 
 ### count cDNA
 How many cDNA in this fasta file?
@@ -788,14 +792,13 @@ Please use `grep`  `cut` to find number.
 The GFF (General Feature Format) format consists of one line per feature, each containing 9 columns of data, plus optional track definition lines. The following documentation is based on the Version 3 (http://gmod.org/wiki/GFF3) specifications.
 
 Please download below file
-`
+```bash
 http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
-`
+```
 What is `.gz` ?
-`
+```bash
 file MGI.gff3.gz
-`
-
+```
 
 ### Compression
 There are several options for archiving and compressing groups of files or directories. Compressed files are not only easier to handle (copy/move) but also occupy less size on the disk (less than 1/3 of the original size). In Linux systems you can use zip, tar or gz for archiving and compressing files/directories.
@@ -809,29 +812,55 @@ There are several options for archiving and compressing groups of files or direc
 >```
 {: .checklist}
 
->## TAR compression/extraction
->```bash
->tar (tape archive) utility saves many files together into a single archive file, and restores individual files from the archive. It also includes automatic archive compression/decompression options and special features for incremental and full backups.
->tar -xzvf SOMEFILE.tar.gz # extract contents of SOMEFILE.tar
->tar -czvf OUTFILE.tar.gz DIRECTORY #extract contents of gzipped archive SOMEFILE.tar.gz
->tar -czvf OUTFILE.tar.gz \*.txt #archive and compress all files in a directory into one archive file
->tar -czvf backup.tar.gz BACKUP_WORKSHOP #archive and compress all ".txt" files in current directory into one archive file
->```
-{: .checklist}
+## TAR Compression and Extraction
 
-## Gzip compression/extraction
->gzip (gnu zip) compression utility designed as a replacement for compress, with much better compression >and no patented algorithms. The standard compression system for all GNU software.
->gzip SOMEFILE compress SOMEFILE (also removes uncompressed file)
->gunzip SOMEFILE.gz uncompress SOMEFILE.gz (also removes compressed file)
->
->gzip the file MGI.gff3.gz and examine the size. gunzip it back so that you can use this file for thelater exercises.
->```bash
->$ gunzip MGI.gff3.gz
->$ ls –lh
->$ gzip MGI.gff3
->$ ls -lh
->$ gunzip MGI.gff3.gz
->```
+The `tar` (tape archive) utility is used to bundle multiple files into a single archive file and to extract individual files from that archive. It offers options for automatic compression and decompression, along with special features for incremental and full backups.
+
+### Common Commands
+- To extract the contents of a gzipped TAR file:
+  ```bash
+  tar -xzvf SOMEFILE.tar.gz
+  ```
+- To create a gzipped TAR archive from a directory:
+  ```bash
+  tar -czvf OUTFILE.tar.gz DIRECTORY
+  ```
+- To archive and compress all `.txt` files in the current directory:
+  ```bash
+  tar -czvf OUTFILE.tar.gz *.txt
+  ```
+- To create a backup archive of a specific directory:
+  ```bash
+  tar -czvf backup.tar.gz BACKUP_WORKSHOP
+  ```
+
+## Gzip Compression and Extraction
+
+The `gzip` (GNU zip) compression utility is designed as a replacement for the `compress` program, offering much better compression without using patented algorithms. It is the standard compression system for all GNU software.
+
+### Commands
+
+- To compress a file:
+  ```bash
+  gzip SOMEFILE  # This also removes the uncompressed file
+  ```
+
+- To uncompress a file:
+  ```bash
+  gunzip SOMEFILE.gz  # This also removes the compressed file
+  ```
+
+### Example
+
+Compress the file `MGI.gff3.gz` and examine the size. Then, uncompress it so that you can use this file for later exercises.
+
+```bash
+$ gunzip MGI.gff3.gz
+$ ls -lh
+$ gzip MGI.gff3
+$ ls -lh
+$ gunzip MGI.gff3.gz
+```
 {: .checklist}
 
 
@@ -864,11 +893,12 @@ cat MGI.gff3 | cut -f 3 | grep CDS |
 ```
 Print CDS and ID
 ```bash
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head  
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head  
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head  
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head  
-    cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head  
+cat MGI.gff3 | cut -f 1,3,4,5,7,9 | head
+cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | head
+cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | head
+cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep CDS | sed 's/;.*//g' | sed 's/ID=//g' | head
+cat MGI.gff3 | cut -f 1,3,4,5,7,9 | grep $'\tCDS\t' | sed 's/;.*//g' | sed 's/ID=//g' | head
+
 ```
 Print length of each gene in a GFF3 file.
 ```bash
@@ -880,13 +910,9 @@ Extract all gene IDs from a GFF3 file.
 grep $'\tgene\t' MGI.gff3 | perl -ne '/ID=([^;]+)/ and printf("%s\n", $1)'
 ```
 
-Time and again we are surprised by just how many applications it has, and how frequently
-problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
-counts.
-The skill of using Unix is not just that of understanding the commands themselves. It is
-more about recognizing when a pattern, such as the one that we show above, is the solution
-to the problem that you wish to solve. The easiest way to learn to apply these patterns is
-by looking at how others solve problems, then adapting it to your needs.
+Time and again we are surprised by just how many applications it has, and how frequently problems can be solved by sorting, collapsing identical values, then resorting by the collapsed
+counts. 
+The skill of using Unix is not just that of understanding the commands themselves. It is more about recognizing when a pattern, such as the one that we show above, is the solution to the problem that you wish to solve. The easiest way to learn to apply these patterns is by looking at how others solve problems, then adapting it to your needs.
 
 <!--
 FASTA header lines to GFF format (assuming the length is in the header as an appended "\_length" as in [Velvet](http://www.ebi.ac.uk/~zerbino/velvet/) assembled transcripts):
@@ -966,206 +992,124 @@ by looking at how others solve problems, then adapting it to your needs.
 -->
 
 
-## Cloud platform choices
+## Cloud Platform Choices
 
-There are several cloud providers to choose from. Some scientific clouds may either be free or allocate resources competitively. Commercial clouds can be very powerful, but choice can be overwhelming. Availablity of public and commercial cloud resources also vary by country and region.
+There are several cloud providers to choose from. Some scientific clouds may either be free or allocate resources competitively. Commercial clouds can be very powerful, but choice can be overwhelming. Availability of public and commercial cloud resources also vary by country and region.
 
-The major tradeoff between platforms is between flexibility and cost. Generally speaking,
-services that allow you more flexibility and autonomy, will be more expensive than
-highly managed services.
+The major tradeoff between platforms is between flexibility and cost. Generally speaking, services that allow you more flexibility and autonomy will be more expensive than highly managed services.
 
-Below, we have highlighted the three types of computing resources: Clusters, Open Science Clouds, and Commercial Clouds, which are widely available to researchers around the world. However, the availability of any specific cluster or cloud may be region specific, and this is not meant to be an exhaustive list. We encourage researchers to use this list as a starting point for learning about cloud resources and suggest checking with your local or regional government to see what other Open Science Clouds might be available to you. The cloud resources listed here should be available to any scientist based in the US, but may be unavailable, or have different pricing, in other countries. 
+Below, we have highlighted three types of computing resources: Clusters, Open Science Clouds, and Commercial Clouds, which are widely available to researchers around the world. However, the availability of any specific cluster or cloud may be region-specific, and this is not meant to be an exhaustive list. We encourage researchers to use this list as a starting point for learning about cloud resources and suggest checking with your local or regional government to see what other Open Science Clouds might be available to you. The cloud resources listed here should be available to any scientist based in the US but may be unavailable or have different pricing in other countries.
 
 ### University/Corporate Computing Clusters
 
-Many universities and businesses operate their own computing clusters that are available to students and staff
-at low or no cost. If your employer maintains a computing cluster, this will almost always be the least
-expensive option.
+Many universities and businesses operate their own computing clusters that are available to students and staff at low or no cost. If your employer maintains a computing cluster, this will almost always be the least expensive option.
 
 However, most HPCCs (High Performance Computing Clusters) put limits on:
- - The number of processors a user can utilize at once
- - The amount of disk storage per user
- - The amount of time a single process can run
- - What programs can be installed, and by whom
- - Who can have accounts and access data
+- The number of processors a user can utilize at once
+- The amount of disk storage per user
+- The amount of time a single process can run
+- What programs can be installed, and by whom
+- Who can have accounts and access data
 
- HPCCs are also a shared resource, so even when you have access, your programs are unlikely to run
- immediately. Most HPCCs run some kind of scheduler, that you submit your processing jobs to, and
- it runs them as resources become available. In order to submit a job, you generally will need to
- know not only what program you want to run, but with how many processors and for how long.
- While interacting with the scheduler is no more difficult than interacting with the shell,
- it will have its own set of commands and syntax that you'll need to learn; and these vary
- widely among HPCCs.
+HPCCs are also a shared resource, so even when you have access, your programs are unlikely to run immediately. Most HPCCs run some kind of scheduler to which you submit your processing jobs, and it runs them as resources become available. In order to submit a job, you generally will need to know not only what program you want to run, but with how many processors and for how long. While interacting with the scheduler is no more difficult than interacting with the shell, it will have its own set of commands and syntax that you'll need to learn; these vary widely among HPCCs.
 
- There are also many upsides to using an HPCC. As previously mentioned, they're generally the least
- expensive option, but they often come with more perks. For instance, many HPCCs offer free or low-cost
- training, storage space, back-up options, and technical support. If your HPCC has a scheduler, you
- can also queue up many sequential jobs all at once, and you don't have to worry about racking up
- fees on instances that are sitting idle. It's often also much easier to pay for HPCC use than to
- pay for Amazon using grant money, however universities are getting better about AWS payments.
+There are also many upsides to using an HPCC. As previously mentioned, they're generally the least expensive option, but they often come with more perks. For instance, many HPCCs offer free or low-cost training, storage space, backup options, and technical support. If your HPCC has a scheduler, you can also queue up many sequential jobs all at once, and you don't have to worry about racking up fees on instances that are sitting idle. It's often also much easier to pay for HPCC use than to pay for Amazon using grant money; however, universities are getting better about AWS payments.
 
 ### Open Science Clouds
 
 #### [XSEDE](https://www.xsede.org/)
 
-The Extreme Science and Engineering Discovery Environment (XSEDE) is an NSF funded HPCC, so
-it is open to any US-based researcher, and shares most of the same benefits and drawbacks
-of a university or corporate HPCC. If your university or corporation doesn't have it's
-own HPCC resources, XSEDE will likely be your cheapest option.
+The Extreme Science and Engineering Discovery Environment (XSEDE) is an NSF-funded HPCC, so it is open to any US-based researcher and shares most of the same benefits and drawbacks of a university or corporate HPCC. If your university or corporation doesn't have its own HPCC resources, XSEDE will likely be your cheapest option.
 
-Although any US-based researcher can use XSEDE, first [they'll need an account](https://portal.xsede.org/#/guest).
-Like the HPCC options described above, XSEDE uses a scheduler to start jobs, and puts limits on
-how many resources any one user can utilize at once.
+Although any US-based researcher can use XSEDE, first [they'll need an account](https://portal.xsede.org/#/guest). Like the HPCC options described above, XSEDE uses a scheduler to start jobs and puts limits on how many resources any one user can utilize at once.
 
-XSEDE can also be a bit intimidating at first because you will need to know what resources
-you need, and for how long, before you get started. XSEDE runs like a mini version of the
-NSF grant system. In order to qualify to submit large jobs, you'll have to submit a [allocation request](https://portal.xsede.org/allocations/research), in the form of a short proposal.
-Also like an NSF grant, if your proposal is accepted, that means you have access to whatever
-resources you were approved for, for the time frame you requested.
+XSEDE can also be a bit intimidating at first because you will need to know what resources you need and for how long before you get started. XSEDE runs like a mini version of the NSF grant system. In order to qualify to submit large jobs, you'll have to submit a [allocation request](https://portal.xsede.org/allocations/research) in the form of a short proposal. Also like an NSF grant, if your proposal is accepted, that means you have access to whatever resources you were approved for, for the time frame you requested.
 
-Don't let that paragraph scare you off though. XSEDE has two different allocation tracks. If
-you aren't sure exactly what you'll need for your big project, you can request a [startup allocation](https://portal.xsede.org/allocations/startup) which only requires an abstract
-rather than a proposal, and grants you a year to try out your new pipeline or analysis. These
-are usually granted in a week or so, and are intended for you to test your pipeline so you
-know what to ask for in your allocation proposal.
+Don't let that paragraph scare you off, though. XSEDE has two different allocation tracks. If you aren't sure exactly what you'll need for your big project, you can request a [startup allocation](https://portal.xsede.org/allocations/startup), which only requires an abstract rather than a proposal, and grants you a year to try out your new pipeline or analysis. These are usually granted in a week or so and are intended for you to test your pipeline so you know what to ask for in your allocation proposal.
 
-If that still sounds a little too daunting, XSEDE also has [trial allocations](https://iujetstream.atlassian.net/wiki/spaces/JWT/pages/76149919/Jetstream+Trial+Access+Allocation)
-which give you access to only a tiny fraction of XSEDES power, but are plenty large enough to
-test your code and see if a larger allocation is worth pursuing. These allocations are granted
-more or less immediately by simply filling in a form and agreeing to the usage rules.
+If that still sounds a little too daunting, XSEDE also has [trial allocations](https://iujetstream.atlassian.net/wiki/spaces/JWT/pages/76149919/Jetstream+Trial+Access+Allocation) which give you access to only a tiny fraction of XSEDE's power but are plenty large enough to test your code and see if a larger allocation is worth pursuing. These allocations are granted more or less immediately by simply filling in a form and agreeing to the usage rules.
 
-If you're interested in using XSEDE, check to see if your workplace has a [Campus Champion](https://www.xsede.org/community-engagement/campus-champions). These are people who
-have had extensive training on both the XSEDE system and the allocation program, and can
-help you figure out how to apply and what you need.
+If you're interested in using XSEDE, check to see if your workplace has a [Campus Champion](https://www.xsede.org/community-engagement/campus-champions). These are people who have had extensive training on both the XSEDE system and the allocation program and can help you figure out how to apply and what you need.
 
 #### [Open Science Grid](https://opensciencegrid.org)
 
-The Open Science Grid (OSG) is an NSF-funded national network of computing centers that
-have pooled their resources together and made them available to various research groups.
-The OSG is usable by any researcher based at a US institution, and is accessible
-for free without an allocation. It can provide millions of computing hours for researchers
-who have problems that fit well on its setup.
+The Open Science Grid (OSG) is an NSF-funded national network of computing centers that have pooled their resources together and made them available to various research groups. The OSG is usable by any researcher based at a US institution and is accessible for free without an allocation. It can provide millions of computing hours for researchers who have problems that fit well on its setup.
 
-Certain projects and universities have direct access to the Open Science Grid, but any
-researcher can access it through the [OSG Connect](https://osgconnect.net/) entry point.
-If you apply for OSG access through that website, you will have a consultation with
-someone who can help you determine if your analysis is a good fit for and how to get started.
+Certain projects and universities have direct access to the Open Science Grid, but any researcher can access it through the [OSG Connect](https://osgconnect.net/) entry point. If you apply for OSG access through that website, you will have a consultation with someone who can help you determine if your analysis is a good fit and how to get started.
 
-The OSG is a great fit for problems that can be broken into lots of independent pieces.
-One good example is read alignment: the starting read data can be broken into several
-pieces, each of them aligned, and then the results combined. Another good problem type
-for the OSG are multi-start simulations or statistical analyses where you need to run the
-same model or simulation many, many times. The payoff of using this
-approach is being able to run on many hundreds (sometimes thousands!) of computers at
-once, accelerating your analysis.
+The OSG is a great fit for problems that can be broken into lots of independent pieces. One good example is read alignment: the starting read data can be broken into several pieces, each of them aligned, and then the results combined. Another good problem type for the OSG are multi-start simulations or statistical analyses where you need to run the same model or simulation many, many times. The payoff of using this approach is being able to run on many hundreds (sometimes thousands!) of computers at once, accelerating your analysis.
 
-Note that you don't access a specific computing center through OSG -- unlike XSEDE, where
-you apply for time and then run on a specific HPCC resource, the OSG sits on top of many
-resources and when you submit your work, it could run almost anywhere in the overall system.
+Note that you don't access a specific computing center through OSG -- unlike XSEDE, where you apply for time and then run on a specific HPCC resource, the OSG sits on top of many resources, and when you submit your work, it could run almost anywhere in the overall system.
 
 #### [Open Science Data Cloud (OSDC)](https://www.opensciencedatacloud.org/)
 
-The Open Science Data Cloud provides the scientific community with resources for storing, sharing, and analyzing terabyte and petabyte-scale scientific datasets. OSDC's Bionimbus Protected Data Cloud (PDC) is a platform designed with the sole purpose of analysing and sharing protected genomics data.
+The Open Science Data Cloud provides the scientific community with resources for storing, sharing, and analyzing terabyte and petabyte-scale scientific datasets. OSDC's Bionimbus Protected Data Cloud (PDC) is a platform designed with the sole purpose of analyzing and sharing protected genomics data.
 
 #### [Atmosphere](https://pods.iplantcollaborative.org/wiki/display/atmman/Getting+Started)
 
-
 #### [CyVerse (iPlant Collaborative) Atmosphere](http://www.cyverse.org/atmosphere)
-
 
 #### [JetStream](http://jetstream-cloud.org/)
 
 ### Commercial Clouds
-Computing architecture is moving (albeit at a slow pace) to the Model-to-Data paradigm. This means that scientists should be encouraged to bring their compute to where the data is stored, instead of the the other way around. The following outlines the general differences between the three major commercial cloud providers: Amazon Web Services (AWS), Google Cloud Platform (GCP) and Microsoft Azure.
 
-Essentially all cloud providers provide extremely similar computing and storage options; you can "rent" or provision computing infrastructure with very similar specifications across all three cloud vendors. Even the costs are highly comparable. What governs how to choose the right cloud computing vendor is highly opportunistic: (1)funding options, (2)solidarity with collaborating/similar scientific groups, (3)location of datasets that a particular research group works with and (4)familiarity with cloud vendor services.
+Computing architecture is moving (albeit at a slow pace) to the Model-to-Data paradigm. This means that scientists should be encouraged to bring their compute to where the data is stored, instead of the other way around. The following outlines the general differences between the three major commercial cloud providers: Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure.
 
-1. Funding options: Does your grant stipulate where you should build your computing pipeline? For example, the NIH often partners with specific cloud vendors to provide cloud credits that allow researchers to compute for free. Some cloud vendors also provide research credits.
-2. Solidarity with collaborating/similar scientific groups: Are other research groups in your field drawn to a specific cloud vendor? It might make sense to utilize the same cloud service to minimize transfer (egress) costs especially if you are sharing large datasets. You may also be able to make use of existing pipelines without reinventing the wheel if you choose the same cloud provider that your collaborators are using.
-3. Location of datasets that a particular research group works with: Again, thinking of bringing your models to the where the data is stored helps minimize costs and saves you time in having to download and store data separately.
-4. Services here refer to cloud vendor add-ons that take away the need for a user to set up their own computing infrastructure.  A fully managed database (e.g. AWS RDS, GCP CloudSQL, Azure SQL DB) is an example of a service. If you are used to SQL Server, you may want to look into options provided by Azure. Are you more familiar with Postgres SQL? Then AWS and GCP might provide cheaper options for you.
+Essentially all cloud providers provide extremely similar computing and storage options; you can "rent" or provision computing infrastructure with very similar specifications across all three cloud vendors. Even the costs are highly comparable. What governs how to choose the right cloud computing vendor is highly opportunistic: (1) funding options, (2) solidarity with collaborating/similar scientific groups, (3) location of datasets that a particular research group works with, and (4) familiarity with cloud vendor services.
+
+1. **Funding options**: Does your grant stipulate where you should build your computing pipeline? For example, the NIH often partners with specific cloud vendors to provide cloud credits that allow researchers to compute for free. Some cloud vendors also provide research credits.
+   
+2. **Solidarity with collaborating/similar scientific groups**: Are other research groups in your field drawn to a specific cloud vendor? It might make sense to utilize the same cloud service to minimize transfer (egress) costs, especially if you are sharing large datasets. You may also be able to make use of existing pipelines without reinventing the wheel if you choose the same cloud provider that your collaborators are using.
+   
+3. **Location of datasets that a particular research group works with**: Again, thinking of bringing your models to where the data is stored helps minimize costs and saves you time in having to download and store data separately.
+   
+4. **Services**: Here, services refer to cloud vendor add-ons that take away the need for a user to set up their own computing infrastructure. A fully managed database (e.g., AWS RDS, GCP CloudSQL, Azure SQL DB) is an example of a service. If you are used to SQL Server, you may want to look into options provided by Azure. Are you more familiar with Postgres SQL? Then AWS and GCP might provide cheaper options for you.
 
 #### [Amazon EC2](http://aws.amazon.com/ec2/)
 
-The Amazon Web Service (AWS) that you've been using is the Elastic Compute (EC2) cloud. There
-are actually lots of other cloud and storage solutions under the AWS umbrella, but when most
-data scientists say AWS, they mean [EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html).
-With EC2, you can rent access to a cloud computing resource as small as your laptop, or as large as a 64 processor
-machine with 488GB of memory, and with a number of different operating systems. These instances can
-be optimized for jobs that are memory intensive, or require a lot of bandwidth, or [almost any other
-specific need](https://aws.amazon.com/ec2/instance-types/). There are so many options that we can't
-cover them all here, but these are a few popular ones:
+The Amazon Web Service (AWS) that you've been using is the Elastic Compute (EC2) cloud. There are actually lots of other cloud and storage solutions under the AWS umbrella, but when most data scientists say AWS, they mean [EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html). With EC2, you can rent access to a cloud computing resource as small as your laptop or as large as a 64-processor machine with 488GB of memory, and with a number of different operating systems. These instances can be optimized for jobs that are memory intensive, require a lot of bandwidth, or [almost any other specific need](https://aws.amazon.com/ec2/instance-types/). There are so many options that we can't cover them all here, but these are a few popular ones:
 
 ##### On-Demand
-All this variety and optimization makes EC2 much more expensive than an average HPCC, however,
-depending on your needs it can be [quite affordable](https://aws.amazon.com/ec2/pricing/). If
-you want to start an EC2 instance whenever you want and have instant access, you can
-rent a quite large on-demand instance with 8 processors and 32 GB of memory for ~40 cents
-an hour, and tiny instances are only about half a cent per hour.
 
+All this variety and optimization makes EC2 much more expensive than an average HPCC; however, depending on your needs, it can be [quite affordable](https://aws.amazon.com/ec2/pricing/). If you want to start an EC2 instance whenever you want and have instant access, you can rent a quite large on-demand instance with 8 processors and 32 GB of memory for ~40 cents an hour, and tiny instances are only about half a cent per hour.
 
-##### Spot-Instances
-If your program can tolerate pauses, and you don't need the analysis done as fast as
-possible, you can request a spot instance. Essentially, whenever Amazon has computing
-capacity that no one is paying them for, they lower the prices for renting some systems.
-If you request a spot-instance, that means you specify the size and parameters of
-your machine rental, and set a limit on how much you're willing to spend per hour. Then,
-whenever the rental rate dips below your maximum, your instance turns on and runs until
-the price goes back up. If it's not an important shopping season, and you aren't in a hurry,
-you can often run spot-instances for less than half their normal cost.
+##### Spot Instances
+
+If your program can tolerate pauses and you don't need the analysis done as fast as possible, you can request a spot instance. Essentially, whenever Amazon has computing capacity that no one is paying them for, they lower the prices for renting some systems. If you request a spot-instance, that means you specify the size and parameters of your machine rental and set a limit on how much you're willing to spend per hour. Then, whenever the rental rate dips below your maximum, your instance turns on and runs until the price goes back up. If it's not an important shopping season, and you aren't in a hurry, you can often run spot-instances for less than half their normal cost.
 
 ##### Free Tier
-There are also [free options](https://aws.amazon.com/free/), which allow you to test out
-the interface and make sure it will meet your needs before you start renting.
 
-Just remember that with EC2 and all other commercial services, you're paying for renting the computer,
-whether you're using it or not. If you leave an instance on idly for months after your pipeline has finished,
-you'll still have to pay for that time.
+There are also [free options](https://aws.amazon.com/free/), which allow you to test out the interface and make sure it will meet your needs before you start renting.
 
-#### [Google Cloud](https://cloud.google.com/): [getting started](https://cloud.google.com/compute/docs/quickstart)
+Just remember that with EC2 and all other commercial services, you're paying for renting the computer, whether you're using it or not. If you leave an instance on idly for months after your pipeline has finished, you'll still have to pay for that time.
+
+#### [Google Cloud](https://cloud.google.com/): [Getting Started](https://cloud.google.com/compute/docs/quickstart)
+
 GCP offers very competitive prices for compute and storage (as of July 2019, their compute pricing is lower than that of AWS and Azure for instances of comparable specifications). If you are looking to dabble in cloud computing but do not need a vast catalog of services, GCP would be a good place to start looking.
 
-Their version of "Spot Intances" are known as pre-emptible instances and offer very competitive pricing. GCP also has TPUs.
+Their version of "Spot Instances" are known as pre-emptible instances and offer very competitive pricing. GCP also has TPUs.
 
 #### [Microsoft Azure](https://azure.microsoft.com/en-us/)
-If your software requires Microsoft Windows, it may be cheaper to use MS Azure due to licensing issues. Azure's computing instances are known as Azure Virtual Machines and often come at a slightly higher cost than other cloud computing vendors' offerings. If a lot of your computing pipeling is Windows dependent, it may make sense to build everything on MS Azure from the get go.
+
+If your software requires Microsoft Windows, it may be cheaper to use MS Azure due to licensing issues. Azure's computing instances are known as Azure Virtual Machines and often come at a slightly higher cost than other cloud computing vendors' offerings. If a lot of your computing pipeline is Windows dependent, it may make sense to build everything on MS Azure from the get-go.
 
 #### [IBM Cloud](https://www.ibm.com/cloud)
-IBM Cloud offers more than 11 million bare metal configurations in virtual mode which are customizable RAM and SSDs on bare metal. They also have an on-demand provisioning for all servers whose management and monitoring included along with the direct and cost-free tech support
+
+IBM Cloud offers more than 11 million bare metal configurations in virtual mode which are customizable RAM and SSDs on bare metal. They also have on-demand provisioning for all servers, with management and monitoring included along with direct and cost-free tech support.
 
 ## How to Choose
 
-As you can see, highly managed systems (HPCCs, XSEDE, etc) usually are free or cheap, but
-relatively inflexible. There may be certain programs you can't install, or there may be long
-wait times. Commercial systems are generally more flexible because you can make them look
-however you want, but they can be quite expensive, especially if you run for a long time, or have a
-lot of data. However, there are other things to consider.
+As you can see, highly managed systems (HPCCs, XSEDE, etc.) usually are free or cheap, but relatively inflexible. There may be certain programs you can't install, or there may be long wait times. Commercial systems are generally more flexible because you can make them look however you want, but they can be quite expensive, especially if you run for a long time or have a lot of data. However, there are other things to consider.
 
-Another way to think about this is not *whether* you want to spend your time and money, but *where* you
-want to spend them. AWS will let you install anything you want, but that also means that you'll
-have to spend some time up-front installing programs and testing configurations. Your HPCC jobs
-might take a week to start, but you don't have to do any of the systems administration, and you
-can work on other projects while your job sits in the queue.
+Another way to think about this is not *whether* you want to spend your time and money, but *where* you want to spend them. AWS will let you install anything you want, but that also means that you'll have to spend some time up-front installing programs and testing configurations. Your HPCC jobs might take a week to start, but you don't have to do any of the systems administration, and you can work on other projects while your job sits in the queue.
 
-Your familiarity with the pipeline can also be a factor. Let's say you want to run a program
-you've never run before. If you have no way to estimate how
-long your job will take, a service like AWS might save you money, because you can run your
-program until its done, no matter how long that is. Running it on an HPCC can be really
-frustrating, because you'll need to submit your job with the amount of time and resources it will use.
-An HPCC will only let your job run the amount of time you requested, so if you underestimate the
-amount of time it will take, even by one minute, the system kills your program and you need to resubmit it.
-On the other hand, if you want to run that same program, but you can easily estimate the runtime, an
-HPCC is going to be a much cheaper choice.
+Your familiarity with the pipeline can also be a factor. Let's say you want to run a program you've never run before. If you have no way to estimate how long your job will take, a service like AWS might save you money because you can run your program until it's done, no matter how long that is. Running it on an HPCC can be really frustrating because you'll need to submit your job with the amount of time and resources it will use. An HPCC will only let your job run for the amount of time you requested, so if you underestimate the amount of time it will take, even by one minute, the system kills your program, and you need to resubmit it. On the other hand, if you want to run that same program, but you can easily estimate the runtime, an HPCC is going to be a much cheaper choice.
 
-In my work, I often use both commercial and non-commercial services. I tend to use AWS for testing,
-with small amounts of data, until I know how the program behaves. Then I port the pipeline to
-my university HPCC for running the full dataset.
+In my work, I often use both commercial and non-commercial services. I tend to use AWS for testing, with small amounts of data, until I know how the program behaves. Then I port the pipeline to my university HPCC for running the full dataset.
 
 > ## Discussion
 >
-> In small groups or on your own, plot out your next bioinformatics project. With guidance
-> from your instructors and the above references, try to determine not only what types of
-> resources you'll need, but what platform will best suit your project.
+> In small groups or on your own, plot out your next bioinformatics project. With guidance from your instructors and the above references, try to determine not only what types of resources you'll need but what platform will best suit your project.
 >
 > Some things to consider:
 >
@@ -1180,24 +1124,12 @@ my university HPCC for running the full dataset.
 > - How many times will you need to run this pipeline?
 {: .challenge}
 
-> ## Human genomic data & Security
+> ## Human Genomic Data & Security
 >
-> Note that if you are working with human genomics data there might be ethical and legal
-> considerations that affect your choice of cloud resources to use. The terms of use, and/or
-> the legislation under which you are handling the genomic data, might impose heightened information
-> security measures for the computing environment in which you intend to process it. This is a too broad
-> topic to discuss in detail here, but in general terms you should think through the technical and
-> procedural measures needed to ensure that the confidentiality and integrity of the human data you work
-> with is not breached. If there are laws that govern these issues in the jurisdiction in which you work,
-> be sure that the cloud service provider you use can certify that they support the necessary measures.
-> Also note that there might exist restrictions for use of cloud service providers that operate in other
-> jurisdictions than your own, either by how the data was consented by the research subjects or by the
-> jurisdiction under which you operate. Do consult the legal office of your institution for guidance
-> when processing human genomic data.
+> Note that if you are working with human genomics data, there might be ethical and legal considerations that affect your choice of cloud resources to use. The terms of use, and/or the legislation under which you are handling the genomic data, might impose heightened information security measures for the computing environment in which you intend to process it. This is too broad a topic to discuss in detail here, but in general terms you should think through the technical and procedural measures needed to ensure that the confidentiality and integrity of the human data you work with is not breached. If there are laws that govern these issues in the jurisdiction in which you work, be sure that the cloud service provider you use can certify that they support the necessary measures. Also note that there might exist restrictions for the use of cloud service providers that operate in other jurisdictions than your own, either by how the data was consented by the research subjects or by the jurisdiction under which you operate. Do consult the legal office of your institution for guidance when processing human genomic data.
 {: .callout}
 
-### Other Resources:
-
+### Other Resources
 
 Learn more about cloud computing in bioinformatics:
 
@@ -1205,15 +1137,6 @@ Fusaro VA, Patil P, Gafni E, Wall DP, Tonellato PJ (2011) **Biomedical Cloud Com
 
 Charlebois K, Palmour N, Knoppers BM (2016) **The Adoption of Cloud Computing in the Field of Genomics Research: The Influence of Ethical and Legal Issues**. PLoS ONE 11(10): e0164347. https://doi.org/10.1371/journal.pone.0164347
 
-Langmead B, Nellore A (2018) **Cloud computing for genomic data analysis and collaboration** Nature Reviews Genetics 19 (208). doi: 10.1038/nrg.2017.113 (https://www.nature.com/articles/nrg.2017.113)
-
-
-
-
-
-This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
-
-, a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
-
+Langmead B, Nellore A (2018) **Cloud Computing for Genomic Data Analysis and Collaboration**. Nature Reviews Genetics 19 (208). doi: 10.1038/nrg.2017.113 (https://www.nature.com/articles/nrg.2017.113)
 
 This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
