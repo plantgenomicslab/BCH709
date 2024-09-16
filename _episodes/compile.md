@@ -12,12 +12,12 @@ published: true
 
 ## macOS
 
-> ## Install Xcode
->Inside the Terminal window, copy and paste (or type) the following command, and press the return key on your keyboard:
->```
->$ xcode-select --install
->```
+> ### Install Homebrew
+> ```bash
+> $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> ```
 {: .prereq}
+
 
 > ## Install Homebrew
 >```bash
@@ -25,13 +25,13 @@ published: true
 > ```
 {: .prereq}
 
-> ## Brew update
->```bash
->$ brew update
->```
+> ### Brew update
+> ```bash
+> $ brew update
+> ```
 {: .prereq}
 
-### Install Prerequire Software
+### Install Prerequisite Software
 ```bash
 $ brew install openssl readline sqlite3 xz wget
 ```
@@ -42,7 +42,7 @@ $ sudo apt update
 $ sudo apt-get install -y make build-essential libssl-dev  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl vim debootstrap
 ```
 
-## Let's install test package!
+## Install test package!
 ### On Ubuntu systems:  
 ```bash
 $ apt install screenfetch
@@ -66,36 +66,40 @@ screenfetch
 
 
 #### **Perl**
-Flexible, by a global repository (CPAN), thus it is small install new modules. It has Bio per, one of the first biological unit repositories that upsurge the usability from, for instance, change setups to do the phylogenetic investigation. There are several biological software those usages Perl such as GBrowse thus might be an exciting language if you need toward interact with it. Good test units Perl is still what a lot of persons use, but it is declining out of use since Python accomplishes the similar tasks and is easier toward write code for, particularly for beginners.
+Perl is flexible and has a global repository (CPAN), which makes it easy to install new modules. It also has BioPerl, one of the first biological unit repositories, enhancing usability for tasks such as phylogenetic analysis. Although Perl was widely used, Python has become more popular due to its ease of use, especially for beginners.
+
 
 
 #### **R & Python**
-R is great for all the reasons, but if you like coding more than statistics, you may enjoy Python’s style a lot more. That sounds like a contradiction: How could you possibly know you enjoy coding more than statistics when you are choosing your first programming language? I would suggest trying them both and seeing what you like best. I personally enjoy coding in Python more than in R because its rules make more sense and it feels more like a programming language. In my experience, it is also much easier to make a command-line tool in Python than in R, and Python also has some packages for bioinformatics that are quite useful.
+R is excellent for statistical analysis, but if you prefer coding, Python might suit you more. Python's rules are easier to follow, making it more beginner-friendly. It's also easier to develop command-line tools in Python, and there are useful bioinformatics packages available in Python.
+
 
 
 #### **Bash**
-It is also very important for bioinformaticians to learn Bash, which for all of our intents and purposes is interchangeable with shell, the command-line, or the terminal. Bash is the primary way to access your data on your institution’s cluster and to run most genomics and bioinformatics software. It is also very powerful for manipulating your data like sorting, filtering, or doing calculations between columns, which is available through various utilities.
+Bash (or shell scripting) is essential for bioinformaticians. It’s a powerful tool for data manipulation (sorting, filtering, etc.) and is often used on institutional clusters. It may seem intimidating at first, but with time, you will find it very efficient for repetitive tasks and system administration.
 
-In my experience, and everyone I have talked to about it, bash was confusing and scary at first, but when you get the hang out it you start to feel this power surging through you, and you can do things in second that would take you hours to do by hand. Even two years into it I would still learn something new in bash that would blow my mind and I would kick myself for wasting time having programmed it from scratch in Python.
 
 ### Python, Perl, R and bash
-In summary, for wet-lab people who want to add bioinformatics to their toolbox, focus on learning R first and applying it to your own work. For people who want to focus on bioinformatics as a career and make their own tools too, I would actually recommend learning the trifecta of R, Python, and Bash, though you could get away with choosing between R and Python as long as you still learn Bash too. I can go into more depth on any of these topics or give an introduction to any of these languages if you let me know in the comments.
+For wet-lab researchers starting with bioinformatics, R is a good choice to learn first. If you aim for a bioinformatics career, knowing R, Python, and Bash is recommended. For beginners, focusing on either R or Python, while learning Bash, can still be effective.
 
 
 ### Other programming languages
-There are many other languages out there, so before I end here I’m going to give a brief reason why these are not recommended for bioinformatics, beginners, or anyone at all in some cases.
 
 #### C and C++
-C or C++ are great for making super optimized command-line tools like aligners and variant-callers, but you will have a much easier time learning Python first and then going to these high-performance languages for a particular problem in the future, since they are harder to learn, more finicky, and take a lot more code to do the same thing.
+C and C++ are great for high-performance tools like aligners, but they are harder to learn and take more code to accomplish tasks that can be done more simply in Python.
+
 
 #### Ruby
-Ruby is one of those hot languages right now, for good reason largely because of the power of Ruby on Rails for making database-driven web applications like blogs or twitter. Ruby however is not great for bioinformatics because it lacks the community support in terms of packages that R and Python have, so you would be better off learning Python instead of Ruby.
+Ruby is popular for web applications but lacks the package support for bioinformatics that Python and R have.
+
 
 #### JavaScript or PHP
-JavaScript and PHP are great languages for web applications, but bioinformatics web applications should never be your first project. You could make a computational method in Python or R and then later make it into a web application, but that is not a project for a beginner. HTML and CSS by the way are not programming languages, but actually markup and styling languages that you will use along with JavaScript and PHP for that web application someday.
+These languages are better suited for web applications. Bioinformatics should start with Python or R before considering web development languages.
+
 
 #### Java
-Java is a popular language that most people have heard of. In bioinformatics, a notable example is the genome browser IGV. However, I would not recommend for beginners to learn Java due to many issues including memory management and that Python and R have many more bioinformaticians who build packages and answer questions online.
+Java has some uses in bioinformatics (e.g., IGV genome browser), but it's not beginner-friendly, especially when compared to Python or R.
+
 
 
 ![language]({{{site.baseurl}}/fig/language.png)
@@ -104,13 +108,16 @@ Java is a popular language that most people have heard of. In bioinformatics, a 
 ### Package Library Module
 
 #### Library 
-Most often will refer to the general library or another collection created with a similar format and use. The General Library is the sum of 'standard', popular and widely used Modules, witch can be thought of as single file tools, for now or short cuts making things possible or faster. The general library is an option most people enable when installing Python. Because it has this name "Python General Library" it is used often with similar structure, and ideas. Witch is simply to have a bunch of Modules, maybe even packages grouped together, usually in a list. The list is usually to download them. Generally it is just related files, with similar interests. That is the easiest way to describe it.
+Refers to a collection of related packages or modules. It’s often used to describe the Python Standard Library, which contains many modules that provide additional functionality.
+
 
 #### Module 
-A Module refers to a file. The file has script 'in it' and the name of the file is the name of the module, Python files end with .py. All the file contains is code that ran together makes something happen, by using functions, strings ect. Main modules you probably see most often are popular because they are special modules that can get info from other files/modules. It is confusing because the name of the file and module are equal and just drop the .py. Really it's just code you can use as a shortcut written by somebody to make something easier or possible.
+A module is a single file containing Python code. When you import a module, Python executes the code inside that file. Modules make code more reusable and manageable.
+
 
 #### Package
-This is a termis used to generally sometimes, although context makes a difference. The most common use from my experience is multiple modules (or files) that are grouped together. Why they are grouped together can be for a few reasons, that is when context matters. These are ways I have noticed the term package(s) used. They are a group of Downloaded, created and/or stored modules. Which can all be true, or only 1, but really it is just a file that references other files, that need to be in the correct structure or format, and that entire sum is the package itself, installed or may have been included in the python general library. A package can contain modules(.py files) because they depend on each other and sometimes may not work correctly, or at all. There is always a common goal of every part (module/file) of a package, and the total sum of all of the parts is the package itself.
+A package is a collection of related modules that work together. It usually includes several files and folders organized in a specific structure.
+
 
 ### Programming languages module or library manager
 Python - pip  
@@ -132,7 +139,7 @@ chmod is the command and system call which is used to change the access permissi
 ![language]({{{site.baseurl}}/fig/file_permission3.png)
 ![language]({{{site.baseurl}}/fig/file_permission4.png)
 
-### Using Octal number:
+### Using Octal number for Permissions:
 ![language]({{{site.baseurl}}/fig/file_permission5.png)
 
 
@@ -145,7 +152,8 @@ $ htop
 ```
 ### RC file such as .bashrc, .zshrc
 
-In Unix-like operating systems such as Linux, rc is a file name extension which stands for "run commands." An rc file contains several statements or commands, one per line, to be executed or evaluated by the shell. Its purpose is to configure the environment and prepare the system to run specific software.
+RC files configure the environment and prepare the system to run specific software. These are commonly used in Unix-like systems to automate shell configurations.
+
 
 ### Connect to Pronghorn
 You can log onto its front-end/job-submission system (pronghorn.rc.unr.edu) using your UNR NetID and password. Logging into HPC class requires an SSH client if you are >using Windows but Mac/Linux have these built into their OS. There are several available for download for the Windows platform.
@@ -155,8 +163,7 @@ ssh <YOURID>@pronghorn.rc.unr.edu
 ```
 
 
-### Prompt Customization for Pronghorn and Ubuntu
-
+### Prompt Customization for Windows
 ```bash
 echo '###BCH709 ' >> ~/.bashrc
 
@@ -173,13 +180,11 @@ source ~/.bashrc
 ### Prompt Customization for Mac
 ```bash
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-```bash
 source ~/.zshrc
+
 ```
 
-#### *More information is* [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
+#### *More information is here* [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
 
 
 ## Linux family tree
@@ -187,7 +192,7 @@ source ~/.zshrc
 
 > ## Package Management Concepts
 >![package](https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/Package_Management_tw_mostov.png)
-> Contemporary distributions of Linux-based operating systems install software in pre-compiled packages, which are archives that contain binaries of software, configuration files, and information about dependencies. Furthermore, package management tools keep track of updates and upgrades so that the user doesn’t have to hunt down information about bug and security fixes.
+> Package management in Linux allows for easier installation and updating of software. It handles dependencies and ensures proper installation across systems. Popular tools include APT (Debian/Ubuntu), YUM (CentOS/Fedora), and Homebrew (macOS).
 >
 > Without package management, users must ensure that all of the required dependencies for a piece of software are installed and up-to-date, compile the software from the source code (which takes time and introduces compiler-based variations from system to system), and manage configuration for each piece of software. Without package management, application files are located in the standard locations for the system to which the developers are accustomed, regardless of which system they’re using.
 >
@@ -312,8 +317,8 @@ $ dpkg --get-selections > ~/package_list
 ```
 To search for a specific package run:
 ```bash
-$ dpkg --get-selections | grep <package>
-$ yum list installed "package_name"
+dpkg --get-selections | grep <package>
+yum list installed "package_name"
 ```
 
 ## Search packages
@@ -322,8 +327,8 @@ On Ubuntu systems:
 apt search <package-name>
 ```
 ```bash
-$ apt search firefox
-$ apt search ^firefox 
+apt search firefox
+apt search ^firefox 
 ```
 
 On macOS systems:
@@ -380,12 +385,14 @@ $ brew install firefox@68.0.2
 
 | Software | Version | Manual | Available for | Description |
 | -------- | ------------ | ------ | ------------- | ----------- |
-| [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | 0.11.7 | [Link](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/)| Linux, MacOS, Windows | Quality control tool for high throughput sequence data. |
-| [HISAT2](https://ccb.jhu.edu/software/hisat2/index.shtml) | 2.1.0| [Link](https://ccb.jhu.edu/software/hisat2/index.shtml) | Linux, MacOS, Windows | Mapping RNA sequences against genome |
+| [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | 0.11.7 | [Link](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)| Linux, MacOS, Windows | Quality control tool for high throughput sequence data. |
+| [HISAT2](https://daehwankimlab.github.io/hisat2/) | 2.1.0| [Link](https://daehwankimlab.github.io/hisat2/) | Linux, MacOS, Windows | Mapping RNA sequences against genome |
 | [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
 
 
 ## Conda?
+Conda helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
+
 - Dependencies is one of the main reasons to use Conda.
 Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.
  
@@ -394,7 +401,7 @@ Sometimes, install a package is not as straight forward as you think. Imagine a 
 - The other advantage of conda, is that conda can have multiple environments for different projects. As mentioned at the very beginning, it can have two separate environments of different versions of software.
 Using conda environment on BioHPC
 
-### Installing Packages Using Conda
+### Installing Packages Using Miniconda
 >
 >Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
 >
@@ -406,192 +413,281 @@ Using conda environment on BioHPC
 
 - Miniconda gives you the Python interpreter itself, along with a command-line tool called conda which operates as a cross-platform package manager geared toward Python packages, similar in spirit to the apt or yum tools that Linux users might be familiar with.
 
+Here is the rewritten content in markdown source code format:
+
+```markdown
 ### Miniconda3
 
-Miniconda is a package manager that simplifies the installation process. Please first install miniconda3 (installation instructions below), and then proceed to the installation of individual tools. 
+Miniconda is a lightweight package manager that simplifies the installation process for environments and packages. First, install Miniconda3 by following the instructions below, then proceed to install individual tools.
 
 ### Install Miniconda
-Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and get ready to download the installer of your choice/system.
 
-There are several different env in this world.
+Visit the [Miniconda](https://docs.conda.io/en/latest/miniconda.html) page to download the installer for your system.
+
+For direct access, visit:  
 ***https://repo.anaconda.com/miniconda/***
+
 ![package]({{site.baseurl}}/fig/slide_package.png)
 
 > ## Linux
 > 
->To install miniconda3, type:
->
->~~~
->$ curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
->$ bash Miniconda3-latest-Linux-x86_64.sh
->~~~
->{: .bash}
-> Then, follow the instructions that you are prompted with on the screen to install Miniconda3. 
+> To install Miniconda3 on Linux, run:
+> 
+> ~~~bash
+> mkdir -p ~/miniconda3
+> wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+> rm ~/miniconda3/miniconda.sh
+> ~~~
+> 
+> Follow the on-screen instructions to complete the installation.
 {: .solution}
 
 ![conda1]({{site.baseurl}}/fig/conda_excute.png)
 ![conda2]({{site.baseurl}}/fig/conda_excute2.png)
 
-
-> ## MacOS
+> ## macOS Intel
 > 
->To install miniconda3, type:
->
->~~~
->$ curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
->$ bash Miniconda3-latest-MacOSX-x86_64.sh
->~~~
->{: .bash}
-> Then, follow the instructions that you are prompted with on the screen to install Miniconda3. 
+> To install Miniconda3 on macOS with Intel architecture, run:
+> 
+> ~~~bash
+> mkdir -p ~/miniconda3
+> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/miniconda3/miniconda.sh
+> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+> rm ~/miniconda3/miniconda.sh
+> ~~~
+> 
+> Follow the on-screen instructions to complete the installation.
 {: .solution}
 
+> ## macOS M1 (Apple Silicon)
+> 
+> To install Miniconda3 on macOS with M1 (Apple Silicon) architecture, run:
+> 
+> ~~~bash
+> mkdir -p ~/miniconda3
+> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
+> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+> rm ~/miniconda3/miniconda.sh
+> ~~~
+> 
+> Follow the on-screen instructions to complete the installation.
+{: .solution}
 
-## Reload your Conda enviroment
+## Reload Your Conda Environment
+
 ### Linux
 ```bash
-$ source ~/.bashrc
+source ~/.bashrc
 ```
 
-### Mac OS
+### macOS
 ```bash
-$ source ~/.bash_profile ## OLD MAC
-$ source ~/.zshrc  ## NEW MAC
+source ~/.bash_profile ## For older macOS versions
+source ~/.zshrc         ## For newer macOS versions
 ```
 
 ### Initialize Miniconda3
+
+To initialize Conda after installation, run:
 
 ```bash
 $ conda init
 ```
 
-### Create new conda environment
 
-#### Create a conda environment named test with latest anaconda package.
+### Creating and Using Conda Environments
+
+To create a new Conda environment with Python 3.8 and activate it, use the following commands:
+
 ```bash 
-$ conda create -n bch709 
+$ conda create -n bch709 python=3.8
+$ conda activate bch709
 ```
-#### Alternatively you can specify python version
+
+### Installing Packages in Conda
+
+You can install packages in your active environment using:
+
 ```bash
-$ conda create -n snowdeer_env python=2.7.16
+$ conda install <package-name>
 ```
 
-*Usually, the conda environment is installed in your home directory on computer, /home/\<your username\>. The newly created environment <test> will be installed in the directory /home/wyim/miniconda3/envs/test*
- 
+*By default, Conda environments are installed in your home directory, typically under `/home/<your_username>/miniconda3/envs/<environment_name>`. For example, the environment `bch709` would be installed in `/home/<your_username>/miniconda3/envs/bch709`.*
 
-#### Use the environment you just created
-Activate your environment:
+### Deactivating and Removing Environments
+
+To deactivate the current environment, run:
+
+```bash
+$ conda deactivate
+```
+
+To remove the environment `bch709`, use:
+
+```bash
+$ conda env remove --name bch709
+```
+
+### Activating the Environment
+
+Once created, activate your environment using:
+
 ```bash  
 $ conda activate bch709
 ```
-It will show your environment name at the beginning of the prompt.
+
+You will see the environment name in the prompt.
 
 ![conda3]({{site.baseurl}}/fig/conda.png)
 
-### Install packages in the conda environment
+### Installing Packages from Conda Channels
 
-Install from default conda channel
-You can search if your package is in the default source from Anaconda collection. Besides the 200 pre-built Anaconda packages, it contains over 600 extra scientific and analytic packages. All the dependencies will also be installed automatically.
+#### Installing from Default Conda Channel
+
+Search for a package in the default Anaconda repository:
+
 ```bash
 $ conda search <package>
+```
+
+Install the package:
+
+```bash
 $ conda install <package>
 ```
-### Install from conda-forge channel (example: hisat2)
-Conda channels are the remote repository that conda takes to search or download the packages. If you want to install a package that is not in the default Anaconda channel, you can tell conda which channel containing the package, so that conda can find and install.
-Conda-forge is a GitHub community-led conda channel, containing general packages which are not in the default Anaconda source. All the packages from conda-forge is listed at https://bioconda.github.io/conda-recipe_index.html
+
+#### Installing from Conda-Forge Channel (Example: HISAT2)
+
+Conda channels are remote repositories that contain packages. To install a package from Conda-Forge:
 
 ```bash
 $ conda search hisat2
-$ conda search -c bioconda hisat2
+$ conda search -c conda-forge hisat2
 ```
 
-### Install from bioconda channel (example: hisat2)
-Bioconda is another channel of conda, focusing on bioinformatics software. Instead of adding “-c” to search a channel only one time, “add channels” tells Conda to always search in this channel, so you don’t need to specify the channel every time. Remember to add channel in this order, so that Bioconda channel has the highest priority. Channel orders will be explained in next part.
+#### Installing from Bioconda Channel (Example: HISAT2)
 
+Bioconda is a channel dedicated to bioinformatics software. To ensure Bioconda has the highest priority, add the channel order:
 
-Adding channels will not generate any command line output.
-Then, you can install Stringtie from the Bioconda channel
+```bash
+$ conda config --add channels defaults
+$ conda config --add channels bioconda
+$ conda config --add channels conda-forge
+```
+
+Now, install HISAT2 from Bioconda:
+
 ```bash   
- $ conda install -c bioconda hisat2
+$ conda install -c bioconda hisat2
 ```
+
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/hisat2/README.html)
 
+### Installing R and R Packages
 
-### Install R and R packages
-The Conda package manager is not limited to Python. R and R packages are well supported by a conda channel maintained by the developers of Conda. The R-essentials include all the popular R packages with all of their dependencies. The command below opens R channel by “-c r”, and then install the r-essentials using R channel.
+Conda also supports R and R packages. You can install the R-essentials package (a collection of popular R packages) using:
+
 ```bash
 $ conda install -c r r-essentials
 ```
 
-#### Update R packages
+#### Updating R Packages
+
+To update R packages, run:
+
 ```bash 
 $ conda update -c r r-essentials
-$ conda update -c r r-<package name>
+$ conda update -c r r-<package-name>
 ```
 
+### Additional Conda Commands
 
-### More conda commands:.
-#### search packages
-This will search the packages in conda
+#### Search Packages
+
+To search for a package:
+
 ```bash
 $ conda search hisat2
 ```
 
-#### See all available environments
-You can check the list of all separate environments, and it will show * at your current environment. In the figure below, it shows root, since I’m not in any conda environment.
+#### List Available Environments
+
+To view all available environments:
+
 ```bash   
 $ conda env list
 ```
 
-#### List all package installed
-This will show all the packages and versions you’ve installed.
+#### List Installed Packages
+
+To list all installed packages in the current environment:
+
 ```bash
 $ conda list
 ```
-#### Update packages or conda itself
-This will update to the newest version of one package, or conda itself.
-update package
+
+#### Updating Packages or Conda Itself
+
+To update a specific package:
+
 ```bash
 $ conda update <package>
 ```
-update package in env
+
+To update a package in a specific environment:
+
 ```bash
-conda update  --name <ENV_name> <package>
+$ conda update --name <ENV_name> <package>
 ```
-update conda itself
+
+To update Conda itself:
+
 ```bash
 $ conda update -n test --all
 $ conda update -n bch709 --all
 ```
 
-#### Uninstall package from the environment
+#### Uninstalling a Package
+
+To uninstall a package from the environment:
+
 ```bash
-$ conda uninstall <package name>
+$ conda uninstall <package-name>
 ```
 
-#### Exit current environment:
-You can exit, when you finish your work in the current environment.
+#### Exiting the Current Environment
+
+To exit the active environment:
+
 ```bash   
 $ conda deactivate
 ```
 
-#### Remove environment
+#### Removing an Environment
+
+To remove an environment:
+
 ```bash   
 $ conda env remove --name bch709
 ```
-When you finish your project, you might want to remove the environment. However, it is not recommended because you might want to update some work in this project in the future.
 
-#### Enviroment export
+#### Exporting and Importing Environments
+
+To export an environment to a YAML file:
+
 ```bash
-conda env export  --name <ENVIRONMENT> --file <outputfilename>.yaml
-```
-#### Envrioment import 
-```bash
-conda env create --file <outputfilename>.yaml  
+$ conda env export --name <ENVIRONMENT> --file <outputfilename>.yaml
 ```
 
-### Reference:
+To import an environment from a YAML file:
 
-- Conda documentation https://docs.conda.io/en/latest/
-- Conda-forge https://conda-forge.github.io/
-- BioConda https://bioconda.github.io/
+```bash
+$ conda env create --file <outputfilename>.yaml  
+```
 
+### References
+
+- Conda documentation: https://docs.conda.io/en/latest/
+- Conda-forge: https://conda-forge.github.io/
+- BioConda: https://bioconda.github.io/
