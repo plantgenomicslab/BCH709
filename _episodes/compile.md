@@ -46,16 +46,17 @@ $ sudo apt-get install -y make build-essential libssl-dev  libbz2-dev libreadlin
 ### On Ubuntu systems:  
 ```bash
 $ apt install screenfetch
+$ screenfetch
+
 ```
 
 ### On macOS systems:  
 ```bash
 $ brew install screenfetch
+$ screenfetch
+
 ```
 
-```bash
-screenfetch
-```
 
 ### Programming languages
 
