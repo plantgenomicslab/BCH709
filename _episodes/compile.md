@@ -435,10 +435,11 @@ For direct access, visit:
 > To install Miniconda3 on Linux, run:
 > 
 > ~~~bash
-> mkdir -p ~/miniconda3
-> wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-> rm ~/miniconda3/miniconda.sh
+> cd ~/
+> rm -rf miniconda3
+> wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+> bash ~/miniconda.sh 
+> 
 > ~~~
 > 
 > Follow the on-screen instructions to complete the installation.
@@ -452,10 +453,10 @@ For direct access, visit:
 > To install Miniconda3 on macOS with Intel architecture, run:
 > 
 > ~~~bash
-> mkdir -p ~/miniconda3
-> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/miniconda3/miniconda.sh
-> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-> rm ~/miniconda3/miniconda.sh
+> cd ~/
+> rm -rf miniconda3
+> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/miniconda.sh
+> bash ~/miniconda3
 > ~~~
 > 
 > Follow the on-screen instructions to complete the installation.
@@ -466,10 +467,10 @@ For direct access, visit:
 > To install Miniconda3 on macOS with M1 (Apple Silicon) architecture, run:
 > 
 > ~~~bash
-> mkdir -p ~/miniconda3
-> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda3/miniconda.sh
-> bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-> rm ~/miniconda3/miniconda.sh
+> cd ~/
+> rm -rf miniconda3
+> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda.sh
+> bash ~/miniconda.sh
 > ~~~
 > 
 > Follow the on-screen instructions to complete the installation.
