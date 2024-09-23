@@ -416,7 +416,7 @@ Using conda environment on BioHPC
 
 Here is the rewritten content in markdown source code format:
 
-```markdown
+
 ### Miniconda3
 
 Miniconda is a lightweight package manager that simplifies the installation process for environments and packages. First, install Miniconda3 by following the instructions below, then proceed to install individual tools.
