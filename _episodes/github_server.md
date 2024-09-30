@@ -19,9 +19,9 @@ Git is a distributed version control system that allows you to track changes in 
 
 ### Why Version Control?
 Version control is essential in creating any project that takes longer than 5 minutes to complete. Even if your memory is longer than 5 minutes, next month you are not likely to be able to retrace your steps.  
-![github-workflow]({{{site.baseurl}}}/fig/git_overview.png)
+![github-workflow]({{site.baseurl}}/fig/git_overview.png)
 
-![github]({{{site.baseurl}}}/fig/github_dri.png)
+![github]({{site.baseurl}}/fig/github_dri.png)
 
 ## 1. Setting Up Git and GitHub
 ### Mac
