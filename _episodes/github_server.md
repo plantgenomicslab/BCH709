@@ -19,9 +19,9 @@ Git is a distributed version control system that allows you to track changes in 
 
 ### Why Version Control?
 Version control is essential in creating any project that takes longer than 5 minutes to complete. Even if your memory is longer than 5 minutes, next month you are not likely to be able to retrace your steps.  
-![github-workflow](../{{site.baseurl}}/fig/git_overview.png)
+![github-workflow](./fig/git_overview.png)
 
-![github]({{site.baseurl}}/fig/github_dri.png)
+![github](./fig/github_dri.png)
 
 ## 1. Setting Up Git and GitHub
 ### Mac
@@ -242,8 +242,8 @@ git lfs track "*.csv"
 ```bash
 https://github.com/DaehwanKimLab/hisat2
 ```
-![github-workflow]({{site.baseurl}}/fig/hisat2_git.png)
-![github-workflow]({{site.baseurl}}/fig/hisat2_git2.png)
+![github-workflow](./fig/hisat2_git.png)
+![github-workflow](./fig/hisat2_git2.png)
 
 ### Download
 ```bash
@@ -253,7 +253,7 @@ cd hisat2
 ls -algh
 less MANUAL
 ```
-![github-workflow]({{site.baseurl}}/fig/hisat2_git3.png)
+![github-workflow](./fig/hisat2_git3.png)
 
 ### Compile
 ```bash
@@ -261,7 +261,7 @@ make -j <YOUR CPU>
 ```
 
 ## HISAT2 installation from binary
-![github-workflow]({{site.baseurl}}/fig/hisat2_binary.png)
+![github-workflow](./fig/hisat2_binary.png)
 
 ### BWA
 > ## BWA Source Code Installation
@@ -304,48 +304,6 @@ bwa index <YOUR_GENOME_SEQUENCE>
 bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
 ```
 
-## Conda
-- Dependencies are one of the main reasons to use Conda. Sometimes, installing a package is not as straightforward as you think.
- 
-- Conda provides a solution for this situation by automatically installing all the dependencies for a package.
-
-- Conda allows you to create multiple environments for different projects. You can switch between versions of packages easily to run your project code.
-{: .callout}
-
-### Anaconda or Miniconda?  
-- Anaconda includes
-
- Python and conda, along with a suite of pre-installed packages for scientific computing.
-- Miniconda provides only the Python interpreter and conda, allowing you to install packages as needed.
-
-### Install Miniconda
-Visit the [miniconda](https://docs.conda.io/en/latest/miniconda.html) page and download the installer for your system.
-
-### Miniconda Installation on MacOS
-```bash
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-bash Miniconda3-latest-MacOSX-x86_64.sh
-```
-
-### Miniconda Installation on Ubuntu
-```bash
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-```
-
-![conda1]({{site.baseurl}}/fig/conda_excute.png)
-![conda2]({{site.baseurl}}/fig/conda_excute2.png)
-
-### Reload Your Environment
-#### Linux
-```bash
-source ~/.bashrc
-```
-
-#### Initialize Miniconda3
-```bash
-conda init
-```
 
 ### Reference:
 - Conda documentation: https://docs.conda.io/en/latest/
