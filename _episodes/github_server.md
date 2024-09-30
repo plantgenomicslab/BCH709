@@ -79,7 +79,7 @@ git init
 
 #### Clone a Repository
 ```bash
-git clone https://github.com/plantgenomicslab/hisat2.git
+git clone https://github.com/wyim-pgl/test_files
 ```
 
 #### Check Repository Status
@@ -242,8 +242,8 @@ git lfs track "*.csv"
 ```bash
 https://github.com/DaehwanKimLab/hisat2
 ```
-![github-workflow]({{{site.baseurl}}}/fig/hisat2_git.png)
-![github-workflow]({{{site.baseurl}}}/fig/hisat2_git2.png)
+![github-workflow]({{site.baseurl}}/fig/hisat2_git.png)
+![github-workflow]({{site.baseurl}}/fig/hisat2_git2.png)
 
 ### Download
 ```bash
@@ -253,7 +253,7 @@ cd hisat2
 ls -algh
 less MANUAL
 ```
-![github-workflow]({{{site.baseurl}}}/fig/hisat2_git3.png)
+![github-workflow]({{site.baseurl}}/fig/hisat2_git3.png)
 
 ### Compile
 ```bash
@@ -261,7 +261,7 @@ make -j <YOUR CPU>
 ```
 
 ## HISAT2 installation from binary
-![github-workflow]({{{site.baseurl}}}/fig/hisat2_binary.png)
+![github-workflow]({{site.baseurl}}/fig/hisat2_binary.png)
 
 ### BWA
 > ## BWA Source Code Installation
