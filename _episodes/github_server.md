@@ -311,4 +311,11 @@ bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
 - BioConda: https://bioconda.github.io/
 ```
 
+## Github
+Github is for co-coding server that we could merge our codes together.
+
+
+
+
+
 This markdown is fully formatted for Jekyll and GitHub Pages, including all the appropriate syntax and sections you provided.
