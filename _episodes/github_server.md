@@ -1,17 +1,12 @@
----
-layout: page
-title: Compile and Software installation (II)
-published: true
----
+Here's the detailed content you requested in Markdown format, including the forking part integrated seamlessly:
 
-{% include gh_variables.html %}
+```markdown
+## GitHub
 
-## Github
 ### Introduction to Git and GitHub
-Git is a distributed version control system that allows you to track changes in your code and collaborate with others. GitHub is a cloud-based platform that hosts Git repositories, making it easier to share and collaborate on projects. Git is an open-source distributed version control system that facilitates GitHub activities on your laptop or desktop. Version control using Git is the most reasonable way to keep track of changes in code, manuscripts, presentations, and data analysis projects.  
+Git is a distributed version control system that allows you to track changes in your code and collaborate with others. GitHub is a cloud-based platform that hosts Git repositories, making it easier to share and collaborate on projects. Version control using Git is the most reasonable way to keep track of changes in code, manuscripts, presentations, and data analysis projects.
 
 ### Why Use GitHub in Bioinformatics?
-
 - **Version Control:** Track changes in scripts, pipelines, and documentation.
 - **Collaboration:** Work with peers and share your work with the community.
 - **Reproducibility:** Maintain a history of your analyses for reproducibility.
@@ -60,16 +55,13 @@ ssh-add ~/.ssh/id_ed25519
 ```
 
 #### Add the SSH key to your GitHub account:
-
 Copy the SSH key to your clipboard:
 ```bash
 cat ~/.ssh/id_ed25519.pub
 ```
-Go to GitHub > Settings > SSH and GPG keys > New SSH key.
-Paste the key and save.
+Go to GitHub > Settings > SSH and GPG keys > New SSH key. Paste the key and save.
 
 ## 3. Basic Git Commands
-
 ### Understanding basic Git commands is essential for managing your projects.
 
 #### Initialize a Repository
@@ -79,7 +71,7 @@ git init
 
 #### Clone a Repository
 ```bash
-git clone https://github.com/wyim-pgl/test_files
+git clone git@github.com:wyim-pgl/test_files.git
 ```
 
 #### Check Repository Status
@@ -117,19 +109,45 @@ Repositories (repos) are where your project files and version history are stored
 - (Optional) Initialize with a README, .gitignore, or license.
 - Click **Create repository**.
 
-### 4.2 Cloning Your Repository Locally
+### 4.2 Forking a Repository
+If you want to contribute to someone else's project, you can create a fork:
+- Navigate to the repository you want to fork.
+- Click the **Fork** button in the top-right corner.
+- This creates a copy of the repository in your GitHub account.
+
+### 4.3 Cloning Your Repository Locally
+Clone your repository (either your own or a forked one) to work on it locally:
 ```bash
-git clone https://github.com/username/repository.git
+git clone git@github.com:your-username/repository-name.git
 ```
 
-### 4.3 Creating Branches
+### 4.4 Creating Branches
 Branches allow you to work on features or experiments without affecting the main codebase.
-
 ```bash
 git checkout -b feature-branch
 ```
 
-### 4.4 Merging Branches
+### 4.5 Committing Changes
+After making changes, you need to commit them:
+```bash
+git add .
+git commit -m "Describe your changes here"
+```
+
+### 4.6 Pushing Changes to GitHub
+To upload your changes to the remote repository:
+```bash
+git push origin feature-branch
+```
+
+### 4.7 Pulling Changes from GitHub
+To update your local repository with changes from the remote repository:
+```bash
+git pull origin main
+```
+This ensures that your local branch is up-to-date with the latest changes from the main branch.
+
+### 4.8 Merging Branches
 After completing work on a branch, merge it back into the main branch.
 
 Switch to the main branch:
@@ -142,13 +160,11 @@ Merge the feature branch:
 git merge feature-branch
 ```
 
-### 4.5 Deleting Branches
+### 4.9 Deleting Branches
 After merging, you can delete the branch:
 ```bash
 git branch -d feature-branch
 ```
-
-<a name="collaboration"></a>
 
 ## 5. Collaborating with Others
 GitHub facilitates collaboration through features like pull requests, issues, and code reviews.
@@ -160,31 +176,25 @@ GitHub facilitates collaboration through features like pull requests, issues, an
 
 ### 5.2 Creating a Pull Request
 After making changes in your forked repository:
-
 - Push your changes to a branch in your fork.
 - Go to the original repository and click **Pull requests** > **New pull request**.
 - Select your fork and branch, then submit the pull request.
 
 ### 5.3 Managing Issues
 Issues are used to track tasks, enhancements, and bugs.
-
 - Go to the **Issues** tab in your repository.
 - Click **New issue**.
 - Fill in the title and description, then submit.
 
 ### 5.4 Code Reviews
 Collaborators can review pull requests, suggest changes, and approve merges.
-
 - Use comments to provide feedback.
 - Request changes if necessary.
 - Approve and merge once the code meets standards.
 
-<a name="best-practices"></a>
-
 ## 6. Best Practices for Bioinformatics Projects
 ### 6.1 Organize Your Repository
 Structure your repository to make it easy to navigate. A typical bioinformatics repo might include:
-
 - `README.md`: Project overview and instructions.
 - `data/`: Raw and processed datasets.
 - `scripts/`: Analysis scripts (e.g., Python, R).
@@ -220,7 +230,6 @@ Exclude unnecessary files (e.g., large datasets, temporary files) from your repo
 
 ### 6.4 Document Your Work
 Maintain clear documentation to help others understand and reproduce your analyses.
-
 - Update the `README.md` with project details.
 - Comment your scripts thoroughly.
 - Use Markdown for well-formatted documentation.
@@ -238,7 +247,7 @@ git lfs install
 git lfs track "*.csv"
 ```
 
-## HISAT2 installation from Github
+## HISAT2 installation from GitHub
 ```bash
 https://github.com/DaehwanKimLab/hisat2
 ```
@@ -265,9 +274,7 @@ make -j <YOUR CPU>
 
 ### BWA
 > ## BWA Source Code Installation
-> 
 > If you prefer to install from source, follow the instructions below:
-> 
 > ```bash
 > cd ~/bch709/bin
 > curl -OL http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2
@@ -275,7 +282,6 @@ make -j <YOUR CPU>
 > cd bwa-0.7.17
 > make
 > ```
-> {: .bash}
 
 ### Please check README.md
 ```bash
@@ -284,7 +290,6 @@ less <FILENAME>
 #### Tell me your error
 
 > ## How to solve it?
-> 
 > ```bash
 > sudo apt install zlib1g-dev
 > brew install zlib
@@ -301,9 +306,10 @@ less <FILENAME>
 ### How to run BWA?
 ```bash
 bwa index <YOUR_GENOME_SEQUENCE>
-bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
-```
+bwa mem  <YOUR_GENOME_SEQUENCE> 
 
+SEQUENCING_READS>
+```
 
 ### Reference:
 - Conda documentation: https://docs.conda.io/en/latest/
@@ -311,11 +317,3 @@ bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
 - BioConda: https://bioconda.github.io/
 ```
 
-## Github
-Github is for co-coding server that we could merge our codes together.
-
-
-
-
-
-This markdown is fully formatted for Jekyll and GitHub Pages, including all the appropriate syntax and sections you provided.
