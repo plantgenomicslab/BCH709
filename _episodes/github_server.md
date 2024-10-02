@@ -1,6 +1,3 @@
-Here's the detailed content you requested in Markdown format, including the forking part integrated seamlessly:
-
-```markdown
 ## GitHub
 
 ### Introduction to Git and GitHub
@@ -306,14 +303,12 @@ less <FILENAME>
 ### How to run BWA?
 ```bash
 bwa index <YOUR_GENOME_SEQUENCE>
-bwa mem  <YOUR_GENOME_SEQUENCE> 
-
-SEQUENCING_READS>
+bwa mem  <YOUR_GENOME_SEQUENCE> <SEQUENCING_READS>
 ```
 
 ### Reference:
 - Conda documentation: https://docs.conda.io/en/latest/
 - Conda-forge: https://conda-forge.github.io/
 - BioConda: https://bioconda.github.io/
-```
+
 
