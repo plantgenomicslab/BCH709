@@ -257,8 +257,1132 @@ Flags:
 
 Use "seqkit [command] --help" for more information about a command.
 ```
+Certainly! Here's your **SeqKit Tutorial** formatted correctly in Markdown with enhanced readability and aesthetics:
 
-### Datasets
+```markdown
+---
+layout: page
+title: seqkit_tutorial
+published: true
+---
+
+# Tutorial
+
+## SeqKit
+
+### Create and Installation
+
+Create a new Conda environment named `seqkit` and install `seqkit` along with other bioinformatics tools:
+
+```bash
+conda create -n seqkit -c bioconda seqkit bedops csvtk clustalo
+```
+
+### Activate Environment
+
+Activate the `seqkit` environment:
+
+```bash
+conda activate seqkit
+```
+
+### Export Environment
+
+Export the current environment configuration to `seqkit.yml`:
+
+```bash
+conda env export > seqkit.yml
+```
+
+### Deactivate Environment
+
+Deactivate the current Conda environment:
+
+```bash
+conda deactivate
+```
+
+### Remove Conda Environment
+
+Remove the `seqkit` Conda environment entirely:
+
+```bash
+conda remove --name seqkit --all
+```
+
+### Reinstall Environment
+
+Recreate the `seqkit` environment from the exported `seqkit.yml` file:
+
+```bash
+conda env create -f seqkit.yml
+```
+
+### Activate Environment
+
+Activate the `seqkit` environment again:
+
+```bash
+conda activate seqkit
+```
+
+### Use SeqKit
+
+Display the help information for `seqkit`:
+
+```bash
+seqkit --help
+```
+
+### Make Homework Folder
+
+Set up a dedicated folder for your SeqKit projects:
+
+```bash
+cd ~/${USER}
+mkdir -p ~/bch709/seqkit
+cd ~/bch709/seqkit
+pwd
+seqkit
+```
+
+## Datasets
+
+### Test FASTQ File
+
+Download the test FASTQ file:
+
+- [fastq](https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/data/test.fastq.gz)
+
+```bash
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/gh-pages/data/test.fastq.gz
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/refs/heads/gh-pages/data/contig.fa
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/refs/heads/gh-pages/data/seqs.fa
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/refs/heads/gh-pages/data/rna.fa
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/refs/heads/gh-pages/data/file1.fa
+wget https://raw.githubusercontent.com/plantgenomicslab/BCH709/refs/heads/gh-pages/data/file2.fa
+
+wget https://mirbase.org/download/hairpin.fa
+```
+
+### Human Genome from [UCSC](https://hgdownload.soe.ucsc.edu/downloads.html)
+
+Download the human genome and related files:
+
+```bash
+wget --no-check-certificate https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/latest/hg38.fa.gz -O hsa.fa.gz
+wget --no-check-certificate https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz -O hsa.gtf.gz
+ls -algh
+```
+
+## Examples
+
+### 1. Read and Print Sequences
+
+- **From File:**
+
+    ```bash
+    cat hairpin.fa
+    seqkit seq hairpin.fa
+    ```
+
+    ```bash
+    zcat test.fastq.gz
+    seqkit seq test.fastq.gz
+    ```
+
+- **From stdin:**
+
+    ```bash
+    zcat hairpin.fa.gz | seqkit seq
+    ```
+
+### 2. Only Print Names
+
+- **Full Name:**
+
+    ```bash
+    seqkit seq hairpin.fa -n
+    ```
+
+- **Only ID:**
+
+    ```bash
+    seqkit seq hairpin.fa -n -i
+    ```
+
+- **Custom ID Region by Regular Expression:**
+
+    ```bash
+    seqkit seq hairpin.fa -n -i --id-regexp "^[^\s]+\s([^\s]+)\s"
+    ```
+
+    *Please check regular expressions at [Regex101](https://regex101.com/)*
+
+### 3. Only Print Sequences
+
+Define the output line width with the `-w` flag (use `0` for no wrap):
+
+```bash
+seqkit seq hairpin.fa -s -w 0
+```
+
+### 4. Reverse Complement Sequence
+
+```bash
+seqkit seq contigs.fa -r -p
+```
+
+### 5. Remove Gaps and Convert Case
+
+```bash
+seqkit seq -g -u seqs.fa
+```
+
+### 6. RNA to DNA Conversion
+
+```bash
+echo -e ">seq\nUCAUAUGCUUGUCUCAAAGAUUA" | seqkit seq --rna2dna
+```
+
+## Subseq
+
+### Usage
+
+Retrieve subsequences by region, GTF, or BED files, including flanking sequences.
+
+**Recommendation:** Use plain FASTA files to utilize SeqKit's FASTA index for efficiency.
+
+**Region Definition:** 1-based indexing with custom design.
+
+#### Examples:
+
+```
+1-based index    1 2 3 4 5 6 7 8 9 10
+negative index    0-9-8-7-6-5-4-3-2-1
+           seq    A C G T N a c g t n
+           1:1    A
+           2:4      C G T
+         -4:-2                c g t
+         -4:-1                c g t n
+         -1:-1                      n
+          2:-2      C G T N a c g t
+          1:-1    A C G T N a c g t n
+```
+
+### Usage Command
+
+```bash
+seqkit subseq [flags]
+```
+
+### Flags
+
+- `--bed string`        : Specify a BED file.
+- `--chr value`         : Select specific sequences by IDs (multiple values supported, case-insensitive).
+- `-d, --down-stream int` : Downstream length.
+- `--feature value`     : Select specific feature types (only works with GTF, multiple values supported).
+- `--gtf string`        : Specify a GTF (version 2.2) file.
+- `-f, --only-flank`    : Only return upstream/downstream sequences.
+- `-r, --region string` : Define regions (e.g., `1:12` for first 12 bases, `-12:-1` for last 12 bases, `13:-1` to exclude first 12 bases).
+- `-u, --up-stream int` : Upstream length.
+
+### Examples
+
+**Recommendation:** Use plain FASTA files to utilize SeqKit's FASTA index.
+
+1. **First 12 Bases:**
+
+    ```bash
+    cat hairpin.fa | seqkit subseq -r 1:12
+    ```
+
+2. **Last 12 Bases:**
+
+    ```bash
+    cat hairpin.fa | seqkit subseq -r -12:-1
+    ```
+
+3. **Excluding First and Last 12 Bases:**
+
+    ```bash
+    cat hairpin.fa | seqkit subseq -r 13:-13
+    ```
+
+4. **Get Subsequence by GTF File:**
+
+    #### Human Genome Example
+
+    Specify chromosomes and features:
+
+    ```bash
+    seqkit subseq --gtf hsa.gtf.gz --chr X --feature CDS hsa.fa.gz > chr1.gtf.cds.fa
+    ```
+
+    ```bash
+    seqkit stat chr1.gtf.cds.fa
+    ```
+
+5. **Remove Duplicated Sequences:**
+
+    ```bash
+    seqkit subseq --gtf hsa.gtf.gz --chr 1 --feature CDS hsa.fa.gz | seqkit rmdup > chr1.gtf.rmdup.fa
+    ```
+
+    ```bash
+    seqkit stat chr1.gtf.rmdup.fa
+    ```
+
+### Human Genome Statistics
+
+```bash
+seqkit stat hsa.fa.gz
+```
+
+```
+file    format  type  num_seqs        sum_len  min_len       avg_len      max_len
+hsa.fa  FASTA   DNA        194  3,099,750,718      970  15,978,096.5  248,956,422
+```
+
+**Building FASTA Index:**
+
+```bash
+seqkit faidx hsa.fa.gz -o hsa.fa.fai2
+```
+
+**Sorting by Sequence Length:**
+
+```bash
+seqkit sort --by-length --reverse --two-pass hsa.fa.gz > hsa.sorted.fa
+```
+
+```
+[INFO] create and read FASTA index ...
+[INFO] read sequence IDs and lengths from FASTA index ...
+[INFO] 194 sequences loaded
+[INFO] sorting ...
+[INFO] output ...
+```
+
+```bash
+seqkit fx2tab --length hsa.sorted.fa --name --only-id | cut -f 1,4 | more
+```
+
+**Shuffling Sequences:**
+
+```bash
+seqkit shuffle hsa.fa.gz --two-pass > hsa.shuffled.fa
+```
+
+```
+[INFO] create and read FASTA index ...
+[INFO] read sequence IDs from FASTA index ...
+[INFO] 194 sequences loaded
+[INFO] shuffle ...
+[INFO] output ...
+```
+
+**Splitting into Files with Single Sequence:**
+
+```bash
+seqkit split --by-id hsa.fa.gz --two-pass
+```
+
+```
+[INFO] split by ID. idRegexp: ^([^\s]+)\s?
+[INFO] create and read FASTA index ...
+[INFO] read sequence IDs from FASTA index ...
+[INFO] 194 sequences loaded
+[INFO] write 1 sequences to file: hsa.id_KI270743.1.fa
+[INFO] write 1 sequences to file: hsa.id_KI270706.1.fa
+[INFO] write 1 sequences to file: hsa.id_KI270717.1.fa
+[INFO] write 1 sequences to file: hsa.id_KI270718.1.fa
+[INFO] write 1 sequences to file: hsa.id_KI270468.1.fa
+...
+```
+
+## Sliding
+
+### Description
+
+Slide sequences with support for circular genomes.
+
+### Usage Command
+
+```bash
+seqkit sliding [flags]
+```
+
+### Flags
+
+- `-C, --circular-genome` : Treat the genome as circular.
+- `-s, --step int`        : Define the step size.
+- `-W, --window int`      : Define the window size.
+
+### Examples
+
+1. **General Use:**
+
+    ```bash
+    echo -e ">seq\nACGTacgtNN" | seqkit sliding -s 3 -W 6
+    ```
+
+2. **Circular Genome:**
+
+    ```bash
+    echo -e ">seq\nACGTacgtNN" | seqkit sliding -s 3 -W 6 -C
+    ```
+
+3. **Generate GC Content for Plotting:**
+
+    ```bash
+    cat hairpin.fa | seqkit fx2tab | head -n 1 | seqkit tab2fx | seqkit sliding -s 5 -W 30 | seqkit fx2tab -n -g
+    ```
+
+## Stat
+
+### Description
+
+Provide simple statistics of FASTA/Q files.
+
+### Usage Command
+
+```bash
+seqkit stat [flags]
+```
+
+### Examples
+
+1. **General Use:**
+
+    ```bash
+    seqkit stat *.f*{a,q}.gz
+    ```
+
+## Fq2fa
+
+### Description
+
+Convert FASTQ files to FASTA format.
+
+### Usage Command
+
+```bash
+seqkit fq2fa [flags]
+```
+
+### Example
+
+```bash
+seqkit fq2fa test.fastq.gz -o test_.fa.gz
+zcat test_.fa.gz
+zcat test.fastq.gz
+```
+
+## Fx2tab & Tab2fx
+
+### Fx2tab
+
+**Description:** Convert FASTA/Q to tabular format, providing various information like sequence length, GC content, and GC skew.
+
+### Usage Command
+
+```bash
+seqkit fx2tab [flags]
+```
+
+### Flags
+
+- `-B, --base-content value` : Print base content (case ignored, multiple values supported). Example: `-B AT -B N` (default `[]`).
+- `-g, --gc`                 : Print GC content.
+- `-G, --gc-skew`            : Print GC skew.
+- `-H, --header-line`        : Print header line.
+- `-l, --length`             : Print sequence length.
+- `-n, --name`               : Only print names (no sequences and qualities).
+- `-i, --only-id`            : Print ID instead of full header.
+
+### Tab2fx
+
+**Description:** Convert tabular format (first two/three columns) back to FASTA/Q format.
+
+### Usage Command
+
+```bash
+seqkit tab2fx [flags]
+```
+
+### Flags
+
+- `-p, --comment-line-prefix value` : Comment line prefix (default `[#,//]`).
+
+### Examples
+
+1. **Default Output:**
+
+    ```bash
+    seqkit fx2tab hairpin.fa | head -n 2
+    ```
+
+2. **Print Sequence Length, GC Content, and Only Names:**
+
+    ```bash
+    seqkit fx2tab hairpin.fa -l -g -n -i -H | head -n 4 | csvtk -t -C '&' pretty
+    ```
+
+3. **Use Fx2tab and Tab2fx in a Pipeline:**
+
+    ```bash
+    cat hairpin.fa | seqkit fx2tab | seqkit tab2fx
+    zcat test.fastq.gz | seqkit fx2tab | seqkit tab2fx
+    ```
+
+4. **Sort Sequences by Length:**
+
+    ```bash
+    cat hairpin.fa | seqkit fx2tab -l | sort -t"$(echo -e '\t')" -n -k4,4 | seqkit tab2fx
+    ```
+
+    Alternatively:
+
+    ```bash
+    seqkit sort -l hairpin.fa
+    ```
+
+5. **Get First 1000 Sequences:**
+
+    ```bash
+    seqkit fx2tab hairpin.fa | head -n 1000 | seqkit tab2fx
+    seqkit fx2tab test.fastq.gz | head -n 1000 | seqkit tab2fx
+    ```
+
+### Extension
+
+After converting FASTA to tabular format with `seqkit fx2tab`, you can handle the data with CSV/TSV tools such as [csvtk](https://github.com/shenwei356/csvtk), a cross-platform, efficient, and practical CSV/TSV toolkit.
+
+- **Filter Sequences:**
+
+    ```bash
+    csvtk grep ...
+    ```
+
+- **Compute Intersection of Multiple Files:**
+
+    ```bash
+    csvtk inter ...
+    ```
+
+- **Join Multiple CSV/TSV Files by Multiple IDs:**
+
+    ```bash
+    csvtk join ...
+    ```
+
+- **Melt Function for Data Preparation:**
+
+    Use [csv_melt](https://github.com/shenwei356/datakit/blob/master/csv_melt) to reshape data for plotting.
+
+## Grep
+
+### Description
+
+Search sequences by patterns of names or sequence motifs.
+
+### Usage Command
+
+```bash
+seqkit grep [flags]
+```
+
+### Flags
+
+- `-n, --by-name`           : Match by full name instead of just ID.
+- `-s, --by-seq`            : Match by sequence.
+- `-d, --degenerate`        : Pattern/motif contains degenerate bases.
+- `--delete-matched`        : Delete matched patterns to speed up processing.
+- `-i, --ignore-case`       : Ignore case.
+- `-v, --invert-match`      : Invert the sense of matching to select non-matching records.
+- `-p, --pattern value`     : Search pattern (multiple values supported) (default `[]`).
+- `-f, --pattern-file string`: Specify a pattern file.
+- `-r, --use-regexp`        : Treat patterns as regular expressions.
+
+### Examples
+
+1. **Extract Human Hairpins (Names Starting with `hsa`):**
+
+    ```bash
+    cat hairpin.fa | seqkit grep -r -p ^hsa
+    ```
+
+2. **Remove Human and Mice Hairpins:**
+
+    ```bash
+    cat hairpin.fa | seqkit grep -r -p ^hsa -p ^mmu -v
+    ```
+
+3. **Extract New Entries from `miRNA.diff`:**
+
+    a. **Get IDs of New Entries:**
+
+    ```bash
+    cat miRNA.diff | grep -v ^# | grep NEW | cut -f 2 > list
+    ```
+
+    b. **Extract by ID List File:**
+
+    ```bash
+    cat hairpin.fa | seqkit grep -f list > new.fa
+    ```
+
+4. **Extract Sequences Starting with `AGGCG`:**
+
+    ```bash
+    cat hairpin.fa | seqkit grep -s -r -i -p ^aggcg
+    ```
+
+5. **Extract Sequences with `TTSAA` (AgsI Digest Site) in Sequence:**
+
+    ```bash
+    cat hairpin.fa | seqkit grep -s -d -i -p UUSAA
+    ```
+
+    *Equivalent to:*
+
+    ```bash
+    cat hairpin.fa | seqkit grep -s -r -i -p UU[CG]AA
+    ```
+
+## Locate
+
+### Description
+
+Locate subsequences or motifs within sequences.
+
+**Motif Types:**
+- **Plain Sequence:** Contains "ACTGN".
+- **Regular Expression:** e.g., `"A[TU]G(?:.{3})+?[TU](?:AG|AA|GA)"` for ORFs.
+- **Degenerate Bases:** Supported with the `-d` flag, e.g., `"RYMM.."`.
+
+**Note:** When using the `-d` flag, regular expressions may not function as expected.
+
+### Usage Command
+
+```bash
+seqkit locate [flags]
+```
+
+### Flags
+
+- `-d, --degenerate`          : Pattern/motif contains degenerate bases.
+- `-i, --ignore-case`         : Ignore case.
+- `-P, --only-positive-strand`: Only search on the positive strand.
+- `-p, --pattern value`       : Search pattern/motif (multiple values supported) (default `[]`).
+- `-f, --pattern-file string` : Pattern/motif file (FASTA format).
+- `-V, --validate-seq-length int` : Length of sequence to validate (0 for whole sequence) (default `10000`).
+
+### Examples
+
+1. **Locate ORFs:**
+
+    ```bash
+    cat hairpin.fa | seqkit locate -i -r -p "A[TU]G(?:.{3})+?[TU](?:AG|AA|GA)"
+    ```
+
+2. **Locate Motif:**
+
+    ```bash
+    cat hairpin.fa | seqkit locate -i -d -p AUGGACUN
+    ```
+
+    **Note:** `seqkit grep` only searches on the positive strand, but `seqkit locate` can recognize both strands.
+
+## Rmdup
+
+### Description
+
+Remove duplicated sequences by ID, name, or sequence.
+
+### Usage Command
+
+```bash
+seqkit rmdup [flags]
+```
+
+### Flags
+
+- `-n, --by-name`             : Remove duplicates by full name instead of just ID.
+- `-s, --by-seq`              : Remove duplicates by sequence.
+- `-D, --dup-num-file string` : File to save the number and list of duplicated sequences.
+- `-d, --dup-seqs-file string`: File to save duplicated sequences.
+- `-i, --ignore-case`         : Ignore case.
+- `-m, --md5`                 : Use MD5 instead of original sequences to reduce memory usage when comparing by sequences.
+
+### Examples
+
+1. **General Use:**
+
+    ```bash
+    cat hairpin.fa | seqkit rmdup -s -o clean.fa.gz
+    zcat test.fastq.gz | seqkit rmdup -s -o clean.fa.gz
+    ```
+
+2. **Save Duplicated Sequences to File:**
+
+    ```bash
+    cat hairpin.fa | seqkit rmdup -s -i -o clean.fa.gz -d duplicated.fa.gz -D duplicated.detail.txt
+    cat duplicated.detail.txt 
+    ```
+
+## Common
+
+### Description
+
+Find common sequences across multiple files by ID, name, or sequence.
+
+### Usage Command
+
+```bash
+seqkit common [flags]
+```
+
+### Flags
+
+- `-n, --by-name`       : Match by full name instead of just ID.
+- `-s, --by-seq`        : Match by sequence.
+- `-i, --ignore-case`   : Ignore case.
+- `-m, --md5`           : Use MD5 instead of original sequences to reduce memory usage when comparing by sequences.
+
+### Examples
+
+1. **Check Files:**
+
+    ```bash
+    cat file1.fa
+    cat file2.fa
+    ```
+
+2. **By ID (Default):**
+
+    ```bash
+    seqkit common file*.fa -o common.fasta
+    ```
+
+3. **By Full Name:**
+
+    ```bash
+    seqkit common file*.fa -n -o common.fasta
+    ```
+
+4. **By Sequence:**
+
+    ```bash
+    seqkit common file*.fa -s -i -o common.fasta
+    ```
+
+## Split
+
+### Description
+
+Split sequences into separate files based on:
+- Name ID
+- Subsequence of a given region
+- Part size
+- Number of parts
+
+**Region Definition:** 1-based indexing with custom design.
+
+#### Examples:
+
+```
+1-based index    1 2 3 4 5 6 7 8 9 10
+negative index    0-9-8-7-6-5-4-3-2-1
+           seq    A C G T N a c g t n
+           1:1    A
+           2:4      C G T
+         -4:-2                c g t
+         -4:-1                c g t n
+         -1:-1                      n
+          2:-2      C G T N a c g t
+          1:-1    A C G T N a c g t n
+```
+
+### Usage Command
+
+```bash
+seqkit split [flags]
+```
+
+### Flags
+
+- `-i, --by-id`              : Split sequences according to sequence ID.
+- `-p, --by-part int`        : Split sequences into `N` parts.
+- `-r, --by-region string`   : Split sequences based on a subsequence region (e.g., `1:12` for first 12 bases, `-12:-1` for last 12 bases).
+- `-s, --by-size int`        : Split sequences into multiple parts with `N` sequences each.
+- `-d, --dry-run`            : Perform a dry run without creating any files.
+- `-f, --force`              : Overwrite the output directory if it exists.
+- `-k, --keep-temp`          : Keep temporary FASTA and `.fai` files when using 2-pass mode.
+- `-m, --md5`                : Use MD5 instead of the region sequence in the output file when using `-r` (`--by-region`).
+- `-O, --out-dir string`     : Specify the output directory (default is `infile.split`).
+- `-2, --two-pass`           : Use two-pass mode to read files twice, reducing memory usage (only for FASTA format).
+
+### Examples
+
+1. **Split Sequences into Parts with At Most 10,000 Sequences:**
+
+    ```bash
+    seqkit split hairpin.fa -s 10000
+    ```
+
+2. **Split Sequences into 4 Parts:**
+
+    ```bash
+    seqkit split hairpin.fa -p 4
+    ```
+
+    *To reduce memory usage when splitting large files, always use the `--two-pass` flag:*
+
+    ```bash
+    seqkit split hairpin.fa -p 4 -2
+    ```
+
+3. **Split Sequences by Species (Custom IDs - First Three Letters):**
+
+    ```bash
+    seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" --two-pass
+    ```
+
+4. **Split Sequences by Sequence Region (e.g., Sequence Barcode):**
+
+    ```bash
+    seqkit split hairpin.fa -r 1:3 -2
+    ```
+
+    **Example Output:**
+
+    ```
+    [INFO] split by region: 1:3
+    [INFO] read and write sequences to temporary file: hairpin.fa.gz.fa ...
+    [INFO] read sequence IDs and sequence region from FASTA file ...
+    [INFO] create and read FASTA index ...
+    [INFO] write 463 sequences to file: hairpin.region_1:3_AUG.fa.gz
+    [INFO] write 349 sequences to file: hairpin.region_1:3_ACU.fa.gz
+    [INFO] write 311 sequences to file: hairpin.region_1:3_CGG.fa.gz
+    ```
+
+    *Sequence suffix can be defined as `-r -12:-1`.*
+
+## Sample
+
+### Description
+
+Sample sequences by number or proportion.
+
+### Usage Command
+
+```bash
+seqkit sample [flags]
+```
+
+### Flags
+
+- `-n, --number int`       : Sample by number (result may not exactly match).
+- `-p, --proportion float` : Sample by proportion.
+- `-s, --rand-seed int`    : Random seed for shuffling (default `11`).
+- `-2, --two-pass`         : Use two-pass mode to read files twice, reducing memory usage (not allowed when reading from stdin).
+
+### Examples
+
+1. **Sample by Proportion:**
+
+    ```bash
+    cat hairpin.fa | seqkit sample -p 0.1 -o sample.fa.gz
+    ```
+
+2. **Sample by Number:**
+
+    ```bash
+    cat hairpin.fa | seqkit sample -n 1000 -o sample.fa.gz
+    ```
+
+    *To reduce memory usage when sampling large files, use the `--two-pass` flag:*
+
+    ```bash
+    cat hairpin.fa | seqkit sample -n 1000 --two-pass -o sample.fa.gz
+    ```
+
+3. **Sample and Then Use `head` to Limit to 1,000 Sequences:**
+
+    ```bash
+    cat hairpin.fa | seqkit sample -p 0.1 | seqkit head -n 1000 -o sample.fa.gz
+    ```
+
+4. **Set Random Seed to Reproduce Results:**
+
+    ```bash
+    cat hairpin.fa | seqkit sample -p 0.1 -s 11
+    ```
+
+5. **Shuffle After Sampling:**
+
+    ```bash
+    cat hairpin.fa | seqkit sample -p 0.1 | seqkit shuffle -o sample.fa.gz
+    ```
+
+    *Note:* When sampling FASTQ files, ensure using the same random seed with the `-s` (`--rand-seed`) flag.
+
+## Head
+
+### Description
+
+Print the first `N` FASTA/Q records from a file.
+
+### Usage Command
+
+```bash
+seqkit head [flags]
+```
+
+### Flags
+
+- `-n, --number int` : Print the first `N` FASTA/Q records (default `10`).
+
+### Examples
+
+1. **FASTA:**
+
+    ```bash
+    seqkit head -n 1 hairpin.fa
+    ```
+
+2. **FASTQ:**
+
+    ```bash
+    seqkit head -n 1 test.fastq.gz
+    ```
+
+## Replace
+
+### Description
+
+Replace names or sequences using regular expressions.
+
+**Note:** Replacement supports capture variables (e.g., `$1` for the first submatch). Use single quotes `'` instead of double quotes `"` in Unix-like systems.
+
+### Usage Command
+
+```bash
+seqkit replace [flags]
+```
+
+### Flags
+
+- `-s, --by-seq`               : Replace sequences.
+- `-i, --ignore-case`          : Ignore case.
+- `-p, --pattern string`       : Search regular expression.
+- `-r, --replacement string`   : Replacement string supporting capture variables (e.g., `$1`). Use single quotes `'` or escape characters `\` as needed. Record numbers can be referenced with `{NR}`.
+
+### Examples
+
+1. **Remove Descriptions:**
+
+    ```bash
+    echo -e ">seq1 abc-123\nACGT-ACGT" | seqkit replace -p " .+"
+    ```
+
+2. **Replace "-" with "=":**
+
+    ```bash
+    echo -e ">seq1 abc-123\nACGT-ACGT" | seqkit replace -p "\-" -r '='
+    ```
+
+3. **Remove Gaps in Sequences:**
+
+    ```bash
+    echo -e ">seq1 abc-123\nACGT-ACGT" | seqkit replace -p " |-" -s
+    ```
+
+4. **Add Space to Every Base:**
+
+    ```bash
+    echo -e ">seq1 abc-123\nACGT-ACGT" | seqkit replace -p "(.)" -r '$1 ' -s
+    ```
+
+5. **Transpose Sequence with [csvtk](https://github.com/shenwei356/csvtk):**
+
+    ```bash
+    echo -e ">seq1\nACTGACGT\n>seq2\nactgccgt" | \
+    seqkit replace -p "(.)" -r "\$1 " -s | \
+    seqkit seq -s -u | \
+    csvtk space2tab | \
+    csvtk -t transpose
+    ```
+
+6. **Rename with Record Number:**
+
+    ```bash
+    echo -e ">abc\nACTG\n>123\nATTT" | seqkit replace -p .+ -r "seq_{NR}"
+    ```
+
+### More Information
+
+Refer to the [SeqKit Replace Usage](http://shenwei356.github.io/seqkit/usage/#replace) for detailed information.
+
+## Shuffle
+
+### Description
+
+Randomly shuffle sequences within a file.
+
+**Note:** By default, all records are loaded into memory. For large FASTA files, use the `--two-pass` flag to reduce memory usage. FASTQ files are not supported.
+
+### Usage Command
+
+```bash
+seqkit shuffle [flags]
+```
+
+### Flags
+
+- `-k, --keep-temp`       : Keep temporary FASTA and `.fai` files when using 2-pass mode.
+- `-s, --rand-seed int`   : Random seed for shuffling (default `23`).
+- `-2, --two-pass`        : Use two-pass mode to read files twice, reducing memory usage (only for FASTA format).
+
+### Examples
+
+1. **General Use:**
+
+    ```bash
+    seqkit shuffle hairpin.fa > shuffled.fa
+    ```
+
+2. **Shuffle Large Genome with Two-Pass Mode:**
+
+    ```bash
+    time seqkit shuffle -2 GRCh38_latest_genomic.fna.gz > shuffle.fa
+    ```
+
+## Sort
+
+### Description
+
+Sort sequences by ID, name, sequence, or length.
+
+**Note:** By default, all records are loaded into memory. For large FASTA files, use the `--two-pass` flag to reduce memory usage. FASTQ files are not supported.
+
+### Usage Command
+
+```bash
+seqkit sort [flags]
+```
+
+### Flags
+
+- `-l, --by-length`               : Sort by sequence length.
+- `-n, --by-name`                 : Sort by full name instead of just ID.
+- `-s, --by-seq`                  : Sort by sequence.
+- `-i, --ignore-case`             : Ignore case.
+- `-k, --keep-temp`               : Keep temporary FASTA and `.fai` files when using 2-pass mode.
+- `-r, --reverse`                 : Reverse the sorting order.
+- `-L, --seq-prefix-length int`   : Length of sequence prefix to sort by sequences (0 for the whole sequence, default `10000`).
+- `-2, --two-pass`                : Use two-pass mode to read files twice, reducing memory usage (only for FASTA format).
+
+### Examples
+
+**Note:** For FASTA format, always use the `--two-pass` flag to minimize memory usage.
+
+1. **Sort by ID:**
+
+    ```bash
+    echo -e ">seq1\nACGTNcccc\n>SEQ2\nacgtnAAAA" | seqkit sort --quiet
+    ```
+
+2. **Sort by ID, Ignoring Case:**
+
+    ```bash
+    echo -e ">seq1\nACGTNcccc\n>SEQ2\nacgtnAAAA" | seqkit sort --quiet -i
+    ```
+
+3. **Sort by Sequence, Ignoring Case:**
+
+    ```bash
+    echo -e ">seq1\nACGTNcccc\n>SEQ2\nacgtnAAAA" | seqkit sort --quiet -s -i
+    ```
+
+4. **Sort by Sequence Length:**
+
+    ```bash
+    echo -e ">seq1\nACGTNcccc\n>SEQ2\nacgtnAAAAnnn\n>seq3\nacgt" | seqkit sort --quiet -l
+    ```
+
+### Quick Glance
+
+1. **Sequence Number:**
+
+    ```bash
+    seqkit stat hairpin.fa
+    ```
+
+2. **First 10 Bases:**
+
+    ```bash
+    cat hairpin.fa | seqkit subseq -r 1:10 | seqkit sort -s | seqkit seq -s | head -n 10
+    ```
+
+### Repeated Hairpin Sequences
+
+Check for identical hairpins across different species and remove duplicates:
+
+```bash
+seqkit rmdup -s -i hairpin.fa -o clean.fa.gz -d duplicated.fa.gz -D duplicated.detail.txt
+```
+
+*Results:*
+- Most conserved miRNAs: `mir-29b`, `mir-125`, `mir-19b-1`, and `mir-20a`.
+- `dre-miR-430c` has the most multicopies in *Danio rerio*.
+
+### Hairpins in Different Species
+
+1. **Inspect Sequence Names:**
+
+    ```bash
+    seqkit seq hairpin.fa.gz -n | head -n 3
+    ```
+
+    *Example Output:*
+    ```
+    cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
+    cel-lin-4 MI0000002 Caenorhabditis elegans lin-4 stem-loop
+    cel-mir-1 MI0000003 Caenorhabditis elegans miR-1 stem-loop
+    ```
+
+    *Observation:* The first three letters (e.g., `cel`) abbreviate species names.
+
+2. **Split Sequences by Species:**
+
+    Use a custom regular expression to split based on species abbreviation:
+
+    ```bash
+    seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" --two-pass
+    ```
+
+    *Note:* Always use the `--two-pass` flag to handle large files efficiently.
+
+3. **Identify Species with Most miRNA Hairpins:**
+
+    ```bash
+    cd hairpin.fa.split/
+    seqkit stat hairpin.part_* | csvtk space2tab | csvtk -t sort -k num_seqs:nr | csvtk -t pretty | more
+    ```
+
+## Additional Notes
+
+- **Regular Expressions:** Ensure your regular expressions are correctly formatted. Utilize tools like [Regex101](https://regex101.com/) for testing.
+
+- **Memory Management:** For operations on large genomic datasets, always consider using flags like `--two-pass` to optimize memory usage.
+
+- **Integration with Other Tools:** SeqKit can be seamlessly integrated with other bioinformatics tools like [csvtk](https://github.com/shenwei356/csvtk) for advanced data manipulation and analysis.
+
+
+### Other Datasets
 
 Datasets from [The miRBase Sequence Database -- Release 21](ftp://mirbase.org/pub/mirbase/21/)
 
