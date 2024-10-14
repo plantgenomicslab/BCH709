@@ -424,7 +424,7 @@ seqkit seq hairpin.fa -s -w 0
 ### 4. Reverse Complement Sequence
 
 ```bash
-seqkit seq contigs.fa -r -p
+seqkit seq contig.fa -r -p
 ```
 
 ### 5. Remove Gaps and Convert Case
@@ -436,7 +436,7 @@ seqkit seq -g -u seqs.fa
 ### 6. RNA to DNA Conversion
 
 ```bash
-echo -e ">seq\nUCAUAUGCUUGUCUCAAAGAUUA" | seqkit seq --rna2dna
+seqkit seq --rna2dna rna.fa
 ```
 
 ## Subseq
