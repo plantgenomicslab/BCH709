@@ -259,12 +259,6 @@ Use "seqkit [command] --help" for more information about a command.
 ```
 Certainly! Here's your **SeqKit Tutorial** formatted correctly in Markdown with enhanced readability and aesthetics:
 
-```markdown
----
-layout: page
-title: seqkit_tutorial
-published: true
----
 
 # Tutorial
 
