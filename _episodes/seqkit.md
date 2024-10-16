@@ -257,8 +257,6 @@ Flags:
 
 Use "seqkit [command] --help" for more information about a command.
 ```
-Certainly! Here's your **SeqKit Tutorial** formatted correctly in Markdown with enhanced readability and aesthetics:
-
 
 # Tutorial
 
@@ -510,7 +508,7 @@ seqkit subseq [flags]
     Specify chromosomes and features:
 
     ```bash
-    seqkit subseq --gtf hsa.gtf.gz --chr X --feature CDS hsa.fa.gz > chr1.gtf.cds.fa
+    seqkit subseq --gtf hsa.gtf.gz --chr chr1 --feature CDS hsa.fa.gz > chr1.gtf.cds.fa
     ```
 
     ```bash
@@ -520,7 +518,7 @@ seqkit subseq [flags]
 5. **Remove Duplicated Sequences:**
 
     ```bash
-    seqkit subseq --gtf hsa.gtf.gz --chr 1 --feature CDS hsa.fa.gz | seqkit rmdup > chr1.gtf.rmdup.fa
+    seqkit subseq --gtf hsa.gtf.gz --chr chr1 --feature CDS hsa.fa.gz | seqkit rmdup > chr1.gtf.rmdup.fa
     ```
 
     ```bash
