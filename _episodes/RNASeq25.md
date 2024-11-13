@@ -576,12 +576,577 @@ This command aligns the trimmed, paired-end RNA-Seq reads for **SRR1761506** to 
 ![banana]({{{site.baseurl}}/fig/banana.png)
 ![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
 
+####################################
 
 
->## Paper reading
->Please read this paper
->https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8
-{: .prereq}
+
+
+# Mouse RNA-Seq
+![](https://i.imgur.com/rqNc6OA.png)
+
+https://www.sciencedirect.com/science/article/pii/S2211124722011111
+
+
+### Working directory (Pronghorn)
+
+```bash
+echo $USER
+
+cd /data/gpfs/assoc/bch709-5/students/${USER}
+
+mkdir mouse
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref 
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/readcount
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG
+```
+
+
+## Reference Download
+![]({{{site.baseurl}}/fig/mouse_ref.png)
+
+
+https://hgdownload.soe.ucsc.edu/downloads.html
+
+
+```bash
+### change working directory
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref 
+
+### download
+wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.fa.gz
+wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/genes/refGene.gtf.gz
+
+### decompress
+gunzip mm39.fa.gz
+gunzip refGene.gtf.gz
+
+
+### index
+```bash
+nano index.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=index_ATH
+#SBATCH --cpus-per-task=12
+#SBATCH --time=2-15:00:00
+#SBATCH --mem=48g
+#SBATCH --mail-type=all
+#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --partition=cpu-core-0
+
+STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/mm39.fa  --sjdbGTFfile /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/mrefGene.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+```
+
+
+
+## FASTQ file 
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/
+
+### Link file (without copy)
+ln -s /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/fastq/* /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
+
+ls /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
+```
+
+### Create file list
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
+
+ls -1 *.gz 
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g'
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u >> /data/gpfs/assoc/bch709-5/students/${USER}/mouse/filelist
+
+cat /data/gpfs/assoc/bch709-5/students/${USER}/mouse/filelist
+```
+### Regular expression
+
+https://regex101.com/
+
+## Trim reads
+```bash
+trim_galore --paired  --three_prime_clip_R1 [integer] --three_prime_clip_R2 [integer]  --cores [integer]   --max_n [integer]   --fastqc --gzip -o /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim {READ_R1} {READ_R2}
+```
+
+####  Trim reads example
+```bash
+trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim {READ_R1} {READ_R2}
+```
+
+### Prepare templet
+```bash
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
+
+sed -i "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
+```
+
+### Edit templet
+```bash
+nano /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
+```
+
+### Batch submission
+```bash
+# Check file list
+cat ../filelist
+
+
+# Loop file list
+### Add Forward read to variable
+### Add reverse read from forward read name substitution
+
+for i in `cat ../filelist`
+    do
+
+    read1=${i}_R1.fastq.gz
+        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
+        echo $read1 $read2
+done
+
+
+# Loop file list
+### add file name from variable to trim-galore
+
+### merge trim-galore command and trim.sh
+for i in `cat ../filelist`
+    do
+        read1=${i}_R1.fastq.gz
+        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
+        echo $read1 $read2
+        echo "trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim $read1 $read2" | cat trim.sh - > ${i}_trim.sh
+done
+```
+### Batch submission
+```bash
+ls *.sh
+ls -1 *.sh
+
+### Loop *.sh printing
+for i in `ls -1 *.sh`
+do
+    echo $i
+done
+
+### Loop *.sh submission
+for i in `ls -1 *.sh`
+do
+    sbatch $i
+done
+```
+
+### Check submission
+```bash
+squeue -u ${USER}
+```
+
+
+## RNA-Seq Alignment
+```bash
+#### Move to trim folder
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim
+
+#### Copy templet
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
+
+#### Edit templet
+nano mapping.sh
+```
+
+### Check output
+```bash
+ls -algh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim
+```
+
+### Output example
+```bash
+[FILENAME]_R1_val_1.fq.gz [FILENAME]_R2_val_2.fq.gz
+```
+
+
+### STAR RNA-Seq alignment batch file test
+
+```bash
+for i in `cat ../filelist`
+    do
+        read1=${i}_R1_val_1.fq.gz
+        read2=${read1//_R1_val_1.fq.gz/_R2_val_2.fq.gz}
+        echo $read1 $read2
+        echo "STAR --runMode alignReads --runThreadN 4 --outFilterMultimapNmax 100 --alignIntronMin 25 --alignIntronMax 50000 --genomeDir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref  --readFilesCommand gunzip -c --readFilesIn /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/${read1} /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/${read2} --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam/${i}.bam" | cat mapping.sh - > ${i}_mapping.sh
+    done
+```
+
+
+### Job submission dependency
+
+```bash
+squeue --noheader --format %i --user ${USER} 
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
+```
+
+
+###  Job submission dependency on Mapping
+```bash
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+
+for i in `ls -1 *_mapping.sh`
+do
+    sbatch --dependency=afterany:${jobid} $i 
+done
+
+```
+
+```bash
+featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
+```
+
+## FeatureCounts execute location
+
+```bash
+#### Move to trim folder
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam 
+
+ls -1 *.bam
+
+#### Copy templet
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam/count.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam/count.sh
+
+```
+
+
+### FeatureCounts read bam file
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/bam 
+ls -1 *.sortedByCoord.out.bam
+ls -1 *.sortedByCoord.out.bam| tr '\n' ' '
+```
+### Edit templet
+```bash
+nano count.sh
+```
+
+```bash
+#paste this to count.sh
+featureCounts -o /data/gpfs/assoc/bch709-5/students/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/refGene.gtf $(for i in `cat /data/gpfs/assoc/bch709-5/students/wyim/mouse/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
+```
+
+
+### Job submission dependency
+
+```bash
+squeue --noheader --format %i --user ${USER} 
+```
+
+### Submit
+```bash
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+
+sbatch --dependency=afterany:${jobid} count.sh 
+```
+
+
+# Human RNA-Seq
+[***Transcriptome alterations in myotonic dystrophy frontal cortex***](https://www.sciencedirect.com/science/article/pii/S2211124720316235)
+
+![](https://i.imgur.com/BrugOCz.png)
+
+[](https://doi.org/10.1016/j.celrep.2020.108634)
+
+
+## Environment activation
+```bash
+conda activate BCH709_RNASeq
+```
+
+## Working directory (Pronghorn)
+
+```bash
+echo $USER
+
+cd /data/gpfs/assoc/bch709-5/students/${USER}
+
+mkdir human
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/ref 
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/trim
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/bam
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/readcount
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/human/DEG
+```
+
+## Reference Download
+
+https://www.ncbi.nlm.nih.gov/genome/guide/human/
+
+
+```bash
+### change working directory
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/ref 
+
+
+### download
+wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz
+
+wget https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz
+
+
+### decompress
+gunzip GRCh38_latest_genomic.fna.gz
+gunzip hg38.refGene.gtf.gz
+```
+
+## STAR reference build
+### STAR aligner reference build on Pronghorn
+```bash
+### Copy templet
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/human/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/human/ref/ref_build.sh
+
+#open text editor
+### PLEASE RENAME EMAIL AND JOB NAME
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/ref_build/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/human/ref/ref_build.sh
+nano ref_build.sh
+
+# Add below command to ref_build.sh
+
+STAR  --runThreadN 4 --runMode genomeGenerate --genomeDir . --genomeFastaFiles GRCh38_latest_genomic.fna --sjdbGTFfile GRCh38_latest_genomic.gtf  --sjdbOverhang 99   --genomeSAindexNbases 12
+```
+
+
+### Submit job to HPC
+```bash
+#submit job
+sbach ref_build.sh
+
+#check job
+squeue -u ${USER}
+```
+
+
+### FASTQ file 
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/
+
+### Link file (without copy)
+ln -s /data/gpfs/assoc/bch709-5/students/Course_materials/human/fastq/* /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq
+
+ls /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq
+```
+
+### Create file list
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq
+
+ls -1 *.gz 
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g'
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u
+
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u > /data/gpfs/assoc/bch709-5/students/${USER}/human/filelist
+
+cat /data/gpfs/assoc/bch709-5/students/${USER}/human/filelist
+```
+### Regular expression
+
+https://regex101.com/
+
+## Trim reads
+
+### Prepare templet
+```bash
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/human/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq/trim.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq/trim.sh
+
+```
+### Edit templet
+```bash
+nano /data/gpfs/assoc/bch709-5/students/${USER}/human/fastq/trim.sh
+```
+
+### Batch submission
+```bash
+# Check file list
+cat ../filelist
+nano trim.sh
+
+# Loop file list
+### Add Forward read to variable
+### Add reverse read from forward read name substitution
+### add file name from variable to trim-galore
+### merge trim-galore command and trim.sh
+### add trim-galore command and trim.sh to new file
+for i in `cat ../filelist`
+    do
+        read1=${i}_R1.fastq.gz
+        read2=${read1//_R1.fastq.gz/_R2.fastq.gz}
+        
+        echo "trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o /data/gpfs/assoc/bch709-5/students/${USER}/human/trim $read1 $read2" | cat trim.sh - > ${i}_trim.sh
+        echo "$read1 $read2 trim file has been created."
+done
+```
+### Batch submission
+```bash
+ls -1 *_trim.sh
+### Loop *.sh submission
+for i in `ls -1 *_trim.sh`
+do
+    sbatch $i
+done
+```
+
+### Check submission
+```bash
+squeue -u ${USER}
+```
+
+## RNA-Seq Alignment
+```bash
+#### Move to trim folder
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/trim
+
+#### Copy templet
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/human/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/mapping.sh
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Mapping/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/mapping.sh
+
+
+#### Edit templet
+nano mapping.sh
+```
+
+
+### Check output
+```bash
+ls -algh /data/gpfs/assoc/bch709-5/students/${USER}/human/trim
+```
+### Output example
+```bash
+[FILENAME]_R1_val_1.fq.gz [FILENAME]_R2_val_2.fq.gz
+```
+
+
+### STAR RNA-Seq alignment
+```bash
+STAR --runMode alignReads --runThreadN 4 --outFilterMultimapNmax 100 --alignIntronMin 25 --alignIntronMax 50000 --quantMode TranscriptomeSAM GeneCounts --genomeDir /data/gpfs/assoc/bch709-5/students/${USER}/human/ref  --readFilesCommand gunzip -c --readFilesIn /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/[FILENAME]_R1_val_1.fq.gz  /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/[FILENAME]_R2_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix /data/gpfs/assoc/bch709-5/students/${USER}/human/bam/[FILENAME].bam
+```
+### STAR RNA-Seq alignment batch file 
+
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/trim
+for i in `cat ../filelist`
+    do
+        read1=${i}_R1_val_1.fq.gz
+        read2=${read1//_R1_val_1.fq.gz/_R2_val_2.fq.gz}
+        echo $read1 $read2
+        echo "STAR --runMode alignReads --runThreadN 4 --outFilterMultimapNmax 100 --alignIntronMin 25 --alignIntronMax 50000 --genomeDir /data/gpfs/assoc/bch709-5/students/${USER}/human/ref --outSAMtype BAM SortedByCoordinate --readFilesCommand gunzip -c --readFilesIn /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/${read1} /data/gpfs/assoc/bch709-5/students/${USER}/human/trim/${read2} --outFileNamePrefix /data/gpfs/assoc/bch709-5/students/${USER}/human/bam/${i}.bam" | cat mapping.sh - > ${i}_mapping.sh
+    done
+```
+
+
+### Job submission dependency
+
+```bash
+squeue --noheader --format %i --user ${USER}  
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
+```
+
+
+###  Job submission dependency on Trim
+```bash
+
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+for i in `ls -1 *_mapping.sh`
+do
+    sbatch  --dependency=afterany:${jobid} $i 
+done
+
+```
+
+### FeatureCounts
+[Bioinformatics, Volume 30, Issue 7, 1 April 2014, Pages 923–930](https://doi.org/10.1093/bioinformatics/btt656)
+![]({{{site.baseurl}}/fig/featurecount.png)
+
+```bash
+featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
+```
+### FeatureCounts location
+
+```bash
+#### Move to trim folder
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/bam 
+
+#### Copy templet
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/human/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/human/bam/count.sh
+
+sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g"  /data/gpfs/assoc/bch709-5/students/${USER}/human/bam/count.sh
+```
+
+
+### FeatureCounts command to count.sh
+#### LOOP example
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/bam 
+
+ls -1 *.bam 
+
+for i in `cat /data/gpfs/assoc/bch709-5/students/wyim/human/filelist`
+do 
+echo ${i}.bamAligned.sortedByCoord.out.bam | tr '\n' ' '
+done
+```
+
+
+
+### FeatureCount 
+```bash
+
+echo "featureCounts -o /data/gpfs/assoc/bch709-5/students/${USER}//mouse/readcount/featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-5/students/${USER}/human/ref/GRCh38_latest_genomic.gtf $(for i in `cat /data/gpfs/assoc/bch709-5/students/wyim/human/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)" >> count.sh
+```
+
+
+### Job submission dependency
+
+```bash
+squeue --noheader --format %i --user ${USER} 
+squeue --noheader --format %i --user ${USER} | tr '\n'  ':'
+```
+
+
+###  Job submission dependency on Align
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/human/bam 
+
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+sbatch  --dependency=afterany:${jobid} count.sh 
+```
+
+####################################
+
+### Slurm
+
+![](https://i.imgur.com/LynACgh.png)
+
+
+![](https://i.imgur.com/XEMRbJe.png)
+
+
+[CheatSheet](https://slurm.schedmd.com/pdfs/summary.pdf)
+
+
+*Slurm provides resource management for the processors allocated to a job, so that multiple job steps can be simultaneously submitted and queued until there are available resources within the job's allocation.*
+############
+
 
 ## RNA Sequencing
 ![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
