@@ -1,6 +1,6 @@
 ---
 layout: page
-title: HPC
+title: RNASeq
 published: true
 ---
 
@@ -116,7 +116,7 @@ Follow the on-screen instructions to complete the installation.
 ```bash
 conda install mamba
 
-mamba create -y -n RNASEQ_bch709 -c bioconda -c conda-forge sra-tools minimap2 star trim-galore gffread seqkit samtools multiqc subread tree
+mamba create -y -n RNASEQ_bch709 -c bioconda -c conda-forge sra-tools=3.1.1 minimap2 star trim-galore gffread seqkit samtools multiqc subread tree
 conda activate RNASEQ_bch709
 ```
 
@@ -469,7 +469,7 @@ nano index.sh
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
 #SBATCH -o index.out # STDOUT & STDERR
-#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --account=cpu-s5-bch709-5
 #SBATCH --partition=cpu-core-0
 
 STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  ~/scratch/RNA-Seq_example/ATH/reference/TAIR10_chr_all.fas --sjdbGTFfile ~/scratch/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
@@ -519,7 +519,7 @@ nano align.sh
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
 #SBATCH -o align.out # STDOUT & STDERR
-#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --account=cpu-s5-bch709-5
 #SBATCH --partition=cpu-core-0
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/scratch/RNA-Seq_example/ATH/trim/SRR1761506_val_1.fq.gz ~/scratch/RNA-Seq_example/ATH/trim/SRR1761506_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/RNA-Seq_example/ATH/bam/SRR1761506.bam
@@ -586,6 +586,8 @@ This command aligns the trimmed, paired-end RNA-Seq reads for **SRR1761506** to 
 
 https://www.sciencedirect.com/science/article/pii/S2211124722011111
 
+Benraiss A et al., "A TCF7L2-responsive suppression of both homeostatic and compensatory remyelination in Huntington disease mice.", Cell Rep, 2022 Aug 30;40(9):111291
+
 
 ### Working directory (Pronghorn)
 
@@ -631,17 +633,17 @@ nano index.sh
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=index_ATH
+#SBATCH --job-name=index_mouse
 #SBATCH --cpus-per-task=12
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=48g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
 #SBATCH -o index.out # STDOUT & STDERR
-#SBATCH --account=cpu-s5-bch709-2
+#SBATCH --account=cpu-s5-bch709-5
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/mm39.fa  --sjdbGTFfile /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/mrefGene.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/mm39.fa  --sjdbGTFfile /data/gpfs/assoc/bch709-5/students/${USER}/mouse/ref/refGene.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
@@ -660,13 +662,7 @@ ls /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
 ```bash
 cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq
 
-ls -1 *.gz 
-
-ls -1 *.gz | sed 's/_R.\.fastq\.gz//g'
-
-ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u
-
-ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u >> /data/gpfs/assoc/bch709-5/students/${USER}/mouse/filelist
+ls -1 *.gz | sed 's/_R.\.fastq\.gz//g' | sort -u > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/filelist
 
 cat /data/gpfs/assoc/bch709-5/students/${USER}/mouse/filelist
 ```
@@ -686,9 +682,7 @@ trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2 
 
 ### Prepare templet
 ```bash
-cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
-
-sed -i "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
+cat /data/gpfs/assoc/bch709-5/Course_material/mouse/run.sh | sed "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g"  > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
 ```
 
 ### Edit templet
@@ -757,8 +751,7 @@ squeue -u ${USER}
 cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim
 
 #### Copy templet
-cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
-sed -i "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
+cat /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh sed "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
 
 #### Edit templet
 nano mapping.sh
@@ -806,6 +799,9 @@ do
 done
 
 ```
+
+
+###########
 
 ```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
