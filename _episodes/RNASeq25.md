@@ -1,6 +1,6 @@
 ---
 layout: page
-title: RNASeq
+title: HPC
 published: true
 ---
 
@@ -682,7 +682,7 @@ trim_galore --paired  --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2 
 
 ### Prepare templet
 ```bash
-cat /data/gpfs/assoc/bch709-5/Course_material/mouse/run.sh | sed "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g"  > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
+cat /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh | sed "s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g"  > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/fastq/trim.sh
 ```
 
 ### Edit templet
