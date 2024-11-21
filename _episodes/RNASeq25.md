@@ -763,7 +763,7 @@ cp /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/trim/*  /data/gpfs/
 cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim
 
 #### Copy templet
-cat /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh sed "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
+cat /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh | sed "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Trim/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" > /data/gpfs/assoc/bch709-5/students/${USER}/mouse/trim/mapping.sh
 
 #### Edit templet
 nano mapping.sh
@@ -816,17 +816,18 @@ mkdir  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount
 cd /data/gpfs/assoc/bch709-5/students/wyim/RNA-Seq_example/ATH
 
 cat  /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh | sed "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" > /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/count.sh
-```
 
 
 ### FeatureCounts read bam file
 
 ```bash
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount/
 cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/raw_data
 ls -1 *.gz | sed 's/_.*//g' | sort -u > /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/filelist
 cd  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/bam
 ls -1 *.sortedByCoord.out.bam
 ls -1 *.sortedByCoord.out.bam| tr '\n' ' '
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/ATH/reference/*  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf
 ```
 
 ###########
@@ -835,11 +836,11 @@ ls -1 *.sortedByCoord.out.bam| tr '\n' ' '
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]
 ```
 
-### Edit templet
+### Edit file
 
 ```bash
 #paste this to count.sh
-featureCounts -o /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount/ATH_featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/TAIR10_GFF3_genes.gtf $(for i in `cat  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
+featureCounts -o /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount/ATH_featucount -T 4 -Q 1 -p -M  -g gene_id -a /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/reference/TAIR10_GFF3_genes.gtf $(for i in `cat  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/filelist`; do echo ${i}.bamAligned.sortedByCoord.out.bam| tr '\n' ' ';done)
 ```
 
 ```bash
