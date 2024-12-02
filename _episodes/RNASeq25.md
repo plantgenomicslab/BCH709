@@ -1153,6 +1153,261 @@ jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
 sbatch --dependency=afterany:${jobid} count.sh 
 ```
 
+## local Mac to Downloads
+```bash
+echo "setopt nonomatch" >> ~/.zshrc
+```
+
+## Conda environment
+
+```bash
+
+mamba create -n RNASeq_postanalysis -y -c bioconda -c conda-forge -c r r trinity multiqc=1.9 samtools r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-biobase=2.40.0  bioconductor-qvalue  bioconductor-limma bioconductor-edger  bioconductor-genomeinfodb bioconductor-deseq2 bioconductor-genomeinfodbdata r-rcurl
+
+conda activate RNASeq_postanalysis
+```
+
+### WORKTING PATH
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount
+```
+
+## Reads count
+In the case of RNA-Seq, the features are typically genes, where each gene is considered here as the union of all its exons. Counting RNA-seq reads is complex because of the need to accommodate exon splicing. The common approach is to summarize counts at the gene level, by counting all reads that overlap any exon for each gene. In this method, gene annotation file from RefSeq or Ensembl is often used for this purpose. So far there are two major feature counting tools: featureCounts (Liao et al.) and htseq-count (Anders et al.)
+
+![featurecount]({{site.baseurl}}/fig/featurecount.png)
+
+
+```bash
+head ATH_featucount
+```
+
+```bash
+cut -f1,7-  ATH_featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> ATH.featureCount_count_only.cnt
+```
+### Go to DEG
+```bash
+head ATH_featucount
+head ATH.featureCount_count_only.cnt
+mkdir /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG
+cp ATH.featureCount* ../DEG
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG
+ls 
+```
+
+
+### Data list
+
+| Sample information | Run        |
+|--------------------|------------|
+| WT_rep1            | SRR1761506 |
+| WT_rep2            | SRR1761507 |
+| WT_rep3            | SRR1761508 |
+| ABA_rep1           | SRR1761509 |
+| ABA_rep2           | SRR1761510 |
+| ABA_rep3           | SRR1761511 |
+
+
+### sample files
+```bash
+nano samples.txt
+```
+
+```bash
+WT<TAB>SRR1761506
+WT<TAB>SRR1761507
+WT<TAB>SRR1761508
+ABA<TAB>SRR1761509
+ABA<TAB>SRR1761510
+ABA<TAB>SRR1761511
+```
+
+```bash
+sed -i 's/<TAB>/\t/g' samples.txt
+```
+
+
+### PtR (Quality Check Your Samples and Biological Replicates)
+
+Once you've performed transcript quantification for each of your biological replicates, it's good to examine the data to ensure that your biological replicates are well correlated, and also to investigate relationships among your samples. If there are any obvious discrepancies among your sample and replicate relationships such as due to accidental mis-labeling of sample replicates, or strong outliers or batch effects, you'll want to identify them before proceeding to subsequent data analyses (such as differential expression). 
+```bash
+PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+```
+```output
+WT.rep_compare.pdf
+ABA.rep_compare.pdf
+```
+
+
+### DEG calculation
+```bash
+R
+```
+
+```R
+install.packages("blob")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("GenomeInfoDb","DESeq2"))
+
+quit()
+```
+
+```bash
+run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
+```
+
+### DEG output
+```bash
+ls rnaseq
+```
+
+```
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.count_matrix
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.Rscript
+```
+
+### TPM and FPKM calculation
+
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount
+
+cut -f1,6-  ATH_featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > ATH.featureCount_count_length.cnt
+
+cp ATH.featureCount* ../DEG
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG
+
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/script/tpm_raw_exp_calculator.py .
+
+python tpm_raw_exp_calculator.py -count ATH.featureCount_count_length.cnt
+
+```
+
+
+
+### TPM and FPKM calculation output
+```bash
+ATH.featureCount_count_length.cnt.fpkm.xls
+ATH.featureCount_count_length.cnt.fpkm.tab
+ATH.featureCount_count_length.cnt.tpm.xls
+ATH.featureCount_count_length.cnt.tpm.tab
+```
+
+### DEG subset
+```bash
+
+analyze_diff_expr.pl --samples samples.txt  --matrix ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+analyze_diff_expr.pl --samples samples.txt  --matrix ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+```
+
+### DEG output
+```
+ATH.matrix.log2.centered.sample_cor_matrix.pdf
+ATH.matrix.log2.centered.genes_vs_samples_heatmap.pdf
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C2.DE.subset
+
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.ABA-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.WT-UP.subset
+ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.DE.subset
+```
+
+
+
+# Mouse DEG
+## Activate environment
+```bash
+conda activate RNASeq_postanalysis
+```
+
+### WORKTING PATH
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/readcount
+```
+
+
+## Clean sample name
+```bash
+cut -f1,7-  featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> mouse_featurecount_only.cnt
+cut -f1,6-  featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> mouse_featurecount_length.cnt
+```
+
+## Copy read count to DEG folder
+ ```bash
+cp /data/gpfs/assoc/bch709-5/students/${USER}/mouse/readcount/mouse_* /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/
+```
+
+
+## Go to DEG folder
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/
+```
+
+### sample files
+```bash
+nano samples.txt
+```
+
+```
+WT<TAB>R62_WT_Rep2
+WT<TAB>R62_WT_Rep3
+WT<TAB>R62_WT_Rep4
+WT<TAB>R62_WT_Rep5
+Glial<TAB>R62_Glial_Rep1
+Glial<TAB>R62_Glial_Rep2
+Glial<TAB>R62_Glial_Rep3
+Glial<TAB>R62_Glial_Rep4
+Glial<TAB>R62_Glial_Rep5
+```
+
+```bash
+sed -i 's/<TAB>/\t/g' samples.txt
+```
+
+## PtR (Quality Check Your Samples and Biological Replicates)
+
+
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/
+PtR  --matrix mouse_featurecount_only.cnt  --samples samples.txt --CPM  --log2 --min_rowSums 10   --sample_cor_matrix --compare_replicates
+
+```
+
+## PtR download on local
+```bash
+scp [YOURID]@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/*.pdf .
+```
+
+## DEG analysis on Pronghorn
+```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/
+run_DE_analysis.pl --matrix mouse_featurecount_only.cnt  --method DESeq2 --samples_file samples.txt --output mouse
+```
+
+## TPM/FPKM calculation
+```bash
+cp /data/gpfs/assoc/bch709-5/students/Course_materials/script/tpm_raw_exp_calculator.py .
+
+python tpm_raw_exp_calculator.py -count mouse_featurecount_length.cnt
+```
+
+### TPM and FPKM calculation output
+```bash
+mouse_featurecount_length.cnt.fpkm.xls
+mouse_featurecount_length.cnt.fpkm.tab
+mouse_featurecount_length.cnt.tpm.xls
+mouse_featurecount_length.cnt.tpm.tab
+```
+
+
+
 
 # Human RNA-Seq
 [***Transcriptome alterations in myotonic dystrophy frontal cortex***](https://www.sciencedirect.com/science/article/pii/S2211124720316235)
