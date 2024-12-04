@@ -813,7 +813,7 @@ In the case of RNA-Seq, the features are typically genes, where each gene is con
 
 #### Copy templet
 mkdir  /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount
-cd /data/gpfs/assoc/bch709-5/students/wyim/RNA-Seq_example/ATH
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH
 
 cat  /data/gpfs/assoc/bch709-5/students/Course_materials/mouse/run.sh | sed "s/16g/64g/g; s/\-\-cpus\-per\-task\=2/\-\-cpus\-per\-task\=4/g; s/\[NAME\]/Count/g; s/\[youremail\]/${USER}\@unr.edu\,${USER}\@nevada.unr.edu/g" > /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/count.sh
 
@@ -862,251 +862,6 @@ cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH
 ############
 
 
-## RNA Sequencing
-![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
-
-1. The transcriptome is spatially and temporally dynamic
-2. Data comes from functional units (coding regions)
-3. Only a tiny fraction of the genome
-
->## Introduction
->Sequence based assays of transcriptomes (RNA-seq) are in wide use because of their favorable properties for quantification, transcript discovery and splice isoform identification, as well as adaptability for numerous more specialized measurements. RNA-Seq studies present some challenges that are shared with prior methods such as microarrays and SAGE tagging, and they also present new ones that are specific to high-throughput sequencing platforms and the data they produce. This document is part of an ongoing effort to provide the community with standards and guidelines that will be updated as RNASeq matures and to highlight unmet challenges. The intent is to revise this document periodically to capture new advances and increasingly consolidate standards and best practices.
->
->RNA-Seq experiments are diverse in their aims and design goals, currently including multiple types of RNA isolated from whole cells or from specific sub-cellular compartments or biochemical classes, such as total polyA+ RNA, polysomal RNA, nuclear ribosome-depleted RNA, various size fractions of RNA and a host of others. The goals of individual experiments range from major transcriptome “discovery” that seeks to define and quantify all RNA species in a starting RNA sample to experiments that simply need to detect significant changes in the more abundant RNA classes across many samples.  
-{: .prereq}
-
-
-
-![RNA Sequencing workflow]({{{site.baseurl}}/fig/rnaseq_workflow.png)
-
-### Seven stages to data science
-1. Define the question of interest
-2. Get the data
-3. Clean the data
-4. Explore the data
-5. Fit statistical models
-6. Communicate the results
-7. Make your analysis reproducible
-
-### What do we need to prepare ?
-### Sample Information
-a. What kind of material it is should be noted: Tissue, cell line, primary cell type, etc…
-b. It’s ontology term (a DCC wrangler will work with you to obtain this)
-c. If any treatments or genetic modifications (TALENs, CRISPR, etc…) were done to the sample
-prior to RNA isolation.
-d. If it’s a subcellular fraction or derived from another sample. If derived from another sample,
-that relationship should be noted.
-e. Some sense of sample abundance: RNA-Seq data from “bulk” vs. 10,000 cell equivalents can
-give very different results, with lower input samples typically being less reproducible. Having
-a sense of the amount of starting material here is useful.
-f. If you received a batch of primary or immortalized cells, the lot #, cat # and supplier should be
-noted.
-g. If cells were cultured out, the protocol and methods used to propagate the cells should be
-noted.
-h. If any cell phenotyping or other characterizations were done to confirm it’s identify, purity,
-etc.. those methods should be noted.
-
-
-### RNA Information: 
-RNAs come in all shapes and sizes. Some of the key properties to report are:
-a. Total RNA, Poly-A(+) RNA, Poly-A(-) RNA
-b. Size of the RNA fraction: we typically have a + 200 and – 200 cutoff, but there is a wide
-range, i.e. microRNA-sized, etc…
-c. If the RNA was treated with Ribosomal RNA depletion kits (RiboMinus, RiboZero): please
-note the kit used.
-
-### Protocols: 
-There are several methods used to isolate RNAs with that work fine for the purposes of RNA-Seq. For all the ENCODE libraries that we make, we provide a document that lists in detail:
-a. The RNA isolation methods,
-b. Methods of size selections
-c. Methods of rRNA removal
-d. Methods of oligo-dT selections
-e. Methods of DNAse I treatments
-
-### Experimental Design
-- Balanced design
-- Technical replicates not necessary (Marioni et al., 2008)
-- Biological replicates: 6 - 12 (Schurch et al., 2016)
-- Power analysis
-
->## Reading materials
->[Paul L. Auer and R. W. Doerge "Statistical Design and Analysis of RNA Sequencing Data" Genetics June 1, 2010 vol. 185 no.2 405-416](https://www.genetics.org/content/185/2/405)  
->[Busby, Michele A., et al. "Scotty: a web tool for designing RNA-Seq experiments to measure differential gene expression." Bioinformatics 29.5 (2013): 656-657](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3582267/)  
->[Marioni, John C., et al. "RNA-seq: an assessment of technical reproducibility and comparison with gene expression arrays." Genome research (2008)](https://genome.cshlp.org/content/18/9/1509.full.html)  
->[Schurch, Nicholas J., et al. "How many biological replicates are needed in an RNA-seq experiment and which differential expression tool should you use?." Rna (2016)](https://rnajournal.cshlp.org/content/22/6/839.long)  
->[Zhao, Shilin, et al. "RnaSeqSampleSize: real data based sample size estimation for RNA sequencing." BMC bioinformatics 19.1 (2018): 191](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2191-5)  
-{: .prereq}
-
-### Replicate number
-In all cases, experiments should be performed with two or more biological replicates, unless there is a
-compelling reason why this is impractical or wasteful (e.g. overlapping time points with high temporal
-resolution). A biological replicate is defined as an independent growth of cells/tissue and subsequent
-analysis. Technical replicates from the same RNA library are not required, except to evaluate cases
-where biological variability is abnormally high. In such instances, separating technical and biological
-variation is critical. In general, detecting and quantifying low prevalence RNAs is inherently more variable
-than high abundance RNAs. As part of the ENCODE pipeline, annotated transcript and genes are
-quantified using RSEM and the values are made available for downstream correlation analysis. Replicate
-concordance: the gene level quantification should have a Spearman correlation of >0.9 between
-isogenic replicates and >0.8 between anisogenic replicates.
-
-### RNA extraction
-- Sample processing and storage
-- Total RNA/mRNA/small RNA
-- DNAse treatment
-- Quantity & quality
-- RIN values (Strong effect)
-- Batch effect
-- Extraction method bias (GC bias)
-
->## Reading materials
->Romero, Irene Gallego, et al. "RNA-seq: impact of RNA degradation on transcript quantification." BMC biology 12.1 (2014): 42  
->Kim, Young-Kook, et al. "Short structured RNAs with low GC content are selectively lost during extraction from a small number of cells." Molecular cell 46.6 (2012): 893-89500481-9).  
-{: .prereq}
-
-**RNA Quantification and Quality Control: When working with bulk samples, throughout the various steps we periodically assess the quality and quantity of the RNA. This is typically done on a BioAnalyzer. Points to check are:**
-a. Total RNA
-b. After oligo-dT size selections
-c. After rRNA-depletions
-d. After library construction
-
-### Library prep
-- PolyA selection
-- rRNA depletion
-- Size selection
-- PCR amplification (See section PCR duplicates)
-- Stranded (directional) libraries
-   - Accurately identify sense/antisense transcript
-   - Resolve overlapping genes
-- Exome capture
-- Library normalisation
-- Batch effect
-
-![RNA library]({{{site.baseurl}}/fig/library.png)
-
-![RNA Sequencing tool]({{{site.baseurl}}/fig/frag.png)  
-
-
-### Sequencing: 
-There are several sequencing platforms and technologies out there being used. It is important to provide the following pieces of information:
-a. Platform: Illumina, PacBio, Oxford Nanopore, etc…
-b. Format: Single-end, Pair-end,
-c. Read Length: 101 bases, 125 bases, etc…
-d. Unusual barcode placement and sequence: Some protocols introduce barcodes in noncustomary places. If you are going to deliver a FASTQ file that will contain the barcode
-sequences in it or other molecular markers – you will need to report both the position in the
-read(s) where they are and their sequence(s).
-e. Please provide the sequence of any custom primers that were used to sequence the library
-
-![RNA library]({{{site.baseurl}}/fig/sequencing.png)
-
-
-
-### Sequencing depth.
-The amount of sequencing needed for a given sample is determined by the goals of the experiment and
-the nature of the RNA sample. Experiments whose purpose is to evaluate the similarity between the
-transcriptional profiles of two polyA+ samples may require only modest depths of sequencing.
-Experiments whose purpose is discovery of novel transcribed elements and strong quantification of
-known transcript isoforms requires more extensive sequencing.  
-• Each Long RNA-Seq library must have a minimum of 30 million aligned reads/mate-pairs.  
-• Each RAMPAGE library must have a minimum of 20 million aligned reads/mate-pairs.  
-• Each small RNA-Seq library must have a minimum of 30 million aligned reads/mate-pairs.  
-
-
-### Quantitative Standards (spike-ins).
-It is highly desirable to include a ladder of RNA spike-ins to calibrate quantification, sensitivity, coverage
-and linearity. Information about the spikes should include the stage of sample preparation that the spiked
-controls were added, as the point of entry affects use of spike data in the output. In general, introducing
-spike-ins as early in the process as possible is the goal, with more elaborate uses of different spikes at
-different steps being optional (e.g. before poly A+ selection, at the time of cDNA synthesis, or just prior to
-sequencing). Different spike-in controls are needed for each of the RNA types being analyzed (e.g. long
-RNAs require different quantitative controls from short RNAs). Such standards are not yet available for all
-RNA types. Information about quantified standards should also include:
-a) A FASTA (or other standard format) file containing the sequences of each spike in.
-b) Source of the spike-ins (home-made, Ambion, etc..)
-c) The concentration of each of the spike-ins in the pool used. 
-
-[Hong et al., 2016, Principles of metadata organization at the ENCODE data coordination center.](https://academic.oup.com/database/article-lookup/doi/10.1093/database/baw001)
-
-
-
-![RNA Sequencing tool]({{{site.baseurl}}/fig/rnasoftware.png)
-
-
-### QC FAIL?
-https://sequencing.qcfail.com/
-
-
-### Fastq format
-FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and its corresponding quality scores.
-
-
-The format is similar to fasta though there are differences in syntax as well as integration of quality scores. Each sequence requires at least 4 lines:
-
-1. The first line is the sequence header which starts with an ‘@’ (not a ‘>’!).
-Everything from the leading ‘@’ to the first whitespace character is considered the sequence identifier.
-Everything after the first space is considered the sequence description
-2. The second line is the sequence.
-3. The third line starts with ‘+’ and can have the same sequence identifier appended (but usually doesn’t anymore).
-4. The fourth line are the quality scores
-
-The FastQ sequence identifier generally adheres to a particular format, all of which is information related to the sequencer and its position on the flowcell. The sequence description also follows a particular format and holds information regarding sample information.
-
-```
-@A00261:180:HL7GCDSXX:2:1101:30572:1047/2
-AAAATACATTGATGACCATCTAAAGTCTACGGCGTATGCGACTGATGAAGTATATTGCACCACCTGAGGGTGATGCTAATACTACTGTTGACGATAATGCTGATCTTCTTGCTAAGCTTAATATTGTTGGTGTTGAACCTAATGTTGGTG
-+
-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFF
-@A00261:180:HL7GCDSXX:2:1101:21088:1094/2
-ATCTCACATCGTTCCCTCAAGATTCTGAATTTTGGCAGCTCATTGCATTCTGTGCCGGCACTGGTGGTTCGATGCTTGTCATTGGTTCTGCTGCTGGTGTAGCCTTCATGGGGATGGAGAAAGTCGATTTCTTTTGGTATTTCCGAAAGG
-+
-FFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-@A00261:180:HL7GCDSXX:2:1101:21251:1125/2
-CGGTGGAAAAGGAAACAGCTTTGGAAGGTTGATTCCATTACAGATTCGATTCGAAACTATGGTTCAGATTTCCGATCTTCCACGGGATTTGACAGAGGAGGTGCTCTCTAGGATTCCGGTGACATCTATGAGAGCAGTGAGATTTACTTG
-```
-
-- A00261  : Instrument name
-- 180 : run ID
-- HL7GCDSXX : Flowcell ID
-- 2 : Flowcell lane
-- 1101 : tile number within the flowcell lane
-- 30572 : X-coordinate of the cluster within tile
-- 1047 : Y-coordinate of the cluster within tile
-- /2 : member of a pair 1 or 2 (Paired end reads only)
-
-
-### Quality Scores
-Quality scores are a way to assign confidence to a particular base within a read. Some sequencers have their own proprietary quality encoding but most have adopted Phred-33 encoding. Each quality score represents the probability of an incorrect basecall at that position.
-
-### Phred Quality Score Encoding
-Quality scores started as numbers (0-40) but have since changed to an ASCII encoding to reduce filesize and make working with this format a bit easier, however they still hold the same information. ASCII codes are assigned based on the formula found below. This table can serve as a lookup as you progress through your analysis.
-
-### Quality Score Interpretation
-Once you know what each quality score represents you can then use this chart to understand the confidence in a particular base.
-
-
-![FASTQ quality]({{{site.baseurl}}/fig/quality.png)
-
-
-## BW algorithm
-![algorithm]({{{site.baseurl}}/fig/algorithm.png)
-![banana]({{{site.baseurl}}/fig/banana.png)
-![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
-
-
-### Reads QC
-- Number of reads
-- Per base sequence quality
-- Per sequence quality score
-- Per base sequence content
-- Per sequence GC content
-- Per base N content
-- Sequence length distribution
-- Sequence duplication levels
-- Overrepresented sequences
-- Adapter content
-- Kmer content
-
-[FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-
 
 ## FeatureCounts execute location
 
@@ -1148,9 +903,17 @@ squeue --noheader --format %i --user ${USER}
 
 ### Submit
 ```bash
-jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n'  ':')1
+# Get the list of job IDs as a colon-separated string
+jobid=$(squeue --noheader --format %i --user ${USER} | tr '\n' ':' | sed 's/:$//')
 
-sbatch --dependency=afterany:${jobid} count.sh 
+# Check if the jobid variable is empty
+if [[ -n "$jobid" ]]; then
+    # If not empty, schedule the job with dependencies
+    sbatch --dependency=afterany:${jobid} count.sh
+else
+    # If empty, schedule the job without dependencies
+    sbatch count.sh
+fi
 ```
 
 ## local Mac to Downloads
@@ -1240,29 +1003,23 @@ ABA.rep_compare.pdf
 ```
 
 
-### DEG calculation
+
+
+## DEG calculation
 ```bash
-R
-```
-
-```R
-install.packages("blob")
-
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install(c("GenomeInfoDb","DESeq2"))
-
-quit()
+conda activate RNASeq_postanalysis
+mamba install -c conda-forge -c anaconda pandas
 ```
 
 ```bash
+cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG
+
 run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
 ```
 
 ### DEG output
 ```bash
-ls rnaseq
+cd rnaseq
 ```
 
 ```
@@ -1275,6 +1032,7 @@ ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.Rscript
 ### TPM and FPKM calculation
 
 ```bash
+
 cd /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/readcount
 
 cut -f1,6-  ATH_featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > ATH.featureCount_count_length.cnt
@@ -1300,9 +1058,11 @@ ATH.featureCount_count_length.cnt.tpm.tab
 
 ### DEG subset
 ```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/RNA-Seq_example/ATH/DEG/rnaseq
 
-analyze_diff_expr.pl --samples samples.txt  --matrix ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
-analyze_diff_expr.pl --samples samples.txt  --matrix ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/${USER}/RNA-Seq_example/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.05 -C 1 --output ATH
 ```
 
 ### DEG output
@@ -1335,8 +1095,10 @@ cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/readcount
 
 ## Clean sample name
 ```bash
-cut -f1,7-  featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> mouse_featurecount_only.cnt
-cut -f1,6-  featucount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' >> mouse_featurecount_length.cnt
+### ls /data/gpfs/assoc/bch709-5/students/${USER}/mouse/readcount
+
+cut -f1,7-  mouse_featurecount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > mouse_featurecount_only.cnt
+cut -f1,6-  mouse_featurecount |  egrep -v "#" | sed 's/\Aligned\.sortedByCoord\.out\.bam//g; s/\.bam//g' > mouse_featurecount_length.cnt
 ```
 
 ## Copy read count to DEG folder
@@ -1385,11 +1147,30 @@ PtR  --matrix mouse_featurecount_only.cnt  --samples samples.txt --CPM  --log2 -
 scp [YOURID]@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/*.pdf .
 ```
 
-## DEG analysis on Pronghorn
+
+
+
+## DEG calculation
+
 ```bash
-cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/
-run_DE_analysis.pl --matrix mouse_featurecount_only.cnt  --method DESeq2 --samples_file samples.txt --output mouse
+cd /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG
+
+run_DE_analysis.pl --matrix mouse_featurecount_only.cnt --method DESeq2 --samples_file samples.txt --output rnaseq
 ```
+
+### DEG output
+```bash
+cd rnaseq
+```
+
+```
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.count_matrix
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.Rscript
+```
+
+### TPM and FPKM calculation
 
 ## TPM/FPKM calculation
 ```bash
@@ -1405,6 +1186,266 @@ mouse_featurecount_length.cnt.fpkm.tab
 mouse_featurecount_length.cnt.tpm.xls
 mouse_featurecount_length.cnt.tpm.tab
 ```
+
+### DEG subset
+```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/rnaseq
+
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/mouse_featurecount_length.cnt.tpm.tab  -P 0.01 -C 2 --output mouse
+
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/mouse_featurecount_length.cnt.tpm.tab  -P 0.01 -C 2 --output mouse
+```
+
+### DEG output
+```
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.count_matrix
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.MA_n_Volcano.pdf
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.P0.01_C2.DE.subset
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.P0.01_C2.Glial-UP.subset
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.P0.01_C2.WT-UP.subset
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.DE_results.samples
+mouse_featurecount_only.cnt.Glial_vs_WT.DESeq2.Rscript
+```
+
+
+## Expression normalization based on transcript length
+
+### FPKM 
+Fragments per Kilobase of transcript per million mapped reads
+
+![FPKM]({{site.baseurl}}/fig/FPKM.png)
+
+X = mapped reads count
+N = number of reads
+L = Length of transcripts
+
+```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/
+
+head mouse_featurecount_length.cnt
+
+awk 'NR > 1 {sum += $3} END {print sum}' mouse_featurecount_length.cnt
+
+egrep Xkr4 /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/rnaseq/rnaseqmouse_featurecount_length.cnt
+```
+
+```python
+X = 718
+Number_Reads_mapped = 87203201
+Length = 3634
+fpkm= X*(1000/Length)*(1000000/Number_Reads_mapped)
+fpkm
+quit()
+```
+
+#### ten to the ninth power = 10\*\*9
+
+
+```python
+fpkm=X/(Number_Reads_mapped*Length)*10**9
+fpkm
+quit()
+```
+
+## check th FPKM file
+```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/
+
+egrep Xkr4 mouse_featurecount_length.cnt.fpkm.tab
+```
+
+
+### TPM
+ Transcripts Per Million
+
+![TPM]({{site.baseurl}}/fig/TPM.png)
+
+![TPM2]({{site.baseurl}}/fig/TPM2.png)
+
+
+### TPM calculation from reads count
+```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG
+
+awk 'NR > 1 {sum += $3/$2} END {print sum}' mouse_featurecount_length.cnt
+```
+
+```python
+sum_count_per_length = 32811.8
+Length = 3634
+X = 718
+TPM = (X/Length)*(1/sum_count_per_length )*10**6
+
+```
+
+### TPM calculation from FPKM
+awk 'NR > 1 {sum += $2} END {print sum}' mouse_featurecount_length.cnt.fpkm.tab
+
+
+```python
+FPKM = 2.265724465514574
+SUM_FPKM = 376268
+TPM=(FPKM/SUM_FPKM)*10**6
+TPM
+quit()
+```
+
+### Paper read
+[Li et al., 2010, RSEM](http://bioinformatics.oxfordjournals.org/content/26/4/493.long)
+[Dillies et al., 2013](http://bib.oxfordjournals.org/content/14/6/671.full)
+
+
+### DEG subset
+```bash
+cd /data/gpfs/assoc/bch709-5/students/wyim/mouse/DEG/rnaseq
+
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/mouse_featurecount_length.cnt.tpm.tab -P 0.01 -C 2 --output mouse_RNASEQ_P001_C2
+
+
+analyze_diff_expr.pl --samples /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/samples.txt  --matrix /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG/mouse_featurecount_length.cnt.tpm.tab -P 0.05 -C 1 --output mouse_RNASEQ_P001_C2
+
+```
+
+### DEG Subset to list
+```
+for i in *.subset; do
+  NAME=$(basename "${i}" .subset)
+  egrep -v sample "${i}" | cut -f 1 > "${NAME}.txt"
+done
+#This will generate .txt files for each .subset file in the directory, excluding lines with "sample" and retaining only the first column.
+```
+
+
+## DEG download
+```
+scp ..
+``
+# Functional analysis • GO
+Gene enrichment analysis (Hypergeometric test)
+Gene set enrichment analysis (GSEA)
+Gene ontology / Reactome databases
+
+### Gene Ontology
+Gene Ontology project is a major bioinformatics initiative Gene ontology is an annotation system The project provides the controlled and consistent vocabulary of terms and gene product annotations, i.e. terms occur only once, and there is a dictionary of allowed words
+GO describes how gene products behave in a cellular context A consistent description of gene products attributes in terms of their associated biological processes, cellular components and molecular functions in a species-independent manner Each GO term consists of a unique alphanumerical identifier, a common name, synonyms (if applicable), and a definition Each term is assigned to one of the three ontologies Terms have a textual definition When a term has multiple meanings depending on species, the GO uses a "sensu" tag to differentiate among them (trichome differentiation (sensu Magnoliophyta) 
+
+
+![GO]({{site.baseurl}}/fig/GO.png)
+
+![kegg]({{site.baseurl}}/fig/kegg.png)
+
+### hypergeometric test
+The hypergeometric distribution is the lesser-known cousin of the binomial distribution, which describes the probability of k successes in n draws with replacement. The hypergeometric distribution describes probabilities of drawing marbles from the jar without putting them back in the jar after each draw.
+The hypergeometric probability mass function is given by (using the original variable convention)
+
+
+![hyper_geo]({{site.baseurl}}/fig/hyper_geo.png)
+![combination]({{site.baseurl}}/fig/combination.png)
+![FWER]({{site.baseurl}}/fig/FWER.png)
+
+#### FWER
+The FWER for the other tests is computed in the same way: the gene-associated variables (scores or counts) are permuted while the annotations of genes to GO-categories stay fixed. Then the statistical tests are evaluated again for every GO-category.
+
+
+## Hypergeometric Test Example 1
+Suppose we randomly select 2 cards without replacement from an ordinary deck of playing cards. What is the probability of getting exactly 2 cards you want (i.e., Ace or 10)?
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 52; since there are 52 cards in a deck.
+k = 16; since there are 16 Ace or 10 cards in a deck.
+n = 2; since we randomly select  cards from the deck.
+x = 2; since 2 of the cards we select are red.
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(2; 52, 2, 16) = [ 16C2 ] [ 48C1 ] / [ 52C2 ]
+
+h(2; 52, 2, 16) = [ 325 ] [  1 ] / [ 1,326 ]
+
+h(2; 52, 2, 16) = 0.0904977
+
+Thus, the probability of randomly selecting 2 Ace or 10 cards is 9%
+
+|category|probability|
+| -- | -- |
+|probability mass f|    0.09049773755656108597285|
+|lower cumulative P|    1|
+|upper cumulative Q|    0.09049773755656108597285|
+|Expectation|   0.6153846153846153846154|
+
+
+## Hypergeometric Test Example 2
+Suppose we have 30 DEGs in human genome (200). What is the probability of getting 10 oncogene?
+
+*An oncogene is a gene that has the potential to cause cancer.*
+
+Solution: This is a hypergeometric experiment in which we know the following:
+
+N = 200; since there are 200 genes in human genome 
+k = 10; since there are 10 oncogenes in human
+n = 30; since 30 DEGs
+x = 5; since 5 of the oncogenes in DEGs.
+
+We plug these values into the hypergeometric formula as follows:
+
+h(x; N, n, k) = [ kCx ] [ N-kCn-x ] / [ NCn ]
+
+h(5; 200, 30, 10) = [ 10C5 ] [ 190C25 ] / [ 200C30 ]
+
+h(5; 200, 30, 10) = [ 252 ] [  11506192278177947613740456466942 ] / [ 409681705022127773530866523638950880 ]
+
+h(5; 200, 30, 10) = 0.007078
+
+Thus, the probability of oncogene 0.7%.
+
+hypergeometry.png
+
+### hypergeometric distribution value
+
+|category|probability|  
+| -- | -- |  
+|probability mass f|    0.0070775932109153651831923063371216961166297 |  
+|lower cumulative P|    0.99903494867072865323201131115533112651846 |  
+|upper cumulative Q|    0.0080426445401867119511809951817905695981658 |  
+|Expectation|   1.5|  
+
+
+### False Discovery Rate (FDR) q-value
+The false discovery rate (FDR) is a method of conceptualizing the rate of type I errors in null hypothesis testing when conducting multiple comparisons. FDR-controlling procedures are designed to control the expected proportion of "discoveries" (rejected null hypotheses) that are false (incorrect rejections).
+
+- Benjamini–Yekutieli 
+- Benjamini–Hochberg 
+- Bonferroni-Selected–Bonferroni
+- Bonferroni and Sidak 
+
+### MetaScape
+http://metascape.org/gp/index.html
+
+### REViGO 
+http://revigo.irb.hr/revigo.jsp
+
+### cleverGO 
+http://www.tartaglialab.com/GO_analyser/tutorial
+
+### DAVID
+https://david.ncifcrf.gov/
+
+### Araport
+http://araport.org
+
+### Paper read
+Fu, Yu, et al. "Elimination of PCR duplicates in RNA-seq and small RNA-seq using unique molecular identifiers." BMC genomics 19.1 (2018): 531
+Parekh, Swati, et al. "The impact of amplification on differential expression analyses by RNA-seq." Scientific reports 6 (2016): 25533
+Klepikova, Anna V., et al. "Effect of method of deduplication on estimation of differential gene expression using RNA-seq." PeerJ 5 (2017): e3091
+
+
+
+
+
+
 
 
 
