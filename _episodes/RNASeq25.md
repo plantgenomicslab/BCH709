@@ -1320,7 +1320,7 @@ done
 ## DEG download
 ```
 scp ..
-``
+```
 # Functional analysis • GO
 Gene enrichment analysis (Hypergeometric test)
 Gene set enrichment analysis (GSEA)
