@@ -15,58 +15,73 @@ This lecture is designed to be run on a terminal program. With the exception of 
 ## Required Operating System + Laptop
 
 > ## Windows 10 and Windows 11
-> - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/) or [connect this site](https://oit.unr.edu/services-and-support/data-storage/office-365/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
 >
-> **Modern WSL Installation (Windows 10 version 2004+ or Windows 11)**
+> ### 1. Microsoft Office (Required)
+> Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/) or [connect this site](https://oit.unr.edu/services-and-support/data-storage/office-365/).
+> - The version for Windows should automatically be selected
+> - Once the installer is downloaded, double click on it and MSOffice should install
+>
+> ### 2. Windows Subsystem for Linux (WSL) Installation (Required)
+>
+> **For Windows 10 version 2004+ or Windows 11:**
 >
 > The easiest way to install WSL is using a single command:
-> - Open PowerShell as Administrator (right click and choose "Run as administrator")
->![powershell](https://i1.wp.com/itsfoss.com/wp-content/uploads/2016/08/Powershell-Ubuntu-install.jpeg?w=800&ssl=1){: width="50%" height="50%"}
-> - Run the following command:
->~~~
->wsl --install
->~~~
-> - This will install WSL and Ubuntu (latest LTS version) by default
-> - Restart your computer when prompted
 >
-> **Install Ubuntu 24.04 LTS specifically:**
+> 1. Open PowerShell as Administrator (right click and choose "Run as administrator")
 >
-> If you want to install Ubuntu 24.04 LTS specifically, use:
->~~~
->wsl --install -d Ubuntu-24.04
->~~~
+> ![powershell](./fig/Powershell-Ubuntu-install.jpeg){: width="50%" height="50%"}
+>
+> 2. Run the following command:
+> ~~~
+> wsl --install
+> ~~~
+>
+> 3. Restart your computer when prompted
+>
+> **To install Ubuntu 24.04 LTS specifically (Recommended):**
+> ~~~
+> wsl --install -d Ubuntu-24.04
+> ~~~
 >
 > You can also install Ubuntu 24.04 LTS from the [Microsoft Store](https://learn.microsoft.com/windows/wsl/install) or search for "Ubuntu 24.04" in the Microsoft Store app.
-> ![Ubuntu](https://i0.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-7.jpeg?w=800&ssl=1){: width="70%" height="70%"}
 >
 > **After Installation:**
-> - Once installed, launch Ubuntu from the Start menu
+> - Launch Ubuntu from the Start menu
 > - The first time you launch Ubuntu, it will ask you to create a username and password
 > - Please be patient during the initial setup
->![Linux](https://i2.wp.com/itsfoss.com/wp-content/uploads/2016/08/install-ubuntu-windows-10-linux-subsystem-10.jpeg?w=800&ssl=1){: width="70%" height="70%"}
 >
-> **Troubleshooting:**
+> **WSL Troubleshooting:**
 > - If you encounter issues, ensure your Windows is up to date
 > - For older versions of Windows 10 (before version 2004), please update Windows first
 > - Visit [Microsoft's official WSL documentation](https://learn.microsoft.com/windows/wsl/install) for detailed troubleshooting
 >
-> **Visual Studio Code (Required):**
-> - **Download:** Visit [https://code.visualstudio.com/](https://code.visualstudio.com/) and download for Windows
-> - Run the installer (.exe file) and follow the installation wizard
-> - During installation, check these options:
->   - "Add to PATH" (recommended)
->   - "Create a desktop icon" (optional)
->   - "Add 'Open with Code' action to context menu" (recommended)
-> - **WSL Integration:** After installing VS Code, install the "WSL" extension
->   - Open VS Code and press `Ctrl+Shift+X` to open Extensions
->   - Search for "WSL" and install the official extension by Microsoft
->   - This allows you to open WSL directories directly in VS Code
-> - **Why VS Code for Bioinformatics?**
->   - Built-in terminal for running commands
->   - Syntax highlighting for Python, R, Bash, and bioinformatics formats
->   - Git integration for version control
->   - Remote development support (WSL, SSH, containers)
->   - Free and open source
+> ### 3. Visual Studio Code (Required)
+>
+> **Installation Steps:**
+>
+> 1. **Download:** Visit [https://code.visualstudio.com/](https://code.visualstudio.com/) and click "Download for Windows"
+>
+> 2. **Run the installer** (.exe file) and follow the installation wizard
+>
+> 3. **During installation, check these options:**
+>    - ✓ "Add to PATH" (recommended)
+>    - ✓ "Create a desktop icon" (optional)
+>    - ✓ "Add 'Open with Code' action to context menu" (recommended)
+>
+> 4. **Install WSL Extension (Required for WSL integration):**
+>    - Launch VS Code
+>    - Press `Ctrl+Shift+X` to open Extensions marketplace
+>    - Search for "WSL"
+>    - Install the official "WSL" extension by Microsoft
+>    - This allows you to open and edit files in your WSL Ubuntu environment directly from VS Code
+>
+> **Why VS Code is Required for This Course:**
+> - Built-in terminal for running bioinformatics commands
+> - Syntax highlighting for Python, R, Bash, and bioinformatics file formats
+> - Git integration for version control
+> - Remote development support (WSL, SSH to Pronghorn HPC, containers)
+> - Jupyter notebook support for data analysis
+> - Free and open source
 >{: .solution}
 
 
