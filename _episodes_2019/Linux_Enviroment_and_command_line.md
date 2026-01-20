@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 2_Linux Enviroment and command line
+title: 2_Linux Environment and Command Line
 published: true
 ---
 
@@ -8,12 +8,19 @@ published: true
 >## Reading and Slack
 >
 >- Reading 1: [Luscombe et al., 2001](http://archive.gersteinlab.org/papers/e-print/whatis-mim/text.pdf)  
->- Reading 2: [Attwood 2000](https://science.sciencemag.org/content/290/5491/471)  
->- Reading 3: [Smith 2018](https://www.embopress.org/doi/full/10.15252/embr.201846262)  
+>- Reading 2: [Attwood 2000](https://doi.org/10.1126/science.290.5491.471)  
+>- Reading 3: [Smith 2018](https://doi.org/10.15252/embr.201846262)  
 >- [UNR Research Computing Slack signup](https://unrrc.slack.com/signup/)  
 >- [UNR Research Computing Slack](https://unrrc.slack.com/)  
 >- [UNR Slack ID share](https://forms.gle/yeTJZNkMzwecveYp6)  
 {: .callout}
+
+> ## Before you start
+> - Access to a Unix-like terminal (Linux, macOS, or WSL) with internet connectivity.
+> - Permission to install software (either `sudo` on Linux or Homebrew on macOS). If you are on a managed system, check with your admin before running install commands.
+> - Run commands on your own machine or allocated training server—avoid shared clusters unless instructed.
+> - Comfort with copy/paste in your terminal and a basic text editor (nano/vim/emacs) installed.
+{: .prereq}
 
 
 ![bioinformatics_DNA]({{site.baseurl}}/fig/DNA.jpg)
@@ -35,14 +42,14 @@ The Unix operating system was conceived and implemented in 1969 at **AT&T's Bell
 This is called as the hub of the operating system, serving as allocator of time and memory to programs and handling the filestore and communications in response to system calls.
 
 ## BSD
-BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at UC Berkeley starting from the original Bell Labs code. Several other derivatives have come from BSD, notably FreeBSD, OpenBSD, and NetBSD. OS X (macOS) was brough to Apple from Steve Jobs' previous company NeXT, and was built using pieces from BSD around a kernel called Mach, which incidentally is also the basis of GNU Hurd. Jobs wanted to get a new computer (with a new operating system) to market quickly. To save time, the NeXT team used the Mach kernel from Carnegie Mellon and parts of the BSD code base to created the NeXTSTEP operating system. Also, PS4 is BSD.
+BSD (Berkeley Software Distribution) is a version of UNIX developed by folks at UC Berkeley starting from the original Bell Labs code. Several other derivatives have come from BSD, notably FreeBSD, OpenBSD, and NetBSD. OS X (macOS) was brought to Apple from Steve Jobs' previous company NeXT, and was built using pieces from BSD around a kernel called Mach, which incidentally is also the basis of GNU Hurd. Jobs wanted to get a new computer (with a new operating system) to market quickly. To save time, the NeXT team used the Mach kernel from Carnegie Mellon and parts of the BSD code base to create the NeXTSTEP operating system. Also, PS4 is BSD.
 
 
 
 ## LINUX  
 Linux is a Unix-like computer operating system assembled under the model of free and open source software development and distribution. The defining component of Linux is the Linux kernel, an operating system kernel first released 5 October 1991 by Linus Torvalds. Linux was originally developed as a free operating system for Intel x86-based personal computers.
 
- - He had been built Linux kernel **Just for Fun**, when he originally played with MINIX. Linux means *Linus's MINIX*. He is very famous with **flamming** like flamming in Reddit.
+ - He built the Linux kernel **just for fun** while he was experimenting with MINIX. Linux means *Linus's MINIX*. He is known for his blunt communication style online.
 
  - "You people on the East coast think you have it bad, with snow-storms and whatever.
 That's nothing. My coffee maker broke, and calling the service hotline says "we're not open today due to inclement weather".
@@ -55,9 +62,9 @@ What am I going to do without my coffee maker? I'm going to sit here in a corner
 
  - Git was developed by Linus Torvalds
 
-It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers:**more than 90% of today's 500 fastest supercomputers** run some variant of Linux,including the 10 fastest. Linux also runs on embedded systems (devices wherthe operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the **Android** system in wide use on mobile devices is built on the Linux kernel. Also, Nintendo Switch (Linux) is based on Linux.
+It has since been ported to more computer hardware platforms than any other operating system. It is a leading operating system on servers and other big iron systems such as mainframe computers and supercomputers: **more than 90% of today's 500 fastest supercomputers** run some variant of Linux, including the 10 fastest. Linux also runs on embedded systems (devices where the operating system is typically built into the firmware and highly tailored to the system) such as mobile phones, tablet computers, network routers, televisions and video game consoles; the **Android** system in wide use on mobile devices is built on the Linux kernel. Also, Nintendo Switch (Linux) is based on Linux.
 
-![Lnix_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
+![Linux_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
 
 ## Unix/Linux Main Components
 ### The Unix/Linux computer ecosystem can be divided into three main parts:
@@ -131,7 +138,7 @@ The prompt “$” is called the command prompt. While the prompt is being displ
 
 **The original Unix shell was made in the mid 19’s by Stephen R. Bourne. Bourne shell was the first shell to show up in Unix world. Bourne shell is commonly installed as /bin/sh on most versions of Unix.**
 
-### Shell structutre
+### Shell structure
 ![shell structure](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Shell-Architecture-Types-of-Shells-in-Linux-Edureka-528x205.png)
 
 ### BASH
@@ -448,12 +455,4 @@ This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST
 
 [Command-line bootcamp-server6](http://34.82.237.168:8081/)
 
-[Command-line bootcamp-server5](http://34.82.234.47:8081/)
-
-[Command-line bootcamp-server6](http://34.83.69.104:8081/)
-
-
-, a tutorial that teaches you how to work at the command-line. You'll learn all the basic skills needed to start being productive in the UNIX terminal.
-
-
-This manual was adapted from [Linode](http://www.linode.com). Linode is the BEST knowledge site ever.
+These servers host a tutorial that teaches you how to work at the command-line. If one IP is down, try another or ask the instructor for the current address.

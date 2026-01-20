@@ -82,13 +82,117 @@ This lecture is designed to be run on a terminal program. With the exception of 
 > - Remote development support (WSL, SSH to Pronghorn HPC, containers)
 > - Jupyter notebook support for data analysis
 > - Free and open source
+>
+> **AI Assistant Extensions (Optional but Recommended):**
+>
+> VS Code supports AI coding assistants like CODEX, Claude, and Gemini to help with coding, debugging, and understanding bioinformatics code.
+>
+> **General Installation Steps:**
+> 1. Open Extensions view in VS Code: Press `Ctrl+Shift+X` (or click Extensions icon in Activity Bar)
+> 2. Search for AI extensions in the search bar
+> 3. Click "Install" on the extension you want
+> 4. Configure the extension with your API key or OAuth (in File > Preferences > Settings)
+>
+> **Popular AI Extensions:**
+>
+> - **GitHub Copilot:**
+>   - Search for "GitHub Copilot"
+>   - Requires GitHub Copilot subscription (free for students with GitHub Education)
+>   - Best-in-class code completion and AI assistance
+>   - Sign up for GitHub Education: [https://education.github.com/](https://education.github.com/)
+>
+> - **CODEX (OpenAI):**
+>   - Search for "CODEX" or "OpenAI" extensions
+>   - Requires OpenAI API key
+>   - Provides AI code assistance directly in VS Code
+>
+> - **Claude (Anthropic):**
+>   - Search for "Claude Dev" or "Cline"
+>   - Requires Anthropic API key or Claude Pro/Max subscription
+>   - Provides AI assistance directly in VS Code
+>
+> - **Gemini (Google):**
+>   - Search for extensions supporting Gemini
+>   - Requires Google Gemini API key or Google Cloud authentication
+>   - Google Cloud Code extension also offers Gemini integration
+>
+> **How to Use:**
+> - Select code and send it to AI for explanation or optimization
+> - Ask AI to generate code snippets for bioinformatics tasks
+> - Get help debugging errors in your scripts
+> - Request explanations of complex algorithms
+>
+> **Note:** These extensions are optional. You can use web-based versions of CODEX, Claude, or Gemini instead.
+>
+> ### 4. Git Bash (Highly Recommended)
+>
+> Git Bash provides a Unix-like bash terminal on Windows, which is useful for running Git commands and bash scripts directly on Windows (without WSL).
+>
+> **Installation Steps:**
+>
+> 1. **Download:** Visit [https://git-scm.com/download/win](https://git-scm.com/download/win)
+>    - The download should start automatically
+>    - Or click "Click here to download manually" if it doesn't start
+>
+> 2. **Run the installer** (.exe file) and follow the installation wizard
+>
+> 3. **During installation, recommended options:**
+>    - ✓ Use Visual Studio Code as Git's default editor (if VS Code is already installed)
+>    - ✓ Git from the command line and also from 3rd-party software
+>    - ✓ Use bundled OpenSSH
+>    - ✓ Use the OpenSSL library
+>    - ✓ Checkout Windows-style, commit Unix-style line endings
+>    - ✓ Use MinTTY (the default terminal of MSYS2)
+>    - ✓ Enable file system caching
+>
+> 4. **After installation:**
+>    - You can launch "Git Bash" from the Start menu
+>    - Git Bash provides a bash terminal with common Unix commands
+>    - Useful for quick Git operations and running bash scripts on Windows
+>
+> **What's included:**
+> - Git version control system
+> - Bash terminal emulator
+> - Common Unix utilities (ls, grep, awk, sed, etc.)
+> - SSH client for remote connections
 >{: .solution}
 
 
 > ## Windows 7 and under
-> - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/). The version for Windows should automatically be selected. Once the installer is downloaded, double click on it and MSOffice should install.
-> - Install Putty by going to [the installation page](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). For most newer computers, click on putty-64bit-X.XX-installer.msi to download the 64-bit version. If you have an older laptop, you may need to get the 32-bit version putty-X.XX-installer.msi. If you aren't sure whether you need the 64 or 32-bit version, you can check your laptop version by following [the instructions here](https://support.microsoft.com/en-us/help/15056/windows-32-64-bit-faq)
-> - Once the installer is downloaded, double click on it, and PuTTY should install.
+>
+> ### 1. Microsoft Office (Required)
+> - Install MSOffice by going to [the installation page](https://oit.unr.edu/services-and-support/software-and-online-applications/software-purchasing-and-installation/microsoft-office-365-for-personal-computers/install-microsoft-office-for-home-student/)
+> - The version for Windows should automatically be selected
+> - Once the installer is downloaded, double click on it and MSOffice should install
+>
+> ### 2. PuTTY (Required for SSH)
+> - Install Putty by going to [the installation page](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+> - For most newer computers, click on putty-64bit-X.XX-installer.msi to download the 64-bit version
+> - If you have an older laptop, you may need to get the 32-bit version putty-X.XX-installer.msi
+> - If you aren't sure whether you need the 64 or 32-bit version, you can check your laptop version by following [the instructions here](https://support.microsoft.com/en-us/help/15056/windows-32-64-bit-faq)
+> - Once the installer is downloaded, double click on it, and PuTTY should install
+>
+> ### 3. Visual Studio Code (Required)
+> - **Download:** Visit [https://code.visualstudio.com/](https://code.visualstudio.com/) and click "Download for Windows"
+> - Run the installer (.exe file) and follow the installation wizard
+> - During installation, check "Add to PATH" (recommended)
+>
+> **AI Assistant Extensions (Optional but Recommended):**
+> - Open Extensions in VS Code: Press `Ctrl+Shift+X`
+> - Search for "GitHub Copilot," "CODEX," "Claude Dev," or "Gemini"
+> - Install and configure with API keys
+> - Popular options:
+>   - **GitHub Copilot:** Search "GitHub Copilot" (free for students via GitHub Education)
+>   - **CODEX:** Search "CODEX" or "OpenAI" (requires OpenAI API key)
+>   - **Claude:** Search "Claude Dev" or "Cline" (requires Anthropic API key)
+>   - **Gemini:** Search for Gemini extensions (requires Google API key)
+> - These AI tools help with coding, debugging, and understanding bioinformatics code
+>
+> ### 4. Git Bash (Highly Recommended)
+> - **Download:** Visit [https://git-scm.com/download/win](https://git-scm.com/download/win)
+> - Run the installer and follow the installation wizard with default options
+> - After installation, launch "Git Bash" from the Start menu
+> - Git Bash provides a Unix-like bash terminal with Git and common Unix commands
 {: .solution}
 
 
@@ -120,6 +224,19 @@ This lecture is designed to be run on a terminal program. With the exception of 
 >     - Git integration
 >     - Remote development (SSH to Pronghorn HPC)
 >     - Large extension ecosystem
+>
+>   - **AI Assistant Extensions (Optional but Recommended):**
+>     - Open Extensions view: Press `Cmd+Shift+X` (or click Extensions icon)
+>     - Search for AI extensions: "GitHub Copilot," "CODEX," "Claude Dev," or "Gemini"
+>     - Install and configure with API keys (in Code > Preferences > Settings)
+>     - Popular options:
+>       - **GitHub Copilot:** Search "GitHub Copilot" (free for students via GitHub Education)
+>       - **CODEX:** Search "CODEX" or "OpenAI" (requires OpenAI API key)
+>       - **Claude:** Search "Claude Dev" or "Cline" (requires Anthropic API key or Claude Pro/Max)
+>       - **Gemini:** Search for Gemini extensions (requires Google Gemini API key)
+>     - Use AI to help with coding, debugging, and understanding bioinformatics algorithms
+>     - Select code and ask AI for explanations, optimizations, or bug fixes
+>     - Optional: You can also use web-based versions instead
 >
 > - **Alternative - Sublime Text (Optional):**
 >   - If you prefer a lighter text editor instead of a full IDE
@@ -203,6 +320,19 @@ This lecture is designed to be run on a terminal program. With the exception of 
 >     - Perfect for Python, R, and Bash scripting
 >     - Git integration
 >     - Remote development capabilities
+>
+>   - **AI Assistant Extensions (Optional but Recommended):**
+>     - Open Extensions view: Press `Ctrl+Shift+X` (or click Extensions icon)
+>     - Search for AI extensions: "GitHub Copilot," "CODEX," "Claude Dev," or "Gemini"
+>     - Install and configure with API keys (in File > Preferences > Settings)
+>     - Popular options:
+>       - **GitHub Copilot:** Search "GitHub Copilot" (requires subscription, free for students via [GitHub Education](https://education.github.com/))
+>       - **CODEX:** Search "CODEX" or "OpenAI" (requires OpenAI API key)
+>       - **Claude:** Search "Claude Dev" or "Cline" (requires Anthropic API key or Claude Pro/Max)
+>       - **Gemini:** Search for Gemini extensions (requires Google Gemini API key)
+>     - Use AI to help with coding, debugging, and understanding bioinformatics algorithms
+>     - Select code and ask AI for explanations, optimizations, or bug fixes
+>     - Optional: You can also use web-based versions instead
 >
 > **System Update (Required):**
 > - Before installing any software, update your system. Open Terminal and run:

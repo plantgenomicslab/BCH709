@@ -10,7 +10,7 @@
 {: .prereq}
 
 > ## Class Room Location
-> LRC 204
+> [Lombardi Recreation Center 204 (LRC 204)](https://share.google/TdWdQ9G44lbg9ylvM)
 > ![Classroom location](./fig/classroom_location2.png){: width="50%" height="50%"}
 {: .prereq}
 
@@ -137,7 +137,7 @@ Ignorance of these standards is not an excuse for plagiarism. If you are uncerta
 
 ## AI/LLM Use Policy
 
-Generative AI tools (e.g., ChatGPT, Claude, Gemini, Microsoft Copilot) are permitted for all coursework, including exams, in this course. This reflects the reality of modern computational biology, AI tools are integrated into research workflows and you should learn to use them effectively.
+Generative AI tools (e.g., CODEX, Claude, Gemini, Microsoft Copilot) are permitted for all coursework, including exams, in this course. This reflects the reality of modern computational biology, AI tools are integrated into research workflows and you should learn to use them effectively.
 
 However, AI is not a substitute for understanding. You are fully responsible for the accuracy and validity of all submitted work. AI outputs must be meticulously reviewed before submission.
 
@@ -166,7 +166,7 @@ Include a brief AI use statement with submissions:
 
 **Example:** "Used Claude to draft BLAST parsing script. Verified by running on test dataset and reviewing logic line-by-line."
 
-**Example:** "Used ChatGPT to explain Smith-Waterman algorithm. Cross-checked against lecture slides and corrected AI's error about gap penalty initialization."
+**Example:** "Used CODEX to explain Smith-Waterman algorithm. Cross-checked against lecture slides and corrected AI's error about gap penalty initialization."
 
 **3. Exam-Specific Guidelines**
 - AI tools are permitted during exams
@@ -180,11 +180,11 @@ Include a brief AI use statement with submissions:
 | ------ | --------- | -------- | ------------------------------------------------------------------ |
 | Week1  | 1/20/2026 | Tuesday  | Introduction                                                       |
 | Week1  | 1/22/2026 | Thursday | Introduction to Bioinformatics                                     |
-| Week2  | 1/27/2026 | Tuesday  | Linux Environment and command line                                 |
-| Week2  | 1/29/2026 | Thursday | Linux Environment and command line                                 |
-| Week3  | 2/3/2026  | Tuesday  | Conda, Compile & Software Installations                            |
-| Week3  | 2/5/2026  | Thursday | Conda, Compile & Software Installations                            |
-| Week4  | 2/10/2026 | Tuesday  | GitHub and server                                                  |
+| Week2  | 1/27/2026 | Tuesday  | [Linux Environment and command line](Linux_Enviroment_and_command_line/index.html)                                 |
+| Week2  | 1/29/2026 | Thursday | [Linux Environment and command line](Linux_Enviroment_and_command_line/index.html)                                 |
+| Week3  | 2/3/2026  | Tuesday  | [Conda, Compile & Software Installations](compile/index.html)                            |
+| Week3  | 2/5/2026  | Thursday | [Conda, Compile & Software Installations](compile/index.html)                            |
+| Week4  | 2/10/2026 | Tuesday  | [GitHub and server](github_server/index.html)                                                  |
 | Week4  | 2/12/2026 | Thursday | Vibe coding                                                        |
 | Week5  | 2/17/2026 | Tuesday  | Sequence manipulation                                              |
 | Week5  | 2/19/2026 | Thursday | Sequence manipulation                                              |

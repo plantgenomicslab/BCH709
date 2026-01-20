@@ -7,25 +7,17 @@ published: true
 {% include gh_variables.html %}
 
 
-![software_compile]({{{site.baseurl}}/fig/software-compiler.png)
+![software_compile]({{site.baseurl}}/fig/software-compiler.png)
 ![software_compile](https://pbs.twimg.com/media/CYIT_SJWQAIExU8.png)
 
 ## macOS
 
 > ### Install Homebrew
+> Homebrew is a package manager for macOS. Install it with:
 > ```bash
-> $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 > ```
-{: .prereq}
-
-
-> ## Install Homebrew
->```bash
->$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-> ```
-{: .prereq}
-
-> ### Brew update
+> After installation, update Homebrew:
 > ```bash
 > $ brew update
 > ```
@@ -36,18 +28,19 @@ published: true
 $ brew install openssl readline sqlite3 xz wget
 ```
 
-## Ubuntu on Windows
+## Ubuntu on Windows (WSL)
+
+Install essential build tools and libraries:
 ```bash
 $ sudo apt update
-$ sudo apt-get install -y make build-essential libssl-dev  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl vim debootstrap
+$ sudo apt install -y build-essential git curl wget libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev zlib1g-dev
 ```
 
 ## Install test package!
-### On Ubuntu systems:  
+### On Ubuntu systems:
 ```bash
-$ apt install screenfetch
+$ sudo apt install screenfetch
 $ screenfetch
-
 ```
 
 ### On macOS systems:  
@@ -58,11 +51,12 @@ $ screenfetch
 ```
 
 
-### Programming languages
+### Programming Languages
 
-|-----|------|
-|Compiled|FORTRAN, C, C++, Java|
-|Interpretive|Unix-Shell, awk, Basic, Perl, Tcl, Scheme, Ruby, Python, R|
+| Type | Languages |
+|------|-----------|
+| Compiled | FORTRAN, C, C++, Java, Rust, Go |
+| Interpreted | Unix-Shell, awk, Perl, Ruby, Python, R, JavaScript |
 
 
 
@@ -103,7 +97,7 @@ Java has some uses in bioinformatics (e.g., IGV genome browser), but it's not be
 
 
 
-![language]({{{site.baseurl}}/fig/language.png)
+![language]({{site.baseurl}}/fig/language.png)
 
 
 ### Package Library Module
@@ -127,65 +121,71 @@ R - native manager
 
 ## File Permission
 
-![language]({{{site.baseurl}}/fig/linux_file_permissions.png)
+![language]({{site.baseurl}}/fig/linux_file_permissions.png)
 
 ### Understanding of attribute which can be out put by `ls -l`:
-![language]({{{site.baseurl}}/fig/file_permission.png)
-![language]({{{site.baseurl}}/fig/file_permission2.png)
+![language]({{site.baseurl}}/fig/file_permission.png)
+![language]({{site.baseurl}}/fig/file_permission2.png)
 
 ### Chmod (Change mode)
 chmod is the command and system call which is used to change the access permissions of file system objects (files and directories). It is also used to change special mode flags. The request is filtered by the umask. The name is an abbreviation of change mode.
 
 ### Applying Permission:
-![language]({{{site.baseurl}}/fig/file_permission3.png)
-![language]({{{site.baseurl}}/fig/file_permission4.png)
+![language]({{site.baseurl}}/fig/file_permission3.png)
+![language]({{site.baseurl}}/fig/file_permission4.png)
 
 ### Using Octal number for Permissions:
-![language]({{{site.baseurl}}/fig/file_permission5.png)
+![language]({{site.baseurl}}/fig/file_permission5.png)
 
 
 ## Check your CPUs and Memory
 
-```
+Understanding your system resources is important for running bioinformatics tools efficiently.
+
+```bash
+# Check CPU information
 $ lscpu
-$ free
+
+# Check memory usage
+$ free -h
+
+# Interactive process viewer (press 'q' to quit)
 $ htop
+
+# Check number of CPU cores
+$ nproc
 ```
+
+> ## Quick System Info
+> ```bash
+> # One-liner to show cores and memory
+> $ echo "CPUs: $(nproc), Memory: $(free -h | awk '/^Mem:/ {print $2}')"
+> ```
+{: .callout}
 ### RC file such as .bashrc, .zshrc
 
 RC files configure the environment and prepare the system to run specific software. These are commonly used in Unix-like systems to automate shell configurations.
 
+### Shell Customization
 
-### Connect to Pronghorn
-You can log onto its front-end/job-submission system (pronghorn.rc.unr.edu) using your UNR NetID and password. Logging into HPC class requires an SSH client if you are >using Windows but Mac/Linux have these built into their OS. There are several available for download for the Windows platform.
+> ## Prompt Customization for Linux/WSL
+> ```bash
+> $ echo 'export PS1="\[\033[38;5;164m\]\u\[\033[0m\]@\[\033[38;5;2m\]\h\[\033[0m\] \[\033[38;5;172m\]\t\[\033[0m\] \[\033[38;5;2m\]\w\[\033[0m\]\n$ "' >> ~/.bashrc
+> $ echo "alias ls='ls --color=auto'" >> ~/.bashrc
+> $ source ~/.bashrc
+> ```
+{: .solution}
 
-```bash
-ssh <YOURID>@pronghorn.rc.unr.edu
-```
+> ## Prompt Customization for macOS (Oh My Zsh)
+> ```bash
+> $ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+> $ source ~/.zshrc
+> ```
+{: .solution}
 
-
-### Prompt Customization for Windows
-```bash
-echo '###BCH709 ' >> ~/.bashrc
-
-echo 'tty -s && export PS1="\[\033[38;5;164m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;231m\]@\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;172m\]\t\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n \[$(tput sgr0)\]"' >> ~/.bashrc
-echo "alias ls='ls --color=auto'" >> ~/.bashrc
-
-```
-
-
-```bash
-source ~/.bashrc
-```
-
-### Prompt Customization for Mac
-```bash
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-source ~/.zshrc
-
-```
-
-#### *More information is here* [here](https://plantgenomicslab.github.io/BCH709/bash/index.html)
+> ## Connecting to HPC Cluster
+> For information on connecting to Pronghorn HPC cluster, see the [HPC Cluster lesson](HPC_cluster.html).
+{: .callout}
 
 
 ## Linux family tree
@@ -268,22 +268,15 @@ source ~/.zshrc
 
 [![homebrew](https://brew.sh/assets/img/homebrew-256x256.png)](https://brew.sh/)
 
-
-> ## Install Homebrew
+> ## Homebrew Commands
+> **Update Homebrew:**
 > ```bash
-> /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> $ brew update
 > ```
-{: .prereq}
-
-
-> ## How to Update Homebrew
-> New versions of Homebrew come out frequently, so make sure you update it before updating any of the other software components that you’ve installed using Homebrew. * In Terminal type ```brew update```
-{: .callout}
-
-> ## How to Uninstall Homebrew
-> Open the Terminal app
-> Type ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall)```
-> This downloads and runs the uninstaller script. Follow the instructions and Homebrew will be removed from your computer.
+> **Uninstall Homebrew:**
+> ```bash
+> $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+> ```
 {: .callout}
 
 ## List installed packages
@@ -345,27 +338,27 @@ $ brew search /^firefox/
 ## Install packages
 ### Install single packages:
 On Ubuntu systems:
-```
-apt install <package-name> 
+```bash
+$ sudo apt install <package-name>
 ```
 On macOS systems:
-```
-brew install <package-name> 
+```bash
+$ brew install <package-name>
 ```
 ### Install multiple packages:
 On Ubuntu systems:
-```
-apt install <package-name> <package-name> ...
+```bash
+$ sudo apt install <package-name> <package-name> ...
 ```
 On macOS systems:
-```
-brew install <package-name> <package-name> ...
+```bash
+$ brew install <package-name> <package-name> ...
 ```
 ## Install specific version
 ### Search version
 On Ubuntu systems:
 ```bash
-$ apt-cache policy <package-name> 
+$ apt-cache policy <package-name>
 ```
 On macOS systems:
 ```bash
@@ -374,7 +367,7 @@ $ brew search <package-name>
 ### Install specific version
 On Ubuntu systems:
 ```bash
-$ apt install firefox=68.0.1+build1-0ubuntu0.18.04.1
+$ sudo apt install firefox=68.0.1+build1-0ubuntu0.18.04.1
 ```
 On macOS systems:
 ```bash
@@ -391,305 +384,1218 @@ $ brew install firefox@68.0.2
 | [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
 
 
-## Conda?
-Conda helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
+## Micromamba
 
-- Dependencies is one of the main reasons to use Conda.
-Sometimes, install a package is not as straight forward as you think. Imagine a case like this: You want to install package Matplotlib, when installing, it asks you to install Numpy, and Scipy, because Matplotlib need these Numpy and Scipy to work. They are called the dependencies of Matplotlib. For Numpy and Scipy, they may have their own dependencies. These require even more packages.
- 
-- Conda provide a solution for this situation: when you install package Matplotlib, it will automatically install all the dependencies like Numpy and Scipy. So you don’t have to install them one by one, manually. This can save you great amount of time.
- 
-- The other advantage of conda, is that conda can have multiple environments for different projects. As mentioned at the very beginning, it can have two separate environments of different versions of software.
-Using conda environment on BioHPC
+Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
 
-### Installing Packages Using Miniconda
->
->Conda is a package manager, which helps you find and install packages such as numpy or scipy. It also serves as an environment manager, and allows you to have multiple isolated environments for different projects on a single machine. Each environment has its own installation directories, that doesn’t share packages with other environments.
->
->For example, you need python 2.7 and Biopython 1.60 in project A, while you also work on another project B, which needs python 3.5 and Biopython 1.68. You can use conda to create two separate environments for each project, and you can switch between different versions of packages easily to run your project code.
+> **Why Micromamba?**
+> - **Fast**: Micromamba is written in C++ and is significantly faster than conda
+> - **Lightweight**: No base environment or Python required
+> - **Compatible**: Uses the same package repositories as conda (conda-forge, bioconda)
+> - **Simple**: Single binary with no dependencies
 {: .callout}
 
-### Anaconda or Miniconda?  
-- Anaconda includes both Python and conda, and additionally bundles a suite of other pre-installed packages geared toward scientific computing. Because of the size of this bundle, expect the installation to consume several gigabytes of disk space.
+### Why Use a Package Manager?
 
-- Miniconda gives you the Python interpreter itself, along with a command-line tool called conda which operates as a cross-platform package manager geared toward Python packages, similar in spirit to the apt or yum tools that Linux users might be familiar with.
+- **Dependencies**: When you install a package like Matplotlib, it automatically installs all dependencies (Numpy, Scipy, etc.) so you don't have to install them manually.
 
-Here is the rewritten content in markdown source code format:
+- **Environments**: You can have multiple isolated environments for different projects. For example, Project A needs Python 2.7 and Biopython 1.60, while Project B needs Python 3.10 and Biopython 1.80. Micromamba lets you switch between them easily.
 
+### Install Micromamba
 
-### Miniconda3
-
-Miniconda is a lightweight package manager that simplifies the installation process for environments and packages. First, install Miniconda3 by following the instructions below, then proceed to install individual tools.
-
-### Install Miniconda
-
-Visit the [Miniconda](https://docs.conda.io/en/latest/miniconda.html) page to download the installer for your system.
-
-For direct access, visit:  
-***https://repo.anaconda.com/miniconda/***
-
-![package]({{site.baseurl}}/fig/slide_package.png)
-
-> ## Linux
-> 
-> To install Miniconda3 on Linux, run:
-> 
-> ~~~bash
-> cd ~/
-> rm -rf miniconda3
-> wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-> bash ~/miniconda.sh 
-> 
-> ~~~
-> 
-> Follow the on-screen instructions to complete the installation.
+> ## Linux / WSL
+>
+> ```bash
+> $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+> ```
+>
+> Follow the prompts, then restart your shell or run:
+> ```bash
+> $ source ~/.bashrc
+> ```
 {: .solution}
 
-![conda1]({{site.baseurl}}/fig/conda_excute.png)
-![conda2]({{site.baseurl}}/fig/conda_excute2.png)
-
-> ## macOS Intel
-> 
-> To install Miniconda3 on macOS with Intel architecture, run:
-> 
-> ~~~bash
-> cd ~/
-> rm -rf miniconda3
-> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o ~/miniconda.sh
-> bash ~/miniconda3
-> ~~~
-> 
-> Follow the on-screen instructions to complete the installation.
+> ## macOS (Intel and Apple Silicon)
+>
+> ```bash
+> $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+> ```
+>
+> Follow the prompts, then restart your shell or run:
+> ```bash
+> $ source ~/.zshrc
+> ```
 {: .solution}
 
-> ## macOS M1 (Apple Silicon)
-> 
-> To install Miniconda3 on macOS with M1 (Apple Silicon) architecture, run:
-> 
-> ~~~bash
-> cd ~/
-> rm -rf miniconda3
-> curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o ~/miniconda.sh
-> bash ~/miniconda.sh
-> ~~~
-> 
-> Follow the on-screen instructions to complete the installation.
-{: .solution}
+### Verify Installation
 
-## Reload Your Conda Environment
-
-### Linux
 ```bash
-source ~/.bashrc
+$ micromamba --version
+```
+```output
+1.5.6
 ```
 
-### macOS
+### Create Symbolic Link for Conda Command
+
+To use the familiar `conda` command with micromamba, create a symbolic link:
+
 ```bash
-source ~/.bash_profile ## For older macOS versions
-source ~/.zshrc         ## For newer macOS versions
+$ mkdir -p ~/bin
+$ ln -sf $(which micromamba) ~/bin/conda
+$ echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc  # or ~/.zshrc for macOS
+$ source ~/.bashrc  # or source ~/.zshrc for macOS
 ```
 
-### Initialize Miniconda3
-
-To initialize Conda after installation, run:
-
+Now you can use either `micromamba` or `conda`:
 ```bash
-$ conda init
+$ conda --version
+```
+```output
+1.5.6
 ```
 
 
-### Creating and Using Conda Environments
+### Creating and Using Environments
 
-To create a new Conda environment with Python 3.8 and activate it, use the following commands:
+To create a new environment with Python 3.10 and activate it:
 
-```bash 
-$ conda create -n bch709 python=3.8
+```bash
+$ conda create -n bch709 python=3.10
 $ conda activate bch709
 ```
+```output
+(bch709) $
+```
 
-### Installing Packages in Conda
+You will see the environment name `(bch709)` in your prompt.
 
-You can install packages in your active environment using:
+### Installing Packages
+
+Install packages in your active environment:
 
 ```bash
 $ conda install <package-name>
 ```
 
-*By default, Conda environments are installed in your home directory, typically under `/home/<your_username>/miniconda3/envs/<environment_name>`. For example, the environment `bch709` would be installed in `/home/<your_username>/miniconda3/envs/bch709`.*
+*Environments are stored in `~/micromamba/envs/<environment_name>`.*
 
 ### Deactivating and Removing Environments
 
-To deactivate the current environment, run:
-
+Deactivate the current environment:
 ```bash
 $ conda deactivate
 ```
 
-To remove the environment `bch709`, use:
-
+Remove an environment:
 ```bash
 $ conda env remove --name bch709
 ```
 
-### Activating the Environment
+### Setting Up Channels for Bioinformatics
 
-Once created, activate your environment using:
-
-```bash  
-$ conda activate bch709
-```
-
-You will see the environment name in the prompt.
-
-![conda3]({{site.baseurl}}/fig/conda.png)
-
-### Installing Packages from Conda Channels
-
-#### Installing from Default Conda Channel
-
-Search for a package in the default Anaconda repository:
-
-```bash
-$ conda search <package>
-```
-
-Install the package:
-
-```bash
-$ conda install <package>
-```
-
-#### Installing from Conda-Forge Channel (Example: HISAT2)
-
-Conda channels are remote repositories that contain packages. To install a package from Conda-Forge:
-
-```bash
-$ conda search hisat2
-$ conda search -c conda-forge hisat2
-```
-
-#### Installing from Bioconda Channel (Example: HISAT2)
-
-Bioconda is a channel dedicated to bioinformatics software. To ensure Bioconda has the highest priority, add the channel order:
+Bioconda is a channel dedicated to bioinformatics software. Set up channels in the correct priority order:
 
 ```bash
 $ conda config --add channels defaults
 $ conda config --add channels bioconda
 $ conda config --add channels conda-forge
+$ conda config --set channel_priority strict
 ```
 
-Now, install HISAT2 from Bioconda:
+### Installing Bioinformatics Packages
 
-```bash   
-$ conda install -c bioconda hisat2
+Search for a package:
+```bash
+$ conda search hisat2
+```
+
+Install from Bioconda:
+```bash
+$ conda install hisat2
 ```
 
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/hisat2/README.html)
 
 ### Installing R and R Packages
 
-Conda also supports R and R packages. You can install the R-essentials package (a collection of popular R packages) using:
-
+Install R and popular R packages:
 ```bash
-$ conda install -c r r-essentials
+$ conda install -c conda-forge r-base r-essentials
 ```
 
-#### Updating R Packages
+### Quick Reference: Common Commands
 
-To update R packages, run:
+| Command | Description |
+|---------|-------------|
+| `conda create -n <env> python=3.10` | Create new environment |
+| `conda activate <env>` | Activate environment |
+| `conda deactivate` | Deactivate current environment |
+| `conda env list` | List all environments |
+| `conda list` | List installed packages |
+| `conda install <package>` | Install a package |
+| `conda update <package>` | Update a package |
+| `conda remove <package>` | Remove a package |
+| `conda env remove -n <env>` | Remove an environment |
+| `conda search <package>` | Search for a package |
 
-```bash 
-$ conda update -c r r-essentials
-$ conda update -c r r-<package-name>
-```
+### Environment Management In-Depth
 
-### Additional Conda Commands
+#### Listing Environments
 
-#### Search Packages
-
-To search for a package:
-
+View all your environments:
 ```bash
-$ conda search hisat2
-```
-
-#### List Available Environments
-
-To view all available environments:
-
-```bash   
 $ conda env list
 ```
+```output
+  Name       Active  Path
+──────────────────────────────────────────────────────────
+  base               /home/user/micromamba
+  bch709      *      /home/user/micromamba/envs/bch709
+  rnaseq             /home/user/micromamba/envs/rnaseq
+```
 
-#### List Installed Packages
+The `*` indicates the currently active environment.
 
-To list all installed packages in the current environment:
+#### Creating Environments with Specific Packages
+
+Create an environment with multiple packages at once:
+```bash
+# Create environment with Python and packages
+$ conda create -n rnaseq python=3.10 hisat2 samtools fastqc
+
+# Create environment with specific versions
+$ conda create -n legacy python=2.7 biopython=1.70
+```
+
+#### Cloning an Environment
+
+Make a copy of an existing environment:
+```bash
+$ conda create --name rnaseq_backup --clone rnaseq
+```
+
+#### Installing Specific Package Versions
 
 ```bash
-$ conda list
+# Install specific version
+$ conda install numpy=1.24.0
+
+# Install minimum version
+$ conda install "numpy>=1.20"
+
+# Install within version range
+$ conda install "numpy>=1.20,<1.25"
 ```
 
-#### Updating Packages or Conda Itself
-
-To update a specific package:
+#### Searching for Packages
 
 ```bash
-$ conda update <package>
+# Search for package
+$ conda search biopython
+
+# Search with channel
+$ conda search -c bioconda hisat2
+
+# Show detailed package info
+$ conda search biopython --info
+```
+```output
+biopython 1.81 py310h5eee18b_0
+────────────────────────────────
+file name   : biopython-1.81-py310h5eee18b_0.conda
+channel     : conda-forge
+dependencies:
+  - numpy >=1.22
+  - python >=3.10,<3.11.0a0
 ```
 
-To update a package in a specific environment:
+#### Updating Packages
 
 ```bash
-$ conda update --name <ENV_name> <package>
+# Update specific package
+$ conda update numpy
+
+# Update all packages in environment
+$ conda update --all
+
+# Update conda/micromamba itself
+$ micromamba self-update
 ```
 
-To update Conda itself:
+#### Removing Packages
 
 ```bash
-$ conda update -n test --all
-$ conda update -n bch709 --all
+# Remove a package
+$ conda remove numpy
+
+# Remove multiple packages
+$ conda remove numpy scipy pandas
 ```
 
-#### Uninstalling a Package
+### Using pip Inside Conda Environments
 
-To uninstall a package from the environment:
+Sometimes packages are only available via pip. Always install conda packages first, then pip packages.
 
 ```bash
-$ conda uninstall <package-name>
+# Activate your environment first
+$ conda activate bch709
+
+# Install pip packages
+$ pip install some-package
+
+# Best practice: create environment with pip included
+$ conda create -n myenv python=3.10 pip
 ```
 
-#### Exiting the Current Environment
+> ## Warning: Mixing Conda and Pip
+> - Always install as many packages as possible with conda first
+> - Only use pip for packages not available in conda
+> - After using pip, avoid running `conda install` (can cause conflicts)
+> - If you must mix, reinstall pip packages after conda changes
+{: .callout}
 
-To exit the active environment:
+### Environment History and Reverting Changes
 
-```bash   
-$ conda deactivate
+View environment change history:
+```bash
+$ conda list --revisions
+```
+```output
+2024-01-20 10:00:00  (rev 0)
+    +python-3.10.0
+    +pip-24.0
+
+2024-01-20 10:05:00  (rev 1)
+    +numpy-1.24.0
+    +scipy-1.11.0
 ```
 
-#### Removing an Environment
-
-To remove an environment:
-
-```bash   
-$ conda env remove --name bch709
+Revert to a previous revision:
+```bash
+$ conda install --revision 0
 ```
 
-#### Exporting and Importing Environments
+### Exporting and Importing Environments
 
-To export an environment to a YAML file:
+#### Export Full Environment (Exact Reproduction)
 
 ```bash
-$ conda env export --name <ENVIRONMENT> --file <outputfilename>.yaml
+$ conda env export --name bch709 > bch709_env.yaml
 ```
 
-To import an environment from a YAML file:
+This creates a file like:
+```yaml
+name: bch709
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10.13
+  - numpy=1.24.0
+  - pandas=2.0.3
+  - hisat2=2.2.1
+```
+
+#### Export Cross-Platform Environment (Recommended)
+
+For sharing with others on different systems:
+```bash
+$ conda env export --name bch709 --no-builds > bch709_env.yaml
+```
+
+#### Create Environment from File
 
 ```bash
-$ conda env create --file <outputfilename>.yaml  
+$ conda env create --file bch709_env.yaml
 ```
+
+#### Update Existing Environment from File
+
+```bash
+$ conda env update --name bch709 --file bch709_env.yaml
+```
+
+### Environment Best Practices
+
+#### 1. One Project = One Environment
+
+```bash
+# Create separate environments for each project
+$ conda create -n project_rnaseq python=3.10 hisat2 samtools
+$ conda create -n project_variant python=3.10 bwa gatk4
+```
+
+#### 2. Document Your Environment
+
+Always save your environment specification:
+```bash
+# After installing all packages
+$ conda env export --no-builds > environment.yaml
+
+# Add to your project's git repository
+$ git add environment.yaml
+$ git commit -m "Add conda environment specification"
+```
+
+#### 3. Use Environment Files for Reproducibility
+
+Create `environment.yaml` manually for your project:
+```yaml
+name: my_rnaseq_project
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - hisat2=2.2.1
+  - samtools=1.17
+  - fastqc=0.12.1
+  - multiqc=1.14
+  - pandas
+  - matplotlib
+  - pip:
+    - some-pip-only-package
+```
+
+Then create the environment:
+```bash
+$ conda env create -f environment.yaml
+```
+
+#### 4. Naming Conventions
+
+Use descriptive names:
+```bash
+# Good names
+$ conda create -n rnaseq_2024
+$ conda create -n chipseq_analysis
+$ conda create -n python27_legacy
+
+# Avoid generic names
+# Bad: env1, test, myenv
+```
+
+### Troubleshooting Common Issues
+
+#### Environment Activation Not Working
+
+```bash
+# Initialize shell (run once after installation)
+$ micromamba shell init --shell bash --root-prefix ~/micromamba
+
+# Restart your terminal or source the rc file
+$ source ~/.bashrc
+```
+
+#### Solving Package Conflicts
+
+If conda is slow or fails to solve:
+```bash
+# Create minimal environment first
+$ conda create -n myenv python=3.10
+
+# Then install packages one by one
+$ conda activate myenv
+$ conda install numpy
+$ conda install pandas
+```
+
+#### Disk Space Issues
+
+Conda environments can grow large. Clean up unused packages:
+```bash
+# Remove unused packages and cache
+$ conda clean --all
+
+# Check environment size
+$ du -sh ~/micromamba/envs/*
+```
+```output
+2.1G    /home/user/micromamba/envs/bch709
+1.5G    /home/user/micromamba/envs/rnaseq
+```
+
+### Using Environments Without Activation
+
+You can run commands from a specific environment without activating it first. This is useful for scripts, automation, and one-off commands.
+
+#### Method 1: Using Full Path to Executable
+
+Run programs directly using their full path:
+
+**WSL/Linux:**
+```bash
+# Run Python from a specific environment
+$ ~/micromamba/envs/bch709/bin/python script.py
+
+# Run hisat2 from a specific environment
+$ ~/micromamba/envs/bch709/bin/hisat2 --version
+
+# Run any tool
+$ ~/micromamba/envs/bch709/bin/fastqc reads.fastq.gz
+```
+
+**macOS:**
+```bash
+# Run Python from a specific environment
+$ ~/micromamba/envs/bch709/bin/python script.py
+
+# Run hisat2 from a specific environment
+$ ~/micromamba/envs/bch709/bin/hisat2 --version
+```
+
+#### Method 2: Using `conda run` (Recommended)
+
+The `conda run` command executes a command in an environment without activation:
+
+```bash
+# Basic syntax
+$ conda run -n <env_name> <command>
+
+# Examples
+$ conda run -n bch709 python --version
+```
+```output
+Python 3.10.13
+```
+
+```bash
+$ conda run -n bch709 hisat2 --version
+```
+```output
+hisat2-align-s version 2.2.1
+```
+
+```bash
+# Run a Python script
+$ conda run -n bch709 python my_analysis.py
+
+# Run with arguments
+$ conda run -n bch709 fastqc -o results/ reads.fastq.gz
+
+# Run multiple commands (use quotes)
+$ conda run -n bch709 bash -c "hisat2 --version && samtools --version"
+```
+
+#### Method 3: Using `micromamba run`
+
+If using micromamba directly:
+
+```bash
+$ micromamba run -n bch709 python script.py
+$ micromamba run -n bch709 hisat2 --version
+```
+
+#### Use Cases for Running Without Activation
+
+**1. Shell Scripts:**
+```bash
+#!/bin/bash
+# No need to activate - just use conda run
+conda run -n bch709 fastqc raw_reads/*.fastq.gz
+conda run -n bch709 multiqc .
+```
+
+**2. Cron Jobs / Scheduled Tasks:**
+```bash
+# In crontab - run daily at midnight
+0 0 * * * /home/user/micromamba/bin/micromamba run -n bch709 python /home/user/scripts/backup.py
+```
+
+**3. One-off Commands:**
+```bash
+# Quick check without changing your current environment
+$ conda run -n rnaseq samtools --version
+$ conda run -n variant bwa
+```
+
+**4. Comparing Tool Versions Across Environments:**
+```bash
+$ conda run -n env1 python --version
+$ conda run -n env2 python --version
+```
+
+#### Setting PATH Temporarily
+
+You can also prepend the environment's bin directory to PATH:
+
+```bash
+# Temporarily use environment's tools (single command)
+$ PATH=~/micromamba/envs/bch709/bin:$PATH hisat2 --version
+
+# For a subshell session
+$ (export PATH=~/micromamba/envs/bch709/bin:$PATH; hisat2 --version; samtools --version)
+```
+
+### Quick Reference: Environment Commands
+
+| Command | Description |
+|---------|-------------|
+| `conda env list` | List all environments |
+| `conda create -n <name>` | Create environment |
+| `conda create -n <name> --clone <source>` | Clone environment |
+| `conda activate <name>` | Activate environment |
+| `conda deactivate` | Deactivate environment |
+| `conda run -n <name> <cmd>` | Run command without activation |
+| `conda env remove -n <name>` | Remove environment |
+| `conda env export > env.yaml` | Export environment |
+| `conda env create -f env.yaml` | Create from file |
+| `conda env update -f env.yaml` | Update from file |
+| `conda list --revisions` | Show history |
+| `conda install --revision N` | Revert to revision |
+| `conda clean --all` | Clean cache |
+
+### Using Conda Environments in VS Code
+
+VS Code integrates well with conda/micromamba environments, making it easy to develop and run code in isolated environments.
+
+#### Step 1: Install VS Code
+
+> ## Windows (WSL)
+> 1. Download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+> 2. Install on Windows (not inside WSL)
+> 3. Install the **WSL** extension in VS Code
+> 4. Open WSL terminal and type `code .` to launch VS Code connected to WSL
+{: .solution}
+
+> ## macOS
+> 1. Download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+> 2. Move to Applications folder
+> 3. Open VS Code, press `Cmd+Shift+P`, type "Shell Command: Install 'code' command in PATH"
+> 4. Now you can use `code .` from Terminal
+{: .solution}
+
+#### Step 2: Install Required Extensions
+
+Open VS Code and install these extensions:
+
+| Platform | Open Extensions |
+|----------|-----------------|
+| **WSL/Linux** | `Ctrl+Shift+X` |
+| **macOS** | `Cmd+Shift+X` |
+
+Install these extensions:
+1. **Python** (by Microsoft) - Required for Python development
+2. **Pylance** (by Microsoft) - Enhanced Python language support
+3. **WSL** (by Microsoft) - **Required for Windows/WSL users**
+
+Or install from command line:
+```bash
+$ code --install-extension ms-python.python
+$ code --install-extension ms-vscode-remote.remote-wsl  # WSL only
+```
+
+#### Step 3: Select Python Interpreter (Conda Environment)
+
+1. Open VS Code in your project folder:
+   ```bash
+   $ cd ~/my_project
+   $ code .
+   ```
+
+2. Open Command Palette:
+   - **WSL/Linux**: `Ctrl+Shift+P`
+   - **macOS**: `Cmd+Shift+P`
+
+3. Type "Python: Select Interpreter" and press Enter
+
+4. You'll see a list of available environments:
+
+   **WSL/Linux:**
+   ```
+   Python 3.10.13 ('bch709')    ~/micromamba/envs/bch709/bin/python
+   Python 3.10.13 ('rnaseq')    ~/micromamba/envs/rnaseq/bin/python
+   ```
+
+   **macOS:**
+   ```
+   Python 3.10.13 ('bch709')    ~/micromamba/envs/bch709/bin/python
+   Python 3.10.13 ('rnaseq')    ~/micromamba/envs/rnaseq/bin/python
+   ```
+
+5. Select your desired environment (e.g., `bch709`)
+
+6. The selected environment appears in the bottom status bar
+
+> ## Can't Find Your Environment? (WSL/Linux)
+> If your conda environment doesn't appear:
+> ```bash
+> # Make sure conda is initialized
+> $ micromamba shell init --shell bash --root-prefix ~/micromamba
+> $ source ~/.bashrc
+>
+> # Verify environment exists
+> $ conda env list
+> ```
+> Then restart VS Code and try again.
+{: .solution}
+
+> ## Can't Find Your Environment? (macOS)
+> If your conda environment doesn't appear:
+> ```bash
+> # Make sure conda is initialized
+> $ micromamba shell init --shell zsh --root-prefix ~/micromamba
+> $ source ~/.zshrc
+>
+> # Verify environment exists
+> $ conda env list
+> ```
+> Then restart VS Code and try again.
+{: .solution}
+
+#### Step 4: Understanding VS Code Settings
+
+VS Code has two types of settings:
+
+| Type | Location | Scope |
+|------|----------|-------|
+| **User Settings** | `settings.json` | Applies to ALL projects |
+| **Workspace Settings** | `.vscode/settings.json` | Applies to ONE project only |
+
+**Workspace settings override User settings** for that specific project.
+
+#### Step 5: Configure User Settings (Global)
+
+User settings apply to all your VS Code projects.
+
+**How to open User settings.json:**
+
+| Platform | Method 1: Command Palette | Method 2: File Location |
+|----------|--------------------------|------------------------|
+| **WSL/Linux** | `Ctrl+Shift+P` → "Preferences: Open User Settings (JSON)" | `~/.config/Code/User/settings.json` |
+| **macOS** | `Cmd+Shift+P` → "Preferences: Open User Settings (JSON)" | `~/Library/Application Support/Code/User/settings.json` |
+
+> ## Complete User settings.json for WSL/Linux
+> ```json
+> {
+>     // Python and Conda Settings
+>     "python.condaPath": "/home/YOURUSERNAME/micromamba/bin/micromamba",
+>     "python.defaultInterpreterPath": "/home/YOURUSERNAME/micromamba/envs/bch709/bin/python",
+>     "python.terminal.activateEnvironment": true,
+>     "python.terminal.activateEnvInCurrentTerminal": true,
+>
+>     // Terminal Settings
+>     "terminal.integrated.env.linux": {
+>         "PATH": "/home/YOURUSERNAME/micromamba/bin:/home/YOURUSERNAME/micromamba/condabin:${env:PATH}"
+>     },
+>     "terminal.integrated.defaultProfile.linux": "bash",
+>
+>     // Editor Settings (optional but recommended)
+>     "editor.fontSize": 14,
+>     "editor.tabSize": 4,
+>     "editor.insertSpaces": true,
+>     "files.autoSave": "afterDelay"
+> }
+> ```
+> **Important:** Replace `YOURUSERNAME` with your actual username (use `whoami` command to check).
+{: .solution}
+
+> ## Complete User settings.json for macOS
+> ```json
+> {
+>     // Python and Conda Settings
+>     "python.condaPath": "/Users/YOURUSERNAME/micromamba/bin/micromamba",
+>     "python.defaultInterpreterPath": "/Users/YOURUSERNAME/micromamba/envs/bch709/bin/python",
+>     "python.terminal.activateEnvironment": true,
+>     "python.terminal.activateEnvInCurrentTerminal": true,
+>
+>     // Terminal Settings
+>     "terminal.integrated.env.osx": {
+>         "PATH": "/Users/YOURUSERNAME/micromamba/bin:/Users/YOURUSERNAME/micromamba/condabin:${env:PATH}"
+>     },
+>     "terminal.integrated.defaultProfile.osx": "zsh",
+>
+>     // Editor Settings (optional but recommended)
+>     "editor.fontSize": 14,
+>     "editor.tabSize": 4,
+>     "editor.insertSpaces": true,
+>     "files.autoSave": "afterDelay"
+> }
+> ```
+> **Important:** Replace `YOURUSERNAME` with your actual username (use `whoami` command to check).
+{: .solution}
+
+#### Step 6: Configure Workspace Settings (Project-Specific)
+
+Workspace settings apply only to a specific project. This is useful when different projects need different Python environments.
+
+**How to create .vscode/settings.json:**
+
+```bash
+# Navigate to your project folder
+$ cd ~/my_project
+
+# Create .vscode directory
+$ mkdir -p .vscode
+
+# Create settings.json file
+$ nano .vscode/settings.json
+```
+
+Or in VS Code:
+1. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Type "Preferences: Open Workspace Settings (JSON)"
+3. This creates `.vscode/settings.json` automatically
+
+> ## Complete .vscode/settings.json for WSL/Linux
+> ```json
+> {
+>     // Project-specific Python environment
+>     "python.defaultInterpreterPath": "/home/YOURUSERNAME/micromamba/envs/bch709/bin/python",
+>     "python.terminal.activateEnvironment": true,
+>
+>     // Terminal will use this environment
+>     "terminal.integrated.env.linux": {
+>         "PATH": "/home/YOURUSERNAME/micromamba/envs/bch709/bin:${env:PATH}",
+>         "CONDA_DEFAULT_ENV": "bch709",
+>         "CONDA_PREFIX": "/home/YOURUSERNAME/micromamba/envs/bch709"
+>     },
+>
+>     // Python analysis settings
+>     "python.analysis.extraPaths": [
+>         "${workspaceFolder}/src",
+>         "${workspaceFolder}/lib"
+>     ],
+>
+>     // File associations (optional)
+>     "files.associations": {
+>         "*.fasta": "plaintext",
+>         "*.fastq": "plaintext",
+>         "*.fa": "plaintext",
+>         "*.fq": "plaintext",
+>         "*.gff": "plaintext",
+>         "*.gtf": "plaintext",
+>         "*.bed": "plaintext",
+>         "*.sam": "plaintext",
+>         "*.vcf": "plaintext"
+>     }
+> }
+> ```
+{: .solution}
+
+> ## Complete .vscode/settings.json for macOS
+> ```json
+> {
+>     // Project-specific Python environment
+>     "python.defaultInterpreterPath": "/Users/YOURUSERNAME/micromamba/envs/bch709/bin/python",
+>     "python.terminal.activateEnvironment": true,
+>
+>     // Terminal will use this environment
+>     "terminal.integrated.env.osx": {
+>         "PATH": "/Users/YOURUSERNAME/micromamba/envs/bch709/bin:${env:PATH}",
+>         "CONDA_DEFAULT_ENV": "bch709",
+>         "CONDA_PREFIX": "/Users/YOURUSERNAME/micromamba/envs/bch709"
+>     },
+>     "terminal.integrated.defaultProfile.osx": "zsh",
+>
+>     // Python analysis settings
+>     "python.analysis.extraPaths": [
+>         "${workspaceFolder}/src",
+>         "${workspaceFolder}/lib"
+>     ],
+>
+>     // File associations (optional)
+>     "files.associations": {
+>         "*.fasta": "plaintext",
+>         "*.fastq": "plaintext",
+>         "*.fa": "plaintext",
+>         "*.fq": "plaintext",
+>         "*.gff": "plaintext",
+>         "*.gtf": "plaintext",
+>         "*.bed": "plaintext",
+>         "*.sam": "plaintext",
+>         "*.vcf": "plaintext"
+>     }
+> }
+> ```
+{: .solution}
+
+#### Settings Reference
+
+| Setting | Description |
+|---------|-------------|
+| `python.condaPath` | Path to conda/micromamba executable |
+| `python.defaultInterpreterPath` | Default Python interpreter for the project |
+| `python.terminal.activateEnvironment` | Auto-activate environment in terminal |
+| `python.terminal.activateEnvInCurrentTerminal` | Activate in existing terminal |
+| `terminal.integrated.env.linux` | Environment variables for Linux terminal |
+| `terminal.integrated.env.osx` | Environment variables for macOS terminal |
+| `terminal.integrated.defaultProfile.linux` | Default shell (bash) |
+| `terminal.integrated.defaultProfile.osx` | Default shell (zsh) |
+| `python.analysis.extraPaths` | Additional paths for Python imports |
+| `files.associations` | Associate file extensions with languages |
+
+#### Finding Your Username and Paths
+
+```bash
+# Find your username
+$ whoami
+```
+```output
+john
+```
+
+```bash
+# Find micromamba path
+$ which micromamba
+```
+```output
+/home/john/micromamba/bin/micromamba
+```
+
+```bash
+# Find Python path in environment
+$ conda activate bch709
+$ which python
+```
+```output
+/home/john/micromamba/envs/bch709/bin/python
+```
+
+#### Example Project Structure with .vscode
+
+```
+my_rnaseq_project/
+├── .vscode/
+│   └── settings.json      # Project-specific VS Code settings
+├── data/
+│   ├── raw/
+│   └── processed/
+├── scripts/
+│   ├── qc.py
+│   └── analysis.py
+├── results/
+├── environment.yaml       # Conda environment file
+└── README.md
+```
+
+#### Quick Setup Script
+
+Create your `.vscode/settings.json` quickly:
+
+**WSL/Linux:**
+```bash
+$ cd ~/my_project
+$ mkdir -p .vscode
+$ USERNAME=$(whoami)
+$ cat > .vscode/settings.json << EOF
+{
+    "python.defaultInterpreterPath": "/home/${USERNAME}/micromamba/envs/bch709/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "terminal.integrated.env.linux": {
+        "PATH": "/home/${USERNAME}/micromamba/envs/bch709/bin:\${env:PATH}"
+    }
+}
+EOF
+```
+
+**macOS:**
+```bash
+$ cd ~/my_project
+$ mkdir -p .vscode
+$ USERNAME=$(whoami)
+$ cat > .vscode/settings.json << EOF
+{
+    "python.defaultInterpreterPath": "/Users/${USERNAME}/micromamba/envs/bch709/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/${USERNAME}/micromamba/envs/bch709/bin:\${env:PATH}"
+    },
+    "terminal.integrated.defaultProfile.osx": "zsh"
+}
+EOF
+```
+
+Now VS Code will use this environment whenever you open this project.
+
+#### Running Python Scripts
+
+| Method | How |
+|--------|-----|
+| **Run Button** | Click ▶️ in top-right corner of `.py` file |
+| **Terminal** | `` Ctrl+` `` → `python my_script.py` |
+| **Run Selection** | Select code → `Shift+Enter` |
+
+#### Running Bioinformatics Tools
+
+When your conda environment is active in VS Code terminal:
+
+```bash
+# Check that tools are available
+(bch709) $ which hisat2
+(bch709) $ which samtools
+
+# Run tools directly
+(bch709) $ fastqc reads.fastq.gz
+(bch709) $ hisat2 --version
+```
+
+#### VS Code Keyboard Shortcuts
+
+> **Note:** On macOS, replace `Ctrl` with `Cmd`
+
+| Action | Shortcut |
+|--------|----------|
+| Command Palette | `Ctrl+Shift+P` |
+| Open Settings | `Ctrl+,` |
+| Toggle Terminal | `` Ctrl+` `` |
+| Run Python File | `F5` or Click ▶️ |
+| Run Selection | `Shift+Enter` |
+| Save File | `Ctrl+S` |
+| Find in Files | `Ctrl+Shift+F` |
+| Go to File | `Ctrl+P` |
+
+#### Troubleshooting VS Code + Conda
+
+| Issue | Solution |
+|-------|----------|
+| Environment not listed | Restart VS Code, run `source ~/.bashrc` (Linux) or `source ~/.zshrc` (macOS) |
+| Terminal not activating | Add `"python.terminal.activateEnvironment": true` to settings.json |
+| Import errors | Verify package installed: `conda list` |
+| WSL not connecting | Install WSL extension, reopen folder in WSL |
+| Settings not applying | Check for JSON syntax errors in settings.json |
+| Path not found | Use absolute paths, verify with `which python` |
 
 ### References
 
-- Conda documentation: https://docs.conda.io/en/latest/
-- Conda-forge: https://conda-forge.github.io/
+- Micromamba documentation: https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html
+- Conda-forge: https://conda-forge.org/
 - BioConda: https://bioconda.github.io/
+- Conda cheat sheet: https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html
+- VS Code Python: https://code.visualstudio.com/docs/python/environments
+
+
+## Compiling Software from Source
+
+Sometimes you need to compile software from source code when:
+- The software isn't available in package managers
+- You need a specific version or custom options
+- You want the latest development version
+
+### Prerequisites for Compiling
+
+Make sure you have build tools installed:
+
+**Linux/WSL:**
+```bash
+$ sudo apt update
+$ sudo apt install build-essential git curl wget
+```
+
+**macOS:**
+```bash
+$ xcode-select --install
+$ brew install gcc make
+```
+
+### Example 1: Compiling HISAT2 from GitHub
+
+HISAT2 is a fast aligner for RNA-seq data.
+
+```bash
+# Create a directory for bioinformatics tools
+$ mkdir -p ~/bch709/bin
+$ cd ~/bch709/bin
+
+# Clone the repository
+$ git clone https://github.com/DaehwanKimLab/hisat2.git
+$ cd hisat2
+
+# Check the documentation
+$ less README.md
+
+# Compile (replace <NUM_CPUS> with number of CPU cores, e.g., 4)
+$ make -j 4
+```
+
+After compilation, add to your PATH:
+```bash
+$ echo 'export PATH="$HOME/bch709/bin/hisat2:$PATH"' >> ~/.bashrc
+$ source ~/.bashrc
+
+# Test installation
+$ hisat2 --version
+```
+
+### Example 2: Compiling BWA from Source
+
+BWA is a DNA sequence aligner.
+
+```bash
+$ cd ~/bch709/bin
+
+# Download source code
+$ curl -OL http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2
+$ tar xvf bwa-0.7.17.tar.bz2
+$ cd bwa-0.7.17
+
+# Compile
+$ make
+```
+
+> ## Troubleshooting: Missing zlib
+> If you see an error about `zlib.h`:
+> ```bash
+> # Linux/WSL
+> $ sudo apt install zlib1g-dev
+>
+> # macOS
+> $ brew install zlib
+> ```
+> Then run `make` again.
+{: .solution}
+
+Test the installation:
+```bash
+$ ./bwa
+
+# Add to PATH
+$ echo 'export PATH="$HOME/bch709/bin/bwa-0.7.17:$PATH"' >> ~/.bashrc
+$ source ~/.bashrc
+```
+
+### Basic BWA Usage
+
+```bash
+# Index a reference genome
+$ bwa index reference.fasta
+
+# Align reads to reference
+$ bwa mem reference.fasta reads.fastq > aligned.sam
+```
+
+### Conda vs. Compiling from Source
+
+| Method | Pros | Cons |
+|--------|------|------|
+| **Conda** | Easy, handles dependencies | May not have latest version |
+| **Source** | Latest version, customizable | More complex, manual dependencies |
+
+**Recommendation:** Use conda when possible. Compile from source only when needed.
+
+
+## Advanced: Understanding Build Systems
+
+### Makefile Basics
+
+Most bioinformatics tools use `make` for compilation. Understanding Makefiles helps troubleshoot build errors.
+
+**Basic Makefile structure:**
+```makefile
+# Target: dependencies
+#     commands (must use TAB, not spaces)
+
+CC = gcc
+CFLAGS = -O3 -Wall
+
+all: my_program
+
+my_program: main.o utils.o
+	$(CC) $(CFLAGS) -o my_program main.o utils.o
+
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c
+
+clean:
+	rm -f *.o my_program
+```
+
+**Common make commands:**
+```bash
+# Compile with default target
+$ make
+
+# Compile with multiple CPU cores (faster)
+$ make -j $(nproc)
+
+# Clean compiled files
+$ make clean
+
+# Install to system (usually requires sudo)
+$ sudo make install
+
+# Specify installation directory
+$ make install PREFIX=$HOME/local
+```
+
+### CMake for Complex Projects
+
+Some modern tools use CMake instead of Makefiles:
+
+```bash
+# Typical CMake workflow
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j $(nproc)
+$ make install
+```
+
+**Example: Compiling samtools**
+```bash
+$ cd ~/bch709/bin
+$ git clone https://github.com/samtools/samtools.git
+$ cd samtools
+$ autoheader
+$ autoconf -Wno-syntax
+$ ./configure --prefix=$HOME/local
+$ make -j $(nproc)
+$ make install
+```
+
+### Common Compilation Errors and Solutions
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `zlib.h: No such file` | Missing zlib | `sudo apt install zlib1g-dev` |
+| `curses.h: No such file` | Missing ncurses | `sudo apt install libncurses5-dev` |
+| `openssl/ssl.h: No such file` | Missing OpenSSL | `sudo apt install libssl-dev` |
+| `bz2.h: No such file` | Missing bzip2 | `sudo apt install libbz2-dev` |
+| `lzma.h: No such file` | Missing LZMA | `sudo apt install liblzma-dev` |
+| `Permission denied` | No write access | Use `PREFIX=$HOME/local` |
+
+### Setting Up Local Installation Directory
+
+Install software to your home directory (no sudo required):
+
+```bash
+# Create local directories
+$ mkdir -p ~/local/bin ~/local/lib ~/local/include
+
+# Add to PATH permanently
+$ echo 'export PATH="$HOME/local/bin:$PATH"' >> ~/.bashrc
+$ echo 'export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc
+$ source ~/.bashrc
+```
+
+### Parallel Compilation
+
+Speed up compilation with multiple CPU cores:
+
+```bash
+# Check available CPU cores
+$ nproc
+```
+```output
+8
+```
+
+```bash
+# Compile using all cores
+$ make -j $(nproc)
+
+# Or specify number of cores
+$ make -j 4
+```
+
+> ## Pro Tip: Compilation Flags
+> Many bioinformatics tools can be optimized for your CPU:
+> ```bash
+> # Enable CPU-specific optimizations
+> $ CFLAGS="-O3 -march=native" make
+> ```
+> This can significantly improve performance for computationally intensive tools.
+{: .callout}
