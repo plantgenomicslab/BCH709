@@ -1,0 +1,90 @@
+Sequence_Name	Fragment_Sequence	Fragment_Length	Cleavage_Site_Position
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	MYR	3	3
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	EAAVK	5	8
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	K	1	9
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	EEYQVLEELGR	11	20
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	GR	2	22
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	FGTVFR	6	28
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	CFHR	4	32
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	TSNK	4	36
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	FYAAK	5	41
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	LIEK	4	45
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	R	1	46
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	R	1	47
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	LLNEDR	6	53
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	R	1	54
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	CIEMEAK	7	61
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	AMSFLSPHPNILQIMDAFEDADSCSIVLELCQPHTLLDR	39	100
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	IAAQGPLTEPHAASLLK	17	117
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	QLLEAVAHCHAQGLAHR	17	134
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	DIKPENILFDEGNK	14	148
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	LK	2	150
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	LSDFGSAEWLGEGSSMSGVVGTPYYVAPEVIMGR	34	184
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	EYDEK	5	189
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	VDVWSSGVILYAMLAGFPPFYGESAPEIFESVLR	34	223
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	ANLR	4	227
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	FPSLIFSSVSAPAK	14	241
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	DLLR	4	245
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	K	1	246
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	MISR	4	250
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	DPSNR	5	255
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	ISAHQALR	8	263
+AAN06940.2 phosphoenolpyruvate carboxylase kinase [Glycine max]	HPWILTGALTTATISNFLT	19	282
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	MWSALK	6	6
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	R	1	7
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	NYEVSEEIGR	10	17
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	GR	2	19
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	FGTIFR	6	25
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	CFHPLSNQPYACK	13	38
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	LIDK	4	42
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	SLLLDSTDR	9	51
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	HCLQNEPK	8	59
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	FMSLLSPHPNILQIFHVFEDDHYLSIVMDLCQPHTLFDR	39	98
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	MLHAPFSESQAASLIK	16	114
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	NLLEAVAHCHR	11	125
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	LGVAHR	6	131
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	DIKPDNILFDSADNLK	16	147
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	LADFGSAEWFGDGR	14	161
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	SMSGVVGTPYYVAPEVLLGR	20	181
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	EYDEK	5	186
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	VDVWSCGVILYIMLAGIPPFYGDSAAEIFEAVVR	34	220
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	ANLR	4	224
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	FPSR	4	228
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	IFR	3	231
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	TVSPAAK	7	238
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	DLLR	4	242
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	K	1	243
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	MISR	4	247
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	DSSR	4	251
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	R	1	252
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	FSAEQALR	8	260
+AAN06939.1 phosphoenolpyruvate carboxylase kinase [Glycine max]	HPWILSAGDTAELT	14	274
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	MWSALK	6	6
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	R	1	7
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	NYEVSEEIGR	10	17
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	GR	2	19
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	FGTIFR	6	25
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	CFHPLSNQPYACK	13	38
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	LIDK	4	42
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	SLLLDSTDR	9	51
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	HCLQNEPK	8	59
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	FMSLLSPHPNILQIFHVFEDDHYLSIVMDLCQPHTLFDR	39	98
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	MLHAPFSESQAASLIK	16	114
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	NLLEAVAHCHR	11	125
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	LGVAHR	6	131
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	DIKPDNILFDSADNLK	16	147
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	LADFGSAEWFGDGR	14	161
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	SMSGVVGTPYYVAPEVLLGR	20	181
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	EYDEK	5	186
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	VDVWSCGVILYIMLAGIPPFYGDSAAEIFEAVVR	34	220
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	ANLR	4	224
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	FPSR	4	228
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	IFR	3	231
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	TVSPAAK	7	238
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	DLLR	4	242
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	K	1	243
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	MISR	4	247
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	DSSR	4	251
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	R	1	252
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	FSAEQALR	8	260
+AAQ81581.1 phosphoenolpyruvate-carboxylase kinase [Glycine max]	HPWILSAGDTAELT	14	274
