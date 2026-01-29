@@ -1267,12 +1267,6 @@ Time and again we are surprised by just how many applications it has, and how fr
 
 ## Recent unix command
 
-> ## Modern Unix Tools
-> [![Modern Unix Tools](../fig/youtube-modern-unix.jpg)](https://www.youtube.com/watch?v=LnKoncbQBsM)
->
-> [Watch: Modern Unix Tools](https://www.youtube.com/watch?v=LnKoncbQBsM)
-{: .callout}
-
 {{< rawhtml >}}
 <h1 align="center">Modern Unix</h1>
 
@@ -1562,9 +1556,12 @@ Time and again we are surprised by just how many applications it has, and how fr
 
 ## File Permissions
 
-> ## Recommended Videos
-> - [File Permission and chmod](https://www.youtube.com/watch?v=3gcSeDoQ_rU)
-> - [Linux File Permissions](https://www.youtube.com/watch?v=LnKoncbQBsM)
+> ## Linux File Permissions
+> [![Linux File Permissions](../fig/youtube-modern-unix.jpg)](https://www.youtube.com/watch?v=LnKoncbQBsM)
+>
+> [Watch: Linux File Permissions](https://www.youtube.com/watch?v=LnKoncbQBsM)
+>
+> See also: [File Permission and chmod](https://www.youtube.com/watch?v=3gcSeDoQ_rU)
 {: .callout}
 
 In Unix/Linux systems, every file and directory has associated permissions that control who can read, write, or execute them.
@@ -2636,16 +2633,16 @@ Run long jobs that continue after you disconnect from the server.
 > ```
 {: .keypoints}
 
-> ## tmux Key Bindings (Ctrl+B, then)
-> | Key | Action |
-> |-----|--------|
-> | `d` | Detach from session |
-> | `c` | Create new window |
-> | `n` | Next window |
-> | `p` | Previous window |
-> | `%` | Split vertically |
-> | `"` | Split horizontally |
-{: .checklist}
+### tmux Key Bindings (Ctrl+B, then)
+
+| Key | Action |
+|-----|--------|
+| `d` | Detach from session |
+| `c` | Create new window |
+| `n` | Next window |
+| `p` | Previous window |
+| `%` | Split vertically |
+| `"` | Split horizontally |
 
 
 ## Micromamba - Package Management
