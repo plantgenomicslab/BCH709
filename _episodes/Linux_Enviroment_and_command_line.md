@@ -1267,6 +1267,12 @@ Time and again we are surprised by just how many applications it has, and how fr
 
 ## Recent unix command
 
+> ## Modern Unix Tools
+> [![Modern Unix Tools](../fig/youtube-modern-unix.jpg)](https://www.youtube.com/watch?v=LnKoncbQBsM)
+>
+> [Watch: Modern Unix Tools](https://www.youtube.com/watch?v=LnKoncbQBsM)
+{: .callout}
+
 {{< rawhtml >}}
 <h1 align="center">Modern Unix</h1>
 
