@@ -221,7 +221,7 @@ ls /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/rawdata_rnaseq/fastq
 ```
 
 
-![TAB](http://3.bp.blogspot.com/-tljBU23j9uQ/U9y9n9llIII/AAAAAAAACpM/3zH7NJ0pjJg/s1600/tabkey.jpg)
+![TAB](../fig/tabkey.jpg)
 
 ## Check previous trinity files 
 ```bash  

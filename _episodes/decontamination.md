@@ -210,7 +210,7 @@ https://ccb.jhu.edu/software/pavian/
 ### Pavian output for hierarchical visualization.
 Please go to https://fbreitwieser.shinyapps.io/pavian/
 
-![Pavian output for hierarchical visualization.](https://media.springernature.com/lw685/springer-static/image/art%3A10.1038%2Fs41596-022-00738-y/MediaObjects/41596_2022_738_Fig3_HTML.png)
+![Pavian output for hierarchical visualization.](../fig/pavian-output.png)
 
 Upon (1) opening the Pavian app, users should (2) upload the microbiome sample files. (3) Choose ‘Sample’ to view classification visualization results. (4) Select sample from the drop-down menu. (5) Select plot settings to customize visualization. (6) Save image of network.
 

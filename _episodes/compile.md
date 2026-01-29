@@ -7,8 +7,7 @@ published: true
 {% include gh_variables.html %}
 
 
-![software_compile]({{site.baseurl}}/fig/software-compiler.png)
-![software_compile](https://pbs.twimg.com/media/CYIT_SJWQAIExU8.png)
+![software_compile](../fig/software-compiler.png)
 
 ## macOS
 
@@ -192,7 +191,7 @@ RC files configure the environment and prepare the system to run specific softwa
 [Linux family tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
 
 > ## Package Management Concepts
->![package](https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/Package_Management_tw_mostov.png)
+>![package](../fig/package-management.png)
 > Package management in Linux allows for easier installation and updating of software. It handles dependencies and ensures proper installation across systems. Popular tools include APT (Debian/Ubuntu), YUM (CentOS/Fedora), and Homebrew (macOS).
 >
 > Without package management, users must ensure that all of the required dependencies for a piece of software are installed and up-to-date, compile the software from the source code (which takes time and introduces compiler-based variations from system to system), and manage configuration for each piece of software. Without package management, application files are located in the standard locations for the system to which the developers are accustomed, regardless of which system they’re using.
@@ -266,7 +265,7 @@ RC files configure the environment and prepare the system to run specific softwa
 > A Bourne-compatible shell for installation (e.g. bash or zsh)
 {: .prereq}  
 
-[![homebrew](https://brew.sh/assets/img/homebrew-256x256.png)](https://brew.sh/)
+[![homebrew](../fig/homebrew-logo.png)](https://brew.sh/)
 
 > ## Homebrew Commands
 > **Update Homebrew:**

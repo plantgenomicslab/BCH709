@@ -141,9 +141,9 @@ GNU Emacs is a highly customizable text editor with an extensive feature set, in
 Vi is the standard Unix text editor and a powerful tool for text manipulation. Vim (Vi Improved) adds more features.
 
 ### Text Editor Cheat Sheets
-- [VIM](https://preview.redd.it/ve1jv3m3qqj21.png?width=960&crop=smart&auto=webp&s=deb6dc83a462dc54523d703574e953638598af19)
+- [VIM Cheatsheet](../fig/vim-cheatsheet.png)
 - [nano](https://www.cheatography.com/bipinthite/cheat-sheets/nano-editor/)
-- [Emacs](https://sachachua.com/blog/wp-content/uploads/2013/05/How-to-Learn-Emacs-v2-Large.png)
+- [Emacs Cheatsheet](../fig/emacs-cheatsheet.png)
 
 
 #### go to nano
