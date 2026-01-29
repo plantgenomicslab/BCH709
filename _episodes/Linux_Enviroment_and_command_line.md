@@ -1608,14 +1608,15 @@ Run `ls -l` to see permission strings:
 
 > ## Step 2: chmod with Numbers
 > Calculate permissions by adding: r(4) + w(2) + x(1)
->
-> | Permission | Calculation | Result |
-> |------------|-------------|--------|
-> | rwx | 4+2+1 | 7 |
-> | rw- | 4+2+0 | 6 |
-> | r-x | 4+0+1 | 5 |
-> | r-- | 4+0+0 | 4 |
->
+{: .callout}
+
+| Permission | Calculation | Result |
+|------------|-------------|--------|
+| rwx | 4+2+1 | 7 |
+| rw- | 4+2+0 | 6 |
+| r-x | 4+0+1 | 5 |
+| r-- | 4+0+0 | 4 |
+
 > **Try this: Make a script executable**
 > ```bash
 > # Create a test script
@@ -1680,14 +1681,14 @@ Run `ls -l` to see permission strings:
 > ```
 {: .keypoints}
 
-> ## Common Permission Patterns
-> | Numeric | Symbolic | Use Case |
-> |---------|----------|----------|
-> | `755` | rwxr-xr-x | Executable scripts, directories |
-> | `644` | rw-r--r-- | Regular files |
-> | `700` | rwx------ | Private directories |
-> | `600` | rw------- | Private files (SSH keys) |
-{: .checklist}
+### Common Permission Patterns
+
+| Numeric | Symbolic | Use Case |
+|---------|----------|----------|
+| `755` | rwxr-xr-x | Executable scripts, directories |
+| `644` | rw-r--r-- | Regular files |
+| `700` | rwx------ | Private directories |
+| `600` | rw------- | Private files (SSH keys) |
 
 > ## Challenge: Create a Private Directory
 > ```bash
@@ -1731,15 +1732,15 @@ Environment variables store system settings and user preferences that programs c
 > ```
 {: .keypoints}
 
-> ## Common Environment Variables
-> | Variable | Description | Example |
-> |----------|-------------|---------|
-> | `HOME` | User's home directory | `/home/username` |
-> | `PATH` | Search path for commands | `/usr/bin:/bin` |
-> | `USER` | Current username | `username` |
-> | `SHELL` | Current shell | `/bin/bash` |
-> | `PWD` | Current directory | `/home/username` |
-{: .checklist}
+### Common Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `HOME` | User's home directory | `/home/username` |
+| `PATH` | Search path for commands | `/usr/bin:/bin` |
+| `USER` | Current username | `username` |
+| `SHELL` | Current shell | `/bin/bash` |
+| `PWD` | Current directory | `/home/username` |
 
 > ## Step 2: Create and Use Variables
 > ```bash
@@ -1887,14 +1888,14 @@ Managing processes is essential for running long bioinformatics analyses.
 > ```
 {: .checklist}
 
-> ## Process Signals Reference
-> | Signal | Number | Shortcut | Description |
-> |--------|--------|----------|-------------|
-> | SIGINT | 2 | Ctrl+C | Interrupt (stop) |
-> | SIGTSTP | 20 | Ctrl+Z | Suspend (pause) |
-> | SIGTERM | 15 | `kill PID` | Terminate gracefully |
-> | SIGKILL | 9 | `kill -9 PID` | Force kill |
-{: .checklist}
+### Process Signals Reference
+
+| Signal | Number | Shortcut | Description |
+|--------|--------|----------|-------------|
+| SIGINT | 2 | Ctrl+C | Interrupt (stop) |
+| SIGTSTP | 20 | Ctrl+Z | Suspend (pause) |
+| SIGTERM | 15 | `kill PID` | Terminate gracefully |
+| SIGKILL | 9 | `kill -9 PID` | Force kill |
 
 
 ## Symbolic Links
@@ -1958,14 +1959,15 @@ Symbolic links (symlinks) are shortcuts that point to other files or directories
 > ```
 {: .keypoints}
 
-> ## Symbolic vs Hard Links
-> | Feature | Symbolic Link | Hard Link |
-> |---------|---------------|-----------|
-> | Command | `ln -s target link` | `ln target link` |
-> | Link to directories | Yes | No |
-> | Original deleted | Link breaks | Link works |
-> | Cross filesystems | Yes | No |
->
+### Symbolic vs Hard Links
+
+| Feature | Symbolic Link | Hard Link |
+|---------|---------------|-----------|
+| Command | `ln -s target link` | `ln target link` |
+| Link to directories | Yes | No |
+| Original deleted | Link breaks | Link works |
+| Cross filesystems | Yes | No |
+
 > ```bash
 > # Create files to compare
 > echo "test" > testfile.txt
@@ -2053,15 +2055,15 @@ The `find` command searches for files based on name, size, time, and more.
 > ```
 {: .keypoints}
 
-> ## Quick Reference
-> | Option | Description | Example |
-> |--------|-------------|---------|
-> | `-name` | Match filename | `find . -name "*.fa"` |
-> | `-type f` | Files only | `find . -type f` |
-> | `-type d` | Directories only | `find . -type d` |
-> | `-size +10M` | Larger than 10MB | `find . -size +10M` |
-> | `-mtime -7` | Modified last 7 days | `find . -mtime -7` |
-{: .checklist}
+### Quick Reference
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `-name` | Match filename | `find . -name "*.fa"` |
+| `-type f` | Files only | `find . -type f` |
+| `-type d` | Directories only | `find . -type d` |
+| `-size +10M` | Larger than 10MB | `find . -size +10M` |
+| `-mtime -7` | Modified last 7 days | `find . -mtime -7` |
 
 
 ## sed - Stream Editor
@@ -2168,16 +2170,16 @@ The `find` command searches for files based on name, size, time, and more.
 > ```
 {: .checklist}
 
-> ## sed Quick Reference
-> | Command | Description |
-> |---------|-------------|
-> | `s/old/new/` | Replace first match |
-> | `s/old/new/g` | Replace all matches |
-> | `s/old/new/i` | Case-insensitive |
-> | `-n '5p'` | Print line 5 only |
-> | `/pattern/d` | Delete matching lines |
-> | `-i` | Edit file in-place |
-{: .checklist}
+### sed Quick Reference
+
+| Command | Description |
+|---------|-------------|
+| `s/old/new/` | Replace first match |
+| `s/old/new/g` | Replace all matches |
+| `s/old/new/i` | Case-insensitive |
+| `-n '5p'` | Print line 5 only |
+| `/pattern/d` | Delete matching lines |
+| `-i` | Edit file in-place |
 
 
 ## awk - Pattern Scanning and Processing
@@ -2294,15 +2296,15 @@ The `find` command searches for files based on name, size, time, and more.
 > ```
 {: .keypoints}
 
-> ## awk Built-in Variables
-> | Variable | Description | Example |
-> |----------|-------------|---------|
-> | `$0` | Entire line | `awk '{print $0}'` |
-> | `$1, $2...` | Column 1, 2, etc. | `awk '{print $1}'` |
-> | `NF` | Number of columns | `awk '{print NF}'` |
-> | `NR` | Line number | `awk '{print NR, $0}'` |
-> | `-F` | Set delimiter | `awk -F',' '{print $1}'` |
-{: .checklist}
+### awk Built-in Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `$0` | Entire line | `awk '{print $0}'` |
+| `$1, $2...` | Column 1, 2, etc. | `awk '{print $1}'` |
+| `NF` | Number of columns | `awk '{print NF}'` |
+| `NR` | Line number | `awk '{print NR, $0}'` |
+| `-F` | Set delimiter | `awk -F',' '{print $1}'` |
 
 > ## Challenge: Analyze Gene Data
 > Using genes.txt, find:
@@ -2507,13 +2509,13 @@ Automate repetitive tasks by combining commands into scripts.
 
 Every command has three data streams: input (stdin), output (stdout), and errors (stderr).
 
-> ## The Three Streams
-> | Stream | Number | Description |
-> |--------|--------|-------------|
-> | stdin | 0 | Input (from keyboard/file) |
-> | stdout | 1 | Normal output |
-> | stderr | 2 | Error messages |
-{: .checklist}
+### The Three Streams
+
+| Stream | Number | Description |
+|--------|--------|-------------|
+| stdin | 0 | Input (from keyboard/file) |
+| stdout | 1 | Normal output |
+| stderr | 2 | Error messages |
 
 > ## Step 1: Output Redirection
 > ```bash
@@ -2592,16 +2594,16 @@ Every command has three data streams: input (stdin), output (stdout), and errors
 > ```
 {: .keypoints}
 
-> ## Redirection Quick Reference
-> | Symbol | Description | Example |
-> |--------|-------------|---------|
-> | `>` | Redirect stdout (overwrite) | `cmd > file` |
-> | `>>` | Redirect stdout (append) | `cmd >> file` |
-> | `2>` | Redirect stderr | `cmd 2> errors` |
-> | `&>` | Redirect both | `cmd &> all` |
-> | `<` | Read from file | `cmd < file` |
-> | `\|` | Pipe to next command | `cmd1 \| cmd2` |
-{: .checklist}
+### Redirection Quick Reference
+
+| Symbol | Description | Example |
+|--------|-------------|---------|
+| `>` | Redirect stdout (overwrite) | `cmd > file` |
+| `>>` | Redirect stdout (append) | `cmd >> file` |
+| `2>` | Redirect stderr | `cmd 2> errors` |
+| `&>` | Redirect both | `cmd &> all` |
+| `<` | Read from file | `cmd < file` |
+| `\|` | Pipe to next command | `cmd1 \| cmd2` |
 
 
 ## Screen and tmux - Terminal Multiplexers
@@ -2748,17 +2750,17 @@ Install bioinformatics software without admin privileges. Micromamba is a fast, 
 > ```
 {: .keypoints}
 
-> ## Micromamba Commands Reference
-> | Command | Description |
-> |---------|-------------|
-> | `micromamba create -n NAME` | Create environment |
-> | `micromamba activate NAME` | Activate environment |
-> | `micromamba deactivate` | Deactivate |
-> | `micromamba env list` | List environments |
-> | `micromamba list` | List packages |
-> | `micromamba install PKG` | Install package |
-> | `-c bioconda -c conda-forge` | Use bioconda channel |
-{: .checklist}
+### Micromamba Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `micromamba create -n NAME` | Create environment |
+| `micromamba activate NAME` | Activate environment |
+| `micromamba deactivate` | Deactivate |
+| `micromamba env list` | List environments |
+| `micromamba list` | List packages |
+| `micromamba install PKG` | Install package |
+| `-c bioconda -c conda-forge` | Use bioconda channel |
 
 > ## Quick Setup: Bioinformatics Environment
 > Create an environment with common tools:
@@ -2841,17 +2843,17 @@ Track changes to your code and collaborate with others.
 > ```
 {: .keypoints}
 
-> ## Git Commands Reference
-> | Command | Description |
-> |---------|-------------|
-> | `git init` | Initialize repository |
-> | `git status` | Check file status |
-> | `git add FILE` | Stage changes |
-> | `git commit -m "msg"` | Commit changes |
-> | `git log` | View history |
-> | `git diff` | See changes |
-> | `git clone URL` | Clone repository |
-{: .checklist}
+### Git Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `git init` | Initialize repository |
+| `git status` | Check file status |
+| `git add FILE` | Stage changes |
+| `git commit -m "msg"` | Commit changes |
+| `git log` | View history |
+| `git diff` | See changes |
+| `git clone URL` | Clone repository |
 
 
 ## Bioinformatics File Formats
@@ -2872,22 +2874,23 @@ SAM (Sequence Alignment Map) is a text format for storing sequence alignments. B
 > - `@SQ` - Reference sequence dictionary
 > - `@RG` - Read group
 > - `@PG` - Program used
->
-> **Alignment fields (11 mandatory):**
-> | Col | Field | Description |
-> |-----|-------|-------------|
-> | 1 | QNAME | Query name |
-> | 2 | FLAG | Bitwise flag |
-> | 3 | RNAME | Reference name |
-> | 4 | POS | Position |
-> | 5 | MAPQ | Mapping quality |
-> | 6 | CIGAR | CIGAR string |
-> | 7 | RNEXT | Mate reference name |
-> | 8 | PNEXT | Mate position |
-> | 9 | TLEN | Template length |
-> | 10 | SEQ | Sequence |
-> | 11 | QUAL | Quality string |
 {: .keypoints}
+
+**Alignment fields (11 mandatory):**
+
+| Col | Field | Description |
+|-----|-------|-------------|
+| 1 | QNAME | Query name |
+| 2 | FLAG | Bitwise flag |
+| 3 | RNAME | Reference name |
+| 4 | POS | Position |
+| 5 | MAPQ | Mapping quality |
+| 6 | CIGAR | CIGAR string |
+| 7 | RNEXT | Mate reference name |
+| 8 | PNEXT | Mate position |
+| 9 | TLEN | Template length |
+| 10 | SEQ | Sequence |
+| 11 | QUAL | Quality string |
 
 > ## Working with SAM/BAM
 > ```bash
@@ -2920,26 +2923,26 @@ SAM (Sequence Alignment Map) is a text format for storing sequence alignments. B
 BED (Browser Extensible Data) format is used to define genomic regions.
 
 > ## BED Format Structure
-> BED files are tab-delimited with at least 3 columns:
->
-> | Column | Name | Description |
-> |--------|------|-------------|
-> | 1 | chrom | Chromosome |
-> | 2 | chromStart | Start position (0-based) |
-> | 3 | chromEnd | End position |
-> | 4 | name | Feature name (optional) |
-> | 5 | score | Score (optional) |
-> | 6 | strand | + or - (optional) |
->
-> **Example:**
-> ```
-> chr1    1000    2000    gene1    100    +
-> chr1    3000    4000    gene2    200    -
-> chr2    5000    6000    gene3    150    +
-> ```
->
-> **Important:** BED uses 0-based, half-open coordinates
+> BED files are tab-delimited with at least 3 columns.
 {: .keypoints}
+
+| Column | Name | Description |
+|--------|------|-------------|
+| 1 | chrom | Chromosome |
+| 2 | chromStart | Start position (0-based) |
+| 3 | chromEnd | End position |
+| 4 | name | Feature name (optional) |
+| 5 | score | Score (optional) |
+| 6 | strand | + or - (optional) |
+
+**Example:**
+```
+chr1    1000    2000    gene1    100    +
+chr1    3000    4000    gene2    200    -
+chr2    5000    6000    gene3    150    +
+```
+
+**Important:** BED uses 0-based, half-open coordinates
 
 > ## Working with BED Files
 > ```bash
@@ -2969,27 +2972,28 @@ VCF (Variant Call Format) stores genetic variation data.
 > 1. **Meta-information lines** (starting with ##)
 > 2. **Header line** (starting with #CHROM)
 > 3. **Data lines** (one per variant)
->
-> **Fixed columns:**
-> | Col | Field | Description |
-> |-----|-------|-------------|
-> | 1 | CHROM | Chromosome |
-> | 2 | POS | Position (1-based) |
-> | 3 | ID | Variant ID |
-> | 4 | REF | Reference allele |
-> | 5 | ALT | Alternate allele(s) |
-> | 6 | QUAL | Quality score |
-> | 7 | FILTER | Filter status |
-> | 8 | INFO | Additional info |
-> | 9 | FORMAT | Genotype format |
-> | 10+ | SAMPLE | Sample genotypes |
->
-> **Example:**
-> ```
-> #CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  SAMPLE1
-> chr1    100     rs123   A       G       30      PASS    DP=50   GT:DP   0/1:50
-> ```
 {: .keypoints}
+
+**Fixed columns:**
+
+| Col | Field | Description |
+|-----|-------|-------------|
+| 1 | CHROM | Chromosome |
+| 2 | POS | Position (1-based) |
+| 3 | ID | Variant ID |
+| 4 | REF | Reference allele |
+| 5 | ALT | Alternate allele(s) |
+| 6 | QUAL | Quality score |
+| 7 | FILTER | Filter status |
+| 8 | INFO | Additional info |
+| 9 | FORMAT | Genotype format |
+| 10+ | SAMPLE | Sample genotypes |
+
+**Example:**
+```
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  SAMPLE1
+chr1    100     rs123   A       G       30      PASS    DP=50   GT:DP   0/1:50
+```
 
 > ## Working with VCF Files
 > ```bash
