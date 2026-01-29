@@ -1668,27 +1668,27 @@ Won C. Yim and John C. Cushman (2017) Divide and Conquer BLAST: using grid engin
 
 ## Ortholog
 ### Example 1
-![](https://i.imgur.com/9fyoBzO.png)
+![](../fig/9fyoBzO.png)
 
 ### Example 2
-![](https://i.imgur.com/VDPIFPa.png)
+![](../fig/VDPIFPa.png)
 
 
 
 ## Synteny
-![](https://i.imgur.com/FSd0SfM.png)
+![](../fig/FSd0SfM.png)
 
-![](https://i.imgur.com/FGRcgmZ.png)
+![](../fig/FGRcgmZ.png)
 
-![](https://i.imgur.com/WDG6uZq.png)
+![](../fig/WDG6uZq.png)
 
 ## Genome Evolution
-![](https://i.imgur.com/E4pmA0f.png)
+![](../fig/E4pmA0f.png)
 
 
 
 ## Chromosomal Evolution
-![](https://i.imgur.com/L9WoJuL.png)
+![](../fig/L9WoJuL.png)
 
 
 

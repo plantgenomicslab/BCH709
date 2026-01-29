@@ -54,7 +54,7 @@ BSD (Berkeley Software Distribution) is a Unix variant developed at UC Berkeley.
 Linux, released by Linus Torvalds in 1991, is a Unix-like, open-source operating system. Initially built for Intel x86 PCs, Linux has since been ported to more platforms than any other OS. It is now widely used on servers, supercomputers, mobile phones (Android), and gaming consoles like the Nintendo Switch.
 
 > ## Every Linux Concept Explained in 8 Minutes
-> [![Every Linux Concept Explained](https://img.youtube.com/vi/gBuTIrEG87s/0.jpg)](https://www.youtube.com/watch?v=gBuTIrEG87s)
+> [![Every Linux Concept Explained](../fig/youtube-linux-concepts.jpg)](https://www.youtube.com/watch?v=gBuTIrEG87s)
 >
 > [Watch: Every LINUX Concept Explained in 8 Minutes](https://www.youtube.com/watch?v=gBuTIrEG87s)
 {: .callout}
@@ -64,7 +64,7 @@ Linux, released by Linus Torvalds in 1991, is a Unix-like, open-source operating
   - "Talk is cheap. Show me the code."
   - "What am I going to do without my coffee maker? I'm going to sit here in a corner, crying, that's what."
 
-![Linux_family tree](https://aerojsoft.files.wordpress.com/2016/02/linus-distribution-family-tree.jpg)
+![Linux_family tree](../fig/linux-family-tree.jpg)
 
 [Linux Family Tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
 
@@ -83,10 +83,10 @@ GNU is a free operating system that respects users' freedom. It is Unix-like but
 ## How about macOS (XNU)?
 macOS's kernel is XNU (XNU is Not Unix), a hybrid of the Mach kernel and BSD components. While macOS and Linux may seem similar, they have distinct histories and features.
 
-![GNU](http://www.linuxandubuntu.com/wp-content/uploads/2019/07/What-is-GNU-in-GNULinux.jpg)
+![GNU](../fig/gnu-linux.png)
 GNU and Tux
 
-![MacOS](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Diagram_of_Mac_OS_X_architecture.svg/1280px-Diagram_of_Mac_OS_X_architecture.svg.png){: width="50%" height="50%"}
+![MacOS](../fig/macos-architecture.png){: width="50%" height="50%"}
 
 ### Operating Systems Tasks
 OS tasks include managing file systems, device I/O, processes, memory management, and more.
@@ -102,7 +102,7 @@ The shell is an interface between the user and the kernel, interpreting commands
 ### Shell Types
 
 > ## Bash in 100 Seconds
-> [![Bash in 100 Seconds](https://img.youtube.com/vi/I4EWvMFj37g/0.jpg)](https://www.youtube.com/watch?v=I4EWvMFj37g)
+> [![Bash in 100 Seconds](../fig/youtube-bash-100sec.jpg)](https://www.youtube.com/watch?v=I4EWvMFj37g)
 >
 > [Watch: Bash in 100 Seconds](https://www.youtube.com/watch?v=I4EWvMFj37g)
 {: .callout}
@@ -114,14 +114,14 @@ Different shells have unique features:
 - **C Shell (csh)**
 - **TENEX/TOPS C Shell (tcsh)**
 
-![shell types](https://d1jnx9ba8s6j9r.cloudfront.net/blog/wp-content/uploads/2019/05/Evolution-of-Linux-Shells-Types-of-Shells-in-Linux-Edureka.png)
+![shell types](../fig/shell-types-edureka.png)
 
 **Bourne Shell** was created in the mid-1970s by Stephen R. Bourne.
 
 ### BASH
 Bash (Bourne Again Shell) offers command-line editing, job control, and more, making it a powerful interactive shell.
 
-![BASH](https://miro.medium.com/proxy/0*L0nhgi_19dlQJtzb.png)
+![BASH](../fig/bash-medium.png)
 
 ## Text Editor Options
 Common text editors in Unix/Linux:
@@ -1276,7 +1276,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A <code>cat</code> clone with syntax highlighting and Git integration.</p>
   <p align="center">
-    <img src="https://camo.githubusercontent.com/c436c206f2c86605ab2f9fb632dd485afc05fccbf14af472770b0c59d876c9cc/68747470733a2f2f692e696d6775722e636f6d2f326c53573452452e706e67" width="600" />
+    <img src="../fig/2lSW4RE.png" width="600" />
   </p>
 </p>
 
@@ -1286,7 +1286,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A modern replacement for <code>ls</code>.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/ogham/exa/master/screenshots.png" width="700" />
+    <img src="../fig/exa-screenshots.png" width="700" />
   </p>
 </p>
 
@@ -1296,7 +1296,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">The next gen file listing command. Backwards compatible with <code>ls</code>.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/Peltoche/lsd/assets/screen_lsd.png" width="600" />
+    <img src="../fig/lsd-screen.png" width="600" />
   </p>
 </p>
 
@@ -1306,7 +1306,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A viewer for <code>git</code> and <code>diff</code> output</p>
   <p align="center">
-    <img src="https://user-images.githubusercontent.com/52205/86275526-76792100-bba1-11ea-9e78-6be9baa80b29.png" width="600" />
+    <img src="../fig/delta-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1316,7 +1316,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A more intuitive version of <code>du</code> written in rust.</p>
   <p align="center">
-    <img src="https://user-images.githubusercontent.com/200613/90223722-e0c2e980-de0e-11ea-8c75-343273fed6f3.png" width="600" />
+    <img src="../fig/dust-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1326,7 +1326,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A better <code>df</code> alternative </p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/muesli/duf/master/duf.png" width="600" />
+    <img src="../fig/duf-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1336,7 +1336,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A new way to see and navigate directory <code>tree</code>s</p>
   <p align="center">
-    <img src="https://github.com/Canop/broot/raw/master/website/docs/img/20200629-overview.png" width="600" />
+    <img src="../fig/broot-overview.png" width="600" />
   </p>
 </p>
 
@@ -1346,7 +1346,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A simple, fast and user-friendly alternative to <code>find</code>.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/sharkdp/fd/master/doc/screencast.svg" width="600" />
+    <img src="../fig/fd-screencast.svg" width="600" />
   </p>
 </p>
 
@@ -1356,7 +1356,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">An extremely fast alternative to <code>grep</code> that respects your gitignore</p>
   <p align="center">
-    <img src="https://user-images.githubusercontent.com/200613/90223748-ecaeab80-de0e-11ea-9140-ac9219f5747c.gif" width="600" />
+    <img src="../fig/ripgrep-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1366,7 +1366,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A code searching tool similar to <code>ack</code>, but faster.</p>
   <p align="center">
-    <img src="http://cdn-ak.f.st-hatena.com/images/fotolife/s/sona-zip/20130531/20130531223246_original.png?1370007170" width="600" />
+    <img src="../fig/ag-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1376,7 +1376,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A general purpose command-line fuzzy finder.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/junegunn/i/master/fzf-preview.png" width="600" />
+    <img src="../fig/fzf-preview.png" width="600" />
   </p>
 </p>
 
@@ -1386,7 +1386,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">Fly through your shell <code>history</code>. Great Scott! </p>
   <p align="center">
-    <img src="https://github.com/cantino/mcfly/raw/master/docs/screenshot.png" width="600" />
+    <img src="../fig/mcfly-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1396,7 +1396,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center"> A human-friendly and fast alternative to <code>cut</code> and (sometimes) <code>awk</code> </p>
   <p align="center">
-    <img src="https://asciinema.org/a/315932.png" width="600" />
+    <img src="../fig/choose-asciinema.png" width="600" />
   </p>
 </p>
 
@@ -1408,7 +1408,7 @@ Time and again we are surprised by just how many applications it has, and how fr
     <code>sed</code> for JSON data.
   </p>
   <p align="center">
-    <img src="https://blog.noenieto.com/media/gnome-shell-screenshot-VMABUZ.png" width="600" />
+    <img src="../fig/jq-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1418,7 +1418,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">An intuitive find & replace CLI (<code>sed</code> alternative).</p>
   <p align="center">
-    <img src="https://rest-reminder.easiestsoft.com/web/command-line-search-replace-string-in-file/img/regular-expression-replace-string-in-file.png" width="600" />
+    <img src="../fig/sd-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1428,7 +1428,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">Create and view interactive cheatsheets on the command-line.</p>
   <p align="center">
-    <img src="https://static.haydenjames.io/wp-content/uploads/2020/09/cheat-command-line-github-868x478.png" width="600" />
+    <img src="../fig/cheat-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1438,7 +1438,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A community effort to simplify <code>man</code> pages with practical examples.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/tldr-pages/tldr/master/images/tldr.svg" width="600" />
+    <img src="../fig/tldr-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1448,7 +1448,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">Yet another cross-platform graphical process/system monitor.</p>
   <p align="center">
-    <img src="https://github.com/ClementTsang/bottom/blob/master/assets/demo.gif" width="600" />
+    <img src="../fig/bottom-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1458,7 +1458,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">Glances an Eye on your system. A <code>top</code>/<code>htop</code> alternative for GNU/Linux, BSD, Mac OS and Windows operating systems.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/nicolargo/glances/develop/docs/_static/glances-summary.png" width="600" />
+    <img src="../fig/glances-summary.png" width="600" />
   </p>
 </p>
 
@@ -1468,7 +1468,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">System monitoring dashboard for terminal.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/aksakalli/gtop/master/img/demo.gif" width="600" />
+    <img src="../fig/gtop-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1478,7 +1478,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A command-line benchmarking tool.</p>
   <p align="center">
-    <img src="https://camo.githubusercontent.com/88a0cb35f42e02e28b0433d4b5e0029e52e723d8feb8df753e1ed06a5161db56/68747470733a2f2f692e696d6775722e636f6d2f7a31394f5978452e676966" width="600" />
+    <img src="../fig/z19OYxE.gif" width="600" />
   </p>
 </p>
 
@@ -1488,7 +1488,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center"><code>ping</code>, but with a graph.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/orf/gping/master/images/readme-example.gif" width="600" />
+    <img src="../fig/gping-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1498,7 +1498,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A modern replacement for <code>ps</code> written in Rust.</p>
   <p align="center">
-    <img src="https://user-images.githubusercontent.com/200613/90223676-c8eb6580-de0e-11ea-8e3e-fea30f173aab.png" width="600" />
+    <img src="../fig/procs-screenshot.png" width="600" />
   </p>
 </p>
 
@@ -1508,7 +1508,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A modern, user-friendly command-line HTTP client for the API era.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/httpie/httpie/master/httpie.gif" width="600" />
+    <img src="../fig/httpie-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1518,7 +1518,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">The power of <code>curl</code>, the ease of use of <code>httpie</code>.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/rs/curlie/master/doc/get.png" width="600" />
+    <img src="../fig/curlie-get.png" width="600" />
   </p>
 </p>
 
@@ -1528,7 +1528,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A friendly and fast tool for sending HTTP requests. It reimplements as much as possible of HTTPie's excellent design, with a focus on improved performance.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/ducaale/xh/master/assets/xh-demo.gif" width="600" />
+    <img src="../fig/xh-demo.gif" width="600" />
   </p>
 </p>
 
@@ -1538,7 +1538,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A smarter <code>cd</code> command inspired by <code>z</code>.</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/contrib/tutorial.webp" width="600" />
+    <img src="../fig/zoxide-tutorial.webp" width="600" />
   </p>
 </p>
 
@@ -1548,7 +1548,7 @@ Time and again we are surprised by just how many applications it has, and how fr
   </h1>
   <p align="center">A user-friendly command-line DNS client. <code>dig</code> on steroids</p>
   <p align="center">
-    <img src="https://raw.githubusercontent.com/ogham/dog/master/dog-screenshot.png" width="700" />
+    <img src="../fig/dog-screenshot.png" width="700" />
   </p>
 </p>
 {{< /rawhtml >}}

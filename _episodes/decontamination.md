@@ -67,7 +67,7 @@ https://www.nature.com/articles/s41596-022-00738-y
 
 https://benlangmead.github.io/aws-indexes/k2
 
-![](https://i.imgur.com/6Ck2722.png)
+![](../fig/6Ck2722.png)
 
 
 ## Braken
@@ -223,12 +223,12 @@ Please upload `*_bracken_species.kreport` to Pavian. *You could upload multiple 
 
 ### Check Sankey graph
 Click `Sample` on your left (RED circle) and explorer multiple different samples by using drop down menu on top (PURPLE oval)
-![](https://i.imgur.com/O12SLgV.png)
+![](../fig/O12SLgV.png)
 
 
 
 # Quiz
-![](https://i.imgur.com/MByhBUq.png)
+![](../fig/MByhBUq.png)
 
 By click `Comparison` on your left (RED circle), which sample includes the highest fraction of `Severe acute respiratory syndrome-related coronavirus`
 

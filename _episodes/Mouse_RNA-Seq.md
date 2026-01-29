@@ -13,10 +13,10 @@ mamba install -c bioconda -c conda-forge -c anaconda trim-galore=0.6.7 sra-tools
 ```
 ### Slurm
 
-![](https://i.imgur.com/LynACgh.png)
+![](../fig/LynACgh.png)
 
 
-![](https://i.imgur.com/XEMRbJe.png)
+![](../fig/XEMRbJe.png)
 
 
 [CheatSheet](https://slurm.schedmd.com/pdfs/summary.pdf)
@@ -27,7 +27,7 @@ mamba install -c bioconda -c conda-forge -c anaconda trim-galore=0.6.7 sra-tools
 
 
 # Mouse RNA-Seq
-![](https://i.imgur.com/rqNc6OA.png)
+![](../fig/rqNc6OA.png)
 
 https://www.sciencedirect.com/science/article/pii/S2211124722011111
 
@@ -351,7 +351,7 @@ sbatch --dependency=afterany:${jobid} count.sh
 # Human RNA-Seq
 [***Transcriptome alterations in myotonic dystrophy frontal cortex***](https://www.sciencedirect.com/science/article/pii/S2211124720316235)
 
-![](https://i.imgur.com/BrugOCz.png)
+![](../fig/BrugOCz.png)
 
 [](https://doi.org/10.1016/j.celrep.2020.108634)
 
