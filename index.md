@@ -44,6 +44,12 @@ This foundational knowledge is essential for any student pursuing a degree in bi
 > Please read our [Syllabus](./syllabus/BCH709_2026spring.pdf).
 {: .prereq}
 
+> ## BCH709 AI Assistant
+> Have questions about this class? Ask our AI assistant powered by Google NotebookLM!
+>
+> **[Ask BCH709 LLM](https://notebooklm.google.com/notebook/c1b66fa0-fce3-4625-96bc-03122b9165e1)**
+{: .callout}
+
 ## Course Pre/Co-requisites
 
 **Course Prerequisite:** BCH 400 (Introductory Biochemistry) or equivalent, plus two semesters of general biology. BCH 413/613 (Molecular Biophysics) is required as a prerequisite or corequisite, or consent of the instructor.
