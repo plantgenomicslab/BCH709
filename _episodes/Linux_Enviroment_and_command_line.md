@@ -927,7 +927,7 @@ The GFF (General Feature Format) format consists of one line per feature, each c
 Download the GFF file:
 ```bash
 $ cd ~/bch709_data
-$ curl -L -O http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
+$ curl -L -o MGI.gff3.gz http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
 $ ls MGI.gff3.gz
 ```
 ```output
