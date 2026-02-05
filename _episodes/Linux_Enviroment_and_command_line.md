@@ -1588,12 +1588,13 @@ Run `ls -l` to see permission strings:
 ```
 
 **Permission values:**
+
 | Symbol | Permission | Numeric Value |
 |--------|------------|---------------|
-| `r` | read | 4 |
-| `w` | write | 2 |
-| `x` | execute | 1 |
-| `-` | none | 0 |
+| `r`    | read       | 4             |
+| `w`    | write      | 2             |
+| `x`    | execute    | 1             |
+| `-`    | none       | 0             |
 
 > ## Step 1: View Default Permissions
 > ```bash
