@@ -6,26 +6,43 @@ published: true
 
 {% include gh_variables.html %}
 
-> ## Source
+> ## Source Attribution
 > This content is adapted from ["When Vibe Coding Meets Life Science"](https://www.linkedin.com/pulse/when-vibe-coding-meets-life-science-gozde-eskici-phd)
 > by Gozde Eskici, Ph.D. (The Second Translation newsletter, April 14, 2025)
 {: .callout}
 
+---
+
+## Table of Contents
+
+1. [What is Vibe Coding?](#what-is-vibe-coding)
+2. [Vibe Coding in Biotech](#vibe-coding-in-biotech)
+3. [8 Tools Rewriting the Rules](#8-tools-rewriting-the-rules-of-life-sciences)
+4. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
+   - [Step 0: Environment Setup](#step-0-brainstorming-and-environment-setup)
+   - [Example 1: Python GFF3 Analysis](#example-1-python-per-chromosome-feature-counts-from-mgi-gff3--qc)
+   - [Example 2: R TPM Heatmap](#example-2-r-top-200-variable-genes-from-ice-plant-tpm--heatmap)
+   - [Homework 1: Python FASTA Analysis](#homework-1-python-mrna-fasta-analysis--gc-distribution-graph)
+   - [Homework 2: R Clustering](#homework-2-r-z-score-clustering-of-cv-top-200-genes--pattern-visualization)
+5. [Appendix: Prompt Templates](#appendix-effective-vibe-coding-prompt-template)
+
+---
+
 ## What is Vibe Coding?
 
-On February 2nd, 2025, **Andrej Karpathy**, one of the most grounded and trusted voices in AI, posted:
+On February 2nd, 2025, **Andrej Karpathy**, one of the most influential voices in AI, introduced a new term:
 
 > "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists. It's possible because the LLMs (e.g. Cursor Composer w Sonnet) are getting too good. Also I just talk to Composer with SuperWhisper so I barely even touch the keyboard... I'm building a project or webapp, but it's not really coding – I just see stuff, say stuff, run stuff, and copy paste stuff, and it mostly works."
 
-And just like that, a new term entered the tech lexicon.
-
-**IBM** followed with a crisp definition:
+**IBM** followed with a formal definition:
 
 > "Vibe coding is a fresh take in coding where users express their intention using plain speech and the AI transforms that thinking into executable code."
 
+---
+
 ## Vibe Coding in Biotech
 
-In biotech, coding isn't about building websites—it's about running genome pipelines, training disease models, or scripting CRISPR screens. Historically, that's meant technical depth, time, and a bioinformatics team.
+In biotech, coding isn't about building websites—it's about running genome pipelines, training disease models, or scripting CRISPR screens. Historically, that's meant technical depth, time, and a dedicated bioinformatics team.
 
 But what if a scientist could just say:
 
@@ -37,124 +54,73 @@ But what if a scientist could just say:
 
 Thanks to LLMs, Biopython, and Colab-powered interfaces, we're now close. The act of building has become more conversational, more iterative—more "vibey."
 
-## Why This Matters
+### Why This Matters
 
 Biotech has long been bottlenecked by translation—the gap between idea and execution. Vibe coding changes that by:
 
-- **Speeding up iteration** on experiments and product ideas
-- **Lowering the technical barrier** for scientists-turned-founders
-- **Enabling more people** to prototype, test, and scale ideas
-- **Unlocking leaner, faster teams**—especially at the seed stage
+| Benefit | Description |
+|---------|-------------|
+| **Faster iteration** | Rapid prototyping of experiments and product ideas |
+| **Lower barriers** | Scientists can code without deep programming expertise |
+| **Broader access** | More people can prototype, test, and scale ideas |
+| **Leaner teams** | Smaller teams can accomplish more, especially at early stages |
 
-In short: the next great biotech startup might not hire an engineer first. They might just vibe their way to an MVP.
+---
 
 ## 8 Tools Rewriting the Rules of Life Sciences
 
-### 1. Superbio.ai – The No-Code AI Marketplace for Life Sciences
+### 1. Superbio.ai – No-Code AI Marketplace
 
-Founded by Berke Buyukkucak and Ronjon Nag, Superbio lets you run cutting-edge AI tools for:
-- Drug discovery
-- Protein design
-- Literature review
-
-No code needed. Their GPT-powered Co-pilot helps you find the right tool.
+Founded by Berke Buyukkucak and Ronjon Nag. Run cutting-edge AI tools for drug discovery, protein design, and literature review—no code needed.
 
 **Link:** [superbio.ai](https://superbio.ai)
 
----
+### 2. Recursion's LOWE – LLM-Orchestrated Wet Lab
 
-### 2. Recursion's LOWE – An LLM-Orchestrated Wet Lab
-
-Recursion's internal tool, LOWE (unveiled by Chris Gibson), is a glimpse into AI-native drug discovery:
-- Say the assay, LOWE designs + executes it via robotics
-- Taps Recursion's proprietary phenomics & chemistry stack
-- Scientists use AI tools via natural language
+Recursion's internal tool (unveiled by Chris Gibson): describe an assay, LOWE designs and executes it via robotics using their proprietary phenomics and chemistry stack.
 
 **Link:** [recursion.com](https://recursion.com)
 
----
+### 3. DrBioRight 2.0 – Cancer Proteomics Chatbot
 
-### 3. DrBioRight 2.0 – Talk to Your Cancer Proteomics Atlas
+Built at MD Anderson by the Han Liang Lab. Ask questions like "Which proteins in pathway X are altered in this tumor?" and get real answers with plots.
 
-Built at MD Anderson by the Han Liang Lab, this LLM-powered chatbot lets researchers ask things like:
+**Publication:** [Nature Communications (2025)](https://www.nature.com/articles/s41467-025-56650-0) | **Link:** [drbioright.org](https://drbioright.org)
 
-> "Which proteins in pathway X are altered in this tumor?"
+### 4. BioChatter – Open Source Bio-AI Toolkit
 
-No code needed—just real answers and even plots.
-
-**Publication:** [Nature Communications (2025)](https://www.nature.com/articles/s41467-025-56650-0)
-
-**Link:** [drbioright.org](https://drbioright.org)
-
----
-
-### 4. BioChatter – Build Your Own Bio-AI Assistant (Open Source)
-
-From EMBL-EBI, this Python toolkit lets labs build custom AI assistants:
-- Connects to APIs, databases, bio tools
-- No coding needed to use
-- Fully open-source + on-prem ready
+From EMBL-EBI. Build custom AI assistants that connect to APIs, databases, and bio tools. Fully open-source and on-prem ready.
 
 **Link:** [biochatter.org](https://biochatter.org)
 
----
-
 ### 5. OLAF – Conversational Bioinformatics OS
 
-From Weill Cornell by Dylan Riffle et al., OLAF lets you say:
-
-> "Analyze this RNA-seq file"
-
-And it:
-- Writes + runs the code
-- Returns results and visuals
-- Keeps it transparent and inspectable
+From Weill Cornell (Dylan Riffle et al.). Say "Analyze this RNA-seq file" and OLAF writes the code, runs it, and returns transparent, inspectable results.
 
 **Publication:** [ArXiv](https://arxiv.org/abs/2503.12465)
 
----
+### 6. TinyBio – ChatGPT for Scientists
 
-### 6. TinyBio (acquired by Seqera) – The "ChatGPT for Scientists"
-
-A platform started by Sasha Dagayev and Vishal Patel in 2022 with real-time code execution:
-- Load your data, describe the task
-- Supports 50+ bio libraries (Scanpy, Seurat, etc.)
-- Self-heals errors and annotates code for you
+Acquired by Seqera. Started by Sasha Dagayev and Vishal Patel in 2022. Real-time code execution supporting 50+ bio libraries with self-healing error correction.
 
 **Link:** [tinybio.cloud](https://tinybio.cloud)
 
----
+### 7. Scispot (Scibot) – Lab AI Analyst
 
-### 7. Scispot (Scibot) – Your Lab's AI Analyst
-
-YC-backed startup embedding AI into lab workflows. When brothers Guru and Satya watched their mother wait too long for a life-saving treatment, they saw firsthand how the slow pace of science could cost lives. That frustration sparked a bold question: "What if labs ran on intelligence instead of inefficiency?"
-
-Their AI assistant, Scibot, makes lab data conversational:
-- "Summarize this week's PCR results" → done
-- Flags issues, builds dashboards—no Python needed
+YC-backed. Their AI assistant Scibot makes lab data conversational: "Summarize this week's PCR results" produces instant dashboards.
 
 **Link:** [scispot.com](https://scispot.com)
 
----
+### 8. Synthace – Conversational Wet Lab Automation
 
-### 8. Synthace – Conversational Automation for Wet Labs
-
-A digital experiment pioneer now powered by LLMs:
-- Describe experiments in plain English
-- AI generates protocols + sends them to robots
+Describe experiments in plain English; AI generates protocols and sends them directly to lab robots.
 
 **Link:** [synthace.com](https://synthace.com)
-
----
-
-## TL;DR
 
 > ## Key Takeaways
 > - **Vibe coding** lets users build through intent, not syntax
 > - In **biotech**, that means less friction, faster feedback, and broader access
-> - This shift expands the pool of technical founders and unlocks whitespace across bio-AI tooling, platforms, and infrastructure
->
-> The tools above don't just "assist" scientists—they enable them to do more with less code and more creativity. If vibe coding is the new interface for software, these teams are translating it into biology.
+> - These tools don't just "assist" scientists—they enable more with less code and more creativity
 {: .callout}
 
 ---
@@ -162,36 +128,34 @@ A digital experiment pioneer now powered by LLMs:
 # BCH709 Bioinformatics Vibe Coding Lab Materials
 
 > ## Lab Overview
-> **Audience**: BCH709 Genome Informatics graduate students
-> **Goal**: Experience how prompt specificity transforms code quality and output
-> **Core Lesson**: The more specific your prompt, the closer the result to what you actually need
-> **Structure**: 2 Examples (Python 1, R 1) + 2 Homework Assignments (Python 1, R 1)
-{: .callout}
+> - **Audience:** BCH709 Genome Informatics graduate students
+> - **Goal:** Experience how prompt specificity transforms code quality and output
+> - **Core Lesson:** The more specific your prompt, the closer the result to what you actually need
+> - **Structure:** 2 Examples (Python, R) + 2 Homework Assignments (Python, R)
+{: .prereq}
 
 ## The Vibe Coding Workflow
-
-Vibe coding is a programming approach where you describe a task in natural language, an AI generates the code, you run it and inspect the output, then refine the prompt and iterate.
 
 ```
 Natural-language prompt → AI generates code → Execute → Inspect results → Revise prompt → Repeat
 ```
 
-**The key to vibe coding is "saying exactly what you want."**
-A prompt controls not only the code but also the **execution environment** — and without that, reproducibility breaks down.
+> ## The Key Insight
+> **"Saying exactly what you want"** is the core skill.
+> A prompt controls not only the code but also the **execution environment**—without that, reproducibility breaks down.
+{: .callout}
 
 ---
 
 # Step 0: Brainstorming and Environment Setup
 
-> ## Lesson for this step
+> ## Learning Objective
 > Before writing any code, ask the AI about possible approaches and required tools first.
-{: .callout}
+{: .objectives}
 
----
+## Step 0A. Brainstorming Prompt
 
-## Step 0A. Brainstorming Prompt (For Students — Paste Directly into AI)
-
-Copy and paste the prompt below into the AI first. **This is a strategy question, not a code request.**
+Copy and paste this prompt into the AI first. **This is a strategy question, not a code request.**
 
 ~~~
 I am a beginner student in BCH709.
@@ -214,16 +178,14 @@ Requirements:
 4) List the exact conda-forge package names for that combination.
 ~~~
 
-**Why this prompt works:**
-- Students don't get stuck trying to recall package names they've never heard of
-- The AI produces a structured "function → package" mapping that justifies each choice
-- The conda install command follows naturally from the output
+**Why this works:**
+- Students don't get stuck trying to recall package names
+- The AI produces a structured "function → package" mapping
+- The conda install command follows naturally
 
----
+## Step 0B. Environment Setup Prompt
 
-## Step 0B. Environment Setup Prompt (For Students)
-
-Once the brainstorming results are in, use the following prompt to get the install commands:
+Once brainstorming is complete, use this prompt:
 
 ~~~
 Using the library combination you just recommended, generate conda environment creation commands.
@@ -236,11 +198,9 @@ Conditions:
 - Present the commands in copy-paste order so a beginner can just run them one by one
 ~~~
 
----
+## Step 0C. Environment Creation Commands
 
-## Step 0C. Environment Creation (Beginner-Friendly Commands)
-
-### For Analysis 1: `bch709-python`
+### Python Environment: `bch709-python`
 
 ```bash
 # Create environment
@@ -258,7 +218,7 @@ python -c "import pandas, numpy, matplotlib, Bio; print('bch709-python OK')"
 mkdir -p data results
 ```
 
-### For Analysis 2: `bch709-R`
+### R Environment: `bch709-R`
 
 ```bash
 # Create environment
@@ -283,31 +243,28 @@ curl -L -o data/MGI.gff3.gz http://www.informatics.jax.org/downloads/mgigff3/MGI
 curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
 
 # Ice plant TPM (Example 2, Homework 2)
-# https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling
-# iceplant_TPM_DT_ZT.tab.gz
+git clone https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling
 ```
 
----
+## Including Environment in Every Prompt
 
-### How to Include the Environment in Every Prompt
+From this point forward, **start every prompt** with environment context:
 
-From this point forward, **start every prompt** with a sentence like this:
-
+**For Python:**
 ~~~
 Write Python code that runs in the bch709-python conda environment.
 Assume pandas, numpy, matplotlib, and biopython are installed.
 ~~~
 
-Or for R:
-
+**For R:**
 ~~~
 Write R code that runs in the bch709-R conda environment.
 You may use data.table, ggplot2, and pheatmap.
 ~~~
 
-> ## Important
+> ## Warning
 > **If you don't specify the environment, the AI will assume an arbitrary one.**
-{: .callout}
+{: .caution}
 
 ---
 
@@ -339,25 +296,20 @@ chr1  MGI  gene  3214482  3671498  .  -  .  ID=MGI:MGI:1918911;Name=Xkr4;biotype
 | 8 | phase |
 | 9 | attributes (key=value pairs, semicolon-delimited) |
 
-**chrom.sizes file structure (2 tab-separated columns):**
+**chrom.sizes file structure:**
 ```
 chr1    195465000
 chr2    182105000
 chrX    171031299
 ```
 
-### Critical Design Decisions (Definitions That Must Appear in Your Prompt)
+### Critical Design Decisions
 
-**1. Preventing exon overcounting:**
-- When a gene has multiple transcript isoforms in GFF3, exon features are repeated per transcript
-- **Definition**: Count the number of unique (start, end, strand) exon intervals per chromosome
-
-**2. Chromosome length source:**
-- Do NOT estimate lengths from the GFF — use an **external chrom.sizes file** as the reference
-- Any GFF seqid not present in chrom.sizes is excluded and logged to `dropped_seqids.txt`
-
-**3. snRNA/lncRNA definition:**
-- Count lines where the feature type is `snRNA`, `lnc_RNA`, or `lncRNA` (type-based, first-pass definition)
+> ## Definitions That Must Appear in Your Prompt
+> 1. **Exon overcounting prevention:** Count unique (start, end, strand) intervals per chromosome
+> 2. **Chromosome length source:** Use external chrom.sizes file; log excluded seqids to `dropped_seqids.txt`
+> 3. **snRNA/lncRNA definition:** Count lines where type is `snRNA`, `lnc_RNA`, or `lncRNA`
+{: .checklist}
 
 ---
 
@@ -389,12 +341,13 @@ for chrom in sorted(counts):
     print(chrom, dict(counts[chrom]))
 ```
 
-**Problems:**
-- No chromosome length reference — scaffolds and contigs are included alongside primary chromosomes
-- Exons are double-counted across isoforms
-- May miss `lnc_RNA` (the standard GFF3 spelling)
-- No tracking of dropped seqids → no QC possible
-- No file output
+> ## Problems with Stage 1
+> - No chromosome length reference—scaffolds included with primary chromosomes
+> - Exons double-counted across isoforms
+> - Misses `lnc_RNA` (standard GFF3 spelling)
+> - No QC tracking of dropped seqids
+> - No file output
+{: .caution}
 
 ---
 
@@ -493,7 +446,8 @@ print(df.head(5).to_string(index=False))
 ```
 
 **Improvements:** TSV output, unique exon definition, dropped seqid QC
-**Still missing:** Density not computed, no sorting, unclear handling of chromosomes with zero features
+
+**Still missing:** Density not computed, no sorting, unclear zero-feature handling
 
 ---
 
@@ -617,25 +571,27 @@ Dropped feature lines: 1823
 
 ---
 
-### Example 1 Comparison Summary
+### Example 1: Comparison Summary
 
-| Aspect | Stage 1 (Vague) | Stage 2 (Format specified) | Stage 3 (Detailed constraints) |
-|--------|-----------------|---------------------------|-------------------------------|
-| Chromosome scope | Everything (incl. scaffolds) | chrom.sizes only | chrom.sizes only + zero-fill |
+| Aspect | Stage 1 (Vague) | Stage 2 (Format) | Stage 3 (Detailed) |
+|--------|-----------------|------------------|-------------------|
+| Chromosome scope | Everything | chrom.sizes only | chrom.sizes + zero-fill |
 | Exon definition | Duplicate-counted | Unique interval | Unique interval |
-| QC artifact | None | dropped_seqids.txt | Dropped count + line count + file |
+| QC artifact | None | dropped_seqids.txt | Count + line count + file |
 | Density | None | None | 4 per_Mb columns |
 | Sorting | None | None | gene_per_Mb descending |
-| Reusability | Low | Medium | High (publication-ready) |
+| **Reusability** | **Low** | **Medium** | **High (publication-ready)** |
 
-### QC Interpretation Points (Questions Students Must Answer)
+### QC Interpretation Questions
 
-1. **What seqids ended up in dropped_seqids.txt?** (Alternative contigs? Unplaced scaffolds? Mitochondrial?)
-2. **What fraction of total genes were dropped?** Could this fraction affect the analysis conclusions?
-3. **If the prompt had NOT specified using chrom.sizes**, what errors could have occurred **silently**?
+> ## Questions Students Must Answer
+> 1. What seqids ended up in `dropped_seqids.txt`? (Alternative contigs? Unplaced scaffolds? Mitochondrial?)
+> 2. What fraction of total genes were dropped? Could this affect conclusions?
+> 3. If the prompt had NOT specified using chrom.sizes, what errors could have occurred **silently**?
+{: .challenge}
 
 > ## Key Message
-> `dropped_seqids.txt` is not a failure log — it is a **declaration of what this analysis accepts as data**.
+> `dropped_seqids.txt` is not a failure log—it is a **declaration of what this analysis accepts as data**.
 {: .callout}
 
 ---
@@ -644,29 +600,27 @@ Dropped feature lines: 1823
 
 ### Background
 
-Analyze time-course (Zeitgeber Time) TPM expression data from ice plant (*Mesembryanthemum crystallinum*). To keep computation and interpretation manageable, **extract only the top 200 genes by coefficient of variation (CV)** and visualize their expression patterns.
+Analyze time-course (Zeitgeber Time) TPM expression data from ice plant (*Mesembryanthemum crystallinum*). Extract the **top 200 genes by coefficient of variation (CV)** and visualize their expression patterns.
 
-```bash
-# Data source
-# https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling
-# iceplant_TPM_DT_ZT.tab.gz
-```
+**Data source:** [Ice-plant-transcriptome-profiling](https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling)
 
 **Data structure:**
 
 | Column | Description |
 |--------|-------------|
 | gene_id | Gene identifier (e.g., Mc01g0010) |
-| DT_ZT2_rep1 through DT_ZT22_rep3 | 6 time points × 3 replicates = 18 samples, TPM values |
+| DT_ZT2_rep1 through DT_ZT22_rep3 | 6 time points × 3 replicates = 18 samples |
 
 - DT = Day Treatment, ZT = Zeitgeber Time
-- ZT2, ZT6, ZT10, ZT14, ZT18, ZT22 (4-hour intervals)
+- Time points: ZT2, ZT6, ZT10, ZT14, ZT18, ZT22 (4-hour intervals)
 
 ### Critical Design Decisions
 
-**1. mean >= 1 filter**: Genes with near-zero TPM can produce infinite or artificially extreme CV values
-**2. CV = sd / mean**: Measures relative variability independent of absolute expression level
-**3. log2(TPM + 1) transformation**: Reduces the influence of extreme values in heatmap visualization
+| Decision | Rationale |
+|----------|-----------|
+| **mean >= 1 filter** | Genes with near-zero TPM produce infinite/extreme CV values |
+| **CV = sd / mean** | Measures relative variability independent of expression level |
+| **log2(TPM + 1)** | Reduces influence of extreme values in heatmap |
 
 ---
 
@@ -683,11 +637,12 @@ top200 <- head(sort(vars, decreasing=TRUE), 200)
 heatmap(as.matrix(data[names(top200), ]))
 ```
 
-**Problems:**
-- Uses variance instead of CV → biased toward highly expressed genes
-- No mean >= 1 filter → noise genes creep into the top ranks
-- No file output, no image size/resolution control
-- No log2 transformation → heatmap color scale is dominated by extreme values
+> ## Problems with Stage 1
+> - Uses variance instead of CV → biased toward highly expressed genes
+> - No mean >= 1 filter → noise genes in top ranks
+> - No file output, no image size/resolution control
+> - No log2 transformation → color scale dominated by extremes
+{: .caution}
 
 ---
 
@@ -754,6 +709,7 @@ cat("Saved: results/iceplant_cv_top200.tsv\n")
 ```
 
 **Improvements:** Explicit CV definition, mean >= 1 filter, TSV output
+
 **Still missing:** No heatmap generated, no plot specifications
 
 ---
@@ -841,21 +797,23 @@ cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
 
 ---
 
-### Example 2 Comparison Summary
+### Example 2: Comparison Summary
 
-| Aspect | Stage 1 (Vague) | Stage 2 (Format specified) | Stage 3 (Detailed constraints) |
-|--------|-----------------|---------------------------|-------------------------------|
+| Aspect | Stage 1 (Vague) | Stage 2 (Format) | Stage 3 (Detailed) |
+|--------|-----------------|------------------|-------------------|
 | Variability metric | Variance | CV (sd/mean) | CV (sd/mean) |
 | Filtering | None | mean >= 1 | mean >= 1 |
 | Data transformation | None | None | log2(TPM+1) |
 | File output | None | TSV | TSV + PNG (size/dpi specified) |
-| Reusability | Low | Medium | High |
+| **Reusability** | **Low** | **Medium** | **High** |
 
 ### Interpretation Points
 
-- Without the `mean >= 1` filter, genes with near-zero expression but a single spike dominate the top ranks
-- CV captures **relative variability independent of absolute expression** → enables fair comparison across expression levels
-- `log2(TPM+1)` transformation equalizes the heatmap color distribution, making expression patterns visible
+> ## Key Insights
+> - Without `mean >= 1` filter, genes with near-zero expression but a single spike dominate top ranks
+> - CV captures **relative variability independent of absolute expression** → fair comparison across expression levels
+> - `log2(TPM+1)` transformation equalizes heatmap color distribution, making patterns visible
+{: .callout}
 
 ---
 
@@ -863,15 +821,16 @@ cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
 
 ---
 
-## Homework 1 (Python): mRNA FASTA Analysis + GC Distribution Graph Page
+## Homework 1 (Python): mRNA FASTA Analysis + GC Distribution Graph
 
 ### Problem Description
 
 Extract sequence information from the UCSC human mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a graph and an HTML report page.
 
-### Objective
-
-**Write a single prompt using vibe coding that produces the desired result in one shot.** The goal is to get all outputs correct from a single, well-crafted prompt.
+> ## Objective
+> **Write a single prompt using vibe coding that produces the desired result in one shot.**
+> The goal is to get all outputs correct from a single, well-crafted prompt.
+{: .objectives}
 
 ### Input Data
 
@@ -887,19 +846,21 @@ CGGCAGCGGCTGCGGGGAGGATGGCGGCGACGGCGACTTTTAAATATATTGG...
 
 ### Expected Output
 
-1. **`results/mrna_metrics.tsv`**: accession, length, gc_content (4 decimal places, sorted by gc_content descending, top 20 only)
-2. **`results/gc_content_distribution.png`**: Histogram + density curve (1600×900 px, dpi 200)
-   - Bins: 0.00 to 1.00, step 0.01
-   - Bar color: light gray; border: dark gray
-   - Density curve: blue, line width 2.0
-   - Mean: red dashed vertical line; Median: green dashed vertical line
-   - Caption showing n, mean, median, sd
-3. **`results/gc_content_distribution.svg`**: Same graph in SVG format
-4. **`docs/gc_content_distribution.html`**: Title + summary statistics + embedded PNG image
+| Output | Specification |
+|--------|---------------|
+| `results/mrna_metrics.tsv` | accession, length, gc_content (4 decimals, sorted by gc_content desc, top 20) |
+| `results/gc_content_distribution.png` | Histogram + density curve (1600×900 px, dpi 200) |
+| `results/gc_content_distribution.svg` | Same graph in SVG format |
+| `docs/gc_content_distribution.html` | Title + summary statistics + embedded PNG |
+
+**Plot specifications:**
+- Bins: 0.00 to 1.00, step 0.01
+- Bar color: light gray; border: dark gray
+- Density curve: blue, line width 2.0
+- Mean: red dashed vertical line; Median: green dashed vertical line
+- Caption showing n, mean, median, sd
 
 ### Chart Selection Discussion (In-Class Activity)
-
-Use the following prompt to have the AI compare chart types before making a graph:
 
 ~~~
 I want to show the distribution of gc_content values.
@@ -919,9 +880,9 @@ Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.co
 
 | Criterion | Weight | Description |
 |-----------|--------|-------------|
-| Prompt quality | 40% | Did you specify input format, accession parsing rule, gzip handling, and output specs (filename, columns, decimals, sorting, graph size/color/font)? |
+| Prompt quality | 40% | Input format, accession parsing, gzip handling, output specs (filename, columns, decimals, sorting, graph size/color/font) |
 | Code correctness | 40% | Correct gzip streaming parse, accurate computation, all 4 files generated |
-| Result interpretation | 20% | Explain 3 possible biological/technical reasons why the top-20 GC content values are high |
+| Result interpretation | 20% | Explain 3 possible biological/technical reasons for high top-20 GC content values |
 
 ---
 
@@ -929,7 +890,7 @@ Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.co
 
 ### Problem Description
 
-Using the 200 genes from the `results/iceplant_cv_top200.tsv` file generated in Example 2:
+Using the 200 genes from `results/iceplant_cv_top200.tsv` (from Example 2):
 
 1. **Z-score normalize** (row-wise)
 2. **Hierarchical clustering** (ward.D2 method, euclidean distance)
@@ -937,15 +898,15 @@ Using the 200 genes from the `results/iceplant_cv_top200.tsv` file generated in 
 4. **Save cluster mean expression pattern** line plots
 5. **Save cluster assignment** table as TSV
 
-### Objective
-
-Practice writing prompts that **precisely control R visualization output**.
+> ## Objective
+> Practice writing prompts that **precisely control R visualization output**.
+{: .objectives}
 
 ### Input Data
 
 ```bash
 # TSV from Example 2 + original TPM data
-# results/iceplant_cv_top200.tsv (used as gene_id list)
+# results/iceplant_cv_top200.tsv (gene_id list)
 # Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz (original TPM)
 ```
 
@@ -953,23 +914,25 @@ Practice writing prompts that **precisely control R visualization output**.
 
 **1. Clustered Heatmap** — `results/cv_top200_cluster_heatmap.pdf`
 
-- Data: Mean TPM per ZT time point → row-wise Z-score normalization
-  - Z-score = (value − row_mean) / row_sd
-- Rows: gene_id (hierarchical clustering, ward.D2, euclidean)
-- Columns: ZT time points (ZT2, ZT6, ZT10, ZT14, ZT18, ZT22) — fixed in chronological order
-- Colors: blue (low) → white (0) → red (high)
-- k=4 cutree result displayed as a color bar to the left of rows
-- PDF size: 8 × 12 inches
+| Specification | Value |
+|---------------|-------|
+| Data | Mean TPM per ZT → row-wise Z-score |
+| Z-score | (value − row_mean) / row_sd |
+| Rows | gene_id (hierarchical clustering, ward.D2, euclidean) |
+| Columns | ZT2, ZT6, ZT10, ZT14, ZT18, ZT22 (chronological, cluster_cols = FALSE) |
+| Colors | blue (low) → white (0) → red (high) |
+| Annotation | k=4 cutree as color bar |
+| Size | 8 × 12 inches |
 
 **2. Cluster Mean Pattern Line Plot** — `results/cluster_patterns.pdf`
 
-- 2×2 panel layout (facet_wrap)
-- Each panel: Mean TPM ± SD across ZT for genes in that cluster
-- X-axis: ZT (2, 6, 10, 14, 18, 22)
-- Y-axis: Mean TPM
-- Panel title format: "Cluster 1 (n=XX genes)"
-- Include error bars
-- PDF size: 10 × 8 inches
+| Specification | Value |
+|---------------|-------|
+| Layout | 2×2 panel (facet_wrap) |
+| Y-axis | Mean TPM ± SD |
+| X-axis | ZT (2, 6, 10, 14, 18, 22) |
+| Panel titles | "Cluster 1 (n=XX genes)" |
+| Size | 10 × 8 inches |
 
 **3. Assignment Table** — `results/cluster_assignment.tsv`
 
@@ -979,13 +942,11 @@ Practice writing prompts that **precisely control R visualization output**.
 | cluster | 1–4 |
 | peak_ZT | ZT with highest mean TPM |
 | trough_ZT | ZT with lowest mean TPM |
-| amplitude | max(mean_TPM) − min(mean_TPM), 2 decimal places |
+| amplitude | max − min (2 decimal places) |
 
-- Sort by cluster number ascending, then amplitude descending within each cluster
+Sort by cluster ascending, then amplitude descending within cluster.
 
 ### Prompt-Writing Hints
-
-Definitions that must appear in your prompt:
 
 ~~~
 Analysis procedure:
@@ -1010,9 +971,9 @@ For the line plot:
 
 | Criterion | Weight | Description |
 |-----------|--------|-------------|
-| Prompt quality | 40% | Did you specify Z-score definition, clustering method (ward.D2, euclidean), k=4, replicate-to-mean procedure, output filenames and specs? |
-| Code correctness | 40% | Accurate Z-score normalization, distance computation, clustering, cutree, summary statistics, all 3 files correctly generated |
-| Result interpretation | 20% | Interpret each of the 4 cluster expression patterns in the context of CAM photosynthesis (2 sentences per cluster, e.g., "Cluster 2 peaks during nighttime (ZT14–ZT22) → candidate CAM-related genes") |
+| Prompt quality | 40% | Z-score definition, clustering method (ward.D2, euclidean), k=4, replicate-to-mean procedure, output specs |
+| Code correctness | 40% | Accurate normalization, clustering, cutree, summary statistics, all 3 files generated |
+| Result interpretation | 20% | Interpret 4 cluster patterns in context of CAM photosynthesis (2 sentences per cluster) |
 
 ---
 
@@ -1054,37 +1015,40 @@ For the line plot:
 
 # Input/Output Prompt Checklist
 
-### When specifying input:
-- Filename and path
-- File format (GFF3, TSV, FASTA, etc.)
-- Compression (gzip or not)
-- Delimiter (tab, comma, space)
-- Header presence
-- Data structure (column names, what rows represent)
-- Special structures (e.g., GFF3 attribute parsing rules)
-- External reference files (chrom.sizes, etc.)
+> ## When Specifying Input
+> - Filename and path
+> - File format (GFF3, TSV, FASTA, etc.)
+> - Compression (gzip or not)
+> - Delimiter (tab, comma, space)
+> - Header presence
+> - Data structure (column names, what rows represent)
+> - Special structures (e.g., GFF3 attribute parsing rules)
+> - External reference files (chrom.sizes, etc.)
+{: .checklist}
 
-### When specifying output:
-- File format (TSV, CSV, PDF, PNG, SVG, HTML)
-- Filename
-- Column names and order
-- Decimal places
-- Sorting criterion (ascending/descending)
-- Filter conditions (top N, minimum threshold, etc.)
-- Plot: size, resolution, colors, font, legend position, axis range
-- QC artifacts (dropped items, summary statistics)
+> ## When Specifying Output
+> - File format (TSV, CSV, PDF, PNG, SVG, HTML)
+> - Filename
+> - Column names and order
+> - Decimal places
+> - Sorting criterion (ascending/descending)
+> - Filter conditions (top N, minimum threshold, etc.)
+> - Plot: size, resolution, colors, font, legend position, axis range
+> - QC artifacts (dropped items, summary statistics)
+{: .checklist}
 
-### When specifying analysis definitions:
-- Metric definitions (CV = sd/mean, Z-score = (x−mean)/sd)
-- Filter rules (mean >= 1)
-- Deduplication handling (unique intervals, etc.)
-- Transformation methods (log2(TPM+1))
-- Clustering parameters (method, distance metric, k)
+> ## When Specifying Analysis Definitions
+> - Metric definitions (CV = sd/mean, Z-score = (x−mean)/sd)
+> - Filter rules (mean >= 1)
+> - Deduplication handling (unique intervals, etc.)
+> - Transformation methods (log2(TPM+1))
+> - Clustering parameters (method, distance metric, k)
+{: .checklist}
 
 ---
 
 > ## Data Sources
-> - MGI GFF3: [http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz](http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz)
-> - Human mRNA: [https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz)
-> - Ice Plant TPM: [https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling](https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling)
+> - **MGI GFF3:** [http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz](http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz)
+> - **Human mRNA:** [https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz)
+> - **Ice Plant TPM:** [https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling](https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling)
 {: .callout}

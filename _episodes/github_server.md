@@ -341,7 +341,7 @@ Push sends your committed changes from your local repository to the remote repos
 $ git push origin main
 ```
 
-### Check Repository Status
+### `git status` -- Check Repository Status
 ```bash
 $ git status
 ```
@@ -351,7 +351,7 @@ Your branch is up to date with 'origin/main'.
 nothing to commit, working tree clean
 ```
 
-### Pull Updates from GitHub
+### `git pull` -- Download Updates from GitHub
 
 Pull downloads changes from GitHub and merges them into your local branch. It combines two operations: **fetch** (download changes) and **merge** (integrate them).
 
@@ -363,7 +363,7 @@ Pull downloads changes from GitHub and merges them into your local branch. It co
 $ git pull origin main
 ```
 
-### Viewing History
+### `git log` / `git diff` -- Viewing History
 ```bash
 # View commit history
 $ git log --oneline
@@ -400,6 +400,18 @@ When you create a new branch, Git creates a new pointer that starts at the same 
 # Create and switch to a new branch
 $ git checkout -b feature-branch
 ```
+
+> ## Modern Alternative: `git switch`
+> In newer versions of Git (2.23+), `git switch` replaces `git checkout` for branch operations:
+> ```bash
+> # Create and switch to a new branch
+> $ git switch -c feature-branch
+>
+> # Switch to an existing branch
+> $ git switch main
+> ```
+> Both `git checkout` and `git switch` work -- use whichever you prefer.
+{: .callout}
 
 ### Switching Between Branches
 
@@ -449,8 +461,22 @@ When the same lines of a file are changed differently in two branches, Git canno
 
 ![Git Merge Conflict Resolution Animation]({{site.baseurl}}/fig/git_merge_conflict.gif)
 
+Git marks the conflicting sections in the file with special markers:
+```
+<<<<<<< HEAD
+print("Hello from main branch")
+=======
+print("Hello from feature branch")
+>>>>>>> feature-branch
+```
+
+To resolve the conflict:
+1. Open the file and find the conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
+2. Choose which version to keep (or combine both)
+3. Remove all conflict markers
+4. Stage and commit:
+
 ```bash
-# After resolving conflicts in the file:
 $ git add resolved-file.txt
 $ git commit -m "Resolve merge conflict"
 ```
@@ -626,7 +652,7 @@ When working with others, understanding the relationship between remote and loca
 
 ![Remote and Local Repositories]({{site.baseurl}}/fig/git_remote_local.png)
 
-### 10.1 Forking a Repository
+### Forking a Repository
 If you want to contribute to someone else's project, you can create a fork:
 - Navigate to the repository you want to fork.
 - Click the **Fork** button in the top-right corner.
@@ -637,7 +663,7 @@ Clone your forked repository to work on it locally:
 $ git clone git@github.com:your-username/repository-name.git
 ```
 
-### 10.2 Creating a Pull Request
+### Creating a Pull Request
 
 A pull request (PR) is a way to propose changes you've made on a branch to be merged back into the main branch. Other collaborators can review, discuss, and approve the changes before merging.
 
@@ -648,19 +674,19 @@ After making changes in your forked repository:
 - Go to the original repository and click **Pull requests** > **New pull request**.
 - Select your fork and branch, then submit the pull request.
 
-### 10.3 Managing Issues
+### Managing Issues
 Issues are used to track tasks, enhancements, and bugs.
 - Go to the **Issues** tab in your repository.
 - Click **New issue**.
 - Fill in the title and description, then submit.
 
-### 10.4 Code Reviews
+### Code Reviews
 Collaborators can review pull requests, suggest changes, and approve merges.
 - Use comments to provide feedback.
 - Request changes if necessary.
 - Approve and merge once the code meets standards.
 
-### 10.5 GitHub Flow
+### GitHub Flow
 
 GitHub Flow is a simplified branching model ideal for most projects. It uses a single `main` branch with short-lived feature branches.
 
@@ -674,7 +700,7 @@ GitHub Flow is a simplified branching model ideal for most projects. It uses a s
 
 ## 11. Best Practices for Bioinformatics Projects
 
-### 11.1 Organize Your Repository
+### Organize Your Repository
 Structure your repository to make it easy to navigate. A typical bioinformatics repo might include:
 - `README.md`: Project overview and instructions.
 - `data/`: Raw and processed datasets.
@@ -682,7 +708,7 @@ Structure your repository to make it easy to navigate. A typical bioinformatics 
 - `results/`: Output files and visualizations.
 - `docs/`: Additional documentation.
 
-### 11.2 Write Clear Commit Messages
+### Write Clear Commit Messages
 Use descriptive commit messages to explain what changes were made and why.
 
 **Good Example:**
@@ -695,7 +721,7 @@ Add script for RNA-seq data normalization
 Update stuff
 ```
 
-### 11.3 Use .gitignore Files
+### Use .gitignore Files
 Exclude unnecessary files (e.g., large datasets, temporary files) from your repository by creating a `.gitignore` file.
 
 **Example `.gitignore`:**
@@ -709,13 +735,13 @@ Exclude unnecessary files (e.g., large datasets, temporary files) from your repo
 *.log
 ```
 
-### 11.4 Document Your Work
+### Document Your Work
 Maintain clear documentation to help others understand and reproduce your analyses.
 - Update the `README.md` with project details.
 - Comment your scripts thoroughly.
 - Use Markdown for well-formatted documentation.
 
-### 11.5 Version Control for Data
+### Version Control for Data
 While Git handles code effectively, managing large datasets can be challenging. Consider using [Git LFS (Large File Storage)](https://git-lfs.github.com/) for large files.
 
 **Installing Git LFS:**
@@ -732,7 +758,7 @@ $ git lfs track "*.fastq.gz"
 
 ## 12. Advanced Git Commands
 
-### 12.1 Git Stash - Save Work Temporarily
+### Git Stash - Save Work Temporarily
 When you need to switch branches but have uncommitted changes, `git stash` temporarily saves your work without committing it.
 
 ![Git Stash]({{site.baseurl}}/fig/git_stash.png)
@@ -756,7 +782,7 @@ $ git stash pop
 $ git stash apply stash@{0}
 ```
 
-### 12.2 Git Rebase - Clean History
+### Git Rebase - Clean History
 Rebase replays your commits on top of another branch's latest commit, creating a cleaner, linear project history.
 
 ![Git Rebase]({{site.baseurl}}/fig/git_rebase.png)
@@ -774,7 +800,7 @@ $ git rebase main
 > **Never rebase commits that have been pushed to a shared repository!**
 {: .callout}
 
-### 12.3 Git Cherry-pick - Select Specific Commits
+### Git Cherry-pick - Select Specific Commits
 Apply a specific commit from another branch:
 
 ```bash
@@ -790,7 +816,7 @@ a1b2c3d Fix critical bug in alignment script
 $ git cherry-pick a1b2c3d
 ```
 
-### 12.4 Undoing Changes
+### Undoing Changes
 
 Git provides several ways to undo changes depending on how far along you are in the workflow.
 
@@ -819,7 +845,7 @@ To safely undo a commit that has already been pushed, use `git revert` which cre
 $ git revert <commit-hash>
 ```
 
-### 12.5 Git Tags - Mark Important Points
+### Git Tags - Mark Important Points
 Tags are useful for marking releases:
 
 ```bash
@@ -835,7 +861,7 @@ $ git push origin --tags
 
 ## 13. Git Workflows for Bioinformatics
 
-### 13.1 Feature Branch Workflow
+### Feature Branch Workflow
 ```
 main ─────●─────●─────●─────●─────●
            \         /
@@ -860,7 +886,7 @@ $ git pull origin main
 $ git branch -d feature/add-qc-script
 ```
 
-### 13.2 Bioinformatics Project Structure
+### Bioinformatics Project Structure
 ```
 my_rnaseq_project/
 ├── README.md
@@ -882,7 +908,7 @@ my_rnaseq_project/
     └── tables/
 ```
 
-### 13.3 Example .gitignore for Bioinformatics
+### Example .gitignore for Bioinformatics
 ```
 # Large data files
 *.fastq
@@ -929,6 +955,7 @@ __pycache__/
 | `git branch <name>` | Create branch |
 | `git checkout <branch>` | Switch branch |
 | `git checkout -b <name>` | Create & switch branch |
+| `git switch -c <name>` | Create & switch branch (modern) |
 | `git merge <branch>` | Merge branch |
 | `git log --oneline` | View history |
 | `git diff` | View changes |
@@ -936,7 +963,7 @@ __pycache__/
 | `git revert <hash>` | Undo a commit safely |
 | `git reset --hard HEAD~1` | Undo last commit |
 
-## Example: Cloning a Bioinformatics Tool from GitHub
+## 15. Example: Cloning a Bioinformatics Tool from GitHub
 
 Many bioinformatics tools are available on GitHub:
 
