@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 8_Transcriptome Assembly
+title: 08_Transcriptome Assembly
 published: true
 ---
 

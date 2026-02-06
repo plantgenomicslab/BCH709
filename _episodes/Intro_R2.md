@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 6_Introduction of R & R plotting II
+title: 06_Introduction of R & R plotting II
 published: true
 ---
 

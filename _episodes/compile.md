@@ -1,15 +1,20 @@
 ---
 layout: page
-title: Compile and Software installation
+title: 03_Software Installation and Package Management
 published: true
 ---
 
 {% include gh_variables.html %}
 
+This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), the Micromamba/Conda ecosystem for bioinformatics, and compiling software from source code.
 
 ![software_compile](../fig/software-compiler.png)
 
-## macOS
+---
+
+## System Prerequisites
+
+### macOS
 
 > ### Install Homebrew
 > Homebrew is a package manager for macOS. Install it with:
@@ -27,7 +32,7 @@ published: true
 $ brew install openssl readline sqlite3 xz wget
 ```
 
-## Ubuntu on Windows (WSL)
+### Ubuntu/WSL
 
 Install essential build tools and libraries:
 ```bash
@@ -35,8 +40,9 @@ $ sudo apt update
 $ sudo apt install -y build-essential git curl wget libssl-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev zlib1g-dev
 ```
 
-## Install test package!
-### On Ubuntu systems:
+### Verify Installation
+
+**On Ubuntu/WSL:**
 ```bash
 $ sudo apt install screenfetch
 $ screenfetch
@@ -46,98 +52,91 @@ $ screenfetch
 ```bash
 $ brew install screenfetch
 $ screenfetch
-
 ```
 
+---
 
-### Programming Languages
+## Programming Languages Overview
 
 | Type | Languages |
 |------|-----------|
 | Compiled | FORTRAN, C, C++, Java, Rust, Go |
 | Interpreted | Unix-Shell, awk, Perl, Ruby, Python, R, JavaScript |
 
+### Bioinformatics Languages
 
-
-#### **Perl**
+#### Perl
 Perl is flexible and has a global repository (CPAN), which makes it easy to install new modules. It also has BioPerl, one of the first biological unit repositories, enhancing usability for tasks such as phylogenetic analysis. Although Perl was widely used, Python has become more popular due to its ease of use, especially for beginners.
 
-
-
-#### **R & Python**
+#### R & Python
 R is excellent for statistical analysis, but if you prefer coding, Python might suit you more. Python's rules are easier to follow, making it more beginner-friendly. It's also easier to develop command-line tools in Python, and there are useful bioinformatics packages available in Python.
 
+#### Bash
+Bash (or shell scripting) is essential for bioinformaticians. It's a powerful tool for data manipulation (sorting, filtering, etc.) and is often used on institutional clusters. It may seem intimidating at first, but with time, you will find it very efficient for repetitive tasks and system administration.
 
+#### Recommendation for Beginners
 
-#### **Bash**
-Bash (or shell scripting) is essential for bioinformaticians. It’s a powerful tool for data manipulation (sorting, filtering, etc.) and is often used on institutional clusters. It may seem intimidating at first, but with time, you will find it very efficient for repetitive tasks and system administration.
-
-
-### Python, Perl, R and bash
 For wet-lab researchers starting with bioinformatics, R is a good choice to learn first. If you aim for a bioinformatics career, knowing R, Python, and Bash is recommended. For beginners, focusing on either R or Python, while learning Bash, can still be effective.
 
-
-### Other programming languages
+### Other Languages
 
 #### C and C++
 C and C++ are great for high-performance tools like aligners, but they are harder to learn and take more code to accomplish tasks that can be done more simply in Python.
 
-
 #### Ruby
 Ruby is popular for web applications but lacks the package support for bioinformatics that Python and R have.
-
 
 #### JavaScript or PHP
 These languages are better suited for web applications. Bioinformatics should start with Python or R before considering web development languages.
 
-
 #### Java
 Java has some uses in bioinformatics (e.g., IGV genome browser), but it's not beginner-friendly, especially when compared to Python or R.
 
-
-
 ![language]({{site.baseurl}}/fig/language.png)
 
+### Packages, Libraries, and Modules
 
-### Package Library Module
+| Term | Description |
+|------|-------------|
+| **Library** | A collection of related packages or modules (e.g., Python Standard Library) |
+| **Module** | A single file containing code that can be imported and reused |
+| **Package** | A collection of related modules organized in a specific structure |
 
-#### Library 
-Refers to a collection of related packages or modules. It’s often used to describe the Python Standard Library, which contains many modules that provide additional functionality.
+### Language Package Managers
 
+| Language | Package Manager |
+|----------|-----------------|
+| Python | pip |
+| Perl | CPAN |
+| R | Built-in (`install.packages()`) |
 
-#### Module 
-A module is a single file containing Python code. When you import a module, Python executes the code inside that file. Modules make code more reusable and manageable.
+---
 
+## File Permissions
 
-#### Package
-A package is a collection of related modules that work together. It usually includes several files and folders organized in a specific structure.
+![File permissions overview]({{site.baseurl}}/fig/linux_file_permissions.png)
 
+### Understanding `ls -l` Output
 
-### Programming languages module or library manager
-Python - pip  
-Perl - cpan  
-R - native manager  
+![File permission breakdown]({{site.baseurl}}/fig/file_permission.png)
+![Permission types]({{site.baseurl}}/fig/file_permission2.png)
 
-## File Permission
+### Using chmod (Change Mode)
 
-![language]({{site.baseurl}}/fig/linux_file_permissions.png)
+The `chmod` command changes file access permissions. Permissions control who can read, write, or execute files.
 
-### Understanding of attribute which can be out put by `ls -l`:
-![language]({{site.baseurl}}/fig/file_permission.png)
-![language]({{site.baseurl}}/fig/file_permission2.png)
+![Applying permissions]({{site.baseurl}}/fig/file_permission3.png)
+![Permission examples]({{site.baseurl}}/fig/file_permission4.png)
 
-### Chmod (Change mode)
-chmod is the command and system call which is used to change the access permissions of file system objects (files and directories). It is also used to change special mode flags. The request is filtered by the umask. The name is an abbreviation of change mode.
+### Octal Notation for Permissions
 
-### Applying Permission:
-![language]({{site.baseurl}}/fig/file_permission3.png)
-![language]({{site.baseurl}}/fig/file_permission4.png)
+![Octal permissions]({{site.baseurl}}/fig/file_permission5.png)
 
-### Using Octal number for Permissions:
-![language]({{site.baseurl}}/fig/file_permission5.png)
+---
 
+## System Information
 
-## Check your CPUs and Memory
+### Check CPUs and Memory
 
 Understanding your system resources is important for running bioinformatics tools efficiently.
 
@@ -161,7 +160,8 @@ $ nproc
 > $ echo "CPUs: $(nproc), Memory: $(free -h | awk '/^Mem:/ {print $2}')"
 > ```
 {: .callout}
-### RC file such as .bashrc, .zshrc
+
+### Shell Configuration Files (.bashrc, .zshrc)
 
 RC files configure the environment and prepare the system to run specific software. These are commonly used in Unix-like systems to automate shell configurations.
 
@@ -186,9 +186,11 @@ RC files configure the environment and prepare the system to run specific softwa
 > For information on connecting to Pronghorn HPC cluster, see the [HPC Cluster lesson](HPC_cluster.html).
 {: .callout}
 
+---
 
-## Linux family tree
-[Linux family tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
+## System Package Management
+
+For reference: [Linux Distribution Family Tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
 
 > ## Package Management Concepts
 >![package](../fig/package-management.png)
@@ -210,27 +212,20 @@ RC files configure the environment and prepare the system to run specific softwa
 {: .prereq}  
 
 > ## Advanced Packaging Tool (APT)
-> You may already be familiar with apt-get, a command which uses the advanced packaging tool to interact with the operating system’s package system. The most relevant and useful commands are (to be run with root privileges):
+> APT is the package management system for Debian-based distributions (Ubuntu, Linux Mint, etc.). The modern `apt` command combines the most commonly used features of `apt-get` and `apt-cache`:
 >
-> - 'apt-get install package-name(s)' - Installs the package(s) specified, along with any dependencies.
-> - 'apt-get remove package-name(s)' - Removes the package(s) specified, but does not remove dependencies.
-> - 'apt-get autoremove' - Removes any orphaned dependencies, meaning those that remain installed but are no longer required.
-> - 'apt-get clean' - Removes downloaded package files (.deb) for software that is already installed.
-> - 'apt-get purge package-name(s)' - Combines the functions of remove and clean for a specific package, as well as configuration files.
-> - 'apt-get update' - Reads the /etc/apt/sources.list file and updates the system’s database of packages available for installation. Run this after changing sources.list.
-> - 'apt-get upgrade' - Upgrades all packages if there are updates available. Run this after running apt-get update.
-> While apt-get provides the most often-used functionality, APT provides additional information in the apt-cache command.
-> 
-> - 'apt-cache search package-name(s)' - If you know the name of a piece of software but apt-get install fails or points to the wrong software, this looks for other possible names.
-> - 'apt-cache show package-name(s)' - Shows dependency information, version numbers and a basic description of the package.
-> - 'apt-cache depends package-name(s)' - Lists the packages that the specified packages depends upon in a tree. These are the packages that will be installed with the apt-get install command.
-> - 'apt-cache rdepends package-name(s)' - Outputs a list of packages that depend upon the specified package. This list can often be rather long, so it is best to pipe its output through a command, like less.
-> - 'apt-cache pkgnames' - Generates a list of the currently installed packages on your system. This list is often rather long, so it is best to pipe its output through a program, like less, or direct the output to a text file.
-> Combining most of these commands with apt-cache show can provide you with a lot of useful information about your system, the software that you might want to install, and the software that you have already installed.
-{: .callout}
-
-> ## Aptitude
-> Aptitude is another front-end interface for APT. In addition to a graphical interface, Aptitude provides a combined command-line interface for most APT functionality. Some notable commands are:
+> **Common apt commands (require sudo):**
+> - `sudo apt update` - Update package list from repositories
+> - `sudo apt upgrade` - Upgrade all installed packages
+> - `sudo apt install <package>` - Install a package
+> - `sudo apt remove <package>` - Remove a package (keep config files)
+> - `sudo apt purge <package>` - Remove package and config files
+> - `sudo apt autoremove` - Remove orphaned dependencies
+> - `sudo apt search <keyword>` - Search for packages
+> - `sudo apt show <package>` - Show package details
+> - `sudo apt list --installed` - List installed packages
+>
+> **Note:** The older `apt-get` and `apt-cache` commands still work, but `apt` is recommended for interactive use as it provides better output formatting and progress bars.
 {: .callout}
 
 > ## Using dpkg
@@ -242,27 +237,40 @@ RC files configure the environment and prepare the system to run specific softwa
 > - 'dpkg-reconfigure package-name(s)' - Runs a configuration interface on an already installed package
 {: .callout}
 
-> ## Fedora and CentOS Package Management
-> Fedora and CentOS are closely related distributions, being upstream and downstream (respectively) from Red Hat Enterprise Linux (RHEL). Their main differences stem from how packages are chosen for inclusion in their repositories.
+> ## RHEL-based Package Management (Fedora, Rocky, Alma)
+> Red Hat Enterprise Linux (RHEL) and its derivatives use the `dnf` package manager (which replaced the older `yum`).
 >
-> CentOS uses yum, Yellowdog Updater, Modified, as a front end to interact with system repositories and install dependencies, and also includes a lower-level tool called rpm, which allows you to interact with individual packages.
+> **Popular RHEL-based distributions:**
+> - **Fedora** - Cutting-edge, upstream of RHEL
+> - **Rocky Linux** - Community-driven RHEL rebuild (replaced CentOS)
+> - **AlmaLinux** - Another RHEL rebuild, backed by CloudLinux
 >
-> Starting with version 22, Fedora uses the dnf package manager instead of YUM to interact with rpm. DNF supports many of the same commands as YUM, with some slight changes.
+> **Common dnf commands:**
+> - `sudo dnf update` - Update all packages
+> - `sudo dnf install <package>` - Install a package
+> - `sudo dnf remove <package>` - Remove a package
+> - `sudo dnf search <keyword>` - Search for packages
+> - `sudo dnf list installed` - List installed packages
+> - `sudo dnf info <package>` - Show package details
 >
-> Note: Many operating systems aside from RedHat use rpm packages. These include OpenSuSE, AIX, and Mandriva. While it may be possible to install an RPM packaged for one operating system on another, this is not supported or recommended, and the results of this action can vary greatly.
+> **Note:** CentOS Linux was discontinued in 2021. Rocky Linux and AlmaLinux are the recommended replacements for production servers.
 {: .callout}
 
 > ## How about macOS?
-> Homebrew is package manager for Macs which makes installing lots of different software like Git, Ruby, and Node simpler. Homebrew lets you avoid possible security problems associated with using the sudo command to install software like Node.
-> Homebrew has made extensive use of GitHub to expand the support of several packages through user contributions. In 2010, Homebrew was the third-most-forked repository on GitHub. In 2012, Homebrew had the largest number of new contributors on GitHub. In 2013, Homebrew had both the largest number of contributors and issues closed of any project on GitHub.
-> Homebrew has spawned several sub-projects such as Linuxbrew, a Linux port now officially merged into Homebrew; Homebrew Cask, which builds upon Homebrew and focuses on the installation of GUI applications and "taps" dedicated to specific areas or programming languages like PHP.
+> Homebrew is the most popular package manager for macOS. It simplifies installing software like Git, Python, and development tools without requiring `sudo` for most operations.
+>
+> Key features:
+> - **Homebrew Core**: Command-line tools and libraries
+> - **Homebrew Cask**: GUI applications (VS Code, Chrome, etc.)
+> - **Taps**: Third-party repositories for specialized software
+> - Works on both Intel and Apple Silicon Macs
 {: .prereq}
 
 > ## macOS Requirements
-> A 64-bit Intel CPU 
-> macOS 10.12 (or higher)
-> [Command Line Tools (CLT) for Xcode](https://plantgenomicslab.github.io/BCH709/CLT/index.html)
-> A Bourne-compatible shell for installation (e.g. bash or zsh)
+> - macOS 11 (Big Sur) or higher
+> - Intel or Apple Silicon (M1/M2/M3/M4) processor
+> - [Command Line Tools (CLT) for Xcode](https://plantgenomicslab.github.io/BCH709/CLT/index.html)
+> - A Bourne-compatible shell (bash or zsh)
 {: .prereq}  
 
 [![homebrew](../fig/homebrew-logo.png)](https://brew.sh/)
@@ -278,112 +286,85 @@ RC files configure the environment and prepare the system to run specific softwa
 > ```
 {: .callout}
 
-## List installed packages
----
-We can get a list of all the installed packages on a Debian / Ubuntu server by issuing:
+### Common Package Management Commands
 
-```bash
-$ sudo dpkg --get-selections
-```
-Ubuntu server by issuing:
-```bash
-$ apt list --installed
-```
-on macOS
-```bash
-$ brew list
-```
+| Task | Ubuntu/Debian (APT) | macOS (Homebrew) | RHEL/Rocky/Alma (DNF) |
+|------|---------------------|------------------|----------------------|
+| List installed | `sudo apt list --installed` | `brew list` | `sudo dnf list installed` |
+| Search packages | `sudo apt search <pkg>` | `brew search <pkg>` | `sudo dnf search <pkg>` |
+| Install package | `sudo apt install <pkg>` | `brew install <pkg>` | `sudo dnf install <pkg>` |
+| Remove package | `sudo apt remove <pkg>` | `brew uninstall <pkg>` | `sudo dnf remove <pkg>` |
+| Update package list | `sudo apt update` | `brew update` | `sudo dnf check-update` |
+| Upgrade all | `sudo apt upgrade` | `brew upgrade` | `sudo dnf update` |
 
-On RPM systems:
+### Installing Specific Versions
+
+**Ubuntu:**
 ```bash
-$ yum list installed
-```
-On BSD systems:
-```bash
-$ pkg_version
-```
-It is good practice to save this file as it can be useful when migrating, so we pipe it into a file:
-```bash
-$ dpkg --get-selections > ~/package_list
- #yum list installed
- #pkg_version
-```
-To search for a specific package run:
-```bash
-dpkg --get-selections | grep <package>
-yum list installed "package_name"
+# Check available versions
+$ sudo apt-cache policy <package-name>
+
+# Install specific version (example)
+$ sudo apt install vim=2:9.0.1000-1ubuntu1
 ```
 
-## Search packages
-On Ubuntu systems: 
-```
-apt search <package-name>
-```
+**macOS:**
 ```bash
-apt search firefox
-apt search ^firefox 
-```
-
-On macOS systems:
-```
-brew search <package-name>
-```
-```bash
-$ brew search firefox
-$ brew search /^firefox/
-```
-\^ means regular expressions start of the line.
-
-## Install packages
-### Install single packages:
-On Ubuntu systems:
-```bash
-$ sudo apt install <package-name>
-```
-On macOS systems:
-```bash
-$ brew install <package-name>
-```
-### Install multiple packages:
-On Ubuntu systems:
-```bash
-$ sudo apt install <package-name> <package-name> ...
-```
-On macOS systems:
-```bash
-$ brew install <package-name> <package-name> ...
-```
-## Install specific version
-### Search version
-On Ubuntu systems:
-```bash
-$ apt-cache policy <package-name>
-```
-On macOS systems:
-```bash
+# Search for versions
 $ brew search <package-name>
+
+# Install specific version (example)
+$ brew install python@3.11
 ```
-### Install specific version
-On Ubuntu systems:
+
+> **Tip:** Use `^` at the start of a search pattern for exact matching:
+> ```bash
+> $ sudo apt search ^firefox    # Ubuntu
+> $ brew search /^firefox/ # macOS
+> ```
+{: .callout}
+
+### Snap Package Manager (Ubuntu)
+
+Snap is a universal package manager developed by Canonical. It provides sandboxed applications that work across many Linux distributions.
+
+**Install snapd:**
 ```bash
-$ sudo apt install firefox=68.0.1+build1-0ubuntu0.18.04.1
+$ sudo apt update
+$ sudo apt install snapd
 ```
-On macOS systems:
+
+**Common snap commands:**
+
+| Task | Command |
+|------|---------|
+| Search packages | `snap find <pkg>` |
+| Install package | `sudo snap install <pkg>` |
+| List installed | `snap list` |
+| Update package | `sudo snap refresh <pkg>` |
+| Update all | `sudo snap refresh` |
+| Remove package | `sudo snap remove <pkg>` |
+| Package info | `snap info <pkg>` |
+
+**Example - Install VS Code via snap:**
 ```bash
-$ brew install firefox@68.0.2
+$ sudo snap install code --classic
 ```
 
+> **Note:** The `--classic` flag allows the app to access the system like a traditional package (needed for IDEs and development tools).
+{: .callout}
 
-## Software
+### Common Bioinformatics Software
 
-| Software | Version | Manual | Available for | Description |
-| -------- | ------------ | ------ | ------------- | ----------- |
-| [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | 0.11.7 | [Link](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)| Linux, MacOS, Windows | Quality control tool for high throughput sequence data. |
-| [HISAT2](https://daehwankimlab.github.io/hisat2/) | 2.1.0| [Link](https://daehwankimlab.github.io/hisat2/) | Linux, MacOS, Windows | Mapping RNA sequences against genome |
-| [BWA](http://bio-bwa.sourceforge.net/) | 0.7.17 | [Link](http://bio-bwa.sourceforge.net/bwa.shtml) | Linux, MacOS | Mapping DNA sequences against reference genome. |
+| Software | Description | Documentation |
+|----------|-------------|---------------|
+| [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) | Quality control for sequencing data | [Manual](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) |
+| [HISAT2](https://daehwankimlab.github.io/hisat2/) | RNA-seq read alignment | [Manual](https://daehwankimlab.github.io/hisat2/) |
+| [BWA](http://bio-bwa.sourceforge.net/) | DNA sequence alignment | [Manual](http://bio-bwa.sourceforge.net/bwa.shtml) |
 
+---
 
-## Micromamba
+## Micromamba/Conda for Bioinformatics
 
 Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
 
@@ -432,7 +413,7 @@ Micromamba is a fast, lightweight package manager that is fully compatible with 
 $ micromamba --version
 ```
 ```output
-1.5.6
+2.0.0
 ```
 
 ### Create Symbolic Link for Conda Command
@@ -451,7 +432,7 @@ Now you can use either `micromamba` or `conda`:
 $ conda --version
 ```
 ```output
-1.5.6
+2.0.0
 ```
 
 
@@ -460,7 +441,7 @@ $ conda --version
 To create a new environment with Python 3.10 and activate it:
 
 ```bash
-$ conda create -n bch709 python=3.10
+$ conda create -n bch709 python=3.12
 $ conda activate bch709
 ```
 ```output
@@ -527,7 +508,7 @@ $ conda install -c conda-forge r-base r-essentials
 
 | Command | Description |
 |---------|-------------|
-| `conda create -n <env> python=3.10` | Create new environment |
+| `conda create -n <env> python=3.12` | Create new environment |
 | `conda activate <env>` | Activate environment |
 | `conda deactivate` | Deactivate current environment |
 | `conda env list` | List all environments |
@@ -561,7 +542,7 @@ The `*` indicates the currently active environment.
 Create an environment with multiple packages at once:
 ```bash
 # Create environment with Python and packages
-$ conda create -n rnaseq python=3.10 hisat2 samtools fastqc
+$ conda create -n rnaseq python=3.12 hisat2 samtools fastqc
 
 # Create environment with specific versions
 $ conda create -n legacy python=2.7 biopython=1.70
@@ -644,7 +625,7 @@ $ conda activate bch709
 $ pip install some-package
 
 # Best practice: create environment with pip included
-$ conda create -n myenv python=3.10 pip
+$ conda create -n myenv python=3.12 pip
 ```
 
 > ## Warning: Mixing Conda and Pip
@@ -691,7 +672,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python=3.10.13
+  - python=3.12.13
   - numpy=1.24.0
   - pandas=2.0.3
   - hisat2=2.2.1
@@ -722,8 +703,8 @@ $ conda env update --name bch709 --file bch709_env.yaml
 
 ```bash
 # Create separate environments for each project
-$ conda create -n project_rnaseq python=3.10 hisat2 samtools
-$ conda create -n project_variant python=3.10 bwa gatk4
+$ conda create -n project_rnaseq python=3.12 hisat2 samtools
+$ conda create -n project_variant python=3.12 bwa gatk4
 ```
 
 #### 2. Document Your Environment
@@ -748,7 +729,7 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - python=3.10
+  - python=3.12
   - hisat2=2.2.1
   - samtools=1.17
   - fastqc=0.12.1
@@ -794,7 +775,7 @@ $ source ~/.bashrc
 If conda is slow or fails to solve:
 ```bash
 # Create minimal environment first
-$ conda create -n myenv python=3.10
+$ conda create -n myenv python=3.12
 
 # Then install packages one by one
 $ conda activate myenv
@@ -1360,12 +1341,13 @@ When your conda environment is active in VS Code terminal:
 
 ### References
 
-- Micromamba documentation: https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html
-- Conda-forge: https://conda-forge.org/
-- BioConda: https://bioconda.github.io/
-- Conda cheat sheet: https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html
-- VS Code Python: https://code.visualstudio.com/docs/python/environments
+- [Micromamba Documentation](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html)
+- [Conda-forge](https://conda-forge.org/)
+- [BioConda](https://bioconda.github.io/)
+- [Conda Cheat Sheet](https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html)
+- [VS Code Python Environments](https://code.visualstudio.com/docs/python/environments)
 
+---
 
 ## Compiling Software from Source
 
@@ -1475,8 +1457,9 @@ $ bwa mem reference.fasta reads.fastq > aligned.sam
 
 **Recommendation:** Use conda when possible. Compile from source only when needed.
 
+---
 
-## Advanced: Understanding Build Systems
+## Advanced: Build Systems
 
 ### Makefile Basics
 

@@ -191,7 +191,7 @@ Include a brief AI use statement with submissions:
 | Week3  | 2/3/2026  | Tuesday  | [Conda, Compile & Software Installations](compile/index.html)                            |
 | Week3  | 2/5/2026  | Thursday | [Conda, Compile & Software Installations](compile/index.html)                            |
 | Week4  | 2/10/2026 | Tuesday  | [GitHub and server](github_server/index.html)                                                  |
-| Week4  | 2/12/2026 | Thursday | Vibe coding                                                        |
+| Week4  | 2/12/2026 | Thursday | [Vibe coding](vibe_coding/index.html)                              |
 | Week5  | 2/17/2026 | Tuesday  | Sequence manipulation                                              |
 | Week5  | 2/19/2026 | Thursday | Sequence manipulation                                              |
 | Week6  | 2/24/2026 | Tuesday  | Sequencing methods and strategies                                  |
@@ -211,7 +211,7 @@ Include a brief AI use statement with submissions:
 | Week12 | 4/14/2026 | Tuesday  | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)  |
 | Week12 | 4/16/2026 | Thursday | Enrichment analysis                                                |
 | Week13 | 4/21/2026 | Tuesday  | Guest Lecture Dr. TongZhou                                         |
-| Week13 | 4/23/2026 | Thursday | Vibe coding examples                                               |
+| Week13 | 4/23/2026 | Thursday | [Vibe coding examples](vibe_coding/index.html)                     |
 | Week14 | 4/28/2026 | Tuesday  | Presentation & Discussions                                         |
 | Week14 | 4/30/2026 | Thursday | Presentation & Discussions                                         |
 | Week15 | 5/5/2026  | Tuesday  | Class Review                                                       |

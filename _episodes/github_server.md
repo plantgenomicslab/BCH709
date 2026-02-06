@@ -17,9 +17,20 @@ Git is a distributed version control system that allows you to track changes in 
 
 ### Why Version Control?
 Version control is essential in creating any project that takes longer than 5 minutes to complete. Even if your memory is longer than 5 minutes, next month you are not likely to be able to retrace your steps.
-![github-workflow](./fig/git_overview.png)
 
-![github](./fig/github_dri.png)
+![github-workflow]({{site.baseurl}}/fig/git_overview.png)
+
+![github]({{site.baseurl}}/fig/github_dri.png)
+
+### How Git Works: The Big Picture
+
+Git manages your project across four areas: your **Working Directory** (where you edit files), the **Staging Area** (where you prepare changes), the **Local Repository** (your committed history), and the **Remote Repository** (GitHub).
+
+![Git Workflow Overview]({{site.baseurl}}/fig/git_workflow_overview.png)
+
+The basic flow is: **edit** → **add** → **commit** → **push**. Here is this workflow in action:
+
+![Git Basic Workflow Animation]({{site.baseurl}}/fig/git_basic_workflow.gif)
 
 ## 1. Create a GitHub Account
 
@@ -217,14 +228,17 @@ Hi username! You've successfully authenticated, but GitHub does not provide shel
    - **Repository name**: e.g., `my-rnaseq-project`
    - **Description**: Brief description (optional)
    - **Public/Private**: Choose visibility
-   - **Initialize with README**: ✅ Check this box
+   - **Initialize with README**: Check this box
    - **Add .gitignore**: Select a template (e.g., Python, R)
    - **Choose a license**: MIT is common for open source
 4. Click **Create repository**
 
 ### Method 2: Clone the Repository to Your Computer
 
-After creating the repository on GitHub:
+After creating the repository on GitHub, you clone it to create a local copy. Cloning copies the entire repository -- all files and the full commit history -- to your machine.
+
+![Git Clone]({{site.baseurl}}/fig/git_clone.png)
+
 ```bash
 # Using SSH (recommended)
 $ git clone git@github.com:yourusername/my-rnaseq-project.git
@@ -271,7 +285,188 @@ $ git branch -M main
 $ git push -u origin main
 ```
 
-## 6. Using Git with VS Code
+## 6. Basic Git Commands
+
+### Git Workflow Overview
+
+Git uses a three-step process to save changes. Understanding this flow is the key to using Git effectively.
+
+```
+Working Directory  →  Staging Area  →  Local Repository  →  Remote Repository
+      (edit)           (git add)        (git commit)          (git push)
+```
+
+### Step 1: `git add` -- Stage Your Changes
+
+The staging area (also called the "index") is a holding zone where you prepare which changes to include in your next commit. This lets you selectively commit changes rather than committing everything at once.
+
+![Git Add - Staging Area]({{site.baseurl}}/fig/git_add_staging.png)
+
+You can stage files individually, allowing you to organize your commits by feature or logical group:
+
+![Staging Area Concept]({{site.baseurl}}/fig/git_staging_area.png)
+
+```bash
+# Add specific file
+$ git add filename.txt
+
+# Add all changed files
+$ git add .
+
+# Add all files matching pattern
+$ git add *.py
+```
+
+### Step 2: `git commit` -- Save a Snapshot
+
+A commit is a snapshot of your entire repository at a specific point in time. Each commit is identified by a unique SHA hash and includes a message describing the changes. Commits form a linked list, building your project's complete history.
+
+![Git Commit]({{site.baseurl}}/fig/git_commit.png)
+
+```bash
+$ git commit -m "Add analysis script for RNA-seq data"
+```
+```output
+[main 1a2b3c4] Add analysis script for RNA-seq data
+ 1 file changed, 50 insertions(+)
+```
+
+### Step 3: `git push` -- Upload to GitHub
+
+Push sends your committed changes from your local repository to the remote repository on GitHub, making them available to collaborators.
+
+![Git Push]({{site.baseurl}}/fig/git_push.png)
+
+```bash
+$ git push origin main
+```
+
+### Check Repository Status
+```bash
+$ git status
+```
+```output
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean
+```
+
+### Pull Updates from GitHub
+
+Pull downloads changes from GitHub and merges them into your local branch. It combines two operations: **fetch** (download changes) and **merge** (integrate them).
+
+![Git Fetch]({{site.baseurl}}/fig/git_fetch.png)
+
+![Git Pull]({{site.baseurl}}/fig/git_pull.png)
+
+```bash
+$ git pull origin main
+```
+
+### Viewing History
+```bash
+# View commit history
+$ git log --oneline
+```
+```output
+1a2b3c4 Add analysis script for RNA-seq data
+5e6f7g8 Initial commit
+```
+
+```bash
+# View changes in a file
+$ git diff filename.txt
+
+# View who changed each line
+$ git blame filename.txt
+```
+
+## 7. Working with Branches
+
+A branch is a separate version of your code within a repository. Branching allows you to work on different features or bug fixes in isolation without affecting the default codebase (often called `main`). Once satisfied, you can merge changes back into the main branch.
+
+### Why Branching Matters
+- **Protects the main branch**: The `main` branch serves as the stable version, often deployed to production
+- **Enables parallel development**: Multiple team members can work on different features simultaneously
+- **Supports experimentation**: Try new ideas without risking the stability of the main codebase
+
+### Creating a Branch
+
+When you create a new branch, Git creates a new pointer that starts at the same commit as the branch you branched from. As you make new commits, the branch pointer advances, while the original branch stays where it was.
+
+![Git Branch Create]({{site.baseurl}}/fig/git_branch_create.png)
+
+```bash
+# Create and switch to a new branch
+$ git checkout -b feature-branch
+```
+
+### Switching Between Branches
+
+Checking out a branch moves the `HEAD` pointer to point at the branch you are switching to. Your working directory is updated to reflect the state of that branch.
+
+![Git Checkout]({{site.baseurl}}/fig/git_checkout.png)
+
+```bash
+# Switch to an existing branch
+$ git checkout main
+```
+
+### Making Commits on a Branch
+
+Each commit on a branch advances that branch's pointer forward, creating a separate line of development.
+
+![Git Branch and Commit Animation]({{site.baseurl}}/fig/git_branch_commit.gif)
+
+### Merging Branches
+
+After completing work on a branch, merge it back into the main branch.
+
+#### Fast-Forward Merge
+
+When the main branch has not diverged (no new commits since the branch was created), Git can simply move the main pointer forward. This is called a **fast-forward merge**.
+
+![Git Fast-Forward Merge]({{site.baseurl}}/fig/git_merge_ff.png)
+
+![Git Fast-Forward Merge Animation]({{site.baseurl}}/fig/git_merge_ff.gif)
+
+```bash
+$ git checkout main
+$ git merge feature-branch
+```
+
+#### No-Fast-Forward Merge
+
+When both branches have new commits (the history has diverged), Git creates a **merge commit** that combines the two lines of development.
+
+![Git No-Fast-Forward Merge]({{site.baseurl}}/fig/git_merge_noff.png)
+
+![Git No-Fast-Forward Merge Animation]({{site.baseurl}}/fig/git_merge_noff.gif)
+
+#### Handling Merge Conflicts
+
+When the same lines of a file are changed differently in two branches, Git cannot automatically merge. You must resolve the conflict manually by editing the file, then staging and committing the result.
+
+![Git Merge Conflict Resolution Animation]({{site.baseurl}}/fig/git_merge_conflict.gif)
+
+```bash
+# After resolving conflicts in the file:
+$ git add resolved-file.txt
+$ git commit -m "Resolve merge conflict"
+```
+
+### Deleting Branches
+After merging, you can delete the branch:
+```bash
+$ git branch -d feature-branch
+```
+
+### Pushing a Branch to GitHub
+```bash
+$ git push -u origin feature-branch
+```
+
+## 8. Using Git with VS Code
 
 VS Code has excellent built-in Git support with a graphical interface.
 
@@ -305,7 +500,7 @@ The **Source Control** panel (`Ctrl+Shift+G`) shows:
 
 #### Commit Changes
 1. Enter a commit message in the text box
-2. Click the **✓** checkmark (or `Ctrl+Enter`)
+2. Click the checkmark (or `Ctrl+Enter`)
 
 #### Push/Pull
 - Click **...** menu → **Push** or **Pull**
@@ -333,9 +528,9 @@ The **Source Control** panel (`Ctrl+Shift+G`) shows:
 > - **GitHub Pull Requests**: Manage PRs directly in VS Code
 {: .callout}
 
-## 7. Using Git from Terminal
+## 9. Complete Git Workflow Example
 
-### Complete Workflow Example
+### Step-by-Step Terminal Workflow
 
 ```bash
 # 1. Clone repository
@@ -421,165 +616,33 @@ $ git pull origin main
 $ git branch -d feature/my-feature
 ```
 
-## 8. Basic Git Commands
-
-### Git Workflow Overview
-```
-Working Directory  →  Staging Area  →  Local Repository  →  Remote Repository
-      (edit)           (git add)        (git commit)          (git push)
-```
-
-#### Initialize a Repository
-```bash
-$ mkdir my_project
-$ cd my_project
-$ git init
-```
-```output
-Initialized empty Git repository in /home/user/my_project/.git/
-```
-
-#### Clone a Repository
-```bash
-$ git clone git@github.com:username/repository.git
-$ cd repository
-```
-
-#### Check Repository Status
-```bash
-$ git status
-```
-```output
-On branch main
-Your branch is up to date with 'origin/main'.
-nothing to commit, working tree clean
-```
-
-#### Add Changes to Staging Area
-```bash
-# Add specific file
-$ git add filename.txt
-
-# Add all changed files
-$ git add .
-
-# Add all files matching pattern
-$ git add *.py
-```
-
-#### Commit Changes
-```bash
-$ git commit -m "Add analysis script for RNA-seq data"
-```
-```output
-[main 1a2b3c4] Add analysis script for RNA-seq data
- 1 file changed, 50 insertions(+)
-```
-
-#### Push Changes to GitHub
-```bash
-$ git push origin main
-```
-
-#### Pull Updates from GitHub
-```bash
-$ git pull origin main
-```
-
-### Viewing History
-```bash
-# View commit history
-$ git log --oneline
-```
-```output
-1a2b3c4 Add analysis script for RNA-seq data
-5e6f7g8 Initial commit
-```
-
-```bash
-# View changes in a file
-$ git diff filename.txt
-
-# View who changed each line
-$ git blame filename.txt
-```
-
-## 9. Working with Repositories
-Repositories (repos) are where your project files and version history are stored.
-
-### 9.1 Creating a New Repository on GitHub
-- Log in to GitHub and click the **+** icon in the top-right corner.
-- Select **New repository**.
-- Enter a repository name, description (optional), and choose to make it **Public** or **Private**.
-- (Optional) Initialize with a README, .gitignore, or license.
-- Click **Create repository**.
-
-### 9.2 Forking a Repository
-If you want to contribute to someone else's project, you can create a fork:
-- Navigate to the repository you want to fork.
-- Click the **Fork** button in the top-right corner.
-- This creates a copy of the repository in your GitHub account.
-
-### 9.3 Cloning Your Repository Locally
-Clone your repository (either your own or a forked one) to work on it locally:
-```bash
-git clone git@github.com:your-username/repository-name.git
-```
-
-### 9.4 Creating Branches
-Branches allow you to work on features or experiments without affecting the main codebase.
-```bash
-git checkout -b feature-branch
-```
-
-### 9.5 Committing Changes
-After making changes, you need to commit them:
-```bash
-git add .
-git commit -m "Describe your changes here"
-```
-
-### 9.6 Pushing Changes to GitHub
-To upload your changes to the remote repository:
-```bash
-git push origin feature-branch
-```
-
-### 9.7 Pulling Changes from GitHub
-To update your local repository with changes from the remote repository:
-```bash
-git pull origin main
-```
-This ensures that your local branch is up-to-date with the latest changes from the main branch.
-
-### 9.8 Merging Branches
-After completing work on a branch, merge it back into the main branch.
-
-Switch to the main branch:
-```bash
-git checkout main
-```
-
-Merge the feature branch:
-```bash
-git merge feature-branch
-```
-
-### 9.9 Deleting Branches
-After merging, you can delete the branch:
-```bash
-git branch -d feature-branch
-```
-
 ## 10. Collaborating with Others
+
 GitHub facilitates collaboration through features like pull requests, issues, and code reviews.
 
+### Understanding Remote and Local Repositories
+
+When working with others, understanding the relationship between remote and local repositories is essential. Your local repository has **remote tracking branches** that monitor the state of the remote repository.
+
+![Remote and Local Repositories]({{site.baseurl}}/fig/git_remote_local.png)
+
 ### 10.1 Forking a Repository
+If you want to contribute to someone else's project, you can create a fork:
 - Navigate to the repository you want to fork.
 - Click the **Fork** button in the top-right corner.
 - This creates a copy of the repository under your GitHub account.
 
+Clone your forked repository to work on it locally:
+```bash
+$ git clone git@github.com:your-username/repository-name.git
+```
+
 ### 10.2 Creating a Pull Request
+
+A pull request (PR) is a way to propose changes you've made on a branch to be merged back into the main branch. Other collaborators can review, discuss, and approve the changes before merging.
+
+![Pull Request Review Process]({{site.baseurl}}/fig/git_pull_request.png)
+
 After making changes in your forked repository:
 - Push your changes to a branch in your fork.
 - Go to the original repository and click **Pull requests** > **New pull request**.
@@ -597,7 +660,20 @@ Collaborators can review pull requests, suggest changes, and approve merges.
 - Request changes if necessary.
 - Approve and merge once the code meets standards.
 
+### 10.5 GitHub Flow
+
+GitHub Flow is a simplified branching model ideal for most projects. It uses a single `main` branch with short-lived feature branches.
+
+![GitHub Flow]({{site.baseurl}}/fig/git_github_flow.png)
+
+1. **Create a branch** from `main`
+2. **Make changes** and commit
+3. **Open a Pull Request**
+4. **Review and discuss** the changes
+5. **Merge** back into `main`
+
 ## 11. Best Practices for Bioinformatics Projects
+
 ### 11.1 Organize Your Repository
 Structure your repository to make it easy to navigate. A typical bioinformatics repo might include:
 - `README.md`: Project overview and instructions.
@@ -610,12 +686,12 @@ Structure your repository to make it easy to navigate. A typical bioinformatics 
 Use descriptive commit messages to explain what changes were made and why.
 
 **Good Example:**
-```bash
+```
 Add script for RNA-seq data normalization
 ```
 
 **Bad Example:**
-```bash
+```
 Update stuff
 ```
 
@@ -623,7 +699,7 @@ Update stuff
 Exclude unnecessary files (e.g., large datasets, temporary files) from your repository by creating a `.gitignore` file.
 
 **Example `.gitignore`:**
-```bash
+```
 # Ignore data files
 /data/raw/
 /data/processed/
@@ -647,7 +723,7 @@ While Git handles code effectively, managing large datasets can be challenging. 
 $ git lfs install
 ```
 
-**Tracking a Large File:**
+**Tracking Large Files:**
 ```bash
 $ git lfs track "*.csv"
 $ git lfs track "*.bam"
@@ -657,7 +733,9 @@ $ git lfs track "*.fastq.gz"
 ## 12. Advanced Git Commands
 
 ### 12.1 Git Stash - Save Work Temporarily
-When you need to switch branches but have uncommitted changes:
+When you need to switch branches but have uncommitted changes, `git stash` temporarily saves your work without committing it.
+
+![Git Stash]({{site.baseurl}}/fig/git_stash.png)
 
 ```bash
 # Save current changes temporarily
@@ -679,7 +757,9 @@ $ git stash apply stash@{0}
 ```
 
 ### 12.2 Git Rebase - Clean History
-Rebase allows you to rewrite commit history for a cleaner project timeline.
+Rebase replays your commits on top of another branch's latest commit, creating a cleaner, linear project history.
+
+![Git Rebase]({{site.baseurl}}/fig/git_rebase.png)
 
 ```bash
 # Rebase your branch onto main
@@ -712,6 +792,10 @@ $ git cherry-pick a1b2c3d
 
 ### 12.4 Undoing Changes
 
+Git provides several ways to undo changes depending on how far along you are in the workflow.
+
+![Git Reset]({{site.baseurl}}/fig/git_reset.png)
+
 ```bash
 # Undo changes in working directory (before staging)
 $ git checkout -- filename.txt
@@ -724,7 +808,13 @@ $ git reset --soft HEAD~1
 
 # Undo last commit (discard changes) - DANGEROUS!
 $ git reset --hard HEAD~1
+```
 
+To safely undo a commit that has already been pushed, use `git revert` which creates a new commit that undoes the changes:
+
+![Git Revert]({{site.baseurl}}/fig/git_revert.png)
+
+```bash
 # Create a new commit that undoes a previous commit
 $ git revert <commit-hash>
 ```
@@ -793,7 +883,7 @@ my_rnaseq_project/
 ```
 
 ### 13.3 Example .gitignore for Bioinformatics
-```bash
+```
 # Large data files
 *.fastq
 *.fastq.gz
@@ -843,6 +933,7 @@ __pycache__/
 | `git log --oneline` | View history |
 | `git diff` | View changes |
 | `git stash` | Stash changes |
+| `git revert <hash>` | Undo a commit safely |
 | `git reset --hard HEAD~1` | Undo last commit |
 
 ## Example: Cloning a Bioinformatics Tool from GitHub
@@ -857,5 +948,3 @@ $ less README.md
 ```
 
 For compilation instructions, see the [Compile and Software Installation](compile.html) lesson.
-
-
