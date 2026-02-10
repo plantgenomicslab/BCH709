@@ -6,7 +6,7 @@ published: true
 
 {% include gh_variables.html %}
 
-This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), Micromamba for bioinformatics, and compiling software from source code.
+This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), Conda/Micromamba for bioinformatics, and compiling software from source code.
 
 ![software_compile](../fig/software-compiler.png)
 
@@ -365,9 +365,9 @@ $ sudo snap install code --classic
 
 ---
 
-## Micromamba for Bioinformatics
+## Conda (Micromamba) for Bioinformatics
 
-Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
+Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility. In this course, we install Micromamba and set up an alias so you can use familiar `conda` commands.
 
 > **Why Micromamba?**
 > - **Fast**: Micromamba is written in C++ and is significantly faster than conda
@@ -376,23 +376,63 @@ Micromamba is a fast, lightweight package manager that is fully compatible with 
 > - **Simple**: Single binary with no dependencies
 {: .callout}
 
-### Why Micromamba Instead of APT or Homebrew?
+### Micromamba vs Conda vs Miniconda
 
-System package managers like APT and Homebrew are great for general system software, but they fall short for bioinformatics workflows. Micromamba solves these problems:
+These three tools all manage conda environments and packages, but they differ in implementation and features:
+
+| Feature | Micromamba | Miniconda | Anaconda (Conda) |
+|---------|------------|-----------|------------------|
+| **Language** | C++ | Python | Python |
+| **Installation Size** | ~5 MB | ~400 MB | ~3 GB |
+| **Base Environment** | None | Minimal (Python + pip) | Full (250+ packages) |
+| **Speed** | Fastest | Slow | Slow |
+| **Package Solver** | libmamba (fast) | Classic (slow) or libmamba | Classic (slow) or libmamba |
+| **Python Required** | No | Yes | Yes |
+| **Best For** | HPC, minimal setups | General use | Data science beginners |
+
+> ## Which Should You Use?
+>
+> | Use Case | Recommendation |
+> |----------|----------------|
+> | **HPC clusters / servers** | **Micromamba** - lightweight, no sudo needed |
+> | **Bioinformatics workflows** | **Micromamba** - fast, minimal overhead |
+> | **Personal laptop (beginner)** | **Miniconda** - familiar conda commands |
+> | **Data science (pre-installed packages)** | **Anaconda** - includes everything |
+> | **CI/CD pipelines** | **Micromamba** - fast installation, small size |
+>
+> **In this course, we use Micromamba** because it's fast, lightweight, and works well on both personal computers and HPC clusters. We set up an alias so you can use familiar `conda` commands.
+{: .callout}
+
+> ## Command Compatibility
+> All three tools use the same commands:
+> ```bash
+> # These commands work with micromamba, miniconda, and anaconda
+> $ conda create -n myenv python=3.12
+> $ conda activate myenv
+> $ conda install numpy pandas
+> $ conda env list
+> $ conda deactivate
+> ```
+> The only difference is speed and installation size. With our `conda` alias, you won't notice any difference in daily use.
+{: .prereq}
+
+### Why Conda Instead of APT or Homebrew?
+
+System package managers like APT and Homebrew are great for general system software, but they fall short for bioinformatics workflows. Conda solves these problems:
 
 ```
  ┌─────────────────────────────────────────────────────────────────────┐
- │          System Package Managers          │       Micromamba        │
- │            (APT / Homebrew)               │   (conda/bioconda)     │
- ├───────────────────────────────────────────┼────────────────────────┤
- │  Requires root/admin (sudo)              │  User-level install    │
- │  One version per package system-wide     │  Multiple versions     │
- │  No environment isolation                │  Isolated environments │
- │  Limited bioinformatics software         │  9,000+ bio packages   │
- │  OS-dependent packages                   │  Cross-platform        │
- │  Hard to reproduce on another machine    │  Export & share envs   │
- │  Upgrading one tool can break another    │  Each project isolated │
- └───────────────────────────────────────────┴────────────────────────┘
+ │          System Package Managers          │          Conda          │
+ │            (APT / Homebrew)               │   (conda-forge/bioconda)│
+ ├───────────────────────────────────────────┼─────────────────────────┤
+ │  Requires root/admin (sudo)              │  User-level install     │
+ │  One version per package system-wide     │  Multiple versions      │
+ │  No environment isolation                │  Isolated environments  │
+ │  Limited bioinformatics software         │  9,000+ bio packages    │
+ │  OS-dependent packages                   │  Cross-platform         │
+ │  Hard to reproduce on another machine    │  Export & share envs    │
+ │  Upgrading one tool can break another    │  Each project isolated  │
+ └───────────────────────────────────────────┴─────────────────────────┘
 ```
 
 > ## The Version Conflict Problem
@@ -406,7 +446,7 @@ System package managers like APT and Homebrew are great for general system softw
 >
 > With APT or Homebrew, you can only have **one version** installed at a time. Upgrading for Project B would **break** Project A.
 >
-> With Micromamba, each project gets its own **isolated environment** with exactly the versions it needs -- both can coexist on the same machine.
+> With Conda, each project gets its own **isolated environment** with exactly the versions it needs -- both can coexist on the same machine.
 >
 > ```
 >  ┌──────────────────┐    ┌──────────────────┐
@@ -425,11 +465,11 @@ System package managers like APT and Homebrew are great for general system softw
 
 - **Dependencies**: When you install a package like Matplotlib, it automatically installs all dependencies (Numpy, Scipy, etc.) so you don't have to install them manually.
 
-- **Environments**: You can have multiple isolated environments for different projects. For example, Project A needs Python 2.7 and Biopython 1.60, while Project B needs Python 3.12 and Biopython 1.80. Micromamba lets you switch between them easily.
+- **Environments**: You can have multiple isolated environments for different projects. For example, Project A needs Python 2.7 and Biopython 1.60, while Project B needs Python 3.12 and Biopython 1.80. Conda lets you switch between them easily.
 
 - **Reproducibility**: Share your exact environment with collaborators using a single YAML file. They can recreate your setup with one command.
 
-- **No root access needed**: On HPC clusters and shared servers, you typically don't have `sudo`. Micromamba installs everything in your home directory.
+- **No root access needed**: On HPC clusters and shared servers, you typically don't have `sudo`. Conda installs everything in your home directory.
 
 - **Bioconda channel**: Access to 9,000+ bioinformatics packages (HISAT2, BWA, samtools, GATK, etc.) pre-built and ready to install.
 
@@ -468,13 +508,52 @@ $ micromamba --version
 2.0.0
 ```
 
+### Set Up Conda Alias
+
+To use the familiar `conda` command instead of `micromamba`, set up an alias. This allows you to use `conda` commands while actually running micromamba.
+
+> ## Linux / WSL
+>
+> ```bash
+> $ echo 'alias conda=micromamba' >> ~/.bashrc
+> $ source ~/.bashrc
+> ```
+>
+> Verify the alias works:
+> ```bash
+> $ conda --version
+> ```
+> ```output
+> 2.0.0
+> ```
+{: .solution}
+
+> ## macOS
+>
+> ```bash
+> $ echo 'alias conda=micromamba' >> ~/.zshrc
+> $ source ~/.zshrc
+> ```
+>
+> Verify the alias works:
+> ```bash
+> $ conda --version
+> ```
+> ```output
+> 2.0.0
+> ```
+{: .solution}
+
+> **Note:** From this point forward, we will use `conda` commands. If you haven't set up the alias, replace `conda` with `micromamba` in all commands below.
+{: .callout}
+
 ### Creating and Using Environments
 
 To create a new environment with Python 3.12 and activate it:
 
 ```bash
-$ micromamba create -n bch709 python=3.12
-$ micromamba activate bch709
+$ conda create -n bch709 python=3.12
+$ conda activate bch709
 ```
 ```output
 (bch709) $
@@ -487,7 +566,7 @@ You will see the environment name `(bch709)` in your prompt.
 Install packages in your active environment:
 
 ```bash
-$ micromamba install <package-name>
+$ conda install <package-name>
 ```
 
 *Environments are stored in `~/micromamba/envs/<environment_name>`.*
@@ -496,12 +575,12 @@ $ micromamba install <package-name>
 
 Deactivate the current environment:
 ```bash
-$ micromamba deactivate
+$ conda deactivate
 ```
 
 Remove an environment:
 ```bash
-$ micromamba env remove --name bch709
+$ conda env remove --name bch709
 ```
 
 ### Setting Up Channels for Bioinformatics
@@ -509,22 +588,22 @@ $ micromamba env remove --name bch709
 Bioconda is a channel dedicated to bioinformatics software. Set up channels in the correct priority order:
 
 ```bash
-$ micromamba config --add channels defaults
-$ micromamba config --add channels bioconda
-$ micromamba config --add channels conda-forge
-$ micromamba config --set channel_priority strict
+$ conda config --add channels defaults
+$ conda config --add channels bioconda
+$ conda config --add channels conda-forge
+$ conda config --set channel_priority strict
 ```
 
 ### Installing Bioinformatics Packages
 
 Search for a package:
 ```bash
-$ micromamba search hisat2
+$ conda search hisat2
 ```
 
 Install from Bioconda:
 ```bash
-$ micromamba install hisat2
+$ conda install hisat2
 ```
 
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](https://bioconda.github.io/recipes/hisat2/README.html)
@@ -533,23 +612,23 @@ $ micromamba install hisat2
 
 Install R and popular R packages:
 ```bash
-$ micromamba install -c conda-forge r-base r-essentials
+$ conda install -c conda-forge r-base r-essentials
 ```
 
 ### Quick Reference: Common Commands
 
 | Command | Description |
 |---------|-------------|
-| `micromamba create -n <env> python=3.12` | Create new environment |
-| `micromamba activate <env>` | Activate environment |
-| `micromamba deactivate` | Deactivate current environment |
-| `micromamba env list` | List all environments |
-| `micromamba list` | List installed packages |
-| `micromamba install <package>` | Install a package |
-| `micromamba update <package>` | Update a package |
-| `micromamba remove <package>` | Remove a package |
-| `micromamba env remove -n <env>` | Remove an environment |
-| `micromamba search <package>` | Search for a package |
+| `conda create -n <env> python=3.12` | Create new environment |
+| `conda activate <env>` | Activate environment |
+| `conda deactivate` | Deactivate current environment |
+| `conda env list` | List all environments |
+| `conda list` | List installed packages |
+| `conda install <package>` | Install a package |
+| `conda update <package>` | Update a package |
+| `conda remove <package>` | Remove a package |
+| `conda env remove -n <env>` | Remove an environment |
+| `conda search <package>` | Search for a package |
 
 ### Environment Management In-Depth
 
@@ -557,7 +636,7 @@ $ micromamba install -c conda-forge r-base r-essentials
 
 View all your environments:
 ```bash
-$ micromamba env list
+$ conda env list
 ```
 ```output
   Name       Active  Path
@@ -574,43 +653,43 @@ The `*` indicates the currently active environment.
 Create an environment with multiple packages at once:
 ```bash
 # Create environment with Python and packages
-$ micromamba create -n rnaseq python=3.12 hisat2 samtools fastqc
+$ conda create -n rnaseq python=3.12 hisat2 samtools fastqc
 
 # Create environment with specific versions
-$ micromamba create -n legacy python=2.7 biopython=1.70
+$ conda create -n legacy python=2.7 biopython=1.70
 ```
 
 #### Cloning an Environment
 
 Make a copy of an existing environment:
 ```bash
-$ micromamba create --name rnaseq_backup --clone rnaseq
+$ conda create --name rnaseq_backup --clone rnaseq
 ```
 
 #### Installing Specific Package Versions
 
 ```bash
 # Install specific version
-$ micromamba install numpy=1.24.0
+$ conda install numpy=1.24.0
 
 # Install minimum version
-$ micromamba install "numpy>=1.20"
+$ conda install "numpy>=1.20"
 
 # Install within version range
-$ micromamba install "numpy>=1.20,<1.25"
+$ conda install "numpy>=1.20,<1.25"
 ```
 
 #### Searching for Packages
 
 ```bash
 # Search for package
-$ micromamba search biopython
+$ conda search biopython
 
 # Search with channel
-$ micromamba search -c bioconda hisat2
+$ conda search -c bioconda hisat2
 
 # Show detailed package info
-$ micromamba search biopython --info
+$ conda search biopython --info
 ```
 ```output
 biopython 1.81 py312h5eee18b_0
@@ -626,52 +705,52 @@ dependencies:
 
 ```bash
 # Update specific package
-$ micromamba update numpy
+$ conda update numpy
 
 # Update all packages in environment
-$ micromamba update --all
+$ conda update --all
 
-# Update micromamba itself
-$ micromamba self-update
+# Update conda itself
+$ conda self-update
 ```
 
 #### Removing Packages
 
 ```bash
 # Remove a package
-$ micromamba remove numpy
+$ conda remove numpy
 
 # Remove multiple packages
-$ micromamba remove numpy scipy pandas
+$ conda remove numpy scipy pandas
 ```
 
-### Using pip Inside Micromamba Environments
+### Using pip Inside Conda Environments
 
-Sometimes packages are only available via pip. Always install micromamba packages first, then pip packages.
+Sometimes packages are only available via pip. Always install conda packages first, then pip packages.
 
 ```bash
 # Activate your environment first
-$ micromamba activate bch709
+$ conda activate bch709
 
 # Install pip packages
 $ pip install some-package
 
 # Best practice: create environment with pip included
-$ micromamba create -n myenv python=3.12 pip
+$ conda create -n myenv python=3.12 pip
 ```
 
-> ## Warning: Mixing Micromamba and Pip
-> - Always install as many packages as possible with micromamba first
-> - Only use pip for packages not available in micromamba
-> - After using pip, avoid running `micromamba install` (can cause conflicts)
-> - If you must mix, reinstall pip packages after micromamba changes
+> ## Warning: Mixing Conda and Pip
+> - Always install as many packages as possible with conda first
+> - Only use pip for packages not available in conda
+> - After using pip, avoid running `conda install` (can cause conflicts)
+> - If you must mix, reinstall pip packages after conda changes
 {: .callout}
 
 ### Environment History and Reverting Changes
 
 View environment change history:
 ```bash
-$ micromamba list --revisions
+$ conda list --revisions
 ```
 ```output
 2024-01-20 10:00:00  (rev 0)
@@ -685,7 +764,7 @@ $ micromamba list --revisions
 
 Revert to a previous revision:
 ```bash
-$ micromamba install --revision 0
+$ conda install --revision 0
 ```
 
 ### Exporting and Importing Environments
@@ -693,7 +772,7 @@ $ micromamba install --revision 0
 #### Export Full Environment (Exact Reproduction)
 
 ```bash
-$ micromamba env export --name bch709 > bch709_env.yaml
+$ conda env export --name bch709 > bch709_env.yaml
 ```
 
 This creates a file like:
@@ -714,19 +793,19 @@ dependencies:
 
 For sharing with others on different systems:
 ```bash
-$ micromamba env export --name bch709 --no-builds > bch709_env.yaml
+$ conda env export --name bch709 --no-builds > bch709_env.yaml
 ```
 
 #### Create Environment from File
 
 ```bash
-$ micromamba env create --file bch709_env.yaml
+$ conda env create --file bch709_env.yaml
 ```
 
 #### Update Existing Environment from File
 
 ```bash
-$ micromamba env update --name bch709 --file bch709_env.yaml
+$ conda env update --name bch709 --file bch709_env.yaml
 ```
 
 ### Environment Best Practices
@@ -735,8 +814,8 @@ $ micromamba env update --name bch709 --file bch709_env.yaml
 
 ```bash
 # Create separate environments for each project
-$ micromamba create -n project_rnaseq python=3.12 hisat2 samtools
-$ micromamba create -n project_variant python=3.12 bwa gatk4
+$ conda create -n project_rnaseq python=3.12 hisat2 samtools
+$ conda create -n project_variant python=3.12 bwa gatk4
 ```
 
 #### 2. Document Your Environment
@@ -744,11 +823,11 @@ $ micromamba create -n project_variant python=3.12 bwa gatk4
 Always save your environment specification:
 ```bash
 # After installing all packages
-$ micromamba env export --no-builds > environment.yaml
+$ conda env export --no-builds > environment.yaml
 
 # Add to your project's git repository
 $ git add environment.yaml
-$ git commit -m "Add micromamba environment specification"
+$ git commit -m "Add conda environment specification"
 ```
 
 #### 3. Use Environment Files for Reproducibility
@@ -774,7 +853,7 @@ dependencies:
 
 Then create the environment:
 ```bash
-$ micromamba env create -f environment.yaml
+$ conda env create -f environment.yaml
 ```
 
 #### 4. Naming Conventions
@@ -782,9 +861,9 @@ $ micromamba env create -f environment.yaml
 Use descriptive names:
 ```bash
 # Good names
-$ micromamba create -n rnaseq_2024
-$ micromamba create -n chipseq_analysis
-$ micromamba create -n python27_legacy
+$ conda create -n rnaseq_2024
+$ conda create -n chipseq_analysis
+$ conda create -n python27_legacy
 
 # Avoid generic names
 # Bad: env1, test, myenv
@@ -796,7 +875,7 @@ $ micromamba create -n python27_legacy
 
 ```bash
 # Initialize shell (run once after installation)
-$ micromamba shell init --shell bash --root-prefix ~/micromamba
+$ conda shell init --shell bash --root-prefix ~/micromamba
 
 # Restart your terminal or source the rc file
 $ source ~/.bashrc
@@ -804,23 +883,23 @@ $ source ~/.bashrc
 
 #### Solving Package Conflicts
 
-If micromamba is slow or fails to solve:
+If conda is slow or fails to solve:
 ```bash
 # Create minimal environment first
-$ micromamba create -n myenv python=3.12
+$ conda create -n myenv python=3.12
 
 # Then install packages one by one
-$ micromamba activate myenv
-$ micromamba install numpy
-$ micromamba install pandas
+$ conda activate myenv
+$ conda install numpy
+$ conda install pandas
 ```
 
 #### Disk Space Issues
 
-Micromamba environments can grow large. Clean up unused packages:
+Conda environments can grow large. Clean up unused packages:
 ```bash
 # Remove unused packages and cache
-$ micromamba clean --all
+$ conda clean --all
 
 # Check environment size
 $ du -sh ~/micromamba/envs/*
@@ -859,23 +938,23 @@ $ ~/micromamba/envs/bch709/bin/python script.py
 $ ~/micromamba/envs/bch709/bin/hisat2 --version
 ```
 
-#### Method 2: Using `micromamba run` (Recommended)
+#### Method 2: Using `conda run` (Recommended)
 
-The `micromamba run` command executes a command in an environment without activation:
+The `conda run` command executes a command in an environment without activation:
 
 ```bash
 # Basic syntax
-$ micromamba run -n <env_name> <command>
+$ conda run -n <env_name> <command>
 
 # Examples
-$ micromamba run -n bch709 python --version
+$ conda run -n bch709 python --version
 ```
 ```output
 Python 3.12.0
 ```
 
 ```bash
-$ micromamba run -n bch709 hisat2 --version
+$ conda run -n bch709 hisat2 --version
 ```
 ```output
 hisat2-align-s version 2.2.1
@@ -883,13 +962,13 @@ hisat2-align-s version 2.2.1
 
 ```bash
 # Run a Python script
-$ micromamba run -n bch709 python my_analysis.py
+$ conda run -n bch709 python my_analysis.py
 
 # Run with arguments
-$ micromamba run -n bch709 fastqc -o results/ reads.fastq.gz
+$ conda run -n bch709 fastqc -o results/ reads.fastq.gz
 
 # Run multiple commands (use quotes)
-$ micromamba run -n bch709 bash -c "hisat2 --version && samtools --version"
+$ conda run -n bch709 bash -c "hisat2 --version && samtools --version"
 ```
 
 #### Use Cases for Running Without Activation
@@ -897,9 +976,9 @@ $ micromamba run -n bch709 bash -c "hisat2 --version && samtools --version"
 **1. Shell Scripts:**
 ```bash
 #!/bin/bash
-# No need to activate - just use micromamba run
-micromamba run -n bch709 fastqc raw_reads/*.fastq.gz
-micromamba run -n bch709 multiqc .
+# No need to activate - just use conda run
+conda run -n bch709 fastqc raw_reads/*.fastq.gz
+conda run -n bch709 multiqc .
 ```
 
 **2. Cron Jobs / Scheduled Tasks:**
@@ -911,14 +990,14 @@ micromamba run -n bch709 multiqc .
 **3. One-off Commands:**
 ```bash
 # Quick check without changing your current environment
-$ micromamba run -n rnaseq samtools --version
-$ micromamba run -n variant bwa
+$ conda run -n rnaseq samtools --version
+$ conda run -n variant bwa
 ```
 
 **4. Comparing Tool Versions Across Environments:**
 ```bash
-$ micromamba run -n env1 python --version
-$ micromamba run -n env2 python --version
+$ conda run -n env1 python --version
+$ conda run -n env2 python --version
 ```
 
 #### Setting PATH Temporarily
@@ -937,23 +1016,23 @@ $ (export PATH=~/micromamba/envs/bch709/bin:$PATH; hisat2 --version; samtools --
 
 | Command | Description |
 |---------|-------------|
-| `micromamba env list` | List all environments |
-| `micromamba create -n <name>` | Create environment |
-| `micromamba create -n <name> --clone <source>` | Clone environment |
-| `micromamba activate <name>` | Activate environment |
-| `micromamba deactivate` | Deactivate environment |
-| `micromamba run -n <name> <cmd>` | Run command without activation |
-| `micromamba env remove -n <name>` | Remove environment |
-| `micromamba env export > env.yaml` | Export environment |
-| `micromamba env create -f env.yaml` | Create from file |
-| `micromamba env update -f env.yaml` | Update from file |
-| `micromamba list --revisions` | Show history |
-| `micromamba install --revision N` | Revert to revision |
-| `micromamba clean --all` | Clean cache |
+| `conda env list` | List all environments |
+| `conda create -n <name>` | Create environment |
+| `conda create -n <name> --clone <source>` | Clone environment |
+| `conda activate <name>` | Activate environment |
+| `conda deactivate` | Deactivate environment |
+| `conda run -n <name> <cmd>` | Run command without activation |
+| `conda env remove -n <name>` | Remove environment |
+| `conda env export > env.yaml` | Export environment |
+| `conda env create -f env.yaml` | Create from file |
+| `conda env update -f env.yaml` | Update from file |
+| `conda list --revisions` | Show history |
+| `conda install --revision N` | Revert to revision |
+| `conda clean --all` | Clean cache |
 
-### Using Micromamba Environments in VS Code
+### Using Conda Environments in VS Code
 
-VS Code integrates well with micromamba environments, making it easy to develop and run code in isolated environments.
+VS Code integrates well with conda environments, making it easy to develop and run code in isolated environments.
 
 #### Step 1: Install VS Code
 
@@ -991,7 +1070,7 @@ $ code --install-extension ms-python.python
 $ code --install-extension ms-vscode-remote.remote-wsl  # WSL only
 ```
 
-#### Step 3: Select Python Interpreter (Micromamba Environment)
+#### Step 3: Select Python Interpreter (Conda Environment)
 
 1. Open VS Code in your project folder:
    ```bash
@@ -1024,27 +1103,27 @@ $ code --install-extension ms-vscode-remote.remote-wsl  # WSL only
 6. The selected environment appears in the bottom status bar
 
 > ## Can't Find Your Environment? (WSL/Linux)
-> If your micromamba environment doesn't appear:
+> If your conda environment doesn't appear:
 > ```bash
-> # Make sure micromamba is initialized
-> $ micromamba shell init --shell bash --root-prefix ~/micromamba
+> # Make sure conda is initialized
+> $ conda shell init --shell bash --root-prefix ~/micromamba
 > $ source ~/.bashrc
 >
 > # Verify environment exists
-> $ micromamba env list
+> $ conda env list
 > ```
 > Then restart VS Code and try again.
 {: .solution}
 
 > ## Can't Find Your Environment? (macOS)
-> If your micromamba environment doesn't appear:
+> If your conda environment doesn't appear:
 > ```bash
-> # Make sure micromamba is initialized
-> $ micromamba shell init --shell zsh --root-prefix ~/micromamba
+> # Make sure conda is initialized
+> $ conda shell init --shell zsh --root-prefix ~/micromamba
 > $ source ~/.zshrc
 >
 > # Verify environment exists
-> $ micromamba env list
+> $ conda env list
 > ```
 > Then restart VS Code and try again.
 {: .solution}
@@ -1074,7 +1153,7 @@ User settings apply to all your VS Code projects.
 > ## Complete User settings.json for WSL/Linux
 > ```json
 > {
->     // Python and Micromamba Settings
+>     // Python and Conda Settings
 >     "python.condaPath": "/home/YOURUSERNAME/micromamba/bin/micromamba",
 >     "python.defaultInterpreterPath": "/home/YOURUSERNAME/micromamba/envs/bch709/bin/python",
 >     "python.terminal.activateEnvironment": true,
@@ -1099,7 +1178,7 @@ User settings apply to all your VS Code projects.
 > ## Complete User settings.json for macOS
 > ```json
 > {
->     // Python and Micromamba Settings
+>     // Python and Conda Settings
 >     "python.condaPath": "/Users/YOURUSERNAME/micromamba/bin/micromamba",
 >     "python.defaultInterpreterPath": "/Users/YOURUSERNAME/micromamba/envs/bch709/bin/python",
 >     "python.terminal.activateEnvironment": true,
@@ -1220,7 +1299,7 @@ Or in VS Code:
 
 | Setting | Description |
 |---------|-------------|
-| `python.condaPath` | Path to micromamba executable |
+| `python.condaPath` | Path to conda/micromamba executable |
 | `python.defaultInterpreterPath` | Default Python interpreter for the project |
 | `python.terminal.activateEnvironment` | Auto-activate environment in terminal |
 | `python.terminal.activateEnvInCurrentTerminal` | Activate in existing terminal |
@@ -1242,8 +1321,8 @@ john
 ```
 
 ```bash
-# Find micromamba path
-$ which micromamba
+# Find conda path
+$ which conda
 ```
 ```output
 /home/john/micromamba/bin/micromamba
@@ -1251,7 +1330,7 @@ $ which micromamba
 
 ```bash
 # Find Python path in environment
-$ micromamba activate bch709
+$ conda activate bch709
 $ which python
 ```
 ```output
@@ -1271,7 +1350,7 @@ my_rnaseq_project/
 │   ├── qc.py
 │   └── analysis.py
 ├── results/
-├── environment.yaml       # Micromamba environment file
+├── environment.yaml       # Conda environment file
 └── README.md
 ```
 
@@ -1324,7 +1403,7 @@ Now VS Code will use this environment whenever you open this project.
 
 #### Running Bioinformatics Tools
 
-When your micromamba environment is active in VS Code terminal:
+When your conda environment is active in VS Code terminal:
 
 ```bash
 # Check that tools are available
@@ -1351,23 +1430,23 @@ When your micromamba environment is active in VS Code terminal:
 | Find in Files | `Ctrl+Shift+F` |
 | Go to File | `Ctrl+P` |
 
-#### Troubleshooting VS Code + Micromamba
+#### Troubleshooting VS Code + Conda
 
 | Issue | Solution |
 |-------|----------|
 | Environment not listed | Restart VS Code, run `source ~/.bashrc` (Linux) or `source ~/.zshrc` (macOS) |
 | Terminal not activating | Add `"python.terminal.activateEnvironment": true` to settings.json |
-| Import errors | Verify package installed: `micromamba list` |
+| Import errors | Verify package installed: `conda list` |
 | WSL not connecting | Install WSL extension, reopen folder in WSL |
 | Settings not applying | Check for JSON syntax errors in settings.json |
 | Path not found | Use absolute paths, verify with `which python` |
 
 ### References
 
+- [Conda Documentation](https://docs.conda.io/en/latest/)
 - [Micromamba Documentation](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html)
 - [Conda-forge](https://conda-forge.org/)
 - [BioConda](https://bioconda.github.io/)
-- [Micromamba Cheat Sheet](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html#quickstart)
 - [VS Code Python Environments](https://code.visualstudio.com/docs/python/environments)
 
 ---
@@ -1471,14 +1550,14 @@ $ bwa index reference.fasta
 $ bwa mem reference.fasta reads.fastq > aligned.sam
 ```
 
-### Micromamba vs. Compiling from Source
+### Conda vs. Compiling from Source
 
 | Method | Pros | Cons |
 |--------|------|------|
-| **Micromamba** | Easy, handles dependencies | May not have latest version |
+| **Conda** | Easy, handles dependencies | May not have latest version |
 | **Source** | Latest version, customizable | More complex, manual dependencies |
 
-**Recommendation:** Use micromamba when possible. Compile from source only when needed.
+**Recommendation:** Use conda when possible. Compile from source only when needed.
 
 ---
 
