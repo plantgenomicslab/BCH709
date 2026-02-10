@@ -18,13 +18,14 @@ published: true
 1. [What is Vibe Coding?](#what-is-vibe-coding)
 2. [Vibe Coding in Biotech](#vibe-coding-in-biotech)
 3. [8 Tools Rewriting the Rules](#8-tools-rewriting-the-rules-of-life-sciences)
-4. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
+4. [Setting Up VS Code with AI Assistants](#setting-up-vs-code-with-ai-coding-assistants)
+5. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
    - [Step 0: Environment Setup](#step-0-brainstorming-and-environment-setup)
    - [Example 1: Python GFF3 Analysis](#example-1-python-per-chromosome-feature-counts-from-mgi-gff3--qc)
    - [Example 2: R TPM Heatmap](#example-2-r-top-200-variable-genes-from-ice-plant-tpm--heatmap)
    - [Homework 1: Python FASTA Analysis](#homework-1-python-mrna-fasta-analysis--gc-distribution-graph)
    - [Homework 2: R Clustering](#homework-2-r-z-score-clustering-of-cv-top-200-genes--pattern-visualization)
-5. [Appendix: Prompt Templates](#appendix-effective-vibe-coding-prompt-template)
+6. [Appendix: Prompt Templates](#appendix-effective-vibe-coding-prompt-template)
 
 ---
 
@@ -97,7 +98,7 @@ From EMBL-EBI. Build custom AI assistants that connect to APIs, databases, and b
 
 From Weill Cornell (Dylan Riffle et al.). Say "Analyze this RNA-seq file" and OLAF writes the code, runs it, and returns transparent, inspectable results.
 
-**Publication:** [ArXiv](https://arxiv.org/abs/2503.12465)
+**Publication:** [arXiv](https://arxiv.org/abs/2503.12465)
 
 ### 6. TinyBio – ChatGPT for Scientists
 
@@ -121,6 +122,210 @@ Describe experiments in plain English; AI generates protocols and sends them dir
 > - **Vibe coding** lets users build through intent, not syntax
 > - In **biotech**, that means less friction, faster feedback, and broader access
 > - These tools don't just "assist" scientists—they enable more with less code and more creativity
+{: .callout}
+
+---
+
+## Setting Up VS Code with AI Coding Assistants
+
+VS Code is the recommended editor for vibe coding. By installing AI extensions, you turn it into a conversational coding environment where you can write prompts, generate code, and iterate — all in one place.
+
+```
+ ┌──────────────────────────────────────────────────────────────────────────────┐
+ │                         AI Coding Assistants                                 │
+ │                                                                              │
+ │   VS Code Extensions:                          Web-Based:                   │
+ │   ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐              │
+ │   │  Claude    │ │  GitHub   │ │  Gemini    │ │  ChatGPT / │              │
+ │   │ (Anthropic)│ │  Copilot  │ │ Code Assist│ │  Codex     │              │
+ │   │            │ │  (OpenAI) │ │  (Google)  │ │  (OpenAI)  │              │
+ │   └─────┬──────┘ └─────┬─────┘ └─────┬──────┘ └─────┬──────┘              │
+ │         │              │              │              │                      │
+ │         └──────────────┼──────────────┼──────────────┘                      │
+ │                        │              │                                      │
+ │              ┌─────────▼──────────────▼──────────┐                          │
+ │              │   Your prompt in plain English     │                          │
+ │              └──────────────────┬─────────────────┘                          │
+ │                                 │                                            │
+ │              ┌──────────────────▼─────────────────┐                          │
+ │              │   AI-generated Python / R code     │                          │
+ │              └──────────────────┬─────────────────┘                          │
+ │                                 │                                            │
+ │              ┌──────────────────▼─────────────────┐                          │
+ │              │   Execute & inspect results        │                          │
+ │              └────────────────────────────────────┘                          │
+ └──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Install Visual Studio Code
+
+> ## Windows (WSL)
+> 1. Download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+> 2. Install on Windows (not inside WSL)
+> 3. Install the **WSL** extension in VS Code
+> 4. Open WSL terminal and type `code .` to launch VS Code connected to WSL
+{: .solution}
+
+> ## macOS
+> 1. Download VS Code from [https://code.visualstudio.com/](https://code.visualstudio.com/)
+> 2. Move to Applications folder
+> 3. Open VS Code, press `Cmd+Shift+P`, type "Shell Command: Install 'code' command in PATH"
+> 4. Now you can use `code .` from Terminal
+{: .solution}
+
+> For detailed VS Code configuration with micromamba environments, see the [Software Installation lesson](compile.html#using-micromamba-environments-in-vs-code).
+{: .callout}
+
+### Extension 1: Claude (Anthropic)
+
+[![Claude VS Code Extension](https://img.shields.io/badge/VS_Code-Claude_(Anthropic)-7C3AED?style=for-the-badge&logo=anthropic&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
+
+[Claude](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) provides a chat panel and inline code generation powered by Anthropic's Claude models. It excels at understanding large code contexts and following detailed instructions.
+
+**Install:**
+```bash
+$ code --install-extension anthropic.claude-code
+```
+
+**Setup:**
+1. Open VS Code and click the Claude icon in the sidebar
+2. Sign in with your Anthropic account or enter an API key from [console.anthropic.com](https://console.anthropic.com/)
+3. Start a chat and paste your prompt
+
+> ## Claude Code (CLI Alternative)
+> Claude is also available as a command-line tool for terminal-based workflows:
+> ```bash
+> $ npm install -g @anthropic-ai/claude-code
+> $ claude
+> ```
+> This is useful for working directly in the terminal without VS Code.
+{: .solution}
+
+### Extension 2: GitHub Copilot (OpenAI Codex)
+
+[![GitHub Copilot Extension](https://img.shields.io/badge/VS_Code-GitHub_Copilot_(OpenAI)-000000?style=for-the-badge&logo=github&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
+
+[GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) provides real-time inline autocomplete suggestions as you type. [Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) adds a conversational chat panel for writing prompts.
+
+**Install:**
+```bash
+$ code --install-extension GitHub.copilot
+$ code --install-extension GitHub.copilot-chat
+```
+
+**Setup:**
+1. You need a GitHub account
+2. Open VS Code and sign in to GitHub when prompted
+3. Copilot starts suggesting code automatically as you type; use `Tab` to accept
+
+> ## Free for Students
+> GitHub Copilot is **free** for verified students through [GitHub Education](https://education.github.com/).
+> Apply with your university email (`.edu`) to get access.
+{: .callout}
+
+### Extension 3: Gemini Code Assist (Google)
+
+[![Gemini Code Assist Extension](https://img.shields.io/badge/VS_Code-Gemini_Code_Assist_(Google)-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=google.gemini-code-assist)
+
+[Gemini Code Assist](https://marketplace.visualstudio.com/items?itemName=google.gemini-code-assist) provides AI-powered code generation and a chat panel, backed by Google's Gemini models.
+
+**Install:**
+```bash
+$ code --install-extension google.gemini-code-assist
+```
+
+**Setup:**
+1. Open VS Code and click the Gemini icon in the sidebar
+2. Sign in with your Google account
+3. Start a chat — a free usage tier is available for individual developers
+
+### ChatGPT and Codex (OpenAI) — Web-Based Alternative
+
+[![ChatGPT](https://img.shields.io/badge/Web-ChatGPT_(OpenAI)-412991?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/)
+[![Codex](https://img.shields.io/badge/Web-Codex_(OpenAI)-412991?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/codex)
+
+You don't need VS Code to do vibe coding. [ChatGPT](https://chatgpt.com/) and [Codex](https://chatgpt.com/codex) are web-based tools by OpenAI that let you write prompts and generate code directly in the browser.
+
+**ChatGPT:**
+- Go to [chatgpt.com](https://chatgpt.com/) and sign in with an OpenAI account
+- Paste your prompt; ChatGPT generates code you can copy into your editor or terminal
+- Free tier available; Plus subscription unlocks GPT-4o and longer context
+
+**Codex (OpenAI):**
+- Available at [chatgpt.com/codex](https://chatgpt.com/codex)
+- Specialized for code generation tasks
+- Can execute code in a sandboxed environment and return results
+- Requires ChatGPT Plus or Pro subscription
+
+> ## When to Use Web-Based Tools vs. VS Code Extensions
+>
+> | Use Case | Recommended Tool |
+> |----------|-----------------|
+> | Quick one-off code generation | ChatGPT (web) |
+> | Iterating on code in a project | VS Code + Claude / Copilot / Gemini |
+> | Running code in a sandboxed cloud environment | Codex (web) |
+> | Working on HPC cluster via terminal | Claude Code (CLI) |
+{: .callout}
+
+### How AI Assistants Fit into the Vibe Coding Workflow
+
+```
+ Step 1             Step 2              Step 3             Step 4
+ ┌──────────┐      ┌──────────────┐    ┌──────────────┐   ┌──────────────┐
+ │  Write    │      │  AI generates│    │  Run code in │   │  Check       │
+ │  prompt   │─────▶│  code in     │───▶│  terminal or │──▶│  output and  │
+ │  in chat  │      │  editor      │    │  notebook    │   │  revise      │
+ │  panel    │      │              │    │              │   │  prompt      │
+ └──────────┘      └──────────────┘    └──────────────┘   └───────┬──────┘
+                                                                   │
+      ◀────────────────────────────────────────────────────────────┘
+                            Iterate until correct
+```
+
+> ## Typical Session (VS Code)
+> 1. Open VS Code with your micromamba environment active
+> 2. Open the AI chat panel (Claude, Copilot, or Gemini)
+> 3. Paste your structured prompt (environment + input + task + output specs)
+> 4. Review the generated code, click "Insert at Cursor" or copy to a `.py` / `.R` file
+> 5. Run the script in the integrated terminal
+> 6. Inspect results; refine the prompt if needed
+{: .callout}
+
+> ## Typical Session (Web-Based: ChatGPT / Codex)
+> 1. Open [chatgpt.com](https://chatgpt.com/) or [chatgpt.com/codex](https://chatgpt.com/codex) in your browser
+> 2. Paste your structured prompt
+> 3. Copy the generated code into your local editor or terminal
+> 4. Run the script in your micromamba environment: `micromamba activate bch709 && python script.py`
+> 5. Inspect results; return to ChatGPT and refine the prompt if needed
+{: .callout}
+
+### Comparison: AI Coding Assistants
+
+| Feature | Claude | GitHub Copilot | Gemini Code Assist | ChatGPT / Codex |
+|---------|--------|----------------|-------------------|-----------------|
+| **Provider** | Anthropic | GitHub / OpenAI | Google | OpenAI |
+| **Type** | VS Code extension + CLI | VS Code extension | VS Code extension | Web-based |
+| **Authentication** | API key or Anthropic account | GitHub account | Google account | OpenAI account |
+| **Free for students** | Usage-based pricing | Free via GitHub Education | Free tier available | Free tier (GPT-4o mini) |
+| **Inline autocomplete** | Yes | Yes | Yes | N/A (web) |
+| **Chat panel** | Yes | Yes | Yes | Yes (browser) |
+| **Code execution** | Via terminal | Via terminal | Via terminal | Codex sandbox |
+| **Best for** | Detailed prompts; multi-file context | Real-time autocomplete | Google Cloud integration | Quick generation; no setup |
+
+### Quick Install: All VS Code Extensions
+
+Install all extensions in one command:
+```bash
+$ code --install-extension anthropic.claude-code && \
+  code --install-extension GitHub.copilot && \
+  code --install-extension GitHub.copilot-chat && \
+  code --install-extension google.gemini-code-assist
+```
+
+> ## Which One Should I Use for BCH709?
+> You can use **any** of these AI assistants for the lab exercises and homework. The prompts in this lesson are written in plain English and work with all AI coding tools — VS Code extensions and web-based tools alike.
+>
+> **Recommendation:** Try multiple tools during the semester and compare the results. Different AI models produce different code for the same prompt — that's part of the learning experience.
 {: .callout}
 
 ---
@@ -264,7 +469,7 @@ You may use data.table, ggplot2, and pheatmap.
 
 > ## Warning
 > **If you don't specify the environment, the AI will assume an arbitrary one.**
-{: .caution}
+{: .callout}
 
 ---
 
@@ -297,6 +502,7 @@ chr1  MGI  gene  3214482  3671498  .  -  .  ID=MGI:MGI:1918911;Name=Xkr4;biotype
 | 9 | attributes (key=value pairs, semicolon-delimited) |
 
 **chrom.sizes file structure:**
+
 ```
 chr1    195465000
 chr2    182105000
@@ -347,7 +553,7 @@ for chrom in sorted(counts):
 > - Misses `lnc_RNA` (standard GFF3 spelling)
 > - No QC tracking of dropped seqids
 > - No file output
-{: .caution}
+{: .callout}
 
 ---
 
@@ -642,7 +848,7 @@ heatmap(as.matrix(data[names(top200), ]))
 > - No mean >= 1 filter → noise genes in top ranks
 > - No file output, no image size/resolution control
 > - No log2 transformation → color scale dominated by extremes
-{: .caution}
+{: .callout}
 
 ---
 
