@@ -50,7 +50,7 @@ mkdir /data/gpfs/assoc/bch709-3/${USER}/mouse/DEG
 
 
 ## Reference Download
-![]({{{site.baseurl}}/fig/mouse_ref.png)
+![]({{site.baseurl}}/fig/mouse_ref.png)
 
 
 https://hgdownload.soe.ucsc.edu/downloads.html
@@ -73,7 +73,7 @@ cp /data/gpfs/assoc/bch709-3/Course_materials/mouse/run.sh /data/gpfs/assoc/bch7
 ```
 
 ## STAR aligner reference build example
-![]({{{site.baseurl}}/fig/star.jpeg)
+![]({{site.baseurl}}/fig/star.jpeg)
 ```bash!
 STAR  --runThreadN [CPU] --runMode genomeGenerate --genomeDir . --genomeFastaFiles [GENOMEFASTA] --sjdbGTFfile [GENOME_GTF]  --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
@@ -566,7 +566,7 @@ done
 
 ### FeatureCounts
 [Bioinformatics, Volume 30, Issue 7, 1 April 2014, Pages 923–930](https://doi.org/10.1093/bioinformatics/btt656)
-![]({{{site.baseurl}}/fig/featurecount.png)
+![]({{site.baseurl}}/fig/featurecount.png)
 
 ```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]

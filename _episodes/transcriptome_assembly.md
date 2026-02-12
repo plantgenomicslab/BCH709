@@ -7,9 +7,9 @@ published: true
 {% include gh_variables.html %}
 
 ## Quick Reminder
-![Fastq_file]({{{site.baseurl}}/fig/fastq.png)
+![Fastq_file]({{site.baseurl}}/fig/fastq.png)
 
-![basequality]({{{site.baseurl}}/fig/basequality.png)
+![basequality]({{site.baseurl}}/fig/basequality.png)
 
 ## RNASeq
 ```
@@ -56,7 +56,7 @@ $ fastqc pair1.fastq.gz pair2.fastq.gz
 - Remove reads less than ~18nt
 - Demultiplexing/Splitting
 
-![Trimming]({{{site.baseurl}}/fig/trim.png)  
+![Trimming]({{site.baseurl}}/fig/trim.png)  
 
 [Cutadapt](https://github.com/marcelm/cutadapt/)  
 [fastp](https://github.com/OpenGene/fastp)  
@@ -82,7 +82,7 @@ $ ls trim/
 ```
 
 ### Align the reads (mapping)
-![mapping]({{{site.baseurl}}/fig/mapping.png)
+![mapping]({{site.baseurl}}/fig/mapping.png)
  - Aligning reads back to a reference sequence
  - Mapping to genome vs transcriptome
  - Splice-aware alignment (genome)
@@ -95,9 +95,9 @@ $ ls trim/
 
 [Baruzzo, Giacomo, et al. "Simulation-based comprehensive benchmarking of RNA-seq aligners." Nature methods 14.2 (2017): 135](https://www.nature.com/articles/nmeth.4106)
 
-![algorithm]({{{site.baseurl}}/fig/algorithm.png)
-![banana]({{{site.baseurl}}/fig/banana.png)
-![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
+![algorithm]({{site.baseurl}}/fig/algorithm.png)
+![banana]({{site.baseurl}}/fig/banana.png)
+![banana]({{site.baseurl}}/fig/BackwardMatching.png)
 
 ### Install HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 ```
@@ -130,10 +130,10 @@ $ head align.sam
 ```
 <QNAME> <FLAG> <RNAME> <POS> <MAPQ> <CIGAR> <MRNM> <MPOS> <ISIZE> <SEQ> <QUAL> [<TAG>:<VTYPE>:<VALUE> [...]]
 ```
-![sam1]({{{site.baseurl}}/fig/sam1.png)  
+![sam1]({{site.baseurl}}/fig/sam1.png)  
 
 ### SAM flag
-![flag]({{{site.baseurl}}/fig/flag.jpg)  
+![flag]({{site.baseurl}}/fig/flag.jpg)  
 
 ### Demical to binary
 ```
@@ -151,7 +151,7 @@ There are a bunch of predefined tags, please see the SAM manual for more informa
 
 Any tags that start with X? are reserved fields for end users: XT:A:M, XN:i:2, XM:i:0, XO:i:0, XG:i:0
 
-![samtag]({{{site.baseurl}}/fig/samtag.png)
+![samtag]({{site.baseurl}}/fig/samtag.png)
 
 ### More information is below.
 http://samtools.github.io/hts-specs/
@@ -186,7 +186,7 @@ A BAM file (.bam) is the binary version of a SAM file. A SAM file (.sam) is a ta
 ```
 samtools tview align_sort.bam bch709.fasta
 ```
-![tview]({{{site.baseurl}}/fig/tview.png)  
+![tview]({{site.baseurl}}/fig/tview.png)  
 
 [IGV](https://software.broadinstitute.org/software/igv/)  
 SAMTOOLS Tview  
@@ -194,7 +194,7 @@ SAMTOOLS Tview
 
 
 ### How to make a report?
-![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
+![MultiQC]({{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```
 $ conda install multiqc
@@ -221,13 +221,13 @@ bamtools > stats
 
 
 ### Quantification • Counts
-![genecount]({{{site.baseurl}}/fig/genecount.png)
+![genecount]({{site.baseurl}}/fig/genecount.png)
 - Read counts = gene expression
 - Reads can be quantified on any feature (gene, transcript, exon etc)
 - Intersection on gene models
 - Gene/Transcript level
 
-![count]({{{site.baseurl}}/fig/count.png)
+![count]({{site.baseurl}}/fig/count.png)
 
 [featureCounts](http://subread.sourceforge.net/)
 [HTSeq](https://htseq.readthedocs.io/en/release_0.11.1/)
@@ -296,55 +296,55 @@ samtools tview  align_sort.bam
 
 ## Transcriptome Assembly
 ***De novo*** assembly
-![denovo]({{{site.baseurl}}/fig/denovo.png)
+![denovo]({{site.baseurl}}/fig/denovo.png)
 
 ### Assembly?
-![assembly]({{{site.baseurl}}/fig/assembly.png)  
-![assembly1]({{{site.baseurl}}/fig/assembly1.png)  
+![assembly]({{site.baseurl}}/fig/assembly.png)  
+![assembly1]({{site.baseurl}}/fig/assembly1.png)  
 
 ### Sequencing coverage
-![coverage]({{{site.baseurl}}/fig/coverage.png)  
-![averagecoverage]({{{site.baseurl}}/fig/averagecoverage.png)  
+![coverage]({{site.baseurl}}/fig/coverage.png)  
+![averagecoverage]({{site.baseurl}}/fig/averagecoverage.png)  
 
 ### Assembly law
-![assemblylaw]({{{site.baseurl}}/fig/assemblylaw.png)  
-![assemblylaw1]({{{site.baseurl}}/fig/assemblylaw1.png)  
+![assemblylaw]({{site.baseurl}}/fig/assemblylaw.png)  
+![assemblylaw1]({{site.baseurl}}/fig/assemblylaw1.png)  
 
 ### Overlap graph
-![overlapgraph]({{{site.baseurl}}/fig/overlapgraph.png)  
-![greedy1]({{{site.baseurl}}/fig/greedy1.png)  
-![greedy2]({{{site.baseurl}}/fig/greedy2.png)  
-![greedy3]({{{site.baseurl}}/fig/greedy3.png)  
-![greedy4]({{{site.baseurl}}/fig/greedy4.png)  
-![greedy5]({{{site.baseurl}}/fig/greedy5.png)  
-![greedy6]({{{site.baseurl}}/fig/greedy6.png)  
-![greedy7]({{{site.baseurl}}/fig/greedy7.png)  
-![greedy8]({{{site.baseurl}}/fig/greedy8.png)  
-![greedy9]({{{site.baseurl}}/fig/greedy9.png)  
+![overlapgraph]({{site.baseurl}}/fig/overlapgraph.png)  
+![greedy1]({{site.baseurl}}/fig/greedy1.png)  
+![greedy2]({{site.baseurl}}/fig/greedy2.png)  
+![greedy3]({{site.baseurl}}/fig/greedy3.png)  
+![greedy4]({{site.baseurl}}/fig/greedy4.png)  
+![greedy5]({{site.baseurl}}/fig/greedy5.png)  
+![greedy6]({{site.baseurl}}/fig/greedy6.png)  
+![greedy7]({{site.baseurl}}/fig/greedy7.png)  
+![greedy8]({{site.baseurl}}/fig/greedy8.png)  
+![greedy9]({{site.baseurl}}/fig/greedy9.png)  
 
 ### K-mer: substring of length k
 k-mers are subsequences of length ***k*** contained within a biological sequence.
-![kmer]({{{site.baseurl}}/fig/kmer.png)
+![kmer]({{site.baseurl}}/fig/kmer.png)
 ### De bruijn
-![hamiltonian_Eulerian]({{{site.baseurl}}/fig/hamiltonian_Eulerian.png)
-![DBG]({{{site.baseurl}}/fig/DBG.png)  
-![dbg1]({{{site.baseurl}}/fig/dbg2.png)  
+![hamiltonian_Eulerian]({{site.baseurl}}/fig/hamiltonian_Eulerian.png)
+![DBG]({{site.baseurl}}/fig/DBG.png)  
+![dbg1]({{site.baseurl}}/fig/dbg2.png)  
 
 
 ### OLC vs De bruijn
-![assemblyalgorithm]({{{site.baseurl}}/fig/assemblyalgorithm.png)  
-![olcdbg]({{{site.baseurl}}/fig/olcdbg.png)  
-![realdbg]({{{site.baseurl}}/fig/realdbg.png)  
-![realdbg2]({{{site.baseurl}}/fig/realdbg2.png)  
-![realdbg3]({{{site.baseurl}}/fig/realdbg3.png)  
+![assemblyalgorithm]({{site.baseurl}}/fig/assemblyalgorithm.png)  
+![olcdbg]({{site.baseurl}}/fig/olcdbg.png)  
+![realdbg]({{site.baseurl}}/fig/realdbg.png)  
+![realdbg2]({{site.baseurl}}/fig/realdbg2.png)  
+![realdbg3]({{site.baseurl}}/fig/realdbg3.png)  
 
 ### Transcriptome assembler
-![trinity]({{{site.baseurl}}/fig/trinity.png)  
+![trinity]({{site.baseurl}}/fig/trinity.png)  
 
 
 #### Transcriptome assembly error
 
-![transcriptome_error]({{{site.baseurl}}/fig/transcriptome_error.png)  
+![transcriptome_error]({{site.baseurl}}/fig/transcriptome_error.png)  
 
 # Running Trinity
 

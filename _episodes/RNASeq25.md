@@ -386,7 +386,7 @@ This command will trim adapters and low-quality bases from paired-end RNA-Seq re
 - Remove reads less than ~18nt
 - Demultiplexing/Splitting
 
-![Trimming]({{{site.baseurl}}/fig/trim.png)  
+![Trimming]({{site.baseurl}}/fig/trim.png)  
 
 [Cutadapt](https://github.com/marcelm/cutadapt/)  
 [fastp](https://github.com/OpenGene/fastp)  
@@ -572,9 +572,9 @@ This command aligns the trimmed, paired-end RNA-Seq reads for **SRR1761506** to 
 ```
 
 ## BW algorithm
-![algorithm]({{{site.baseurl}}/fig/algorithm.png)
-![banana]({{{site.baseurl}}/fig/banana.png)
-![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
+![algorithm]({{site.baseurl}}/fig/algorithm.png)
+![banana]({{site.baseurl}}/fig/banana.png)
+![banana]({{site.baseurl}}/fig/BackwardMatching.png)
 
 ####################################
 
@@ -607,7 +607,7 @@ mkdir /data/gpfs/assoc/bch709-5/students/${USER}/mouse/DEG
 
 
 ## Reference Download
-![]({{{site.baseurl}}/fig/mouse_ref.png)
+![]({{site.baseurl}}/fig/mouse_ref.png)
 
 
 https://hgdownload.soe.ucsc.edu/downloads.html
@@ -850,7 +850,7 @@ nano count.sh
 ## RNA-Seq report
 
 ## How to make a report?
-![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
+![MultiQC]({{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 
 ### MultiQC
@@ -1668,7 +1668,7 @@ done
 
 ### FeatureCounts
 [Bioinformatics, Volume 30, Issue 7, 1 April 2014, Pages 923–930](https://doi.org/10.1093/bioinformatics/btt656)
-![]({{{site.baseurl}}/fig/featurecount.png)
+![]({{site.baseurl}}/fig/featurecount.png)
 
 ```bash
 featureCounts -o [output] -T [threads] -Q 1 -p -M  -g gene_id -a [GTF] [BAMs]

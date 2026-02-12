@@ -11,7 +11,7 @@ published: true
 {: .prereq}
 
 ## RNA Sequencing
-![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
+![RNA Sequencing]({{site.baseurl}}/fig/rnaseq.png)
 
 1. The transcriptome is spatially and temporally dynamic
 2. Data comes from functional units (coding regions)
@@ -25,7 +25,7 @@ published: true
 
 
 
-![RNA Sequencing workflow]({{{site.baseurl}}/fig/rnaseq_workflow.png)
+![RNA Sequencing workflow]({{site.baseurl}}/fig/rnaseq_workflow.png)
 
 ### Seven stages to data science
 1. Define the question of interest
@@ -132,9 +132,9 @@ d. After library construction
 - Library normalisation
 - Batch effect
 
-![RNA library]({{{site.baseurl}}/fig/library.png)
+![RNA library]({{site.baseurl}}/fig/library.png)
 
-![RNA Sequencing tool]({{{site.baseurl}}/fig/frag.png)  
+![RNA Sequencing tool]({{site.baseurl}}/fig/frag.png)  
 
 
 ### Sequencing: 
@@ -147,7 +147,7 @@ sequences in it or other molecular markers – you will need to report both the 
 read(s) where they are and their sequence(s).
 e. Please provide the sequence of any custom primers that were used to sequence the library
 
-![RNA library]({{{site.baseurl}}/fig/sequencing.png)
+![RNA library]({{site.baseurl}}/fig/sequencing.png)
 
 
 
@@ -179,7 +179,7 @@ c) The concentration of each of the spike-ins in the pool used.
 
 
 
-![RNA Sequencing tool]({{{site.baseurl}}/fig/rnasoftware.png)
+![RNA Sequencing tool]({{site.baseurl}}/fig/rnasoftware.png)
 
 
 ### QC FAIL?
@@ -257,7 +257,7 @@ Quality scores started as numbers (0-40) but have since changed to an ASCII enco
 Once you know what each quality score represents you can then use this chart to understand the confidence in a particular base.
 
 
-![FASTQ quality]({{{site.baseurl}}/fig/quality.png)
+![FASTQ quality]({{site.baseurl}}/fig/quality.png)
 
 
 ### Conda enviroment
@@ -295,7 +295,7 @@ fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
 ```
 
 ## How to make a report?
-![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
+![MultiQC]({{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```bash
 conda activate rnaseq2
@@ -359,7 +359,7 @@ explorer.exe .
 - Remove reads less than ~18nt
 - Demultiplexing/Splitting
 
-![Trimming]({{{site.baseurl}}/fig/trim.png)  
+![Trimming]({{site.baseurl}}/fig/trim.png)  
 
 [Cutadapt](https://github.com/marcelm/cutadapt/)  
 [fastp](https://github.com/OpenGene/fastp)  
@@ -393,7 +393,7 @@ scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/De
 
 
 ### Align the reads (mapping)
-![mapping]({{{site.baseurl}}/fig/mapping.png)
+![mapping]({{site.baseurl}}/fig/mapping.png)
  - Aligning reads back to a reference sequence
  - Mapping to genome vs transcriptome
  - Splice-aware alignment (genome)
@@ -406,9 +406,9 @@ scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/De
 
 [Baruzzo, Giacomo, et al. "Simulation-based comprehensive benchmarking of RNA-seq aligners." Nature methods 14.2 (2017): 135](https://www.nature.com/articles/nmeth.4106)
 
-![algorithm]({{{site.baseurl}}/fig/algorithm.png)
-![banana]({{{site.baseurl}}/fig/banana.png)
-![banana]({{{site.baseurl}}/fig/BackwardMatching.png)
+![algorithm]({{site.baseurl}}/fig/algorithm.png)
+![banana]({{site.baseurl}}/fig/banana.png)
+![banana]({{site.baseurl}}/fig/BackwardMatching.png)
 
 ## HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
 
@@ -441,10 +441,10 @@ head align.sam
 ```
 <QNAME> <FLAG> <RNAME> <POS> <MAPQ> <CIGAR> <MRNM> <MPOS> <ISIZE> <SEQ> <QUAL> [<TAG>:<VTYPE>:<VALUE> [...]]
 ```
-![sam1]({{{site.baseurl}}/fig/sam1.png)  
+![sam1]({{site.baseurl}}/fig/sam1.png)  
 
 ### SAM flag
-![flag]({{{site.baseurl}}/fig/flag.jpg)  
+![flag]({{site.baseurl}}/fig/flag.jpg)  
 
 ### Demical to binary
 ```
@@ -461,7 +461,7 @@ There are a bunch of predefined tags, please see the SAM manual for more informa
 
 Any tags that start with X? are reserved fields for end users: XT:A:M, XN:i:2, XM:i:0, XO:i:0, XG:i:0
 
-![samtag]({{{site.baseurl}}/fig/samtag.png)
+![samtag]({{site.baseurl}}/fig/samtag.png)
 
 ### More information is below.
 http://samtools.github.io/hts-specs/
@@ -501,7 +501,7 @@ A BAM file (.bam) is the binary version of a SAM file. A SAM file (.sam) is a ta
 COLUMNS=150 samtools tview -d t align_sort.bam bch709.fasta
 
 ```
-![tview]({{{site.baseurl}}/fig/tview.png)  
+![tview]({{site.baseurl}}/fig/tview.png)  
 [IGV](https://software.broadinstitute.org/software/igv/)  
 [Tablet](https://ics.hutton.ac.uk/tablet/)    
 
@@ -539,13 +539,13 @@ bamtools > stats
 
 
 ### Quantification • Counts
-![genecount]({{{site.baseurl}}/fig/genecount.png)
+![genecount]({{site.baseurl}}/fig/genecount.png)
 - Read counts = gene expression
 - Reads can be quantified on any feature (gene, transcript, exon etc)
 - Intersection on gene models
 - Gene/Transcript level
 
-![count]({{{site.baseurl}}/fig/count.png)
+![count]({{site.baseurl}}/fig/count.png)
 
 [featureCounts](http://subread.sourceforge.net/)
 [HTSeq](https://htseq.readthedocs.io/en/release_0.11.1/)

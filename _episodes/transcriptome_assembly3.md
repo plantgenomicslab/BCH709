@@ -45,7 +45,7 @@ conda install -c conda-forge -c bioconda fastqc star rsem subread hisat2 bowtie2
 conda install -c conda-forge/label/cf201901 nano -y
 
 ```
-![conda_installation]({{{site.baseurl}}/fig/conda_installation_rnaseq.png)
+![conda_installation]({{site.baseurl}}/fig/conda_installation_rnaseq.png)
 
 
 ### FASTQC
@@ -71,7 +71,7 @@ fastqc pair1.fastq.gz pair2.fastq.gz
 - Remove reads less than ~18nt
 - Demultiplexing/Splitting
 
-![Trimming]({{{site.baseurl}}/fig/trim.png)  
+![Trimming]({{site.baseurl}}/fig/trim.png)  
 
 [Cutadapt](https://github.com/marcelm/cutadapt/)  
 [fastp](https://github.com/OpenGene/fastp)  
@@ -93,7 +93,7 @@ ls trim/
 ```
 
 ### How to make a report?
-![MultiQC]({{{site.baseurl}}/fig/multiqc.png)
+![MultiQC]({{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```bash
 
@@ -107,7 +107,7 @@ multiqc --filename transcriptome_assembly .
 ```bash
 scp <YOURID>@pronghorn.rc.unr.edu:/data/gpfs/assoc/bch709-1/wyim/rnaseq/transcriptome_assembly/transcriptome_assembly.html ~/Desktop
 ```
-![MultiQC]({{{site.baseurl}}/fig/Multi_QC_Results.png)
+![MultiQC]({{site.baseurl}}/fig/Multi_QC_Results.png)
 
 
 
@@ -120,55 +120,55 @@ Trinity --seqType fq --max_memory <MEMORY> --left <READ1> --right <READ> --CPU <
 
 ## Transcriptome Assembly
 ***De novo*** assembly
-![denovo]({{{site.baseurl}}/fig/denovo.png)
+![denovo]({{site.baseurl}}/fig/denovo.png)
 
 ### Assembly?
-![assembly]({{{site.baseurl}}/fig/assembly.png)  
-![assembly1]({{{site.baseurl}}/fig/assembly1.png)  
+![assembly]({{site.baseurl}}/fig/assembly.png)  
+![assembly1]({{site.baseurl}}/fig/assembly1.png)  
 
 ### Sequencing coverage
-![coverage]({{{site.baseurl}}/fig/coverage.png)  
-![averagecoverage]({{{site.baseurl}}/fig/averagecoverage.png)  
+![coverage]({{site.baseurl}}/fig/coverage.png)  
+![averagecoverage]({{site.baseurl}}/fig/averagecoverage.png)  
 
 ### Assembly law
-![assemblylaw]({{{site.baseurl}}/fig/assemblylaw.png)  
-![assemblylaw1]({{{site.baseurl}}/fig/assemblylaw1.png)  
+![assemblylaw]({{site.baseurl}}/fig/assemblylaw.png)  
+![assemblylaw1]({{site.baseurl}}/fig/assemblylaw1.png)  
 
 ### Overlap graph
-![overlapgraph]({{{site.baseurl}}/fig/overlapgraph.png)  
-![greedy1]({{{site.baseurl}}/fig/greedy1.png)  
-![greedy2]({{{site.baseurl}}/fig/greedy2.png)  
-![greedy3]({{{site.baseurl}}/fig/greedy3.png)  
-![greedy4]({{{site.baseurl}}/fig/greedy4.png)  
-![greedy5]({{{site.baseurl}}/fig/greedy5.png)  
-![greedy6]({{{site.baseurl}}/fig/greedy6.png)  
-![greedy7]({{{site.baseurl}}/fig/greedy7.png)  
-![greedy8]({{{site.baseurl}}/fig/greedy8.png)  
-![greedy9]({{{site.baseurl}}/fig/greedy9.png)  
+![overlapgraph]({{site.baseurl}}/fig/overlapgraph.png)  
+![greedy1]({{site.baseurl}}/fig/greedy1.png)  
+![greedy2]({{site.baseurl}}/fig/greedy2.png)  
+![greedy3]({{site.baseurl}}/fig/greedy3.png)  
+![greedy4]({{site.baseurl}}/fig/greedy4.png)  
+![greedy5]({{site.baseurl}}/fig/greedy5.png)  
+![greedy6]({{site.baseurl}}/fig/greedy6.png)  
+![greedy7]({{site.baseurl}}/fig/greedy7.png)  
+![greedy8]({{site.baseurl}}/fig/greedy8.png)  
+![greedy9]({{site.baseurl}}/fig/greedy9.png)  
 
 ### K-mer: substring of length k
 k-mers are subsequences of length ***k*** contained within a biological sequence.
-![kmer]({{{site.baseurl}}/fig/kmer.png)
+![kmer]({{site.baseurl}}/fig/kmer.png)
 ### De bruijn
-![hamiltonian_Eulerian]({{{site.baseurl}}/fig/hamiltonian_Eulerian.png)
-![DBG]({{{site.baseurl}}/fig/DBG.png)  
-![dbg1]({{{site.baseurl}}/fig/dbg2.png)  
+![hamiltonian_Eulerian]({{site.baseurl}}/fig/hamiltonian_Eulerian.png)
+![DBG]({{site.baseurl}}/fig/DBG.png)  
+![dbg1]({{site.baseurl}}/fig/dbg2.png)  
 
 
 ### OLC vs De bruijn
-![assemblyalgorithm]({{{site.baseurl}}/fig/assemblyalgorithm.png)  
-![olcdbg]({{{site.baseurl}}/fig/olcdbg.png)  
-![realdbg]({{{site.baseurl}}/fig/realdbg.png)  
-![realdbg2]({{{site.baseurl}}/fig/realdbg2.png)  
-![realdbg3]({{{site.baseurl}}/fig/realdbg3.png)  
+![assemblyalgorithm]({{site.baseurl}}/fig/assemblyalgorithm.png)  
+![olcdbg]({{site.baseurl}}/fig/olcdbg.png)  
+![realdbg]({{site.baseurl}}/fig/realdbg.png)  
+![realdbg2]({{site.baseurl}}/fig/realdbg2.png)  
+![realdbg3]({{site.baseurl}}/fig/realdbg3.png)  
 
 ### Transcriptome assembler
-![trinity]({{{site.baseurl}}/fig/trinity.png)  
+![trinity]({{site.baseurl}}/fig/trinity.png)  
 
 
 #### Transcriptome assembly error
 
-![transcriptome_error]({{{site.baseurl}}/fig/transcriptome_error.png)  
+![transcriptome_error]({{site.baseurl}}/fig/transcriptome_error.png)  
 
 ## Running Trinity
 
@@ -385,7 +385,7 @@ https://www.nature.com/articles/nprot.2013.084
 - Conda-forge https://conda-forge.github.io/
 - BioConda https://bioconda.github.io/
 
-![pronghorn]({{{site.baseurl}}/fig/pronghorn.png)
+![pronghorn]({{site.baseurl}}/fig/pronghorn.png)
 
 
 

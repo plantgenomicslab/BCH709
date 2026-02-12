@@ -5,9 +5,9 @@ published: true
 ---
 
 ## Fastq file
-![Fastq_file]({{{site.baseurl}}/fig/fastq.png)
+![Fastq_file]({{site.baseurl}}/fig/fastq.png)
 
-![basequality]({{{site.baseurl}}/fig/basequality.png)
+![basequality]({{site.baseurl}}/fig/basequality.png)
 
 
 

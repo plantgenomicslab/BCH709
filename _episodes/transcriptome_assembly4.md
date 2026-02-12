@@ -24,7 +24,7 @@ ls
 
 ```
 
-![pronghorn]({{{site.baseurl}}/fig/pronghorn.png)
+![pronghorn]({{site.baseurl}}/fig/pronghorn.png)
 
 
 

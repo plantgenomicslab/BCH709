@@ -356,7 +356,7 @@ CSV = Comma-separated values
 
 ## Overview of the RNA-Seq pipeline 
 
-![RNAseq_pipeline]({{site.baseurl}}/fig/rnseq_pipeline.png)
+![RNAseq_pipeline]({{site.baseurl}}/fig/rnseq_pipeline.jpg)
 
 
 

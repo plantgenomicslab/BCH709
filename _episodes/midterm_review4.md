@@ -76,8 +76,8 @@ conda env export  > [Name].yaml
 ### Fasta file  
 ![fasta](https://www.researchgate.net/profile/Morteza-Hosseini-6/publication/309134977/figure/fig1/AS:417452136648705@1476539753111/A-sample-of-the-Multi-FASTA-file.png)
 ### Fastq file  
-![Fastq_file]({{{site.baseurl}}/fig/fastq.png)
-![basequality]({{{site.baseurl}}/fig/basequality.png)
+![Fastq_file]({{site.baseurl}}/fig/fastq.png)
+![basequality]({{site.baseurl}}/fig/basequality.png)
 
 ### GFF format  
 ![GFF](https://learn.gencore.bio.nyu.edu/wp-content/uploads/2018/01/Screen-Shot-2018-01-07-at-10.08.12-PM-768x276.png)
@@ -97,7 +97,7 @@ conda env export  > [Name].yaml
 - A semicolon-separated list of tag-value pairs, providing additional information about each feature. Some of these tags are predefined, e.g. ID, Name, Alias, Parent . You can see the full list [here](https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md).   
 
 ## RNA Sequencing  
-![RNA Sequencing]({{{site.baseurl}}/fig/rnaseq.png)
+![RNA Sequencing]({{site.baseurl}}/fig/rnaseq.png)
 1. The transcriptome is spatially and temporally dynamic  
 2. Data comes from functional units (coding regions)  
 3. Only a tiny fraction of the genome  
@@ -156,7 +156,7 @@ ls
 ### rm  
 
 ## RNA-Seq  
-![RNA Sequencing workflow]({{{site.baseurl}}/fig/rnaseq_workflow.png)
+![RNA Sequencing workflow]({{site.baseurl}}/fig/rnaseq_workflow.png)
 
 ## Advanced bioinformatics tools  
 ### Seqkit  

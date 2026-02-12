@@ -8,7 +8,7 @@ published: true
 
 This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), Conda/Micromamba for bioinformatics, and compiling software from source code.
 
-![software_compile](../fig/software-compiler.png)
+![software_compile]({{site.baseurl}}/fig/software-compiler.png)
 
 ---
 
@@ -193,7 +193,7 @@ RC files configure the environment and prepare the system to run specific softwa
 For reference: [Linux Distribution Family Tree](https://en.wikipedia.org/wiki/List_of_Linux_distributions)
 
 > ## Package Management Concepts
-> ![package](../fig/package-management.png)
+> ![package]({{site.baseurl}}/fig/package-management.png)
 > Package management in Linux allows for easier installation and updating of software. It handles dependencies and ensures proper installation across systems. Popular tools include APT (Debian/Ubuntu), YUM (CentOS/Fedora), and Homebrew (macOS).
 >
 > Without package management, users must ensure that all of the required dependencies for a piece of software are installed and up-to-date, compile the software from the source code (which takes time and introduces compiler-based variations from system to system), and manage configuration for each piece of software. Without package management, application files are located in the standard locations for the system to which the developers are accustomed, regardless of which system they’re using.
@@ -215,16 +215,16 @@ For reference: [Linux Distribution Family Tree](https://en.wikipedia.org/wiki/Li
 > ## Advanced Packaging Tool (APT)
 > APT is the package management system for Debian-based distributions (Ubuntu, Linux Mint, etc.). The modern `apt` command combines the most commonly used features of `apt-get` and `apt-cache`:
 >
-> **Common apt commands (require sudo):**
+> **Common apt commands:**
 > - `sudo apt update` - Update package list from repositories
 > - `sudo apt upgrade` - Upgrade all installed packages
 > - `sudo apt install <package>` - Install a package
 > - `sudo apt remove <package>` - Remove a package (keep config files)
 > - `sudo apt purge <package>` - Remove package and config files
 > - `sudo apt autoremove` - Remove orphaned dependencies
-> - `sudo apt search <keyword>` - Search for packages
-> - `sudo apt show <package>` - Show package details
-> - `sudo apt list --installed` - List installed packages
+> - `apt search <keyword>` - Search for packages
+> - `apt show <package>` - Show package details
+> - `apt list --installed` - List installed packages
 >
 > **Note:** The older `apt-get` and `apt-cache` commands still work, but `apt` is recommended for interactive use as it provides better output formatting and progress bars.
 {: .callout}
@@ -274,7 +274,7 @@ For reference: [Linux Distribution Family Tree](https://en.wikipedia.org/wiki/Li
 > - A Bourne-compatible shell (bash or zsh)
 {: .prereq}
 
-[![homebrew](../fig/homebrew-logo.png)](https://brew.sh/)
+[![homebrew]({{site.baseurl}}/fig/homebrew-logo.png)](https://brew.sh/)
 
 > ## Homebrew Commands
 > **Update Homebrew:**
@@ -291,8 +291,8 @@ For reference: [Linux Distribution Family Tree](https://en.wikipedia.org/wiki/Li
 
 | Task | Ubuntu/Debian (APT) | macOS (Homebrew) | RHEL/Rocky/Alma (DNF) |
 |------|---------------------|------------------|----------------------|
-| List installed | `sudo apt list --installed` | `brew list` | `sudo dnf list installed` |
-| Search packages | `sudo apt search <pkg>` | `brew search <pkg>` | `sudo dnf search <pkg>` |
+| List installed | `apt list --installed` | `brew list` | `dnf list installed` |
+| Search packages | `apt search <pkg>` | `brew search <pkg>` | `dnf search <pkg>` |
 | Install package | `sudo apt install <pkg>` | `brew install <pkg>` | `sudo dnf install <pkg>` |
 | Remove package | `sudo apt remove <pkg>` | `brew uninstall <pkg>` | `sudo dnf remove <pkg>` |
 | Update package list | `sudo apt update` | `brew update` | `sudo dnf check-update` |
@@ -674,10 +674,10 @@ $ conda create --name rnaseq_backup --clone rnaseq
 # Install specific version
 $ conda install numpy=1.24.0
 
-# Install minimum version
+# Install minimum version (quotes required — > is a shell operator)
 $ conda install "numpy>=1.20"
 
-# Install within version range
+# Install within version range (quotes required)
 $ conda install "numpy>=1.20,<1.25"
 ```
 
@@ -1033,7 +1033,7 @@ $ (export PATH=~/micromamba/envs/bch709/bin:$PATH; hisat2 --version; samtools --
 
 ### Using Conda Environments in VS Code
 
-VS Code integrates well with conda/micromamba environments, making it easy to develop and run code in isolated environments.
+VS Code integrates well with conda environments, making it easy to develop and run code in isolated environments.
 
 #### Step 1: Install VS Code
 
@@ -1154,7 +1154,7 @@ User settings apply to all your VS Code projects.
 > ## Complete User settings.json for WSL/Linux
 > ```json
 > {
->     // Python and Conda/Micromamba Settings
+>     // Python and Conda Settings
 >     "python.condaPath": "/home/YOURUSERNAME/micromamba/bin/micromamba",
 >     "python.defaultInterpreterPath": "/home/YOURUSERNAME/micromamba/envs/bch709/bin/python",
 >     "python.terminal.activateEnvironment": true,
@@ -1179,7 +1179,7 @@ User settings apply to all your VS Code projects.
 > ## Complete User settings.json for macOS
 > ```json
 > {
->     // Python and Conda/Micromamba Settings
+>     // Python and Conda Settings
 >     "python.condaPath": "/Users/YOURUSERNAME/micromamba/bin/micromamba",
 >     "python.defaultInterpreterPath": "/Users/YOURUSERNAME/micromamba/envs/bch709/bin/python",
 >     "python.terminal.activateEnvironment": true,
@@ -1300,7 +1300,7 @@ Or in VS Code:
 
 | Setting | Description |
 |---------|-------------|
-| `python.condaPath` | Path to conda/micromamba executable |
+| `python.condaPath` | Path to conda executable |
 | `python.defaultInterpreterPath` | Default Python interpreter for the project |
 | `python.terminal.activateEnvironment` | Auto-activate environment in terminal |
 | `python.terminal.activateEnvInCurrentTerminal` | Activate in existing terminal |
@@ -1322,8 +1322,8 @@ john
 ```
 
 ```bash
-# Find conda path
-$ which conda
+# Find micromamba path (conda is an alias)
+$ which micromamba
 ```
 ```output
 /home/john/micromamba/bin/micromamba
@@ -1535,18 +1535,6 @@ $ cd bwa-0.7.17
 # Compile
 $ make
 ```
-
-> ## Troubleshooting: Missing zlib
-> If you see an error about `zlib.h`:
-> ```bash
-> # Linux/WSL
-> $ sudo apt install zlib1g-dev
->
-> # macOS
-> $ brew install zlib
-> ```
-> Then run `make` again.
-{: .solution}
 
 > ## Adding BWA to PATH
 > Test the installation and add to your PATH:
