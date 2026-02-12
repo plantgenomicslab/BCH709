@@ -508,7 +508,44 @@ $ micromamba --version
 2.0.0
 ```
 
-After installation, micromamba sets up a `conda` alias so you can use familiar conda commands. All commands below use `conda`, which calls micromamba under the hood.
+### Set Up Conda Alias
+
+To use the familiar `conda` command instead of `micromamba`, set up an alias. This allows you to use `conda` commands while actually running micromamba.
+
+> ## Linux / WSL
+>
+> ```bash
+> $ echo 'alias conda=micromamba' >> ~/.bashrc
+> $ source ~/.bashrc
+> ```
+>
+> Verify the alias works:
+> ```bash
+> $ conda --version
+> ```
+> ```output
+> 2.0.0
+> ```
+{: .solution}
+
+> ## macOS
+>
+> ```bash
+> $ echo 'alias conda=micromamba' >> ~/.zshrc
+> $ source ~/.zshrc
+> ```
+>
+> Verify the alias works:
+> ```bash
+> $ conda --version
+> ```
+> ```output
+> 2.0.0
+> ```
+{: .solution}
+
+> **Note:** From this point forward, we will use `conda` commands. If you haven't set up the alias, replace `conda` with `micromamba` in all commands below.
+{: .callout}
 
 ### Creating and Using Environments
 
