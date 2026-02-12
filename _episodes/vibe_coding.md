@@ -16,16 +16,25 @@ published: true
 ## Table of Contents
 
 1. [What is Vibe Coding?](#what-is-vibe-coding)
-2. [Vibe Coding in Biotech](#vibe-coding-in-biotech)
+2. [Vibe Coding in Bioinformatics](#vibe-coding-in-bioinformatics)
 3. [8 Tools Rewriting the Rules](#8-tools-rewriting-the-rules-of-life-sciences)
 4. [Setting Up VS Code with AI Assistants](#setting-up-vs-code-with-ai-coding-assistants)
 5. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
    - [Step 0: Environment Setup](#step-0-brainstorming-and-environment-setup)
-   - [Example 1: Python GFF3 Analysis](#example-1-python-per-chromosome-feature-counts-from-mgi-gff3--qc)
-   - [Example 2: R TPM Heatmap](#example-2-r-top-200-variable-genes-from-ice-plant-tpm--heatmap)
-   - [Homework 1: Python FASTA Analysis](#homework-1-python-mrna-fasta-analysis--gc-distribution-graph)
-   - [Homework 2: R Clustering](#homework-2-r-z-score-clustering-of-cv-top-200-genes--pattern-visualization)
+   - [Step 0D: Research Project Design (Advanced)](#step-0d-research-project-design-prompt-advanced)
+   - [Telling AI About Your Environment](#telling-ai-assistants-about-your-conda-environment)
+     - [Persistent Configuration (CLAUDE.md, copilot-instructions.md)](#persistent-environment-configuration-per-ai-assistant)
+     - [Unofficial Config Files (GEMINI.md, CODEX.md)](#unofficial-configuration-files-geminimd-codexmd)
+     - [Single-Conversation Templates](#single-conversation-chat-message-templates)
+   - [How to Write Effective Prompts](#how-to-write-effective-vibe-coding-prompts)
+   - [Part 1: Vibe Coding Examples](#part-1-vibe-coding-examples)
+     - [Example 1: Python GFF3 Analysis](#example-1-python-per-chromosome-feature-counts-from-mgi-gff3--qc)
+     - [Example 2: R TPM Heatmap](#example-2-r-top-200-variable-genes-from-ice-plant-tpm--heatmap)
+   - [Part 2: Homework Assignments](#part-2-homework-assignments)
+     - [Homework 1: Python FASTA Analysis](#homework-1-python-mrna-fasta-analysis--gc-distribution-graph)
+     - [Homework 2: R Clustering](#homework-2-r-z-score-clustering-of-cv-top-200-genes--pattern-visualization)
 6. [Appendix: Prompt Templates](#appendix-effective-vibe-coding-prompt-template)
+7. [Input/Output Prompt Checklist](#inputoutput-prompt-checklist)
 
 ---
 
@@ -41,9 +50,9 @@ On February 2nd, 2025, **Andrej Karpathy**, one of the most influential voices i
 
 ---
 
-## Vibe Coding in Biotech
+## Vibe Coding in Bioinformatics
 
-In biotech, coding isn't about building websites—it's about running genome pipelines, training disease models, or scripting CRISPR screens. Historically, that's meant technical depth, time, and a dedicated bioinformatics team.
+In bioinformatics, coding isn't about building websites—it's about running genome pipelines, analyzing RNA-seq data, or scripting variant calling workflows. Historically, that's meant technical depth, time, and a dedicated computational team.
 
 But what if a scientist could just say:
 
@@ -57,7 +66,7 @@ Thanks to LLMs, Biopython, and Colab-powered interfaces, we're now close. The ac
 
 ### Why This Matters
 
-Biotech has long been bottlenecked by translation—the gap between idea and execution. Vibe coding changes that by:
+Bioinformatics has long been bottlenecked by translation—the gap between biological question and computational answer. Vibe coding changes that by:
 
 | Benefit | Description |
 |---------|-------------|
@@ -173,7 +182,7 @@ VS Code is the recommended editor for vibe coding. By installing AI extensions, 
 > 4. Now you can use `code .` from Terminal
 {: .solution}
 
-> For detailed VS Code configuration with micromamba environments, see the [Software Installation lesson](compile.html#using-micromamba-environments-in-vs-code).
+> For detailed VS Code configuration with conda environments, see the [Software Installation lesson](compile.html#using-conda-environments-in-vs-code).
 {: .callout}
 
 ### Extension 1: Claude (Anthropic)
@@ -283,7 +292,7 @@ You don't need VS Code to do vibe coding. [ChatGPT](https://chatgpt.com/) and [C
 ```
 
 > ## Typical Session (VS Code)
-> 1. Open VS Code with your micromamba environment active
+> 1. Open VS Code with your conda environment active
 > 2. Open the AI chat panel (Claude, Copilot, or Gemini)
 > 3. Paste your structured prompt (environment + input + task + output specs)
 > 4. Review the generated code, click "Insert at Cursor" or copy to a `.py` / `.R` file
@@ -295,7 +304,7 @@ You don't need VS Code to do vibe coding. [ChatGPT](https://chatgpt.com/) and [C
 > 1. Open [chatgpt.com](https://chatgpt.com/) or [chatgpt.com/codex](https://chatgpt.com/codex) in your browser
 > 2. Paste your structured prompt
 > 3. Copy the generated code into your local editor or terminal
-> 4. Run the script in your micromamba environment: `micromamba activate bch709 && python script.py`
+> 4. Run the script in your conda environment: `conda activate bch709 && python script.py`
 > 5. Inspect results; return to ChatGPT and refine the prompt if needed
 {: .callout}
 
@@ -352,7 +361,7 @@ Natural-language prompt → AI generates code → Execute → Inspect results �
 
 ---
 
-# Step 0: Brainstorming and Environment Setup
+## Step 0: Brainstorming and Environment Setup
 
 > ## Learning Objective
 > Before writing any code, ask the AI about possible approaches and required tools first.
@@ -451,29 +460,805 @@ curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
 git clone https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling
 ```
 
-## Including Environment in Every Prompt
+## Step 0D. Research Project Design Prompt (Advanced)
 
-From this point forward, **start every prompt** with environment context:
+When starting a new bioinformatics research project, use this prompt to systematically explore analytical directions **before** writing any code. This is especially useful for thesis projects, grant proposals, or novel research questions.
 
-**For Python:**
+> ## Learning Objective
+> Design a comprehensive analysis framework by exploring multiple analytical directions grounded in existing literature.
+{: .objectives}
+
+### The Research Project Design Prompt
+
+Copy and customize the following prompt. Replace `[Research Question]` with your specific question.
+
 ~~~
-Write Python code that runs in the bch709-python conda environment.
-Assume pandas, numpy, matplotlib, and biopython are installed.
+Design a bioinformatics analysis framework to address the following research question.
+
+[Research Question]
+[YOUR RESEARCH QUESTION HERE - e.g., "How do circadian-regulated genes in CAM plants differ from C3 plants at the regulatory level?"]
+
+Your task is NOT to propose a finalized pipeline, but to explore and structure multiple analytical directions, explicitly grounded in existing literature.
+
+Instructions:
+
+A. Distinct Analytical Directions
+1. Propose at least FIVE analysis directions that are clearly differentiated from commonly used or expected approaches in this field.
+2. Each direction should represent a distinct analytical framing or inferential perspective, not a minor methodological variation.
+
+B. Structured Evaluation of Each Direction
+For EACH proposed analysis direction, provide the following in a clearly labeled structure:
+
+1. Core idea
+   - What is the central analytical concept?
+
+2. Why it is interesting
+   - What biological or conceptual insight could this reveal that standard analyses typically miss?
+
+3. Relationship to prior work
+   - Cite 1–3 representative references (author–year format is sufficient).
+   - Explicitly state whether this direction:
+     a) Extends existing approaches,
+     b) Reinterprets prior findings, or
+     c) Challenges an implicit assumption in the literature.
+   - Avoid citing review articles unless they are used specifically to define or question a dominant paradigm.
+   - If direct primary literature is sparse or absent, explicitly state this limitation and explain how the proposed analysis explores underexamined or emerging conceptual space rather than reiterating established findings.
+
+4. Additional data needs
+   - What new or orthogonal data, if any, would strengthen or enable this analysis?
+
+5. Assumptions
+   - What biological, evolutionary, or statistical assumptions does this analysis rely on?
+
+6. Analysis difficulty
+   - Rate as Low, Medium, or High, and briefly justify the rating.
+
+C. Hypothesis Scope
+- Include speculative or not-yet-validated hypotheses where appropriate.
+- Do NOT exclude an analysis direction solely because it lacks direct experimental validation.
+- Clearly distinguish between evidence-supported claims and conjectural interpretations.
+
+D. Evidence Integration and Conflict Resolution
+1. Identify at least three independent axes of evidence across the proposed analyses.
+2. Describe how conclusions would be interpreted if these evidence axes yield conflicting or partially inconsistent results.
+3. Specify how such inconsistencies would guide follow-up analyses, reframing of hypotheses, or narrowing of scope.
+
+E. Critical Self-Assessment
+- Identify where a skeptical reviewer is most likely to push back.
+- Discuss risks related to reproducibility, overinterpretation, and literature bias.
+- Explicitly distinguish what the data would demonstrate versus what would remain inferential or model-dependent.
+
+Emphasize analytical reasoning, interpretive logic, and literature positioning over tool selection.
 ~~~
 
-**For R:**
-~~~
-Write R code that runs in the bch709-R conda environment.
-You may use data.table, ggplot2, and pheatmap.
-~~~
+### Example Research Questions
 
-> ## Warning
-> **If you don't specify the environment, the AI will assume an arbitrary one.**
+Here are example research questions you can adapt:
+
+| Domain | Example Research Question |
+|--------|--------------------------|
+| **Transcriptomics** | How do salt stress response genes in halophytes differ from glycophytes at the regulatory network level? |
+| **Genomics** | What genomic signatures distinguish drought-tolerant crop varieties from susceptible ones? |
+| **Metagenomics** | How does rhizosphere microbiome composition correlate with plant disease resistance? |
+| **Comparative Genomics** | What is the evolutionary origin of C4 photosynthesis based on gene family expansion patterns? |
+| **Single-cell** | How do cell-type-specific expression patterns change during plant development under stress? |
+
+### When to Use This Prompt
+
+| Situation | Use This Prompt? |
+|-----------|-----------------|
+| Starting a thesis project | Yes - explore directions before committing |
+| Writing a grant proposal | Yes - identify novel angles |
+| Class homework assignment | No - use simpler brainstorming prompts |
+| Replicating a published analysis | No - follow the original methods |
+| Exploring a new dataset | Yes - discover unexpected patterns |
+
+> ## Key Insight
+> This prompt forces you to think **beyond the obvious analysis**. Instead of jumping to "run DESeq2," you first ask: "What are five fundamentally different ways to approach this question?"
+{: .callout}
+
+> ## Warning: AI Limitations
+> AI assistants may:
+> - Cite papers that don't exist (hallucination) — always verify references
+> - Miss recent publications (knowledge cutoff)
+> - Oversimplify domain-specific nuances
+>
+> Use this prompt as a **starting point for exploration**, not as a definitive literature review.
 {: .callout}
 
 ---
 
-# Part 1: Vibe Coding Examples
+## Telling AI Assistants About Your Conda Environment
+
+AI coding assistants (Claude, Copilot, Gemini, ChatGPT, Codex) don't know what packages you have installed. **You must tell them explicitly** — otherwise they'll assume arbitrary packages that may not be available in your environment.
+
+### Why This Matters
+
+```
+ ┌─────────────────────────────────────────────────────────────────────────┐
+ │  Without environment info:              With environment info:          │
+ │  ┌─────────────────────────┐           ┌─────────────────────────┐     │
+ │  │ AI assumes random       │           │ AI generates code that  │     │
+ │  │ packages → code fails   │    vs     │ works in YOUR setup     │     │
+ │  │ with ImportError        │           │                         │     │
+ │  └─────────────────────────┘           └─────────────────────────┘     │
+ └─────────────────────────────────────────────────────────────────────────┘
+```
+
+### The Environment Header Pattern
+
+**Always start your prompt with this structure:**
+
+~~~
+Write [Python/R] code that runs in the [env-name] conda environment.
+The following packages are installed: [list packages].
+~~~
+
+### Examples for Different AI Assistants
+
+All AI assistants accept the same prompt format. Here are ready-to-use templates:
+
+> ## For Claude (VS Code / CLI / Web)
+> ~~~
+> Write Python code that runs in the bch709-python conda environment.
+>
+> Installed packages:
+> - pandas, numpy, matplotlib, seaborn
+> - biopython, tqdm
+>
+> Do NOT use packages outside this list.
+> ~~~
+{: .solution}
+
+> ## For GitHub Copilot Chat
+> ~~~
+> # Environment: bch709-python conda environment
+> # Available: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> # Task: [your task here]
+> ~~~
+> Copilot also reads comments in your code, so adding environment comments at the top of your file helps autocomplete suggestions.
+{: .solution}
+
+> ## For Gemini Code Assist
+> ~~~
+> Context: I'm working in a conda environment called bch709-python.
+> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
+>
+> Write code that [your task here].
+> ~~~
+{: .solution}
+
+> ## For ChatGPT / Codex (Web)
+> ~~~
+> I'm using a conda environment with the following setup:
+>
+> Environment name: bch709-python
+> Python version: 3.11
+> Installed packages:
+> - pandas
+> - numpy
+> - matplotlib
+> - seaborn
+> - biopython
+> - tqdm
+>
+> Please write code that only uses these packages.
+> [Your task here]
+> ~~~
+{: .solution}
+
+### How to Check Your Installed Packages
+
+Before writing prompts, list what's actually installed:
+
+```bash
+# Activate your environment
+$ conda activate bch709-python
+
+# List all installed packages
+$ conda list
+
+# Or get a simple list for your prompt
+$ conda list --export | grep -v "^#" | cut -d'=' -f1 | head -20
+```
+
+```output
+pandas
+numpy
+matplotlib
+seaborn
+biopython
+tqdm
+...
+```
+
+### Quick Copy-Paste Templates
+
+**Python (bch709-python):**
+~~~
+Write Python code that runs in the bch709-python conda environment.
+Assume pandas, numpy, matplotlib, seaborn, biopython, and tqdm are installed.
+~~~
+
+**R (bch709-R):**
+~~~
+Write R code that runs in the bch709-R conda environment.
+You may use data.table, ggplot2, pheatmap, viridisLite, and scales.
+~~~
+
+### Persistent Environment Configuration (Per AI Assistant)
+
+Instead of repeating environment info in every prompt, some AI assistants support **persistent configuration files** or **custom instructions**:
+
+| AI Assistant | Configuration Method | Scope |
+|--------------|---------------------|-------|
+| **Claude (VS Code / CLI)** | `CLAUDE.md` file in project root | Per-project |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Per-repository |
+| **Gemini Code Assist** | Gemini settings in VS Code | Per-workspace |
+| **ChatGPT / Codex** | Custom Instructions (web settings) | All conversations |
+
+#### Claude: CLAUDE.md File
+
+Claude automatically reads a `CLAUDE.md` file in your project directory. Create this file once, and Claude will use it for every conversation in that project.
+
+**Example `CLAUDE.md`:**
+```markdown
+# Project Environment
+
+This project uses conda environments for Python and R analysis.
+
+## Python Environment: bch709-python
+- Python 3.11
+- Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+- Always use these packages; do not suggest packages outside this list
+
+## R Environment: bch709-R
+- R 4.3
+- Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales
+
+## Code Style
+- Use pathlib for file paths
+- Include error handling for file I/O
+- Print progress messages
+```
+
+> Claude reads this file automatically — no need to paste environment info in prompts.
+{: .callout}
+
+#### GitHub Copilot: copilot-instructions.md
+
+Create `.github/copilot-instructions.md` in your repository:
+
+```markdown
+# Copilot Instructions
+
+## Environment
+- Python 3.11 in conda environment `bch709-python`
+- Available packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+
+## Coding Standards
+- Use type hints
+- Handle gzip files with gzip.open()
+- Save outputs to results/ directory
+```
+
+#### Gemini Code Assist: VS Code Settings
+
+Gemini reads workspace-level settings. Add to `.vscode/settings.json`:
+
+```json
+{
+    "gemini.codeAssist.customInstructions": "I use a conda environment called bch709-python with pandas, numpy, matplotlib, seaborn, biopython, and tqdm installed. Generate code that only uses these packages."
+}
+```
+
+Or configure in VS Code:
+1. Open Settings (`Ctrl+,` / `Cmd+,`)
+2. Search for "Gemini custom instructions"
+3. Enter your environment description
+
+#### ChatGPT / Codex: Custom Instructions
+
+For web-based ChatGPT and Codex, set persistent instructions:
+
+1. Go to [chatgpt.com](https://chatgpt.com/)
+2. Click your profile icon → **Customize ChatGPT** (or **Settings** → **Personalization**)
+3. In "What would you like ChatGPT to know about you?":
+
+```
+I'm a bioinformatics student using conda environments:
+
+Python environment (bch709-python):
+- Python 3.11
+- pandas, numpy, matplotlib, seaborn, biopython, tqdm
+
+R environment (bch709-R):
+- R 4.3
+- data.table, ggplot2, pheatmap
+
+Always generate code using only these installed packages.
+```
+
+4. Click **Save**
+
+Now ChatGPT/Codex will remember your environment for all future conversations.
+
+> ## Summary: One-Time Setup per AI
+>
+> | AI | Setup Location | How to Configure |
+> |----|----------------|------------------|
+> | **Claude** | `CLAUDE.md` in project folder | Create file, Claude reads automatically |
+> | **Copilot** | `.github/copilot-instructions.md` | Create file in repo |
+> | **Gemini** | VS Code settings or `.vscode/settings.json` | Add `gemini.codeAssist.customInstructions` |
+> | **ChatGPT/Codex** | Web: Profile → Customize ChatGPT | Enter in "What to know about you" |
+{: .callout}
+
+### Common Mistakes to Avoid
+
+| Mistake | Problem | Solution |
+|---------|---------|----------|
+| Not specifying packages | AI uses unavailable libraries | Always list installed packages |
+| Assuming AI knows your setup | Code fails with ImportError | Explicitly state environment |
+| Vague package names | AI may use wrong version/variant | Use exact package names from `conda list` |
+| Forgetting R packages | AI uses base R only | List all installed R packages |
+
+### Unofficial Configuration Files (Gemini.md, CODEX.md)
+
+Unlike Claude (which officially supports `CLAUDE.md`), Gemini and ChatGPT/Codex don't automatically read configuration files from your project. However, you can still create **unofficial template files** in your project for reference and quick copy-paste.
+
+#### GEMINI.md (Unofficial)
+
+Create `GEMINI.md` in your project root:
+
+```markdown
+# Environment Configuration for Gemini
+
+## Python Environment: bch709-python
+- Python 3.11
+- Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+- Use ONLY these packages; do not assume other packages are available
+
+## R Environment: bch709-R
+- R 4.3
+- Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales
+
+## Code Style
+- Use pathlib for file paths
+- Include error handling for file I/O
+- Print progress messages to console
+
+## Project Structure
+- Input data: data/
+- Output files: results/
+- Scripts: scripts/
+```
+
+**How to use:** Open `GEMINI.md`, copy the content, and paste at the start of your Gemini conversation:
+
+```
+Here is my environment configuration:
+[paste GEMINI.md content here]
+
+Now, please write code that [your task]
+```
+
+#### CODEX.md (Unofficial)
+
+Create `CODEX.md` in your project root:
+
+```markdown
+# Environment Configuration for ChatGPT/Codex
+
+## Python Environment: bch709-python
+- Python version: 3.11
+- Conda environment name: bch709-python
+- Installed packages:
+  - pandas (data manipulation)
+  - numpy (numerical computing)
+  - matplotlib (plotting)
+  - seaborn (statistical visualization)
+  - biopython (bioinformatics)
+  - tqdm (progress bars)
+
+## R Environment: bch709-R
+- R version: 4.3
+- Conda environment name: bch709-R
+- Installed packages:
+  - data.table (fast data manipulation)
+  - ggplot2 (visualization)
+  - pheatmap (heatmaps)
+  - viridisLite (color palettes)
+  - scales (axis formatting)
+
+## Important Constraints
+- Generate code using ONLY the packages listed above
+- Do NOT suggest installing additional packages
+- Use gzip.open() for .gz files
+- Save outputs to results/ directory
+```
+
+**How to use:** Copy and paste at the beginning of your ChatGPT/Codex conversation.
+
+### Single-Conversation Chat Message Templates
+
+When you don't want to use persistent Custom Instructions, use these **copy-paste templates** at the start of each conversation:
+
+> ## Template for Gemini (Single Conversation)
+> ```
+> Before you generate any code, read my environment setup:
+>
+> I'm working in a conda environment with ONLY these packages installed:
+>
+> **Python (bch709-python):**
+> - Python 3.11
+> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
+>
+> **R (bch709-R):**
+> - R 4.3
+> - data.table, ggplot2, pheatmap, viridisLite, scales
+>
+> IMPORTANT: Do NOT use any packages outside this list. If you need a package that isn't listed, tell me before generating code.
+>
+> Now, here's my task:
+> [your task here]
+> ```
+{: .solution}
+
+> ## Template for ChatGPT/Codex (Single Conversation)
+> ```
+> I'm a bioinformatics student. Please generate code using ONLY these installed packages:
+>
+> **Environment: bch709-python (conda)**
+> - Python 3.11
+> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
+>
+> **Environment: bch709-R (conda)**
+> - R 4.3
+> - data.table, ggplot2, pheatmap, viridisLite, scales
+>
+> Rules:
+> 1. Only use packages from the list above
+> 2. If you need an unlisted package, ask me first
+> 3. Use gzip.open() for .gz files
+> 4. Save outputs to results/ directory
+>
+> Task:
+> [your task here]
+> ```
+{: .solution}
+
+> ## Template for GitHub Copilot Chat (Single Conversation)
+> ```
+> @workspace I'm using conda environment bch709-python with:
+> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
+>
+> Generate code using only these packages.
+>
+> Task: [your task here]
+> ```
+{: .solution}
+
+### Quick Reference: Configuration Methods Summary
+
+| AI Assistant | Persistent Config | Single-Conversation Method |
+|--------------|-------------------|---------------------------|
+| **Claude** | `CLAUDE.md` (official) | Paste env info at start of prompt |
+| **Copilot** | `.github/copilot-instructions.md` | `@workspace` + env comment |
+| **Gemini** | VS Code settings | Paste `GEMINI.md` content |
+| **ChatGPT/Codex** | Custom Instructions (all conversations) | Paste `CODEX.md` content |
+
+> ## Pro Tip: Create All Config Files at Once
+> ```bash
+> # Create all configuration files in your project
+> mkdir -p .github
+>
+> # Claude (official)
+> cat > CLAUDE.md << 'EOF'
+> # Project Environment
+> Python: bch709-python (pandas, numpy, matplotlib, seaborn, biopython, tqdm)
+> R: bch709-R (data.table, ggplot2, pheatmap, viridisLite, scales)
+> EOF
+>
+> # Copilot (official)
+> cat > .github/copilot-instructions.md << 'EOF'
+> Python 3.11 environment: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> R 4.3 environment: data.table, ggplot2, pheatmap
+> EOF
+>
+> # Gemini (unofficial - for copy-paste)
+> cat > GEMINI.md << 'EOF'
+> Context: bch709-python conda env with pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> EOF
+>
+> # ChatGPT/Codex (unofficial - for copy-paste)
+> cat > CODEX.md << 'EOF'
+> Environment: bch709-python (Python 3.11)
+> Packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> EOF
+>
+> echo "Created: CLAUDE.md, .github/copilot-instructions.md, GEMINI.md, CODEX.md"
+> ```
+{: .callout}
+
+> ## Pro Tip: Save Your Environment Prompt
+> Create a text file with your environment description that you can quickly copy-paste:
+> ```bash
+> $ cat > ~/env_prompt.txt << 'EOF'
+> Write Python code that runs in the bch709-python conda environment.
+> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
+> EOF
+> ```
+> Then just `cat ~/env_prompt.txt` and paste before each prompt.
+{: .callout}
+
+> ## Warning
+> **If you don't specify the environment, the AI will assume an arbitrary one** and may generate code that:
+> - Uses packages you don't have installed
+> - Assumes different package versions
+> - Imports modules with different names (e.g., `sklearn` vs `scikit-learn`)
+{: .callout}
+
+---
+
+## How to Write Effective Vibe Coding Prompts
+
+Writing a good prompt is like writing a recipe: the more specific your instructions, the better the result. Here's a step-by-step guide to crafting prompts that produce working code on the first try.
+
+### The 5-Part Prompt Structure
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    Effective Prompt = 5 Essential Parts                     │
+│                                                                             │
+│  1. Environment  →  "Write Python code in bch709-python conda env"         │
+│  2. Input        →  "Read data/file.gz (gzip TSV, columns: a, b, c)"       │
+│  3. Task         →  "Compute X using formula Y, filter by Z"               │
+│  4. Output       →  "Save to results/out.tsv (cols, decimals, sorting)"    │
+│  5. QC/Console   →  "Print top 10 rows, save dropped items to log.txt"     │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Step-by-Step Prompt Construction
+
+#### Step 1: Environment (Who Are You?)
+
+Tell the AI what tools you have.
+
+**Bad:**
+```
+Write Python code to analyze my data.
+```
+
+**Good:**
+```
+Write Python code that runs in the bch709-python conda environment.
+Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
+```
+
+#### Step 2: Input (What Are You Reading?)
+
+Describe the input file precisely.
+
+**Bad:**
+```
+Read the GFF file.
+```
+
+**Good:**
+```
+Input: data/MGI.gff3.gz
+- Format: GFF3 (9 tab-separated columns), gzip compressed
+- Columns: seqid, source, type, start, end, score, strand, phase, attributes
+- seqid = chromosome name (e.g., chr1, chr2, chrX)
+- type = feature type (gene, exon, mRNA, snRNA, lnc_RNA, etc.)
+```
+
+#### Step 3: Task (What Should You Do?)
+
+Define computations with explicit formulas.
+
+**Bad:**
+```
+Find the most variable genes.
+```
+
+**Good:**
+```
+Task:
+1. Compute mean_tpm = row-wise mean of all TPM columns
+2. Compute sd_tpm = row-wise standard deviation
+3. Compute CV = sd_tpm / mean_tpm
+4. Filter: keep only genes where mean_tpm >= 1
+5. Select: top 200 genes by CV (descending)
+```
+
+#### Step 4: Output (What Files Should You Create?)
+
+Specify exact filenames, formats, columns, and formatting.
+
+**Bad:**
+```
+Save the results.
+```
+
+**Good:**
+```
+Output: results/cv_top200.tsv
+- Format: TSV with header
+- Columns: gene_id, mean_tpm, sd_tpm, cv
+- Round numeric values to 4 decimal places
+- Sort by cv descending
+```
+
+#### Step 5: QC/Console (What Should You Print?)
+
+Tell the AI what to display for verification.
+
+**Bad:**
+```
+Print something.
+```
+
+**Good:**
+```
+Console output:
+- Print number of genes that passed the mean >= 1 filter
+- Print number of genes that were filtered out
+- Print top 10 rows of the result table
+- Print "Saved: [filename]" for each output file
+```
+
+### Complete Prompt Examples
+
+> ## Example 1: Python GFF3 Analysis (Complete Prompt)
+> ```
+> Write Python code that runs in the bch709-python conda environment.
+> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
+>
+> **Input:**
+> - GFF3 file: data/MGI.gff3.gz (gzip, 9 tab-separated columns)
+>   - seqid = chromosome (chr1, chr2, ..., chrX, chrY)
+>   - type = feature type (gene, exon, mRNA, snRNA, lnc_RNA, etc.)
+> - Chromosome sizes: data/chrom.sizes (TSV: chrom, length_bp)
+>
+> **Task:**
+> 1. Only include seqids that exist in chrom.sizes
+> 2. Log seqids NOT in chrom.sizes to a QC file
+> 3. Count genes per chromosome (type == "gene")
+> 4. Count unique exons per chromosome (unique start, end, strand tuples to prevent isoform overcounting)
+> 5. Count snRNA (type == "snRNA")
+> 6. Count lncRNA (type == "lnc_RNA" OR "lncRNA")
+> 7. Compute density: gene_per_Mb = n_gene / (chrom_length_bp / 1e6)
+>
+> **Output 1:** results/chr_feature_counts.tsv
+> - Columns: chrom, chrom_length_bp, n_gene, n_exon_unique, n_snRNA, n_lncRNA, gene_per_Mb
+> - Round densities to 4 decimal places
+> - Sort by gene_per_Mb descending
+>
+> **Output 2:** results/dropped_seqids.txt
+> - One seqid per line, sorted alphabetically
+>
+> **Console:**
+> - Print number of dropped seqids and number of dropped feature lines
+> - Print top 5 rows of the result table
+> ```
+{: .solution}
+
+> ## Example 2: R Heatmap Analysis (Complete Prompt)
+> ```
+> Write R code that runs in the bch709-R conda environment.
+> Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales.
+>
+> **Input:**
+> - TPM file: Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz
+>   - First column: gene_id
+>   - Remaining columns: DT_ZT{time}_rep{1-3} (18 sample columns)
+>
+> **Task:**
+> 1. Compute mean_tpm = row-wise mean of all 18 sample columns
+> 2. Compute sd_tpm = row-wise standard deviation
+> 3. Compute CV = sd_tpm / mean_tpm
+> 4. Filter: keep only genes where mean_tpm >= 1
+> 5. Select: top 200 genes by CV descending
+> 6. Transform for heatmap: log2(TPM + 1)
+>
+> **Output 1:** results/iceplant_cv_top200.tsv
+> - Columns: gene_id, mean_tpm, sd_tpm, cv
+> - Round to 4 decimal places
+>
+> **Output 2:** results/iceplant_cv_top200_heatmap.png
+> - Size: 1800 × 1200 pixels, dpi 200
+> - Data: log2(TPM + 1) values
+> - Rows: gene_id (maintain CV descending order, cluster_rows = FALSE)
+> - Columns: original sample order (cluster_cols = FALSE)
+> - X-axis labels: rotated 90 degrees
+> - Title: "Ice plant log2(TPM+1), CV top200 (mean>=1)"
+>
+> **Console:**
+> - Print top 10 rows of the CV table
+> - Print "Saved: [filename]" for each output
+> ```
+{: .solution}
+
+### Prompt Writing Checklist
+
+Use this checklist before sending your prompt:
+
+> ## Before You Send Your Prompt
+> **Environment:**
+> - [ ] Specified language (Python/R)
+> - [ ] Specified conda environment name
+> - [ ] Listed installed packages
+>
+> **Input:**
+> - [ ] Specified filename and path
+> - [ ] Specified format (TSV, CSV, GFF3, FASTA, etc.)
+> - [ ] Specified if gzip compressed
+> - [ ] Described column structure
+>
+> **Task:**
+> - [ ] Defined formulas (CV = sd/mean, etc.)
+> - [ ] Specified filter criteria (mean >= 1, etc.)
+> - [ ] Explained any deduplication logic
+>
+> **Output:**
+> - [ ] Specified filename and path
+> - [ ] Listed column names
+> - [ ] Specified decimal places
+> - [ ] Specified sorting order
+> - [ ] Specified plot dimensions and format (if applicable)
+>
+> **QC:**
+> - [ ] Specified what to print to console
+> - [ ] Specified any QC files to save
+{: .checklist}
+
+### Common Prompt Mistakes and Fixes
+
+| Mistake | Problem | Fix |
+|---------|---------|-----|
+| "Analyze the data" | AI doesn't know what analysis | Specify exact computation: "Compute CV = sd/mean" |
+| "Save the results" | AI chooses random filename | Specify: "Save to results/output.tsv" |
+| "Make a nice plot" | AI chooses arbitrary colors/size | Specify: "1800x1200 px, dpi 200, blue-white-red colors" |
+| "Filter low genes" | AI doesn't know threshold | Specify: "Filter: keep genes where mean_tpm >= 1" |
+| "Count exons" | AI may double-count isoforms | Specify: "Count unique (start, end, strand) tuples" |
+
+### Iteration Strategy
+
+If the first prompt doesn't work perfectly, follow this pattern:
+
+```
+First prompt → AI generates code → Run code → Check output
+
+If errors:
+  "The code produced an error: [paste error message]
+   Please fix: [describe the issue]"
+
+If wrong output:
+  "The output is incorrect. Expected: [describe expected]
+   Actual: [describe actual]
+   Please modify: [specific change needed]"
+
+If missing feature:
+  "The code works but needs these additions:
+   1. [addition 1]
+   2. [addition 2]"
+```
+
+> ## Pro Tip: Start with a Brainstorming Prompt
+> Before writing code, ask the AI to help you plan:
+> ```
+> I need to analyze [data type]. Before writing code:
+> 1. What libraries do you recommend?
+> 2. What are the key steps in this analysis?
+> 3. What edge cases should I handle?
+> ```
+> Use the AI's response to write a more specific code-generation prompt.
+{: .callout}
+
+---
+
+## Part 1: Vibe Coding Examples
 
 ---
 
@@ -1023,7 +1808,7 @@ cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
 
 ---
 
-# Part 2: Homework Assignments
+## Part 2: Homework Assignments
 
 ---
 
@@ -1183,7 +1968,7 @@ For the line plot:
 
 ---
 
-# Appendix: Effective Vibe Coding Prompt Template
+## Appendix: Effective Vibe Coding Prompt Template
 
 ~~~
 [Environment]: Write [language] code that runs in the [env name] conda environment.
@@ -1219,7 +2004,7 @@ For the line plot:
 
 ---
 
-# Input/Output Prompt Checklist
+## Input/Output Prompt Checklist
 
 > ## When Specifying Input
 > - Filename and path

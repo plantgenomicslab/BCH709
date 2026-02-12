@@ -6,7 +6,7 @@ published: true
 
 {% include gh_variables.html %}
 
-This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), Micromamba for bioinformatics, and compiling software from source code.
+This lesson covers how to install software on Linux and macOS systems, including system package managers (APT, Homebrew), Conda/Micromamba for bioinformatics, and compiling software from source code.
 
 ![software_compile](../fig/software-compiler.png)
 
@@ -365,9 +365,9 @@ $ sudo snap install code --classic
 
 ---
 
-## Micromamba for Bioinformatics
+## Conda (Micromamba) for Bioinformatics
 
-Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility.
+Micromamba is a fast, lightweight package manager that is fully compatible with conda. It helps manage package dependencies and environments, making it easier to install packages and maintain reproducibility. In this course, we install Micromamba and set up an alias so you can use familiar `conda` commands.
 
 > **Why Micromamba?**
 > - **Fast**: Micromamba is written in C++ and is significantly faster than conda
@@ -376,23 +376,63 @@ Micromamba is a fast, lightweight package manager that is fully compatible with 
 > - **Simple**: Single binary with no dependencies
 {: .callout}
 
-### Why Micromamba Instead of APT or Homebrew?
+### Micromamba vs Conda vs Miniconda
 
-System package managers like APT and Homebrew are great for general system software, but they fall short for bioinformatics workflows. Micromamba solves these problems:
+These three tools all manage conda environments and packages, but they differ in implementation and features:
+
+| Feature | Micromamba | Miniconda | Anaconda (Conda) |
+|---------|------------|-----------|------------------|
+| **Language** | C++ | Python | Python |
+| **Installation Size** | ~5 MB | ~400 MB | ~3 GB |
+| **Base Environment** | None | Minimal (Python + pip) | Full (250+ packages) |
+| **Speed** | Fastest | Slow | Slow |
+| **Package Solver** | libmamba (fast) | Classic (slow) or libmamba | Classic (slow) or libmamba |
+| **Python Required** | No | Yes | Yes |
+| **Best For** | HPC, minimal setups | General use | Data science beginners |
+
+> ## Which Should You Use?
+>
+> | Use Case | Recommendation |
+> |----------|----------------|
+> | **HPC clusters / servers** | **Micromamba** - lightweight, no sudo needed |
+> | **Bioinformatics workflows** | **Micromamba** - fast, minimal overhead |
+> | **Personal laptop (beginner)** | **Miniconda** - familiar conda commands |
+> | **Data science (pre-installed packages)** | **Anaconda** - includes everything |
+> | **CI/CD pipelines** | **Micromamba** - fast installation, small size |
+>
+> **In this course, we use Micromamba** because it's fast, lightweight, and works well on both personal computers and HPC clusters. We set up an alias so you can use familiar `conda` commands.
+{: .callout}
+
+> ## Command Compatibility
+> All three tools use the same commands:
+> ```bash
+> # These commands work with micromamba, miniconda, and anaconda
+> $ conda create -n myenv python=3.12
+> $ conda activate myenv
+> $ conda install numpy pandas
+> $ conda env list
+> $ conda deactivate
+> ```
+> The only difference is speed and installation size. With our `conda` alias, you won't notice any difference in daily use.
+{: .prereq}
+
+### Why Conda Instead of APT or Homebrew?
+
+System package managers like APT and Homebrew are great for general system software, but they fall short for bioinformatics workflows. Conda solves these problems:
 
 ```
  ┌─────────────────────────────────────────────────────────────────────┐
- │          System Package Managers          │       Micromamba        │
- │            (APT / Homebrew)               │   (conda/bioconda)     │
- ├───────────────────────────────────────────┼────────────────────────┤
- │  Requires root/admin (sudo)              │  User-level install    │
- │  One version per package system-wide     │  Multiple versions     │
- │  No environment isolation                │  Isolated environments │
- │  Limited bioinformatics software         │  9,000+ bio packages   │
- │  OS-dependent packages                   │  Cross-platform        │
- │  Hard to reproduce on another machine    │  Export & share envs   │
- │  Upgrading one tool can break another    │  Each project isolated │
- └───────────────────────────────────────────┴────────────────────────┘
+ │          System Package Managers          │          Conda          │
+ │            (APT / Homebrew)               │   (conda-forge/bioconda)│
+ ├───────────────────────────────────────────┼─────────────────────────┤
+ │  Requires root/admin (sudo)              │  User-level install     │
+ │  One version per package system-wide     │  Multiple versions      │
+ │  No environment isolation                │  Isolated environments  │
+ │  Limited bioinformatics software         │  9,000+ bio packages    │
+ │  OS-dependent packages                   │  Cross-platform         │
+ │  Hard to reproduce on another machine    │  Export & share envs    │
+ │  Upgrading one tool can break another    │  Each project isolated  │
+ └───────────────────────────────────────────┴─────────────────────────┘
 ```
 
 > ## The Version Conflict Problem
@@ -406,7 +446,7 @@ System package managers like APT and Homebrew are great for general system softw
 >
 > With APT or Homebrew, you can only have **one version** installed at a time. Upgrading for Project B would **break** Project A.
 >
-> With Micromamba, each project gets its own **isolated environment** with exactly the versions it needs -- both can coexist on the same machine.
+> With Conda, each project gets its own **isolated environment** with exactly the versions it needs -- both can coexist on the same machine.
 >
 > ```
 >  ┌──────────────────┐    ┌──────────────────┐
@@ -425,11 +465,11 @@ System package managers like APT and Homebrew are great for general system softw
 
 - **Dependencies**: When you install a package like Matplotlib, it automatically installs all dependencies (Numpy, Scipy, etc.) so you don't have to install them manually.
 
-- **Environments**: You can have multiple isolated environments for different projects. For example, Project A needs Python 2.7 and Biopython 1.60, while Project B needs Python 3.12 and Biopython 1.80. Micromamba lets you switch between them easily.
+- **Environments**: You can have multiple isolated environments for different projects. For example, Project A needs Python 2.7 and Biopython 1.60, while Project B needs Python 3.12 and Biopython 1.80. Conda lets you switch between them easily.
 
 - **Reproducibility**: Share your exact environment with collaborators using a single YAML file. They can recreate your setup with one command.
 
-- **No root access needed**: On HPC clusters and shared servers, you typically don't have `sudo`. Micromamba installs everything in your home directory.
+- **No root access needed**: On HPC clusters and shared servers, you typically don't have `sudo`. Conda installs everything in your home directory.
 
 - **Bioconda channel**: Access to 9,000+ bioinformatics packages (HISAT2, BWA, samtools, GATK, etc.) pre-built and ready to install.
 
@@ -635,8 +675,8 @@ $ conda update numpy
 # Update all packages in environment
 $ conda update --all
 
-# Update micromamba itself
-$ micromamba self-update
+# Update conda itself
+$ conda self-update
 ```
 
 #### Removing Packages
@@ -798,7 +838,7 @@ $ conda create -n chipseq_analysis python=3.12
 
 ```bash
 # Initialize shell (run once after installation)
-$ micromamba shell init --shell bash --root-prefix ~/micromamba
+$ conda shell init --shell bash --root-prefix ~/micromamba
 
 # Restart your terminal or source the rc file
 $ source ~/.bashrc
@@ -1029,8 +1069,8 @@ $ code --install-extension ms-vscode-remote.remote-wsl  # WSL only
 > ## Can't Find Your Environment? (WSL/Linux)
 > If your environment doesn't appear:
 > ```bash
-> # Make sure micromamba is initialized
-> $ micromamba shell init --shell bash --root-prefix ~/micromamba
+> # Make sure conda is initialized
+> $ conda shell init --shell bash --root-prefix ~/micromamba
 > $ source ~/.bashrc
 >
 > # Verify environment exists
@@ -1042,8 +1082,8 @@ $ code --install-extension ms-vscode-remote.remote-wsl  # WSL only
 > ## Can't Find Your Environment? (macOS)
 > If your environment doesn't appear:
 > ```bash
-> # Make sure micromamba is initialized
-> $ micromamba shell init --shell zsh --root-prefix ~/micromamba
+> # Make sure conda is initialized
+> $ conda shell init --shell zsh --root-prefix ~/micromamba
 > $ source ~/.zshrc
 >
 > # Verify environment exists
@@ -1223,7 +1263,7 @@ Or in VS Code:
 
 | Setting | Description |
 |---------|-------------|
-| `python.condaPath` | Path to micromamba executable |
+| `python.condaPath` | Path to conda/micromamba executable |
 | `python.defaultInterpreterPath` | Default Python interpreter for the project |
 | `python.terminal.activateEnvironment` | Auto-activate environment in terminal |
 | `python.terminal.activateEnvInCurrentTerminal` | Activate in existing terminal |
@@ -1245,8 +1285,8 @@ john
 ```
 
 ```bash
-# Find micromamba path
-$ which micromamba
+# Find conda path
+$ which conda
 ```
 ```output
 /home/john/micromamba/bin/micromamba
@@ -1367,10 +1407,10 @@ When your conda environment is active in VS Code terminal:
 
 ### References
 
+- [Conda Documentation](https://docs.conda.io/en/latest/)
 - [Micromamba Documentation](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html)
 - [Conda-forge](https://conda-forge.org/)
 - [BioConda](https://bioconda.github.io/)
-- [Micromamba Cheat Sheet](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html#quickstart)
 - [VS Code Python Environments](https://code.visualstudio.com/docs/python/environments)
 
 ---
