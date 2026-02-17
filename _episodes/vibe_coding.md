@@ -1077,7 +1077,14 @@ If the first prompt doesn't work perfectly, follow this pattern:
 ```
 First prompt → AI generates code → Run code → Check output
 
-If errors:
+If ImportError (missing package):
+  Ask the AI: "The code uses [package] but it's not installed.
+   Give me the conda install command to add it to bch709_vibe_coding."
+
+  Then update your environment:
+  conda install -c conda-forge -n bch709_vibe_coding [package]
+
+If other errors:
   "The code produced an error: [paste error message]
    Please fix: [describe the issue]"
 
@@ -1091,6 +1098,19 @@ If missing feature:
    1. [addition 1]
    2. [addition 2]"
 ```
+
+> ## Keeping Your Environment Up to Date
+> If the AI suggests a package you don't have, install it and update your config files:
+> ```bash
+> # Install the missing package
+> conda install -c conda-forge -n bch709_vibe_coding [package_name]
+>
+> # Then ask the AI to regenerate config files
+> # (in VS Code Claude chat):
+> # "Update CLAUDE.md, copilot-instructions.md, GEMINI.md, and CODEX.md
+> #  to reflect the current conda environment."
+> ```
+{: .callout}
 
 > ## Pro Tip: Start with a Brainstorming Prompt
 > Before writing code, ask the AI to help you plan:
