@@ -134,7 +134,7 @@ Describe experiments in plain English; AI generates protocols and sends them dir
 
 > ## Key Takeaways
 > - **Vibe coding** lets users build through intent, not syntax
-> - In **biotech**, that means less friction, faster feedback, and broader access
+> - In **bioinformatics**, that means less friction, faster feedback, and broader access
 > - These tools don't just "assist" scientists—they enable more with less code and more creativity
 {: .callout}
 
@@ -309,7 +309,7 @@ You don't need VS Code to do vibe coding. [ChatGPT](https://chatgpt.com/) and [C
 > 1. Open [chatgpt.com](https://chatgpt.com/) or [chatgpt.com/codex](https://chatgpt.com/codex) in your browser
 > 2. Paste your structured prompt
 > 3. Copy the generated code into your local editor or terminal
-> 4. Run the script in your conda environment: `conda activate bch709 && python script.py`
+> 4. Run the script in your conda environment: `conda activate bch709_vibe_coding && python script.py`
 > 5. Inspect results; return to ChatGPT and refine the prompt if needed
 {: .callout}
 
@@ -800,27 +800,27 @@ Here are example research questions you can adapt:
 
 ## Telling AI Assistants About Your Conda Environment
 
-AI coding assistants (Claude, Copilot, Gemini, ChatGPT, Codex) don't know what packages you have installed. **You must tell them explicitly** — otherwise they'll assume arbitrary packages that may not be available in your environment.
+If you followed [Step 0C](#step-0c-environment-creation-commands), your AI already knows your environment through configuration files (`CLAUDE.md`, `copilot-instructions.md`, etc.). This section explains **why** that matters and what to do if you don't have config files.
 
 ### Why This Matters
 
 ```
  ┌─────────────────────────────────────────────────────────────────────────┐
- │  Without environment info:              With environment info:          │
+ │  Without config files:                  With config files:              │
  │  ┌─────────────────────────┐           ┌─────────────────────────┐     │
- │  │ AI assumes random       │           │ AI generates code that  │     │
- │  │ packages → code fails   │    vs     │ works in YOUR setup     │     │
+ │  │ AI assumes random       │           │ AI reads your setup and │     │
+ │  │ packages → code fails   │    vs     │ generates working code  │     │
  │  │ with ImportError        │           │                         │     │
  │  └─────────────────────────┘           └─────────────────────────┘     │
  └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### The Environment Header Pattern
+### The Environment Header Pattern (Fallback)
 
-**Always start your prompt with this structure:**
+If your AI doesn't have a config file, start your prompt with:
 
 ~~~
-Write [Python/R] code that runs in the [env-name] conda environment.
+Write [Python/R] code that runs in the bch709_vibe_coding conda environment.
 The following packages are installed: [list packages].
 ~~~
 
@@ -1044,8 +1044,7 @@ Use this checklist before sending your prompt:
 > ## Before You Send Your Prompt
 > **Environment:**
 > - [ ] Specified language (Python/R)
-> - [ ] Specified conda environment name
-> - [ ] Listed installed packages
+> - [ ] Config files set up (or manually listed conda environment and packages)
 >
 > **Input:**
 > - [ ] Specified filename and path
