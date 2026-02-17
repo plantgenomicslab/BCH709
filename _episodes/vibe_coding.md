@@ -27,6 +27,7 @@ published: true
      - [Environment Setup Prompt (Python)](#step-0b-environment-setup-prompt-analysis-1--python)
      - [Environment Setup Prompt (R)](#step-0b-environment-setup-prompt-analysis-2--r)
    - [Step 0C: Environment Creation Commands](#step-0c-environment-creation-commands)
+     - [Export Your Environment to YAML](#export-your-environment-to-yaml)
      - [Set Up AI Configuration Files](#set-up-ai-configuration-files)
    - [Step 0D: Research Project Design (Advanced)](#step-0d-research-project-design-prompt-advanced)
    - [Telling AI About Your Environment](#telling-ai-assistants-about-your-conda-environment)
@@ -627,7 +628,50 @@ python -c "import pandas, numpy, matplotlib, Bio; print('Python OK')"
 
 # Verify R packages
 R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("R OK\n")'
+
+# Export environment to YAML
+conda env export -n bch709_vibe_coding > environment.yml
 ```
+
+### Export Your Environment to YAML
+
+After creating and verifying your environment, export it:
+
+```bash
+conda env export -n bch709_vibe_coding > environment.yml
+```
+
+This creates an `environment.yml` file listing every package and its exact version:
+
+```yaml
+name: bch709_vibe_coding
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.x
+  - pandas=2.x.x
+  - numpy=1.x.x
+  - r-base=4.3.x
+  - r-data.table=1.x.x
+  # ... all packages with pinned versions
+```
+
+> ## Why Export to YAML?
+>
+> | Reason | Explanation |
+> |--------|-------------|
+> | **Reproducibility** | Anyone can recreate your exact environment with `conda env create -f environment.yml` |
+> | **Version control** | Commit `environment.yml` to Git — if a package update breaks your code, you can roll back |
+> | **AI context** | AI assistants can read this file to know exactly what packages (and versions) you have |
+> | **Collaboration** | Share with classmates or your instructor so everyone runs the same software |
+> | **Recovery** | If your environment gets corrupted, rebuild it in one command instead of reinstalling packages one by one |
+>
+> **Update the YAML whenever you install new packages:**
+> ```bash
+> conda env export -n bch709_vibe_coding > environment.yml
+> git add environment.yml && git commit -m "Update environment" && git push
+> ```
+{: .callout}
 
 > ## Troubleshooting
 > If the verification step fails:
@@ -1138,9 +1182,15 @@ $ conda install -c conda-forge -n bch709_vibe_coding scipy
 $ python scripts/analysis.py   # now it works
 ```
 
-**Step 6.** Update your config files so the AI knows about the new package:
+**Step 6.** Update your environment YAML and config files:
 
-In VS Code Claude chat, type:
+```bash
+# Re-export so environment.yml stays current
+conda env export -n bch709_vibe_coding > environment.yml
+git add environment.yml && git commit -m "Add scipy" && git push
+```
+
+Then in VS Code Claude chat, type:
 
 ~~~
 I just installed scipy into bch709_vibe_coding.
@@ -1148,8 +1198,11 @@ Update CLAUDE.md, copilot-instructions.md, GEMINI.md, and CODEX.md
 to reflect the current conda environment.
 ~~~
 
-> ## Why Update Config Files?
-> If you don't update, the AI might not use `scipy` in future code — or worse, it might suggest installing it again. Keeping config files in sync avoids confusion.
+> ## Why Update environment.yml and Config Files?
+> - **environment.yml** — locks the exact package versions so you (or anyone else) can recreate the environment later
+> - **Config files** — tells the AI what packages are available so it doesn't suggest missing libraries or redundant installs
+>
+> Always update both after installing new packages.
 {: .callout}
 
 ---
