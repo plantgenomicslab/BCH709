@@ -815,15 +815,6 @@ If you followed [Step 0C](#step-0c-environment-creation-commands), your AI alrea
  └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### The Environment Header Pattern (Fallback)
-
-If your AI doesn't have a config file, start your prompt with:
-
-~~~
-Write [Python/R] code that runs in the bch709_vibe_coding conda environment.
-The following packages are installed: [list packages].
-~~~
-
 ### Persistent Configuration Reference
 
 If you followed [Step 0C](#step-0c-environment-creation-commands), your AI configuration files are already set up. Here's what each file does:
@@ -839,7 +830,7 @@ If you followed [Step 0C](#step-0c-environment-creation-commands), your AI confi
 {: .callout}
 
 > ## If You Don't Have Config Files
-> If you skipped [Set Up AI Configuration Files](#set-up-ai-configuration-files), you must include environment info at the **start of every prompt**:
+> If you skipped [Set Up AI Configuration Files](#set-up-ai-configuration-files), include environment info at the **start of every prompt**:
 >
 > ~~~
 > Write [Python/R] code that runs in the bch709_vibe_coding conda environment.
@@ -872,7 +863,7 @@ Writing a good prompt is like writing a recipe: the more specific your instructi
 
 ### Step-by-Step Prompt Construction
 
-#### Step 1: Environment (Which Tool Do We Need?)
+#### Step 1: Tool (Which Language Do We Need?)
 
 If you set up [AI configuration files](#set-up-ai-configuration-files), your AI already knows your environment. Just tell it which language to use:
 
@@ -922,10 +913,10 @@ Find the most variable genes.
 **Good:**
 ```
 Task:
-1. Compute mean_tpm = row-wise mean of all TPM columns
-2. Compute sd_tpm = row-wise standard deviation
-3. Compute CV = sd_tpm / mean_tpm
-4. Filter: keep only genes where mean_tpm >= 1
+1. Compute mean_expr = row-wise mean across all condition columns
+2. Compute sd_expr = row-wise standard deviation
+3. Compute CV = sd_expr / abs(mean_expr)
+4. Filter: remove genes with all NA or zero variance
 5. Select: top 200 genes by CV (descending)
 ```
 
@@ -942,7 +933,7 @@ Save the results.
 ```
 Output: results/cv_top200.tsv
 - Format: TSV with header
-- Columns: gene_id, mean_tpm, sd_tpm, cv
+- Columns: gene_id, mean_expr, sd_expr, cv
 - Round numeric values to 4 decimal places
 - Sort by cv descending
 ```
@@ -959,8 +950,8 @@ Print something.
 **Good:**
 ```
 Console output:
-- Print number of genes that passed the mean >= 1 filter
-- Print number of genes that were filtered out
+- Print number of genes after filtering (removed NA/zero-variance)
+- Print number of genes that were removed
 - Print top 10 rows of the result table
 - Print "Saved: [filename]" for each output file
 ```
@@ -1053,8 +1044,8 @@ Use this checklist before sending your prompt:
 > - [ ] Described column structure
 >
 > **Task:**
-> - [ ] Defined formulas (CV = sd/mean, etc.)
-> - [ ] Specified filter criteria (mean >= 1, etc.)
+> - [ ] Defined formulas (CV = sd/abs(mean), etc.)
+> - [ ] Specified filter criteria (remove NA/zero-variance, top N, etc.)
 > - [ ] Explained any deduplication logic
 >
 > **Output:**
@@ -1073,10 +1064,10 @@ Use this checklist before sending your prompt:
 
 | Mistake | Problem | Fix |
 |---------|---------|-----|
-| "Analyze the data" | AI doesn't know what analysis | Specify exact computation: "Compute CV = sd/mean" |
+| "Analyze the data" | AI doesn't know what analysis | Specify exact computation: "Compute CV = sd/abs(mean)" |
 | "Save the results" | AI chooses random filename | Specify: "Save to results/output.tsv" |
 | "Make a nice plot" | AI chooses arbitrary colors/size | Specify: "1800x1200 px, dpi 200, blue-white-red colors" |
-| "Filter low genes" | AI doesn't know threshold | Specify: "Filter: keep genes where mean_tpm >= 1" |
+| "Filter low genes" | AI doesn't know threshold | Specify: "Filter: remove genes with all NA or zero variance" |
 | "Count exons" | AI may double-count isoforms | Specify: "Count unique (start, end, strand) tuples" |
 
 ### Iteration Strategy
@@ -1863,8 +1854,8 @@ For the box/line plot:
 - Additional inputs: [chrom.sizes, gene lists, or other reference files]
 
 **Analysis conditions:**
-- [Filter criteria (e.g., mean >= 1)]
-- [Computation method (e.g., CV = sd/mean)]
+- [Filter criteria (e.g., remove NA/zero-variance rows)]
+- [Computation method (e.g., CV = sd/abs(mean))]
 - [Definitions (e.g., exon count = unique intervals only)]
 
 **Output 1 — Table:**
@@ -1912,8 +1903,8 @@ For the box/line plot:
 {: .checklist}
 
 > ## When Specifying Analysis Definitions
-> - Metric definitions (CV = sd/mean, Z-score = (x−mean)/sd)
-> - Filter rules (mean >= 1)
+> - Metric definitions (CV = sd/abs(mean), Z-score = (x−mean)/sd)
+> - Filter rules (remove NA/zero-variance, top N)
 > - Deduplication handling (unique intervals, etc.)
 > - Transformation methods (log2(TPM+1))
 > - Clustering parameters (method, distance metric, k)
