@@ -1084,7 +1084,22 @@ First prompt → AI generates code → Run code → Check output
                               If wrong output → describe expected vs actual
 ```
 
+#### After AI Generates Code: Check for Missing Packages
+
+Before running the code, ask the AI:
+
+~~~
+Does this code require any packages that are not in my bch709_vibe_coding environment?
+If yes, give me the conda install commands to add them.
+My current packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm,
+data.table, ggplot2, pheatmap, viridisLite, scales.
+~~~
+
+The AI will list any missing packages and give you install commands. Install them **before** running the code.
+
 #### Example: AI Code Uses a Package You Don't Have
+
+If you skip the check above (or the AI misses one), here's what happens:
 
 **Step 1.** You ask the AI to generate code, and it produces:
 
