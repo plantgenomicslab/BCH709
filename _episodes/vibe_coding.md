@@ -1709,41 +1709,22 @@ ATGTCTGCTCCAGCTAGCAGTGAAACTTTATTCAGAAACTGCTTAG...
 
 | Output | Specification |
 |--------|---------------|
-| `results/mrna_metrics.tsv` | accession, length, gc_content (4 decimals, sorted by gc_content desc, top 20) |
-| `results/gc_content_distribution.png` | Histogram + density curve (1600×900 px, dpi 200) |
-| `results/gc_content_distribution.svg` | Same graph in SVG format |
-| `docs/gc_content_distribution.html` | Title + summary statistics + embedded PNG |
+| `results/mrna_metrics.tsv` | accession, length, gc_content (4 decimals, sorted by gc_content desc) |
+| `results/gc_content_distribution.png` | Histogram (1600×900 px, dpi 200) |
 
 **Plot specifications:**
-- Bins: 0.00 to 1.00, step 0.01
-- Bar color: light gray; border: dark gray
-- Density curve: blue, line width 2.0
-- Mean: red dashed vertical line; Median: green dashed vertical line
+- X-axis: GC content (0–1)
+- Histogram with density curve overlay
+- Mean and median as vertical dashed lines
 - Caption showing n, mean, median, sd
-
-### Chart Selection Discussion (In-Class Activity)
-
-~~~
-I want to show the distribution of gc_content values.
-Compare histogram, density curve, and ECDF — which is most appropriate?
-
-My situation:
-- Continuous values between 0 and 1, very large sample size (tens of thousands)
-- I want to convey distribution shape, central tendency (mean, median), and tails
-- Must be reproducible at publication-quality level
-
-For each option, give pros and cons, then recommend your top pick with justification.
-~~~
-
-Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.com/)
 
 ### Grading Criteria
 
 | Criterion | Weight | Description |
 |-----------|--------|-------------|
-| Prompt quality | 40% | Input format, accession parsing, gzip handling, output specs (filename, columns, decimals, sorting, graph size/color/font) |
-| Code correctness | 40% | Correct gzip streaming parse, accurate computation, all 4 files generated |
-| Result interpretation | 20% | Explain 3 possible biological/technical reasons for high top-20 GC content values in yeast |
+| Prompt quality | 40% | Input format, accession parsing, gzip handling, output specs (filename, columns, decimals, graph size) |
+| Code correctness | 40% | Correct gzip parse, accurate GC computation, both files generated |
+| Result interpretation | 20% | Explain 2 possible biological reasons for the GC content distribution pattern in yeast mRNA |
 
 ---
 
@@ -1760,7 +1741,7 @@ Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 1. **Z-score normalize** (row-wise)
 2. **Hierarchical clustering** (ward.D2 method, euclidean distance)
 3. **Cut tree at k=4** to assign clusters
-4. **Save cluster mean expression pattern** box plots per stress category
+4. **Save clustered heatmap** as PDF
 5. **Save cluster assignment** table as TSV
 
 > ## Objective
@@ -1785,31 +1766,17 @@ Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 | Z-score | (value − row_mean) / row_sd |
 | Rows | gene_id (hierarchical clustering, ward.D2, euclidean) |
 | Columns | Stress conditions (original order, cluster_cols = FALSE) |
-| Colors | blue (low) → white (0) → red (high) |
 | Annotation | k=4 cutree as color bar |
 | Size | 8 × 12 inches |
 
-**2. Cluster Mean Pattern Box Plot** — `results/cluster_patterns.pdf`
-
-| Specification | Value |
-|---------------|-------|
-| Layout | 2×2 panel (facet_wrap) |
-| Y-axis | Mean log2 expression ratio ± SD |
-| X-axis | Stress categories (heat, oxidative, osmotic, nutrient) |
-| Panel titles | "Cluster 1 (n=XX genes)" |
-| Size | 10 × 8 inches |
-
-**3. Assignment Table** — `results/cluster_assignment.tsv`
+**2. Assignment Table** — `results/cluster_assignment.tsv`
 
 | Column | Description |
 |--------|-------------|
 | gene_id | Gene identifier (e.g., YAL001C) |
 | cluster | 1–4 |
-| peak_condition | Condition with highest expression |
-| trough_condition | Condition with lowest expression |
-| amplitude | max − min (2 decimal places) |
 
-Sort by cluster ascending, then amplitude descending within cluster.
+Sort by cluster ascending.
 
 ### Prompt-Writing Hints
 
@@ -1822,14 +1789,9 @@ Analysis procedure:
 5. cutree(k=4) to assign 4 clusters
 
 For the heatmap:
-- Use pheatmap or ComplexHeatmap
+- Use pheatmap
 - Show cluster assignment as annotation_row color bar
 - Columns in original condition order (cluster_cols = FALSE)
-
-For the box/line plot:
-- Group conditions by stress type (heat, oxidative, osmotic, nutrient depletion)
-- Use original log2 ratios for mean ± SD
-- ggplot2 facet_wrap(~cluster, ncol=2)
 ~~~
 
 ### Grading Criteria
@@ -1837,8 +1799,8 @@ For the box/line plot:
 | Criterion | Weight | Description |
 |-----------|--------|-------------|
 | Prompt quality | 40% | Z-score definition, clustering method (ward.D2, euclidean), k=4, metadata column handling, output specs |
-| Code correctness | 40% | Accurate normalization, clustering, cutree, summary statistics, all 3 files generated |
-| Result interpretation | 20% | Interpret 4 cluster patterns in context of yeast Environmental Stress Response (ESR) (2 sentences per cluster) |
+| Code correctness | 40% | Accurate normalization, clustering, cutree, both files generated |
+| Result interpretation | 20% | Describe what each of the 4 clusters represents in terms of stress response (1 sentence per cluster) |
 
 ---
 
