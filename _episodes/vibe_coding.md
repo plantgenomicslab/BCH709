@@ -656,6 +656,45 @@ curl -L -o data/sacCer3.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3
 curl -L -o data/gasch2000.txt https://www.shackett.org/files/gasch2000.txt
 ```
 
+### Set Up AI Configuration Files
+
+Now that your environment is installed, let AI create configuration files so every AI assistant knows your setup **before** you ask it to write code.
+
+```bash
+# Make sure you're in your project directory with the environment active
+cd ~/bch709_vibe_coding
+conda activate bch709_vibe_coding
+
+# Launch Claude Code
+claude
+```
+
+Inside Claude Code, run:
+
+```
+> /init
+```
+
+Then ask:
+
+~~~
+Look at my project and conda environment (bch709_vibe_coding).
+Create the following configuration files for my project:
+
+1. .github/copilot-instructions.md — for GitHub Copilot
+2. GEMINI.md — for Gemini Code Assist (unofficial, for copy-paste)
+3. CODEX.md — for ChatGPT/Codex (unofficial, for copy-paste)
+
+Each file should describe my conda environment, installed packages,
+project structure, and coding constraints.
+~~~
+
+> ## Why Do This Now?
+> From this point on, every time you ask an AI to write code, it will **read these files first** and know exactly what packages you have. No more "ModuleNotFoundError" surprises.
+{: .callout}
+
+---
+
 ## Step 0D. Research Project Design Prompt (Advanced)
 
 When starting a new bioinformatics research project, use this prompt to systematically explore analytical directions **before** writing any code. This is especially useful for thesis projects, grant proposals, or novel research questions.
