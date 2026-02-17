@@ -900,193 +900,30 @@ All AI assistants accept the same prompt format. Here are ready-to-use templates
 > ~~~
 {: .solution}
 
-### Unofficial Configuration Files (Gemini.md, CODEX.md)
+### Let AI Create Your Configuration Files
 
-Unlike Claude (which officially supports `CLAUDE.md`), Gemini and ChatGPT/Codex don't automatically read configuration files from your project. However, you can still create **unofficial template files** in your project for reference and quick copy-paste.
+After running `/init` for Claude Code, ask your AI assistant to generate configuration files for the other tools. You don't need to write these yourself — the AI already knows your environment.
 
-#### GEMINI.md (Unofficial)
+**Use this prompt in Claude Code (or any AI assistant):**
 
-Create `GEMINI.md` in your project root:
+~~~
+Look at my project and conda environment (bch709_vibe_coding).
+Create the following configuration files for my project:
 
-```markdown
-# Environment Configuration for Gemini
+1. .github/copilot-instructions.md — for GitHub Copilot
+2. GEMINI.md — for Gemini Code Assist (unofficial, for copy-paste)
+3. CODEX.md — for ChatGPT/Codex (unofficial, for copy-paste)
 
-## Python Environment: bch709_vibe_coding
-- Python 3.11
-- Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-- Use ONLY these packages; do not assume other packages are available
+Each file should describe my conda environment, installed packages,
+project structure, and coding constraints.
+~~~
 
-## R Environment: bch709_vibe_coding
-- R 4.3
-- Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales
+The AI will scan your environment and generate all files automatically — no manual writing needed.
 
-## Code Style
-- Use pathlib for file paths
-- Include error handling for file I/O
-- Print progress messages to console
-
-## Project Structure
-- Input data: data/
-- Output files: results/
-- Scripts: scripts/
-```
-
-**How to use:** Open `GEMINI.md`, copy the content, and paste at the start of your Gemini conversation:
-
-```
-Here is my environment configuration:
-[paste GEMINI.md content here]
-
-Now, please write code that [your task]
-```
-
-#### CODEX.md (Unofficial)
-
-Create `CODEX.md` in your project root:
-
-```markdown
-# Environment Configuration for ChatGPT/Codex
-
-## Python Environment: bch709_vibe_coding
-- Python version: 3.11
-- Conda environment name: bch709_vibe_coding
-- Installed packages:
-  - pandas (data manipulation)
-  - numpy (numerical computing)
-  - matplotlib (plotting)
-  - seaborn (statistical visualization)
-  - biopython (bioinformatics)
-  - tqdm (progress bars)
-
-## R Environment: bch709_vibe_coding
-- R version: 4.3
-- Conda environment name: bch709_vibe_coding
-- Installed packages:
-  - data.table (fast data manipulation)
-  - ggplot2 (visualization)
-  - pheatmap (heatmaps)
-  - viridisLite (color palettes)
-  - scales (axis formatting)
-
-## Important Constraints
-- Generate code using ONLY the packages listed above
-- Do NOT suggest installing additional packages
-- Use gzip.open() for .gz files
-- Save outputs to results/ directory
-```
-
-**How to use:** Copy and paste at the beginning of your ChatGPT/Codex conversation.
-
-### Single-Conversation Chat Message Templates
-
-When you don't want to use persistent Custom Instructions, use these **copy-paste templates** at the start of each conversation:
-
-> ## Template for Gemini (Single Conversation)
-> ```
-> Before you generate any code, read my environment setup:
->
-> I'm working in a conda environment with ONLY these packages installed:
->
-> **Python (bch709_vibe_coding):**
-> - Python 3.11
-> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
->
-> **R (bch709_vibe_coding):**
-> - R 4.3
-> - data.table, ggplot2, pheatmap, viridisLite, scales
->
-> IMPORTANT: Do NOT use any packages outside this list. If you need a package that isn't listed, tell me before generating code.
->
-> Now, here's my task:
-> [your task here]
-> ```
-{: .solution}
-
-> ## Template for ChatGPT/Codex (Single Conversation)
-> ```
-> I'm a bioinformatics student. Please generate code using ONLY these installed packages:
->
-> **Environment: bch709_vibe_coding (conda)**
-> - Python 3.11
-> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
->
-> **Environment: bch709_vibe_coding (conda)**
-> - R 4.3
-> - data.table, ggplot2, pheatmap, viridisLite, scales
->
-> Rules:
-> 1. Only use packages from the list above
-> 2. If you need an unlisted package, ask me first
-> 3. Use gzip.open() for .gz files
-> 4. Save outputs to results/ directory
->
-> Task:
-> [your task here]
-> ```
-{: .solution}
-
-> ## Template for GitHub Copilot Chat (Single Conversation)
-> ```
-> @workspace I'm using conda environment bch709_vibe_coding with:
-> - pandas, numpy, matplotlib, seaborn, biopython, tqdm
->
-> Generate code using only these packages.
->
-> Task: [your task here]
-> ```
-{: .solution}
-
-### Quick Reference: Configuration Methods Summary
-
-| AI Assistant | Persistent Config | Single-Conversation Method |
-|--------------|-------------------|---------------------------|
-| **Claude** | `CLAUDE.md` (official) | Paste env info at start of prompt |
-| **Copilot** | `.github/copilot-instructions.md` | `@workspace` + env comment |
-| **Gemini** | VS Code settings | Paste `GEMINI.md` content |
-| **ChatGPT/Codex** | Custom Instructions (all conversations) | Paste `CODEX.md` content |
-
-> ## Pro Tip: Create All Config Files at Once
-> ```bash
-> # Create all configuration files in your project
-> mkdir -p .github
->
-> # Claude (official)
-> cat > CLAUDE.md << 'EOF'
-> # Project Environment
-> Python: bch709_vibe_coding (pandas, numpy, matplotlib, seaborn, biopython, tqdm)
-> R: bch709_vibe_coding (data.table, ggplot2, pheatmap, viridisLite, scales)
-> EOF
->
-> # Copilot (official)
-> cat > .github/copilot-instructions.md << 'EOF'
-> Python 3.11 environment: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-> R 4.3 environment: data.table, ggplot2, pheatmap
-> EOF
->
-> # Gemini (unofficial - for copy-paste)
-> cat > GEMINI.md << 'EOF'
-> Context: bch709_vibe_coding conda env with pandas, numpy, matplotlib, seaborn, biopython, tqdm
-> EOF
->
-> # ChatGPT/Codex (unofficial - for copy-paste)
-> cat > CODEX.md << 'EOF'
-> Environment: bch709_vibe_coding (Python 3.11)
-> Packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-> EOF
->
-> echo "Created: CLAUDE.md, .github/copilot-instructions.md, GEMINI.md, CODEX.md"
-> ```
-{: .callout}
-
-> ## Pro Tip: Save Your Environment Prompt
-> Create a text file with your environment description that you can quickly copy-paste:
-> ```bash
-> $ cat > ~/env_prompt.txt << 'EOF'
-> Write Python code that runs in the bch709_vibe_coding conda environment.
-> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
-> EOF
-> ```
-> Then just `cat ~/env_prompt.txt` and paste before each prompt.
+> ## Why Let AI Write These?
+> - The AI reads your actual environment (`conda list`), so the files are always accurate
+> - You avoid typos and version mismatches from manual writing
+> - If you add new packages later, just ask the AI to regenerate the files
 {: .callout}
 
 > ## Warning
