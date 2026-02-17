@@ -1184,7 +1184,8 @@ for chrom in sorted(counts):
 ```
 
 > ## Problems with Stage 1
-> - No chromosome length reference—all seqids included without filtering
+> - **No environment specified** — AI doesn't know which packages are available
+> - No chromosome length reference — all seqids included without filtering
 > - Exons double-counted across isoforms
 > - No QC tracking of dropped seqids
 > - No file output
@@ -1197,7 +1198,7 @@ for chrom in sorted(counts):
 **Prompt:**
 ~~~
 Write Python code that runs in the bch709_vibe_coding conda environment.
-pandas and numpy are installed.
+Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
 
 Input:
 - GFF3 gzip: data/saccharomyces_cerevisiae.gff.gz (9 columns, tab-separated)
@@ -1480,6 +1481,7 @@ heatmap(as.matrix(data[names(top200), ]))
 ```
 
 > ## Problems with Stage 1
+> - **No environment specified** — AI doesn't know which packages are available
 > - Uses variance instead of CV → biased toward genes with large absolute changes
 > - No NA handling → may crash or produce misleading results
 > - No file output, no image size/resolution control
@@ -1493,7 +1495,7 @@ heatmap(as.matrix(data[names(top200), ]))
 **Prompt:**
 ~~~
 Write R code that runs in the bch709_vibe_coding conda environment.
-data.table and pheatmap are installed.
+Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales.
 
 Input:
 - data/gasch2000.txt (TSV, log2 expression ratios)
