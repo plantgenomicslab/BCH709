@@ -28,7 +28,7 @@ published: true
    - [Step 0C: Environment Creation Commands](#step-0c-environment-creation-commands)
    - [Step 0D: Research Project Design (Advanced)](#step-0d-research-project-design-prompt-advanced)
    - [Telling AI About Your Environment](#telling-ai-assistants-about-your-conda-environment)
-     - [Persistent Configuration (CLAUDE.md, copilot-instructions.md)](#persistent-environment-configuration-per-ai-assistant)
+     - [Persistent Configuration (Claude `/init`, Copilot, Gemini, ChatGPT)](#persistent-environment-configuration-per-ai-assistant)
      - [Unofficial Config Files (GEMINI.md, CODEX.md)](#unofficial-configuration-files-geminimd-codexmd)
      - [Single-Conversation Templates](#single-conversation-chat-message-templates)
    - [How to Write Effective Prompts](#how-to-write-effective-vibe-coding-prompts)
@@ -434,20 +434,8 @@ Step 2: Ask the AI to generate install commands (Step 0B — Environment Prompt)
 Step 3: Copy-paste and run the commands         (Step 0C — Install)
 ```
 
-### How to Write an Environment Setup Prompt
-
-Your prompt should include these key pieces of information:
-
-| What to Include | Why | Example |
-|-----------------|-----|---------|
-| **Environment name** | So the AI names it correctly | `bch709-python` |
-| **Language version** | To pin a specific version | `Python 3.11` or `R 4.3` |
-| **What you plan to do** | So the AI picks the right packages | "parse GFF3 files and compute statistics" |
-| **Verification step** | To confirm everything installed correctly | "include import tests" |
-| **Beginner-friendly format** | So you can copy-paste directly | "one command at a time" |
-
 > ## Key Idea
-> You already told the AI what analysis you want to do in **Step 0A** (brainstorming). Now you simply ask: **"Based on what you recommended, give me the install commands."**
+> You already told the AI what analysis you want to do in **Step 0A** (brainstorming). The AI knows which libraries it recommended — you don't need to list them again. Simply ask: **"Based on what you recommended, give me the install commands."**
 {: .callout}
 
 ### Step 0B. Environment Setup Prompt (Analysis 1 — Python)
@@ -729,160 +717,62 @@ All AI assistants accept the same prompt format. Here are ready-to-use templates
 > ~~~
 {: .solution}
 
-### How to Check Your Installed Packages
-
-Before writing prompts, list what's actually installed:
-
-```bash
-# Activate your environment
-$ conda activate bch709-python
-
-# List all installed packages
-$ conda list
-
-# Or get a simple list for your prompt
-$ conda list --export | grep -v "^#" | cut -d'=' -f1 | head -20
-```
-
-```output
-pandas
-numpy
-matplotlib
-seaborn
-biopython
-tqdm
-...
-```
-
-### Quick Copy-Paste Templates
-
-**Python (bch709-python):**
-~~~
-Write Python code that runs in the bch709-python conda environment.
-Assume pandas, numpy, matplotlib, seaborn, biopython, and tqdm are installed.
-~~~
-
-**R (bch709-R):**
-~~~
-Write R code that runs in the bch709-R conda environment.
-You may use data.table, ggplot2, pheatmap, viridisLite, and scales.
-~~~
-
 ### Persistent Environment Configuration (Per AI Assistant)
 
-Instead of repeating environment info in every prompt, some AI assistants support **persistent configuration files** or **custom instructions**:
+Instead of repeating environment info in every prompt, some AI assistants support **persistent configuration files** that automatically provide your environment context.
 
-| AI Assistant | Configuration Method | Scope |
-|--------------|---------------------|-------|
-| **Claude (VS Code / CLI)** | `CLAUDE.md` file in project root | Per-project |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Per-repository |
-| **Gemini Code Assist** | Gemini settings in VS Code | Per-workspace |
-| **ChatGPT / Codex** | Custom Instructions (web settings) | All conversations |
+#### Claude Code: Create CLAUDE.md with `/init`
 
-#### Claude: CLAUDE.md File
+Claude Code can automatically generate a `CLAUDE.md` file that describes your project. This file is read automatically in every conversation — no need to paste environment info in prompts.
 
-Claude automatically reads a `CLAUDE.md` file in your project directory. Create this file once, and Claude will use it for every conversation in that project.
+**How to use `/init`:**
 
-**Example `CLAUDE.md`:**
-```markdown
-# Project Environment
+```bash
+# 1. Navigate to your project directory
+$ cd ~/bch709
 
-This project uses conda environments for Python and R analysis.
+# 2. Activate your conda environment first
+$ conda activate bch709-python
 
-## Python Environment: bch709-python
-- Python 3.11
-- Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-- Always use these packages; do not suggest packages outside this list
+# 3. Launch Claude Code
+$ claude
 
-## R Environment: bch709-R
-- R 4.3
-- Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales
-
-## Code Style
-- Use pathlib for file paths
-- Include error handling for file I/O
-- Print progress messages
+# 4. Inside Claude Code, run the /init command
+> /init
 ```
 
-> Claude reads this file automatically — no need to paste environment info in prompts.
+`/init` will:
+1. **Scan your project** — detect files, build systems, and installed packages
+2. **Generate a `CLAUDE.md`** — a concise summary of your project environment
+3. **Save it to your project root** — Claude reads it automatically from now on
+
+> ## After Running /init
+> Review the generated `CLAUDE.md` and edit if needed. A good `CLAUDE.md` is **short and focused** — it should contain only things Claude can't figure out by reading your code.
+>
+> For each line, ask: *"Would removing this cause Claude to make a mistake?"* If not, cut it.
 {: .callout}
 
 #### GitHub Copilot: copilot-instructions.md
 
-Create `.github/copilot-instructions.md` in your repository:
-
-```markdown
-# Copilot Instructions
-
-## Environment
-- Python 3.11 in conda environment `bch709-python`
-- Available packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-
-## Coding Standards
-- Use type hints
-- Handle gzip files with gzip.open()
-- Save outputs to results/ directory
-```
+Create `.github/copilot-instructions.md` in your repository. Copilot reads this file automatically.
 
 #### Gemini Code Assist: VS Code Settings
 
-Gemini reads workspace-level settings. Add to `.vscode/settings.json`:
-
-```json
-{
-    "gemini.codeAssist.customInstructions": "I use a conda environment called bch709-python with pandas, numpy, matplotlib, seaborn, biopython, and tqdm installed. Generate code that only uses these packages."
-}
-```
-
-Or configure in VS Code:
-1. Open Settings (`Ctrl+,` / `Cmd+,`)
-2. Search for "Gemini custom instructions"
-3. Enter your environment description
+Add custom instructions in VS Code: **Settings** → search "Gemini custom instructions" → enter your environment description.
 
 #### ChatGPT / Codex: Custom Instructions
 
-For web-based ChatGPT and Codex, set persistent instructions:
-
-1. Go to [chatgpt.com](https://chatgpt.com/)
-2. Click your profile icon → **Customize ChatGPT** (or **Settings** → **Personalization**)
-3. In "What would you like ChatGPT to know about you?":
-
-```
-I'm a bioinformatics student using conda environments:
-
-Python environment (bch709-python):
-- Python 3.11
-- pandas, numpy, matplotlib, seaborn, biopython, tqdm
-
-R environment (bch709-R):
-- R 4.3
-- data.table, ggplot2, pheatmap
-
-Always generate code using only these installed packages.
-```
-
-4. Click **Save**
-
-Now ChatGPT/Codex will remember your environment for all future conversations.
+Go to [chatgpt.com](https://chatgpt.com/) → **Profile** → **Customize ChatGPT** → describe your environment in "What would you like ChatGPT to know about you?"
 
 > ## Summary: One-Time Setup per AI
 >
-> | AI | Setup Location | How to Configure |
-> |----|----------------|------------------|
-> | **Claude** | `CLAUDE.md` in project folder | Create file, Claude reads automatically |
-> | **Copilot** | `.github/copilot-instructions.md` | Create file in repo |
-> | **Gemini** | VS Code settings or `.vscode/settings.json` | Add `gemini.codeAssist.customInstructions` |
-> | **ChatGPT/Codex** | Web: Profile → Customize ChatGPT | Enter in "What to know about you" |
+> | AI Assistant | Configuration Method | How to Set Up |
+> |--------------|---------------------|---------------|
+> | **Claude Code** | `CLAUDE.md` in project root | Run `/init` inside Claude Code |
+> | **GitHub Copilot** | `.github/copilot-instructions.md` | Create file in repo |
+> | **Gemini** | VS Code settings | Add `gemini.codeAssist.customInstructions` |
+> | **ChatGPT/Codex** | Custom Instructions (web) | Profile → Customize ChatGPT |
 {: .callout}
-
-### Common Mistakes to Avoid
-
-| Mistake | Problem | Solution |
-|---------|---------|----------|
-| Not specifying packages | AI uses unavailable libraries | Always list installed packages |
-| Assuming AI knows your setup | Code fails with ImportError | Explicitly state environment |
-| Vague package names | AI may use wrong version/variant | Use exact package names from `conda list` |
-| Forgetting R packages | AI uses base R only | List all installed R packages |
 
 ### Unofficial Configuration Files (Gemini.md, CODEX.md)
 
