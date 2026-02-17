@@ -519,6 +519,7 @@ Requirements:
 3) Pick one recommended combination for beginners and explain why.
 4) List the exact conda-forge package names for that combination.
 5) Provide the conda environment creation command (environment name, Python version, and all packages in one command).
+6) (Optional) Provide import verification commands to confirm all packages installed correctly.
 ~~~
 
 ## Step 0A. Brainstorming Prompt (Analysis 2 — R)
@@ -540,6 +541,7 @@ Requirements:
 3) Pick one recommended combination for beginners and explain why.
 4) List the exact conda-forge package names for that combination.
 5) Provide the conda environment creation command (environment name, R version, and all packages in one command).
+6) (Optional) Provide library() verification commands to confirm all packages installed correctly.
 ~~~
 
 > ## Why Brainstorming First?
@@ -576,7 +578,7 @@ Once brainstorming is complete, use this prompt:
 Using the library combination you just recommended, generate conda environment creation commands.
 
 Conditions:
-- Python environment name: bch709-python
+- Conda environment name: bch709_vibe_coding
 - Pin Python 3.11
 - Include import/library verification tests after installation
 - Present the commands in copy-paste order so a beginner can just run them one by one
@@ -590,11 +592,16 @@ Once brainstorming is complete, use this prompt:
 Using the library combination you just recommended, generate conda environment creation commands.
 
 Conditions:
-- R environment name: bch709-R
+- Conda environment name: bch709_vibe_coding
 - Pin R 4.3
-- Include import/library verification tests after installation
+- Install R packages into the SAME environment (bch709_vibe_coding) that already has Python
+- Include library() verification tests after installation
 - Present the commands in copy-paste order so a beginner can just run them one by one
 ~~~
+
+> ## One Environment for Everything
+> We use a **single conda environment** (`bch709_vibe_coding`) that matches the GitHub repo name. This keeps things simple — one project, one environment, one name.
+{: .callout}
 
 ## Step 0C. Environment Creation Commands
 
@@ -604,42 +611,28 @@ The AI will generate commands like the ones below. **Copy-paste and run them in 
 > The commands below are what the AI typically produces. Your results may vary slightly depending on which AI assistant you use — that's fine as long as the verification step passes.
 {: .callout}
 
-### Python Environment: `bch709-python`
+### Create the Environment (Python + R)
 
 ```bash
-# Create environment
-conda create -n bch709-python -y python=3.11
-conda activate bch709-python
+# Create environment with Python and R together
+conda create -n bch709_vibe_coding -y -c conda-forge \
+  python=3.11 r-base=4.3 \
+  pandas numpy matplotlib seaborn biopython tqdm \
+  r-data.table r-ggplot2 r-pheatmap r-viridislite r-scales
 
-# Install packages
-conda install -c conda-forge -y \
-  pandas numpy matplotlib seaborn biopython tqdm
+# Activate
+conda activate bch709_vibe_coding
 
-# Verify installation
-python -c "import pandas, numpy, matplotlib, Bio; print('bch709-python OK')"
+# Verify Python packages
+python -c "import pandas, numpy, matplotlib, Bio; print('Python OK')"
 
-# Create working directories
-mkdir -p data results
-```
-
-### R Environment: `bch709-R`
-
-```bash
-# Create environment
-conda create -n bch709-R -y -c conda-forge \
-  r-base=4.3 r-data.table r-ggplot2 r-pheatmap r-viridislite r-scales
-conda activate bch709-R
-
-# Verify installation
-R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("bch709-R OK\n")'
-
-# Create working directories
-mkdir -p results
+# Verify R packages
+R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("R OK\n")'
 ```
 
 > ## Troubleshooting
 > If the verification step fails:
-> 1. Check that you activated the correct environment: `conda activate bch709-python`
+> 1. Check that you activated the correct environment: `conda activate bch709_vibe_coding`
 > 2. Re-run the install command — sometimes packages fail to download on the first try
 > 3. Ask the AI: *"I got this error when verifying: [paste error]. How do I fix it?"*
 {: .callout}
@@ -797,59 +790,6 @@ Write [Python/R] code that runs in the [env-name] conda environment.
 The following packages are installed: [list packages].
 ~~~
 
-### Examples for Different AI Assistants
-
-All AI assistants accept the same prompt format. Here are ready-to-use templates:
-
-> ## For Claude (VS Code / CLI / Web)
-> ~~~
-> Write Python code that runs in the bch709-python conda environment.
->
-> Installed packages:
-> - pandas, numpy, matplotlib, seaborn
-> - biopython, tqdm
->
-> Do NOT use packages outside this list.
-> ~~~
-{: .solution}
-
-> ## For GitHub Copilot Chat
-> ~~~
-> # Environment: bch709-python conda environment
-> # Available: pandas, numpy, matplotlib, seaborn, biopython, tqdm
-> # Task: [your task here]
-> ~~~
-> Copilot also reads comments in your code, so adding environment comments at the top of your file helps autocomplete suggestions.
-{: .solution}
-
-> ## For Gemini Code Assist
-> ~~~
-> Context: I'm working in a conda environment called bch709-python.
-> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
->
-> Write code that [your task here].
-> ~~~
-{: .solution}
-
-> ## For ChatGPT / Codex (Web)
-> ~~~
-> I'm using a conda environment with the following setup:
->
-> Environment name: bch709-python
-> Python version: 3.11
-> Installed packages:
-> - pandas
-> - numpy
-> - matplotlib
-> - seaborn
-> - biopython
-> - tqdm
->
-> Please write code that only uses these packages.
-> [Your task here]
-> ~~~
-{: .solution}
-
 ### Persistent Environment Configuration (Per AI Assistant)
 
 Instead of repeating environment info in every prompt, some AI assistants support **persistent configuration files** that automatically provide your environment context.
@@ -865,7 +805,7 @@ Claude Code can automatically generate a `CLAUDE.md` file that describes your pr
 $ cd ~/bch709
 
 # 2. Activate your conda environment first
-$ conda activate bch709-python
+$ conda activate bch709_vibe_coding
 
 # 3. Launch Claude Code
 $ claude
@@ -907,6 +847,59 @@ Go to [chatgpt.com](https://chatgpt.com/) → **Profile** → **Customize ChatGP
 > | **ChatGPT/Codex** | Custom Instructions (web) | Profile → Customize ChatGPT |
 {: .callout}
 
+### Examples for Different AI Assistants
+
+All AI assistants accept the same prompt format. Here are ready-to-use templates:
+
+> ## For Claude (VS Code / CLI / Web)
+> ~~~
+> Write Python code that runs in the bch709_vibe_coding conda environment.
+>
+> Installed packages:
+> - pandas, numpy, matplotlib, seaborn
+> - biopython, tqdm
+>
+> Do NOT use packages outside this list.
+> ~~~
+{: .solution}
+
+> ## For GitHub Copilot Chat
+> ~~~
+> # Environment: bch709_vibe_coding conda environment
+> # Available: pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> # Task: [your task here]
+> ~~~
+> Copilot also reads comments in your code, so adding environment comments at the top of your file helps autocomplete suggestions.
+{: .solution}
+
+> ## For Gemini Code Assist
+> ~~~
+> Context: I'm working in a conda environment called bch709_vibe_coding.
+> Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
+>
+> Write code that [your task here].
+> ~~~
+{: .solution}
+
+> ## For ChatGPT / Codex (Web)
+> ~~~
+> I'm using a conda environment with the following setup:
+>
+> Environment name: bch709_vibe_coding
+> Python version: 3.11
+> Installed packages:
+> - pandas
+> - numpy
+> - matplotlib
+> - seaborn
+> - biopython
+> - tqdm
+>
+> Please write code that only uses these packages.
+> [Your task here]
+> ~~~
+{: .solution}
+
 ### Unofficial Configuration Files (Gemini.md, CODEX.md)
 
 Unlike Claude (which officially supports `CLAUDE.md`), Gemini and ChatGPT/Codex don't automatically read configuration files from your project. However, you can still create **unofficial template files** in your project for reference and quick copy-paste.
@@ -918,12 +911,12 @@ Create `GEMINI.md` in your project root:
 ```markdown
 # Environment Configuration for Gemini
 
-## Python Environment: bch709-python
+## Python Environment: bch709_vibe_coding
 - Python 3.11
 - Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
 - Use ONLY these packages; do not assume other packages are available
 
-## R Environment: bch709-R
+## R Environment: bch709_vibe_coding
 - R 4.3
 - Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales
 
@@ -954,9 +947,9 @@ Create `CODEX.md` in your project root:
 ```markdown
 # Environment Configuration for ChatGPT/Codex
 
-## Python Environment: bch709-python
+## Python Environment: bch709_vibe_coding
 - Python version: 3.11
-- Conda environment name: bch709-python
+- Conda environment name: bch709_vibe_coding
 - Installed packages:
   - pandas (data manipulation)
   - numpy (numerical computing)
@@ -965,9 +958,9 @@ Create `CODEX.md` in your project root:
   - biopython (bioinformatics)
   - tqdm (progress bars)
 
-## R Environment: bch709-R
+## R Environment: bch709_vibe_coding
 - R version: 4.3
-- Conda environment name: bch709-R
+- Conda environment name: bch709_vibe_coding
 - Installed packages:
   - data.table (fast data manipulation)
   - ggplot2 (visualization)
@@ -994,11 +987,11 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 >
 > I'm working in a conda environment with ONLY these packages installed:
 >
-> **Python (bch709-python):**
+> **Python (bch709_vibe_coding):**
 > - Python 3.11
 > - pandas, numpy, matplotlib, seaborn, biopython, tqdm
 >
-> **R (bch709-R):**
+> **R (bch709_vibe_coding):**
 > - R 4.3
 > - data.table, ggplot2, pheatmap, viridisLite, scales
 >
@@ -1013,11 +1006,11 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 > ```
 > I'm a bioinformatics student. Please generate code using ONLY these installed packages:
 >
-> **Environment: bch709-python (conda)**
+> **Environment: bch709_vibe_coding (conda)**
 > - Python 3.11
 > - pandas, numpy, matplotlib, seaborn, biopython, tqdm
 >
-> **Environment: bch709-R (conda)**
+> **Environment: bch709_vibe_coding (conda)**
 > - R 4.3
 > - data.table, ggplot2, pheatmap, viridisLite, scales
 >
@@ -1034,7 +1027,7 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 
 > ## Template for GitHub Copilot Chat (Single Conversation)
 > ```
-> @workspace I'm using conda environment bch709-python with:
+> @workspace I'm using conda environment bch709_vibe_coding with:
 > - pandas, numpy, matplotlib, seaborn, biopython, tqdm
 >
 > Generate code using only these packages.
@@ -1060,8 +1053,8 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 > # Claude (official)
 > cat > CLAUDE.md << 'EOF'
 > # Project Environment
-> Python: bch709-python (pandas, numpy, matplotlib, seaborn, biopython, tqdm)
-> R: bch709-R (data.table, ggplot2, pheatmap, viridisLite, scales)
+> Python: bch709_vibe_coding (pandas, numpy, matplotlib, seaborn, biopython, tqdm)
+> R: bch709_vibe_coding (data.table, ggplot2, pheatmap, viridisLite, scales)
 > EOF
 >
 > # Copilot (official)
@@ -1072,12 +1065,12 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 >
 > # Gemini (unofficial - for copy-paste)
 > cat > GEMINI.md << 'EOF'
-> Context: bch709-python conda env with pandas, numpy, matplotlib, seaborn, biopython, tqdm
+> Context: bch709_vibe_coding conda env with pandas, numpy, matplotlib, seaborn, biopython, tqdm
 > EOF
 >
 > # ChatGPT/Codex (unofficial - for copy-paste)
 > cat > CODEX.md << 'EOF'
-> Environment: bch709-python (Python 3.11)
+> Environment: bch709_vibe_coding (Python 3.11)
 > Packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm
 > EOF
 >
@@ -1089,7 +1082,7 @@ When you don't want to use persistent Custom Instructions, use these **copy-past
 > Create a text file with your environment description that you can quickly copy-paste:
 > ```bash
 > $ cat > ~/env_prompt.txt << 'EOF'
-> Write Python code that runs in the bch709-python conda environment.
+> Write Python code that runs in the bch709_vibe_coding conda environment.
 > Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
 > EOF
 > ```
@@ -1115,7 +1108,7 @@ Writing a good prompt is like writing a recipe: the more specific your instructi
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                    Effective Prompt = 5 Essential Parts                     │
 │                                                                             │
-│  1. Environment  →  "Write Python code in bch709-python conda env"         │
+│  1. Environment  →  "Write Python code in bch709_vibe_coding conda env"         │
 │  2. Input        →  "Read data/file.gz (gzip TSV, columns: a, b, c)"       │
 │  3. Task         →  "Compute X using formula Y, filter by Z"               │
 │  4. Output       →  "Save to results/out.tsv (cols, decimals, sorting)"    │
@@ -1136,7 +1129,7 @@ Write Python code to analyze my data.
 
 **Good:**
 ```
-Write Python code that runs in the bch709-python conda environment.
+Write Python code that runs in the bch709_vibe_coding conda environment.
 Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
 ```
 
@@ -1217,7 +1210,7 @@ Console output:
 
 > ## Example 1: Python GFF3 Analysis (Complete Prompt)
 > ```
-> Write Python code that runs in the bch709-python conda environment.
+> Write Python code that runs in the bch709_vibe_coding conda environment.
 > Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
 >
 > **Input:**
@@ -1251,7 +1244,7 @@ Console output:
 
 > ## Example 2: R Heatmap Analysis (Complete Prompt)
 > ```
-> Write R code that runs in the bch709-R conda environment.
+> Write R code that runs in the bch709_vibe_coding conda environment.
 > Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales.
 >
 > **Input:**
@@ -1450,7 +1443,7 @@ for chrom in sorted(counts):
 
 **Prompt:**
 ~~~
-Write Python code that runs in the bch709-python conda environment.
+Write Python code that runs in the bch709_vibe_coding conda environment.
 pandas and numpy are installed.
 
 Input:
@@ -1742,7 +1735,7 @@ heatmap(as.matrix(data[names(top200), ]))
 
 **Prompt:**
 ~~~
-Write R code that runs in the bch709-R conda environment.
+Write R code that runs in the bch709_vibe_coding conda environment.
 data.table and pheatmap are installed.
 
 Input:
