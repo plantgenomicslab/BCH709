@@ -633,6 +633,13 @@ R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("R OK\n")
 conda env export -n bch709_vibe_coding > environment.yml
 ```
 
+> ## Troubleshooting
+> If the verification step fails:
+> 1. Check that you activated the correct environment: `conda activate bch709_vibe_coding`
+> 2. Re-run the install command — sometimes packages fail to download on the first try
+> 3. Ask the AI: *"I got this error when verifying: [paste error]. How do I fix it?"*
+{: .callout}
+
 ### Export Your Environment to YAML
 
 After creating and verifying your environment, export it:
@@ -671,13 +678,6 @@ dependencies:
 > conda env export -n bch709_vibe_coding > environment.yml
 > git add environment.yml && git commit -m "Update environment" && git push
 > ```
-{: .callout}
-
-> ## Troubleshooting
-> If the verification step fails:
-> 1. Check that you activated the correct environment: `conda activate bch709_vibe_coding`
-> 2. Re-run the install command — sometimes packages fail to download on the first try
-> 3. Ask the AI: *"I got this error when verifying: [paste error]. How do I fix it?"*
 {: .callout}
 
 ### Data Downloads
@@ -861,7 +861,7 @@ If you followed [Step 0C](#step-0c-environment-creation-commands), your AI alrea
 
 ### Persistent Configuration Reference
 
-If you followed [Step 0C](#step-0c-environment-creation-commands), your AI configuration files are already set up. Here's what each file does:
+Here's what each configuration file does:
 
 > ## Configuration Files Summary
 >
@@ -1854,11 +1854,8 @@ Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 
 ### Input Data
 
-```bash
-# TSV from Example 2 + original expression data
-# results/yeast_stress_cv_top200.tsv (gene_id list)
-# data/gasch2000.txt (original log2 expression ratios)
-```
+- `results/yeast_stress_cv_top200.tsv` — gene_id list from Example 2
+- `data/gasch2000.txt` — original log2 expression ratios
 
 ### Expected Output
 
