@@ -866,7 +866,7 @@ Writing a good prompt is like writing a recipe: the more specific your instructi
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                    Effective Prompt = 5 Essential Parts                     │
 │                                                                             │
-│  1. Environment  →  "Write Python code in bch709_vibe_coding conda env"         │
+│  1. Tool         →  "Write Python code" (AI reads your config files)       │
 │  2. Input        →  "Read data/file.gz (gzip TSV, columns: a, b, c)"       │
 │  3. Task         →  "Compute X using formula Y, filter by Z"               │
 │  4. Output       →  "Save to results/out.tsv (cols, decimals, sorting)"    │
@@ -876,16 +876,21 @@ Writing a good prompt is like writing a recipe: the more specific your instructi
 
 ### Step-by-Step Prompt Construction
 
-#### Step 1: Environment (Who Are You?)
+#### Step 1: Environment (Which Tool Do We Need?)
 
-Tell the AI what tools you have.
+If you set up [AI configuration files](#set-up-ai-configuration-files), your AI already knows your environment. Just tell it which language to use:
 
 **Bad:**
 ```
 Write Python code to analyze my data.
 ```
 
-**Good:**
+**Good (with config files):**
+```
+Write Python code for Analysis 1.
+```
+
+**Good (without config files):**
 ```
 Write Python code that runs in the bch709_vibe_coding conda environment.
 Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
@@ -1119,6 +1124,10 @@ If missing feature:
 ---
 
 ## Example 1 (Python): Per-Chromosome Feature Counts from Yeast GFF3 + QC
+
+> ## Research Question
+> **How are genomic features (genes, exons, tRNAs, snoRNAs) distributed across yeast chromosomes, and does feature density correlate with chromosome size?**
+{: .objectives}
 
 ### Background
 
@@ -1438,6 +1447,10 @@ Dropped feature lines: 42
 
 ## Example 2 (R): Top 200 Variable Genes from Yeast Stress Data + Heatmap
 
+> ## Research Question
+> **Which yeast genes show the most variable expression across environmental stress conditions, and do they reveal a coordinated stress response program?**
+{: .objectives}
+
 ### Background
 
 Analyze the classic yeast stress response microarray dataset from Gasch et al. (2000). Extract the **top 200 genes by coefficient of variation (CV)** across ~170 environmental stress conditions and visualize their expression patterns.
@@ -1677,6 +1690,10 @@ cat("Saved: results/yeast_stress_cv_top200_heatmap.png\n")
 
 ## Homework 1 (Python): Yeast mRNA FASTA Analysis + GC Distribution Graph
 
+> ## Research Question
+> **What is the GC content distribution of yeast mRNA sequences, and are there distinct GC-content subpopulations?**
+{: .objectives}
+
 ### Problem Description
 
 Extract sequence information from the UCSC yeast (*Saccharomyces cerevisiae*) mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a graph and an HTML report page.
@@ -1745,6 +1762,10 @@ Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.co
 ---
 
 ## Homework 2 (R): Z-Score Clustering of CV Top 200 Genes + Pattern Visualization
+
+> ## Research Question
+> **Do the top 200 most variable yeast stress-response genes cluster into distinct expression patterns, and what biological processes characterize each cluster?**
+{: .objectives}
 
 ### Problem Description
 
