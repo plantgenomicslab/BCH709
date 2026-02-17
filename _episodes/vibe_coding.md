@@ -664,17 +664,13 @@ Now that your environment is installed, let AI create configuration files so eve
 cd ~/bch709_vibe_coding
 conda activate bch709_vibe_coding
 
-# Launch Claude Code
-claude
+# Open VS Code in the current directory
+code .
 ```
 
-Inside Claude Code, run:
+In VS Code, open the **Claude extension** chat panel and type `/init`. This generates a `CLAUDE.md` file describing your project.
 
-```
-> /init
-```
-
-Then ask:
+Then ask Claude:
 
 ~~~
 Look at my project and conda environment (bch709_vibe_coding).
