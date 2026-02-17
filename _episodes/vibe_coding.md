@@ -1076,40 +1076,63 @@ If the first prompt doesn't work perfectly, follow this pattern:
 
 ```
 First prompt → AI generates code → Run code → Check output
-
-If ImportError (missing package):
-  Ask the AI: "The code uses [package] but it's not installed.
-   Give me the conda install command to add it to bch709_vibe_coding."
-
-  Then update your environment:
-  conda install -c conda-forge -n bch709_vibe_coding [package]
-
-If other errors:
-  "The code produced an error: [paste error message]
-   Please fix: [describe the issue]"
-
-If wrong output:
-  "The output is incorrect. Expected: [describe expected]
-   Actual: [describe actual]
-   Please modify: [specific change needed]"
-
-If missing feature:
-  "The code works but needs these additions:
-   1. [addition 1]
-   2. [addition 2]"
+                                       ↓
+                              If ImportError → ask AI for conda install command
+                                       ↓
+                              If other error → paste error, ask AI to fix
+                                       ↓
+                              If wrong output → describe expected vs actual
 ```
 
-> ## Keeping Your Environment Up to Date
-> If the AI suggests a package you don't have, install it and update your config files:
-> ```bash
-> # Install the missing package
-> conda install -c conda-forge -n bch709_vibe_coding [package_name]
->
-> # Then ask the AI to regenerate config files
-> # (in VS Code Claude chat):
-> # "Update CLAUDE.md, copilot-instructions.md, GEMINI.md, and CODEX.md
-> #  to reflect the current conda environment."
-> ```
+#### Example: AI Code Uses a Package You Don't Have
+
+**Step 1.** You ask the AI to generate code, and it produces:
+
+```python
+import scipy.stats as stats   # ← not in your environment!
+import pandas as pd
+
+z_scores = stats.zscore(df.values, axis=1)
+```
+
+**Step 2.** You run the code and get:
+
+```
+ModuleNotFoundError: No module named 'scipy'
+```
+
+**Step 3.** Ask the AI:
+
+~~~
+I got "ModuleNotFoundError: No module named 'scipy'" when running your code.
+Give me the conda install command to add scipy to my bch709_vibe_coding environment.
+~~~
+
+**Step 4.** The AI responds:
+
+```bash
+conda install -c conda-forge -n bch709_vibe_coding scipy
+```
+
+**Step 5.** Run the install command, then re-run your script:
+
+```bash
+$ conda install -c conda-forge -n bch709_vibe_coding scipy
+$ python scripts/analysis.py   # now it works
+```
+
+**Step 6.** Update your config files so the AI knows about the new package:
+
+In VS Code Claude chat, type:
+
+~~~
+I just installed scipy into bch709_vibe_coding.
+Update CLAUDE.md, copilot-instructions.md, GEMINI.md, and CODEX.md
+to reflect the current conda environment.
+~~~
+
+> ## Why Update Config Files?
+> If you don't update, the AI might not use `scipy` in future code — or worse, it might suggest installing it again. Keeping config files in sync avoids confusion.
 {: .callout}
 
 > ## Pro Tip: Start with a Brainstorming Prompt
