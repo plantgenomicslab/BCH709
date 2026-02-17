@@ -20,7 +20,12 @@ published: true
 3. [8 Tools Rewriting the Rules](#8-tools-rewriting-the-rules-of-life-sciences)
 4. [Setting Up VS Code with AI Assistants](#setting-up-vs-code-with-ai-coding-assistants)
 5. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
-   - [Step 0: Environment Setup](#step-0-brainstorming-and-environment-setup)
+   - [Step 0A: Brainstorming (Python)](#step-0a-brainstorming-prompt-analysis-1--python)
+   - [Step 0A: Brainstorming (R)](#step-0a-brainstorming-prompt-analysis-2--r)
+   - [Step 0B: How to Ask AI to Set Up Your Environment](#step-0b-how-to-ask-ai-to-set-up-your-environment)
+     - [Environment Setup Prompt (Python)](#step-0b-environment-setup-prompt-analysis-1--python)
+     - [Environment Setup Prompt (R)](#step-0b-environment-setup-prompt-analysis-2--r)
+   - [Step 0C: Environment Creation Commands](#step-0c-environment-creation-commands)
    - [Step 0D: Research Project Design (Advanced)](#step-0d-research-project-design-prompt-advanced)
    - [Telling AI About Your Environment](#telling-ai-assistants-about-your-conda-environment)
      - [Persistent Configuration (CLAUDE.md, copilot-instructions.md)](#persistent-environment-configuration-per-ai-assistant)
@@ -367,37 +372,85 @@ Natural-language prompt → AI generates code → Execute → Inspect results �
 > Before writing any code, ask the AI about possible approaches and required tools first.
 {: .objectives}
 
-## Step 0A. Brainstorming Prompt
+## Step 0A. Brainstorming Prompt (Analysis 1 — Python)
 
 Copy and paste this prompt into the AI first. **This is a strategy question, not a code request.**
 
 ~~~
 I am a beginner student in BCH709.
-Before writing any code, brainstorm the approaches and libraries I need for the following analyses.
+Before writing any code, brainstorm the approaches and libraries I need for the following analysis.
 
-Analysis 1 (Python, GFF3 analysis):
+Analysis (Python, GFF3 analysis):
 - Input: MGI.gff3.gz (GFF3, gzip), chrom.sizes (TSV: chrom, length_bp)
 - Goal: Count genes, exons (preventing isoform overcounting), snRNAs, and lncRNAs per chromosome; compute density
 - Output: TSV table + dropped_seqids.txt (QC artifact)
 
-Analysis 2 (R, RNA-Seq TPM analysis):
-- Input: iceplant_TPM_DT_ZT.tab.gz (gzip TSV, gene_id + sample TPM values)
-- Goal: Select top 200 genes by CV (with mean >= 1 filter), save log2(TPM+1) heatmap
-- Output: TSV + heatmap PNG
-
 Requirements:
-1) Break each analysis into functional units (input parsing, statistical computation, visualization, file output, QC).
+1) Break the analysis into functional units (input parsing, statistical computation, visualization, file output, QC).
 2) For each functional unit, suggest 1–2 candidate libraries.
 3) Pick one recommended combination for beginners and explain why.
 4) List the exact conda-forge package names for that combination.
 ~~~
 
-**Why this works:**
-- Students don't get stuck trying to recall package names
-- The AI produces a structured "function → package" mapping
-- The conda install command follows naturally
+## Step 0A. Brainstorming Prompt (Analysis 2 — R)
 
-## Step 0B. Environment Setup Prompt
+Now do the same for the R analysis. Copy and paste this prompt into a **new conversation** (or continue the same one).
+
+~~~
+I am a beginner student in BCH709.
+Before writing any code, brainstorm the approaches and libraries I need for the following analysis.
+
+Analysis (R, RNA-Seq TPM analysis):
+- Input: iceplant_TPM_DT_ZT.tab.gz (gzip TSV, gene_id + sample TPM values)
+- Goal: Select top 200 genes by CV (with mean >= 1 filter), save log2(TPM+1) heatmap
+- Output: TSV + heatmap PNG
+
+Requirements:
+1) Break the analysis into functional units (input parsing, statistical computation, visualization, file output, QC).
+2) For each functional unit, suggest 1–2 candidate libraries.
+3) Pick one recommended combination for beginners and explain why.
+4) List the exact conda-forge package names for that combination.
+~~~
+
+> ## Why Brainstorming First?
+> - You don't need to memorize package names — the AI suggests them
+> - The AI produces a structured "function → package" mapping you can review
+> - The conda install commands follow naturally in the next step (Step 0B)
+{: .callout}
+
+## Step 0B. How to Ask AI to Set Up Your Environment
+
+> ## Learning Objective
+> Instead of memorizing conda commands, learn to **describe what you need** and let the AI generate the installation plan for you.
+{: .objectives}
+
+Setting up a conda environment is a three-step process:
+
+```
+Step 1: Tell the AI what you want to do       (Step 0A — Brainstorming)
+        ↓
+Step 2: Ask the AI to generate install commands (Step 0B — Environment Prompt)
+        ↓
+Step 3: Copy-paste and run the commands         (Step 0C — Install)
+```
+
+### How to Write an Environment Setup Prompt
+
+Your prompt should include these key pieces of information:
+
+| What to Include | Why | Example |
+|-----------------|-----|---------|
+| **Environment name** | So the AI names it correctly | `bch709-python` |
+| **Language version** | To pin a specific version | `Python 3.11` or `R 4.3` |
+| **What you plan to do** | So the AI picks the right packages | "parse GFF3 files and compute statistics" |
+| **Verification step** | To confirm everything installed correctly | "include import tests" |
+| **Beginner-friendly format** | So you can copy-paste directly | "one command at a time" |
+
+> ## Key Idea
+> You already told the AI what analysis you want to do in **Step 0A** (brainstorming). Now you simply ask: **"Based on what you recommended, give me the install commands."**
+{: .callout}
+
+### Step 0B. Environment Setup Prompt (Analysis 1 — Python)
 
 Once brainstorming is complete, use this prompt:
 
@@ -406,13 +459,32 @@ Using the library combination you just recommended, generate conda environment c
 
 Conditions:
 - Python environment name: bch709-python
+- Pin Python 3.11
+- Include import/library verification tests after installation
+- Present the commands in copy-paste order so a beginner can just run them one by one
+~~~
+
+### Step 0B. Environment Setup Prompt (Analysis 2 — R)
+
+Once brainstorming is complete, use this prompt:
+
+~~~
+Using the library combination you just recommended, generate conda environment creation commands.
+
+Conditions:
 - R environment name: bch709-R
-- Pin Python 3.11, R 4.3
+- Pin R 4.3
 - Include import/library verification tests after installation
 - Present the commands in copy-paste order so a beginner can just run them one by one
 ~~~
 
 ## Step 0C. Environment Creation Commands
+
+The AI will generate commands like the ones below. **Copy-paste and run them in your terminal.**
+
+> ## Important
+> The commands below are what the AI typically produces. Your results may vary slightly depending on which AI assistant you use — that's fine as long as the verification step passes.
+{: .callout}
 
 ### Python Environment: `bch709-python`
 
@@ -447,11 +519,21 @@ R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("bch709-R
 mkdir -p results
 ```
 
+> ## Troubleshooting
+> If the verification step fails:
+> 1. Check that you activated the correct environment: `conda activate bch709-python`
+> 2. Re-run the install command — sometimes packages fail to download on the first try
+> 3. Ask the AI: *"I got this error when verifying: [paste error]. How do I fix it?"*
+{: .callout}
+
 ### Data Downloads
 
 ```bash
 # GFF3 (Example 1, Homework 1)
 curl -L -o data/MGI.gff3.gz http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
+
+# Chromosome sizes (Example 1)
+curl -L -o data/chrom.sizes https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chrom.sizes
 
 # mRNA FASTA (Homework 1)
 curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz

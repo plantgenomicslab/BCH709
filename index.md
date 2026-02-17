@@ -193,7 +193,7 @@ Include a brief AI use statement with submissions:
 | Week4  | 2/10/2026 | Tuesday  | [GitHub and server](github_server/index.html)                                                  |
 | Week4  | 2/12/2026 | Thursday | [Vibe coding](vibe_coding/index.html)                              |
 | Week5  | 2/17/2026 | Tuesday  | Sequence manipulation                                              |
-| Week5  | 2/19/2026 | Thursday | Sequence manipulation                                              |
+| Week5  | 2/19/2026 | Thursday | [Sequence manipulation](seqkit_tutorial/index.html)                |
 | Week6  | 2/24/2026 | Tuesday  | Sequencing methods and strategies                                  |
 | Week6  | 2/26/2026 | Thursday | Sequencing methods and strategies                                  |
 | Week7  | 3/3/2026  | Tuesday  | Introduction of R & R plotting (Tong Zhou PhD)                     |
