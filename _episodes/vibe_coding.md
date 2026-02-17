@@ -20,6 +20,7 @@ published: true
 3. [8 Tools Rewriting the Rules](#8-tools-rewriting-the-rules-of-life-sciences)
 4. [Setting Up VS Code with AI Assistants](#setting-up-vs-code-with-ai-coding-assistants)
 5. [BCH709 Lab Materials](#bch709-bioinformatics-vibe-coding-lab-materials)
+   - [Step 0: Project Setup (GitHub Repo)](#step-0-project-setup)
    - [Step 0A: Brainstorming (Python)](#step-0a-brainstorming-prompt-analysis-1--python)
    - [Step 0A: Brainstorming (R)](#step-0a-brainstorming-prompt-analysis-2--r)
    - [Step 0B: How to Ask AI to Set Up Your Environment](#step-0b-how-to-ask-ai-to-set-up-your-environment)
@@ -34,9 +35,9 @@ published: true
    - [How to Write Effective Prompts](#how-to-write-effective-vibe-coding-prompts)
    - [Part 1: Vibe Coding Examples](#part-1-vibe-coding-examples)
      - [Example 1: Python GFF3 Analysis](#example-1-python-per-chromosome-feature-counts-from-mgi-gff3--qc)
-     - [Example 2: R TPM Heatmap](#example-2-r-top-200-variable-genes-from-ice-plant-tpm--heatmap)
+     - [Example 2: R Yeast Stress Heatmap](#example-2-r-top-200-variable-genes-from-yeast-stress-data--heatmap)
    - [Part 2: Homework Assignments](#part-2-homework-assignments)
-     - [Homework 1: Python FASTA Analysis](#homework-1-python-mrna-fasta-analysis--gc-distribution-graph)
+     - [Homework 1: Python Yeast FASTA Analysis](#homework-1-python-yeast-mrna-fasta-analysis--gc-distribution-graph)
      - [Homework 2: R Clustering](#homework-2-r-z-score-clustering-of-cv-top-200-genes--pattern-visualization)
 6. [Appendix: Prompt Templates](#appendix-effective-vibe-coding-prompt-template)
 7. [Input/Output Prompt Checklist](#inputoutput-prompt-checklist)
@@ -366,11 +367,138 @@ Natural-language prompt → AI generates code → Execute → Inspect results �
 
 ---
 
-## Step 0: Brainstorming and Environment Setup
+## Step 0: Project Setup
 
 > ## Learning Objective
-> Before writing any code, ask the AI about possible approaches and required tools first.
+> Before writing any code, create a GitHub repository for your project, then ask the AI about possible approaches and required tools.
 {: .objectives}
+
+### Create a GitHub Repository
+
+Start by creating a new repository on GitHub to keep your work organized and version-controlled.
+
+#### 1. Log in to GitHub CLI
+
+First, make sure you are logged in to GitHub from the command line. You only need to do this once.
+
+```bash
+$ gh auth login
+```
+
+Follow the prompts:
+- Select **GitHub.com**
+- Select **HTTPS** as the protocol
+- Select **Login with a web browser**
+- Copy the one-time code, press Enter, and paste it in the browser window that opens
+- Authorize the GitHub CLI
+
+To verify you are logged in:
+
+```bash
+$ gh auth status
+```
+
+```output
+github.com
+  ✓ Logged in to github.com account your-username
+```
+
+#### 2. Create a Project Directory
+
+```bash
+# Create a new directory for your vibe coding project
+$ mkdir ~/bch709_vibe_coding
+
+# Move into the directory
+$ cd ~/bch709_vibe_coding
+```
+
+#### 3. Initialize Git and Create the GitHub Repo
+
+```bash
+# Initialize a git repository
+$ git init
+
+# Create a README file so the repo is not empty
+$ echo "# BCH709 Vibe Coding" > README.md
+
+# Stage and make the first commit
+$ git add README.md
+$ git commit -m "Initial commit"
+
+# Create the repo on GitHub and push
+$ gh repo create bch709_vibe_coding --public --source=. --remote=origin --push
+```
+
+```output
+✓ Created repository your-username/bch709_vibe_coding on GitHub
+✓ Added remote origin
+✓ Pushed commits to origin/main
+```
+
+#### 4. Verify Everything Worked
+
+```bash
+# Check that the remote is set up
+$ git remote -v
+```
+
+```output
+origin  https://github.com/your-username/bch709_vibe_coding.git (fetch)
+origin  https://github.com/your-username/bch709_vibe_coding.git (push)
+```
+
+You can also visit `https://github.com/your-username/bch709_vibe_coding` in your browser to see the repo.
+
+#### 5. Create Project Folders
+
+Set up a directory structure for your data, scripts, and results:
+
+```bash
+$ mkdir -p data results scripts
+```
+
+```
+~/bch709_vibe_coding/
+├── README.md
+├── data/          ← input files (GFF3, chrom.sizes, expression data, etc.)
+├── results/       ← output files (TSV, PNG, PDF)
+└── scripts/       ← your Python and R scripts
+```
+
+#### 6. Save the Project Structure to GitHub
+
+```bash
+# Stage the new folders
+$ git add -A
+
+# Commit
+$ git commit -m "Add project folder structure"
+
+# Push to GitHub
+$ git push
+```
+
+> ## Why Start with a GitHub Repo?
+> - All your code, data, and results stay in one place
+> - You can track changes and revert mistakes with `git log` and `git diff`
+> - AI assistants like Claude Code can read your project structure via `CLAUDE.md`
+> - You can submit your homework by sharing the repo link
+{: .callout}
+
+> ## Saving Your Work
+> After making changes, save them to GitHub:
+> ```bash
+> $ git add -A
+> $ git commit -m "Describe what you changed"
+> $ git push
+> ```
+> Do this regularly — after finishing each analysis step or before closing your terminal.
+{: .callout}
+
+From here, all commands assume you are working inside `~/bch709_vibe_coding`.
+
+---
 
 ## Step 0A. Brainstorming Prompt (Analysis 1 — Python)
 
@@ -381,8 +509,8 @@ I am a beginner student in BCH709.
 Before writing any code, brainstorm the approaches and libraries I need for the following analysis.
 
 Analysis (Python, GFF3 analysis):
-- Input: MGI.gff3.gz (GFF3, gzip), chrom.sizes (TSV: chrom, length_bp)
-- Goal: Count genes, exons (preventing isoform overcounting), snRNAs, and lncRNAs per chromosome; compute density
+- Input: saccharomyces_cerevisiae.gff.gz (GFF3, gzip), chrom.sizes (TSV: chrom, length_bp)
+- Goal: Count genes, exons (preventing isoform overcounting), tRNAs, and snoRNAs per chromosome; compute density
 - Output: TSV table + dropped_seqids.txt (QC artifact)
 
 Requirements:
@@ -390,6 +518,7 @@ Requirements:
 2) For each functional unit, suggest 1–2 candidate libraries.
 3) Pick one recommended combination for beginners and explain why.
 4) List the exact conda-forge package names for that combination.
+5) Provide the conda environment creation command (environment name, Python version, and all packages in one command).
 ~~~
 
 ## Step 0A. Brainstorming Prompt (Analysis 2 — R)
@@ -400,9 +529,9 @@ Now do the same for the R analysis. Copy and paste this prompt into a **new conv
 I am a beginner student in BCH709.
 Before writing any code, brainstorm the approaches and libraries I need for the following analysis.
 
-Analysis (R, RNA-Seq TPM analysis):
-- Input: iceplant_TPM_DT_ZT.tab.gz (gzip TSV, gene_id + sample TPM values)
-- Goal: Select top 200 genes by CV (with mean >= 1 filter), save log2(TPM+1) heatmap
+Analysis (R, Yeast stress response expression analysis):
+- Input: gasch2000.txt (TSV, gene_id + log2 expression ratios across ~170 stress conditions)
+- Goal: Select top 200 genes by CV, generate a heatmap of stress response patterns
 - Output: TSV + heatmap PNG
 
 Requirements:
@@ -410,6 +539,7 @@ Requirements:
 2) For each functional unit, suggest 1–2 candidate libraries.
 3) Pick one recommended combination for beginners and explain why.
 4) List the exact conda-forge package names for that combination.
+5) Provide the conda environment creation command (environment name, R version, and all packages in one command).
 ~~~
 
 > ## Why Brainstorming First?
@@ -517,17 +647,20 @@ mkdir -p results
 ### Data Downloads
 
 ```bash
-# GFF3 (Example 1, Homework 1)
-curl -L -o data/MGI.gff3.gz http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz
+# Yeast GFF3 from SGD (Example 1, Homework 1)
+curl -L -o data/saccharomyces_cerevisiae.gff.gz http://sgd-archive.yeastgenome.org/curation/chromosomal_feature/saccharomyces_cerevisiae.gff.gz
 
-# Chromosome sizes (Example 1)
-curl -L -o data/chrom.sizes https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chrom.sizes
+# Yeast chromosome sizes from UCSC sacCer3 (Example 1)
+curl -L -o data/chrom.sizes https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.chrom.sizes
 
-# mRNA FASTA (Homework 1)
-curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
+# Yeast mRNA FASTA (Homework 1)
+curl -L -o data/mrna.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/mrna.fa.gz
 
-# Ice plant TPM (Example 2, Homework 2)
-git clone https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling
+# Yeast genome FASTA (Homework 1, reference)
+curl -L -o data/sacCer3.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.fa.gz
+
+# Yeast stress response expression data - Gasch et al. (2000) (Example 2, Homework 2)
+curl -L -o data/gasch2000.txt https://www.shackett.org/files/gasch2000.txt
 ```
 
 ## Step 0D. Research Project Design Prompt (Advanced)
@@ -1018,11 +1151,11 @@ Read the GFF file.
 
 **Good:**
 ```
-Input: data/MGI.gff3.gz
+Input: data/saccharomyces_cerevisiae.gff.gz
 - Format: GFF3 (9 tab-separated columns), gzip compressed
 - Columns: seqid, source, type, start, end, score, strand, phase, attributes
-- seqid = chromosome name (e.g., chr1, chr2, chrX)
-- type = feature type (gene, exon, mRNA, snRNA, lnc_RNA, etc.)
+- seqid = chromosome name (e.g., chrI, chrII, chrXVI)
+- type = feature type (gene, exon, mRNA, tRNA, snoRNA, etc.)
 ```
 
 #### Step 3: Task (What Should You Do?)
@@ -1088,9 +1221,9 @@ Console output:
 > Installed packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm.
 >
 > **Input:**
-> - GFF3 file: data/MGI.gff3.gz (gzip, 9 tab-separated columns)
->   - seqid = chromosome (chr1, chr2, ..., chrX, chrY)
->   - type = feature type (gene, exon, mRNA, snRNA, lnc_RNA, etc.)
+> - GFF3 file: data/saccharomyces_cerevisiae.gff.gz (gzip, 9 tab-separated columns)
+>   - seqid = chromosome (chrI, chrII, ..., chrXVI, chrM)
+>   - type = feature type (gene, exon, mRNA, tRNA, snoRNA, etc.)
 > - Chromosome sizes: data/chrom.sizes (TSV: chrom, length_bp)
 >
 > **Task:**
@@ -1098,12 +1231,12 @@ Console output:
 > 2. Log seqids NOT in chrom.sizes to a QC file
 > 3. Count genes per chromosome (type == "gene")
 > 4. Count unique exons per chromosome (unique start, end, strand tuples to prevent isoform overcounting)
-> 5. Count snRNA (type == "snRNA")
-> 6. Count lncRNA (type == "lnc_RNA" OR "lncRNA")
+> 5. Count tRNA (type == "tRNA")
+> 6. Count snoRNA (type == "snoRNA")
 > 7. Compute density: gene_per_Mb = n_gene / (chrom_length_bp / 1e6)
 >
 > **Output 1:** results/chr_feature_counts.tsv
-> - Columns: chrom, chrom_length_bp, n_gene, n_exon_unique, n_snRNA, n_lncRNA, gene_per_Mb
+> - Columns: chrom, chrom_length_bp, n_gene, n_exon_unique, n_tRNA, n_snoRNA, gene_per_Mb
 > - Round densities to 4 decimal places
 > - Sort by gene_per_Mb descending
 >
@@ -1122,29 +1255,29 @@ Console output:
 > Installed packages: data.table, ggplot2, pheatmap, viridisLite, scales.
 >
 > **Input:**
-> - TPM file: Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz
->   - First column: gene_id
->   - Remaining columns: DT_ZT{time}_rep{1-3} (18 sample columns)
+> - Expression file: data/gasch2000.txt (TSV, log2 ratios)
+>   - First column: UID (systematic gene name, e.g., YAL001C)
+>   - Skip columns: NAME, description, GWEIGHT
+>   - Remaining columns: ~170 stress condition columns (log2 expression ratios)
 >
 > **Task:**
-> 1. Compute mean_tpm = row-wise mean of all 18 sample columns
-> 2. Compute sd_tpm = row-wise standard deviation
-> 3. Compute CV = sd_tpm / mean_tpm
-> 4. Filter: keep only genes where mean_tpm >= 1
+> 1. Parse gene_id from UID column, skip metadata columns
+> 2. Compute row-wise sd across all condition columns
+> 3. Compute CV = sd / abs(mean) for each gene
+> 4. Filter: remove genes with all NA or zero variance
 > 5. Select: top 200 genes by CV descending
-> 6. Transform for heatmap: log2(TPM + 1)
 >
-> **Output 1:** results/iceplant_cv_top200.tsv
-> - Columns: gene_id, mean_tpm, sd_tpm, cv
+> **Output 1:** results/yeast_stress_cv_top200.tsv
+> - Columns: gene_id, mean_expr, sd_expr, cv
 > - Round to 4 decimal places
 >
-> **Output 2:** results/iceplant_cv_top200_heatmap.png
+> **Output 2:** results/yeast_stress_cv_top200_heatmap.png
 > - Size: 1800 × 1200 pixels, dpi 200
-> - Data: log2(TPM + 1) values
+> - Data: log2 expression ratios (already log-transformed)
 > - Rows: gene_id (maintain CV descending order, cluster_rows = FALSE)
-> - Columns: original sample order (cluster_cols = FALSE)
+> - Columns: original condition order (cluster_cols = FALSE)
 > - X-axis labels: rotated 90 degrees
-> - Title: "Ice plant log2(TPM+1), CV top200 (mean>=1)"
+> - Title: "Yeast stress response, CV top200 (Gasch et al. 2000)"
 >
 > **Console:**
 > - Print top 10 rows of the CV table
@@ -1234,23 +1367,23 @@ If missing feature:
 
 ---
 
-## Example 1 (Python): Per-Chromosome Feature Counts from MGI GFF3 + QC
+## Example 1 (Python): Per-Chromosome Feature Counts from Yeast GFF3 + QC
 
 ### Background
 
-Extract chromosome-level feature counts (genes, exons, snRNAs, lncRNAs) from the MGI GFF3 file and cross-reference against an external chrom.sizes file to verify data integrity.
+Extract chromosome-level feature counts (genes, exons, tRNAs, snoRNAs) from the *Saccharomyces cerevisiae* (yeast) GFF3 file and cross-reference against an external chrom.sizes file to verify data integrity.
 
 **GFF3 file structure (9 tab-separated columns):**
 
 ```
-chr1  MGI  gene  3214482  3671498  .  -  .  ID=MGI:MGI:1918911;Name=Xkr4;biotype=protein_coding
+chrI  SGD  gene  335  649  .  +  .  ID=YAL069W;Name=YAL069W;gene=YAL069W
 ```
 
 | Column | Content |
 |--------|---------|
 | 1 | chromosome (seqid) |
 | 2 | source |
-| 3 | feature type (gene, mRNA, exon, snRNA, lnc_RNA, etc.) |
+| 3 | feature type (gene, mRNA, exon, tRNA, snoRNA, etc.) |
 | 4 | start position |
 | 5 | end position |
 | 6 | score |
@@ -1261,9 +1394,9 @@ chr1  MGI  gene  3214482  3671498  .  -  .  ID=MGI:MGI:1918911;Name=Xkr4;biotype
 **chrom.sizes file structure:**
 
 ```
-chr1    195465000
-chr2    182105000
-chrX    171031299
+chrI     230218
+chrII    813184
+chrIV    1531933
 ```
 
 ### Critical Design Decisions
@@ -1271,7 +1404,7 @@ chrX    171031299
 > ## Definitions That Must Appear in Your Prompt
 > 1. **Exon overcounting prevention:** Count unique (start, end, strand) intervals per chromosome
 > 2. **Chromosome length source:** Use external chrom.sizes file; log excluded seqids to `dropped_seqids.txt`
-> 3. **snRNA/lncRNA definition:** Count lines where type is `snRNA`, `lnc_RNA`, or `lncRNA`
+> 3. **tRNA/snoRNA definition:** Count lines where type is `tRNA` or `snoRNA`
 {: .checklist}
 
 ---
@@ -1279,7 +1412,7 @@ chrX    171031299
 ### Stage 1: Vague Prompt
 
 **Prompt:**
-> "Extract the gene, exon, snRNA, and lncRNA counts per chromosome from the GFF3 file."
+> "Extract the gene, exon, tRNA, and snoRNA counts per chromosome from the GFF3 file."
 
 **AI-generated code:**
 ```python
@@ -1288,7 +1421,7 @@ from collections import defaultdict
 
 counts = defaultdict(lambda: defaultdict(int))
 
-with gzip.open("data/MGI.gff3.gz", "rt") as f:
+with gzip.open("data/saccharomyces_cerevisiae.gff.gz", "rt") as f:
     for line in f:
         if line.startswith("#"):
             continue
@@ -1297,7 +1430,7 @@ with gzip.open("data/MGI.gff3.gz", "rt") as f:
             continue
         chrom = fields[0]
         ftype = fields[2]
-        if ftype in ("gene", "exon", "snRNA", "lncRNA"):
+        if ftype in ("gene", "exon", "tRNA", "snoRNA"):
             counts[chrom][ftype] += 1
 
 for chrom in sorted(counts):
@@ -1305,9 +1438,8 @@ for chrom in sorted(counts):
 ```
 
 > ## Problems with Stage 1
-> - No chromosome length reference—scaffolds included with primary chromosomes
+> - No chromosome length reference—all seqids included without filtering
 > - Exons double-counted across isoforms
-> - Misses `lnc_RNA` (standard GFF3 spelling)
 > - No QC tracking of dropped seqids
 > - No file output
 {: .callout}
@@ -1322,7 +1454,7 @@ Write Python code that runs in the bch709-python conda environment.
 pandas and numpy are installed.
 
 Input:
-- GFF3 gzip: data/MGI.gff3.gz (9 columns, tab-separated)
+- GFF3 gzip: data/saccharomyces_cerevisiae.gff.gz (9 columns, tab-separated)
 - Chrom sizes: data/chrom.sizes (TSV: chrom, length_bp)
 
 Task:
@@ -1330,11 +1462,11 @@ Task:
 - Save GFF seqids not found in chrom.sizes to results/dropped_seqids.txt
 - Count genes per chromosome (type == "gene")
 - Count exons per chromosome: to prevent isoform overcounting, define count as number of unique (start, end, strand) intervals
-- Count snRNA/lncRNA: lines where type is "snRNA", "lnc_RNA", or "lncRNA"
+- Count tRNA and snoRNA: lines where type is "tRNA" or "snoRNA"
 
 Output:
 - results/chr_feature_counts.tsv
-- Columns: chrom, chrom_length_bp, n_gene, n_exon_unique, n_snRNA, n_lncRNA
+- Columns: chrom, chrom_length_bp, n_gene, n_exon_unique, n_tRNA, n_snoRNA
 - Include header
 - Print top 5 rows to console
 ~~~
@@ -1346,7 +1478,7 @@ import gzip
 import pandas as pd
 from collections import defaultdict
 
-DATA_GFF  = Path("data/MGI.gff3.gz")
+DATA_GFF  = Path("data/saccharomyces_cerevisiae.gff.gz")
 DATA_SIZES = Path("data/chrom.sizes")
 OUT_TSV   = Path("results/chr_feature_counts.tsv")
 OUT_DROP  = Path("results/dropped_seqids.txt")
@@ -1359,12 +1491,9 @@ chrom_len = dict(zip(sizes["chrom"], sizes["length_bp"]))
 
 n_gene = defaultdict(int)
 exon_intervals = defaultdict(set)
-n_snRNA = defaultdict(int)
-n_lncRNA = defaultdict(int)
+n_tRNA = defaultdict(int)
+n_snoRNA = defaultdict(int)
 dropped_seqids = set()
-
-SNRNA_TYPES  = {"snRNA"}
-LNCRNA_TYPES = {"lnc_RNA", "lncRNA"}
 
 with gzip.open(DATA_GFF, "rt") as f:
     for line in f:
@@ -1383,10 +1512,10 @@ with gzip.open(DATA_GFF, "rt") as f:
             n_gene[seqid] += 1
         elif ftype == "exon":
             exon_intervals[seqid].add((int(start), int(end), strand))
-        elif ftype in SNRNA_TYPES:
-            n_snRNA[seqid] += 1
-        elif ftype in LNCRNA_TYPES:
-            n_lncRNA[seqid] += 1
+        elif ftype == "tRNA":
+            n_tRNA[seqid] += 1
+        elif ftype == "snoRNA":
+            n_snoRNA[seqid] += 1
 
 rows = []
 for chrom in sizes["chrom"]:
@@ -1395,8 +1524,8 @@ for chrom in sizes["chrom"]:
         "chrom_length_bp": int(chrom_len[chrom]),
         "n_gene": n_gene.get(chrom, 0),
         "n_exon_unique": len(exon_intervals.get(chrom, set())),
-        "n_snRNA": n_snRNA.get(chrom, 0),
-        "n_lncRNA": n_lncRNA.get(chrom, 0),
+        "n_tRNA": n_tRNA.get(chrom, 0),
+        "n_snoRNA": n_snoRNA.get(chrom, 0),
     })
 
 df = pd.DataFrame(rows)
@@ -1423,7 +1552,7 @@ Extend the Stage 2 results.
 Additional output requirements:
 - Add density columns:
   - gene_per_Mb = n_gene / (chrom_length_bp / 1e6)
-  - exon_unique_per_Mb, snRNA_per_Mb, lncRNA_per_Mb (same formula)
+  - exon_unique_per_Mb, tRNA_per_Mb, snoRNA_per_Mb (same formula)
 - Sort by gene_per_Mb descending
 - Round to 4 decimal places
 - Include all chromosomes from chrom.sizes, filling counts with 0 where no features exist
@@ -1438,7 +1567,7 @@ import gzip
 import pandas as pd
 from collections import defaultdict
 
-DATA_GFF  = Path("data/MGI.gff3.gz")
+DATA_GFF  = Path("data/saccharomyces_cerevisiae.gff.gz")
 DATA_SIZES = Path("data/chrom.sizes")
 OUT_TSV   = Path("results/chr_feature_counts.tsv")
 OUT_DROP  = Path("results/dropped_seqids.txt")
@@ -1452,13 +1581,10 @@ chrom_len = dict(zip(sizes["chrom"], sizes["length_bp"]))
 # 2) Counters
 n_gene = defaultdict(int)
 exon_intervals = defaultdict(set)
-n_snRNA = defaultdict(int)
-n_lncRNA = defaultdict(int)
+n_tRNA = defaultdict(int)
+n_snoRNA = defaultdict(int)
 dropped_seqids = set()
 dropped_lines = 0
-
-SNRNA_TYPES  = {"snRNA"}
-LNCRNA_TYPES = {"lnc_RNA", "lncRNA"}
 
 with gzip.open(DATA_GFF, "rt") as f:
     for line in f:
@@ -1478,10 +1604,10 @@ with gzip.open(DATA_GFF, "rt") as f:
             n_gene[seqid] += 1
         elif ftype == "exon":
             exon_intervals[seqid].add((int(start), int(end), strand))
-        elif ftype in SNRNA_TYPES:
-            n_snRNA[seqid] += 1
-        elif ftype in LNCRNA_TYPES:
-            n_lncRNA[seqid] += 1
+        elif ftype == "tRNA":
+            n_tRNA[seqid] += 1
+        elif ftype == "snoRNA":
+            n_snoRNA[seqid] += 1
 
 # 3) Build result table (include all chroms from chrom.sizes; fill 0 where no features)
 rows = []
@@ -1489,8 +1615,8 @@ for chrom in sizes["chrom"]:
     L = float(chrom_len[chrom])
     g  = n_gene.get(chrom, 0)
     ex = len(exon_intervals.get(chrom, set()))
-    sn = n_snRNA.get(chrom, 0)
-    ln = n_lncRNA.get(chrom, 0)
+    tr = n_tRNA.get(chrom, 0)
+    sn = n_snoRNA.get(chrom, 0)
     Mb = L / 1e6 if L > 0 else 1
 
     rows.append({
@@ -1498,12 +1624,12 @@ for chrom in sizes["chrom"]:
         "chrom_length_bp": int(L),
         "n_gene": g,
         "n_exon_unique": ex,
-        "n_snRNA": sn,
-        "n_lncRNA": ln,
+        "n_tRNA": tr,
+        "n_snoRNA": sn,
         "gene_per_Mb":        round(g  / Mb, 4),
         "exon_unique_per_Mb": round(ex / Mb, 4),
-        "snRNA_per_Mb":       round(sn / Mb, 4),
-        "lncRNA_per_Mb":      round(ln / Mb, 4),
+        "tRNA_per_Mb":        round(tr / Mb, 4),
+        "snoRNA_per_Mb":      round(sn / Mb, 4),
     })
 
 df = pd.DataFrame(rows).sort_values("gene_per_Mb", ascending=False)
@@ -1521,15 +1647,15 @@ print(df.head(5).to_string(index=False))
 ```
 Saved: results/chr_feature_counts.tsv
 Saved: results/dropped_seqids.txt
-Dropped seqids: 47
-Dropped feature lines: 1823
+Dropped seqids: 1
+Dropped feature lines: 42
 
- chrom  chrom_length_bp  n_gene  n_exon_unique  n_snRNA  n_lncRNA  gene_per_Mb  ...
- chr11      122082543     2847        42156        12        45      23.3224  ...
- chr19       61431566     1892        31245         8        32      30.8024  ...
- chr17       94987271     2456        38912        10        38      25.8563  ...
-  chr1      195465000     3215        52341        18        67      16.4488  ...
-  chr2      182105000     2987        48562        15        58      16.4027  ...
+  chrom  chrom_length_bp  n_gene  n_exon_unique  n_tRNA  n_snoRNA  gene_per_Mb  ...
+  chrIII       316620      174          210         10         5     549.5146  ...
+  chrI         230218      117          136          4         3     508.2190  ...
+  chrVI        270161      136          170          7         4     503.2285  ...
+  chrIX        439888      218          275         10         4     495.5724  ...
+  chrV         576874      282          356         17         6     488.8408  ...
 ```
 
 ---
@@ -1548,7 +1674,7 @@ Dropped feature lines: 1823
 ### QC Interpretation Questions
 
 > ## Questions Students Must Answer
-> 1. What seqids ended up in `dropped_seqids.txt`? (Alternative contigs? Unplaced scaffolds? Mitochondrial?)
+> 1. What seqids ended up in `dropped_seqids.txt`? (Mitochondrial genome? 2-micron plasmid?)
 > 2. What fraction of total genes were dropped? Could this affect conclusions?
 > 3. If the prompt had NOT specified using chrom.sizes, what errors could have occurred **silently**?
 {: .challenge}
@@ -1559,52 +1685,55 @@ Dropped feature lines: 1823
 
 ---
 
-## Example 2 (R): Top 200 Variable Genes from Ice Plant TPM + Heatmap
+## Example 2 (R): Top 200 Variable Genes from Yeast Stress Data + Heatmap
 
 ### Background
 
-Analyze time-course (Zeitgeber Time) TPM expression data from ice plant (*Mesembryanthemum crystallinum*). Extract the **top 200 genes by coefficient of variation (CV)** and visualize their expression patterns.
+Analyze the classic yeast stress response microarray dataset from Gasch et al. (2000). Extract the **top 200 genes by coefficient of variation (CV)** across ~170 environmental stress conditions and visualize their expression patterns.
 
-**Data source:** [Ice-plant-transcriptome-profiling](https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling)
+**Data source:** [Gasch et al. (2000)](https://pubmed.ncbi.nlm.nih.gov/11102521/) — "Genomic expression programs in the response of yeast cells to environmental changes." *Mol Biol Cell* 11(12):4241-4257.
 
 **Data structure:**
 
 | Column | Description |
 |--------|-------------|
-| gene_id | Gene identifier (e.g., Mc01g0010) |
-| DT_ZT2_rep1 through DT_ZT22_rep3 | 6 time points × 3 replicates = 18 samples |
+| UID | Systematic gene name (e.g., YAL001C) |
+| NAME | Gene common name (e.g., TFC3) |
+| (description) | Functional description |
+| GWEIGHT | Gene weight (skip) |
+| Remaining columns | ~170 stress conditions (log2 expression ratios) |
 
-- DT = Day Treatment, ZT = Zeitgeber Time
-- Time points: ZT2, ZT6, ZT10, ZT14, ZT18, ZT22 (4-hour intervals)
+- Values are **log2 ratios** (positive = upregulated, negative = downregulated)
+- Conditions include: heat shock, oxidative stress, osmotic shock, amino acid starvation, nitrogen depletion, stationary phase
 
 ### Critical Design Decisions
 
 | Decision | Rationale |
 |----------|-----------|
-| **mean >= 1 filter** | Genes with near-zero TPM produce infinite/extreme CV values |
-| **CV = sd / mean** | Measures relative variability independent of expression level |
-| **log2(TPM + 1)** | Reduces influence of extreme values in heatmap |
+| **Remove all-NA rows** | Some genes have missing data across conditions |
+| **CV = sd / abs(mean)** | Measures relative variability; use absolute mean since values can be negative (log2 ratios) |
+| **Data already log-transformed** | No additional log transformation needed for heatmap |
 
 ---
 
 ### Stage 1: Vague Prompt
 
 **Prompt:**
-> "Pick the 200 most variable genes from the TPM data and draw a heatmap."
+> "Pick the 200 most variable genes from the stress data and draw a heatmap."
 
 **AI-generated code:**
 ```r
-data <- read.table("iceplant_TPM_DT_ZT.tab", header=TRUE, sep="\t", row.names=1)
-vars <- apply(data, 1, var)
+data <- read.table("data/gasch2000.txt", header=TRUE, sep="\t", row.names=1)
+vars <- apply(data, 1, var, na.rm=TRUE)
 top200 <- head(sort(vars, decreasing=TRUE), 200)
 heatmap(as.matrix(data[names(top200), ]))
 ```
 
 > ## Problems with Stage 1
-> - Uses variance instead of CV → biased toward highly expressed genes
-> - No mean >= 1 filter → noise genes in top ranks
+> - Uses variance instead of CV → biased toward genes with large absolute changes
+> - No NA handling → may crash or produce misleading results
 > - No file output, no image size/resolution control
-> - No log2 transformation → color scale dominated by extremes
+> - Metadata columns (NAME, GWEIGHT) not removed → treated as data
 {: .callout}
 
 ---
@@ -1617,18 +1746,19 @@ Write R code that runs in the bch709-R conda environment.
 data.table and pheatmap are installed.
 
 Input:
-- Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz (gzip TSV)
-- First column: gene_id; remaining columns: numeric TPM
+- data/gasch2000.txt (TSV, log2 expression ratios)
+- First column: UID (gene_id); skip NAME, description, GWEIGHT columns
+- Remaining columns: ~170 stress conditions (numeric)
 
 Task:
-- Compute mean_tpm and sd_tpm for each gene
-- CV = sd_tpm / mean_tpm
-- Keep only genes with mean_tpm >= 1
+- Compute mean_expr and sd_expr for each gene across all conditions
+- CV = sd_expr / abs(mean_expr)
+- Remove genes with all NA or zero variance
 - Select top 200 by CV descending
 
 Output:
-- Save to results/iceplant_cv_top200.tsv
-- Columns: gene_id, mean_tpm, sd_tpm, cv
+- Save to results/yeast_stress_cv_top200.tsv
+- Columns: gene_id, mean_expr, sd_expr, cv
 - Round to 4 decimal places
 - Print top 10 to console
 ~~~
@@ -1639,39 +1769,44 @@ library(data.table)
 
 dir.create("results", showWarnings = FALSE, recursive = TRUE)
 
-f <- "Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz"
-dt <- fread(f)
-stopifnot("gene_id" %in% names(dt))
+f <- "data/gasch2000.txt"
+dt <- fread(f, header = TRUE)
 
-sample_cols <- setdiff(names(dt), "gene_id")
-mat <- as.matrix(dt[, ..sample_cols])
+# Extract gene_id and numeric condition columns (skip NAME, description, GWEIGHT)
+gene_ids <- dt[[1]]
+meta_cols <- c("UID", "NAME", "GWEIGHT")
+desc_col <- names(dt)[3]  # description column
+skip_cols <- c(meta_cols, desc_col)
+cond_cols <- setdiff(names(dt), skip_cols)
+mat <- as.matrix(dt[, ..cond_cols])
 mode(mat) <- "numeric"
 
-mean_tpm <- rowMeans(mat, na.rm = TRUE)
-sd_tpm   <- apply(mat, 1, sd, na.rm = TRUE)
+mean_expr <- rowMeans(mat, na.rm = TRUE)
+sd_expr   <- apply(mat, 1, sd, na.rm = TRUE)
 
-keep <- mean_tpm >= 1
+keep <- !is.na(sd_expr) & sd_expr > 0
 res <- data.table(
-  gene_id  = dt$gene_id[keep],
-  mean_tpm = mean_tpm[keep],
-  sd_tpm   = sd_tpm[keep]
+  gene_id   = gene_ids[keep],
+  mean_expr = mean_expr[keep],
+  sd_expr   = sd_expr[keep]
 )
-res[, cv := sd_tpm / mean_tpm]
+res[, cv := sd_expr / abs(mean_expr)]
+res <- res[is.finite(cv)]
 setorder(res, -cv)
 
 top200 <- res[1:min(200, .N)]
 top200[, `:=`(
-  mean_tpm = round(mean_tpm, 4),
-  sd_tpm   = round(sd_tpm, 4),
-  cv       = round(cv, 4)
+  mean_expr = round(mean_expr, 4),
+  sd_expr   = round(sd_expr, 4),
+  cv        = round(cv, 4)
 )]
 
-fwrite(top200, "results/iceplant_cv_top200.tsv", sep = "\t")
+fwrite(top200, "results/yeast_stress_cv_top200.tsv", sep = "\t")
 print(top200[1:min(10, .N)])
-cat("Saved: results/iceplant_cv_top200.tsv\n")
+cat("Saved: results/yeast_stress_cv_top200.tsv\n")
 ```
 
-**Improvements:** Explicit CV definition, mean >= 1 filter, TSV output
+**Improvements:** Explicit CV definition, NA handling, TSV output
 
 **Still missing:** No heatmap generated, no plot specifications
 
@@ -1684,15 +1819,15 @@ cat("Saved: results/iceplant_cv_top200.tsv\n")
 Using the top 200 genes from Stage 2, generate a heatmap.
 
 Heatmap data:
-- Values: log2(TPM + 1)
+- Values: log2 expression ratios (already log-transformed in the data)
 - Rows: gene_id (maintain CV descending order, cluster_rows = FALSE)
-- Columns: original sample column order (cluster_cols = FALSE)
+- Columns: original condition order (cluster_cols = FALSE)
 
 Plot specifications:
-- Save to: results/iceplant_cv_top200_heatmap.png
+- Save to: results/yeast_stress_cv_top200_heatmap.png
 - Size: 1800 × 1200 px, dpi 200
 - Rotate x-axis labels 90 degrees
-- Title: "Ice plant log2(TPM+1), CV top200 (mean>=1)"
+- Title: "Yeast stress response, CV top200 (Gasch et al. 2000)"
 - Also print top 10 summary table to console
 ~~~
 
@@ -1703,59 +1838,63 @@ library(pheatmap)
 
 dir.create("results", showWarnings = FALSE, recursive = TRUE)
 
-f <- "Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz"
-dt <- fread(f)
-stopifnot("gene_id" %in% names(dt))
+f <- "data/gasch2000.txt"
+dt <- fread(f, header = TRUE)
 
-sample_cols <- setdiff(names(dt), "gene_id")
-mat <- as.matrix(dt[, ..sample_cols])
+# Extract gene_id and numeric condition columns
+gene_ids <- dt[[1]]
+meta_cols <- c("UID", "NAME", "GWEIGHT")
+desc_col <- names(dt)[3]
+skip_cols <- c(meta_cols, desc_col)
+cond_cols <- setdiff(names(dt), skip_cols)
+mat <- as.matrix(dt[, ..cond_cols])
 mode(mat) <- "numeric"
 
-mean_tpm <- rowMeans(mat, na.rm = TRUE)
-sd_tpm   <- apply(mat, 1, sd, na.rm = TRUE)
+mean_expr <- rowMeans(mat, na.rm = TRUE)
+sd_expr   <- apply(mat, 1, sd, na.rm = TRUE)
 
-keep <- mean_tpm >= 1
+keep <- !is.na(sd_expr) & sd_expr > 0
 res <- data.table(
-  gene_id  = dt$gene_id[keep],
-  mean_tpm = mean_tpm[keep],
-  sd_tpm   = sd_tpm[keep]
+  gene_id   = gene_ids[keep],
+  mean_expr = mean_expr[keep],
+  sd_expr   = sd_expr[keep]
 )
-res[, cv := sd_tpm / mean_tpm]
+res[, cv := sd_expr / abs(mean_expr)]
+res <- res[is.finite(cv)]
 setorder(res, -cv)
 top200 <- res[1:min(200, .N)]
 
 # Summary TSV
 top200_out <- copy(top200)
 top200_out[, `:=`(
-  mean_tpm = round(mean_tpm, 4),
-  sd_tpm   = round(sd_tpm, 4),
-  cv       = round(cv, 4)
+  mean_expr = round(mean_expr, 4),
+  sd_expr   = round(sd_expr, 4),
+  cv        = round(cv, 4)
 )]
-fwrite(top200_out, "results/iceplant_cv_top200.tsv", sep = "\t")
+fwrite(top200_out, "results/yeast_stress_cv_top200.tsv", sep = "\t")
 
 # Heatmap matrix
-idx <- match(top200$gene_id, dt$gene_id)
+idx <- match(top200$gene_id, gene_ids)
 submat <- mat[idx, , drop = FALSE]
-submat <- log2(submat + 1)
 rownames(submat) <- top200$gene_id
 
 # Save (1800×1200 px, dpi 200)
-png("results/iceplant_cv_top200_heatmap.png",
+png("results/yeast_stress_cv_top200_heatmap.png",
     width = 1800, height = 1200, res = 200)
 pheatmap(
   submat,
   cluster_rows = FALSE,
   cluster_cols = FALSE,
-  fontsize_col = 6,
+  fontsize_col = 4,
   fontsize_row = 3,
   angle_col = 90,
-  main = "Ice plant log2(TPM+1), CV top200 (mean>=1)"
+  main = "Yeast stress response, CV top200 (Gasch et al. 2000)"
 )
 dev.off()
 
 print(top200_out[1:min(10, .N)])
-cat("Saved: results/iceplant_cv_top200.tsv\n")
-cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
+cat("Saved: results/yeast_stress_cv_top200.tsv\n")
+cat("Saved: results/yeast_stress_cv_top200_heatmap.png\n")
 ```
 
 ---
@@ -1764,18 +1903,19 @@ cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
 
 | Aspect | Stage 1 (Vague) | Stage 2 (Format) | Stage 3 (Detailed) |
 |--------|-----------------|------------------|-------------------|
-| Variability metric | Variance | CV (sd/mean) | CV (sd/mean) |
-| Filtering | None | mean >= 1 | mean >= 1 |
-| Data transformation | None | None | log2(TPM+1) |
+| Variability metric | Variance | CV (sd/abs(mean)) | CV (sd/abs(mean)) |
+| Filtering | None | Remove NA/zero-variance | Remove NA/zero-variance |
+| Data transformation | None | None | Already log2 (no extra transform) |
 | File output | None | TSV | TSV + PNG (size/dpi specified) |
 | **Reusability** | **Low** | **Medium** | **High** |
 
 ### Interpretation Points
 
 > ## Key Insights
-> - Without `mean >= 1` filter, genes with near-zero expression but a single spike dominate top ranks
+> - Removing NA and zero-variance genes prevents infinite/undefined CV values from dominating results
 > - CV captures **relative variability independent of absolute expression** → fair comparison across expression levels
-> - `log2(TPM+1)` transformation equalizes heatmap color distribution, making patterns visible
+> - The Gasch 2000 data is already log2-transformed, so no additional transformation is needed for the heatmap
+> - Genes with high CV across stress conditions are likely part of the **Environmental Stress Response (ESR)** — a conserved transcriptional program in yeast
 {: .callout}
 
 ---
@@ -1784,11 +1924,11 @@ cat("Saved: results/iceplant_cv_top200_heatmap.png\n")
 
 ---
 
-## Homework 1 (Python): mRNA FASTA Analysis + GC Distribution Graph
+## Homework 1 (Python): Yeast mRNA FASTA Analysis + GC Distribution Graph
 
 ### Problem Description
 
-Extract sequence information from the UCSC human mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a graph and an HTML report page.
+Extract sequence information from the UCSC yeast (*Saccharomyces cerevisiae*) mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a graph and an HTML report page.
 
 > ## Objective
 > **Write a single prompt using vibe coding that produces the desired result in one shot.**
@@ -1798,13 +1938,17 @@ Extract sequence information from the UCSC human mRNA FASTA file (mrna.fa.gz), a
 ### Input Data
 
 ```bash
-curl -L -O https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz
+# Yeast mRNA FASTA
+curl -L -o data/mrna.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/mrna.fa.gz
+
+# Yeast genome FASTA (for reference)
+curl -L -o data/sacCer3.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.fa.gz
 ```
 
 **FASTA file structure:**
 ```
->BC032353 /gb=BC032353 /gi=34783011 /ug=Hs.444613 /len=1873
-CGGCAGCGGCTGCGGGGAGGATGGCGGCGACGGCGACTTTTAAATATATTGG...
+>BC001547 /gb=BC001547 /gi=12654078 /ug=Sc.3456 /len=1254
+ATGTCTGCTCCAGCTAGCAGTGAAACTTTATTCAGAAACTGCTTAG...
 ```
 
 ### Expected Output
@@ -1845,7 +1989,7 @@ Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.co
 |-----------|--------|-------------|
 | Prompt quality | 40% | Input format, accession parsing, gzip handling, output specs (filename, columns, decimals, sorting, graph size/color/font) |
 | Code correctness | 40% | Correct gzip streaming parse, accurate computation, all 4 files generated |
-| Result interpretation | 20% | Explain 3 possible biological/technical reasons for high top-20 GC content values |
+| Result interpretation | 20% | Explain 3 possible biological/technical reasons for high top-20 GC content values in yeast |
 
 ---
 
@@ -1853,12 +1997,12 @@ Reference: [R Graph Gallery — Distribution section](https://r-graph-gallery.co
 
 ### Problem Description
 
-Using the 200 genes from `results/iceplant_cv_top200.tsv` (from Example 2):
+Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 
 1. **Z-score normalize** (row-wise)
 2. **Hierarchical clustering** (ward.D2 method, euclidean distance)
 3. **Cut tree at k=4** to assign clusters
-4. **Save cluster mean expression pattern** line plots
+4. **Save cluster mean expression pattern** box plots per stress category
 5. **Save cluster assignment** table as TSV
 
 > ## Objective
@@ -1868,9 +2012,9 @@ Using the 200 genes from `results/iceplant_cv_top200.tsv` (from Example 2):
 ### Input Data
 
 ```bash
-# TSV from Example 2 + original TPM data
-# results/iceplant_cv_top200.tsv (gene_id list)
-# Ice-plant-transcriptome-profiling/iceplant_TPM_DT_ZT.tab.gz (original TPM)
+# TSV from Example 2 + original expression data
+# results/yeast_stress_cv_top200.tsv (gene_id list)
+# data/gasch2000.txt (original log2 expression ratios)
 ```
 
 ### Expected Output
@@ -1879,21 +2023,21 @@ Using the 200 genes from `results/iceplant_cv_top200.tsv` (from Example 2):
 
 | Specification | Value |
 |---------------|-------|
-| Data | Mean TPM per ZT → row-wise Z-score |
+| Data | Log2 expression ratios → row-wise Z-score |
 | Z-score | (value − row_mean) / row_sd |
 | Rows | gene_id (hierarchical clustering, ward.D2, euclidean) |
-| Columns | ZT2, ZT6, ZT10, ZT14, ZT18, ZT22 (chronological, cluster_cols = FALSE) |
+| Columns | Stress conditions (original order, cluster_cols = FALSE) |
 | Colors | blue (low) → white (0) → red (high) |
 | Annotation | k=4 cutree as color bar |
 | Size | 8 × 12 inches |
 
-**2. Cluster Mean Pattern Line Plot** — `results/cluster_patterns.pdf`
+**2. Cluster Mean Pattern Box Plot** — `results/cluster_patterns.pdf`
 
 | Specification | Value |
 |---------------|-------|
 | Layout | 2×2 panel (facet_wrap) |
-| Y-axis | Mean TPM ± SD |
-| X-axis | ZT (2, 6, 10, 14, 18, 22) |
+| Y-axis | Mean log2 expression ratio ± SD |
+| X-axis | Stress categories (heat, oxidative, osmotic, nutrient) |
 | Panel titles | "Cluster 1 (n=XX genes)" |
 | Size | 10 × 8 inches |
 
@@ -1901,10 +2045,10 @@ Using the 200 genes from `results/iceplant_cv_top200.tsv` (from Example 2):
 
 | Column | Description |
 |--------|-------------|
-| gene_id | Gene identifier |
+| gene_id | Gene identifier (e.g., YAL001C) |
 | cluster | 1–4 |
-| peak_ZT | ZT with highest mean TPM |
-| trough_ZT | ZT with lowest mean TPM |
+| peak_condition | Condition with highest expression |
+| trough_condition | Condition with lowest expression |
 | amplitude | max − min (2 decimal places) |
 
 Sort by cluster ascending, then amplitude descending within cluster.
@@ -1913,20 +2057,20 @@ Sort by cluster ascending, then amplitude descending within cluster.
 
 ~~~
 Analysis procedure:
-1. From iceplant_TPM_DT_ZT.tab.gz, extract only the top 200 genes (by gene_id list)
-2. Parse ZT time point from sample names (regex: digits after "ZT")
-3. Average the 3 replicates per ZT → gene × ZT matrix (200 rows × 6 columns)
-4. Z-score normalize: for each row (gene), compute (value - mean) / sd
-5. Hierarchical clustering: dist(euclidean) → hclust(ward.D2)
-6. cutree(k=4) to assign 4 clusters
+1. From gasch2000.txt, extract only the top 200 genes (by gene_id list from results/yeast_stress_cv_top200.tsv)
+2. Skip metadata columns (NAME, description, GWEIGHT), keep only numeric condition columns
+3. Z-score normalize: for each row (gene), compute (value - mean) / sd
+4. Hierarchical clustering: dist(euclidean) → hclust(ward.D2)
+5. cutree(k=4) to assign 4 clusters
 
 For the heatmap:
 - Use pheatmap or ComplexHeatmap
 - Show cluster assignment as annotation_row color bar
-- Columns (ZT) in chronological order (cluster_cols = FALSE)
+- Columns in original condition order (cluster_cols = FALSE)
 
-For the line plot:
-- Use original TPM values (no log transformation) for mean ± SD
+For the box/line plot:
+- Group conditions by stress type (heat, oxidative, osmotic, nutrient depletion)
+- Use original log2 ratios for mean ± SD
 - ggplot2 facet_wrap(~cluster, ncol=2)
 ~~~
 
@@ -1934,9 +2078,9 @@ For the line plot:
 
 | Criterion | Weight | Description |
 |-----------|--------|-------------|
-| Prompt quality | 40% | Z-score definition, clustering method (ward.D2, euclidean), k=4, replicate-to-mean procedure, output specs |
+| Prompt quality | 40% | Z-score definition, clustering method (ward.D2, euclidean), k=4, metadata column handling, output specs |
 | Code correctness | 40% | Accurate normalization, clustering, cutree, summary statistics, all 3 files generated |
-| Result interpretation | 20% | Interpret 4 cluster patterns in context of CAM photosynthesis (2 sentences per cluster) |
+| Result interpretation | 20% | Interpret 4 cluster patterns in context of yeast Environmental Stress Response (ESR) (2 sentences per cluster) |
 
 ---
 
@@ -2011,7 +2155,9 @@ For the line plot:
 ---
 
 > ## Data Sources
-> - **MGI GFF3:** [http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz](http://www.informatics.jax.org/downloads/mgigff3/MGI.gff3.gz)
-> - **Human mRNA:** [https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz](https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/mrna.fa.gz)
-> - **Ice Plant TPM:** [https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling](https://github.com/plantgenomicslab/Ice-plant-transcriptome-profiling)
+> - **Yeast GFF3 (SGD):** [http://sgd-archive.yeastgenome.org/curation/chromosomal_feature/saccharomyces_cerevisiae.gff.gz](http://sgd-archive.yeastgenome.org/curation/chromosomal_feature/saccharomyces_cerevisiae.gff.gz)
+> - **Yeast chrom.sizes (UCSC sacCer3):** [https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.chrom.sizes](https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.chrom.sizes)
+> - **Yeast mRNA FASTA (UCSC sacCer3):** [https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/mrna.fa.gz](https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/mrna.fa.gz)
+> - **Yeast genome FASTA (UCSC sacCer3):** [https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.fa.gz](https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.fa.gz)
+> - **Yeast stress response (Gasch 2000):** [https://www.shackett.org/files/gasch2000.txt](https://www.shackett.org/files/gasch2000.txt) — Original paper: [Gasch et al. (2000) Mol Biol Cell](https://pubmed.ncbi.nlm.nih.gov/11102521/)
 {: .callout}
