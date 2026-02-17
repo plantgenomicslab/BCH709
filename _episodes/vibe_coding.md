@@ -1075,13 +1075,14 @@ Use this checklist before sending your prompt:
 If the first prompt doesn't work perfectly, follow this pattern:
 
 ```
-First prompt → AI generates code → Run code → Check output
-                                       ↓
-                              If ImportError → ask AI for conda install command
-                                       ↓
-                              If other error → paste error, ask AI to fix
-                                       ↓
-                              If wrong output → describe expected vs actual
+Write prompt → AI generates code
+       ↓
+Ask AI: "Does this need packages I don't have?" → install if needed
+       ↓
+Run code → check output
+       ↓
+If error        → paste error message, ask AI to fix
+If wrong output → describe expected vs actual, refine prompt
 ```
 
 #### After AI Generates Code: Check for Missing Packages
@@ -1091,11 +1092,12 @@ Before running the code, ask the AI:
 ~~~
 Does this code require any packages that are not in my bch709_vibe_coding environment?
 If yes, give me the conda install commands to add them.
-My current packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm,
-data.table, ggplot2, pheatmap, viridisLite, scales.
 ~~~
 
-The AI will list any missing packages and give you install commands. Install them **before** running the code.
+> If you have [AI configuration files](#set-up-ai-configuration-files) set up, the AI already knows your packages — just ask the question above. If not, add your package list to the prompt (e.g., "My current packages: pandas, numpy, matplotlib, seaborn, biopython, tqdm, data.table, ggplot2, pheatmap, viridisLite, scales.").
+{: .callout}
+
+Install any missing packages **before** running the code.
 
 #### Example: AI Code Uses a Package You Don't Have
 
@@ -1148,17 +1150,6 @@ to reflect the current conda environment.
 
 > ## Why Update Config Files?
 > If you don't update, the AI might not use `scipy` in future code — or worse, it might suggest installing it again. Keeping config files in sync avoids confusion.
-{: .callout}
-
-> ## Pro Tip: Start with a Brainstorming Prompt
-> Before writing code, ask the AI to help you plan:
-> ```
-> I need to analyze [data type]. Before writing code:
-> 1. What libraries do you recommend?
-> 2. What are the key steps in this analysis?
-> 3. What edge cases should I handle?
-> ```
-> Use the AI's response to write a more specific code-generation prompt.
 {: .callout}
 
 ---
@@ -1742,7 +1733,7 @@ cat("Saved: results/yeast_stress_cv_top200_heatmap.png\n")
 
 ### Problem Description
 
-Extract sequence information from the UCSC yeast (*Saccharomyces cerevisiae*) mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a graph and an HTML report page.
+Extract sequence information from the UCSC yeast (*Saccharomyces cerevisiae*) mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a summary table and distribution graph.
 
 > ## Objective
 > **Write a single prompt using vibe coding that produces the desired result in one shot.**
@@ -1928,7 +1919,7 @@ For the heatmap:
 > - Metric definitions (CV = sd/abs(mean), Z-score = (x−mean)/sd)
 > - Filter rules (remove NA/zero-variance, top N)
 > - Deduplication handling (unique intervals, etc.)
-> - Transformation methods (log2(TPM+1))
+> - Transformation methods (log2(x+1), Z-score normalization)
 > - Clustering parameters (method, distance metric, k)
 {: .checklist}
 
