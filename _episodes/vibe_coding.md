@@ -101,7 +101,7 @@ Recursion's internal tool (unveiled by Chris Gibson): describe an assay, LOWE de
 
 Built at MD Anderson by the Han Liang Lab. Ask questions like "Which proteins in pathway X are altered in this tumor?" and get real answers with plots.
 
-**Publication:** [Nature Communications (2025)](https://www.nature.com/articles/s41467-025-56650-0) | **Link:** [drbioright.org](https://drbioright.org)
+**Publication:** [Nature Communications (2025)](https://www.nature.com/articles/s41467-025-57430-4) | **Link:** [drbioright.org](https://drbioright.org)
 
 ### 4. BioChatter – Open Source Bio-AI Toolkit
 
@@ -113,7 +113,7 @@ From EMBL-EBI. Build custom AI assistants that connect to APIs, databases, and b
 
 From Weill Cornell (Dylan Riffle et al.). Say "Analyze this RNA-seq file" and OLAF writes the code, runs it, and returns transparent, inspectable results.
 
-**Publication:** [arXiv](https://arxiv.org/abs/2503.12465)
+**Publication:** [arXiv](https://arxiv.org/abs/2504.03976)
 
 ### 6. TinyBio – ChatGPT for Scientists
 
@@ -240,13 +240,13 @@ $ code --install-extension GitHub.copilot-chat
 
 ### Extension 3: Gemini Code Assist (Google)
 
-[![Gemini Code Assist Extension](https://img.shields.io/badge/VS_Code-Gemini_Code_Assist_(Google)-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=google.gemini-code-assist)
+[![Gemini Code Assist Extension](https://img.shields.io/badge/VS_Code-Gemini_Code_Assist_(Google)-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=Google.geminicodeassist)
 
-[Gemini Code Assist](https://marketplace.visualstudio.com/items?itemName=google.gemini-code-assist) provides AI-powered code generation and a chat panel, backed by Google's Gemini models.
+[Gemini Code Assist](https://marketplace.visualstudio.com/items?itemName=Google.geminicodeassist) provides AI-powered code generation and a chat panel, backed by Google's Gemini models.
 
 **Install:**
 ```bash
-$ code --install-extension google.gemini-code-assist
+$ code --install-extension Google.geminicodeassist
 ```
 
 **Setup:**
@@ -334,7 +334,7 @@ Install all extensions in one command:
 $ code --install-extension anthropic.claude-code && \
   code --install-extension GitHub.copilot && \
   code --install-extension GitHub.copilot-chat && \
-  code --install-extension google.gemini-code-assist
+  code --install-extension Google.geminicodeassist
 ```
 
 > ## Which One Should I Use for BCH709?
@@ -605,7 +605,7 @@ Conditions:
 
 ## Step 0C. Environment Creation Commands
 
-The AI will generate commands like the ones below. **Copy-paste and run them in your terminal.**
+Steps 0A and 0B were exercises in **learning to ask the AI** for environment recommendations. The commands below are a reference in case the AI output differs from what you need.
 
 > ## Important
 > The commands below are what the AI typically produces. Your results may vary slightly depending on which AI assistant you use — that's fine as long as the verification step passes.
@@ -624,13 +624,10 @@ conda create -n bch709_vibe_coding -y -c conda-forge \
 conda activate bch709_vibe_coding
 
 # Verify Python packages
-python -c "import pandas, numpy, matplotlib, Bio; print('Python OK')"
+python -c "import pandas, numpy, matplotlib, seaborn, Bio, tqdm; print('Python OK')"
 
 # Verify R packages
-R -q -e 'library(data.table); library(ggplot2); library(pheatmap); cat("R OK\n")'
-
-# Export environment to YAML
-conda env export -n bch709_vibe_coding > environment.yml
+R -q -e 'library(data.table); library(ggplot2); library(pheatmap); library(viridisLite); library(scales); cat("R OK\n")'
 ```
 
 > ## Troubleshooting
@@ -692,7 +689,7 @@ curl -L -o data/chrom.sizes https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/b
 # Yeast mRNA FASTA (Homework 1)
 curl -L -o data/mrna.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/mrna.fa.gz
 
-# Yeast genome FASTA (Homework 1, reference)
+# Yeast genome FASTA (optional reference — not required for examples/homework)
 curl -L -o data/sacCer3.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3/bigZips/sacCer3.fa.gz
 
 # Yeast stress response expression data - Gasch et al. (2000) (Example 2, Homework 2)
@@ -1789,8 +1786,7 @@ cat("Saved: results/yeast_stress_cv_top200_heatmap.png\n")
 Extract sequence information from the UCSC yeast (*Saccharomyces cerevisiae*) mRNA FASTA file (mrna.fa.gz), analyze GC content distribution, and produce a summary table and distribution graph.
 
 > ## Objective
-> **Write a single prompt using vibe coding that produces the desired result in one shot.**
-> The goal is to get all outputs correct from a single, well-crafted prompt.
+> Write a prompt detailed enough to produce the desired result in **one shot**. You may iterate to fix errors, but your goal is a single, well-crafted prompt that works on the first try.
 {: .objectives}
 
 ### Input Data
@@ -1830,6 +1826,10 @@ ATGTCTGCTCCAGCTAGCAGTGAAACTTTATTCAGAAACTGCTTAG...
 | Code correctness | 40% | Correct gzip parse, accurate GC computation, both files generated |
 | Result interpretation | 20% | Explain 2 possible biological reasons for the GC content distribution pattern in yeast mRNA |
 
+> ## Submission
+> Push all files to your `bch709_vibe_coding` GitHub repo. Include your **prompt** (as a comment at the top of your script or in a separate `prompt.txt`), the **generated script**, and the **output files**. Write your interpretation as a comment in the script or in the `README.md`.
+{: .callout}
+
 ---
 
 ## Homework 2 (R): Z-Score Clustering of CV Top 200 Genes + Pattern Visualization
@@ -1839,6 +1839,10 @@ ATGTCTGCTCCAGCTAGCAGTGAAACTTTATTCAGAAACTGCTTAG...
 {: .objectives}
 
 ### Problem Description
+
+> ## Prerequisite
+> You **must** complete Example 2 first — this homework uses `results/yeast_stress_cv_top200.tsv` generated by that example.
+{: .callout}
 
 Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 
@@ -1902,6 +1906,10 @@ For the heatmap:
 | Prompt quality | 40% | Z-score definition, clustering method (ward.D2, euclidean), k=4, metadata column handling, output specs |
 | Code correctness | 40% | Accurate normalization, clustering, cutree, both files generated |
 | Result interpretation | 20% | Describe what each of the 4 clusters represents in terms of stress response (1 sentence per cluster) |
+
+> ## Submission
+> Push all files to your `bch709_vibe_coding` GitHub repo. Include your **prompt** (as a comment at the top of your script or in a separate `prompt.txt`), the **generated script**, and the **output files**. Write your interpretation as a comment in the script or in the `README.md`.
+{: .callout}
 
 ---
 
