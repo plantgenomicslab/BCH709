@@ -1870,7 +1870,7 @@ Using the 200 genes from `results/yeast_stress_cv_top200.tsv` (from Example 2):
 | Data | Log2 expression ratios → row-wise Z-score |
 | Z-score | (value − row_mean) / row_sd |
 | Rows | gene_id (hierarchical clustering, ward.D2, euclidean) |
-| Columns | Stress conditions (original order, cluster_cols = FALSE) |
+| Columns | First 30 stress condition columns only (original order, cluster_cols = FALSE) |
 | Annotation | k=4 cutree as color bar |
 | Size | 8 × 12 inches |
 
@@ -1889,14 +1889,15 @@ Sort by cluster ascending.
 Analysis procedure:
 1. From gasch2000.txt, extract only the top 200 genes (by gene_id list from results/yeast_stress_cv_top200.tsv)
 2. Skip metadata columns (NAME, description, GWEIGHT), keep only numeric condition columns
-3. Z-score normalize: for each row (gene), compute (value - mean) / sd
-4. Hierarchical clustering: dist(euclidean) → hclust(ward.D2)
-5. cutree(k=4) to assign 4 clusters
+3. Subset to the first 30 condition columns only
+4. Z-score normalize: for each row (gene), compute (value - mean) / sd
+5. Hierarchical clustering: dist(euclidean) → hclust(ward.D2)
+6. cutree(k=4) to assign 4 clusters
 
 For the heatmap:
 - Use pheatmap
 - Show cluster assignment as annotation_row color bar
-- Columns in original condition order (cluster_cols = FALSE)
+- Use only the first 30 condition columns (original order, cluster_cols = FALSE)
 ~~~
 
 ### Grading Criteria
