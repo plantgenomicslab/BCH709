@@ -53,10 +53,8 @@ seqkit --help
 
 ### make homework folder
 ```bash
-mkdir /data/gpfs/assoc/bch709-4/${USER}
-rm -rf ~/bch709
-ln -s /data/gpfs/assoc/bch709-4/${USER} ~/bch709
-cd ~/bch709
+mkdir -p ~/bch709/seqkit
+cd ~/bch709/seqkit
 ```
 
 ### Usage
@@ -125,9 +123,10 @@ Flags:
   -t, --seq-type string                 sequence type (dna|rna|protein|unlimit|auto) (for auto, it automatically detect by the first sequence) (default "auto")
   -j, --threads int                     number of CPUs. can also set with environment variable SEQKIT_THREADS) (default 4)
 ```
+
 ### Current folder
 ```bash
-cd ~/bch709
+cd ~/bch709/seqkit
 ```
 
 
@@ -142,14 +141,14 @@ ll -tr
 ```
 
 
-Datasets from [The miRBase Sequence Database -- Release 21](ftp://mirbase.org/pub/mirbase/21/)
+Datasets from [The miRBase Sequence Database -- Release 22.1](https://mirbase.org/download/)
 
 - [`hairpin.fa`](https://mirbase.org/download/hairpin.fa)
 ```bash
 wget --no-check-certificate https://mirbase.org/download/hairpin.fa
 ll -tr
 ```
-- [`mature.fa.gz`](https://mirbase.org/download/mature.fa)
+- [`mature.fa`](https://mirbase.org/download/mature.fa)
 ```bash
 wget --no-check-certificate https://mirbase.org/download/mature.fa
 ll -tr
@@ -159,10 +158,10 @@ ll -tr
 wget --no-check-certificate https://mirbase.org/download/miRNA.diff
 ll -tr
 ```
+
 Human genome from [NCBI](https://www.ncbi.nlm.nih.gov/genome/guide/human/) (For `seqkit subseq`)
 
-https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/
-
+[https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/)
 
 - [`GRCh38_latest_genomic.fna.gz`](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 ```bash
@@ -176,10 +175,9 @@ wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annota
 ls -algh
 ```
 
-- `GRCh38_latest_genomic.bed.gz` 
-create with command
+- `GRCh38_latest_genomic.bed.gz` (create with command)
 ```bash
- zcat GRCh38_latest_genomic.gtf.gz | gtf2bed --do-not-sort | gzip -c > GRCh38_latest_genomic.bed.gz
+zcat GRCh38_latest_genomic.gtf.gz | gtf2bed --do-not-sort | gzip -c > GRCh38_latest_genomic.bed.gz
 ```
 
 Only DNA and gtf/bed data of Chr1 were used:
@@ -196,9 +194,9 @@ ls -algh
 ```
 - `chr1.bed.gz`
 ```bash
-zcat GRCh38_latest_genomic.bed.gz| grep "NC_000001.11" | gzip -c > chr1.bed.gz
+zcat GRCh38_latest_genomic.bed.gz | grep "NC_000001.11" | gzip -c > chr1.bed.gz
 ls -algh
-````
+```
 
 ## seq
 
@@ -286,7 +284,7 @@ Please check regular expression in [Regex](https://regex101.com/)
 seqkit seq hairpin.fa -s -w 0
 ```
 
-5. Reverse comlement sequence
+5. Reverse complement sequence
 ```bash
 seqkit seq hairpin.fa.gz -r -p
 ```
@@ -376,7 +374,7 @@ seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr NC_000001.11 --feature CD
 seqkit stat chr1.gtf.cds.fa
 ```
 
-5. Get subsequences by BED file.
+2. Get subsequences by BED file.
 ```bash
 seqkit subseq --bed GRCh38_latest_genomic.bed.gz --chr NC_000001.11 GRCh38_latest_genomic.fna.gz >  chr1.bed.gz.fa
 ```
@@ -420,7 +418,7 @@ echo -e ">seq\nACGTacgtNN" | seqkit sliding -s 3 -W 6
 echo -e ">seq\nACGTacgtNN" | seqkit sliding -s 3 -W 6 -C
 ```
 
-3. Generate GC content for ploting
+3. Generate GC content for plotting
 ```bash
 cat hairpin.fa | seqkit fx2tab | head -n 1 | seqkit tab2fx | seqkit sliding -s 5 -W 30 | seqkit fx2tab -n -g
 ```
@@ -444,10 +442,12 @@ seqkit stat *.f*{a,q}.gz
 
 ## fq2fa
 
-covert FASTQ to FASTA
+convert FASTQ to FASTA
 
+```
 Usage:
   seqkit fq2fa [flags]
+```
 
 ```bash
 seqkit fq2fa test.fastq.gz -o test_.fa.gz
@@ -536,7 +536,7 @@ it could be handled with CSV/TSV tools,
 as `seqkit common -n` along with shell.
 - `csvtk join` joins multiple CSV/TSV files by multiple IDs.
 - [csv_melt](https://github.com/shenwei356/datakit/blob/master/csv_melt)
-provides melt function, could be used in preparation of data for ploting.
+provides melt function, could be used in preparation of data for plotting.
 
 
 ## grep
@@ -637,7 +637,7 @@ cat hairpin.fa | seqkit locate -i -r -p "A[TU]G(?:.{3})+?[TU](?:AG|AA|GA)"
 cat hairpin.fa | seqkit locate -i -d -p AUGGACUN
 ```
 
-***Notice that `seqkit grep` only searches in positive strand, but `seqkit loate` could recognize both strand***
+***Notice that `seqkit grep` only searches in positive strand, but `seqkit locate` could recognize both strands***
 
 
 ## rmdup
@@ -748,7 +748,6 @@ Usage:
   seqkit split [flags]
 
 Flags:
-Flags:
   -i, --by-id              split squences according to sequence ID
   -p, --by-part int        split squences into N parts
   -r, --by-region string   split squences according to subsequence of given region. e.g 1:12 for first 12 bases, -12:-1 for last 12 bases. type "seqkit split -h" for more examples
@@ -775,7 +774,7 @@ seqkit split hairpin.fa -s 10000
 ```bash
 seqkit split hairpin.fa -p 4
 ```
-***To reduce memory usage when spliting big file, we should alwasy use flag `--two-pass`***
+***To reduce memory usage when splitting big file, we should always use flag `--two-pass`***
 
 ```bash
 seqkit split hairpin.fa -p 4 -2
@@ -828,7 +827,7 @@ cat hairpin.fa | seqkit sample -p 0.1 -o sample.fa.gz
 ```bash
 cat hairpin.fa | seqkit sample -n 1000 -o sample.fa.gz
 ```
-    ***To reduce memory usage when spliting big file, we could use flag `--two-pass`***
+    ***To reduce memory usage when splitting big file, we could use flag `--two-pass`***
 
     ***We can also use `seqkit sample -p` followed with `seqkit head -n`:***
 ```bash
