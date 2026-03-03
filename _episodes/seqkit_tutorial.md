@@ -15,21 +15,25 @@ conda create -n seqkit -c bioconda seqkit bedops csvtk
 ```
 
 ### Environment activate
-```bash 
+
+```bash
 conda activate seqkit
 ```
 
 ### Export environment
+
 ```bash
 conda env export > seqkit.yml
 ```
 
 ### Conda deactivate
+
 ```bash
 conda deactivate
 ```
 
 ### Conda environment remove
+
 ```bash
 conda remove --name seqkit --all
 ```
@@ -40,8 +44,9 @@ conda remove --name seqkit --all
 conda env create -f seqkit.yml
 ```
 
-### Environment activate
-```bash 
+### Activate reinstalled environment
+
+```bash
 conda activate seqkit
 ```
 
@@ -52,6 +57,7 @@ seqkit --help
 ```
 
 ### make homework folder
+
 ```bash
 mkdir -p ~/bch709/seqkit
 cd ~/bch709/seqkit
@@ -124,7 +130,8 @@ Flags:
   -j, --threads int                     number of CPUs. can also set with environment variable SEQKIT_THREADS) (default 4)
 ```
 
-### Current folder
+### Set working directory (if not already there)
+
 ```bash
 cd ~/bch709/seqkit
 ```
@@ -374,7 +381,7 @@ seqkit subseq --gtf GRCh38_latest_genomic.gtf.gz --chr NC_000001.11 --feature CD
 seqkit stat chr1.gtf.cds.fa
 ```
 
-2. Get subsequences by BED file.
+1. Get subsequences by BED file.
 ```bash
 seqkit subseq --bed GRCh38_latest_genomic.bed.gz --chr NC_000001.11 GRCh38_latest_genomic.fna.gz >  chr1.bed.gz.fa
 ```
@@ -426,9 +433,10 @@ cat hairpin.fa | seqkit fx2tab | head -n 1 | seqkit tab2fx | seqkit sliding -s 5
 ## stat
 
 Usage
-simple statistics of FASTA files
 
 ```
+simple statistics of FASTA files
+
 Usage:
   seqkit stat [flags]
 ```
@@ -529,7 +537,7 @@ seqkit fx2tab test.fastq.gz | head -n 1000 | seqkit tab2fx
 
 After converting FASTA to tabular format with `seqkit fx2tab`,
 it could be handled with CSV/TSV tools,
- e.g. [csvtk](https://github.com/shenwei356/csvtkt), a cross-platform, efficient and practical CSV/TSV toolkit
+ e.g. [csvtk](https://github.com/shenwei356/csvtk), a cross-platform, efficient and practical CSV/TSV toolkit
 
 - `csvtk grep` could be used to filter sequences (similar with `seqkit grep`)
 - `csvtk inter` computates intersection of multiple files. It could achieve similar function
@@ -577,14 +585,14 @@ cat hairpin.fa| seqkit grep -r -p ^hsa -p ^mmu -v
 1. Extract new entries by information from miRNA.diff
 
     1. Get IDs of new entries.
-```bash
-cat miRNA.diff | grep ^# -v | grep NEW | cut -f 2 > list
-more  list ##q to out
-```
-2. Extract by ID list file
-```bash
-cat hairpin.fa | seqkit grep -f list > new.fa
-```
+    ```bash
+    cat miRNA.diff | grep ^# -v | grep NEW | cut -f 2 > list
+    more  list ##q to out
+    ```
+    2. Extract by ID list file
+    ```bash
+    cat hairpin.fa | seqkit grep -f list > new.fa
+    ```
 
 1. Extract sequences starting with AGGCG
 ```bash
