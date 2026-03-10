@@ -196,9 +196,9 @@ Include a brief AI use statement with submissions:
 | Week5  | 2/19/2026 | Thursday | [Sequence manipulation](seqkit_tutorial/index.html)                |
 | Week6  | 2/24/2026 | Tuesday  | Sequencing methods and strategies                                  |
 | Week6  | 2/26/2026 | Thursday | Sequencing methods and strategies                                  |
-| Week7  | 3/3/2026  | Tuesday  | [Sequence manipulation](seqkit_tutorial/index.html)                |
-| Week7  | 3/5/2026  | Thursday | Sequencing methods and strategies                                  |
-| Week8  | 3/10/2026 | Tuesday  | BLAST search and gene alignment                                    |
+| Week7  | 3/3/2026  | Tuesday  | Introduction of R & R plotting (Tong Zhou PhD)                     |
+| Week7  | 3/5/2026  | Thursday | RNA-Seq                                                            |
+| Week8  | 3/10/2026 | Tuesday  | [BLAST search and gene alignment](BLAST/index.html)              |
 | Week8  | 3/12/2026 | Thursday | BLAST search and gene alignment                                    |
 | Week9  | 3/17/2026 | Tuesday  | Midterm review                                                     |
 | Week9  | 3/19/2026 | Thursday | Midterm Exam                                                       |
