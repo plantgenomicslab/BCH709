@@ -1,33 +1,39 @@
 ---
 layout: page
-title:   RNA-Seq tutorial
+title: RNA-Seq Tutorial
 published: true
 ---
 
-
->## Paper reading
->Please read this paper
->https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8
+> ## Paper Reading
+> Please read this paper before class:
+> [Conesa et al. (2016) A survey of best practices for RNA-seq data analysis. *Genome Biology* 17:13](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8)
 {: .prereq}
 
-## RNA Sequencing
+---
+
+## Overview: RNA Sequencing
+
 ![RNA Sequencing]({{site.baseurl}}/fig/rnaseq.png)
+
+RNA-Seq (RNA Sequencing) is the standard method for measuring genome-wide gene expression. Key characteristics:
 
 1. The transcriptome is spatially and temporally dynamic
 2. Data comes from functional units (coding regions)
-3. Only a tiny fraction of the genome
+3. Only a small fraction of the genome is transcribed at any given time
 
->## Introduction
->Sequence based assays of transcriptomes (RNA-seq) are in wide use because of their favorable properties for quantification, transcript discovery and splice isoform identification, as well as adaptability for numerous more specialized measurements. RNA-Seq studies present some challenges that are shared with prior methods such as microarrays and SAGE tagging, and they also present new ones that are specific to high-throughput sequencing platforms and the data they produce. This document is part of an ongoing effort to provide the community with standards and guidelines that will be updated as RNASeq matures and to highlight unmet challenges. The intent is to revise this document periodically to capture new advances and increasingly consolidate standards and best practices.
+> ## Introduction
+> Sequence-based assays of transcriptomes (RNA-seq) are in wide use because of their favorable properties for quantification, transcript discovery, and splice isoform identification, as well as adaptability for numerous more specialized measurements. RNA-Seq studies present challenges shared with prior methods such as microarrays and SAGE tagging, and also new ones specific to high-throughput sequencing platforms.
 >
->RNA-Seq experiments are diverse in their aims and design goals, currently including multiple types of RNA isolated from whole cells or from specific sub-cellular compartments or biochemical classes, such as total polyA+ RNA, polysomal RNA, nuclear ribosome-depleted RNA, various size fractions of RNA and a host of others. The goals of individual experiments range from major transcriptome “discovery” that seeks to define and quantify all RNA species in a starting RNA sample to experiments that simply need to detect significant changes in the more abundant RNA classes across many samples.  
+> RNA-Seq experiments are diverse in their aims and design goals, currently including multiple types of RNA isolated from whole cells or from specific sub-cellular compartments or biochemical classes, such as total polyA+ RNA, polysomal RNA, nuclear ribosome-depleted RNA, various size fractions of RNA and a host of others.
 {: .prereq}
 
+---
 
+## The RNA-Seq Workflow
 
-![RNA Sequencing workflow]({{site.baseurl}}/fig/rnaseq_workflow.png)
+![RNA Sequencing Workflow]({{site.baseurl}}/fig/rnaseq_workflow.png)
 
-### Seven stages to data science
+### Seven Stages of a Data Science Project
 1. Define the question of interest
 2. Get the data
 3. Clean the data
@@ -36,607 +42,528 @@ published: true
 6. Communicate the results
 7. Make your analysis reproducible
 
-### What do we need to prepare ?
+---
+
+## 1. Experimental Design
+
 ### Sample Information
-a. What kind of material it is should be noted: Tissue, cell line, primary cell type, etc…
-b. It’s ontology term (a DCC wrangler will work with you to obtain this)
-c. If any treatments or genetic modifications (TALENs, CRISPR, etc…) were done to the sample
-prior to RNA isolation.
-d. If it’s a subcellular fraction or derived from another sample. If derived from another sample,
-that relationship should be noted.
-e. Some sense of sample abundance: RNA-Seq data from “bulk” vs. 10,000 cell equivalents can
-give very different results, with lower input samples typically being less reproducible. Having
-a sense of the amount of starting material here is useful.
-f. If you received a batch of primary or immortalized cells, the lot #, cat # and supplier should be
-noted.
-g. If cells were cultured out, the protocol and methods used to propagate the cells should be
-noted.
-h. If any cell phenotyping or other characterizations were done to confirm it’s identify, purity,
-etc.. those methods should be noted.
+Document the following for each sample:
 
+| Item | Description |
+|------|-------------|
+| Material type | Tissue, cell line, primary cell type, etc. |
+| Treatments | TALENs, CRISPR, drug treatment, etc. |
+| Subcellular fraction | Whole cell, nuclear, cytoplasmic, etc. |
+| Input amount | Bulk vs. low-input (affects reproducibility) |
+| Lot/catalog # | For commercial cell lines |
+| Culture protocol | If cells were propagated in vitro |
+| QC/phenotyping | Purity confirmation methods |
 
+### RNA Information
+Key properties to report:
 
+- RNA type: Total RNA, Poly-A(+), Poly-A(-)
+- Size fraction: >200 nt (long RNA) vs. <200 nt (small RNA)
+- rRNA depletion: RiboMinus, RiboZero (note kit used)
 
+### Library Preparation Protocol
+Document all steps:
 
-### RNA Information: 
-RNAs come in all shapes and sizes. Some of the key properties to report are:
-a. Total RNA, Poly-A(+) RNA, Poly-A(-) RNA
-b. Size of the RNA fraction: we typically have a + 200 and – 200 cutoff, but there is a wide
-range, i.e. microRNA-sized, etc…
-c. If the RNA was treated with Ribosomal RNA depletion kits (RiboMinus, RiboZero): please
-note the kit used.
+- RNA isolation method
+- Size selection method
+- rRNA removal method
+- Oligo-dT selection method
+- DNase I treatment
 
-### Protocols: 
-There are several methods used to isolate RNAs with that work fine for the purposes of RNA-Seq. For all the ENCODE libraries that we make, we provide a document that lists in detail:
-a. The RNA isolation methods,
-b. Methods of size selections
-c. Methods of rRNA removal
-d. Methods of oligo-dT selections
-e. Methods of DNAse I treatments
+### Replicate Strategy
 
-### Experimental Design
-- Balanced design
-- Technical replicates not necessary (Marioni et al., 2008)
-- Biological replicates: 6 - 12 (Schurch et al., 2016)
-- Power analysis
+- **Biological replicates:** Minimum 3; recommended 6–12 (Schurch et al., 2016)
+- **Technical replicates:** Not required for RNA-Seq (Marioni et al., 2008)
+- **Power analysis:** Use tools like Scotty or RnaSeqSampleSize before starting
 
->## Reading materials
->[Paul L. Auer and R. W. Doerge "Statistical Design and Analysis of RNA Sequencing Data" Genetics June 1, 2010 vol. 185 no.2 405-416](https://www.genetics.org/content/185/2/405)  
->[Busby, Michele A., et al. "Scotty: a web tool for designing RNA-Seq experiments to measure differential gene expression." Bioinformatics 29.5 (2013): 656-657](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3582267/)  
->[Marioni, John C., et al. "RNA-seq: an assessment of technical reproducibility and comparison with gene expression arrays." Genome research (2008)](https://genome.cshlp.org/content/18/9/1509.full.html)  
->[Schurch, Nicholas J., et al. "How many biological replicates are needed in an RNA-seq experiment and which differential expression tool should you use?." Rna (2016)](https://rnajournal.cshlp.org/content/22/6/839.long)  
->[Zhao, Shilin, et al. "RnaSeqSampleSize: real data based sample size estimation for RNA sequencing." BMC bioinformatics 19.1 (2018): 191](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2191-5)  
+> ## Reading Materials
+> - [Auer & Doerge (2010) Statistical Design and Analysis of RNA Sequencing Data. *Genetics* 185:405–416](https://www.genetics.org/content/185/2/405)
+> - [Busby et al. (2013) Scotty: a web tool for designing RNA-Seq experiments. *Bioinformatics* 29:656–657](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3582267/)
+> - [Marioni et al. (2008) RNA-seq: an assessment of technical reproducibility. *Genome Research*](https://genome.cshlp.org/content/18/9/1509.full.html)
+> - [Schurch et al. (2016) How many biological replicates are needed in an RNA-seq experiment? *RNA* 22:839](https://rnajournal.cshlp.org/content/22/6/839.long)
+> - [Zhao et al. (2018) RnaSeqSampleSize: real data based sample size estimation. *BMC Bioinformatics* 19:191](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2191-5)
 {: .prereq}
 
-### Replicate number
-In all cases, experiments should be performed with two or more biological replicates, unless there is a
-compelling reason why this is impractical or wasteful (e.g. overlapping time points with high temporal
-resolution). A biological replicate is defined as an independent growth of cells/tissue and subsequent
-analysis. Technical replicates from the same RNA library are not required, except to evaluate cases
-where biological variability is abnormally high. In such instances, separating technical and biological
-variation is critical. In general, detecting and quantifying low prevalence RNAs is inherently more variable
-than high abundance RNAs. As part of the ENCODE pipeline, annotated transcript and genes are
-quantified using RSEM and the values are made available for downstream correlation analysis. Replicate
-concordance: the gene level quantification should have a Spearman correlation of >0.9 between
-isogenic replicates and >0.8 between anisogenic replicates.
+---
 
-### RNA extraction
-- Sample processing and storage
-- Total RNA/mRNA/small RNA
-- DNAse treatment
-- Quantity & quality
-- RIN values (Strong effect)
-- Batch effect
-- Extraction method bias (GC bias)
+## 2. Sequencing Parameters
 
->## Reading materials
->Romero, Irene Gallego, et al. "RNA-seq: impact of RNA degradation on transcript quantification." BMC biology 12.1 (2014): 42  
->Kim, Young-Kook, et al. "Short structured RNAs with low GC content are selectively lost during extraction from a small number of cells." Molecular cell 46.6 (2012): 893-89500481-9).  
-{: .prereq}
+### Key Parameters to Report
 
-**RNA Quantification and Quality Control: When working with bulk samples, throughout the various steps we periodically assess the quality and quantity of the RNA. This is typically done on a BioAnalyzer. Points to check are:**
-a. Total RNA
-b. After oligo-dT size selections
-c. After rRNA-depletions
-d. After library construction
+| Parameter | Examples |
+|-----------|---------|
+| Platform | Illumina NovaSeq, PacBio, Oxford Nanopore |
+| Format | Single-end (SE) or Paired-end (PE) |
+| Read length | 100 bp, 150 bp, 250 bp |
+| Barcode placement | Standard or custom |
+| Custom primers | Sequence and position |
 
-### Library prep
-- PolyA selection
-- rRNA depletion
-- Size selection
-- PCR amplification (See section PCR duplicates)
-- Stranded (directional) libraries
-   - Accurately identify sense/antisense transcript
-   - Resolve overlapping genes
-- Exome capture
-- Library normalisation
-- Batch effect
+![RNA Library Prep]({{site.baseurl}}/fig/sequencing.png)
 
-![RNA library]({{site.baseurl}}/fig/library.png)
+### Recommended Sequencing Depth
 
-![RNA Sequencing tool]({{site.baseurl}}/fig/frag.png)  
+| Library Type | Minimum Aligned Read Pairs |
+|-------------|--------------------------|
+| Long RNA-Seq (polyA+) | 30 million |
+| RAMPAGE | 20 million |
+| Small RNA-Seq | 30 million |
 
+### Quantitative Standards (Spike-ins)
 
-### Sequencing: 
-There are several sequencing platforms and technologies out there being used. It is important to provide the following pieces of information:
-a. Platform: Illumina, PacBio, Oxford Nanopore, etc…
-b. Format: Single-end, Pair-end,
-c. Read Length: 101 bases, 125 bases, etc…
-d. Unusual barcode placement and sequence: Some protocols introduce barcodes in noncustomary places. If you are going to deliver a FASTQ file that will contain the barcode
-sequences in it or other molecular markers – you will need to report both the position in the
-read(s) where they are and their sequence(s).
-e. Please provide the sequence of any custom primers that were used to sequence the library
+ERCC spike-in controls are highly recommended for calibrating quantification, sensitivity, and linearity.
 
-![RNA library]({{site.baseurl}}/fig/sequencing.png)
+Report:
+- Stage of addition (before polyA selection, at cDNA synthesis, or prior to sequencing)
+- FASTA file of spike-in sequences
+- Source (ERCC, home-made, etc.)
+- Concentration of each spike-in
 
+---
 
+## 3. Data Files and FASTQ Format
 
-### Sequencing depth.
-The amount of sequencing needed for a given sample is determined by the goals of the experiment and
-the nature of the RNA sample. Experiments whose purpose is to evaluate the similarity between the
-transcriptional profiles of two polyA+ samples may require only modest depths of sequencing.
-Experiments whose purpose is discovery of novel transcribed elements and strong quantification of
-known transcript isoforms requires more extensive sequencing.  
-• Each Long RNA-Seq library must have a minimum of 30 million aligned reads/mate-pairs.  
-• Each RAMPAGE library must have a minimum of 20 million aligned reads/mate-pairs.  
-• Each small RNA-Seq library must have a minimum of 30 million aligned reads/mate-pairs.  
+### What is FASTQ?
 
+FASTQ is a text-based format storing both nucleotide sequences and per-base quality scores.
 
-### Quantitative Standards (spike-ins).
-It is highly desirable to include a ladder of RNA spike-ins to calibrate quantification, sensitivity, coverage
-and linearity. Information about the spikes should include the stage of sample preparation that the spiked
-controls were added, as the point of entry affects use of spike data in the output. In general, introducing
-spike-ins as early in the process as possible is the goal, with more elaborate uses of different spikes at
-different steps being optional (e.g. before poly A+ selection, at the time of cDNA synthesis, or just prior to
-sequencing). Different spike-in controls are needed for each of the RNA types being analyzed (e.g. long
-RNAs require different quantitative controls from short RNAs). Such standards are not yet available for all
-RNA types. Information about quantified standards should also include:
-a) A FASTA (or other standard format) file containing the sequences of each spike in.
-b) Source of the spike-ins (home-made, Ambion, etc..)
-c) The concentration of each of the spike-ins in the pool used. 
-
-[Hong et al., 2016, Principles of metadata organization at the ENCODE data coordination center.](https://academic.oup.com/database/article-lookup/doi/10.1093/database/baw001)
-
-
-
-![RNA Sequencing tool]({{site.baseurl}}/fig/rnasoftware.png)
-
-
-### QC FAIL?
-https://sequencing.qcfail.com/
-
-
-### Fastq format
-FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and its corresponding quality scores.
-
-
-The format is similar to fasta though there are differences in syntax as well as integration of quality scores. Each sequence requires at least 4 lines:
-
-1. The first line is the sequence header which starts with an ‘@’ (not a ‘>’!).
-Everything from the leading ‘@’ to the first whitespace character is considered the sequence identifier.
-Everything after the first space is considered the sequence description
-2. The second line is the sequence.
-3. The third line starts with ‘+’ and can have the same sequence identifier appended (but usually doesn’t anymore).
-4. The fourth line are the quality scores
-
-The FastQ sequence identifier generally adheres to a particular format, all of which is information related to the sequencer and its position on the flowcell. The sequence description also follows a particular format and holds information regarding sample information.
-
-
-
-
-```bash
-$ pwd
-
-$ cd ~/
-
-$ mkdir bch709/rnaseq
-
-$ cd bch709/rnaseq/
-
-$ pwd
-
-$ wget https://www.dropbox.com/s/y7yehmfze1l6cgz/pair1.fastq.gz
-
-$ wget https://www.dropbox.com/s/xsrth6icapyr4p0/pair2.fastq.gz
- 
-$ ls -algh
-
-$ zcat pair2.fastq.gz | head
- ```
+Each record has exactly **4 lines**:
 
 ```
-@A00261:180:HL7GCDSXX:2:1101:30572:1047/2
-AAAATACATTGATGACCATCTAAAGTCTACGGCGTATGCGACTGATGAAGTATATTGCACCACCTGAGGGTGATGCTAATACTACTGTTGACGATAATGCTGATCTTCTTGCTAAGCTTAATATTGTTGGTGTTGAACCTAATGTTGGTG
-+
-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFF
-@A00261:180:HL7GCDSXX:2:1101:21088:1094/2
-ATCTCACATCGTTCCCTCAAGATTCTGAATTTTGGCAGCTCATTGCATTCTGTGCCGGCACTGGTGGTTCGATGCTTGTCATTGGTTCTGCTGCTGGTGTAGCCTTCATGGGGATGGAGAAAGTCGATTTCTTTTGGTATTTCCGAAAGG
-+
-FFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-@A00261:180:HL7GCDSXX:2:1101:21251:1125/2
-CGGTGGAAAAGGAAACAGCTTTGGAAGGTTGATTCCATTACAGATTCGATTCGAAACTATGGTTCAGATTTCCGATCTTCCACGGGATTTGACAGAGGAGGTGCTCTCTAGGATTCCGGTGACATCTATGAGAGCAGTGAGATTTACTTG
+@A00261:180:HL7GCDSXX:2:1101:30572:1047/2          # Line 1: header
+AAAATACATTGATGACCATCTAAAGTCTACGGCGTAT...            # Line 2: sequence
++                                                   # Line 3: separator
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF...              # Line 4: quality scores
 ```
 
-- A00261  : Instrument name
-- 180 : run ID
-- HL7GCDSXX : Flowcell ID
-- 2 : Flowcell lane
-- 1101 : tile number within the flowcell lane
-- 30572 : X-coordinate of the cluster within tile
-- 1047 : Y-coordinate of the cluster within tile
-- /2 : member of a pair 1 or 2 (Paired end reads only)
-
-
-### Quality Scores
-Quality scores are a way to assign confidence to a particular base within a read. Some sequencers have their own proprietary quality encoding but most have adopted Phred-33 encoding. Each quality score represents the probability of an incorrect basecall at that position.
-
-### Phred Quality Score Encoding
-Quality scores started as numbers (0-40) but have since changed to an ASCII encoding to reduce filesize and make working with this format a bit easier, however they still hold the same information. ASCII codes are assigned based on the formula found below. This table can serve as a lookup as you progress through your analysis.
-
-### Quality Score Interpretation
-Once you know what each quality score represents you can then use this chart to understand the confidence in a particular base.
-
-
-![FASTQ quality]({{site.baseurl}}/fig/quality.png)
-
-
-### Conda enviroment
-
-```bash
-$ conda create -n rnaseq2 python=3
+### Illumina Read Header Format
 
 ```
-
-### Reads QC
-- Number of reads
-- Per base sequence quality
-- Per sequence quality score
-- Per base sequence content
-- Per sequence GC content
-- Per base N content
-- Sequence length distribution
-- Sequence duplication levels
-- Overrepresented sequences
-- Adapter content
-- Kmer content
-
-[FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
-
-```bash
-conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 multiqc
+@Instrument:RunID:FlowcellID:Lane:Tile:X:Y/ReadNum
 ```
 
+| Field | Example | Meaning |
+|-------|---------|---------|
+| Instrument | A00261 | Instrument name |
+| RunID | 180 | Run ID |
+| FlowcellID | HL7GCDSXX | Flowcell ID |
+| Lane | 2 | Flowcell lane |
+| Tile | 1101 | Tile number within lane |
+| X | 30572 | X-coordinate of cluster |
+| Y | 1047 | Y-coordinate of cluster |
+| ReadNum | /2 | Pair member (1 or 2) |
 
-### Run fastqc
+### Phred Quality Scores
+
+![FASTQ Quality]({{site.baseurl}}/fig/quality.png)
+
+Quality scores represent the probability of an incorrect base call:
+
+| Phred Score | Error Probability | Accuracy |
+|------------|-----------------|---------|
+| Q10 | 1 in 10 | 90% |
+| Q20 | 1 in 100 | 99% |
+| Q30 | 1 in 1,000 | 99.9% |
+| Q40 | 1 in 10,000 | 99.99% |
+
+---
+
+## 4. Hands-On: Setting Up the Environment
+
+### Create Conda Environment
+
 ```bash
-fastqc --help
-fastqc -t <YOUR CPU COUNT> pair1.fastq.gz  pair2.fastq.gz
-
+conda create -n rnaseq python=3.11
+conda activate rnaseq
 ```
 
-## How to make a report?
-![MultiQC]({{site.baseurl}}/fig/multiqc.png)
-[MultiQC](https://multiqc.info/)
+### Install Tools
+
 ```bash
-conda activate rnaseq2
-conda install -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2
+conda install -c bioconda -c conda-forge \
+  fastqc trim-galore hisat2 samtools subread multiqc
 ```
-### Move to working path
+
+### Create Working Directory
+
 ```bash
+mkdir -p ~/bch709/rnaseq
 cd ~/bch709/rnaseq
 ```
 
-### run multiqc
+### Download Example Data
+
 ```bash
-multiqc --help
+wget https://www.dropbox.com/s/y7yehmfze1l6cgz/pair1.fastq.gz
+wget https://www.dropbox.com/s/xsrth6icapyr4p0/pair2.fastq.gz
+ls -lh
+```
+
+### Inspect a FASTQ File
+
+```bash
+zcat pair2.fastq.gz | head -12
+```
+
+---
+
+## 5. Quality Control
+
+### What to Check
+
+| Metric | Tool |
+|--------|------|
+| Number of reads | FastQC |
+| Per-base sequence quality | FastQC |
+| Per-sequence GC content | FastQC |
+| Per-base N content | FastQC |
+| Sequence length distribution | FastQC |
+| Adapter content | FastQC |
+| Duplication levels | FastQC |
+
+[FastQC Documentation](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+
+### Run FastQC
+
+```bash
+fastqc -t 4 pair1.fastq.gz pair2.fastq.gz
+```
+
+### Aggregate QC Reports with MultiQC
+
+![MultiQC]({{site.baseurl}}/fig/multiqc.png)
+
+[MultiQC](https://multiqc.info/) aggregates results from multiple tools into a single interactive report.
+
+```bash
 multiqc .
 ```
 
-### Download file **in your local terminal**
+### Open Reports in Your Browser
+
+MultiQC generates an HTML report in your working directory. Open it directly:
+
+**macOS / Linux:**
 ```bash
-scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html .
+open multiqc_report.html
 ```
 
-### MacOS **JUST ONE TIME**
+**Windows (WSL):**
 ```bash
-echo 'setopt nonomatch' >> ~/.zshrc
+explorer.exe multiqc_report.html
 ```
 
-### MacOS to Desktop folder
-```bash
-mkdir ~/Desktop/BCH709
-cp -r multiqc* ~/Desktop/BCH709
-```
-### MacOS open file
-```bash
-open 
-```
+---
 
+## 6. Read Trimming
 
+### Why Trim?
 
-### Windows to Desktop folder
-You'll find the Windows C:\ structure at /mnt/c/ in the Bash environment.
-Therefore, my Documents folder is at /mnt/c/Users/USERNAME/Desktop/
-
-```bash
-mkdir /mnt/c/Users/USERNAME/Desktop/BCH709
-cp -r multiqc* /mnt/c/Users/USERNAME/Desktop/BCH709
-```
-### Windows open file
-```bash
-explorer.exe .
-```
-
-### Trim the reads
-- Trim IF necessary
-   - Synthetic bases can be an issue for SNP calling
-   - Insert size distribution may be more important for assemblers
-- Trim/Clip/Filter reads
 - Remove adapter sequences
-- Trim reads by quality
-- Sliding window trimming
-- Filter by min/max read length
-- Remove reads less than ~18nt
-- Demultiplexing/Splitting
+- Trim low-quality bases from read ends
+- Remove reads that are too short (< 18 nt)
+- Improve downstream alignment accuracy
 
-![Trimming]({{site.baseurl}}/fig/trim.png)  
+![Trimming]({{site.baseurl}}/fig/trim.png)
 
-[Cutadapt](https://github.com/marcelm/cutadapt/)  
-[fastp](https://github.com/OpenGene/fastp)  
-[Skewer](https://github.com/relipmoc/skewer)  
-[Prinseq](http://prinseq.sourceforge.net/)  
-[Trimmomatics](http://www.usadellab.org/cms/?page=trimmomatic)  
-[Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/)  
+### Common Trimming Tools
 
+| Tool | Link |
+|------|------|
+| Trim Galore | [link](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) |
+| fastp | [link](https://github.com/OpenGene/fastp) |
+| Cutadapt | [link](https://github.com/marcelm/cutadapt/) |
+| Trimmomatic | [link](http://www.usadellab.org/cms/?page=trimmomatic) |
+| Skewer | [link](https://github.com/relipmoc/skewer) |
 
-### Run trimming
+### Run Trim Galore
+
 ```bash
 cd ~/bch709/rnaseq
 
-trim_galore --help
+trim_galore \
+  --paired \
+  --three_prime_clip_R1 5 \
+  --three_prime_clip_R2 5 \
+  --cores 4 \
+  --max_n 40 \
+  --fastqc \
+  --gzip \
+  -o trim \
+  pair1.fastq.gz pair2.fastq.gz
+```
 
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --fastqc --gzip -o trim pair1.fastq.gz pair2.fastq.gz 
+### Post-Trimming QC Report
 
+```bash
 multiqc --dirs ~/bch709/rnaseq --filename trim
 ```
 
+---
 
-### Download file **in your local terminal**
-#### MacOS
+## 7. Alignment (Mapping)
+
+![Mapping]({{site.baseurl}}/fig/mapping.png)
+
+For RNA-Seq, reads must be aligned to a **reference genome** using a **splice-aware** aligner that can span intron-exon junctions.
+
+### Common RNA-Seq Aligners
+
+| Aligner | Algorithm | Link |
+|---------|-----------|------|
+| HISAT2 | Graph FM index (BWT-based) | [paper](https://www.nature.com/articles/s41587-019-0201-4) |
+| STAR | Suffix arrays | [paper](https://academic.oup.com/bioinformatics/article/29/1/15/272537) |
+| GSNAP | SNP/indel-aware | [paper](https://dx.doi.org/10.1007/978-1-4939-3578-9_15) |
+
+> [Baruzzo et al. (2017) Simulation-based comprehensive benchmarking of RNA-seq aligners. *Nature Methods* 14:135](https://www.nature.com/articles/nmeth.4106)
+
+![Algorithm Overview]({{site.baseurl}}/fig/algorithm.png)
+
+### Download Reference Files
+
 ```bash
-scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html ~/Desktop/BCH709
-```
-#### Windows
-```bash
-scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/Desktop/BCH709
-```
+cd ~/bch709/rnaseq
 
-
-### Align the reads (mapping)
-![mapping]({{site.baseurl}}/fig/mapping.png)
- - Aligning reads back to a reference sequence
- - Mapping to genome vs transcriptome
- - Splice-aware alignment (genome)
-
-[STAR](https://academic.oup.com/bioinformatics/article/29/1/15/272537)  
-[HISAT2](https://www.nature.com/articles/s41587-019-0201-4)  
-[GSNAP](https://dx.doi.org/10.1007/978-1-4939-3578-9_15)  
-[Bowtie2](https://www.nature.com/articles/nmeth.1923)  
-[Novoalign](http://www.novocraft.com/products/novoalign/)  
-
-[Baruzzo, Giacomo, et al. "Simulation-based comprehensive benchmarking of RNA-seq aligners." Nature methods 14.2 (2017): 135](https://www.nature.com/articles/nmeth.4106)
-
-![algorithm]({{site.baseurl}}/fig/algorithm.png)
-![banana]({{site.baseurl}}/fig/banana.png)
-![banana]({{site.baseurl}}/fig/BackwardMatching.png)
-
-## HISAT2 (graph FM index, spin off version Burrows-Wheeler Transform)
-
-### Download reference sequence
-```bash
 wget https://www.dropbox.com/s/851ob9e3ktxhyxz/bch709.fasta
 wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
 ```
-### HISAT2 indexing
-```
-hisat2-build --help
+
+### Build HISAT2 Index
+
+```bash
 hisat2-build bch709.fasta bch709
 ```
 
-### HISAT2 mapping
+### Align Reads
 
-```
-hisat2 -x bch709 --threads 2 -1 trim/pair1_val_1.fq.gz -2 trim/pair2_val_2.fq.gz  -S align.sam --summary-file alignment.txt
+The `--dta` flag is required when using HISAT2 output with featureCounts or StringTie for downstream quantification. Pipe directly to `samtools sort` to skip writing the intermediate SAM file to disk.
+
+```bash
+hisat2 \
+  -x bch709 \
+  --threads 4 \
+  --dta \
+  -1 trim/pair1_val_1.fq.gz \
+  -2 trim/pair2_val_2.fq.gz \
+  --summary-file alignment.txt \
+  | samtools sort -@ 4 -o align_sort.bam
+
+samtools index align_sort.bam
 cat alignment.txt
 ```
 
-### SAM file format
+---
 
-Check result
-```
-head align.sam
-```
-### SAM file
+## 8. SAM/BAM Format
+
+### SAM Record Format
 
 ```
-<QNAME> <FLAG> <RNAME> <POS> <MAPQ> <CIGAR> <MRNM> <MPOS> <ISIZE> <SEQ> <QUAL> [<TAG>:<VTYPE>:<VALUE> [...]]
-```
-![sam1]({{site.baseurl}}/fig/sam1.png)  
-
-### SAM flag
-![flag]({{site.baseurl}}/fig/flag.jpg)  
-
-### Demical to binary
-```
-echo 'obase=163;10' | bc
-```
-If you don't have bc, please install through conda
-```
-conda install -c conda-forge bc
+<QNAME> <FLAG> <RNAME> <POS> <MAPQ> <CIGAR> <MRNM> <MPOS> <ISIZE> <SEQ> <QUAL> [TAGS]
 ```
 
+![SAM Format]({{site.baseurl}}/fig/sam1.png)
 
-### SAM tag
-There are a bunch of predefined tags, please see the SAM manual for more information. For the tags used in this example:
+### SAM Flags
 
-Any tags that start with X? are reserved fields for end users: XT:A:M, XN:i:2, XM:i:0, XO:i:0, XG:i:0
+SAM flags are bitwise integers encoding alignment properties (strand, pairing, etc.):
 
-![samtag]({{site.baseurl}}/fig/samtag.png)
+![SAM Flags]({{site.baseurl}}/fig/flag.jpg)
 
-### More information is below.
-http://samtools.github.io/hts-specs/
+Convert a decimal flag to binary to interpret it:
 
-
-### SAMtools
-SAM (Sequence Alignment/Map) format is a generic format for storing large nucleotide sequence alignments. SAM aims to be a format that:
-
-- Is flexible enough to store all the alignment information generated by various alignment programs;
-- Is simple enough to be easily generated by alignment programs or converted from existing alignment formats;
-- Is compact in file size;
-- Allows most of operations on the alignment to work on a stream without loading the whole alignment into memory;
-- Allows the file to be indexed by genomic position to efficiently retrieve all reads aligning to a locus.
-
-SAM Tools provide various utilities for manipulating alignments in the SAM format, including sorting, merging, indexing and generating alignments in a per-position format. http://samtools.sourceforge.net/
+```bash
+python3 -c "print(bin(163))"
+# or
+echo 'obase=2; 163' | bc
 ```
-samtools view -Sb align.sam > align.bam
-samtools sort align.bam  -o align_sort.bam
-samtools index align_sort.bam
+
+Check what a flag means: [SAM Flag Decoder](https://broadinstitute.github.io/picard/explain-flags.html)
+
+### SAM Optional Tags
+
+![SAM Tags]({{site.baseurl}}/fig/samtag.png)
+
+Full SAM specification: [samtools.github.io/hts-specs](http://samtools.github.io/hts-specs/)
+
+---
+
+## 9. BAM Processing with SAMtools
+
+SAMtools provides utilities for manipulating SAM/BAM files: sorting, indexing, merging, and statistics.
+
+> If you aligned without piping (produced a SAM file), convert and sort it:
+> ```bash
+> samtools view -Sb align.sam | samtools sort -@ 4 -o align_sort.bam
+> samtools index align_sort.bam
+> ```
+
+```bash
+# Compute alignment statistics
 samtools stats align_sort.bam > align_sort.bam.stat
 cat align_sort.bam.stat
-ls -algh
-ls -alghtr
 ```
 
-### BAM file
-A BAM file (.bam) is the binary version of a SAM file. A SAM file (.sam) is a tab-delimited text file that contains sequence alignment data. 
+### File Size Comparison
 
-|SAM/BAM|size|
-|-----|----|
-|align.sam | 903M|
-|align.bam | 166M|
+| Format | Size | Notes |
+|--------|------|-------|
+| SAM (align.sam) | ~903 MB | Text format; avoid writing to disk if possible |
+| BAM (align.bam) | ~166 MB | Binary, ~5× smaller |
 
+### Visualize Alignments
 
-### Alignment visualization
 ```bash
+# Terminal viewer
 COLUMNS=150 samtools tview -d t align_sort.bam bch709.fasta
-
 ```
-![tview]({{site.baseurl}}/fig/tview.png)  
-[IGV](https://software.broadinstitute.org/software/igv/)  
-[Tablet](https://ics.hutton.ac.uk/tablet/)    
+
+GUI Viewers:
+- [IGV (Integrative Genomics Viewer)](https://software.broadinstitute.org/software/igv/)
+- [Tablet](https://ics.hutton.ac.uk/tablet/)
 
 ### Alignment QC
-```bash
- multiqc --dirs ~/bch709/rnaseq --filename align
-```
-
-### Download file **in your local terminal**
-#### MacOS
-```bash
-scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html ~/Desktop/BCH709
-```
-#### Windows
-```bash
-scp YOURID@pronghorn.rc.unr.edu:~/bch709/rnaseq/*.html  /mnt/c/Users/USERNAME/Desktop/BCH709
-```
-
-### Alignment QC
-- Number of reads mapped/unmapped/paired etc
-- Uniquely mapped
-- Insert size distribution
-- Coverage
-- Gene body coverage
-- Biotype counts / Chromosome counts
-- Counts by region: gene/intron/non-genic
-- Sequencing saturation
-- Strand specificity
-
-samtools > stats   
-bamtools > stats   
-[QoRTs](https://hartleys.github.io/QoRTs/)  
-[RSeQC](http://dldcc-web.brc.bcm.edu/lilab/liguow/CGI/rseqc/_build/html/)  
-[Qualimap](http://qualimap.bioinfo.cipf.es/)  
-
-
-### Quantification • Counts
-![genecount]({{site.baseurl}}/fig/genecount.png)
-- Read counts = gene expression
-- Reads can be quantified on any feature (gene, transcript, exon etc)
-- Intersection on gene models
-- Gene/Transcript level
-
-![count]({{site.baseurl}}/fig/count.png)
-
-[featureCounts](http://subread.sourceforge.net/)
-[HTSeq](https://htseq.readthedocs.io/en/release_0.11.1/)
-[RSEM](https://deweylab.github.io/RSEM/)
-[Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/)
-[Rcount](https://academic.oup.com/bioinformatics/article-lookup/doi/10.1093/bioinformatics/btu680)
-
-
-### Quantification method
-- PCR duplicates
- - Ignore for RNA-Seq data
- - Computational deduplication (Don't!)
- - Use PCR-free library-prep kits
- - Use UMIs during library-prep
-
-- Multi-mapping
- - Added (BEDTools multicov)
- - Discard (featureCounts, HTSeq)
- - Distribute counts (Cufflinks)
- - Rescue
-   - Probabilistic assignment (Rcount, Cufflinks)
-   - Prioritise features (Rcount)
-   - Probabilistic assignment with EM (RSEM)
-
-### mapping count
-```bash
-conda install -c conda-forge -c bioconda subread
-```
 
 ```bash
-wget https://www.dropbox.com/s/e9dvdkrl9dta4qg/bch709.gtf
-featureCounts -p  -a bch709.gtf align_sort.bam -o counts.txt
+multiqc --dirs ~/bch709/rnaseq --filename align
 ```
 
->## Reference
->Fu, Yu, et al. "Elimination of PCR duplicates in RNA-seq and small RNA-seq using unique molecular identifiers." BMC genomics 19.1 (2018): 531
->Parekh, Swati, et al. "The impact of amplification on differential expression analyses by RNA-seq." Scientific reports 6 (2016): 25533
->Klepikova, Anna V., et al. "Effect of method of deduplication on estimation of differential gene expression using RNA-seq." PeerJ 5 (2017): e3091
+### Key Alignment Metrics
+
+| Metric | Tool |
+|--------|------|
+| Mapping rate, pairing | samtools stats |
+| Insert size distribution | samtools stats |
+| Gene body coverage | RSeQC |
+| Strand specificity | RSeQC |
+| Biotype counts | QoRTs |
+| Sequencing saturation | QoRTs |
+
+Tools: [QoRTs](https://hartleys.github.io/QoRTs/), [RSeQC](http://dldcc-web.brc.bcm.edu/lilab/liguow/CGI/rseqc/_build/html/), [Qualimap](http://qualimap.bioinfo.cipf.es/)
+
+---
+
+## 10. Read Quantification
+
+![Gene Counts]({{site.baseurl}}/fig/genecount.png)
+
+Reads overlapping annotated gene features are counted as a proxy for gene expression.
+
+![Count Methods]({{site.baseurl}}/fig/count.png)
+
+### Quantification Tools
+
+| Tool | Approach |
+|------|---------|
+| featureCounts | Fast, summarizes reads per gene/exon |
+| HTSeq | Python-based, flexible |
+| RSEM | Transcript-level, EM-based |
+| Salmon | Quasi-mapping, very fast |
+| Kallisto | Pseudoalignment |
+
+### Run featureCounts
+
+The `-p` flag is for paired-end reads. Add `-T 4` to use multiple threads. The `-s` flag sets strandedness (0=unstranded, 1=forward, 2=reverse).
+
+```bash
+featureCounts \
+  -p \
+  -T 4 \
+  -a bch709.gtf \
+  -o counts.txt \
+  align_sort.bam
+
+# View the count matrix (skip the first commented header line)
+grep -v "^#" counts.txt | head
+```
+
+### PCR Duplicates
+
+For RNA-Seq, PCR duplicates are generally **not removed** because many identical reads reflect true high-abundance transcripts.
+
+- **Do NOT** computationally deduplicate standard RNA-Seq
+- Use **UMIs** during library prep if deduplication is needed
+
+### Multi-Mapping Reads
+
+| Strategy | Tool |
+|----------|------|
+| Discard multi-mappers | featureCounts, HTSeq |
+| Distribute counts | Cufflinks |
+| Probabilistic (EM) | RSEM |
+| Prioritize features | Rcount |
+
+> ## Reference
+> - Fu et al. (2018) Elimination of PCR duplicates in RNA-seq using UMIs. *BMC Genomics* 19:531
+> - Parekh et al. (2016) The impact of amplification on differential expression. *Scientific Reports* 6:25533
 {: .challenge}
 
-### Differential expression
-DESeq2
-edgeR (Neg-binom > GLM > Test)
-Limma-Voom (Neg-binom > Voom-transform > LM > Test)
+---
 
-### Functional analysis • GO
-Gene enrichment analysis (Hypergeometric test)
-Gene set enrichment analysis (GSEA)
-Gene ontology / Reactome databases
+## 11. Differential Expression Analysis
 
-### Conda deactivate
-```bash
-$ conda deactivate
-$ conda env remove --name rnaseq2
+After generating a count matrix, the next step is testing for statistically significant differences between conditions.
+
+### Common Tools
+
+| Tool | Model | Notes |
+|------|-------|-------|
+| DESeq2 | Negative binomial | Recommended for small n |
+| edgeR | Negative binomial | GLM-based |
+| Limma-Voom | Normal (after voom) | Good for large studies |
+
+### Downstream: Functional Analysis
+
+- **Gene Ontology (GO) enrichment** — hypergeometric test
+- **GSEA** — gene set enrichment analysis
+- **Pathway analysis** — KEGG, Reactome
+
+---
+
+## 12. Full Workflow Summary
+
 ```
->## Reading material
->Conesa, Ana, et al. "A survey of best practices for RNA-seq data analysis." Genome biology 17.1 (2016): 13
-{: .challenge}
+Raw FASTQ
+    │
+    ├── FastQC → MultiQC (QC report)
+    │
+    ├── Trim Galore (adapter/quality trimming)
+    │       │
+    │       └── FastQC → MultiQC (post-trim QC)
+    │
+    ├── HISAT2 (alignment to genome)
+    │       │
+    │       └── SAMtools (sort, index, stats)
+    │
+    ├── featureCounts (read quantification)
+    │
+    └── DESeq2 / edgeR (differential expression)
+            │
+            └── GO / GSEA (functional enrichment)
+```
 
+---
 
+## 13. Cleanup
 
-<!--
+```bash
+conda deactivate
+# Optional: remove the environment when done
+conda env remove --name rnaseq
+```
 
->## HOME WORK due next Monday
->### Create your environment name `rnaseq` on Pronghorn, install following tools through Conda
-> 1. Login to Pronghorn
-> 2. Create environment `rnaseq`
-> 3. Activate your environment
-> 4. Install below software
->- star  
->- fastqc  
->- rsem  
->- subread  
->- hisat2  
->- samtools  
->- bowtie2  
->- trim-galore   
->- multiqc  
-###  export your environment to rnaseq.yaml
->```bash
-> conda env export  > rnaseq.yaml
->```
->### copy contents of rnaseq.yaml and paste to Webcanvas 
->```bash
-> cat rnaseq.yaml
->```
-{: .solution}
--->
+---
 
-### Reference:
+## References
 
-- Conda documentation https://docs.conda.io/en/latest/
-- Conda-forge https://conda-forge.github.io/
-- BioConda https://bioconda.github.io/
+| Resource | Link |
+|---------|------|
+| Conesa et al. (2016) Best practices for RNA-seq | [Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0881-8) |
+| ENCODE RNA-Seq Standards | [Hong et al. 2016](https://academic.oup.com/database/article-lookup/doi/10.1093/database/baw001) |
+| QC Fail blog | [sequencing.qcfail.com](https://sequencing.qcfail.com/) |
+| Conda documentation | [docs.conda.io](https://docs.conda.io/en/latest/) |
+| BioConda | [bioconda.github.io](https://bioconda.github.io/) |

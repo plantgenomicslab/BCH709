@@ -199,15 +199,15 @@ Include a brief AI use statement with submissions:
 | Week7  | 3/3/2026  | Tuesday  | Introduction of R & R plotting (Tong Zhou PhD)                     |
 | Week7  | 3/5/2026  | Thursday | RNA-Seq                                                            |
 | Week8  | 3/10/2026 | Tuesday  | [BLAST search and gene alignment](BLAST/index.html)              |
-| Week8  | 3/12/2026 | Thursday | BLAST search and gene alignment                                    |
+| Week8  | 3/12/2026 | Thursday | [RNA-Seq tutorial](RNA-seq_tutorial/index.html)                    |
 | Week9  | 3/17/2026 | Tuesday  | Midterm review                                                     |
 | Week9  | 3/19/2026 | Thursday | Midterm Exam                                                       |
 |        | 3/24/2026 | Tuesday  | Spring Break                                                       |
 |        | 3/26/2026 | Thursday | Spring Break                                                       |
-| Week10 | 3/31/2026 | Tuesday  | Genome assembly & annotation & structure                           |
+| Week10 | 3/31/2026 | Tuesday  | [Resequencing and Variant Calling](resequencing_tutorial/index.html) |
 | Week10 | 4/2/2026  | Thursday | Introduction of R & R plotting (Tong Zhou PhD)                     |
-| Week11 | 4/7/2026  | Tuesday  | Variant analysis                                                   |
-| Week11 | 4/9/2026  | Thursday | Viral variant identification in NGS data (Richard Tillet, Ph. D)   |
+| Week11 | 4/7/2026  | Tuesday  | [ChIP-Seq Tutorial](chipseq_tutorial/index.html) / [Hi-C Tutorial](hic_tutorial/index.html) |
+| Week11 | 4/9/2026  | Thursday | [BLAST](BLAST/index.html) / Viral variant identification in NGS data (Richard Tillet, Ph. D) |
 | Week12 | 4/14/2026 | Tuesday  | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)  |
 | Week12 | 4/16/2026 | Thursday | Enrichment analysis                                                |
 | Week13 | 4/21/2026 | Tuesday  | Guest Lecture Dr. TongZhou                                         |
