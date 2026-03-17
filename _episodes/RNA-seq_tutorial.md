@@ -174,26 +174,34 @@ Quality scores represent the probability of an incorrect base call:
 
 ## 4. Hands-On: Setting Up the Environment
 
-### Create Conda Environment
-
-```bash
-conda create -n rnaseq python=3.11
-conda activate rnaseq
-```
-
-### Install Tools
-
-```bash
-conda install -c bioconda -c conda-forge \
-  fastqc trim-galore hisat2 samtools subread multiqc
-```
-
 ### Create Working Directory
 
 ```bash
 mkdir -p ~/bch709/rnaseq
 cd ~/bch709/rnaseq
 ```
+
+### Create Conda Environment
+
+```bash
+conda create -n rnaseq python=3.11 -y
+conda activate rnaseq
+```
+
+If your `conda` command is micromamba-based, use:
+
+```bash
+micromamba activate rnaseq
+```
+
+### Install Tools
+
+```bash
+conda install -n rnaseq -c conda-forge -c bioconda \
+  fastqc trim-galore hisat2 star samtools subread rsem multiqc -y
+```
+
+If your default `channel_priority` is `strict`, keeping `conda-forge` before `bioconda` helps avoid dependency conflicts (for example, with `multiqc`).
 
 ### Download Example Data
 
@@ -247,9 +255,14 @@ multiqc .
 
 MultiQC generates an HTML report in your working directory. Open it directly:
 
-**macOS / Linux:**
+**macOS:**
 ```bash
 open multiqc_report.html
+```
+
+**Linux:**
+```bash
+xdg-open multiqc_report.html
 ```
 
 **Windows (WSL):**
@@ -394,7 +407,9 @@ Full SAM specification: [samtools.github.io/hts-specs](http://samtools.github.io
 
 ## 9. BAM Processing with SAMtools
 
-SAMtools provides utilities for manipulating SAM/BAM files: sorting, indexing, merging, and statistics.
+SAMtools provides utilities for manipulating SAM/BAM files: sorting, indexing, filtering, and statistics.
+
+Coordinate-sorted and indexed BAM files are the standard input for most downstream tools (featureCounts, IGV, many QC utilities).
 
 > If you aligned without piping (produced a SAM file), convert and sort it:
 > ```bash
@@ -402,10 +417,47 @@ SAMtools provides utilities for manipulating SAM/BAM files: sorting, indexing, m
 > samtools index align_sort.bam
 > ```
 
+### What These Commands Do
+
+| Command | Purpose | Typical use |
+|--------|---------|-------------|
+| `samtools view` | Convert/filter alignments | Convert SAM to BAM; filter by flags or regions |
+| `samtools sort` | Coordinate-sort BAM | Required before indexing and most visualization |
+| `samtools index` | Create `.bai` index | Enables fast random access to genomic regions |
+| `samtools flagstat` | Quick mapping summary | Read-level QC (mapped %, paired %, duplicates) |
+| `samtools idxstats` | Per-reference counts | Check chromosome/contig-level mapping balance |
+| `samtools stats` | Detailed metrics | Insert size, mismatch profile, coverage summaries |
+
+### Practical QC Commands
+
 ```bash
-# Compute alignment statistics
-samtools stats align_sort.bam > align_sort.bam.stat
-cat align_sort.bam.stat
+# Quick integrity check (silent if OK)
+samtools quickcheck -v align_sort.bam
+
+# Read-level summary
+samtools flagstat -@ 4 align_sort.bam > align_sort.flagstat.txt
+
+# Per-reference mapped/unmapped counts
+samtools idxstats align_sort.bam > align_sort.idxstats.txt
+
+# Detailed alignment statistics
+samtools stats -@ 4 align_sort.bam > align_sort.bam.stat
+
+# Show the first summary lines (SN = Summary Number)
+grep '^SN' align_sort.bam.stat | head -20
+```
+
+### Useful Flag Filters
+
+```bash
+# Total aligned records
+samtools view -c align_sort.bam
+
+# Mapped reads only (-F 4 removes unmapped)
+samtools view -c -F 4 align_sort.bam
+
+# Properly paired reads only (for paired-end data)
+samtools view -c -f 2 align_sort.bam
 ```
 
 ### File Size Comparison
@@ -413,7 +465,7 @@ cat align_sort.bam.stat
 | Format | Size | Notes |
 |--------|------|-------|
 | SAM (align.sam) | ~903 MB | Text format; avoid writing to disk if possible |
-| BAM (align.bam) | ~166 MB | Binary, ~5× smaller |
+| BAM (align_sort.bam) | ~166 MB | Binary, ~5× smaller |
 
 ### Visualize Alignments
 
@@ -429,6 +481,7 @@ GUI Viewers:
 ### Alignment QC
 
 ```bash
+# MultiQC aggregates flagstat/stats outputs into one report
 multiqc --dirs ~/bch709/rnaseq --filename align
 ```
 
@@ -436,6 +489,8 @@ multiqc --dirs ~/bch709/rnaseq --filename align
 
 | Metric | Tool |
 |--------|------|
+| Total/mapped/properly paired reads | samtools flagstat |
+| Mapped reads per chromosome/contig | samtools idxstats |
 | Mapping rate, pairing | samtools stats |
 | Insert size distribution | samtools stats |
 | Gene body coverage | RSeQC |
@@ -464,6 +519,62 @@ Reads overlapping annotated gene features are counted as a proxy for gene expres
 | RSEM | Transcript-level, EM-based |
 | Salmon | Quasi-mapping, very fast |
 | Kallisto | Pseudoalignment |
+
+### EM-Based Quantification (STAR + RSEM)
+
+EM (Expectation-Maximization) is useful when a read can map to multiple isoforms or genes.
+
+- **E-step:** assign each ambiguous read fractionally to candidate transcripts using current abundance estimates
+- **M-step:** update transcript abundance estimates from those fractional assignments
+- Repeat E/M until estimates converge
+
+This is why EM-based tools (for example, RSEM) are commonly used for transcript-level quantification.
+
+> `STAR --quantMode GeneCounts` gives simple gene counts and is **not** EM-based.  
+> For EM quantification, use STAR transcriptome BAM + RSEM.
+
+```bash
+# 1) Build STAR genome index (one-time)
+mkdir -p star_index
+STAR \
+  --runThreadN 4 \
+  --runMode genomeGenerate \
+  --genomeDir star_index \
+  --genomeFastaFiles bch709.fasta \
+  --sjdbGTFfile bch709.gtf \
+  --sjdbOverhang 99
+
+# 2) Build RSEM reference (one-time)
+mkdir -p rsem_ref
+rsem-prepare-reference --gtf bch709.gtf bch709.fasta rsem_ref/bch709
+
+# 3) STAR alignment with transcriptome BAM output
+STAR \
+  --runThreadN 4 \
+  --genomeDir star_index \
+  --readFilesIn trim/pair1_val_1.fq.gz trim/pair2_val_2.fq.gz \
+  --readFilesCommand zcat \
+  --quantMode TranscriptomeSAM \
+  --outSAMtype BAM SortedByCoordinate \
+  --outFileNamePrefix star_
+
+# 4) EM-based expression estimation by RSEM
+rsem-calculate-expression \
+  --alignments \
+  --paired-end \
+  --num-threads 4 \
+  star_Aligned.toTranscriptome.out.bam \
+  rsem_ref/bch709 \
+  sample1
+```
+
+Key output files:
+- `sample1.genes.results`
+- `sample1.isoforms.results`
+
+Useful columns:
+- `expected_count`: EM-estimated read count
+- `TPM`: length-normalized expression
 
 ### Run featureCounts
 
@@ -554,6 +665,13 @@ Raw FASTQ
 conda deactivate
 # Optional: remove the environment when done
 conda env remove --name rnaseq
+```
+
+If you are using micromamba:
+
+```bash
+micromamba deactivate
+micromamba env remove -n rnaseq
 ```
 
 ---
