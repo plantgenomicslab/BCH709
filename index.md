@@ -204,16 +204,16 @@ Include a brief AI use statement with submissions:
 | Week9  | 3/19/2026 | Thursday | Midterm Exam                                                       |
 |        | 3/24/2026 | Tuesday  | Spring Break                                                       |
 |        | 3/26/2026 | Thursday | Spring Break                                                       |
-| Week10 | 3/31/2026 | Tuesday  | [Resequencing and Variant Calling](resequencing_tutorial/index.html) |
+| Week10 | 3/31/2026 | Tuesday  | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)  |
 | Week10 | 4/2/2026  | Thursday | Introduction of R & R plotting (Tong Zhou PhD)                     |
-| Week11 | 4/7/2026  | Tuesday  | [ChIP-Seq Tutorial](chipseq_tutorial/index.html) / [Hi-C Tutorial](hic_tutorial/index.html) |
-| Week11 | 4/9/2026  | Thursday | [BLAST](BLAST/index.html) / Viral variant identification in NGS data (Richard Tillet, Ph. D) |
-| Week12 | 4/14/2026 | Tuesday  | Gene family analysis and phylogenetics (David Alvarez-Ponce, PhD)  |
-| Week12 | 4/16/2026 | Thursday | Enrichment analysis                                                |
-| Week13 | 4/21/2026 | Tuesday  | Guest Lecture Dr. TongZhou                                         |
-| Week13 | 4/23/2026 | Thursday | [Vibe coding examples](vibe_coding/index.html)                     |
-| Week14 | 4/28/2026 | Tuesday  | Presentation & Discussions                                         |
-| Week14 | 4/30/2026 | Thursday | Presentation & Discussions                                         |
+| Week11 | 4/7/2026  | Tuesday  | [BLAST](BLAST/index.html)                                          |
+| Week11 | 4/9/2026  | Thursday | [Resequencing Tutorial](resequencing_tutorial/index.html)          |
+| Week12 | 4/14/2026 | Tuesday  | [ChIP-Seq Tutorial](chipseq_tutorial/index.html)                   |
+| Week12 | 4/16/2026 | Thursday | Hi-C Tutorial                                                      |
+| Week13 | 4/21/2026 | Tuesday  | HPC                                                                |
+| Week13 | 4/23/2026 | Thursday | HPC                                                                |
+| Week14 | 4/28/2026 | Tuesday  | Enrichment analysis                                                |
+| Week14 | 4/30/2026 | Thursday | Databases                                                          |
 | Week15 | 5/5/2026  | Tuesday  | Class Review                                                       |
 | Week15 | 5/7/2026  | Thursday | Final Exam                                                         |
 
