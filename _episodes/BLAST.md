@@ -597,6 +597,10 @@ wget https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase
 gunzip uniprot_sprot.fasta.gz
 makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids
 
+## Download individual protein FASTA files from UniProt REST API
+wget https://rest.uniprot.org/uniprotkb/P12345.fasta
+wget https://rest.uniprot.org/uniprotkb/P01308.fasta
+
 ## Run BLASTP against Swiss-Prot
 blastp -query your_protein.fasta \
        -db uniprot_sprot.fasta \
@@ -608,6 +612,10 @@ blastp -query your_protein.fasta \
 ```
 
 > Swiss-Prot entries use accession numbers (e.g., `P12345`) and entry names (e.g., `INS_HUMAN` for human insulin). The `stitle` column in BLAST output will show the full description line including gene name, organism, and protein function.
+>
+> Example entries on UniProt:
+> - [P01308 – Human insulin (INS_HUMAN)](https://www.uniprot.org/uniprotkb/P01308/entry)
+> - [P12345 – Aspartate aminotransferase (AATM_RABIT)](https://www.uniprot.org/uniprotkb/P12345/entry)
 {: .callout}
 
 
@@ -737,7 +745,7 @@ Download the *Arabidopsis thaliana* TAIR10 CDS sequences:
 
 ```bash
 cd ~/bch709/BLAST
-wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/cds/Arabidopsis_thaliana.TAIR10.cds.all.fa.gz -O Athaliana_TAIR10.cds.fa.gz
+wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/cds/Arabidopsis_thaliana.TAIR10.cds.all.fa.gz -O Athaliana_TAIR10.cds.fa.gz --no-check-certificate
 ```
 
 ### Example Input sequence
