@@ -41,7 +41,7 @@ published: true
 |---------|-------------------|---------|
 | Input | Genomic DNA | RNA (cDNA) |
 | Coverage | Uniform (genome) | Non-uniform (expressed genes) |
-| Aligner | BWA-MEM, Bowtie2 | HISAT2, STAR (splice-aware) |
+| Aligner | BWA-MEM2, Bowtie2 | HISAT2, STAR (splice-aware) |
 | Output | Variants (VCF) | Expression counts |
 
 ---
@@ -60,7 +60,7 @@ published: true
 conda create -n reseq -c bioconda -c conda-forge python=3.11
 conda activate reseq
 
-conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools sra-tools
+conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
 conda install -c bioconda -c conda-forge picard gatk4 bcftools
 conda install -c bioconda -c conda-forge snpeff plink
 pip install multiqc
@@ -69,9 +69,11 @@ pip install multiqc
 ### Verify Installations
 
 ```bash
+fastp --version
 bwa-mem2 version
 samtools --version
 gatk --version
+bcftools --version
 ```
 
 ### Create Working Directory
@@ -87,26 +89,29 @@ cd ~/bch709/reseq
 
 ### Download Example Data
 
-For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS dataset from the 1001 Genomes Project. Download using SRA tools:
+For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS dataset from the 1001 Genomes Project. We download directly from the European Nucleotide Archive (ENA), which provides pre-built FASTQ files.
+
+> **Note:** The SRA Toolkit (`fasterq-dump`, `fastq-dump`) is known to cause segmentation faults on WSL (Windows Subsystem for Linux). Downloading FASTQ files directly from ENA avoids this issue entirely.
+{: .callout}
 
 ```bash
 cd ~/bch709/reseq
 
 # Arabidopsis accession Col-0 re-sequencing (SRR519585)
-prefetch SRR519585
-fasterq-dump --split-files SRR519585/SRR519585.sra -O .
-mv SRR519585_1.fastq wgs_R1.fastq
-mv SRR519585_2.fastq wgs_R2.fastq
-gzip wgs_R1.fastq wgs_R2.fastq
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_1.fastq.gz -O wgs_R1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_2.fastq.gz -O wgs_R2.fastq.gz
 ls -lh
 ```
 
-> Replace `SRR519585` with any SRA accession from your experiment. Browse datasets at [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra).
+> You can find ENA download links for any SRA accession at [ENA Browser](https://www.ebi.ac.uk/ena/browser/) or [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra).
 
 ### Run FastQC
 
 ```bash
+# -t 4 : use 4 threads
 fastqc -t 4 wgs_R1.fastq.gz wgs_R2.fastq.gz
+
+# Aggregate all QC reports into one
 multiqc .
 ```
 
@@ -123,18 +128,34 @@ multiqc .
 
 ## 3. Read Trimming
 
+**fastp** performs adapter removal, quality trimming, and QC in a single pass — faster and simpler than running separate tools.
+
+| Option | Description |
+|--------|-------------|
+| `--in1` / `--in2` | Forward / reverse input reads |
+| `--out1` / `--out2` | Forward / reverse output reads |
+| `--detect_adapter_for_pe` | Auto-detect adapters for paired-end data |
+| `--qualified_quality_phred 20` | Minimum base quality threshold (Q20) |
+| `--length_required 50` | Discard reads shorter than 50 bp |
+| `--thread 4` | Number of threads |
+| `--html` / `--json` | QC report outputs (JSON is used by MultiQC) |
+
 ```bash
 mkdir -p trim
+
 fastp \
   --in1 wgs_R1.fastq.gz \
   --in2 wgs_R2.fastq.gz \
   --out1 trim/wgs_R1_trimmed.fq.gz \
   --out2 trim/wgs_R2_trimmed.fq.gz \
+  --detect_adapter_for_pe \
+  --qualified_quality_phred 20 \
+  --length_required 50 \
   --thread 4 \
   --html trim/fastp_report.html \
   --json trim/fastp_report.json
 
-multiqc --dirs ~/bch709/reseq --filename trim
+multiqc trim/ -n trim_report
 ```
 
 ---
@@ -144,7 +165,7 @@ multiqc --dirs ~/bch709/reseq --filename trim
 ### Download Reference
 
 ```bash
-# Arabidopsis TAIR10 reference (example)
+# Arabidopsis TAIR10 reference from Ensembl Plants
 wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz --no-check-certificate
 gunzip Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz
 mv Arabidopsis_thaliana.TAIR10.dna.toplevel.fa reference.fasta
@@ -152,16 +173,18 @@ mv Arabidopsis_thaliana.TAIR10.dna.toplevel.fa reference.fasta
 
 ### Create BWA-MEM2 Index
 
-BWA-MEM2 is the faster successor to BWA-MEM:
-
 ```bash
+# Generates .0123, .amb, .ann, .bwt.2bit.64, .pac
 bwa-mem2 index reference.fasta
 ```
 
 ### Create FASTA Index and Sequence Dictionary (required by GATK)
 
 ```bash
+# .fai index for samtools/GATK
 samtools faidx reference.fasta
+
+# .dict sequence dictionary for GATK
 picard CreateSequenceDictionary R=reference.fasta O=reference.dict
 ```
 
@@ -181,11 +204,19 @@ BWA-MEM2 uses the Burrows-Wheeler Transform (BWT) + FM-index for short-read alig
 
 ### Align Reads
 
-The `@RG` (read group) tag is **required** by GATK:
+The `@RG` (read group) tag is **required** by GATK.
+
+| @RG Field | Description |
+|-----------|-------------|
+| `ID` | Read group ID |
+| `SM` | Sample name (GATK uses this to identify samples) |
+| `PL` | Sequencing platform (e.g., ILLUMINA) |
+| `LB` | Library name |
+| `PU` | Platform unit (e.g., flowcell-barcode.lane) |
 
 ```bash
 bwa-mem2 mem \
-  -t 8 \
+  -t 4 \
   -R "@RG\tID:sample1\tSM:sample1\tPL:ILLUMINA\tLB:lib1\tPU:unit1" \
   reference.fasta \
   trim/wgs_R1_trimmed.fq.gz \
@@ -200,7 +231,7 @@ samtools flagstat sample1.bam
 
 ```bash
 samtools stats sample1.bam > sample1.stats
-multiqc .
+multiqc . -n alignment_report
 ```
 
 | Metric | What to Expect |
@@ -217,6 +248,13 @@ PCR amplification creates duplicate reads. For variant calling, these **must be 
 
 ### Run Picard MarkDuplicates
 
+| Option | Description |
+|--------|-------------|
+| `I=` | Input BAM |
+| `O=` | Output BAM with duplicates flagged |
+| `M=` | Duplication metrics file |
+| `VALIDATION_STRINGENCY=SILENT` | Suppress warnings on BAM format |
+
 ```bash
 picard MarkDuplicates \
   I=sample1.bam \
@@ -231,7 +269,7 @@ samtools index sample1.markdup.bam
 
 ```bash
 cat sample1.markdup.metrics
-multiqc .
+multiqc . -n markdup_report
 ```
 
 > **Note:** Duplication rates > 30–40% may indicate problems with input DNA quality or library complexity. For very high duplication, use a PCR-free library prep.
@@ -250,24 +288,35 @@ BQSR requires a VCF of known polymorphic sites to distinguish true variants from
 # For Arabidopsis: download from the 1001 Genomes Project
 wget https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-short-indel_only_ACGTN.vcf.gz
 mv 1001genomes_snp-short-indel_only_ACGTN.vcf.gz known_variants.vcf.gz
+
+# Decompress (GATK needs plain VCF or block-gzipped)
 bgzip -d known_variants.vcf.gz
+
+# Create index
 gatk IndexFeatureFile -I known_variants.vcf
 
 # For human (hg38): download dbSNP from GATK resource bundle
 # wget https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf
 ```
 
-> **No known variants available?** For less-characterized species, skip BQSR or use an iterative "bootstrap" approach: call variants with HaplotypeCaller, use those as known sites, then re-run BQSR.
+> **No known variants available?** For less-characterized species, skip BQSR or use an iterative "bootstrap" approach: call variants with HaplotypeCaller, use those as known sites, then re-run BQSR. Two rounds are usually sufficient.
+{: .callout}
 
 ### Step 1: Compute Recalibration Table
+
+| Option | Description |
+|--------|-------------|
+| `-I` | Input BAM (with duplicates marked) |
+| `-R` | Reference genome |
+| `--known-sites` | Known polymorphic sites VCF |
+| `-O` | Output recalibration table |
 
 ```bash
 gatk BaseRecalibrator \
   -I sample1.markdup.bam \
   -R reference.fasta \
   --known-sites known_variants.vcf \
-  -O sample1.recal.table \
-  --verbosity ERROR
+  -O sample1.recal.table
 ```
 
 ### Step 2: Apply Recalibration
@@ -282,8 +331,6 @@ gatk ApplyBQSR \
 samtools index sample1.recal.bam
 ```
 
-> **Note for model organisms without known variants:** The BQSR "bootstrap" approach: (1) Call raw variants with HaplotypeCaller → hard-filter → use as known sites → re-run BQSR → call final variants. Two rounds are usually sufficient.
-
 ---
 
 ## 8. Variant Calling with GATK HaplotypeCaller
@@ -292,7 +339,15 @@ GATK HaplotypeCaller performs local assembly of haplotypes to call SNPs and inde
 
 ### Call Variants (per-sample GVCF mode)
 
-Using **GVCF mode** allows joint genotyping across multiple samples — recommended for multi-sample projects:
+Using **GVCF mode** allows joint genotyping across multiple samples — recommended for multi-sample projects.
+
+| Option | Description |
+|--------|-------------|
+| `-R` | Reference genome |
+| `-I` | Input recalibrated BAM |
+| `-O` | Output GVCF (genomic VCF) |
+| `-ERC GVCF` | Emit reference confidence — produces GVCF instead of plain VCF |
+| `--native-pair-hmm-threads` | Threads for PairHMM calculation |
 
 ```bash
 gatk HaplotypeCaller \
@@ -306,14 +361,14 @@ gatk HaplotypeCaller \
 ### Joint Genotyping (for multiple samples)
 
 ```bash
-# Combine GVCFs (if multiple samples)
+# Combine GVCFs from multiple samples
 gatk CombineGVCFs \
   -R reference.fasta \
   -V sample1.g.vcf.gz \
   -V sample2.g.vcf.gz \
   -O cohort.g.vcf.gz
 
-# Genotype
+# Joint genotyping across all samples
 gatk GenotypeGVCFs \
   -R reference.fasta \
   -V cohort.g.vcf.gz \
@@ -327,14 +382,14 @@ gatk GenotypeGVCFs \
 ### Separate SNPs and Indels
 
 ```bash
-# Extract SNPs
+# Extract SNPs only
 gatk SelectVariants \
   -R reference.fasta \
   -V cohort.vcf.gz \
   --select-type-to-include SNP \
   -O cohort.snps.vcf.gz
 
-# Extract Indels
+# Extract Indels only
 gatk SelectVariants \
   -R reference.fasta \
   -V cohort.vcf.gz \
@@ -370,13 +425,13 @@ gatk VariantFiltration \
 
 ### Key GATK Filters Explained
 
-| Filter | Field | Threshold (SNP) | Meaning |
-|--------|-------|----------------|---------|
-| QD | Quality by Depth | < 2.0 | Normalized variant quality |
-| FS | Fisher Strand Bias | > 60.0 | Strand bias test |
-| MQ | RMS Mapping Quality | < 40.0 | Average mapping quality |
-| MQRankSum | MQ Rank Sum | < -12.5 | Comparison of MQ for ref/alt |
-| ReadPosRankSum | Read Position RS | < -8.0 | Position bias within reads |
+| Filter | Field | Threshold (SNP) | Threshold (Indel) | Meaning |
+|--------|-------|-----------------|-------------------|---------|
+| QD | Quality by Depth | < 2.0 | < 2.0 | Normalized variant quality |
+| FS | Fisher Strand Bias | > 60.0 | > 200.0 | Strand bias test |
+| MQ | RMS Mapping Quality | < 40.0 | — | Average mapping quality |
+| MQRankSum | MQ Rank Sum | < -12.5 | — | Comparison of MQ for ref/alt |
+| ReadPosRankSum | Read Position RS | < -8.0 | < -20.0 | Position bias within reads |
 
 ---
 
@@ -408,19 +463,25 @@ Chr1    12345   .       A    T    220   PASS    DP=45;AF=0.5;...  GT:AD:DP   0/1
 
 ### Basic VCF Manipulation with BCFtools
 
+| Option | Description |
+|--------|-------------|
+| `-f PASS` | Keep only variants that passed all filters |
+| `-O z` | Output as compressed VCF (`.vcf.gz`) |
+| `-o` | Output file name |
+
 ```bash
 # Count variants
 bcftools stats cohort.snps.filtered.vcf.gz | grep "^SN"
 
-# Filter PASS variants only
-bcftools view -f PASS cohort.snps.filtered.vcf.gz -O z -o cohort.snps.pass.vcf.gz
+# Keep only PASS variants
+bcftools view -f PASS -O z -o cohort.snps.pass.vcf.gz cohort.snps.filtered.vcf.gz
 
-# Extract specific region
+# Extract specific genomic region
 bcftools view cohort.snps.pass.vcf.gz Chr1:100000-200000
 
-# Get variant summary
+# Get variant summary statistics
 bcftools stats cohort.snps.pass.vcf.gz > stats.txt
-multiqc .
+multiqc . -n vcf_report
 ```
 
 ---
@@ -442,13 +503,9 @@ snpEff download athalianaTair10
 ### Annotate Variants
 
 ```bash
-snpEff \
-  -v athalianaTair10 \
-  cohort.snps.pass.vcf.gz \
-  > cohort.snps.annotated.vcf
+snpEff -v athalianaTair10 cohort.snps.pass.vcf.gz > cohort.snps.annotated.vcf
 
-# View annotation summary
-cat snpEff_summary.html
+# snpEff also generates snpEff_summary.html and snpEff_genes.txt
 ```
 
 ### Variant Effect Categories
@@ -468,35 +525,37 @@ For multiple samples, use population genomics tools:
 
 ### PCA (Principal Component Analysis)
 
-```bash
-# Convert VCF to PLINK format
-plink --vcf cohort.snps.pass.vcf.gz \
-  --make-bed \
-  --out cohort \
-  --allow-extra-chr
+| Option | Description |
+|--------|-------------|
+| `--vcf` | Input VCF file |
+| `--make-bed` | Output PLINK binary format (`.bed`/`.bim`/`.fam`) |
+| `--pca 10` | Compute top 10 principal components |
+| `--allow-extra-chr` | Allow non-human chromosome names (required for plants) |
 
-# Run PCA
-plink --bfile cohort \
-  --pca 10 \
-  --out cohort.pca \
-  --allow-extra-chr
+```bash
+# Convert VCF to PLINK binary format
+plink --vcf cohort.snps.pass.vcf.gz --make-bed --out cohort --allow-extra-chr
+
+# Run PCA (top 10 components)
+plink --bfile cohort --pca 10 --out cohort.pca --allow-extra-chr
 ```
 
 ### Linkage Disequilibrium Pruning
 
-Before running GWAS or population structure analyses, prune variants in LD to avoid biasing results:
+Before running GWAS or population structure analyses, prune variants in LD to avoid biasing results.
+
+| `--indep-pairwise` Parameter | Description |
+|------------------------------|-------------|
+| `50` | Window size (number of SNPs) |
+| `10` | Step size (SNPs to shift window) |
+| `0.2` | r² threshold (remove one of a pair if r² > 0.2) |
 
 ```bash
-plink --bfile cohort \
-  --indep-pairwise 50 10 0.2 \
-  --out cohort.ld \
-  --allow-extra-chr
+# Identify LD-pruned variant set
+plink --bfile cohort --indep-pairwise 50 10 0.2 --out cohort.ld --allow-extra-chr
 
-plink --bfile cohort \
-  --extract cohort.ld.prune.in \
-  --make-bed \
-  --out cohort.pruned \
-  --allow-extra-chr
+# Extract pruned variants
+plink --bfile cohort --extract cohort.ld.prune.in --make-bed --out cohort.pruned --allow-extra-chr
 ```
 
 ### GWAS
@@ -538,6 +597,7 @@ conda env remove --name reseq
 |---------|------|
 | GATK Best Practices | [broadinstitute.github.io/gatk](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932) |
 | BWA-MEM2 paper | [Md et al. 2019, iScience](https://www.sciencedirect.com/science/article/pii/S2589004219310017) |
+| fastp paper | [Chen et al. 2018, Bioinformatics](https://doi.org/10.1093/bioinformatics/bty560) |
 | SAM flag decoder | [Picard SAM Flags](https://broadinstitute.github.io/picard/explain-flags.html) |
 | VCF specification | [samtools.github.io/hts-specs](https://samtools.github.io/hts-specs/VCFv4.2.pdf) |
 | SnpEff documentation | [pcingola.github.io/SnpEff](https://pcingola.github.io/SnpEff/) |
