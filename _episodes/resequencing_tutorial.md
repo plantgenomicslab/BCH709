@@ -62,7 +62,8 @@ conda activate reseq
 
 conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
 conda install -c bioconda -c conda-forge picard gatk4 bcftools
-conda install -c bioconda -c conda-forge snpeff multiqc plink
+conda install -c bioconda -c conda-forge snpeff plink
+pip install multiqc
 ```
 
 ### Verify Installations
