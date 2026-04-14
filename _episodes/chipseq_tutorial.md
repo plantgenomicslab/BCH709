@@ -50,7 +50,7 @@ published: true
 Raw FASTQ (ChIP + Input/Control)
     │
     ├── FastQC → MultiQC (QC)
-    ├── Trim Galore (trimming)
+    ├── fastp (trimming)
     │
     ├── Minimap2 (alignment to reference genome)
     │       │
@@ -81,22 +81,24 @@ Raw FASTQ (ChIP + Input/Control)
 ### Create Conda Environment
 
 ```bash
-conda create -n chipseq python=3.11
+conda create -n chipseq -c bioconda -c conda-forge python=3.11
 conda activate chipseq
+
+conda install -c bioconda -c conda-forge fastqc fastp minimap2 samtools
+conda install -c bioconda -c conda-forge picard deeptools macs3
+conda install -c bioconda -c conda-forge homer bedtools idr
+pip install multiqc
 ```
 
-### Install Tools
-
-```bash
-conda install -c bioconda -c conda-forge \
-  fastqc trim-galore minimap2 samtools picard deeptools \
-  macs3 homer bedtools multiqc r-base bioconductor-chipseeker
-```
+> **Note:** `multiqc` is installed via `pip` because the conda package has dependency conflicts with Python 3.11. R packages (`ChIPseeker`, `DiffBind`) are installed separately within R (see Sections 13–14).
+{: .callout}
 
 ### Verify Installations
 
 ```bash
+fastp --version
 minimap2 --version
+samtools --version
 macs3 --version
 deeptools --version
 ```
@@ -129,7 +131,7 @@ cd ~/bch709/chipseq
 |--------|--------------|-------|
 | TF ChIP-Seq | 20 million | Narrow peaks |
 | Histone ChIP-Seq | 40–50 million | Broad marks |
-| Input control | Match ChIP depth | Or >1.5× ChIP |
+| Input control | Match ChIP depth | Or >1.5x ChIP |
 
 ### Antibody Validation
 
@@ -176,24 +178,45 @@ multiqc .
 
 ## 4. Read Trimming
 
+**fastp** performs adapter detection, quality trimming, and QC reporting in a single pass.
+
+| Option | Description |
+|--------|-------------|
+| `--in1` | Input FASTQ (single-end) or forward reads (paired-end) |
+| `--out1` | Output trimmed FASTQ |
+| `--detect_adapter_for_pe` | Auto-detect adapters (use for paired-end) |
+| `--qualified_quality_phred 20` | Minimum base quality threshold (Q20) |
+| `--length_required 25` | Discard reads shorter than 25 bp |
+| `--thread 4` | Number of threads |
+
 ```bash
-trim_galore \
-  --cores 4 \
-  --fastqc \
-  --gzip \
-  -o trim \
-  chip_R1.fastq.gz
+mkdir -p trim
 
-# Also trim the input control
-trim_galore \
-  --cores 4 \
-  --fastqc \
-  --gzip \
-  -o trim \
-  input.fastq.gz
+# Trim ChIP sample
+fastp \
+  --in1 chip_R1.fastq.gz \
+  --out1 trim/chip_R1_trimmed.fq.gz \
+  --qualified_quality_phred 20 \
+  --length_required 25 \
+  --thread 4 \
+  --html trim/chip_fastp.html \
+  --json trim/chip_fastp.json
 
-multiqc --dirs ~/bch709/chipseq --filename trim
+# Trim Input control
+fastp \
+  --in1 input.fastq.gz \
+  --out1 trim/input_trimmed.fq.gz \
+  --qualified_quality_phred 20 \
+  --length_required 25 \
+  --thread 4 \
+  --html trim/input_fastp.html \
+  --json trim/input_fastp.json
+
+multiqc trim/ -n trim_report
 ```
+
+> For **paired-end** data, add `--in2`, `--out2`, and `--detect_adapter_for_pe` options.
+{: .callout}
 
 ---
 
@@ -211,31 +234,40 @@ mv chr1.fa reference.fasta
 # wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 ```
 
-### Index the Reference for Minimap2
-
-Minimap2 does not require a pre-built index step (it builds the index on the fly), but you can pre-compute and save it to speed up repeated alignments:
+### Create FASTA Index
 
 ```bash
+samtools faidx reference.fasta
+```
+
+### Index the Reference for Minimap2
+
+Minimap2 can build the index on the fly, but pre-computing it speeds up repeated alignments:
+
+```bash
+# -d : save index to file
 minimap2 -d reference.mmi reference.fasta
 ```
 
 > **Why Minimap2 for ChIP-Seq?**
-> Minimap2 (`-ax sr` mode) handles short-read DNA alignment efficiently and is suitable for both short (< 100 bp) and longer Illumina reads. Unlike HISAT2/STAR, it is not splice-aware, making it appropriate for ChIP-Seq where reads come from genomic DNA. It is also widely used for long-read (PacBio/ONT) data.
+> Minimap2 (`-ax sr` mode) handles short-read DNA alignment efficiently and is suitable for both short (< 100 bp) and longer Illumina reads. Unlike HISAT2/STAR, it is not splice-aware, making it appropriate for ChIP-Seq where reads come from genomic DNA.
 
 ---
 
 ## 6. Alignment with Minimap2
 
-Minimap2 uses the `-ax sr` preset for short paired-end Illumina reads. Output is piped directly to `samtools sort` to avoid intermediate SAM files.
+Minimap2 uses the `-ax sr` preset for short Illumina reads.
+
+| Option | Description |
+|--------|-------------|
+| `-ax sr` | Short-read alignment preset |
+| `-t 4` | Number of threads |
+| `reference.mmi` | Pre-built minimap2 index |
 
 ### Align ChIP Sample
 
 ```bash
-minimap2 \
-  -ax sr \
-  -t 8 \
-  reference.mmi \
-  trim/chip_R1_trimmed.fq.gz \
+minimap2 -ax sr -t 4 reference.mmi trim/chip_R1_trimmed.fq.gz \
   2> chip.minimap2.log \
   | samtools sort -@ 4 -o chip.bam
 
@@ -246,28 +278,29 @@ samtools flagstat chip.bam
 ### Align Input Control
 
 ```bash
-minimap2 \
-  -ax sr \
-  -t 8 \
-  reference.mmi \
-  trim/input_trimmed.fq.gz \
+minimap2 -ax sr -t 4 reference.mmi trim/input_trimmed.fq.gz \
   2> input.minimap2.log \
   | samtools sort -@ 4 -o input.bam
 
 samtools index input.bam
 ```
 
-> **Paired-end ChIP-Seq reads?** Use both FASTQ files:
+> **Paired-end ChIP-Seq reads?** Supply both FASTQ files:
 > ```bash
-> minimap2 -ax sr -t 8 reference.mmi \
+> minimap2 -ax sr -t 4 reference.mmi \
 >   trim/chip_R1_trimmed.fq.gz trim/chip_R2_trimmed.fq.gz \
 >   2> chip.minimap2.log | samtools sort -@ 4 -o chip.bam
 > ```
 
 ### Filter Low-Quality and Unmapped Reads
 
+| Option | Description |
+|--------|-------------|
+| `-b` | Output BAM format |
+| `-q 30` | Minimum mapping quality (MAPQ >= 30) |
+| `-F 4` | Exclude unmapped reads |
+
 ```bash
-# Keep only properly mapped, high-quality reads (MAPQ >= 30)
 samtools view -b -q 30 -F 4 chip.bam > chip.filt.bam
 samtools index chip.filt.bam
 
@@ -279,7 +312,15 @@ samtools index input.filt.bam
 
 ## 7. Mark and Remove Duplicates
 
-For ChIP-Seq, **PCR duplicates must be removed** (unlike RNA-Seq):
+For ChIP-Seq, **PCR duplicates must be removed** (unlike variant calling where they are only marked).
+
+| Option | Description |
+|--------|-------------|
+| `I=` | Input BAM |
+| `O=` | Output BAM |
+| `M=` | Duplication metrics file |
+| `REMOVE_DUPLICATES=true` | Remove (not just flag) duplicate reads |
+| `VALIDATION_STRINGENCY=SILENT` | Suppress warnings on BAM format |
 
 ```bash
 picard MarkDuplicates \
@@ -309,20 +350,28 @@ BigWig files are used for visualizing ChIP-Seq signal in genome browsers.
 
 ### Normalize by Sequencing Depth (RPKM)
 
+| Option | Description |
+|--------|-------------|
+| `--bam` | Input BAM file |
+| `--outFileName` | Output BigWig file |
+| `--normalizeUsing RPKM` | Normalize by reads per kilobase per million |
+| `--binSize 10` | Resolution in base pairs |
+| `--numberOfProcessors 4` | Number of threads |
+
 ```bash
 bamCoverage \
   --bam chip.dedup.bam \
   --outFileName chip.bw \
   --normalizeUsing RPKM \
   --binSize 10 \
-  --numberOfProcessors 8
+  --numberOfProcessors 4
 
 bamCoverage \
   --bam input.dedup.bam \
   --outFileName input.bw \
   --normalizeUsing RPKM \
   --binSize 10 \
-  --numberOfProcessors 8
+  --numberOfProcessors 4
 ```
 
 ### ChIP vs. Input Ratio (log2 fold change)
@@ -335,7 +384,7 @@ bamCompare \
   --normalizeUsing RPKM \
   --operation log2 \
   --binSize 10 \
-  --numberOfProcessors 8
+  --numberOfProcessors 4
 ```
 
 ### Visualize in IGV
@@ -356,7 +405,7 @@ plotFingerprint \
   --labels ChIP Input \
   --plotFile fingerprint.png \
   --outRawCounts fingerprint.tab \
-  --numberOfProcessors 8
+  --numberOfProcessors 4
 ```
 
 > **Interpreting the fingerprint plot:** A successful ChIP enrichment shows a steep curve (reads concentrated at a few genomic loci). The input control should be near-diagonal (reads evenly distributed). Poor enrichment = ChIP curve resembles the input.
@@ -369,7 +418,7 @@ multiBamSummary bins \
   --bamfiles chip_rep1.dedup.bam chip_rep2.dedup.bam input.dedup.bam \
   --labels Rep1 Rep2 Input \
   --outFileName multibam.npz \
-  --numberOfProcessors 8
+  --numberOfProcessors 4
 
 # Plot correlation heatmap
 plotCorrelation \
@@ -388,7 +437,21 @@ plotCorrelation \
 
 ## 10. Peak Calling with MACS3
 
-MACS3 (Model-based Analysis of ChIP-Seq) is the standard tool for identifying genomic regions enriched in ChIP-Seq.
+MACS3 (Model-based Analysis of ChIP-Seq) is the standard tool for identifying enriched genomic regions.
+
+### MACS3 Key Options
+
+| Option | Description |
+|--------|-------------|
+| `-t` | Treatment (ChIP) BAM file |
+| `-c` | Control (Input) BAM file |
+| `--format BAM` | Input file format |
+| `--gsize hs` | Effective genome size (`hs`=human, `mm`=mouse, `ce`=*C. elegans*, `dm`=*Drosophila*) |
+| `--name` | Output file prefix |
+| `--outdir` | Output directory |
+| `--qvalue 0.05` | FDR threshold for peak calling |
+| `--broad` | Call broad peaks (for histone marks) |
+| `--broad-cutoff 0.1` | FDR threshold for broad peaks |
 
 ### Narrow Peak Calling (TF, H3K4me3, H3K9ac)
 
@@ -430,20 +493,20 @@ macs3 callpeak \
 | `_control_lambda.bdg` | Control lambda values |
 | `_treat_pileup.bdg` | ChIP pileup signal |
 
-### Interpret NarrowPeak Format
+### NarrowPeak Format
 
-```
-Col 1: Chromosome
-Col 2: Start (0-based)
-Col 3: End
-Col 4: Peak name
-Col 5: Score
-Col 6: Strand
-Col 7: Signal value (fold enrichment)
-Col 8: -log10(p-value)
-Col 9: -log10(q-value)
-Col 10: Summit offset from start
-```
+| Column | Description |
+|--------|-------------|
+| 1 | Chromosome |
+| 2 | Start (0-based) |
+| 3 | End |
+| 4 | Peak name |
+| 5 | Score |
+| 6 | Strand |
+| 7 | Signal value (fold enrichment) |
+| 8 | -log10(p-value) |
+| 9 | -log10(q-value) |
+| 10 | Summit offset from start |
 
 ### Count and Filter Peaks
 
@@ -473,6 +536,14 @@ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/refGene.txt.gz
 
 ### Compute Signal Matrix Around TSS
 
+| Option | Description |
+|--------|-------------|
+| `--scoreFileName` | BigWig signal file |
+| `--regionsFileName` | BED file with genomic regions |
+| `--referencePoint TSS` | Anchor point for the plot |
+| `--upstream` / `--downstream` | Window size around reference point |
+| `--binSize 50` | Resolution in base pairs |
+
 ```bash
 computeMatrix reference-point \
   --scoreFileName chip.bw \
@@ -481,7 +552,7 @@ computeMatrix reference-point \
   --upstream 3000 \
   --downstream 3000 \
   --binSize 50 \
-  --numberOfProcessors 8 \
+  --numberOfProcessors 4 \
   -o tss_matrix.gz
 
 plotHeatmap \
@@ -509,28 +580,26 @@ Motif analysis identifies DNA sequence motifs enriched in ChIP-Seq peaks — typ
 
 ### HOMER Motif Analysis
 
-HOMER requires genome sequences to be installed before running motif analysis:
-
 ```bash
 # Install HOMER genome (run once)
-perl /path/to/homer/configureHomer.pl -install hg38
-# Or using the conda-installed HOMER:
 configureHomer.pl -install hg38
 ```
 
+**`findMotifsGenome.pl` usage:** `findMotifsGenome.pl <peaks.bed> <genome> <output_dir/> [options]`
+
+| Option | Description |
+|--------|-------------|
+| `-size 200` | Region size around peak center for motif search |
+| `-mask` | Mask repeat sequences |
+| `-p 4` | Number of threads |
+
 ```bash
-# Prepare peak file (convert narrowPeak to BED)
+# Prepare peak file (convert narrowPeak to BED6)
 awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6}' \
   chip_narrow_filtered.bed > peaks_homer.bed
 
 # Find motifs (de novo + known)
-findMotifsGenome.pl \
-  peaks_homer.bed \
-  hg38 \
-  motif_output/ \
-  -size 200 \
-  -mask \
-  -p 8
+findMotifsGenome.pl peaks_homer.bed hg38 motif_output/ -size 200 -mask -p 4
 ```
 
 ### HOMER Output
@@ -590,6 +659,14 @@ dotplot(pathway)
 
 Compare ChIP-Seq signal between two conditions (e.g., treated vs. untreated).
 
+### Install DiffBind
+
+```r
+BiocManager::install("DiffBind")
+```
+
+### Sample Sheet Format
+
 The sample sheet CSV must contain these columns:
 
 | SampleID | Condition | Replicate | bamReads | Peaks | PeakCaller |
@@ -598,6 +675,8 @@ The sample sheet CSV must contain these columns:
 | chip_cond1_rep2 | Condition1 | 2 | chip_cond1_rep2.dedup.bam | peaks_cond1_rep2.narrowPeak | macs |
 | chip_cond2_rep1 | Condition2 | 1 | chip_cond2_rep1.dedup.bam | peaks_cond2_rep1.narrowPeak | macs |
 | chip_cond2_rep2 | Condition2 | 2 | chip_cond2_rep2.dedup.bam | peaks_cond2_rep2.narrowPeak | macs |
+
+### Run DiffBind
 
 ```r
 library(DiffBind)
@@ -625,10 +704,15 @@ db_peaks <- dba.report(dba_obj, th=0.05)
 
 IDR measures reproducibility of peak calls across replicates. ENCODE requires IDR < 0.05.
 
-```bash
-# Install IDR via conda (preferred)
-conda install -c bioconda idr
+| Option | Description |
+|--------|-------------|
+| `--samples` | Two replicate peak files |
+| `--input-file-type narrowPeak` | Input file format |
+| `--rank p.value` | Column to rank peaks by |
+| `--output-file` | Output IDR results |
+| `--plot` | Generate IDR diagnostic plot |
 
+```bash
 # Sort peaks by score (column 5)
 sort -k5,5rn chip_rep1_peaks.narrowPeak > rep1_sorted.bed
 sort -k5,5rn chip_rep2_peaks.narrowPeak > rep2_sorted.bed
@@ -650,10 +734,10 @@ idr \
 | Step | Tool | Input | Output |
 |------|------|-------|--------|
 | QC | FastQC + MultiQC | FASTQ | HTML report |
-| Trim | Trim Galore | FASTQ | Trimmed FASTQ |
+| Trim | fastp | FASTQ | Trimmed FASTQ |
 | Align | Minimap2 | FASTQ | BAM |
 | Sort/Index | SAMtools | BAM | Sorted BAM |
-| Filter | SAMtools | BAM | Filtered BAM |
+| Filter | SAMtools | BAM | Filtered BAM (MAPQ >= 30) |
 | Dedup | Picard | BAM | Deduplicated BAM |
 | Signal tracks | deepTools bamCoverage | BAM | BigWig |
 | IP quality | deepTools plotFingerprint | BAM | Plot |
@@ -661,8 +745,8 @@ idr \
 | Peak calling | MACS3 | BAM | BED/narrowPeak |
 | Heatmaps | deepTools computeMatrix/plotHeatmap | BigWig + BED | Heatmap PNG |
 | Motif analysis | HOMER | BED | Motif report HTML |
-| Annotation | ChIPseeker | BED | Annotated peaks |
-| Differential | DiffBind | BAM + peaks | Differential peaks |
+| Annotation | ChIPseeker (R) | BED | Annotated peaks |
+| Differential | DiffBind (R) | BAM + peaks | Differential peaks |
 | Reproducibility | IDR | Peak files | IDR peaks |
 
 ---
@@ -682,7 +766,8 @@ conda env remove --name chipseq
 |---------|------|
 | ENCODE ChIP-Seq standards | [Landt et al. 2012, Genome Research](https://genome.cshlp.org/content/22/9/1813.long) |
 | MACS3 paper | [Zhang et al. 2008, Genome Biology](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2008-9-9-r137) |
-| deepTools paper | [Ramírez et al. 2016, Nucleic Acids Research](https://academic.oup.com/nar/article/44/W1/W160/2499308) |
+| deepTools paper | [Ramirez et al. 2016, Nucleic Acids Research](https://academic.oup.com/nar/article/44/W1/W160/2499308) |
+| fastp paper | [Chen et al. 2018, Bioinformatics](https://doi.org/10.1093/bioinformatics/bty560) |
 | ChIPseeker paper | [Yu et al. 2015, Bioinformatics](https://academic.oup.com/bioinformatics/article/31/14/2382/255379) |
 | HOMER documentation | [homer.ucsd.edu](http://homer.ucsd.edu/homer/chipseq/) |
 | IDR framework | [Li et al. 2011, Ann. Applied Statistics](https://projecteuclid.org/journals/annals-of-applied-statistics/volume-5/issue-3/Measuring-reproducibility-of-high-throughput-experiments/10.1214/11-AOAS466.full) |
