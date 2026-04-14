@@ -98,6 +98,8 @@ For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS datase
 > **Note:** The SRA Toolkit (`fasterq-dump`, `fastq-dump`) is known to cause segmentation faults on WSL (Windows Subsystem for Linux). Downloading FASTQ files directly from ENA avoids this issue entirely.
 {: .callout}
 
+**Option A — Download from ENA (European Nucleotide Archive):**
+
 ```bash
 cd ~/bch709/reseq
 
@@ -106,6 +108,19 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_1.fastq.gz -O
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_2.fastq.gz -O wgs_R2.fastq.gz
 ls -lh
 ```
+
+**Option B — Download from Dropbox mirror (if ENA is slow or fails):**
+
+```bash
+cd ~/bch709/reseq
+
+wget "https://www.dropbox.com/scl/fi/8fy6hrhczh7v23ojqox5r/wgs_R1.fastq.gz?rlkey=nmanzksfbtm76xer4jesq2vuy&dl=1" -O wgs_R1.fastq.gz
+wget "https://www.dropbox.com/scl/fi/kt29bt8c29vf9i294xeek/wgs_R2.fastq.gz?rlkey=8xm8lk839jqcz2qfjlzx4gqle&dl=1" -O wgs_R2.fastq.gz
+ls -lh
+```
+
+> **Dropbox direct download tip:** Add `&dl=1` to the end of a Dropbox share URL, and wrap the URL in double quotes to prevent the shell from interpreting `&` and `?` characters.
+{: .callout}
 
 > You can find ENA download links for any SRA accession at [ENA Browser](https://www.ebi.ac.uk/ena/browser/) or [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra).
 
