@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 920" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#34495e"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="520" height="920" fill="#f8f9fa" rx="8"/>
+
+  <!-- Title -->
+  <rect x="60" y="15" width="400" height="40" rx="6" fill="url(#headerGrad)"/>
+  <text x="260" y="41" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Resequencing &amp; Variant Calling Workflow</text>
+
+  <!-- Step 1: Raw FASTQ -->
+  <rect x="140" y="75" width="240" height="44" rx="22" fill="#3498db" filter="url(#shadow)"/>
+  <text x="260" y="101" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Raw FASTQ (DNA reads)</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="119" x2="260" y2="145" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: QC -->
+  <rect x="120" y="150" width="280" height="44" rx="8" fill="#2ecc71" filter="url(#shadow)"/>
+  <text x="260" y="170" text-anchor="middle" fill="white" font-size="13" font-weight="bold">1. Quality Control</text>
+  <text x="260" y="186" text-anchor="middle" fill="white" font-size="11">FastQC + MultiQC</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="194" x2="260" y2="220" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Trimming -->
+  <rect x="120" y="225" width="280" height="44" rx="8" fill="#2ecc71" filter="url(#shadow)"/>
+  <text x="260" y="245" text-anchor="middle" fill="white" font-size="13" font-weight="bold">2. Read Trimming</text>
+  <text x="260" y="261" text-anchor="middle" fill="white" font-size="11">Trim Galore / fastp</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="269" x2="260" y2="295" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Alignment -->
+  <rect x="120" y="300" width="280" height="44" rx="8" fill="#e67e22" filter="url(#shadow)"/>
+  <text x="260" y="320" text-anchor="middle" fill="white" font-size="13" font-weight="bold">3. Alignment</text>
+  <text x="260" y="336" text-anchor="middle" fill="white" font-size="11">BWA-MEM2 + SAMtools sort/index</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="344" x2="260" y2="370" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 5: Mark Duplicates -->
+  <rect x="120" y="375" width="280" height="44" rx="8" fill="#e67e22" filter="url(#shadow)"/>
+  <text x="260" y="395" text-anchor="middle" fill="white" font-size="13" font-weight="bold">4. Mark Duplicates</text>
+  <text x="260" y="411" text-anchor="middle" fill="white" font-size="11">Picard MarkDuplicates</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="419" x2="260" y2="445" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 6: BQSR -->
+  <rect x="120" y="450" width="280" height="44" rx="8" fill="#e67e22" filter="url(#shadow)"/>
+  <text x="260" y="470" text-anchor="middle" fill="white" font-size="13" font-weight="bold">5. Base Quality Recalibration</text>
+  <text x="260" y="486" text-anchor="middle" fill="white" font-size="11">GATK BaseRecalibrator + ApplyBQSR</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="494" x2="260" y2="520" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 7: HaplotypeCaller -->
+  <rect x="120" y="525" width="280" height="44" rx="8" fill="#9b59b6" filter="url(#shadow)"/>
+  <text x="260" y="545" text-anchor="middle" fill="white" font-size="13" font-weight="bold">6. Variant Calling</text>
+  <text x="260" y="561" text-anchor="middle" fill="white" font-size="11">GATK HaplotypeCaller (GVCF)</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="569" x2="260" y2="595" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 8: Joint Genotyping -->
+  <rect x="120" y="600" width="280" height="44" rx="8" fill="#9b59b6" filter="url(#shadow)"/>
+  <text x="260" y="620" text-anchor="middle" fill="white" font-size="13" font-weight="bold">7. Joint Genotyping</text>
+  <text x="260" y="636" text-anchor="middle" fill="white" font-size="11">GATK GenotypeGVCFs</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="644" x2="260" y2="670" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 9: Filtering -->
+  <rect x="120" y="675" width="280" height="44" rx="8" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="260" y="695" text-anchor="middle" fill="white" font-size="13" font-weight="bold">8. Variant Filtering</text>
+  <text x="260" y="711" text-anchor="middle" fill="white" font-size="11">GATK VariantFiltration (hard filters)</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="719" x2="260" y2="745" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 10: Annotation -->
+  <rect x="120" y="750" width="280" height="44" rx="8" fill="#e74c3c" filter="url(#shadow)"/>
+  <text x="260" y="770" text-anchor="middle" fill="white" font-size="13" font-weight="bold">9. Variant Annotation</text>
+  <text x="260" y="786" text-anchor="middle" fill="white" font-size="11">SnpEff / VEP</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="794" x2="260" y2="820" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Output -->
+  <rect x="140" y="825" width="240" height="44" rx="22" fill="#2c3e50" filter="url(#shadow)"/>
+  <text x="260" y="851" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Annotated VCF</text>
+
+  <!-- Legend -->
+  <rect x="30" y="885" width="12" height="12" rx="2" fill="#2ecc71"/>
+  <text x="47" y="896" font-size="10" fill="#555">QC/Trim</text>
+  <rect x="120" y="885" width="12" height="12" rx="2" fill="#e67e22"/>
+  <text x="137" y="896" font-size="10" fill="#555">Alignment/Processing</text>
+  <rect x="280" y="885" width="12" height="12" rx="2" fill="#9b59b6"/>
+  <text x="297" y="896" font-size="10" fill="#555">Variant Calling</text>
+  <rect x="400" y="885" width="12" height="12" rx="2" fill="#e74c3c"/>
+  <text x="417" y="896" font-size="10" fill="#555">Filtering/Annotation</text>
+</svg>

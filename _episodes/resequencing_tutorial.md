@@ -48,28 +48,7 @@ published: true
 
 ## The Variant Calling Workflow
 
-```
-Raw FASTQ (DNA reads)
-    │
-    ├── FastQC → MultiQC (QC)
-    ├── Trim Galore / fastp (trimming)
-    │
-    ├── BWA-MEM2 (alignment to reference genome)
-    │       │
-    │       └── SAMtools sort + index
-    │
-    ├── Picard MarkDuplicates (remove PCR duplicates)
-    │
-    ├── GATK BaseRecalibrator + ApplyBQSR (BQSR)
-    │
-    ├── GATK HaplotypeCaller (variant calling → GVCF)
-    │
-    ├── GATK GenotypeGVCFs (joint genotyping)
-    │
-    ├── GATK VariantFiltration (hard filtering)
-    │
-    └── SnpEff / VEP (variant annotation)
-```
+<img src="{{ page.root }}/fig/reseq_workflow.svg" alt="Resequencing and Variant Calling Workflow" style="max-width:520px; width:100%;"/>
 
 ---
 
@@ -78,10 +57,12 @@ Raw FASTQ (DNA reads)
 ### Create Conda Environment
 
 ```bash
-conda create -n reseq -c bioconda -c conda-forge python=3.11 \
-  fastqc trim-galore bwa-mem2 samtools picard gatk4 \
-  snpeff multiqc bcftools plink
+conda create -n reseq -c bioconda -c conda-forge python=3.11
 conda activate reseq
+
+conda install -c bioconda -c conda-forge fastqc trim-galore bwa-mem2 samtools
+conda install -c bioconda -c conda-forge picard gatk4 bcftools
+conda install -c bioconda -c conda-forge snpeff multiqc plink
 ```
 
 ### Verify Installations
@@ -108,7 +89,7 @@ cd ~/bch709/reseq
 For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS dataset from the 1001 Genomes Project. Download using SRA tools:
 
 ```bash
-conda install -c bioconda sra-tools
+conda install -c bioconda -c conda-forge sra-tools
 cd ~/bch709/reseq
 
 # Arabidopsis accession Col-0 re-sequencing (SRR519585)
