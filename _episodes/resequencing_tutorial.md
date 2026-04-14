@@ -78,16 +78,10 @@ Raw FASTQ (DNA reads)
 ### Create Conda Environment
 
 ```bash
-conda create -n reseq python=3.11
-conda activate reseq
-```
-
-### Install Tools
-
-```bash
-conda install -c bioconda -c conda-forge \
+conda create -n reseq -c bioconda -c conda-forge python=3.11 \
   fastqc trim-galore bwa-mem2 samtools picard gatk4 \
   snpeff multiqc bcftools plink
+conda activate reseq
 ```
 
 ### Verify Installations
@@ -167,9 +161,9 @@ multiqc --dirs ~/bch709/reseq --filename trim
 
 ```bash
 # Arabidopsis TAIR10 reference (example)
-wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz
-gunzip TAIR10_chr_all.fas.gz
-mv TAIR10_chr_all.fas reference.fasta
+wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz --no-check-certificate
+gunzip Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz
+mv Arabidopsis_thaliana.TAIR10.dna.toplevel.fa reference.fasta
 ```
 
 ### Create BWA-MEM2 Index
