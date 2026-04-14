@@ -154,8 +154,12 @@ pwd
 
 ### Conda environment
 ```bash
-conda create -n RNASEQ_bch709 -c bioconda -c conda-forge  -c r  sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools multiqc subread
+conda create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11
 conda activate RNASEQ_bch709
+
+conda install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
+conda install -c bioconda -c conda-forge trinity gffread seqkit kraken2 fastp
+pip install multiqc
 ```
 
 > ## SRA
@@ -253,7 +257,7 @@ fastq-dump SRR1761511 --split-3 --outdir ./raw_data  --gzip
 ```
 
 
-## Trim-galore
+## Read Trimming with fastp
 ```bash
 cd  ~/bch709_scratch/RNA-Seq_example/ATH
 nano trim.sh
@@ -270,12 +274,12 @@ nano trim.sh
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
 
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761506 raw_data/SRR1761506_1.fastq.gz raw_data/SRR1761506_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761507  raw_data/SRR1761507_1.fastq.gz raw_data/SRR1761507_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761508 raw_data/SRR1761508_1.fastq.gz raw_data/SRR1761508_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761509 raw_data/SRR1761509_1.fastq.gz raw_data/SRR1761509_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761510 raw_data/SRR1761510_1.fastq.gz raw_data/SRR1761510_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761511 raw_data/SRR1761511_1.fastq.gz raw_data/SRR1761511_2.fastq.gz --fastqc
+fastp --in1 raw_data/SRR1761506_1.fastq.gz --in2 raw_data/SRR1761506_2.fastq.gz --out1 trim/SRR1761506_1.trimmed.fq.gz --out2 trim/SRR1761506_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761506_fastp.html --json trim/SRR1761506_fastp.json
+fastp --in1 raw_data/SRR1761507_1.fastq.gz --in2 raw_data/SRR1761507_2.fastq.gz --out1 trim/SRR1761507_1.trimmed.fq.gz --out2 trim/SRR1761507_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761507_fastp.html --json trim/SRR1761507_fastp.json
+fastp --in1 raw_data/SRR1761508_1.fastq.gz --in2 raw_data/SRR1761508_2.fastq.gz --out1 trim/SRR1761508_1.trimmed.fq.gz --out2 trim/SRR1761508_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761508_fastp.html --json trim/SRR1761508_fastp.json
+fastp --in1 raw_data/SRR1761509_1.fastq.gz --in2 raw_data/SRR1761509_2.fastq.gz --out1 trim/SRR1761509_1.trimmed.fq.gz --out2 trim/SRR1761509_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761509_fastp.html --json trim/SRR1761509_fastp.json
+fastp --in1 raw_data/SRR1761510_1.fastq.gz --in2 raw_data/SRR1761510_2.fastq.gz --out1 trim/SRR1761510_1.trimmed.fq.gz --out2 trim/SRR1761510_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761510_fastp.html --json trim/SRR1761510_fastp.json
+fastp --in1 raw_data/SRR1761511_1.fastq.gz --in2 raw_data/SRR1761511_2.fastq.gz --out1 trim/SRR1761511_1.trimmed.fq.gz --out2 trim/SRR1761511_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761511_fastp.html --json trim/SRR1761511_fastp.json
 ```
 
 ## Reference downloads
@@ -335,7 +339,7 @@ nano index.sh
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles   phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa  --sjdbGTFfile TAIR10_GFF3_genes.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles   phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa  --sjdbGTFfile TAIR10_GFF3_genes.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 ## Mapping the reads to genome index
@@ -357,17 +361,17 @@ nano align.sh
 #SBATCH --partition=cpu-core-0
 #SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761506.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761506.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761507.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761507_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761507.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761508.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761508_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761508.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761509.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761509_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761509.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761510.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761510_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761510.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
 ```bash
 conda install -c conda-forge tree
@@ -440,7 +444,7 @@ fastq-dump SRR16287550 --split-3 --outdir ~/bch709_scratch/RNA-Seq_example/Droso
 ```
 
 
-## fastq trim
+## Read Trimming with fastp
 ```bash
 cd ~/bch709_scratch/RNA-Seq_example/Drosophila
 mkdir trim
@@ -459,12 +463,12 @@ nano trim.sh
 #SBATCH -o trim.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287545 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287546  ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287547 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287549 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287548 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR16287550 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_1.fastq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_2.fastq.gz --fastqc
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287545_2.fastq.gz --out1 trim/SRR16287545_1.trimmed.fq.gz --out2 trim/SRR16287545_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287545_fastp.html --json trim/SRR16287545_fastp.json
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287546_2.fastq.gz --out1 trim/SRR16287546_1.trimmed.fq.gz --out2 trim/SRR16287546_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287546_fastp.html --json trim/SRR16287546_fastp.json
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287547_2.fastq.gz --out1 trim/SRR16287547_1.trimmed.fq.gz --out2 trim/SRR16287547_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287547_fastp.html --json trim/SRR16287547_fastp.json
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287549_2.fastq.gz --out1 trim/SRR16287549_1.trimmed.fq.gz --out2 trim/SRR16287549_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287549_fastp.html --json trim/SRR16287549_fastp.json
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287548_2.fastq.gz --out1 trim/SRR16287548_1.trimmed.fq.gz --out2 trim/SRR16287548_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287548_fastp.html --json trim/SRR16287548_fastp.json
+fastp --in1 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/bch709_scratch/RNA-Seq_example/Drosophila/raw_data/SRR16287550_2.fastq.gz --out1 trim/SRR16287550_1.trimmed.fq.gz --out2 trim/SRR16287550_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287550_fastp.html --json trim/SRR16287550_fastp.json
 ```
 ## Reference donwload
 
@@ -495,7 +499,7 @@ nano index.sh
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 48g --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel-all-chromosome-r6.42.fasta --sjdbGTFfile dmel-all-r6.42.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel-all-chromosome-r6.42.fasta --sjdbGTFfile dmel-all-r6.42.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
@@ -516,17 +520,17 @@ nano mapping.sh
 #SBATCH --partition=cpu-core-0
 #SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_Drosophila)>
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287547.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287547.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287548.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287548_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287548.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287549.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287549_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287549.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287550.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287550_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287550.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287545.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287545_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287545.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_1.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_val_2.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287546.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287546_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287546.bam
 ```
 
 

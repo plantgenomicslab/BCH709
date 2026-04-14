@@ -109,8 +109,9 @@ source ~/.bashrc
 ## Using Conda Environment
 
 ```bash
-conda create -n RNASEQ_bch709 -c bioconda -c conda-forge sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools multiqc subread
+conda create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11 sra-tools minimap2 trinity star fastp gffread seqkit kraken2 samtools subread
 conda activate RNASEQ_bch709
+pip install multiqc
 ```
 
 ## Connecting Scratch Disk
@@ -251,7 +252,7 @@ fastq-dump SRR1761510 --split-3 --outdir ~/scratch/raw_data --gzip
 fastq-dump SRR1761511 --split-3 --outdir ~/scratch/raw_data --gzip
 ```
 
-### Trimming Reads with Trim-Galore
+### Trimming Reads with fastp
 
 Submit a trimming job:
 
@@ -269,16 +270,15 @@ nano trim.sh
 #SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o trim.out
 
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761506 raw_data/SRR1761506_1.fastq.gz raw_data/SRR1761506_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761507  raw_data/SRR1761507_1.fastq.gz raw_data/SRR1761507_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761508 raw_data/SRR1761508_1.fastq.gz raw_data/SRR1761508_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761509 raw_data/SRR1761509_1.fastq.gz raw_data/SRR1761509_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761510 raw_data/SRR1761510_1.fastq.gz raw_data/SRR1761510_2.fastq.gz --fastqc
-trim_galore --paired   --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2  --max_n 40  --gzip -o trim --basename SRR1761511 raw_data/SRR1761511_1.fastq.gz raw_data/SRR1761511_2.fastq.gz --fastqc
+fastp --in1 raw_data/SRR1761506_1.fastq.gz --in2 raw_data/SRR1761506_2.fastq.gz --out1 trim/SRR1761506_1.trimmed.fq.gz --out2 trim/SRR1761506_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761506_fastp.html --json trim/SRR1761506_fastp.json
+fastp --in1 raw_data/SRR1761507_1.fastq.gz --in2 raw_data/SRR1761507_2.fastq.gz --out1 trim/SRR1761507_1.trimmed.fq.gz --out2 trim/SRR1761507_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761507_fastp.html --json trim/SRR1761507_fastp.json
+fastp --in1 raw_data/SRR1761508_1.fastq.gz --in2 raw_data/SRR1761508_2.fastq.gz --out1 trim/SRR1761508_1.trimmed.fq.gz --out2 trim/SRR1761508_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761508_fastp.html --json trim/SRR1761508_fastp.json
+fastp --in1 raw_data/SRR1761509_1.fastq.gz --in2 raw_data/SRR1761509_2.fastq.gz --out1 trim/SRR1761509_1.trimmed.fq.gz --out2 trim/SRR1761509_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761509_fastp.html --json trim/SRR1761509_fastp.json
+fastp --in1 raw_data/SRR1761510_1.fastq.gz --in2 raw_data/SRR1761510_2.fastq.gz --out1 trim/SRR1761510_1.trimmed.fq.gz --out2 trim/SRR1761510_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761510_fastp.html --json trim/SRR1761510_fastp.json
+fastp --in1 raw_data/SRR1761511_1.fastq.gz --in2 raw_data/SRR1761511_2.fastq.gz --out1 trim/SRR1761511_1.trimmed.fq.gz --out2 trim/SRR1761511_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR1761511_fastp.html --json trim/SRR1761511_fastp.json
 ```
 ### References:
 
 - Conda Documentation: https://docs.conda.io/en/latest/
 - BioConda: https://bioconda.github.io/
-``` 
 
