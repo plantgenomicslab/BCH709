@@ -60,7 +60,7 @@ published: true
 conda create -n reseq -c bioconda -c conda-forge python=3.11
 conda activate reseq
 
-conda install -c bioconda -c conda-forge fastqc trim-galore bwa-mem2 samtools
+conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
 conda install -c bioconda -c conda-forge picard gatk4 bcftools
 conda install -c bioconda -c conda-forge snpeff multiqc plink
 ```
@@ -123,13 +123,15 @@ multiqc .
 ## 3. Read Trimming
 
 ```bash
-trim_galore \
-  --paired \
-  --cores 4 \
-  --fastqc \
-  --gzip \
-  -o trim \
-  wgs_R1.fastq.gz wgs_R2.fastq.gz
+mkdir -p trim
+fastp \
+  --in1 wgs_R1.fastq.gz \
+  --in2 wgs_R2.fastq.gz \
+  --out1 trim/wgs_R1_trimmed.fq.gz \
+  --out2 trim/wgs_R2_trimmed.fq.gz \
+  --thread 4 \
+  --html trim/fastp_report.html \
+  --json trim/fastp_report.json
 
 multiqc --dirs ~/bch709/reseq --filename trim
 ```
@@ -185,8 +187,8 @@ bwa-mem2 mem \
   -t 8 \
   -R "@RG\tID:sample1\tSM:sample1\tPL:ILLUMINA\tLB:lib1\tPU:unit1" \
   reference.fasta \
-  trim/wgs_R1_val_1.fq.gz \
-  trim/wgs_R2_val_2.fq.gz \
+  trim/wgs_R1_trimmed.fq.gz \
+  trim/wgs_R2_trimmed.fq.gz \
   | samtools sort -@ 4 -o sample1.bam
 
 samtools index sample1.bam
@@ -507,7 +509,7 @@ For GWAS workflows, see the [GWAS tutorial]({{site.baseurl}}/episodes/GWAS/).
 | Step | Tool | Input | Output |
 |------|------|-------|--------|
 | QC | FastQC + MultiQC | FASTQ | HTML report |
-| Trim | Trim Galore | FASTQ | Trimmed FASTQ |
+| Trim | fastp | FASTQ | Trimmed FASTQ |
 | Align | BWA-MEM2 | FASTQ + Reference | BAM |
 | Sort/Index | SAMtools | BAM | Sorted BAM |
 | Mark duplicates | Picard | BAM | Markdup BAM |
