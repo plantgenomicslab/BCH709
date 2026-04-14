@@ -85,9 +85,13 @@ conda create -n chipseq -c bioconda -c conda-forge python=3.11
 conda activate chipseq
 
 conda install -c bioconda -c conda-forge fastqc fastp minimap2 samtools
-conda install -c bioconda -c conda-forge picard deeptools macs3
+conda install -c bioconda -c conda-forge openjdk=17 picard deeptools macs3
 conda install -c bioconda -c conda-forge homer bedtools idr
 pip install multiqc
+
+# Fix libcrypto library error for samtools / bcftools (if you see:
+#   "error while loading shared libraries: libcrypto.so.1.0.0")
+ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
 ```
 
 > **Note:** `multiqc` is installed via `pip` because the conda package has dependency conflicts with Python 3.11. R packages (`ChIPseeker`, `DiffBind`) are installed separately within R (see Sections 13–14).

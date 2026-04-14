@@ -158,8 +158,12 @@ conda create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11
 conda activate RNASEQ_bch709
 
 conda install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
-conda install -c bioconda -c conda-forge trinity gffread seqkit kraken2 fastp
+conda install -c bioconda -c conda-forge openjdk=17 trinity gffread seqkit kraken2 fastp
 pip install multiqc
+
+# Fix libcrypto library error for samtools (if you see:
+#   "error while loading shared libraries: libcrypto.so.1.0.0")
+ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
 ```
 
 > ## SRA

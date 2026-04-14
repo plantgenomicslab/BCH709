@@ -61,9 +61,13 @@ conda create -n reseq -c bioconda -c conda-forge python=3.11
 conda activate reseq
 
 conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
-conda install -c bioconda -c conda-forge picard gatk4 bcftools
+conda install -c bioconda -c conda-forge openjdk=17 picard gatk4 bcftools
 conda install -c bioconda -c conda-forge snpeff plink
 pip install multiqc
+
+# Fix libcrypto library error for samtools / bcftools (if you see:
+#   "error while loading shared libraries: libcrypto.so.1.0.0")
+ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
 ```
 
 ### Verify Installations
