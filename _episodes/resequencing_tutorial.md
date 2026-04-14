@@ -60,7 +60,7 @@ published: true
 conda create -n reseq -c bioconda -c conda-forge python=3.11
 conda activate reseq
 
-conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
+conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools sra-tools
 conda install -c bioconda -c conda-forge picard gatk4 bcftools
 conda install -c bioconda -c conda-forge snpeff plink
 pip install multiqc
@@ -90,11 +90,11 @@ cd ~/bch709/reseq
 For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS dataset from the 1001 Genomes Project. Download using SRA tools:
 
 ```bash
-conda install -c bioconda -c conda-forge sra-tools
 cd ~/bch709/reseq
 
 # Arabidopsis accession Col-0 re-sequencing (SRR519585)
-fasterq-dump --split-files SRR519585 -O .
+prefetch SRR519585
+fasterq-dump --split-files SRR519585/SRR519585.sra -O .
 mv SRR519585_1.fastq wgs_R1.fastq
 mv SRR519585_2.fastq wgs_R2.fastq
 gzip wgs_R1.fastq wgs_R2.fastq
