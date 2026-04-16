@@ -174,7 +174,7 @@ We connect to the cluster using **SSH** (Secure Shell) — a program that opens 
 
 **Before you start, know which terminal to use:**
 
-- **Mac / Linux** — open the built-in **Terminal** app. SSH is already installed.
+- **Mac / Linux** — open **iTerm2** (recommended on Mac) or any terminal emulator you prefer. SSH is already installed system-wide.
 - **Windows** — open **WSL (Ubuntu)** that you set up earlier in the course. Alternatively, MobaXterm or PuTTY also work.
 
 Now log in (replace `<YOUR_NET_ID>` with your actual NetID, e.g., `jdoe`):
@@ -199,7 +199,17 @@ To leave the cluster and return to your laptop, type `exit` or press `Ctrl-D`.
 
 The default prompt on Pronghorn is just `$` — easy to confuse with your laptop's terminal when you have several windows open. A colored prompt showing your username, host, time, and current directory makes it obvious where you are.
 
-`~/.bashrc` runs every time you open a new shell, so anything you append there becomes permanent. **Run this once, inside your SSH session:**
+`~/.bashrc` runs every time you open a new shell, so anything you append there becomes permanent.
+
+> ## ⚠️ RUN THIS ONCE — ONLY ONCE!
+> These commands use `>>` which **appends** to `~/.bashrc`. If you run them a second time, you'll get a duplicate prompt setup (and a third time → triplicate, and so on) — your `~/.bashrc` will grow every time and the prompt may break.
+>
+> **Do this one time only**, right after your first login. After that, just open a new SSH session — the prompt is already there permanently.
+>
+> If you accidentally ran it multiple times, open `~/.bashrc` with `nano ~/.bashrc` and delete the extra copies (each block starts with `###BCH709`).
+{: .callout}
+
+Run this **once**, inside your SSH session:
 
 ```bash
 echo '###BCH709' >> ~/.bashrc
@@ -208,7 +218,17 @@ echo "alias ls='ls --color=auto'" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-The last line, `source ~/.bashrc`, re-loads the file so the changes take effect immediately — you don't have to log out and back in. From now on, every new SSH session will already look this way.
+The last line, `source ~/.bashrc`, re-loads the file so the changes take effect immediately — you don't have to log out and back in. From now on, **every new SSH session will already look this way** — you do NOT need to re-run these commands.
+
+#### How to check whether you already ran it
+
+```bash
+grep '###BCH709' ~/.bashrc | wc -l
+```
+
+- `0` → you haven't run it yet, go ahead
+- `1` → perfect, already set up, **don't run it again**
+- `2` or more → you ran it too many times; open `~/.bashrc` and delete the duplicate blocks
 
 ## Transferring Files
 
@@ -265,17 +285,18 @@ The `:` between the host and the path is **mandatory** — without it, `scp` thi
 scp <source_file>  <username>@pronghorn.rc.unr.edu:<target_location>
 ```
 
-Try this end-to-end as a sanity check (run from your **laptop terminal**, not from inside SSH):
-
-```bash
-# 1. Make a small test file on your laptop
-mkdir ~/bch709
-cd ~/bch709
-echo "hello world" > test_uploading_file.txt
-
-# 2. Copy it to your home directory on Pronghorn
-scp test_uploading_file.txt <username>@pronghorn.rc.unr.edu:~/
-```
+> ### 📝 Example — upload sanity check (run from your **laptop terminal**, not from inside SSH)
+>
+> ```bash
+> # 1. Make a small test file on your laptop
+> mkdir -p ~/bch709              # -p = no error if the folder already exists
+> cd ~/bch709
+> echo "hello world" > test_uploading_file.txt
+>
+> # 2. Copy it to your home directory on Pronghorn
+> scp test_uploading_file.txt <username>@pronghorn.rc.unr.edu:~/
+> ```
+{: .callout}
 
 `scp` will ask for your NetID password (no characters appear as you type — that's normal). When it finishes you'll see a progress line like:
 
@@ -306,12 +327,13 @@ Just **flip the order** — put the remote path first (as the source) and a loca
 scp <username>@pronghorn.rc.unr.edu:<source_file>  <destination>
 ```
 
-Example:
-
-```bash
-# Pull a file from your Pronghorn home into your laptop's current directory
-scp <username>@pronghorn.rc.unr.edu:~/test_downloading_file.txt  ./
-```
+> ### 📝 Example
+>
+> ```bash
+> # Pull a file from your Pronghorn home into your laptop's current directory
+> scp <username>@pronghorn.rc.unr.edu:~/test_downloading_file.txt  ./
+> ```
+{: .callout}
 
 `./` means "right here, in the directory I'm currently in." You can also give a specific destination folder:
 
@@ -327,11 +349,12 @@ A folder can contain many files and subfolders, so `scp` refuses to copy it unle
 scp -r <source_directory>  <username>@pronghorn.rc.unr.edu:<target_directory>
 ```
 
-Example — upload a whole project folder:
-
-```bash
-scp -r ~/bch709  <username>@pronghorn.rc.unr.edu:~/
-```
+> ### 📝 Example — upload a whole project folder
+>
+> ```bash
+> scp -r ~/bch709  <username>@pronghorn.rc.unr.edu:~/
+> ```
+{: .callout}
 
 This creates `~/bch709/` on Pronghorn containing everything inside your local `~/bch709/`.
 
@@ -352,8 +375,8 @@ scp file1.txt file2.txt file3.txt  <username>@pronghorn.rc.unr.edu:~/bch709/
 Or use a shell wildcard (`*`) to match a pattern:
 
 ```bash
-# Upload every .fastq.gz file in the current folder
-scp *.fastq.gz  <username>@pronghorn.rc.unr.edu:~/scratch/raw_data/
+# Upload every .txt file in the current folder to your bch709 home folder
+scp *.txt  <username>@pronghorn.rc.unr.edu:~/bch709/
 ```
 
 #### 5. Useful `scp` flags
@@ -421,13 +444,13 @@ The flags `-avhP` mean: `a`rchive (preserve permissions/timestamps), `v`erbose, 
 
 ## Installing Micromamba (Package Manager)
 
-### What's a "package manager" and why do I need one?
+> ## 📚 Already covered earlier
+> The concepts of **package managers**, **Conda/Micromamba**, and **environments** were introduced in the [Conda, Compile & Software Installations](../compile/index.html) lesson (Week 3). If you need a refresher on *what* a package manager is and *why* we use Micromamba, go read that lesson first.
+>
+> This section just shows you **how to install Micromamba specifically on Pronghorn** and build the RNA-Seq environment we'll use for the rest of the course.
+{: .callout}
 
-On the cluster you don't have admin (`sudo`) rights — you can't install software the normal way. A **package manager** solves this by installing tools into a folder inside your home directory that only you control. No admin needed, and you can have multiple versions of the same tool side by side without conflicts.
-
-We'll use **Micromamba**. It's a faster, smaller version of Conda that does the same job: creates isolated **environments** (folders that hold a specific set of software). Each environment is independent, so installing something into one project will never break another.
-
-Install it with one command:
+Install Micromamba with one command (run inside your Pronghorn SSH session):
 
 ```bash
 "${SHELL}" <(curl -L https://micro.mamba.pm/install.sh)
@@ -474,6 +497,112 @@ Once activated, your shell prompt will show `(RNASEQ_bch709)` and the installed 
 > ```
 {: .callout}
 
+### How to copy an environment from your laptop to HPC
+
+You often want to develop and test on your laptop first, then **reproduce the exact same environment on Pronghorn**. You don't copy the environment folder directly — that won't work across different operating systems / architectures. Instead, you **export a recipe file**, copy the small recipe, and let Micromamba rebuild the environment on the cluster.
+
+#### Step 1 — Export the environment from your laptop
+
+On your **laptop**, with the environment activated:
+
+```bash
+# Activate the env you want to copy
+micromamba activate RNASEQ_bch709
+
+# Export everything installed in it to a YAML recipe file
+micromamba env export > RNASEQ_bch709.yml
+```
+
+The resulting `RNASEQ_bch709.yml` is a small text file (~5 KB) that lists every package and version. Take a look:
+
+```bash
+head -20 RNASEQ_bch709.yml
+```
+
+You'll see something like:
+
+```yaml
+name: RNASEQ_bch709
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - python=3.11
+  - samtools=1.19
+  - fastp=0.23.4
+  - star=2.7.11b
+  - ...
+```
+
+> ## Tip — which export format to use
+>
+> | Command | What it exports | When to use |
+> |---------|-----------------|-------------|
+> | `micromamba env export` | **Exact versions + builds** (most reproducible) | Sharing with collaborators, archiving for a paper |
+> | `micromamba env export --from-history` | **Only what YOU asked to install** (cleaner, more portable) | Moving between OS / architectures (e.g., Mac → Linux) |
+> | `micromamba env export --no-builds` | Versions but not build strings | Middle ground — usually good enough |
+>
+> If you're going from a **Mac laptop** to **Linux HPC**, use `--from-history` or `--no-builds` — a full export includes Mac-specific build strings that won't resolve on Linux.
+{: .callout}
+
+A cross-platform-friendly export:
+
+```bash
+micromamba env export --from-history > RNASEQ_bch709.yml
+```
+
+#### Step 2 — Copy the recipe file to Pronghorn
+
+From your **laptop terminal**:
+
+```bash
+scp RNASEQ_bch709.yml <username>@pronghorn.rc.unr.edu:~/
+```
+
+The file is tiny, so this takes a second.
+
+#### Step 3 — Rebuild the environment on Pronghorn
+
+SSH into Pronghorn and create the environment from the recipe:
+
+```bash
+ssh <username>@pronghorn.rc.unr.edu
+cd ~
+micromamba env create -f RNASEQ_bch709.yml
+```
+
+Micromamba will download and install every package listed. When it finishes, activate it:
+
+```bash
+micromamba activate RNASEQ_bch709
+which fastp        # should print a path inside ~/micromamba/envs/RNASEQ_bch709/
+fastp --version    # confirm the tool works
+```
+
+You now have an identical environment on Pronghorn.
+
+> ### 📝 Example — full laptop → HPC workflow
+>
+> ```bash
+> # --- On your laptop ---
+> micromamba activate RNASEQ_bch709
+> micromamba env export --from-history > RNASEQ_bch709.yml
+> scp RNASEQ_bch709.yml <netid>@pronghorn.rc.unr.edu:~/
+>
+> # --- Then on Pronghorn (after ssh) ---
+> micromamba env create -f ~/RNASEQ_bch709.yml
+> micromamba activate RNASEQ_bch709
+> which fastp      # verify
+> ```
+{: .callout}
+
+> ## Common pitfalls
+> - **`ResolvePackageNotFound`** — a package in your YAML isn't available for Linux. Fix: edit the YAML and either remove the Mac-only line or replace with a Linux equivalent. Re-running with `--from-history` usually avoids this.
+> - **"Channel not found"** — make sure the YAML lists `- bioconda` and `- conda-forge` under `channels:`.
+> - **Takes forever to solve** — this is normal for big environments; Micromamba is still *much* faster than plain Conda. Grab a coffee.
+> - **Don't `scp` the `envs/` folder itself** — environments contain compiled binaries that are specific to the OS/CPU. Copying them across machines almost never works.
+{: .callout}
+
 ## Setting Up Scratch Storage
 
 ### Why two different storage areas?
@@ -502,7 +631,19 @@ Scratch lives on a **parallel file system** (IBM SpectrumScale / GPFS), meaning 
 
 ### Create your scratch directory
 
-You only do this **once**. After that, the folder is yours and stays put.
+> ## ⚠️ RUN THIS ONCE — ONLY ONCE!
+> These three commands are a **one-time setup**. After you've done them, the folder and the `~/scratch` shortcut stay put forever — you just `cd ~/scratch` from any future session.
+>
+> Specifically, the `ln -s` command (step 3) **will fail if you run it again** because the shortcut already exists:
+>
+> ```
+> ln: failed to create symbolic link '/home/<netid>/scratch': File exists
+> ```
+>
+> Or, worse, if `~/scratch` happens to be a *directory* when you re-run it, `ln -s` will create a nested link *inside* that directory (`~/scratch/<netid>` → loop). So do this **once**, then never again.
+{: .callout}
+
+Run these **only the first time** you log into Pronghorn:
 
 ```bash
 # 1. Create your personal folder inside the class scratch space
@@ -517,9 +658,21 @@ ln -s /data/gpfs/assoc/bch709-6/${USER} ~/scratch
 
 What each line does:
 
-1. **`mkdir -p`** creates your folder under the shared course directory `bch709-6`. The `${USER}` variable expands to your NetID, so each student gets their own space and can't see each other's files. The `-p` flag means "no error if the parent already exists."
+1. **`mkdir -p`** creates your folder under the shared course directory `bch709-6`. The `${USER}` variable expands to your NetID, so each student gets their own space and can't see each other's files. The `-p` flag means "no error if the parent already exists" — safe to re-run.
 2. **`cd`** moves you into the new folder so you can verify it.
-3. **`ln -s`** creates a *symbolic link* (a shortcut) called `~/scratch` that points to the long path. Now `cd ~/scratch` always takes you to your scratch space — much easier to remember and type.
+3. **`ln -s`** creates a *symbolic link* (a shortcut) called `~/scratch` that points to the long path. Now `cd ~/scratch` always takes you to your scratch space — much easier to remember and type. **⚠️ This step is ONE-TIME ONLY** (see the warning above).
+
+#### How to check if you already ran it
+
+Before running the three commands, you can check your current state:
+
+```bash
+ls -la ~/scratch
+```
+
+- **"No such file or directory"** → you haven't run it yet, go ahead with the 3 commands above.
+- **`~/scratch -> /data/gpfs/assoc/bch709-6/<your_netid>`** → perfect, already set up. **Skip all 3 commands.**
+- Something else (a real directory, not a link) → ask the instructor before deleting anything.
 
 ### Verify it worked
 
