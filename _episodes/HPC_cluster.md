@@ -484,8 +484,19 @@ micromamba activate RNASEQ_bch709
 
 micromamba install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
 micromamba install -c bioconda -c conda-forge openjdk=17 trinity gffread seqkit kraken2 fastp
-pip install multiqc
+
+# MultiQC has some fragile dependencies — pin these versions to avoid conflicts
+pip install 'tiktoken<0.8'
+pip install 'numpy<2.0' 'pyarrow<17' multiqc
 ```
+
+> ## Why pin those versions?
+> - **`tiktoken<0.8`** — newer tiktoken needs Rust toolchain; older wheels install cleanly from PyPI.
+> - **`numpy<2.0`** — NumPy 2.0 broke ABI compatibility with many bioinformatics packages; staying on 1.x is safest.
+> - **`pyarrow<17`** — newer PyArrow pulls in a NumPy 2.x dependency that conflicts with the pin above.
+>
+> Without these pins, `multiqc` can fail to install or (worse) install and then crash at runtime with `numpy.dtype size changed` errors.
+{: .callout}
 
 Once activated, your shell prompt will show `(RNASEQ_bch709)` and the installed tools will be on your `PATH`. Use `micromamba deactivate` to leave the environment.
 
