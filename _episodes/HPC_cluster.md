@@ -873,28 +873,125 @@ scancel -p cpu-core-0 -u $USER      # cancel only your jobs on a specific partit
 > - If `scancel` doesn't seem to work, the job may be in `CG` (completing) — give it a few seconds.
 {: .callout}
 
-### Step 7 — Read the log file
+### Step 7 — Understanding log files and error files
 
-Every batch job writes everything it printed to a log file (the `-o` path you set in your `#SBATCH` lines, e.g. `test_12345.out` if you used `-o test_%j.out`). This is your single most important debugging tool.
+When you run a program directly in the terminal, you see its output scroll by on screen. Inside a Slurm job there is **no screen** — the job runs on a compute node with no terminal attached. So Slurm captures everything the program would have printed and writes it to files in the directory you submitted from. These are your **log files**, and they're your single most important debugging tool.
+
+#### stdout and stderr — two separate streams
+
+Every Linux program produces two independent streams of text:
+
+| Stream | Name | What goes there | Example |
+|--------|------|-----------------|---------|
+| **stdout** (standard output) | "normal" output | Results, progress messages, anything the tool intentionally prints | `echo "Hello"`, alignment stats, row counts |
+| **stderr** (standard error) | "error / warning" output | Errors, warnings, diagnostic info | `error: file not found`, `WARNING: low mapping quality`, Python tracebacks |
+
+On your laptop terminal, both streams appear mixed together on the same screen. In Slurm, you choose where each one goes using `#SBATCH` directives.
+
+#### `-o` and `-e`: where the output goes
+
+| Directive | Controls | Default (if omitted) |
+|-----------|----------|---------------------|
+| `-o <path>` | Where **stdout** is written | `slurm-<jobid>.out` in the submission directory |
+| `-e <path>` | Where **stderr** is written | Same file as `-o` (mixed together) |
+
+**The `%j` placeholder** — Slurm replaces `%j` with the actual job ID, so logs from many runs don't overwrite each other:
 
 ```bash
-ls *.out                       # find the log
-cat test_12345.out             # print the whole log
-tail -f test_12345.out         # follow it live while the job runs (Ctrl-C to stop)
-less test_12345.out            # browse a long log (q to quit)
-grep -i "error\|warn" test_12345.out   # quickly find errors / warnings
+#SBATCH -o trim_%j.out      # → trim_12345.out
+#SBATCH -e trim_%j.err      # → trim_12345.err
 ```
 
-> ## Tip — separate stdout and stderr
-> By default `-o` captures both normal output and errors mixed together. To split them, add `-e`:
->
-> ```bash
-> #SBATCH -o trim_%j.out      # normal messages
-> #SBATCH -e trim_%j.err      # errors only
-> ```
->
-> `%j` always expands to the job ID, so logs from many runs don't overwrite each other.
+#### Option 1: Everything in one file (simplest)
+
+If you only specify `-o` and omit `-e`, both stdout and stderr go into the **same** file, interleaved in the order they were printed. This is the default and is fine for most jobs:
+
+```bash
+#SBATCH -o myjob_%j.out     # all output + errors mixed together
+```
+
+**Pros:** One file to check. Nothing gets lost in a separate file you forgot about.
+**Cons:** If a tool prints 10,000 lines of normal output, a single error line can be hard to find.
+
+#### Option 2: Separate stdout and stderr (recommended for real work)
+
+Add `-e` to send errors to their own file:
+
+```bash
+#SBATCH -o myjob_%j.out     # normal messages only
+#SBATCH -e myjob_%j.err     # errors and warnings only
+```
+
+**Pros:** The `.err` file is either empty (great — no errors!) or contains *only* problems, making debugging much faster. You can check errors with just `cat myjob_12345.err`.
+**Cons:** Two files per job instead of one. Some tools print important info to stderr (common in bioinformatics), so always check `.err` too, not just `.out`.
+
+> ## Which option should I use?
+> For learning / test jobs: **Option 1** (one file) is fine — less to think about.
+> For real analysis scripts with many steps: **Option 2** (separate) is better — when something breaks at 3 AM, you want `cat *.err` to show you exactly what went wrong.
 {: .callout}
+
+#### How to read the log files
+
+```bash
+# List all log files, newest first
+ls -lt *.out *.err 2>/dev/null
+
+# Print the whole log
+cat myjob_12345.out
+
+# Browse a long log interactively (q to quit, / to search)
+less myjob_12345.out
+
+# Follow the log LIVE while the job is still running (Ctrl-C to stop watching)
+tail -f myjob_12345.out
+
+# Show only the last 50 lines (quick "how did it end?")
+tail -50 myjob_12345.out
+
+# Jump straight to errors / warnings anywhere in the file
+grep -in "error\|warn\|fail\|killed\|oom" myjob_12345.out
+
+# If you used separate stderr, check for errors first — empty = no problems
+cat myjob_12345.err
+```
+
+> ## What to look for in the log
+> 1. **End of file** — did it print "Done" or just stop mid-sentence? A truncated log usually means OOM or timeout.
+> 2. **Exit code** — some tools print `exit status: 0` (success) or a non-zero number (failure) at the end.
+> 3. **Timestamps** — if your script prints `date` at the start and end (like our test script does), you'll know exactly how long each step took.
+> 4. **Error keywords** — search for `error`, `Error`, `ERROR`, `WARN`, `fail`, `killed`, `Segmentation fault`, `oom-kill`. These words mean something went wrong.
+{: .callout}
+
+#### A real-world example
+
+Suppose your `trim.sh` job finishes and you see this in `squeue`:
+
+```
+(nothing — the job is gone from the queue)
+```
+
+Was it successful? Here's how to find out:
+
+```bash
+# 1. Check how it ended
+sacct -j 12345 --format=JobID,State,ExitCode
+#   → COMPLETED 0:0   means success
+#   → FAILED 1:0      means the script exited with an error
+#   → OUT_OF_ME+       means it ran out of RAM
+
+# 2. Look at the log
+tail -20 trim.out
+#   → last lines should be fastp finishing the 6th sample
+
+# 3. Check for errors (if you used -e)
+cat trim_12345.err
+#   → empty? Great, no errors.
+#   → has text? Read it — that's what went wrong.
+
+# 4. Verify the output files actually exist
+ls -lh ~/scratch/trim/
+#   → you should see 12 trimmed .fq.gz files + 6 .html reports
+```
 
 ### Step 8 — Inspect a finished job (`sacct`)
 
@@ -988,13 +1085,253 @@ ls -lt *.out | head    # newest log files first
 tail -50 trim_12345.out
 ```
 
-> ## Common Slurm mistakes
-> - **Job stuck in `PD` forever** — you asked for more resources than the partition has, or used the wrong account/partition. Run `squeue -j <ID> --start` and `sinfo` to investigate.
-> - **Job killed with "Out Of Memory" / `OOM`** — bump `--mem` (check actual usage with `sacct ... MaxRSS`).
-> - **Job killed with `TIMEOUT`** — bump `--time`, or split the work into smaller pieces.
-> - **Tool only uses one core even though I asked for 8** — most bioinformatics tools need their own threads flag (`--threads N`, `-p`, `-t`, `-@`) to actually use the cores you reserved.
-> - **Forgot `micromamba activate`** in the script — `command not found` errors. Always activate inside the script, not just on the login node.
-> - **Job runs but nothing happens in scratch** — you forgot to `cd` into your scratch directory inside the script (Slurm starts in the directory you ran `sbatch` from, but it's safer to `cd` explicitly).
+### Debugging failed jobs — a step-by-step guide
+
+Your job will fail at some point. That's normal — even experienced users fail jobs regularly. The important thing is knowing **how to figure out what went wrong**. Here's a systematic approach.
+
+#### The 5-step debugging workflow
+
+Every time a job fails (or produces wrong/empty output), follow these steps in order:
+
+```
+Step 1: What state is the job in?     → sacct
+Step 2: What does the error file say? → cat *.err
+Step 3: What does the log file say?   → tail *.out
+Step 4: Can I reproduce the error?    → run the command interactively
+Step 5: Fix and resubmit              → edit script, sbatch again
+```
+
+#### Step 1 — Check the job state with `sacct`
+
+```bash
+sacct -j <JOBID> --format=JobID,JobName,State,ExitCode,MaxRSS,Elapsed
+```
+
+The **State** and **ExitCode** columns tell you the category of failure:
+
+| State | ExitCode | What happened | What to do |
+|-------|----------|---------------|------------|
+| `COMPLETED` | `0:0` | Ran to the end successfully | If output is wrong, the bug is in your *commands*, not Slurm |
+| `FAILED` | `1:0` or `2:0` etc. | Your script/command hit an error and exited | Go to Step 2 — read the error file |
+| `FAILED` | `0:1` | Slurm killed the job (signal received) | Likely OOM — check Step 2 for `oom-kill` |
+| `OUT_OF_MEMORY` | `0:125` | Ran out of RAM | Increase `--mem` (see "OOM" section below) |
+| `TIMEOUT` | `0:1` | Hit the `--time` limit | Increase `--time`, or your script is stuck in a loop |
+| `CANCELLED` | `0:0` | You (or an admin) cancelled it | Intentional? If not, check if a hook or limit triggered it |
+| `NODE_FAIL` | varies | The compute node crashed | Not your fault — just resubmit with `sbatch` |
+
+#### Step 2 — Read the error file
+
+```bash
+# If you used separate -e:
+cat <jobname>_<jobid>.err
+
+# If you didn't use -e (everything in one file):
+grep -in "error\|warn\|fail\|killed\|traceback\|exception\|abort\|segfault" <jobname>_<jobid>.out
+```
+
+**Read the FIRST error.** When one thing fails, it often causes a cascade of secondary errors. The first error is the root cause; everything after it is noise.
+
+#### Step 3 — Read the end of the log file
+
+```bash
+tail -30 <jobname>_<jobid>.out
+```
+
+The last lines show you **how far the script got** before it died. Did it finish downloading sample 3 and die on sample 4? Did it never get past `micromamba activate`? This narrows the problem to one specific command.
+
+#### Step 4 — Reproduce the error interactively
+
+This is the **most powerful debugging technique** and the one beginners skip most often. Instead of resubmitting and waiting, start an **interactive session** on a compute node and run the failing command by hand:
+
+```bash
+# Request an interactive shell on a compute node (small, just for testing)
+srun -A cpu-s5-bch709-6 -p cpu-core-0 --cpus-per-task=2 --mem=4g \
+     --time=00:30:00 --pty bash
+```
+
+Now you're on a compute node with a live terminal. Activate your environment and run the failing command manually:
+
+```bash
+micromamba activate RNASEQ_bch709
+
+# Run the exact command that failed — copy it from your script
+fastp --in1 raw_data/SRR1761506_1.fastq.gz --in2 raw_data/SRR1761506_2.fastq.gz ...
+```
+
+You'll see the error happen in real time, with the full context. This is much faster than the submit-wait-check-log cycle.
+
+Type `exit` to leave the interactive session when you're done.
+
+> ## `srun` vs `sbatch`
+> - `sbatch` — **batch** mode: submit a script and walk away. Output goes to a log file.
+> - `srun` — **interactive** mode: opens a live terminal on a compute node. You type commands and see output immediately, like on the login node — but with compute-node resources.
+>
+> Use `srun` for testing and debugging. Use `sbatch` for real work you want to run unattended.
+{: .callout}
+
+#### Step 5 — Fix and resubmit
+
+Once you know what went wrong, edit the script and submit again:
+
+```bash
+nano trim.sh            # fix the problem
+sbatch trim.sh          # new job, new job ID
+squeue -u $USER         # confirm it's queued
+```
+
+> ## Don't edit and re-submit blindly
+> Before resubmitting, **clean up any partial output** from the failed run. For example, if `fastq-dump` downloaded 3 of 6 files before failing, those 3 files are still in `~/scratch/raw_data/`. Depending on the tool, leftover partial files can cause the next run to silently produce wrong results or skip steps.
+>
+> ```bash
+> ls -lh ~/scratch/raw_data/    # check what's there
+> # if partially downloaded: rm the incomplete file and resubmit
+> ```
+{: .callout}
+
+---
+
+### Common problems and how to fix them
+
+Here are the most frequent failures, what they look like, and exactly how to fix each one.
+
+#### Problem: `command not found`
+
+```
+trim.sh: line 14: fastp: command not found
+```
+
+**Cause:** You forgot to activate the Micromamba environment inside the script.
+
+**Fix:** Add `micromamba activate RNASEQ_bch709` near the top of your script, *before* any bioinformatics commands:
+
+```bash
+#!/bin/bash
+#SBATCH ...
+micromamba activate RNASEQ_bch709    # ← add this line
+fastp ...
+```
+
+> ## Why the login node activation doesn't carry over
+> When you type `micromamba activate` on the login node and then `sbatch`, the batch job starts a **brand new shell** on a compute node. That new shell doesn't inherit the login node's environment — it starts from scratch. So you must activate inside every script.
+{: .callout}
+
+#### Problem: `No such file or directory`
+
+```
+fastp: error: cannot open raw_data/SRR1761506_1.fastq.gz: No such file or directory
+```
+
+**Cause:** Slurm runs your script in the directory where you ran `sbatch`. If you submitted from `~` but your data is in `~/scratch/`, the paths don't match.
+
+**Fix:** Add an explicit `cd` at the top of your script:
+
+```bash
+#!/bin/bash
+#SBATCH ...
+micromamba activate RNASEQ_bch709
+cd ~/scratch                         # ← add this line
+fastp --in1 raw_data/SRR1761506_1.fastq.gz ...
+```
+
+Or use absolute paths everywhere: `--in1 ~/scratch/raw_data/SRR1761506_1.fastq.gz`.
+
+**How to confirm:** Run `pwd` right before the failing command (add `echo "Running in: $(pwd)"` to your script).
+
+#### Problem: `OUT_OF_MEMORY` (OOM kill)
+
+```
+slurmstepd: error: Detected 1 oom_kill event in StepId=12345.batch. Some of the step tasks have been OOM Killed.
+```
+
+**Cause:** Your program tried to use more RAM than you reserved with `--mem`.
+
+**Debug:**
+
+```bash
+# Check how much it actually used before dying
+sacct -j 12345 --format=JobID,MaxRSS,ReqMem
+```
+
+**Fix:** Increase `--mem`. A safe rule: set it to **2x the MaxRSS** from your last attempt (to leave headroom):
+
+```bash
+# Was:  #SBATCH --mem=4g    ← too small
+# Now:  #SBATCH --mem=16g   ← doubled + headroom
+```
+
+#### Problem: `TIMEOUT`
+
+```
+CANCELLED AT 2026-04-16T10:00:00 DUE TO TIME LIMIT
+```
+
+**Cause:** The job ran longer than your `--time` setting.
+
+**Debug:**
+
+```bash
+sacct -j 12345 --format=JobID,Elapsed,TimelimitRaw
+```
+
+**Fix:** Increase `--time`. Or check if your script is stuck in an infinite loop — look at the end of the log to see if it was making progress or repeating the same step.
+
+#### Problem: Job stuck in `PD` (pending) forever
+
+**Debug:**
+
+```bash
+squeue -j 12345 -o "%i %T %r"
+# The last column shows the REASON
+```
+
+| Reason | Fix |
+|--------|-----|
+| `(Resources)` | Cluster is busy — just wait. Or reduce `--mem`/`--cpus-per-task` to fit on more nodes. |
+| `(Priority)` | Higher-priority jobs are ahead of you — wait. |
+| `(QOSMaxJobsPerUserLimit)` | You have too many jobs running — wait for some to finish, or `scancel` ones you don't need. |
+| `(InvalidAccount)` | Wrong `--account` — re-check with `sacctmgr show user $USER withassoc ...` |
+
+#### Problem: Tool runs but uses only 1 core (slow)
+
+**Cause:** Slurm reserved 8 cores for you, but the tool doesn't automatically use them — most bioinformatics tools need an explicit flag.
+
+**Fix:** Match the tool's thread flag to `--cpus-per-task`:
+
+```bash
+#SBATCH --cpus-per-task=8
+
+# Each tool has its own flag name:
+fastp    --thread 8
+samtools -@ 8
+STAR     --runThreadN 8
+minimap2 -t 8
+```
+
+If `--cpus-per-task=8` but the tool doesn't have a threads flag, you're wasting 7 cores. Drop `--cpus-per-task` to 1.
+
+#### Problem: Job finishes but output files are empty or missing
+
+**Possible causes:**
+
+1. **Wrong output path** — the files were written somewhere else. Check `pwd` in the script and the `--outdir` / `--out` flags.
+2. **Input file was empty** — the previous step failed silently. Check input file sizes: `ls -lh raw_data/*.fastq.gz` (0 bytes = empty).
+3. **Tool failed but exit code was 0** — some tools don't return proper error codes. Always check the log for warning messages even when `sacct` says `COMPLETED`.
+
+**Debug approach:**
+
+```bash
+# 1. Where did the script run?
+grep "pwd\|Running in" myjob_12345.out
+
+# 2. Are the input files real?
+ls -lh ~/scratch/raw_data/*.fastq.gz    # 0 bytes = problem
+
+# 3. Any hidden warnings?
+grep -i "warn\|skip\|empty\|0 reads" myjob_12345.out
+```
+
+> ## The golden rule of debugging
+> **Change ONE thing at a time, then resubmit.** If you change `--mem`, `--time`, and the command all at once, you won't know which fix actually solved the problem — and you'll be lost again next time.
 {: .callout}
 
 ## Workflow: Download and Clean RNA-Seq Data
