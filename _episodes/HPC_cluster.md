@@ -501,23 +501,22 @@ pip install 'numpy<2.0' 'pyarrow<17' multiqc
 Once activated, your shell prompt will show `(RNASEQ_bch709)` and the installed tools will be on your `PATH`. Use `micromamba deactivate` to leave the environment.
 
 > ## Fix: `libcrypto.so.1.0.0` error in samtools
-> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment. **Make sure the environment is activated first** so the path variable is set correctly:
+> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment. Under Micromamba, use the **explicit environment path** — don't rely on `$CONDA_PREFIX` (it's a Conda variable and may not be set in a plain Micromamba shell):
 >
 > ```bash
-> # 1. Activate the environment (this sets $CONDA_PREFIX to the env folder)
-> micromamba activate RNASEQ_bch709
+> # 1. Find the env path (should print ~/micromamba/envs/RNASEQ_bch709)
+> micromamba info --envs | grep RNASEQ_bch709
 >
-> # 2. Create the symlink
-> ln -s $CONDA_PREFIX/lib/libcrypto.so.1.1 $CONDA_PREFIX/lib/libcrypto.so.1.0.0
-> ```
->
-> **Why `$CONDA_PREFIX` works under Micromamba:** when you run `micromamba activate <env>`, Micromamba sets `$CONDA_PREFIX` (for compatibility with the conda ecosystem) to the full path of the active environment — e.g. `~/micromamba/envs/RNASEQ_bch709`. You can verify with `echo $CONDA_PREFIX`.
->
-> **Alternative — use the explicit path** if you'd rather not rely on the variable:
->
-> ```bash
+> # 2. Create the symlink using that explicit path
 > ln -s ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.1 \
 >       ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.0.0
+> ```
+>
+> **Prefer a variable?** Set one yourself from `micromamba info`:
+>
+> ```bash
+> ENV_PREFIX=$(micromamba info --envs | awk '/RNASEQ_bch709/ {print $NF}')
+> ln -s "$ENV_PREFIX/lib/libcrypto.so.1.1" "$ENV_PREFIX/lib/libcrypto.so.1.0.0"
 > ```
 >
 > **Run this only once** per environment — re-running will fail with `File exists`. If that happens, it means the symlink is already there and `samtools` should work.
