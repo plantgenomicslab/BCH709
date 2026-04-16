@@ -209,7 +209,7 @@ Include a brief AI use statement with submissions:
 | Week11 | 4/7/2026  | Tuesday  | [BLAST](BLAST/index.html)                                          |
 | Week11 | 4/9/2026  | Thursday | [Resequencing Tutorial](resequencing_tutorial/index.html)          |
 | Week12 | 4/14/2026 | Tuesday  | [ChIP-Seq Tutorial](chipseq_tutorial/index.html)                   |
-| Week12 | 4/16/2026 | Thursday | Hi-C Tutorial                                                      |
+| Week12 | 4/16/2026 | Thursday | [HPC Cluster](HPC_cluster/index.html)                              |
 | Week13 | 4/21/2026 | Tuesday  | HPC                                                                |
 | Week13 | 4/23/2026 | Thursday | HPC                                                                |
 | Week14 | 4/28/2026 | Tuesday  | Enrichment analysis                                                |
