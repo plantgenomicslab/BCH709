@@ -501,36 +501,53 @@ pip install 'numpy<2.0' 'pyarrow<17' multiqc
 Once activated, your shell prompt will show `(RNASEQ_bch709)` and the installed tools will be on your `PATH`. Use `micromamba deactivate` to leave the environment.
 
 > ## Fix: `libcrypto.so.1.0.0` error in samtools
-> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment:
+> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment. **Make sure the environment is activated first** so the path variable is set correctly:
 >
 > ```bash
-> ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
+> # 1. Activate the environment (this sets $CONDA_PREFIX to the env folder)
+> micromamba activate RNASEQ_bch709
+>
+> # 2. Create the symlink
+> ln -s $CONDA_PREFIX/lib/libcrypto.so.1.1 $CONDA_PREFIX/lib/libcrypto.so.1.0.0
 > ```
+>
+> **Why `$CONDA_PREFIX` works under Micromamba:** when you run `micromamba activate <env>`, Micromamba sets `$CONDA_PREFIX` (for compatibility with the conda ecosystem) to the full path of the active environment — e.g. `~/micromamba/envs/RNASEQ_bch709`. You can verify with `echo $CONDA_PREFIX`.
+>
+> **Alternative — use the explicit path** if you'd rather not rely on the variable:
+>
+> ```bash
+> ln -s ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.1 \
+>       ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.0.0
+> ```
+>
+> **Run this only once** per environment — re-running will fail with `File exists`. If that happens, it means the symlink is already there and `samtools` should work.
 {: .callout}
 
 ### How to copy an environment from your laptop to HPC
 
 You often want to develop and test on your laptop first, then **reproduce the exact same environment on Pronghorn**. You don't copy the environment folder directly — that won't work across different operating systems / architectures. Instead, you **export a recipe file**, copy the small recipe, and let Micromamba rebuild the environment on the cluster.
 
-#### Step 1 — Export the environment from your laptop
+#### Step 1 — Export the environment from your laptop (Mac → Linux safe)
+
+A **plain** `micromamba env export` records the **exact build strings** of every package (e.g. `samtools=1.19=h50ea8bc_0`). Those build strings are tied to the OS/CPU you exported from — on a Mac they look like `*_h...` / `*_osx64_*` / `*_arm64_*`, and Linux simply doesn't have those builds. That's where the dreaded `PackagesNotFoundError` / `ResolvePackageNotFound` comes from.
+
+**The fix: export only what you explicitly installed, and strip build strings.** Then on the Linux side Micromamba will pick the matching Linux build automatically.
 
 On your **laptop**, with the environment activated:
 
 ```bash
-# Activate the env you want to copy
+# 1. Activate the env you want to copy
 micromamba activate RNASEQ_bch709
 
-# Export everything installed in it to a YAML recipe file
-micromamba env export > RNASEQ_bch709.yml
+# 2. Export ONLY the packages you asked for (no build strings, no OS-specific deps)
+micromamba env export --from-history --no-builds > RNASEQ_bch709.yml
 ```
 
-The resulting `RNASEQ_bch709.yml` is a small text file (~5 KB) that lists every package and version. Take a look:
+Take a look — it should be small and clean:
 
 ```bash
 head -20 RNASEQ_bch709.yml
 ```
-
-You'll see something like:
 
 ```yaml
 name: RNASEQ_bch709
@@ -545,22 +562,24 @@ dependencies:
   - ...
 ```
 
-> ## Tip — which export format to use
+> ## Why `--from-history --no-builds` avoids Mac→Linux errors
 >
-> | Command | What it exports | When to use |
-> |---------|-----------------|-------------|
-> | `micromamba env export` | **Exact versions + builds** (most reproducible) | Sharing with collaborators, archiving for a paper |
-> | `micromamba env export --from-history` | **Only what YOU asked to install** (cleaner, more portable) | Moving between OS / architectures (e.g., Mac → Linux) |
-> | `micromamba env export --no-builds` | Versions but not build strings | Middle ground — usually good enough |
+> | Command | What it records | Mac → Linux? |
+> |---------|-----------------|--------------|
+> | `micromamba env export` | Every package + **exact Mac build string** | ❌ fails — Linux has no `*osx*` builds |
+> | `micromamba env export --no-builds` | Every package, versions only | ⚠️ usually works, but transitive deps may still be Mac-only |
+> | `micromamba env export --from-history --no-builds` | **Only packages you installed**, versions only | ✅ recommended for Mac → Linux |
 >
-> If you're going from a **Mac laptop** to **Linux HPC**, use `--from-history` or `--no-builds` — a full export includes Mac-specific build strings that won't resolve on Linux.
+> `--from-history` keeps only the packages **you** asked for; Micromamba re-solves all the dependencies fresh on Linux, so you never carry Mac-specific transitive packages across.
 {: .callout}
 
-A cross-platform-friendly export:
+**Before you `scp` it, sanity-check the YAML** — make sure no line contains `osx-64`, `osx-arm64`, or a build hash like `=h1234abc_0`:
 
 ```bash
-micromamba env export --from-history > RNASEQ_bch709.yml
+grep -E 'osx|=h[a-f0-9]+_' RNASEQ_bch709.yml   # should print nothing
 ```
+
+If that command prints anything, re-export with `--from-history --no-builds` (you likely forgot one of the flags).
 
 #### Step 2 — Copy the recipe file to Pronghorn
 
@@ -572,14 +591,16 @@ scp RNASEQ_bch709.yml <username>@pronghorn.rc.unr.edu:~/
 
 The file is tiny, so this takes a second.
 
-#### Step 3 — Rebuild the environment on Pronghorn
+#### Step 3 — Rebuild the environment on Pronghorn (force linux-64)
 
-SSH into Pronghorn and create the environment from the recipe:
+SSH into Pronghorn and create the environment from the recipe. The `--platform linux-64` flag tells Micromamba to **only** consider Linux x86_64 builds, so even if a stray Mac hint sneaked into the YAML it will be ignored:
 
 ```bash
 ssh <username>@pronghorn.rc.unr.edu
 cd ~
-micromamba env create -f RNASEQ_bch709.yml
+
+# Force Linux x86_64 builds no matter what the YAML says
+micromamba env create -f RNASEQ_bch709.yml --platform linux-64
 ```
 
 Micromamba will download and install every package listed. When it finishes, activate it:
@@ -592,26 +613,43 @@ fastp --version    # confirm the tool works
 
 You now have an identical environment on Pronghorn.
 
-> ### 📝 Example — full laptop → HPC workflow
+> ### 📝 Example — full laptop → HPC workflow (Mac → Linux, error-free)
 >
 > ```bash
-> # --- On your laptop ---
+> # --- On your Mac laptop ---
 > micromamba activate RNASEQ_bch709
-> micromamba env export --from-history > RNASEQ_bch709.yml
+> micromamba env export --from-history --no-builds > RNASEQ_bch709.yml
+> grep -E 'osx|=h[a-f0-9]+_' RNASEQ_bch709.yml   # must print nothing
 > scp RNASEQ_bch709.yml <netid>@pronghorn.rc.unr.edu:~/
 >
 > # --- Then on Pronghorn (after ssh) ---
-> micromamba env create -f ~/RNASEQ_bch709.yml
+> micromamba env create -f ~/RNASEQ_bch709.yml --platform linux-64
 > micromamba activate RNASEQ_bch709
 > which fastp      # verify
 > ```
 {: .callout}
 
-> ## Common pitfalls
-> - **`ResolvePackageNotFound`** — a package in your YAML isn't available for Linux. Fix: edit the YAML and either remove the Mac-only line or replace with a Linux equivalent. Re-running with `--from-history` usually avoids this.
-> - **"Channel not found"** — make sure the YAML lists `- bioconda` and `- conda-forge` under `channels:`.
-> - **Takes forever to solve** — this is normal for big environments; Micromamba is still *much* faster than plain Conda. Grab a coffee.
-> - **Don't `scp` the `envs/` folder itself** — environments contain compiled binaries that are specific to the OS/CPU. Copying them across machines almost never works.
+> ## Common Mac → Linux pitfalls (and fixes)
+>
+> - **`PackagesNotFoundError` / `ResolvePackageNotFound` on a build like `samtools=1.19=h50ea8bc_0`**
+>   → You exported with build strings. Re-export on the Mac with `--from-history --no-builds` and try again.
+>
+> - **A specific package name doesn't exist on Linux** (rare — usually a Mac-only GUI tool)
+>   → Open `RNASEQ_bch709.yml` on Pronghorn with `nano`, delete that line, re-run `micromamba env create ... --platform linux-64`.
+>
+> - **Apple Silicon (M1/M2/M3) Mac → Linux HPC**
+>   → Your laptop env may be `osx-arm64`. `--from-history --no-builds` + `--platform linux-64` handles this; **do not** try to copy the `envs/` folder.
+>
+> - **"Channel not found"**
+>   → Make sure the YAML lists both `- bioconda` and `- conda-forge` under `channels:`. If missing, add them and re-run.
+>
+> - **Solver hangs / takes forever**
+>   → Normal for big bio environments. Micromamba is still much faster than plain Conda. If it truly stalls, pin fewer versions (`samtools` instead of `samtools=1.19`) and retry.
+>
+> - **"prefix already exists"**
+>   → The env was partially created before. Remove it first: `micromamba env remove -n RNASEQ_bch709`, then re-create.
+>
+> - **Don't `scp` the `envs/` folder itself** — environments contain compiled binaries that are specific to the OS/CPU. Copying them across Mac ↔ Linux almost never works.
 {: .callout}
 
 ## Setting Up Scratch Storage
