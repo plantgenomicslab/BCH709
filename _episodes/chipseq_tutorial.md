@@ -81,20 +81,37 @@ Raw FASTQ (ChIP + Input/Control)
 ### Create Conda Environment
 
 ```bash
-conda create -n chipseq -c bioconda -c conda-forge python=3.11
+conda create -n chipseq -c bioconda -c conda-forge python=3.11 -y
 conda activate chipseq
 
-conda install -c bioconda -c conda-forge fastqc fastp minimap2 samtools
-conda install -c bioconda -c conda-forge openjdk=17 picard deeptools macs3
-conda install -c bioconda -c conda-forge homer bedtools idr
-pip install multiqc
+# Core alignment + QC tools (via conda)
+conda install -c bioconda -c conda-forge fastqc fastp minimap2 samtools -y
+conda install -c bioconda -c conda-forge openjdk=17 picard bedtools -y
 
-# Fix libcrypto library error for samtools / bcftools (if you see:
-#   "error while loading shared libraries: libcrypto.so.1.0.0")
-ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
+# MACS3 and deepTools install cleanest via pip (conda has dependency conflicts)
+pip install macs3 deeptools multiqc
+
+# HOMER (optional, for motif analysis — large download)
+conda install -c bioconda homer -y
+
+# IDR (optional, for replicate reproducibility analysis)
+# NOTE: the pip package named "idr" is unrelated; install from GitHub:
+pip install git+https://github.com/nboley/idr.git
 ```
 
-> **Note:** `multiqc` is installed via `pip` because the conda package has dependency conflicts with Python 3.11. R packages (`ChIPseeker`, `DiffBind`) are installed separately within R (see Sections 13–14).
+> **Note on conda errors:** if you see `TypeError: 'NoneType' object is not iterable` from `conda install`, your conda solver is too old. Either upgrade conda (`conda update -n base conda`) or add `--solver=libmamba` to each install command.
+{: .callout}
+
+> **Note:** R packages (`ChIPseeker`, `DiffBind`) are installed separately within R (see Sections 13–14).
+{: .callout}
+
+> **libcrypto fix (if samtools reports missing library):**
+> ```bash
+> # Check which libcrypto is present first
+> ls ${CONDA_PREFIX}/lib/libcrypto.so.*
+> # Symlink it (use the actual version you see, often .so.3 on modern installs)
+> ln -sf ${CONDA_PREFIX}/lib/libcrypto.so.3 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
+> ```
 {: .callout}
 
 ### Verify Installations
@@ -150,17 +167,29 @@ Use only antibodies validated for ChIP:
 
 ### Download Example Data
 
+We use CTCF ChIP-Seq on human K562 cells (ENCODE experiment `ENCSR000DWE`) together with its matching input control (`ENCSR000DWA`). All three files are single-end 36 bp Illumina reads aligned to hg19.
+
 ```bash
 cd ~/bch709/chipseq
 
-# Example: CTCF ChIP-Seq (human K562, from ENCODE)
-# ChIP replicate 1
-wget https://www.encodeproject.org/files/ENCFF001NQP/@@download/ENCFF001NQP.fastq.gz -O chip_R1.fastq.gz
-# Input control
-wget https://www.encodeproject.org/files/ENCFF001NQQ/@@download/ENCFF001NQQ.fastq.gz -O input.fastq.gz
+# CTCF ChIP-Seq on human K562 (ENCODE ENCSR000DWE)
+wget https://www.encodeproject.org/files/ENCFF001HTP/@@download/ENCFF001HTP.fastq.gz -O chip.fastq.gz
+
+# Matching input control for K562 (ENCODE ENCSR000DWA)
+wget https://www.encodeproject.org/files/ENCFF001HTT/@@download/ENCFF001HTT.fastq.gz -O input.fastq.gz
+
+ls -lh *.fastq.gz   # expect ~910MB and ~690MB respectively
 ```
 
-> For ENCODE data, browse experiments at [encodeproject.org](https://www.encodeproject.org) and download FASTQ files directly.
+> **Verify the download:** ENCODE's S3 URLs are large (~1 GB each). If `wget` gets interrupted, the file will be truncated and later steps (fastp, minimap2) fail with `unexpected end of file`. Always validate:
+> ```bash
+> gunzip -t chip.fastq.gz && echo "chip OK"   # should print "chip OK"
+> gunzip -t input.fastq.gz && echo "input OK"
+> ```
+> If the test fails, resume with `wget -c <url>` (the `-c` flag continues from where it stopped).
+{: .callout}
+
+> For ENCODE data, browse experiments at [encodeproject.org](https://www.encodeproject.org) and download FASTQ files directly. Each experiment page lists its "Controls" — always pair ChIP files with their matching input, not a random control.
 
 ### Run FastQC
 
@@ -198,8 +227,8 @@ mkdir -p trim
 
 # Trim ChIP sample
 fastp \
-  --in1 chip_R1.fastq.gz \
-  --out1 trim/chip_R1_trimmed.fq.gz \
+  --in1 chip.fastq.gz \
+  --out1 trim/chip_trimmed.fq.gz \
   --qualified_quality_phred 20 \
   --length_required 25 \
   --thread 4 \
@@ -228,15 +257,22 @@ multiqc trim/ -n trim_report
 
 ### Download Reference
 
-```bash
-# Human hg38 (example: chr1 only for tutorial)
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr1.fa.gz
-gunzip chr1.fa.gz
-mv chr1.fa reference.fasta
+Our example FASTQs (ENCFF001HTP / ENCFF001HTT) are from early ENCODE and were aligned to **hg19**. For full-genome mapping we download the full assembly; for a quick tutorial run, chr19 alone (~58 MB) is enough.
 
-# Or download the full genome
-# wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
+```bash
+# Option A — full hg19 genome (~3 GB after decompression, recommended)
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+gunzip hg19.fa.gz
+mv hg19.fa reference.fasta
+
+# Option B — chr19 only, for a fast tutorial run (small disk / short time)
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr19.fa.gz
+gunzip chr19.fa.gz
+mv chr19.fa reference.fasta
 ```
+
+> **Using Option B (single chromosome)?** Only reads that map to chr19 will align (~2–6% of total reads). This is fine for testing pipeline commands but won't give biologically meaningful peak counts. For real analysis use Option A.
+{: .callout}
 
 ### Create FASTA Index
 
@@ -271,11 +307,14 @@ Minimap2 uses the `-ax sr` preset for short Illumina reads.
 ### Align ChIP Sample
 
 ```bash
-minimap2 -ax sr -t 4 reference.mmi trim/chip_R1_trimmed.fq.gz \
+set -o pipefail   # so any failure in the pipe is caught
+
+minimap2 -ax sr -t 4 reference.mmi trim/chip_trimmed.fq.gz \
   2> chip.minimap2.log \
   | samtools sort -@ 4 -o chip.bam
 
 samtools index chip.bam
+samtools quickcheck chip.bam && echo "chip BAM OK"
 samtools flagstat chip.bam
 ```
 
@@ -385,11 +424,18 @@ bamCompare \
   --bamfile1 chip.dedup.bam \
   --bamfile2 input.dedup.bam \
   --outFileName chip_vs_input.bw \
+  --scaleFactorsMethod None \
   --normalizeUsing RPKM \
   --operation log2 \
   --binSize 10 \
   --numberOfProcessors 4
 ```
+
+> **Common Error — `--normalizeUsing RPKM` is only valid if you also use `--scaleFactorsMethod None`!**
+>
+> **Cause:** `bamCompare` applies scaling in two places by default; combining both with RPKM is a conflict.
+> **Fix:** Always pass `--scaleFactorsMethod None` when using `--normalizeUsing RPKM` (shown above).
+{: .callout}
 
 ### Visualize in IGV
 
@@ -429,11 +475,16 @@ plotCorrelation \
   --corData multibam.npz \
   --corMethod pearson \
   --skipZeros \
-  --plotType heatmap \
+  --whatToPlot heatmap \
   --colorMap RdYlBu \
   --plotFile correlation.png \
   --outFileCorMatrix correlation.txt
 ```
+
+> **Common Error — `error: the following arguments are required: --whatToPlot/-p`**
+>
+> Older documentation often says `--plotType` but current `plotCorrelation` uses `--whatToPlot` (valid values: `heatmap`, `scatterplot`).
+{: .callout}
 
 **Target:** Pearson correlation between biological replicates > 0.9
 
@@ -470,6 +521,17 @@ macs3 callpeak \
   --qvalue 0.05 \
   2>&1 | tee macs3_narrow.log
 ```
+
+> **Common Error — `MACS3 needs at least 100 paired peaks at + and - strand to build the model, but can only find 0`**
+>
+> **Cause:** MACS3 tries to build a fragment-size model from strand-paired peaks. With low-depth data (or a single chromosome / small reference), it can't find enough peaks to model.
+> **Fix:** Bypass the model and set a fixed fragment size (147 bp is a reasonable default for nucleosome-associated reads):
+> ```bash
+> macs3 callpeak -t chip.dedup.bam -c input.dedup.bam --format BAM --gsize hs \
+>     --name chip_narrow --outdir macs3_narrow --qvalue 0.05 \
+>     --nomodel --extsize 147
+> ```
+{: .callout}
 
 ### Broad Peak Calling (H3K27me3, H3K36me3, H3K9me3)
 
@@ -531,12 +593,24 @@ awk '$9 > 2' macs3_narrow/chip_narrow_peaks.narrowPeak > chip_narrow_filtered.be
 
 Visualize ChIP signal around features (e.g., TSS, peak centers).
 
-### Download Gene Annotation
+### Download Gene Annotation and Build TSS BED
 
 ```bash
-wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/refGene.txt.gz
-# Or use a BED/GTF file with TSS coordinates
+# Download refGene table (UCSC format: tab-separated text)
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
+gunzip refGene.txt.gz
+
+# Build a BED file of transcription start sites (TSS = txStart on +, txEnd on -)
+awk 'BEGIN{OFS="\t"} {
+    if ($4=="+") print $3, $5, $5+1, $2, "0", $4;
+    else         print $3, $6-1, $6, $2, "0", $4
+}' refGene.txt | sort -k1,1 -k2,2n | uniq > TSS.bed
+
+head TSS.bed
+wc -l TSS.bed
 ```
+
+The resulting `TSS.bed` has one row per transcript, with coordinates pointing to the exact TSS base.
 
 ### Compute Signal Matrix Around TSS
 
@@ -731,6 +805,26 @@ idr \
   --log-output-file idr.log
 ```
 
+> **Common Error — `AttributeError: module 'numpy' has no attribute 'int'`**
+>
+> IDR 2.0.3 is not compatible with NumPy ≥ 1.20 (where `np.int` was removed).
+> **Fix:** Downgrade NumPy in the chipseq env, or use the bioconda build (which patches this):
+> ```bash
+> pip install "numpy<1.20"
+> # OR use the bioconda-packaged idr:
+> conda install -c bioconda idr
+> ```
+{: .callout}
+
+> **Common Error — `idr: Image Data Repository access library` (wrong package)**
+>
+> `pip install idr` pulls a completely unrelated package (for microscopy images). Always install from the Kundaje/Boley repo:
+> ```bash
+> pip uninstall idr -y
+> pip install git+https://github.com/nboley/idr.git
+> ```
+{: .callout}
+
 ---
 
 ## 16. Full Workflow Summary
@@ -755,10 +849,33 @@ idr \
 
 ---
 
-## 17. Cleanup
+## 17. Troubleshooting — Quick Reference
+
+| Problem | Section | Quick Fix |
+|---------|---------|-----------|
+| `TypeError: 'NoneType' object is not iterable` from conda | 1. Setup | Old conda solver — `conda update -n base conda` or add `--solver=libmamba` |
+| `libcrypto.so.1.0.0: cannot open` | 1. Setup | `ln -sf ${CONDA_PREFIX}/lib/libcrypto.so.3 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0` |
+| `fastp: igzip: unexpected eof` | 3. QC | FASTQ download was truncated — check with `gunzip -t`, resume with `wget -c` |
+| `samtools quickcheck` EOF missing | 6. Align | BAM write was interrupted — delete and re-run |
+| MACS3 `Total number of paired peaks: 0` | 10. MACS3 | Low depth — add `--nomodel --extsize 147` |
+| `--normalizeUsing RPKM is only valid if you also use --scaleFactorsMethod None` | 8. bamCompare | Add `--scaleFactorsMethod None` |
+| `plotCorrelation: error: --whatToPlot required` | 9. deepTools | Use `--whatToPlot heatmap` (not `--plotType`) |
+| IDR `module 'numpy' has no attribute 'int'` | 15. IDR | `pip install "numpy<1.20"` or use bioconda idr |
+| IDR `Image Data Repository access library` installed | 1. Setup | Wrong package — install from `git+https://github.com/nboley/idr.git` |
+| HOMER `findMotifsGenome.pl: command not found` | 12. HOMER | `conda install -c bioconda homer` and `configureHomer.pl -install hg19` |
+
+---
+
+## 18. Cleanup
 
 ```bash
+# Remove large intermediate files when done
+rm -f chip.bam chip.bam.bai chip.filt.bam chip.filt.bam.bai
+rm -f input.bam input.bam.bai input.filt.bam input.filt.bam.bai
+rm -rf trim/
+
 conda deactivate
+# Optional: remove environment entirely
 conda env remove --name chipseq
 ```
 
