@@ -627,6 +627,9 @@ bcftools stats cohort.snps.filtered.vcf.gz | grep "^SN"
 # Keep only PASS variants
 bcftools view -f PASS -O z -o cohort.snps.pass.vcf.gz cohort.snps.filtered.vcf.gz
 
+# Index the filtered VCF (required for region queries)
+tabix -p vcf cohort.snps.pass.vcf.gz
+
 # Extract specific genomic region
 # Note: Ensembl TAIR10 uses "1", "2", ... (not "Chr1", "Chr2")
 bcftools view cohort.snps.pass.vcf.gz 1:100000-200000
@@ -648,16 +651,16 @@ SnpEff predicts the functional effect of each variant (missense, nonsense, synon
 # List available databases
 snpEff databases | grep -i arabidopsis
 
-# Download database (example: Arabidopsis TAIR10)
-# Note: the exact database name may vary by SnpEff version.
-# Use the output of the command above to find the correct name.
-snpEff download athalianaTair10
+# Download database
+# For SnpEff 5.x, the database name is "Arabidopsis_thaliana"
+# Use the output of the command above to confirm the exact name.
+snpEff download Arabidopsis_thaliana
 ```
 
 ### Annotate Variants
 
 ```bash
-snpEff -v athalianaTair10 cohort.snps.pass.vcf.gz > cohort.snps.annotated.vcf
+snpEff Arabidopsis_thaliana cohort.snps.pass.vcf.gz > cohort.snps.annotated.vcf
 
 # snpEff also generates snpEff_summary.html and snpEff_genes.txt
 ```
