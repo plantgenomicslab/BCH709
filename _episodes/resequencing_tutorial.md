@@ -52,6 +52,19 @@ published: true
 
 ---
 
+## 0. Prerequisites
+
+> **Disk Space:** This tutorial requires at least **30 GB of free disk space**. Each sample generates ~5 GB of intermediate files (BAM, markdup BAM, recal BAM, GVCF). Check your available space before starting:
+>
+> ```bash
+> df -h .
+> ```
+>
+> If disk space is limited, follow the cleanup tips marked with the label **[Cleanup]** after each major step.
+{: .callout}
+
+---
+
 ## 1. Environment Setup
 
 ### Create Conda Environment
@@ -62,12 +75,11 @@ conda activate reseq
 
 conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
 conda install -c bioconda -c conda-forge openjdk=17 picard gatk4 bcftools
-conda install -c bioconda -c conda-forge snpeff plink
+conda install -c bioconda -c conda-forge snpeff plink tabix
 pip install multiqc
 
-# Fix libcrypto library error for samtools / bcftools (if you see:
-#   "error while loading shared libraries: libcrypto.so.1.0.0")
-ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
+# Clean conda package cache to free disk space
+conda clean --all -y
 ```
 
 ### Verify Installations
@@ -93,7 +105,7 @@ cd ~/bch709/reseq
 
 ### Download Example Data
 
-For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS dataset from the 1001 Genomes Project. We download directly from the European Nucleotide Archive (ENA), which provides pre-built FASTQ files.
+For this tutorial, we use publicly available *Arabidopsis thaliana* WGS datasets from the 1001 Genomes Project. We download **two samples** so that we can demonstrate joint genotyping later.
 
 > **Note:** The SRA Toolkit (`fasterq-dump`, `fastq-dump`) is known to cause segmentation faults on WSL (Windows Subsystem for Linux). Downloading FASTQ files directly from ENA avoids this issue entirely.
 {: .callout}
@@ -103,9 +115,14 @@ For this tutorial, we use a publicly available *Arabidopsis thaliana* WGS datase
 ```bash
 cd ~/bch709/reseq
 
-# Arabidopsis accession Col-0 re-sequencing (SRR519585)
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_1.fastq.gz -O wgs_R1.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_2.fastq.gz -O wgs_R2.fastq.gz
+# Sample 1: Col-0 re-sequencing (SRR519585)
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_1.fastq.gz -O sample1_R1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_2.fastq.gz -O sample1_R2.fastq.gz
+
+# Sample 2: TBO-01 re-sequencing (SRR519586)
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519586/SRR519586_1.fastq.gz -O sample2_R1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519586/SRR519586_2.fastq.gz -O sample2_R2.fastq.gz
+
 ls -lh
 ```
 
@@ -114,8 +131,14 @@ ls -lh
 ```bash
 cd ~/bch709/reseq
 
-wget "https://www.dropbox.com/scl/fi/8fy6hrhczh7v23ojqox5r/wgs_R1.fastq.gz?rlkey=nmanzksfbtm76xer4jesq2vuy&dl=1" -O wgs_R1.fastq.gz
-wget "https://www.dropbox.com/scl/fi/kt29bt8c29vf9i294xeek/wgs_R2.fastq.gz?rlkey=8xm8lk839jqcz2qfjlzx4gqle&dl=1" -O wgs_R2.fastq.gz
+# Sample 1
+wget "https://www.dropbox.com/scl/fi/8fy6hrhczh7v23ojqox5r/wgs_R1.fastq.gz?rlkey=nmanzksfbtm76xer4jesq2vuy&dl=1" -O sample1_R1.fastq.gz
+wget "https://www.dropbox.com/scl/fi/kt29bt8c29vf9i294xeek/wgs_R2.fastq.gz?rlkey=8xm8lk839jqcz2qfjlzx4gqle&dl=1" -O sample1_R2.fastq.gz
+
+# Sample 2 — download from ENA (no Dropbox mirror)
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519586/SRR519586_1.fastq.gz -O sample2_R1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519586/SRR519586_2.fastq.gz -O sample2_R2.fastq.gz
+
 ls -lh
 ```
 
@@ -128,7 +151,7 @@ ls -lh
 
 ```bash
 # -t 4 : use 4 threads
-fastqc -t 4 wgs_R1.fastq.gz wgs_R2.fastq.gz
+fastqc -t 4 sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz
 
 # Aggregate all QC reports into one
 multiqc .
@@ -162,20 +185,40 @@ multiqc .
 ```bash
 mkdir -p trim
 
+# Trim sample 1
 fastp \
-  --in1 wgs_R1.fastq.gz \
-  --in2 wgs_R2.fastq.gz \
-  --out1 trim/wgs_R1_trimmed.fq.gz \
-  --out2 trim/wgs_R2_trimmed.fq.gz \
+  --in1 sample1_R1.fastq.gz \
+  --in2 sample1_R2.fastq.gz \
+  --out1 trim/sample1_R1_trimmed.fq.gz \
+  --out2 trim/sample1_R2_trimmed.fq.gz \
   --detect_adapter_for_pe \
   --qualified_quality_phred 20 \
   --length_required 50 \
   --thread 4 \
-  --html trim/fastp_report.html \
-  --json trim/fastp_report.json
+  --html trim/sample1_fastp_report.html \
+  --json trim/sample1_fastp_report.json
+
+# Trim sample 2
+fastp \
+  --in1 sample2_R1.fastq.gz \
+  --in2 sample2_R2.fastq.gz \
+  --out1 trim/sample2_R1_trimmed.fq.gz \
+  --out2 trim/sample2_R2_trimmed.fq.gz \
+  --detect_adapter_for_pe \
+  --qualified_quality_phred 20 \
+  --length_required 50 \
+  --thread 4 \
+  --html trim/sample2_fastp_report.html \
+  --json trim/sample2_fastp_report.json
 
 multiqc trim/ -n trim_report
 ```
+
+> **[Cleanup]** After trimming, you can remove the original FASTQ files to save disk space:
+> ```bash
+> rm -f sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz
+> ```
+{: .callout}
 
 ---
 
@@ -189,6 +232,9 @@ wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thal
 gunzip Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz
 mv Arabidopsis_thaliana.TAIR10.dna.toplevel.fa reference.fasta
 ```
+
+> **Note:** The Ensembl TAIR10 reference uses chromosome names `1`, `2`, `3`, `4`, `5`, `Mt`, `Pt` (not `Chr1`, `Chr2`, etc.). Keep this in mind when specifying genomic regions in later steps.
+{: .callout}
 
 ### Create BWA-MEM2 Index
 
@@ -234,22 +280,37 @@ The `@RG` (read group) tag is **required** by GATK.
 | `PU` | Platform unit (e.g., flowcell-barcode.lane) |
 
 ```bash
+# Align sample 1
 bwa-mem2 mem \
   -t 4 \
   -R "@RG\tID:sample1\tSM:sample1\tPL:ILLUMINA\tLB:lib1\tPU:unit1" \
   reference.fasta \
-  trim/wgs_R1_trimmed.fq.gz \
-  trim/wgs_R2_trimmed.fq.gz \
+  trim/sample1_R1_trimmed.fq.gz \
+  trim/sample1_R2_trimmed.fq.gz \
   | samtools sort -@ 4 -o sample1.bam
 
 samtools index sample1.bam
-samtools flagstat sample1.bam
+
+# Align sample 2
+bwa-mem2 mem \
+  -t 4 \
+  -R "@RG\tID:sample2\tSM:sample2\tPL:ILLUMINA\tLB:lib2\tPU:unit2" \
+  reference.fasta \
+  trim/sample2_R1_trimmed.fq.gz \
+  trim/sample2_R2_trimmed.fq.gz \
+  | samtools sort -@ 4 -o sample2.bam
+
+samtools index sample2.bam
 ```
 
 ### Alignment Statistics
 
 ```bash
+samtools flagstat sample1.bam
+samtools flagstat sample2.bam
+
 samtools stats sample1.bam > sample1.stats
+samtools stats sample2.bam > sample2.stats
 multiqc . -n alignment_report
 ```
 
@@ -258,6 +319,12 @@ multiqc . -n alignment_report
 | Mapping rate | > 95% for matched reference |
 | Properly paired | > 90% |
 | Average depth | 10–30x for population WGS; 30–60x for clinical |
+
+> **[Cleanup]** After alignment, you can remove the trimmed FASTQ files:
+> ```bash
+> rm -rf trim/
+> ```
+{: .callout}
 
 ---
 
@@ -275,6 +342,7 @@ PCR amplification creates duplicate reads. For variant calling, these **must be 
 | `VALIDATION_STRINGENCY=SILENT` | Suppress warnings on BAM format |
 
 ```bash
+# Mark duplicates for sample 1
 picard MarkDuplicates \
   I=sample1.bam \
   O=sample1.markdup.bam \
@@ -282,16 +350,32 @@ picard MarkDuplicates \
   VALIDATION_STRINGENCY=SILENT
 
 samtools index sample1.markdup.bam
+
+# Mark duplicates for sample 2
+picard MarkDuplicates \
+  I=sample2.bam \
+  O=sample2.markdup.bam \
+  M=sample2.markdup.metrics \
+  VALIDATION_STRINGENCY=SILENT
+
+samtools index sample2.markdup.bam
 ```
 
 ### Check Duplication Rate
 
 ```bash
 cat sample1.markdup.metrics
+cat sample2.markdup.metrics
 multiqc . -n markdup_report
 ```
 
 > **Note:** Duplication rates > 30–40% may indicate problems with input DNA quality or library complexity. For very high duplication, use a PCR-free library prep.
+
+> **[Cleanup]** After marking duplicates, remove the original sorted BAM files:
+> ```bash
+> rm -f sample1.bam sample1.bam.bai sample2.bam sample2.bam.bai
+> ```
+{: .callout}
 
 ---
 
@@ -303,16 +387,23 @@ GATK BQSR corrects systematic errors in base quality scores from the sequencer. 
 
 BQSR requires a VCF of known polymorphic sites to distinguish true variants from sequencing errors.
 
+> **Important:** The 1001 Genomes multi-sample VCF is very large (~5 GB compressed, ~80 GB decompressed) and contains formatting inconsistencies that cause GATK errors. For BQSR, we only need the **variant positions** (sites-only), not the genotype data. The commands below extract a sites-only VCF that is much smaller and works correctly with GATK.
+{: .callout}
+
 ```bash
 # For Arabidopsis: download from the 1001 Genomes Project
 wget https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-short-indel_only_ACGTN.vcf.gz
-mv 1001genomes_snp-short-indel_only_ACGTN.vcf.gz known_variants.vcf.gz
 
-# Decompress (GATK needs plain VCF or block-gzipped)
-bgzip -d known_variants.vcf.gz
+# Extract sites-only VCF (removes genotype columns — BQSR only needs positions)
+# This also fixes malformed lines in the original VCF.
+zcat 1001genomes_snp-short-indel_only_ACGTN.vcf.gz \
+  | awk 'BEGIN{OFS="\t"} /^##/{print; next} /^#CHROM/{print $1,$2,$3,$4,$5,$6,$7,$8; next} {print $1,$2,$3,$4,$5,$6,$7,$8}' \
+  | bgzip > known_sites.vcf.gz
 
-# Create index
-gatk IndexFeatureFile -I known_variants.vcf
+tabix -p vcf known_sites.vcf.gz
+
+# Remove the large original file
+rm -f 1001genomes_snp-short-indel_only_ACGTN.vcf.gz
 
 # For human (hg38): download dbSNP from GATK resource bundle
 # wget https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.dbsnp138.vcf
@@ -331,16 +422,25 @@ gatk IndexFeatureFile -I known_variants.vcf
 | `-O` | Output recalibration table |
 
 ```bash
+# Sample 1
 gatk BaseRecalibrator \
   -I sample1.markdup.bam \
   -R reference.fasta \
-  --known-sites known_variants.vcf \
+  --known-sites known_sites.vcf.gz \
   -O sample1.recal.table
+
+# Sample 2
+gatk BaseRecalibrator \
+  -I sample2.markdup.bam \
+  -R reference.fasta \
+  --known-sites known_sites.vcf.gz \
+  -O sample2.recal.table
 ```
 
 ### Step 2: Apply Recalibration
 
 ```bash
+# Sample 1
 gatk ApplyBQSR \
   -I sample1.markdup.bam \
   -R reference.fasta \
@@ -348,7 +448,22 @@ gatk ApplyBQSR \
   -O sample1.recal.bam
 
 samtools index sample1.recal.bam
+
+# Sample 2
+gatk ApplyBQSR \
+  -I sample2.markdup.bam \
+  -R reference.fasta \
+  --bqsr-recal-file sample2.recal.table \
+  -O sample2.recal.bam
+
+samtools index sample2.recal.bam
 ```
+
+> **[Cleanup]** After BQSR, remove the markdup BAM files:
+> ```bash
+> rm -f sample1.markdup.bam sample1.markdup.bam.bai sample2.markdup.bam sample2.markdup.bam.bai
+> ```
+{: .callout}
 
 ---
 
@@ -369,18 +484,27 @@ Using **GVCF mode** allows joint genotyping across multiple samples — recommen
 | `--native-pair-hmm-threads` | Threads for PairHMM calculation |
 
 ```bash
+# Sample 1
 gatk HaplotypeCaller \
   -R reference.fasta \
   -I sample1.recal.bam \
   -O sample1.g.vcf.gz \
   -ERC GVCF \
   --native-pair-hmm-threads 4
+
+# Sample 2
+gatk HaplotypeCaller \
+  -R reference.fasta \
+  -I sample2.recal.bam \
+  -O sample2.g.vcf.gz \
+  -ERC GVCF \
+  --native-pair-hmm-threads 4
 ```
 
-### Joint Genotyping (for multiple samples)
+### Joint Genotyping
 
 ```bash
-# Combine GVCFs from multiple samples
+# Combine GVCFs from both samples
 gatk CombineGVCFs \
   -R reference.fasta \
   -V sample1.g.vcf.gz \
@@ -393,6 +517,14 @@ gatk GenotypeGVCFs \
   -V cohort.g.vcf.gz \
   -O cohort.vcf.gz
 ```
+
+> **[Cleanup]** After joint genotyping, you can remove individual GVCFs and recal BAMs:
+> ```bash
+> rm -f sample1.g.vcf.gz sample1.g.vcf.gz.tbi sample2.g.vcf.gz sample2.g.vcf.gz.tbi
+> rm -f cohort.g.vcf.gz cohort.g.vcf.gz.tbi
+> rm -f sample1.recal.bam sample1.recal.bai sample2.recal.bam sample2.recal.bai
+> ```
+{: .callout}
 
 ---
 
@@ -463,7 +595,7 @@ gatk VariantFiltration \
 ##FILTER=<ID=PASS,Description="All filters passed">
 ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total depth">
 #CHROM  POS     ID      REF  ALT  QUAL  FILTER  INFO              FORMAT     SAMPLE1
-Chr1    12345   .       A    T    220   PASS    DP=45;AF=0.5;...  GT:AD:DP   0/1:22,23:45
+1       12345   .       A    T    220   PASS    DP=45;AF=0.5;...  GT:AD:DP   0/1:22,23:45
 ```
 
 ### Key VCF Fields
@@ -496,7 +628,8 @@ bcftools stats cohort.snps.filtered.vcf.gz | grep "^SN"
 bcftools view -f PASS -O z -o cohort.snps.pass.vcf.gz cohort.snps.filtered.vcf.gz
 
 # Extract specific genomic region
-bcftools view cohort.snps.pass.vcf.gz Chr1:100000-200000
+# Note: Ensembl TAIR10 uses "1", "2", ... (not "Chr1", "Chr2")
+bcftools view cohort.snps.pass.vcf.gz 1:100000-200000
 
 # Get variant summary statistics
 bcftools stats cohort.snps.pass.vcf.gz > stats.txt
@@ -516,6 +649,8 @@ SnpEff predicts the functional effect of each variant (missense, nonsense, synon
 snpEff databases | grep -i arabidopsis
 
 # Download database (example: Arabidopsis TAIR10)
+# Note: the exact database name may vary by SnpEff version.
+# Use the output of the command above to find the correct name.
 snpEff download athalianaTair10
 ```
 
@@ -549,7 +684,7 @@ For multiple samples, use population genomics tools:
 | `--vcf` | Input VCF file |
 | `--make-bed` | Output PLINK binary format (`.bed`/`.bim`/`.fam`) |
 | `--pca 10` | Compute top 10 principal components |
-| `--allow-extra-chr` | Allow non-human chromosome names (required for plants) |
+| `--allow-extra-chr` | Allow non-human chromosome names (required for plants: Arabidopsis uses `1`–`5`, `Mt`, `Pt`) |
 
 ```bash
 # Convert VCF to PLINK binary format
@@ -607,6 +742,19 @@ conda deactivate
 # Optional: remove environment when done
 conda env remove --name reseq
 ```
+
+---
+
+## Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| `No space left on device` | Intermediate files filling disk | Follow **[Cleanup]** tips after each step; run `conda clean --all -y` |
+| `libcrypto.so.1.0.0: cannot open` | OpenSSL version mismatch in conda | `ln -s ${CONDA_PREFIX}/lib/libcrypto.so.3 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0` (check which `libcrypto.so.*` exists first) |
+| GATK `VCF is malformed` on known variants | Multi-sample VCF has inconsistent genotype columns | Use the sites-only extraction command in Section 7 |
+| `Contig 'X' is not defined in the header` | Chromosome naming mismatch between VCF and reference | Verify chromosome names match: `head reference.fasta.fai` vs `zcat file.vcf.gz \| grep -v '^#' \| cut -f1 \| sort -u` |
+| BWA-MEM2 `Unexpected end of file` | Index files corrupted (often from disk-full during indexing) | Delete index files (`reference.fasta.0123`, `.bwt.2bit.64`, etc.) and re-run `bwa-mem2 index` |
+| `fasterq-dump` segfault on WSL | Known SRA Toolkit bug on WSL | Download FASTQ directly from ENA instead |
 
 ---
 
