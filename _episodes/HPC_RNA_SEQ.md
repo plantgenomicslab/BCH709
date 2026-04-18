@@ -1884,18 +1884,200 @@ cd sets
 ```
 -->
 
+---
 
+## GO Enrichment with topGO (on Pronghorn)
 
-Wend
-Gabe
-Mozart
-Sole
-Johny
-Mia
+After you have the up/down gene lists from DESeq2, run GO enrichment directly on Pronghorn. `topGO` is already available in the `DEG_bch709` environment used earlier in this lesson.
 
-Mon
-Anitha
-Zach
-Ben
-Ciara
-Nick
+### Prepare the gene lists
+
+```bash
+# Working directory: your DEG output folder
+cd ~/bch709_scratch/RNA-Seq_example/ATH/DEG/rnaseq/venn
+
+# Universe = every gene tested (from the TPM matrix)
+cut -f 1 ../ATH.featureCount_count_length.cnt.tpm.tab | grep -v sample > universe.txt
+
+# Interesting gene set (change file as needed)
+cp DESeq.UP_4fold.subset interesting_genes.txt
+
+wc -l universe.txt interesting_genes.txt
+```
+
+### Run topGO
+
+Create `go_enrichment.R`:
+
+```R
+# go_enrichment.R
+library(topGO)
+library(org.At.tair.db)   # change to org.Hs.eg.db / org.Mm.eg.db for human / mouse
+
+args <- commandArgs(trailingOnly = TRUE)
+universe_file     <- args[1]   # all genes tested
+interesting_file  <- args[2]   # DEGs
+out_prefix        <- args[3]   # output prefix
+
+universe    <- readLines(universe_file)
+interesting <- readLines(interesting_file)
+
+gene_list <- factor(as.integer(universe %in% interesting))
+names(gene_list) <- universe
+
+run_ontology <- function(ont) {
+    godata <- new("topGOdata",
+                   ontology = ont,
+                   allGenes = gene_list,
+                   annot = annFUN.org,
+                   mapping = "org.At.tair.db",
+                   ID = "tair")
+    result <- runTest(godata, algorithm = "classic", statistic = "fisher")
+    table  <- GenTable(godata,
+                       classicFisher = result,
+                       topNodes = 30,
+                       orderBy = "classicFisher")
+    write.table(table,
+                file = paste0(out_prefix, "_", ont, ".tsv"),
+                sep = "\t", quote = FALSE, row.names = FALSE)
+    cat("Wrote", paste0(out_prefix, "_", ont, ".tsv"), "\n")
+}
+
+for (ont in c("BP", "MF", "CC")) run_ontology(ont)
+```
+
+### Submit as a Slurm job
+
+`go_enrichment.sh`:
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=go_enrich
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8g
+#SBATCH --time=01:00:00
+#SBATCH -o go_enrich_%j.out
+
+conda activate DEG_bch709
+cd ~/bch709_scratch/RNA-Seq_example/ATH/DEG/rnaseq/venn
+
+Rscript go_enrichment.R universe.txt interesting_genes.txt ATH_UP4fold
+```
+
+Submit:
+
+```bash
+sbatch go_enrichment.sh
+```
+
+The output is three tab-separated files per input list — `<prefix>_BP.tsv`, `_MF.tsv`, `_CC.tsv` — with the top 30 GO terms, Fisher p-values, and counts. Copy them to your laptop with `rsync` and open in Excel or a spreadsheet.
+
+---
+
+## Visualize DEGs — Heatmap and Volcano Plot
+
+### Heatmap of top 50 DEGs
+
+`heatmap.R`:
+
+```R
+library(pheatmap)
+
+counts  <- read.table("ATH.featureCount_count_length.cnt.tpm.tab",
+                      header = TRUE, row.names = 1, sep = "\t")
+deg_ids <- read.table("DEG_ids.txt", header = FALSE)[,1]
+
+mat <- log2(as.matrix(counts[deg_ids, ]) + 1)
+mat <- mat[order(-rowMeans(mat)), ][1:min(50, nrow(mat)), ]
+
+pdf("heatmap_top50.pdf", height = 10, width = 7)
+pheatmap(mat, scale = "row", show_rownames = TRUE,
+         main = "Top 50 DEGs (log2 TPM, row-scaled)")
+dev.off()
+```
+
+### Volcano plot
+
+`volcano.R`:
+
+```R
+library(ggplot2)
+
+d <- read.table("ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results",
+                 header = TRUE, sep = "\t")
+d$sig <- with(d, ifelse(padj < 0.01 & abs(log2FoldChange) >= 2,
+                         ifelse(log2FoldChange > 0, "UP", "DOWN"), "NS"))
+
+ggplot(d, aes(log2FoldChange, -log10(pvalue), color = sig)) +
+    geom_point(alpha = 0.6, size = 1) +
+    scale_color_manual(values = c(UP = "firebrick", DOWN = "steelblue", NS = "grey70")) +
+    geom_vline(xintercept = c(-2, 2), linetype = "dashed") +
+    geom_hline(yintercept = -log10(0.01), linetype = "dashed") +
+    theme_classic() +
+    labs(x = "log2 FC (ABA vs WT)", y = "-log10 p-value")
+
+ggsave("volcano.pdf", width = 6, height = 5)
+```
+
+Run either script interactively on Pronghorn:
+
+```bash
+conda activate DEG_bch709
+Rscript heatmap.R
+Rscript volcano.R
+```
+
+Then copy the PDFs back to your laptop with `rsync`.
+
+---
+
+## Full RNA-Seq Workflow Summary
+
+| Step | Tool | Script / Section | Output |
+|------|------|---------|--------|
+| Download FASTQ | `fastq-dump` (SRA Toolkit) | fastq-dump.sh | `*.fastq.gz` |
+| QC | FastQC + MultiQC | built-in | HTML report |
+| Trim | fastp | trim.sh | Trimmed FASTQ |
+| Index | STAR | index.sh | STAR index dir |
+| Align | STAR | align.sh | Aligned BAM |
+| Count | featureCounts | built-in (align.sh) | `*.cnt` matrix |
+| Normalize | perl (TPM/FPKM) | built-in | TPM/FPKM table |
+| DEG | DESeq2 / edgeR (Trinity wrappers) | DEG calculation | `*.DE_results` |
+| Subset DEGs | `analyze_diff_expr.pl` | built-in | `.subset` files |
+| Venn overlap | intervene | Draw Venn Diagram | `Intervene_*` |
+| GO enrichment | topGO | go_enrichment.R (above) | `*_BP/MF/CC.tsv` |
+| Visualization | pheatmap / ggplot2 | heatmap.R / volcano.R | `.pdf` |
+
+---
+
+## Cleanup
+
+```bash
+# Inside ~/bch709_scratch/RNA-Seq_example you can remove:
+#   - Raw FASTQ (once alignment + trim QC are reviewed)
+#   - STAR alignment intermediates (_STARtmp, Log.out, ReadsPerGene.out.tab)
+# Keep:
+#   - Final BAMs, count matrices, DESeq2/edgeR results, DEG subsets, GO tables, plots
+
+# Example: drop raw FASTQ and STAR tmp
+find ~/bch709_scratch/RNA-Seq_example -name "*_STARtmp" -type d -exec rm -rf {} +
+find ~/bch709_scratch/RNA-Seq_example -name "*.fastq.gz" -path "*/raw_data/*" -delete
+```
+
+Leaving the Pronghorn session:
+
+```bash
+conda deactivate
+exit
+```
+
+---
+
+## Next Steps
+
+- **Pathway analysis:** feed the DEG list into [KEGG](https://www.genome.jp/kegg/) or [Reactome](https://reactome.org/) via their web portals, or use `clusterProfiler` in R.
+- **Functional summary:** run [REViGO](http://revigo.irb.hr/) on the topGO output to collapse redundant GO terms into a treemap.
+- **Synteny / ortholog mapping:** use the BLAST results from this lesson together with [MCScanX](https://github.com/wyp1125/MCScanX) for genome-scale comparisons.
+- **Cross-condition comparison:** the intervene UpSet plot shows overlap across 2-fold vs 4-fold cuts in one condition. For two conditions, simply add more `*.subset` files before `intervene venn`.
