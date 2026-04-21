@@ -485,41 +485,40 @@ micromamba activate RNASEQ_bch709
 micromamba install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
 micromamba install -c bioconda -c conda-forge openjdk=17 trinity gffread seqkit kraken2 fastp
 
-# MultiQC has some fragile dependencies — pin these versions to avoid conflicts
-pip install 'tiktoken<0.8'
+# MultiQC is sensitive to numpy/pyarrow ABI — pin them in ONE command
+# so pip's resolver sees all constraints together
 pip install 'numpy<2.0' 'pyarrow<17' multiqc
 ```
 
-> ## Why pin those versions?
-> - **`tiktoken<0.8`** — newer tiktoken needs Rust toolchain; older wheels install cleanly from PyPI.
+> ## Why pin `numpy` and `pyarrow`?
 > - **`numpy<2.0`** — NumPy 2.0 broke ABI compatibility with many bioinformatics packages; staying on 1.x is safest.
-> - **`pyarrow<17`** — newer PyArrow pulls in a NumPy 2.x dependency that conflicts with the pin above.
+> - **`pyarrow<17`** — newer PyArrow (used by MultiQC via Polars) pulls in a NumPy 2.x dependency that conflicts with the pin above.
 >
-> Without these pins, `multiqc` can fail to install or (worse) install and then crash at runtime with `numpy.dtype size changed` errors.
+> Without these pins, `multiqc` can install and then crash at runtime with `numpy.dtype size changed` errors.
+>
+> **Important:** pass all three packages in the *same* `pip install` command. Splitting them across two commands lets the first resolver pick a newer `numpy`, then the pin in the second command is either ignored or causes a reinstall.
 {: .callout}
 
 Once activated, your shell prompt will show `(RNASEQ_bch709)` and the installed tools will be on your `PATH`. Use `micromamba deactivate` to leave the environment.
 
 > ## Fix: `libcrypto.so.1.0.0` error in samtools
-> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment. Under Micromamba, use the **explicit environment path** — don't rely on `$CONDA_PREFIX` (it's a Conda variable and may not be set in a plain Micromamba shell):
+> If `samtools` complains that it cannot find `libcrypto.so.1.0.0`, symlink the newer library shipped with the environment. **Activate the environment first** — Micromamba sets `$CONDA_PREFIX` to the active env's path (for conda-ecosystem compatibility), so you can use it as a shortcut:
 >
 > ```bash
-> # 1. Find the env path (should print ~/micromamba/envs/RNASEQ_bch709)
-> micromamba info --envs | grep RNASEQ_bch709
+> micromamba activate RNASEQ_bch709
+> echo $CONDA_PREFIX     # should print something like /home/<netid>/micromamba/envs/RNASEQ_bch709
 >
-> # 2. Create the symlink using that explicit path
-> ln -s ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.1 \
->       ~/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.0.0
+> ln -s $CONDA_PREFIX/lib/libcrypto.so.1.1 $CONDA_PREFIX/lib/libcrypto.so.1.0.0
 > ```
 >
-> **Prefer a variable?** Set one yourself from `micromamba info`:
+> **Run this only once** per environment — re-running will fail with `File exists`. If that happens, the symlink is already there and `samtools` should work.
+>
+> **If `$CONDA_PREFIX` is empty** for some reason (e.g. the activation didn't take), look it up with `micromamba env list` and use the explicit path from its `Path` column:
 >
 > ```bash
-> ENV_PREFIX=$(micromamba info --envs | awk '/RNASEQ_bch709/ {print $NF}')
-> ln -s "$ENV_PREFIX/lib/libcrypto.so.1.1" "$ENV_PREFIX/lib/libcrypto.so.1.0.0"
+> ln -s /home/<netid>/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.1 \
+>       /home/<netid>/micromamba/envs/RNASEQ_bch709/lib/libcrypto.so.1.0.0
 > ```
->
-> **Run this only once** per environment — re-running will fail with `File exists`. If that happens, it means the symlink is already there and `samtools` should work.
 {: .callout}
 
 ### How to copy an environment from your laptop to HPC
