@@ -591,15 +591,23 @@ The file is tiny, so this takes a second.
 
 #### Step 3 — Rebuild the environment on Pronghorn (force linux-64)
 
-SSH into Pronghorn and create the environment from the recipe. The `--platform linux-64` flag tells Micromamba to **only** consider Linux x86_64 builds, so even if a stray Mac hint sneaked into the YAML it will be ignored:
+SSH into Pronghorn and create the environment from the recipe. Use **`-n <name>`** to give the env a clean name — Micromamba will put it under `$MAMBA_ROOT_PREFIX/envs/<name>/` (usually `~/micromamba/envs/<name>/`) automatically, so you don't need `-p` with an explicit path. The `--platform linux-64` flag tells Micromamba to **only** consider Linux x86_64 builds, so even if a stray Mac hint sneaked into the YAML it will be ignored:
 
 ```bash
 ssh <username>@pronghorn.rc.unr.edu
 cd ~
 
-# Force Linux x86_64 builds no matter what the YAML says
-micromamba env create -f RNASEQ_bch709.yml --platform linux-64
+# -n sets the env name; Micromamba picks the path itself
+# --platform forces Linux x86_64 builds
+micromamba env create -n RNASEQ_bch709 -f RNASEQ_bch709.yml --platform linux-64
 ```
+
+> ## Why `-n` instead of `-p`?
+> - **`-n <name>`** — Micromamba auto-places the env at `~/micromamba/envs/<name>/`. The name is what you use later in `micromamba activate <name>`.
+> - **`-p <path>`** — manual path. Useful when you want the env in a non-default location (e.g. on scratch), but then you have to activate with `micromamba activate <path>`.
+>
+> For most uses, **`-n` is simpler and matches the naming convention used on your laptop**. The `name:` field inside the YAML is ignored when you pass `-n` on the command line.
+{: .callout}
 
 Micromamba will download and install every package listed. When it finishes, activate it:
 
@@ -621,7 +629,7 @@ You now have an identical environment on Pronghorn.
 > scp RNASEQ_bch709.yml <netid>@pronghorn.rc.unr.edu:~/
 >
 > # --- Then on Pronghorn (after ssh) ---
-> micromamba env create -f ~/RNASEQ_bch709.yml --platform linux-64
+> micromamba env create -n RNASEQ_bch709 -f ~/RNASEQ_bch709.yml --platform linux-64
 > micromamba activate RNASEQ_bch709
 > which fastp      # verify
 > ```
@@ -633,7 +641,7 @@ You now have an identical environment on Pronghorn.
 >   → You exported with build strings. Re-export on the Mac with `--from-history --no-builds` and try again.
 >
 > - **A specific package name doesn't exist on Linux** (rare — usually a Mac-only GUI tool)
->   → Open `RNASEQ_bch709.yml` on Pronghorn with `nano`, delete that line, re-run `micromamba env create ... --platform linux-64`.
+>   → Open `RNASEQ_bch709.yml` on Pronghorn with `nano`, delete that line, re-run `micromamba env create -n RNASEQ_bch709 -f RNASEQ_bch709.yml --platform linux-64`.
 >
 > - **Apple Silicon (M1/M2/M3) Mac → Linux HPC**
 >   → Your laptop env may be `osx-arm64`. `--from-history --no-builds` + `--platform linux-64` handles this; **do not** try to copy the `envs/` folder.
