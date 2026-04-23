@@ -119,16 +119,26 @@ tabix --version     | head -1    # → tabix (htslib) 1.xx
 
 If all three print a version number (no `libcrypto` error), your environment is ready. If any still error, ask the instructor before moving on.
 
-> ## Why every batch script below starts with a `shell hook` line
-> Slurm runs `#!/bin/bash` scripts as a **non-interactive, non-login shell**, which means `~/.bashrc` is *not* sourced automatically — so `micromamba activate ...` alone would fail with `command not found`. We add:
+> ## 🔑 Activate once in your login shell — every `sbatch` inherits the environment
+> **Do this ONCE in the login shell before running any `sbatch` command:**
 >
 > ```bash
-> export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-> eval "$(micromamba shell hook --shell=bash)"
 > micromamba activate reseq_bch709
+> which bwa-mem2   # confirm: should print a path inside ~/micromamba/envs/reseq_bch709/
+> which samtools
+> which gatk
 > ```
 >
-> This explicitly loads Micromamba's shell functions and activates the environment — working the same way every time, regardless of your `.bashrc` setup.
+> By default, `sbatch` submits jobs with `--export=ALL`, which means each Slurm job inherits your current shell's environment — including `PATH` pointing at the activated env. So you **don't** need to put `micromamba activate` inside every batch script.
+>
+> **Sanity check:** submit a tiny test job and confirm the tool is found on the compute node too:
+>
+> ```bash
+> sbatch -A cpu-s5-bch709-6 -p cpu-core-0 --time=00:05:00 --wrap="which bwa-mem2 && bwa-mem2 version"
+> # check the slurm-<jobid>.out log — should show the same path + version
+> ```
+>
+> If you open a new SSH session, the activation is lost — **just run `micromamba activate reseq_bch709` again** before submitting.
 {: .callout}
 
 ### Create the project directory on scratch
@@ -207,7 +217,10 @@ ls -lh raw/${SAMPLE}_R*.fastq.gz
 **Submit (capture the job ID so downstream steps can depend on it):**
 
 ```bash
+# Make sure the env is active in THIS shell (once per login session)
+micromamba activate reseq_bch709
 cd ~/scratch/reseq
+
 DL_JID=$(sbatch --parsable scripts/01_download.sh)
 echo "Download job: ${DL_JID}"
 squeue -u $USER   # you should see 2 tasks (download_1, download_2) running in parallel
@@ -242,10 +255,8 @@ The reference is shared across all samples, so we only build it once.
 #SBATCH -o logs/02_reference_%j.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -299,10 +310,8 @@ echo "Reference job: ${REF_JID}"
 #SBATCH -o logs/03_align_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -375,10 +384,8 @@ MarkDuplicates and BQSR aren't heavily multi-threaded, but we still get per-samp
 #SBATCH -o logs/04_markdup_bqsr_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -443,10 +450,8 @@ For N=2 samples and 7 chromosomes (1, 2, 3, 4, 5, Mt, Pt) → **14 parallel task
 #SBATCH -o logs/05a_hc_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -491,10 +496,8 @@ gatk --java-options "-Xmx12g" HaplotypeCaller \
 #SBATCH -o logs/05b_gather_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -553,10 +556,8 @@ Once all per-sample GVCFs exist, combine them and run joint genotyping. This ste
 #SBATCH -o logs/06_joint_%j.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -610,10 +611,8 @@ Everything from here is fast and has no further parallelism to exploit.
 #SBATCH -o logs/07_filter_%j.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate reseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with bwa-mem2, samtools, gatk, …) is inherited automatically.
 
 cd ~/scratch/reseq
 
@@ -675,6 +674,12 @@ Instead of manually chaining each step, use a driver script that submits everyth
 set -euo pipefail
 cd ~/scratch/reseq
 
+# Activate the env in THIS shell so every sbatch below inherits the PATH
+# (sbatch --export=ALL is the default — the submitted jobs see the same tools)
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
+
 # --parsable returns just the job ID, perfect for chaining
 DL_JID=$(sbatch --parsable                                  scripts/01_download.sh)
 REF_JID=$(sbatch --parsable                                 scripts/02_reference.sh)
@@ -715,6 +720,63 @@ You'll see 8 job IDs printed. Slurm queues them; each waits for its predecessor 
 | `afterany:JID` | Start after `JID` finishes, regardless of exit status |
 | `afternotok:JID` | Start only if `JID` failed (for error-handling scripts) |
 | `singleton` | Run after all other jobs with the same name finish |
+
+### 🧑‍💻 Hands-on walkthrough — submit the pipeline step-by-step
+
+If you want to see exactly what `run_all.sh` does (or debug one step), you can submit each stage manually. Every `sbatch` returns a **job ID** that the next step depends on.
+
+**Do this first (login shell — one time):**
+
+```bash
+micromamba activate reseq_bch709
+cd ~/scratch/reseq
+```
+
+**Then submit each step — each line is one command:**
+
+```bash
+# --- Step 1: download FASTQs (no prerequisites) ---
+DL_JID=$(sbatch --parsable scripts/01_download.sh)
+echo "download     → $DL_JID"
+
+# --- Step 2: reference prep (no prerequisites, runs in parallel with Step 1) ---
+REF_JID=$(sbatch --parsable scripts/02_reference.sh)
+echo "reference    → $REF_JID"
+
+# --- Step 3: align (waits for BOTH download and reference) ---
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${DL_JID}:${REF_JID} scripts/03_align.sh)
+echo "align        → $ALIGN_JID"
+
+# --- Step 4: markdup + BQSR (waits for align) ---
+MARK_JID=$(sbatch --parsable --dependency=afterok:${ALIGN_JID} scripts/04_markdup_bqsr.sh)
+echo "markdup+bqsr → $MARK_JID"
+
+# --- Step 5a: HaplotypeCaller (waits for markdup) ---
+HC_JID=$(sbatch --parsable --dependency=afterok:${MARK_JID} scripts/05a_haplotypecaller.sh)
+echo "haplocaller  → $HC_JID"
+
+# --- Step 5b: gather per-sample GVCFs (waits for HaplotypeCaller) ---
+GATHER_JID=$(sbatch --parsable --dependency=afterok:${HC_JID} scripts/05b_gather_gvcf.sh)
+echo "gather       → $GATHER_JID"
+
+# --- Step 6: joint genotyping (waits for gather) ---
+JOINT_JID=$(sbatch --parsable --dependency=afterok:${GATHER_JID} scripts/06_joint_genotype.sh)
+echo "joint_geno   → $JOINT_JID"
+
+# --- Step 7: filter + annotate (waits for joint genotyping) ---
+FILT_JID=$(sbatch --parsable --dependency=afterok:${JOINT_JID} scripts/07_filter_annotate.sh)
+echo "filter+ann   → $FILT_JID"
+
+# Check that everything is queued
+squeue -u $USER
+# Steps 3-7 should show state PD with reason (Dependency)
+```
+
+After pasting the block, `squeue` shows all 8 jobs — some running, most pending. Slurm takes care of the ordering.
+
+> ## Why copy the commands into your terminal, not a script?
+> The hands-on walkthrough is literally what `run_all.sh` does — but by typing each line you *see* each job ID appear and can inspect things in between. Once you're comfortable, just run `bash scripts/run_all.sh` next time.
+{: .callout}
 
 ---
 

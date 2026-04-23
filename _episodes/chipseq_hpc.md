@@ -112,16 +112,24 @@ samtools --version | head -1
 
 If you see `samtools 1.xx` you're done. If `samtools --version` still errors, ask the instructor before moving on.
 
-> ## Why every batch script below starts with a `shell hook` line
-> Slurm runs `#!/bin/bash` scripts as a **non-interactive, non-login shell**, which means `~/.bashrc` is *not* sourced automatically — so `micromamba activate ...` alone would fail with `command not found`. We add:
+> ## 🔑 Activate once in your login shell — every `sbatch` inherits the environment
+> **Do this ONCE in the login shell before running any `sbatch` command:**
 >
 > ```bash
-> export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-> eval "$(micromamba shell hook --shell=bash)"
 > micromamba activate chipseq_bch709
+> which fastp     # confirm: should print a path inside ~/micromamba/envs/chipseq_bch709/
 > ```
 >
-> This explicitly loads Micromamba's shell functions and activates the environment — working the same way every time, regardless of your `.bashrc` setup.
+> By default, `sbatch` submits jobs with `--export=ALL`, which means each Slurm job inherits your current shell's environment — including `PATH` pointing at the activated env. So you **don't** need to put `micromamba activate` inside every batch script.
+>
+> **Sanity check:** submit a tiny test job and confirm the tool is found on the compute node too:
+>
+> ```bash
+> sbatch -A cpu-s5-bch709-6 -p cpu-core-0 --time=00:05:00 --wrap="which fastp && fastp --version"
+> # check the slurm-<jobid>.out log — should show the same fastp path + version
+> ```
+>
+> If you open a new SSH session, the activation is lost — **just run `micromamba activate chipseq_bch709` again** before submitting.
 {: .callout}
 
 ### Create the project directory on scratch
@@ -207,7 +215,10 @@ echo "${SAMPLE} OK"
 **Submit (capture the job ID so downstream steps can depend on it):**
 
 ```bash
+# Make sure the env is active in THIS shell (once per login session)
+micromamba activate chipseq_bch709
 cd ~/scratch/chipseq
+
 DL_JID=$(sbatch --parsable scripts/01_download.sh)
 echo "Download job: ${DL_JID}"
 squeue -u $USER
@@ -228,10 +239,8 @@ squeue -u $USER
 #SBATCH -o logs/02_reference_%j.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -282,10 +291,8 @@ echo "Reference job: ${REF_JID}"
 
 set -euo pipefail
 set -o pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -338,10 +345,8 @@ echo "Align: ${ALIGN_JID}"
 #SBATCH -o logs/04_dedup_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -393,10 +398,8 @@ Every sample — including inputs — gets its own RPKM-normalized BigWig.
 #SBATCH -o logs/05_bw_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -437,10 +440,8 @@ Only the `chip` rows in `samples.tsv` get peak-called. Each task looks up its `c
 #SBATCH -o logs/06_macs3_%A_%a.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -498,10 +499,8 @@ Combines fingerprint, correlation, IDR, and MultiQC into one post-processing job
 #SBATCH -o logs/07_qc_%j.out
 
 set -euo pipefail
-# Load micromamba in this non-interactive Slurm shell, then activate the env
-export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
-eval "$(micromamba shell hook --shell=bash)"
-micromamba activate chipseq_bch709
+# Environment is activated in the login shell before `sbatch` is called —
+# the PATH (with fastp, minimap2, samtools, …) is inherited automatically.
 
 cd ~/scratch/chipseq
 
@@ -586,6 +585,12 @@ QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID} scripts/07
 set -euo pipefail
 cd ~/scratch/chipseq
 
+# Activate the env in THIS shell so every sbatch below inherits the PATH
+# (sbatch --export=ALL is the default — the submitted jobs see the same tools)
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
+
 N_SAMPLES=$(awk 'NR>1' samples.tsv | wc -l)
 N_CHIP=$(awk -F'\t' 'NR>1 && $3=="chip"' samples.tsv | wc -l)
 
@@ -618,6 +623,67 @@ Run:
 chmod +x scripts/*.sh
 bash scripts/run_all.sh
 ```
+
+### 🧑‍💻 Hands-on walkthrough — submit the pipeline step-by-step
+
+If you want to see exactly what `run_all.sh` does (or debug one step), submit each stage manually. Every `sbatch` returns a **job ID** that the next step depends on.
+
+**Do this first (login shell — one time):**
+
+```bash
+micromamba activate chipseq_bch709
+cd ~/scratch/chipseq
+
+N_SAMPLES=$(awk 'NR>1' samples.tsv | wc -l)
+N_CHIP=$(awk -F'\t' 'NR>1 && $3=="chip"' samples.tsv | wc -l)
+echo "Samples: $N_SAMPLES   |   ChIP: $N_CHIP"
+```
+
+**Then submit each step — each line is one command:**
+
+```bash
+# --- Step 1: download FASTQs (no prerequisites) ---
+DL_JID=$(sbatch --parsable --array=1-${N_SAMPLES} scripts/01_download.sh)
+echo "download     → $DL_JID"
+
+# --- Step 2: reference prep (independent — runs in parallel with Step 1) ---
+REF_JID=$(sbatch --parsable scripts/02_reference.sh)
+echo "reference    → $REF_JID"
+
+# --- Step 3: trim + align (waits for BOTH download and reference) ---
+ALIGN_JID=$(sbatch --parsable --array=1-${N_SAMPLES} \
+    --dependency=afterok:${DL_JID}:${REF_JID} scripts/03_align.sh)
+echo "align        → $ALIGN_JID"
+
+# --- Step 4: filter MAPQ + dedup (waits for align) ---
+DEDUP_JID=$(sbatch --parsable --array=1-${N_SAMPLES} \
+    --dependency=afterok:${ALIGN_JID} scripts/04_dedup.sh)
+echo "dedup        → $DEDUP_JID"
+
+# --- Step 5: bigwig (waits for dedup) ---
+BW_JID=$(sbatch --parsable --array=1-${N_SAMPLES} \
+    --dependency=afterok:${DEDUP_JID} scripts/05_bigwig.sh)
+echo "bigwig       → $BW_JID"
+
+# --- Step 6: MACS3 peak calling (ChIP only, waits for dedup) ---
+MACS_JID=$(sbatch --parsable --array=1-${N_CHIP} \
+    --dependency=afterok:${DEDUP_JID} scripts/06_macs3.sh)
+echo "macs3        → $MACS_JID"
+
+# --- Step 7: QC aggregation (waits for both bigwig and MACS3) ---
+QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID} scripts/07_qc.sh)
+echo "qc           → $QC_JID"
+
+# Check that everything is queued
+squeue -u $USER
+# Steps 3-7 should show state PD with reason (Dependency)
+```
+
+After pasting the block, `squeue` shows all 7 jobs — some running, most pending. Slurm takes care of the ordering.
+
+> ## Why copy the commands into your terminal, not a script?
+> The hands-on walkthrough is literally what `run_all.sh` does — but by typing each line you *see* each job ID appear and can inspect things in between. Once you're comfortable, just run `bash scripts/run_all.sh` next time.
+{: .callout}
 
 ---
 

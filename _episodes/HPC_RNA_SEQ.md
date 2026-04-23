@@ -449,6 +449,12 @@ set -euo pipefail
 PROJECT=~/bch709_scratch/RNA-Seq_example/ATH
 cd "$PROJECT"
 
+# Activate the env in THIS shell so every sbatch below inherits the PATH
+# (sbatch --export=ALL is the default — the submitted jobs see the same tools)
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate RNASEQ_bch709
+
 # 1. Download FASTQs (no prerequisites)
 DUMP_JID=$(sbatch --parsable fastq-dump.sh)
 
@@ -482,6 +488,45 @@ squeue -u $USER   # later jobs show state PD with reason (Dependency)
 ```
 
 You'll see 4 job IDs printed immediately. Close your laptop — Slurm takes over. When everything finishes, check `ls bam/` for sorted BAM outputs and log files for `Finished successfully`.
+
+### 🧑‍💻 Hands-on walkthrough — submit the pipeline step-by-step
+
+If you want to see exactly what `run_all.sh` does (or debug one step), submit each stage manually. Every `sbatch` returns a **job ID** that the next step depends on.
+
+**Do this first (login shell — one time):**
+
+```bash
+micromamba activate RNASEQ_bch709
+cd ~/bch709_scratch/RNA-Seq_example/ATH
+```
+
+**Then submit each step — each line is one command:**
+
+```bash
+# --- Step 1: download FASTQs (no prerequisites) ---
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+echo "fastq-dump → $DUMP_JID"
+
+# --- Step 2: build STAR index (no prerequisites, runs in parallel with Step 1) ---
+IDX_JID=$(cd reference && sbatch --parsable index.sh)
+echo "index      → $IDX_JID"
+
+# --- Step 3: trim (waits for fastq-dump) ---
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+echo "trim       → $TRIM_JID"
+
+# --- Step 4: align (waits for BOTH trim and index) ---
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
+echo "align      → $ALIGN_JID"
+
+# Check that everything is queued
+squeue -u $USER
+# Steps 3-4 should show state PD with reason (Dependency)
+```
+
+> ## Why copy the commands into your terminal, not a script?
+> The hands-on walkthrough is literally what `run_all.sh` does — but by typing each line you *see* each job ID appear and can inspect things in between. Once you're comfortable, just run `bash run_all.sh` next time.
+{: .callout}
 
 > ## Same pattern for every other organism
 > For Drosophila, Mouse, Tomato, Mosquito, etc., copy `run_all.sh` into that organism's project directory, update `PROJECT=~/bch709_scratch/RNA-Seq_example/<ORG>`, and run it. The script structure doesn't change — only the path.
