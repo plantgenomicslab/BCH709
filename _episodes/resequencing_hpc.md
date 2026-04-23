@@ -162,11 +162,12 @@ wget -q -O raw/${SAMPLE}_R2.fastq.gz \
 ls -lh raw/${SAMPLE}_R*.fastq.gz
 ```
 
-**Submit:**
+**Submit (capture the job ID so downstream steps can depend on it):**
 
 ```bash
 cd ~/scratch/reseq
-sbatch scripts/01_download.sh
+DL_JID=$(sbatch --parsable scripts/01_download.sh)
+echo "Download job: ${DL_JID}"
 squeue -u $USER   # you should see 2 tasks (download_1, download_2) running in parallel
 ```
 
@@ -224,10 +225,11 @@ rm -f 1001genomes_snp-short-indel_only_ACGTN.vcf.gz
 echo "Reference prep done."
 ```
 
-**Submit:**
+**Submit** (independent of download, so it can run in parallel with Step 1):
 
 ```bash
-sbatch scripts/02_reference.sh
+REF_JID=$(sbatch --parsable scripts/02_reference.sh)
+echo "Reference job: ${REF_JID}"
 ```
 
 ---
@@ -287,14 +289,15 @@ samtools index -@ ${SLURM_CPUS_PER_TASK} bam/${SAMPLE}.bam
 samtools quickcheck bam/${SAMPLE}.bam && echo "BAM OK"
 ```
 
-**Submit with dependency** (wait for reference prep to succeed first):
+**Submit with dependencies** — wait for **both** download (raw FASTQ) and reference prep (index) to succeed before aligning:
 
 ```bash
-# Get the reference job ID from the previous step, or chain them
-REF_JID=$(sbatch --parsable scripts/02_reference.sh)
-ALIGN_JID=$(sbatch --parsable --dependency=afterok:${REF_JID} scripts/03_align.sh)
-echo "Reference: ${REF_JID} | Align: ${ALIGN_JID}"
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${DL_JID}:${REF_JID} scripts/03_align.sh)
+echo "Align: ${ALIGN_JID}"
+squeue -u $USER   # ALIGN_JID should show state PD with reason (Dependency)
 ```
+
+If you skipped capturing `DL_JID` or `REF_JID` earlier, you can look them up with `squeue -u $USER` or just depend on whichever you know — Slurm only needs valid predecessor IDs.
 
 > **`${SLURM_CPUS_PER_TASK}`** is automatically set by Slurm to match `--cpus-per-task`. Using it everywhere means changing one `#SBATCH` line automatically updates every thread count below.
 {: .callout}

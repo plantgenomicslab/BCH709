@@ -1273,6 +1273,107 @@ A typical professional setup:
 > Use an inbox you actually check (your @nevada.unr.edu address works well). The email subject is something like `Slurm Job_id=12345 Name=trim_ATH Began, Queued time 00:01:23` — easy to filter into a folder.
 {: .callout}
 
+### Step 10 — Job dependencies (chaining jobs automatically)
+
+In a real pipeline, jobs are **not independent** — you can't align reads until the FASTQ files finish downloading, can't call variants until the BAMs are marked-duplicate, and so on. You could babysit each step (wait for step 1 to finish, then submit step 2, then wait again…), but Slurm gives you a much better option: **`--dependency`**.
+
+A dependency tells Slurm *"don't run this job until job XYZ has finished."* You submit **all** your jobs at once, Slurm queues them, and each one starts only when its predecessors succeed.
+
+#### The three dependency types you'll use most
+
+| Dependency | Meaning |
+|-----------|---------|
+| `afterok:<JID>` | Start this job **only if `<JID>` finished successfully** (exit code 0). This is what you want 99% of the time. |
+| `afterany:<JID>` | Start this job after `<JID>` finishes, **regardless of success or failure**. Use for cleanup / reporting steps that should always run. |
+| `afternotok:<JID>` | Start only if `<JID>` **failed**. Useful for error-handling scripts. |
+
+You can also depend on **multiple** jobs — separate IDs with a colon:
+
+```bash
+--dependency=afterok:12345:12346:12347   # only starts if ALL three succeeded
+```
+
+#### Getting the job ID — `--parsable`
+
+To tell job B to depend on job A, you need job A's ID. `sbatch` normally prints `Submitted batch job 12345`, which you'd have to parse. Instead, use `--parsable`: it prints **just the number**, perfect for capturing into a shell variable:
+
+```bash
+JOB_A=$(sbatch --parsable scripts/step_a.sh)
+echo "Job A is: $JOB_A"     # → Job A is: 12345
+```
+
+#### Example — chain two jobs
+
+Say you want `trim.sh` to run only after `fastq-dump.sh` finishes successfully:
+
+```bash
+# Submit the first job and capture its ID
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+
+# Submit the second with a dependency on the first
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+
+echo "fastq-dump: $DUMP_JID  →  trim: $TRIM_JID"
+```
+
+Both submissions complete **immediately**. Run `squeue -u $USER`:
+
+```
+JOBID  ST  TIME  NODELIST(REASON)
+12345  R   0:42  cpu-3
+12346  PD  0:00  (Dependency)        ← waiting for 12345
+```
+
+The second job shows state `PD` with reason `(Dependency)` — it's alive but blocked until the first one succeeds.
+
+#### Example — chain a whole pipeline
+
+```bash
+#!/bin/bash
+# run_pipeline.sh — submit everything in one shot, correct order enforced by Slurm
+
+DL=$(sbatch   --parsable                               01_download.sh)
+REF=$(sbatch  --parsable                               02_reference.sh)
+ALN=$(sbatch  --parsable --dependency=afterok:${DL}:${REF}  03_align.sh)
+DUP=$(sbatch  --parsable --dependency=afterok:${ALN}        04_markdup.sh)
+CALL=$(sbatch --parsable --dependency=afterok:${DUP}        05_variants.sh)
+
+echo "Pipeline submitted:"
+echo "  download     $DL"
+echo "  reference    $REF"
+echo "  align        $ALN"
+echo "  markdup      $DUP"
+echo "  variants     $CALL"
+```
+
+Submit with `bash run_pipeline.sh` — you hand Slurm the whole DAG at once, then walk away. Each step begins the moment its predecessors complete.
+
+> ## What happens if a job in the chain fails?
+> With `afterok`, Slurm **automatically cancels** every downstream job that depended on the failed one — they never start. You'll see them in `sacct` as `State=CANCELLED` with `Reason=DependencyNeverSatisfied`.
+>
+> This is exactly what you want: if alignment failed, don't waste compute on variant calling against a broken BAM.
+>
+> After you fix the failing step, resubmit **only** the broken step and its downstream jobs — update their `--dependency` to the new job ID.
+{: .callout}
+
+> ## Cancel a whole pipeline at once
+> Since dependent jobs haven't started yet, you can kill the entire pending chain with a single command:
+>
+> ```bash
+> scancel $DL $REF $ALN $DUP $CALL        # cancel by listed IDs
+> scancel -u $USER                        # nuclear: all your jobs
+> ```
+{: .callout}
+
+#### Common dependency pitfalls
+
+> ## Pitfalls
+> - **Forgot `--parsable`** — `$JOB_A` ends up as the string `"Submitted batch job 12345"` and `afterok:Submitted...` is a syntax error. Always use `--parsable`.
+> - **Used `after:` instead of `afterok:`** — plain `after:` starts the job as soon as the predecessor *starts* (not finishes). Almost never what you want.
+> - **Chain broken by a trivial warning** — if a tool exits with code 1 even though the result is usable, downstream jobs get cancelled. Use `afterany:` for steps that should tolerate warnings, or fix the script's exit code.
+> - **Dependency on a very old job ID** — job IDs are reused after a while. Capture the ID in a variable the moment you submit; don't hardcode a number you saw yesterday.
+{: .callout}
+
 ### Status-at-a-glance commands
 
 When you come back to the cluster after a few hours, these are the commands to run, in order:
@@ -1850,6 +1951,16 @@ scancel 12345                          # cancel one job
 scancel -u $USER                       # cancel ALL your jobs
 sacct -j 12345 --format=JobID,State,Elapsed,MaxRSS,ExitCode   # post-mortem
 tail -f trim_12345.out                 # follow log live
+```
+
+**Slurm — chain jobs with dependencies**
+```bash
+JID1=$(sbatch --parsable step1.sh)                                    # capture job ID
+JID2=$(sbatch --parsable --dependency=afterok:${JID1} step2.sh)       # chain
+JID3=$(sbatch --parsable --dependency=afterok:${JID2} step3.sh)
+# afterok = start only if predecessor succeeded (most common)
+# afterany = start regardless of success/failure
+# afternotok = start only if predecessor FAILED
 ```
 
 **Minimal `#SBATCH` header**

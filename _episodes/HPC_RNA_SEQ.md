@@ -363,7 +363,9 @@ nano align.sh
 #SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
-#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>
+# NOTE: do NOT hard-code --dependency here. Pass it on the `sbatch` command line
+# so the job ID is filled in automatically — see the "Submit the pipeline with
+# dependency chaining" section below.
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761506_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761506.bam
 
@@ -377,6 +379,54 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
+
+### Submit the pipeline with dependency chaining
+
+Instead of running each script one by one and waiting, submit all four jobs at once and let Slurm enforce the correct order. Each downstream job waits for its prerequisite(s) to succeed.
+
+> ### 📝 Pipeline submission (Arabidopsis — same pattern for other organisms)
+>
+> **Pipeline DAG:**
+> ```
+>   fastq-dump ──┐
+>                ├─→ trim ─→ align
+>   index   ─────┘
+> ```
+> (download + index run in parallel; trim waits on download; align waits on both trim and index.)
+>
+> ```bash
+> cd ~/bch709_scratch/RNA-Seq_example/ATH
+>
+> # 1. Download FASTQs (no prerequisites)
+> DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+>
+> # 2. Build STAR index (independent of download — runs in parallel)
+> cd ~/bch709_scratch/RNA-Seq_example/ATH/reference
+> IDX_JID=$(sbatch --parsable index.sh)
+>
+> # 3. Trim reads (waits for download)
+> cd ~/bch709_scratch/RNA-Seq_example/ATH
+> TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+>
+> # 4. Align to genome (waits for trim AND index)
+> ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
+>
+> echo "Submitted pipeline:"
+> echo "  fastq-dump:  ${DUMP_JID}"
+> echo "  index:       ${IDX_JID}"
+> echo "  trim:        ${TRIM_JID}"
+> echo "  align:       ${ALIGN_JID}"
+>
+> squeue -u $USER     # later jobs show state PD with reason (Dependency)
+> ```
+{: .callout}
+
+> ## Don't hard-code dependencies inside the script
+> Some older examples have `#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>` **inside** `align.sh`. That's fragile — you'd have to edit the file and paste the previous job's ID every single time. Instead, pass `--dependency` **on the `sbatch` command line** (as shown above) so the script stays generic and the job ID is captured automatically. If you see a `#SBATCH --dependency=...` line inside `align.sh`, delete it.
+{: .callout}
+
+For a full explanation of `--dependency`, `afterok` vs `afterany`, and the `--parsable` flag, see the **[Job dependencies section in the HPC Cluster lesson](../HPC_cluster/index.html#step-10--job-dependencies-chaining-jobs-automatically)**.
+
 ```bash
 conda install -c conda-forge tree
 ```
@@ -522,7 +572,8 @@ nano mapping.sh
 #SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-2
 #SBATCH --partition=cpu-core-0
-#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_Drosophila)>
+# NOTE: do NOT hard-code --dependency here. Pass it on the `sbatch` command line,
+# e.g.  ALIGN=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
 
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/bch709_scratch/RNA-Seq_example/Drosophila/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/Drosophila/bam/SRR16287547.bam
 

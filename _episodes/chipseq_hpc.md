@@ -166,11 +166,12 @@ ls -lh raw/${SAMPLE}.fastq.gz
 echo "${SAMPLE} OK"
 ```
 
-**Submit:**
+**Submit (capture the job ID so downstream steps can depend on it):**
 
 ```bash
 cd ~/scratch/chipseq
-sbatch scripts/01_download.sh
+DL_JID=$(sbatch --parsable scripts/01_download.sh)
+echo "Download job: ${DL_JID}"
 squeue -u $USER
 ```
 
@@ -212,10 +213,11 @@ awk 'BEGIN{OFS="\t"} {
 echo "Reference prep done."
 ```
 
-Save as `scripts/02_reference.sh` and submit:
+Save as `scripts/02_reference.sh` and submit (independent of download — runs in parallel with Step 1):
 
 ```bash
 REF_JID=$(sbatch --parsable scripts/02_reference.sh)
+echo "Reference job: ${REF_JID}"
 ```
 
 ---
@@ -267,10 +269,11 @@ samtools quickcheck bam/${SAMPLE}.bam && echo "${SAMPLE}.bam OK"
 samtools flagstat bam/${SAMPLE}.bam > bam/${SAMPLE}.flagstat
 ```
 
-**Submit with dependency on reference prep:**
+**Submit with dependencies** — wait for both download (raw FASTQ) and reference prep (index) to succeed:
 
 ```bash
-ALIGN_JID=$(sbatch --parsable --dependency=afterok:${REF_JID} scripts/03_align.sh)
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${DL_JID}:${REF_JID} scripts/03_align.sh)
+echo "Align: ${ALIGN_JID}"
 ```
 
 ---
