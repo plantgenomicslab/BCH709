@@ -152,19 +152,45 @@ pwd
 
 
 
-### Conda environment
+### Micromamba environment
+
+We use **Micromamba** for package management on Pronghorn — see the [HPC Cluster lesson](../HPC_cluster/index.html#installing-micromamba-package-manager) for installation.
+
 ```bash
-conda create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11
-conda activate RNASEQ_bch709
+micromamba create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11 -y
+micromamba activate RNASEQ_bch709
 
-conda install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
-conda install -c bioconda -c conda-forge openjdk=17 trinity gffread seqkit kraken2 fastp
-pip install multiqc
+micromamba install -c bioconda -c conda-forge \
+    sra-tools minimap2 star samtools subread \
+    openjdk=17 trinity gffread seqkit kraken2 fastp -y
 
-# Fix libcrypto library error for samtools (if you see:
-#   "error while loading shared libraries: libcrypto.so.1.0.0")
-ln -s ${CONDA_PREFIX}/lib/libcrypto.so.1.1 ${CONDA_PREFIX}/lib/libcrypto.so.1.0.0
+# MultiQC via pip — pin numpy/pyarrow together in ONE command
+pip install 'numpy<2.0' 'pyarrow<17' multiqc
 ```
+
+**Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
+
+Bioconda's `samtools` is linked against `libcrypto.so.1.0.0`, but the current OpenSSL package in the env ships `libcrypto.so.3` (or `.1.1`). Without a symlink you get:
+
+```
+samtools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file
+```
+
+Create the symlink once, right after activating:
+
+```bash
+# Env must be ACTIVE so $CONDA_PREFIX points at the env folder
+cd "$CONDA_PREFIX/lib"
+if   [ -f libcrypto.so.1.1 ]; then ln -sf libcrypto.so.1.1 libcrypto.so.1.0.0
+elif [ -f libcrypto.so.3   ]; then ln -sf libcrypto.so.3   libcrypto.so.1.0.0
+fi
+cd - > /dev/null
+
+# Verify
+samtools --version | head -1     # → samtools 1.xx (no libcrypto error)
+```
+
+If `samtools --version` prints a version, you're done. If it still errors, ask the instructor before moving on.
 
 > ## SRA
 > Sequence Read Archive (SRA) data, available through multiple cloud providers and NCBI servers, is the largest publicly available repository of high throughput sequencing data. The archive accepts data from all branches of life as well as metagenomic and environmental surveys.

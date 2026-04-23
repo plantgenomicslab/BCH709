@@ -67,23 +67,52 @@ Use the values shown there (typically `cpu-s5-bch709-6` / `cpu-core-0` / `studen
 micromamba create -n chipseq_bch709 -c bioconda -c conda-forge python=3.11 -y
 micromamba activate chipseq_bch709
 
-# Conda installs for alignment/QC
+# Alignment/QC tools via bioconda
 micromamba install -c bioconda -c conda-forge \
     fastqc fastp minimap2 samtools bedtools tabix \
     openjdk=17 picard homer -y
 
-# deepTools + MACS3 + MultiQC via pip (conda has conflicts)
-pip install deeptools macs3 multiqc
+# deepTools + MACS3 + MultiQC via pip (bioconda has dep conflicts)
+pip install 'numpy<2.0' 'pyarrow<17' deeptools macs3 multiqc
 
-# IDR (from GitHub — the pip "idr" is a different project)
+# IDR (from GitHub — the pip "idr" package is a different project)
 pip install "numpy<1.24" git+https://github.com/nboley/idr.git
 ```
 
-> **libcrypto fix (if samtools complains):**
+**Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
+
+Bioconda's `samtools` is linked against `libcrypto.so.1.0.0`, but the current OpenSSL package ships `libcrypto.so.3` (or `.1.1`). Without a symlink, you get:
+```
+samtools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file
+```
+
+Create the symlink once, right after activating:
+
+```bash
+# Must be run with the env ACTIVE — $CONDA_PREFIX points at the env folder
+cd "$CONDA_PREFIX/lib"
+if   [ -f libcrypto.so.1.1 ]; then ln -sf libcrypto.so.1.1 libcrypto.so.1.0.0
+elif [ -f libcrypto.so.3   ]; then ln -sf libcrypto.so.3   libcrypto.so.1.0.0
+fi
+cd - > /dev/null
+
+# Verify samtools works
+samtools --version | head -1
+# → should print:  samtools 1.xx   (no error about libcrypto)
+```
+
+If you see `samtools 1.xx` you're done. If `samtools --version` still errors, ask the instructor before moving on.
+
+> ## Why every batch script below starts with a `shell hook` line
+> Slurm runs `#!/bin/bash` scripts as a **non-interactive, non-login shell**, which means `~/.bashrc` is *not* sourced automatically — so `micromamba activate ...` alone would fail with `command not found`. We add:
+>
 > ```bash
-> ENV_PREFIX=$(micromamba info --envs | awk '/chipseq_bch709/ {print $NF}')
-> ln -sf ${ENV_PREFIX}/lib/libcrypto.so.3 ${ENV_PREFIX}/lib/libcrypto.so.1.0.0
+> export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+> eval "$(micromamba shell hook --shell=bash)"
+> micromamba activate chipseq_bch709
 > ```
+>
+> This explicitly loads Micromamba's shell functions and activates the environment — working the same way every time, regardless of your `.bashrc` setup.
 {: .callout}
 
 ### Create the project directory on scratch
@@ -190,7 +219,10 @@ squeue -u $USER
 #SBATCH -o logs/02_reference_%j.out
 
 set -euo pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 
@@ -241,7 +273,10 @@ echo "Reference job: ${REF_JID}"
 
 set -euo pipefail
 set -o pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 
@@ -294,7 +329,10 @@ echo "Align: ${ALIGN_JID}"
 #SBATCH -o logs/04_dedup_%A_%a.out
 
 set -euo pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 
@@ -346,7 +384,10 @@ Every sample — including inputs — gets its own RPKM-normalized BigWig.
 #SBATCH -o logs/05_bw_%A_%a.out
 
 set -euo pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 
@@ -387,7 +428,10 @@ Only the `chip` rows in `samples.tsv` get peak-called. Each task looks up its `c
 #SBATCH -o logs/06_macs3_%A_%a.out
 
 set -euo pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 
@@ -445,7 +489,10 @@ Combines fingerprint, correlation, IDR, and MultiQC into one post-processing job
 #SBATCH -o logs/07_qc_%j.out
 
 set -euo pipefail
-source activate chipseq_bch709 2>/dev/null || micromamba activate chipseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate chipseq_bch709
 
 cd ~/scratch/chipseq
 

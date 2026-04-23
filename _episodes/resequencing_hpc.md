@@ -79,14 +79,47 @@ micromamba activate reseq_bch709
 
 micromamba install -c bioconda -c conda-forge \
     fastqc fastp bwa-mem2 samtools bcftools tabix \
-    openjdk=17 picard gatk4 snpeff plink multiqc -y
+    openjdk=17 picard gatk4 snpeff plink -y
+
+# MultiQC via pip with pinned numpy/pyarrow (bioconda build has conflicts)
+pip install 'numpy<2.0' 'pyarrow<17' multiqc
 ```
 
-> **libcrypto fix (if samtools complains):**
+**Patch `libcrypto` so `samtools` / `bcftools` run (do this now, not after they crash):**
+
+Bioconda's `samtools` / `bcftools` / `tabix` are linked against `libcrypto.so.1.0.0`, but the current OpenSSL package in the env ships `libcrypto.so.3` (or `.1.1`). Without a symlink, you'll see:
+```
+samtools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file
+```
+
+Create the symlink once, right after activating:
+
+```bash
+# Must be run with the env ACTIVE — $CONDA_PREFIX points at the env folder
+cd "$CONDA_PREFIX/lib"
+if   [ -f libcrypto.so.1.1 ]; then ln -sf libcrypto.so.1.1 libcrypto.so.1.0.0
+elif [ -f libcrypto.so.3   ]; then ln -sf libcrypto.so.3   libcrypto.so.1.0.0
+fi
+cd - > /dev/null
+
+# Verify the three most-used HTS tools all run
+samtools --version  | head -1    # → samtools 1.xx
+bcftools --version  | head -1    # → bcftools 1.xx
+tabix --version     | head -1    # → tabix (htslib) 1.xx
+```
+
+If all three print a version number (no `libcrypto` error), your environment is ready. If any still error, ask the instructor before moving on.
+
+> ## Why every batch script below starts with a `shell hook` line
+> Slurm runs `#!/bin/bash` scripts as a **non-interactive, non-login shell**, which means `~/.bashrc` is *not* sourced automatically — so `micromamba activate ...` alone would fail with `command not found`. We add:
+>
 > ```bash
-> ENV_PREFIX=$(micromamba info --envs | awk '/reseq_bch709/ {print $NF}')
-> ln -sf ${ENV_PREFIX}/lib/libcrypto.so.3 ${ENV_PREFIX}/lib/libcrypto.so.1.0.0
+> export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+> eval "$(micromamba shell hook --shell=bash)"
+> micromamba activate reseq_bch709
 > ```
+>
+> This explicitly loads Micromamba's shell functions and activates the environment — working the same way every time, regardless of your `.bashrc` setup.
 {: .callout}
 
 ### Create the project directory on scratch
@@ -200,7 +233,10 @@ The reference is shared across all samples, so we only build it once.
 #SBATCH -o logs/02_reference_%j.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -254,7 +290,10 @@ echo "Reference job: ${REF_JID}"
 #SBATCH -o logs/03_align_%A_%a.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -327,7 +366,10 @@ MarkDuplicates and BQSR aren't heavily multi-threaded, but we still get per-samp
 #SBATCH -o logs/04_markdup_bqsr_%A_%a.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -392,7 +434,10 @@ For N=2 samples and 7 chromosomes (1, 2, 3, 4, 5, Mt, Pt) → **14 parallel task
 #SBATCH -o logs/05a_hc_%A_%a.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -437,7 +482,10 @@ gatk --java-options "-Xmx12g" HaplotypeCaller \
 #SBATCH -o logs/05b_gather_%A_%a.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -496,7 +544,10 @@ Once all per-sample GVCFs exist, combine them and run joint genotyping. This ste
 #SBATCH -o logs/06_joint_%j.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
@@ -550,7 +601,10 @@ Everything from here is fast and has no further parallelism to exploit.
 #SBATCH -o logs/07_filter_%j.out
 
 set -euo pipefail
-source activate reseq_bch709 2>/dev/null || micromamba activate reseq_bch709
+# Load micromamba in this non-interactive Slurm shell, then activate the env
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate reseq_bch709
 
 cd ~/scratch/reseq
 
