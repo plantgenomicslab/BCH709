@@ -1,9 +1,27 @@
 ---
 layout: page
-title: 	HPC_RNA_Seq
+title: HPC RNA-Seq
 published: true
 ---
 
+> ## 🗺️ HPC series — you are here
+> **1.** [HPC Cluster basics](../HPC_cluster/index.html) — SSH, file transfer, Micromamba, Slurm, dependencies
+> **2.** [Resequencing pipeline on HPC](../resequencing_hpc/index.html) — BWA-MEM2 + GATK, variant calling
+> **3.** [ChIP-Seq pipeline on HPC](../chipseq_hpc/index.html) — minimap2 + MACS3, peak calling
+> **4. 🔵 RNA-Seq pipeline (this page)** — STAR + featureCounts, DE analysis
+{: .callout}
+
+> ## ✅ Before you start — pre-class checklist
+> - [ ] You can `ssh <netid>@pronghorn.rc.unr.edu` and see the Pronghorn prompt
+> - [ ] `sacctmgr show user $USER withassoc` shows account `cpu-s5-bch709-6` / partition `cpu-core-0`
+> - [ ] `~/scratch` symlink exists and points under `/data/gpfs/assoc/bch709-6/<netid>`
+> - [ ] `micromamba --version` works on the login node (shell hook in `~/.bashrc`)
+> - [ ] You ran the laptop version of [RNA-Seq tutorial](../RNA-seq_tutorial/index.html) at least once so the biology makes sense
+>
+> Any box unchecked? → go back to the [HPC Cluster lesson](../HPC_cluster/index.html) first.
+{: .prereq}
+
+---
 
 ## Using Pronghorn (High-Performance Computing)
 

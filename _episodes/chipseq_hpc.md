@@ -4,14 +4,23 @@ title: ChIP-Seq on Pronghorn HPC (Parallelized with Slurm)
 published: true
 ---
 
-> ## Prerequisites
-> You should already have:
-> 1. Pronghorn account and SSH access — see the [HPC Cluster lesson]({{site.baseurl}}/episodes/HPC_cluster/)
-> 2. Micromamba installed on Pronghorn
-> 3. Scratch directory at `~/scratch` (symlinked to `/data/gpfs/assoc/bch709-6/<your_netid>`)
-> 4. Familiarity with `sbatch`, `squeue`, `sacct`, and `#SBATCH` directives
+> ## 🗺️ HPC series — you are here
+> **1.** [HPC Cluster basics](../HPC_cluster/index.html) — SSH, file transfer, Micromamba, Slurm, dependencies
+> **2.** [Resequencing pipeline on HPC](../resequencing_hpc/index.html) — BWA-MEM2 + GATK, variant calling
+> **3. 🔵 ChIP-Seq pipeline (this page)** — minimap2 + MACS3, peak calling
+> **4.** [RNA-Seq pipeline on HPC](../HPC_RNA_SEQ/index.html) — STAR + featureCounts, DE analysis
+{: .callout}
+
+> ## ✅ Before you start — pre-class checklist
+> Skim this once before running any code below:
 >
-> Run the basic [ChIP-Seq Tutorial]({{site.baseurl}}/episodes/chipseq_tutorial/) **first** on your laptop to understand the workflow logically before parallelizing it.
+> - [ ] You can `ssh <netid>@pronghorn.rc.unr.edu` and see the Pronghorn prompt
+> - [ ] `sacctmgr show user $USER withassoc` shows account `cpu-s5-bch709-6` / partition `cpu-core-0`
+> - [ ] `~/scratch` symlink exists and points under `/data/gpfs/assoc/bch709-6/<netid>`
+> - [ ] `micromamba --version` works on the login node (shell hook in `~/.bashrc`)
+> - [ ] You ran the laptop version of [ChIP-Seq Tutorial](../chipseq_tutorial/index.html) at least once so the biology makes sense
+>
+> Any box unchecked? → go back to the [HPC Cluster lesson](../HPC_cluster/index.html) first.
 {: .prereq}
 
 ---

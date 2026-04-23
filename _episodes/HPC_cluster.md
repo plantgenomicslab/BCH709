@@ -4,6 +4,15 @@ title: HPC Cluster
 published: true
 ---
 
+> ## 🗺️ HPC series — you are here
+> **1. 🔵 HPC Cluster basics (this page)** — SSH, file transfer, Micromamba, Slurm, dependencies
+> **2.** [Resequencing pipeline on HPC](../resequencing_hpc/index.html) — BWA-MEM2 + GATK, variant calling
+> **3.** [ChIP-Seq pipeline on HPC](../chipseq_hpc/index.html) — minimap2 + MACS3, peak calling
+> **4.** [RNA-Seq pipeline on HPC](../HPC_RNA_SEQ/index.html) — STAR + featureCounts, DE analysis
+>
+> Start here to get comfortable with the cluster, then move through the three real-pipeline tutorials in any order.
+{: .callout}
+
 ## Overview
 
 ### Why do we need an HPC cluster?
