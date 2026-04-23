@@ -1727,7 +1727,14 @@ The data on SRA is stored in a compressed format called `.sra`. The tool **`fast
 
 Each of these 6 runs is several hundred MB to a few GB, and downloading takes minutes per file — way too long for the login node. So we package the work as a Slurm batch script and let a compute node do it.
 
-First, make a place for the downloads (inside scratch — these are large data files):
+**Activate the environment in your login shell first** (once per session — `sbatch` will then inherit the PATH automatically, see the [🔑 activation callout earlier](#creating-the-rna-seq-environment)):
+
+```bash
+micromamba activate RNASEQ_bch709
+which fastq-dump     # should print a path inside ~/micromamba/envs/RNASEQ_bch709/
+```
+
+Then make a place for the downloads (inside scratch — these are large data files):
 
 ```bash
 mkdir -p ~/scratch/raw_data
@@ -1749,8 +1756,9 @@ Paste in this batch script (remember to edit `--mail-user` to your real address)
 #SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o fastq-dump.out            # log goes here
 
-# Activate the environment so fastq-dump is on the PATH
-micromamba activate RNASEQ_bch709
+# NOTE: activate the env ONCE in your login shell before `sbatch` —
+# sbatch --export=ALL is the default, so this job inherits the PATH.
+# Don't put `micromamba activate` inside the script.
 
 # Download each run as paired-end gzipped FASTQ
 for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
@@ -1758,10 +1766,11 @@ for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
 done
 ```
 
-Submit and watch it:
+Submit and watch it — **capture the job ID with `--parsable`** so the next step (trim) can depend on it:
 
 ```bash
-sbatch fastq-dump.sh
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+echo "fastq-dump job: $DUMP_JID"
 squeue -u $USER         # check it landed in the queue
 tail -f fastq-dump.out  # follow progress live (Ctrl-C to stop watching)
 ```
@@ -1808,7 +1817,7 @@ nano trim.sh
 #SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o trim.out
 
-micromamba activate RNASEQ_bch709
+# Activate the env ONCE in your login shell before `sbatch`; don't put it here.
 mkdir -p trim
 
 # Loop over each sample so we don't have to repeat the command 6 times
@@ -1827,12 +1836,24 @@ for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
 done
 ```
 
-Submit it (wait until the previous `fastq-dump` job has finished — `squeue -u $USER` should show nothing first):
+Submit it with a **dependency on the `fastq-dump` job** — Slurm will hold this job until the previous one finishes successfully, so you can submit it immediately (no waiting):
 
 ```bash
-sbatch trim.sh
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+echo "trim job: $TRIM_JID  (waiting on $DUMP_JID)"
 squeue -u $USER
+# the trim job shows state PD with reason (Dependency) until fastq-dump finishes
 ```
+
+> ## Lost the `$DUMP_JID` variable? (e.g. closed the terminal)
+> Look up the job ID with `squeue -u $USER` or `sacct -u $USER --starttime=today` and plug it in directly:
+>
+> ```bash
+> TRIM_JID=$(sbatch --parsable --dependency=afterok:12345 trim.sh)
+> ```
+>
+> See the [Step 10 — Job dependencies](#step-10--job-dependencies-chaining-jobs-automatically) section for a full explanation of `--dependency` and `--parsable`.
+{: .callout}
 
 What the key fastp flags mean:
 
