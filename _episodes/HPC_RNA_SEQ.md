@@ -424,49 +424,71 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/bch709_scratch/RNA-Seq_example/ATH/reference/ --readFilesIn ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/bch709_scratch/RNA-Seq_example/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/bch709_scratch/RNA-Seq_example/ATH/bam/SRR1761511.bam
 ```
 
-### Submit the pipeline with dependency chaining
+### Submit the entire pipeline with one script — `run_all.sh`
 
-Instead of running each script one by one and waiting, submit all four jobs at once and let Slurm enforce the correct order. Each downstream job waits for its prerequisite(s) to succeed.
+Rather than running each step by hand (submit → wait → submit → wait…), put every step into a driver script that submits them all at once. Slurm queues each job in the right order using `--dependency`; the whole pipeline runs unattended.
 
-> ### 📝 Pipeline submission (Arabidopsis — same pattern for other organisms)
->
-> **Pipeline DAG:**
-> ```
->   fastq-dump ──┐
->                ├─→ trim ─→ align
->   index   ─────┘
-> ```
-> (download + index run in parallel; trim waits on download; align waits on both trim and index.)
->
-> ```bash
-> cd ~/bch709_scratch/RNA-Seq_example/ATH
->
-> # 1. Download FASTQs (no prerequisites)
-> DUMP_JID=$(sbatch --parsable fastq-dump.sh)
->
-> # 2. Build STAR index (independent of download — runs in parallel)
-> cd ~/bch709_scratch/RNA-Seq_example/ATH/reference
-> IDX_JID=$(sbatch --parsable index.sh)
->
-> # 3. Trim reads (waits for download)
-> cd ~/bch709_scratch/RNA-Seq_example/ATH
-> TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
->
-> # 4. Align to genome (waits for trim AND index)
-> ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
->
-> echo "Submitted pipeline:"
-> echo "  fastq-dump:  ${DUMP_JID}"
-> echo "  index:       ${IDX_JID}"
-> echo "  trim:        ${TRIM_JID}"
-> echo "  align:       ${ALIGN_JID}"
->
-> squeue -u $USER     # later jobs show state PD with reason (Dependency)
-> ```
+**Pipeline DAG:**
+
+```
+  fastq-dump ──┐
+               ├─→ trim ─→ align
+  index   ─────┘
+```
+
+(Download + index run in parallel; trim waits on download; align waits on both trim and index.)
+
+**Save as `run_all.sh`:**
+
+```bash
+#!/bin/bash
+# run_all.sh — submit the entire Arabidopsis RNA-Seq pipeline with one command.
+# Slurm enforces the correct order via --dependency; you can walk away.
+set -euo pipefail
+
+PROJECT=~/bch709_scratch/RNA-Seq_example/ATH
+cd "$PROJECT"
+
+# 1. Download FASTQs (no prerequisites)
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+
+# 2. Build STAR index (independent of download — runs in parallel)
+IDX_JID=$(cd "$PROJECT/reference" && sbatch --parsable index.sh)
+
+# 3. Trim reads (waits for download)
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+
+# 4. Align to genome (waits for BOTH trim and index)
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
+
+cat <<EOF
+Submitted RNA-Seq pipeline (Arabidopsis):
+  fastq-dump   ${DUMP_JID}
+  index        ${IDX_JID}
+  trim         ${TRIM_JID}
+  align        ${ALIGN_JID}
+
+Monitor with:  squeue -u \$USER
+Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID}
+EOF
+```
+
+**Run it:**
+
+```bash
+chmod +x run_all.sh
+bash run_all.sh
+squeue -u $USER   # later jobs show state PD with reason (Dependency)
+```
+
+You'll see 4 job IDs printed immediately. Close your laptop — Slurm takes over. When everything finishes, check `ls bam/` for sorted BAM outputs and log files for `Finished successfully`.
+
+> ## Same pattern for every other organism
+> For Drosophila, Mouse, Tomato, Mosquito, etc., copy `run_all.sh` into that organism's project directory, update `PROJECT=~/bch709_scratch/RNA-Seq_example/<ORG>`, and run it. The script structure doesn't change — only the path.
 {: .callout}
 
-> ## Don't hard-code dependencies inside the script
-> Some older examples have `#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>` **inside** `align.sh`. That's fragile — you'd have to edit the file and paste the previous job's ID every single time. Instead, pass `--dependency` **on the `sbatch` command line** (as shown above) so the script stays generic and the job ID is captured automatically. If you see a `#SBATCH --dependency=...` line inside `align.sh`, delete it.
+> ## Don't hard-code dependencies inside the `#SBATCH` block
+> Some older examples had `#SBATCH --dependency=afterok:<PREVIOUS_JOBID(trim_ATH)>` **inside** `align.sh`. That's fragile — you'd have to edit the file and paste the previous job's ID every single time. Instead, pass `--dependency` **on the `sbatch` command line** (as shown in `run_all.sh` above). If you see a `#SBATCH --dependency=...` line inside any script, delete it.
 {: .callout}
 
 For a full explanation of `--dependency`, `afterok` vs `afterany`, and the `--parsable` flag, see the **[Job dependencies section in the HPC Cluster lesson](../HPC_cluster/index.html#step-10--job-dependencies-chaining-jobs-automatically)**.
