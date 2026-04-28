@@ -805,6 +805,9 @@ curl -fsSL --retry 3 --max-time 3600 -o GRCm39_genomic.fna.gz \
 curl -fsSL --retry 3 --max-time 600  -o GRCm39_genomic.gff.gz \
     "${NCBI_BASE}/GCF_000001635.27_GRCm39_genomic.gff.gz"
 gunzip -f GRCm39_genomic.fna.gz GRCm39_genomic.gff.gz
+
+# featureCounts expects GTF — convert with gffread (already in RNASEQ_bch709)
+gffread GRCm39_genomic.gff -T -F --keep-exon-attrs -o GRCm39_genomic.gtf
 ls -lh
 ```
 
@@ -928,7 +931,7 @@ featureCounts -o ATH.featureCount.cnt -p  -a ~/scratch/rnaseq/ATH/reference/TAIR
 ```bash
 micromamba activate RNASEQ_bch709
 cd ~/scratch/rnaseq/Mmusculus/bam
-featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/scratch/rnaseq/Mmusculus/reference/GCF_000001635.27_GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
+featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/scratch/rnaseq/Mmusculus/reference/GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
 ```
 
 
