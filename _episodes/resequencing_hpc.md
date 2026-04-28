@@ -1134,7 +1134,84 @@ echo "Filter+Annotate: ${FILTER_JID}"
 
 ---
 
-## 8. Submit the Entire Pipeline with One Script
+## 8. Aggregate QC with MultiQC
+
+Each upstream step writes a MultiQC-parseable artifact (fastp JSON, Picard MarkDuplicates metrics, GATK BQSR table, snpEff summary, bcftools stats). MultiQC walks the working dir and rolls them all into one HTML report — the single file you can open to see how the cohort behaved end to end.
+
+### `scripts/08_multiqc.sh`
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=multiqc
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8g
+#SBATCH --time=01:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
+#SBATCH -o logs/08_multiqc_%j.out
+
+set -euo pipefail
+cd ~/scratch/reseq
+
+mkdir -p qc
+
+# bcftools stats over the final cohort VCF — MultiQC parses the .vchk
+mkdir -p qc/bcftools
+bcftools stats vcf/cohort.filtered.vcf.gz > qc/bcftools/cohort.filtered.vchk
+
+# Aggregate everything multiqc can find under the working dir
+multiqc . -o qc/ -n reseq_report --force \
+    --module fastp \
+    --module picard \
+    --module gatk \
+    --module snpeff \
+    --module bcftools
+
+echo "MultiQC report: qc/reseq_report.html"
+```
+
+What this picks up:
+
+| Module | Source files | What you see |
+|--------|--------------|--------------|
+| `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
+| `picard` | `bam/*.markdup.metrics` | Optical / PCR duplication rate per library |
+| `gatk` | `bam/*.recal.table` | BQSR before/after empirical quality |
+| `snpeff` | `vcf/cohort.*.snpeff_summary.html`, `_genes.txt` | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
+| `bcftools` | `qc/bcftools/cohort.filtered.vchk` | SNP/indel counts, Ts/Tv, singleton stats |
+
+**Submit:**
+
+```bash
+MQC_JID=$(sbatch --parsable --dependency=afterok:${FILTER_JID} scripts/08_multiqc.sh)
+echo "MultiQC: ${MQC_JID}"
+```
+
+Once it finishes, copy the report to your laptop with `scp` and open it in a browser:
+
+```bash
+scp <netid>@pronghorn.rc.unr.edu:~/scratch/reseq/qc/reseq_report.html ./
+open reseq_report.html      # or: double-click in your file browser
+```
+
+Expected `qc/reseq_report.html` (key sections you should see in the rendered report):
+
+```
+General Statistics    — one row per sample, mapped %, dup %, Q30, mean coverage
+fastp                 — adapter trimming, read filtering, Q20/Q30 distributions
+Picard MarkDuplicates — % Duplication, Estimated Library Size
+GATK BQSR             — empirical quality vs reported quality, by sample
+snpEff                — variant impact pie + summary table per sample
+bcftools stats        — SNPs / indels / Ts:Tv per sample and cohort-wide
+```
+
+If a module section is missing, the underlying file wasn't written — re-check that step's log before continuing.
+
+---
+
+## 9. Submit the Entire Pipeline with One Script
 
 Instead of manually chaining each step, use a driver script that submits everything with correct dependencies in one go.
 
@@ -1160,6 +1237,7 @@ HC_JID=$(sbatch --parsable --dependency=afterok:${MARK_JID}             scripts/
 GATHER_JID=$(sbatch --parsable --dependency=afterok:${HC_JID}           scripts/05b_gather_gvcf.sh)
 JOINT_JID=$(sbatch --parsable --dependency=afterok:${GATHER_JID}        scripts/06_joint_genotype.sh)
 FILT_JID=$(sbatch --parsable --dependency=afterok:${JOINT_JID}          scripts/07_filter_annotate.sh)
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FILT_JID}           scripts/08_multiqc.sh)
 
 echo "Submitted pipeline:"
 printf '  %-20s %s\n' "download"       "${DL_JID}"
@@ -1170,10 +1248,13 @@ printf '  %-20s %s\n' "haplotypecaller" "${HC_JID}"
 printf '  %-20s %s\n' "gather"         "${GATHER_JID}"
 printf '  %-20s %s\n' "joint_genotype" "${JOINT_JID}"
 printf '  %-20s %s\n' "filter+annotate" "${FILT_JID}"
+printf '  %-20s %s\n' "multiqc"        "${MQC_JID}"
 
 echo ""
 echo "Monitor with:  squeue -u \$USER"
-echo "Cancel all:    scancel ${DL_JID} ${REF_JID} ${ALIGN_JID} ${MARK_JID} ${HC_JID} ${GATHER_JID} ${JOINT_JID} ${FILT_JID}"
+echo "Cancel all:    scancel ${DL_JID} ${REF_JID} ${ALIGN_JID} ${MARK_JID} ${HC_JID} ${GATHER_JID} ${JOINT_JID} ${FILT_JID} ${MQC_JID}"
+echo ""
+echo "Final report (after pipeline finishes): ~/scratch/reseq/qc/reseq_report.html"
 ```
 
 **Run it:**
