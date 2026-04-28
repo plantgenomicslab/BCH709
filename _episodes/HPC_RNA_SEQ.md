@@ -1139,6 +1139,8 @@ micromamba create -n DEG_bch709 -c conda-forge -c bioconda -y \
     r-gplots r-fastcluster=1.1.25 \
     bioconductor-ctc bioconductor-deseq2 bioconductor-qvalue \
     bioconductor-limma bioconductor-edger bioconductor-genomeinfodb \
+    bioconductor-topgo bioconductor-org.at.tair.db \
+    bioconductor-org.mm.eg.db bioconductor-org.hs.eg.db \
     r-rcurl bedtools intervene r-upsetr r-corrplot r-cairo
 
 micromamba activate DEG_bch709
