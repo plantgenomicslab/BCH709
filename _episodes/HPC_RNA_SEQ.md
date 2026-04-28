@@ -286,8 +286,8 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
 >
 > ```bash
 > # Sanity-check the shared workspace already has the trimmed reads
-> ls ~/scratch/rnaseq/trim/SRR1761506_1.trim.fastq.gz \
->    ~/scratch/rnaseq/trim/SRR1761506_2.trim.fastq.gz
+> ls ~/scratch/rnaseq/trim/SRR1761506_1.trimmed.fq.gz \
+>    ~/scratch/rnaseq/trim/SRR1761506_2.trimmed.fq.gz
 >
 > # Set up the ATH project sub-directory under the shared parent
 > mkdir -p ~/scratch/rnaseq/ATH
