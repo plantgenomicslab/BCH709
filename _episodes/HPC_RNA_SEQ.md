@@ -925,13 +925,13 @@ featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...
 ```bash
 micromamba activate RNASEQ_bch709
 cd ~/scratch/rnaseq/ATH/bam
-featureCounts -o ATH.featureCount.cnt -p  -a ~/scratch/rnaseq/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
+featureCounts -o ATH.featureCount.cnt -p --countReadPairs -a ~/scratch/rnaseq/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
 ```
 
 ```bash
 micromamba activate RNASEQ_bch709
 cd ~/scratch/rnaseq/Mmusculus/bam
-featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/scratch/rnaseq/Mmusculus/reference/GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
+featureCounts -o Mmusculus.featureCount.cnt -p --countReadPairs -a ~/scratch/rnaseq/Mmusculus/reference/GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
 ```
 
 
