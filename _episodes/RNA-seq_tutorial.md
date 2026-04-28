@@ -217,6 +217,23 @@ ls -lh
 zcat pair2.fastq.gz | head -12
 ```
 
+Expected output (first 3 records):
+
+```
+@A00261:180:HL7GCDSXX:2:1101:18774:1125/2
+ATACATTTTAACATAACTGTTTCAGAAAAACTTAAAAGCGGCAACAGAAGATAATAGAGAGAGACAAAGTATATCAAACAAAAGTTCATAGTCTTTCTTTTTTTCCCCAAACTTCAAATCCTTCTTCAGATCTTAAACCACATTTTCTCT
++
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFF:FF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,FFFFFFFFFFFFFFFFFFFFFFFFFFF
+@A00261:180:HL7GCDSXX:2:1101:28275:1141/2
+CTCGAAGTATTAAGCAAGCACAGGGACAAGTATCATGAGTTGTTACTATCTGATTGCCGTAAACAGATCACAGAAGCTTTATCAGCAGATAAGTTTGAGCAGATGTTGATGAAGAAAGAATATGAGTATTCCATGAATGTGCTCTCTTTC
++
+:FFFFF::FFFFFFFFFFFFFFFFFFFFFFF,FFF:FFFFFFFFFFFF::FFFFFF:F::FFF:FFFF,F:F:FF:FF:FFFFF:FFFFFFFF,F:FFF:FFF,FF:FFFFFFFFFFFFFFFFFFFFFFFF,FFFFFFFFFFFF:FF,:,
+@A00261:180:HL7GCDSXX:2:1101:5954:1438/2
+CGAGCTTACAATCTTTCTCAACAAACTGTATAACGCAGTAAGAAAGCTGTTGATGGTAATTTGGTAAGCATTTCAGCTTGTGCAGAGGAATCAAGACACGAGTAAGAAAGAGCTTGTGTTCTTCCTTGAGTGGTAAAGCGAATCCATTGA
++
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,FFFFFFFF:FFFFFFFFF,:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFF:FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+```
+
 ---
 
 ## 5. Quality Control
@@ -369,6 +386,26 @@ samtools index align_sort.bam
 cat alignment.txt
 ```
 
+Expected output (`alignment.txt`):
+
+```
+1581474 reads; of these:
+  1581474 (100.00%) were paired; of these:
+    13578 (0.86%) aligned concordantly 0 times
+    1545720 (97.74%) aligned concordantly exactly 1 time
+    22176 (1.40%) aligned concordantly >1 times
+    ----
+    13578 pairs aligned concordantly 0 times; of these:
+      868 (6.39%) aligned discordantly 1 time
+    ----
+    12710 pairs aligned 0 times concordantly or discordantly; of these:
+      25420 mates make up the pairs; of these:
+        13870 (54.56%) aligned 0 times
+        11371 (44.73%) aligned exactly 1 time
+        179 (0.70%) aligned >1 times
+99.56% overall alignment rate
+```
+
 ---
 
 ## 8. SAM/BAM Format
@@ -391,8 +428,14 @@ Convert a decimal flag to binary to interpret it:
 
 ```bash
 python3 -c "print(bin(163))"
-# or
+# or, if `bc` is installed (not always on HPC login nodes):
 echo 'obase=2; 163' | bc
+```
+
+Expected output:
+
+```
+0b10100011
 ```
 
 Check what a flag means: [SAM Flag Decoder](https://broadinstitute.github.io/picard/explain-flags.html)
@@ -447,6 +490,35 @@ samtools stats -@ 4 align_sort.bam > align_sort.bam.stat
 grep '^SN' align_sort.bam.stat | head -20
 ```
 
+Expected output (`samtools flagstat`):
+
+```
+3223020 + 0 in total (QC-passed reads + QC-failed reads)
+3162948 + 0 primary
+60072 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+3209150 + 0 mapped (99.57% : N/A)
+3149078 + 0 primary mapped (99.56% : N/A)
+3162948 + 0 paired in sequencing
+1581474 + 0 read1
+1581474 + 0 read2
+3135792 + 0 properly paired (99.14% : N/A)
+3138530 + 0 with itself and mate mapped
+10548 + 0 singletons (0.33% : N/A)
+226 + 0 with mate mapped to a different chr
+226 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+Expected output (`samtools idxstats`):
+
+```
+Chr3	5268426	2205946	6542
+Chr4	6078366	1003204	4006
+*	0	0	3322
+```
+
 ### Useful Flag Filters
 
 ```bash
@@ -458,6 +530,14 @@ samtools view -c -F 4 align_sort.bam
 
 # Properly paired reads only (for paired-end data)
 samtools view -c -f 2 align_sort.bam
+```
+
+Expected output (counts on the validated bch709 data):
+
+```
+all records:        3223020
+mapped (-F 4):      3209150
+properly paired:    3195650
 ```
 
 ### File Size Comparison
@@ -535,6 +615,9 @@ This is why EM-based tools (for example, RSEM) are commonly used for transcript-
 
 ```bash
 # 1) Build STAR genome index (one-time)
+# For small genomes (<100 Mb), drop --genomeSAindexNbases to ~10
+# (rule of thumb: min(14, log2(GenomeLength)/2 - 1)); the default 14
+# is sized for human-scale references and triggers a WARNING here.
 mkdir -p star_index
 STAR \
   --runThreadN 4 \
@@ -542,7 +625,8 @@ STAR \
   --genomeDir star_index \
   --genomeFastaFiles bch709.fasta \
   --sjdbGTFfile bch709.gtf \
-  --sjdbOverhang 99
+  --sjdbOverhang 99 \
+  --genomeSAindexNbases 10
 
 # 2) Build RSEM reference (one-time)
 mkdir -p rsem_ref
@@ -576,6 +660,16 @@ Useful columns:
 - `expected_count`: EM-estimated read count
 - `TPM`: length-normalized expression
 
+Expected output (`sample1.genes.results`, first rows):
+
+```
+gene_id        transcript_id(s)   length    effective_length   expected_count   TPM      FPKM
+Chr3_gene_1    Chr3_mRNA_1        853.00    590.34             99.00            201.63   191.14
+Chr3_gene_10   Chr3_mRNA_10       3216.00   2953.34            684.00           278.46   263.97
+Chr3_gene_100  Chr3_mRNA_100      3426.00   3163.34            2135.00          811.48   769.25
+Chr3_gene_1000 Chr3_mRNA_1000     327.00    68.56              12.00            210.44   199.49
+```
+
 ### Run featureCounts
 
 The `-p` flag is for paired-end reads. Add `-T 4` to use multiple threads. The `-s` flag sets strandedness (0=unstranded, 1=forward, 2=reverse).
@@ -590,6 +684,26 @@ featureCounts \
 
 # View the count matrix (skip the first commented header line)
 grep -v "^#" counts.txt | head
+```
+
+Expected output (`counts.txt.summary`):
+
+```
+Status                          align_sort.bam
+Assigned                        1458491
+Unassigned_Unmapped             1661
+Unassigned_MultiMapping         52472
+Unassigned_NoFeatures           96306
+Unassigned_Ambiguity            2685
+```
+
+Expected output (`counts.txt`, first rows):
+
+```
+Geneid          Chr             Start           End             Strand  Length  align_sort.bam
+Chr3_gene_1     Chr3;Chr3;Chr3;Chr3   29;343;749;1701   245;684;865;1877   -;-;-;-   853   206
+Chr3_gene_2     Chr3;Chr3             2360;2714         2580;3146          +;+       654   659
+Chr3_gene_3     Chr3;Chr3;Chr3;Chr3;Chr3   3593;3867;4133;4337;4748   3757;4022;4231;4659;5432   -;-;-;-;-   1428   1461
 ```
 
 ### PCR Duplicates
