@@ -1240,7 +1240,7 @@ PtR  --matrix ATH.featureCount_count_only.cnt  --samples samples.txt --CPM  --lo
 
 ```
 ```output
-WT.rep_compare.pdf
+Control.rep_compare.pdf
 ABA.rep_compare.pdf
 ```
 
