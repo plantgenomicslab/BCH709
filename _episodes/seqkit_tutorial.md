@@ -248,9 +248,28 @@ zcat test.fastq.gz
 seqkit seq test.fastq.gz
 ```
 
+Expected output (the 2-record FASTQ is printed twice — once by `zcat`, once by `seqkit seq`):
+```
+@seq1:11:455
+AACCTGATTGGGATCACTATAGCTTTGAAGGCGTGCGCCAATTTCGTCGAAAGCTTGTTGCCAGCTTAATGGCTTGTAACAGTCGCTGACGGCATCATATTCAAAGGCTGAGTGAGTCGCCCGCAGCCTCAGCTGA
++
+>>>>>>>>>>>;=;;<<98>>>==<89962/2==>>>>>>>>><>>>>>>>9=>>>>>>>>>>>>>>>>>>>>>>>;>=>>>>>>>>>>>>>>>>99;+,((55*6.8;;<<>8888.,+,&(.,35*6;88446:
+@seq2:34:77
+GTTGCCGGATATTCCTGAATGGTGACCTGCAGCGTTAACTGCTTATCATCACGCATCACTACTACAGGGATCACCGAACCAGGGCGAATTTCCGCCACCTGATCCATCGTCTCCAGGCTGAGGA
++
+>>>>>>>>>>>>>>>>>>>6615=7959>>=>>>>>>>>>>>>>>>>>>>>>>>;:<=>>>>:><;;=8<4=>>>;>>>>568.44943:09<9<<==<;195::39<:<<9=;,,(,9::289
+```
+
 - From stdin:
 ```bash
-zcat hairpin.fa.gz | seqkit seq
+cat hairpin.fa | seqkit seq
+```
+
+Expected output:
+```
+>cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
+UACACUGUGGAUCCGGUGAGGUAGUAGGUUGUAUAGUUUGGAAUAUUACCACCGGUGAACUAUGCAAUUUUCUACCUUACCGGAGACAGAACUCUUCGA
+...
 ```
 
 2. Sequence types
@@ -293,7 +312,13 @@ seqkit seq hairpin.fa -s -w 0
 
 5. Reverse complement sequence
 ```bash
-seqkit seq hairpin.fa.gz -r -p
+seqkit seq hairpin.fa -r -p
+```
+
+Expected output (first record):
+```
+>cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
+UCGAAGAGUUCUGUCUCCGGUAAGGUAGAAAAUUGCAUAGUUCACCGGUGGUAAUAUUCCAAACUAUACAACCUACUACCUCACCGGAUCCACAGUGUA
 ```
 
 6. Remove gaps and to lower/upper case
@@ -445,7 +470,15 @@ Examples
 
 1. General use
 ```bash
-seqkit stat *.f*{a,q}.gz
+seqkit stat *.fa *.fastq.gz
+```
+
+Expected output:
+```
+file           format  type  num_seqs    sum_len  min_len  avg_len  max_len
+hairpin.fa     FASTA   RNA     38,589  3,729,811       39     96.7    2,354
+mature.fa      FASTA   RNA     48,885  1,067,911       15     21.8       34
+test.fastq.gz  FASTQ   DNA          2        260      124      130      136
 ```
 
 ## fq2fa
@@ -461,6 +494,22 @@ Usage:
 seqkit fq2fa test.fastq.gz -o test_.fa.gz
 zcat test_.fa.gz
 zcat test.fastq.gz
+```
+
+Expected output (FASTA on top, FASTQ below):
+```
+>seq1:11:455
+AACCTGATTGGGATCACTATAGCTTTGAAGGCGTGCGCCAATTTCGTCGAAAGCTTGTTGCCAGCTTAATGGCTTGTAACAGTCGCTGACGGCATCATATTCAAAGGCTGAGTGAGTCGCCCGCAGCCTCAGCTGA
+>seq2:34:77
+GTTGCCGGATATTCCTGAATGGTGACCTGCAGCGTTAACTGCTTATCATCACGCATCACTACTACAGGGATCACCGAACCAGGGCGAATTTCCGCCACCTGATCCATCGTCTCCAGGCTGAGGA
+@seq1:11:455
+AACCTGATTGGGATCACTATAGCTTTGAAGGCGTGCGCCAATTTCGTCGAAAGCTTGTTGCCAGCTTAATGGCTTGTAACAGTCGCTGACGGCATCATATTCAAAGGCTGAGTGAGTCGCCCGCAGCCTCAGCTGA
++
+>>>>>>>>>>>;=;;<<98>>>==<89962/2==>>>>>>>>><>>>>>>>9=>>>>>>>>>>>>>>>>>>>>>>>;>=>>>>>>>>>>>>>>>>99;+,((55*6.8;;<<>8888.,+,&(.,35*6;88446:
+@seq2:34:77
+GTTGCCGGATATTCCTGAATGGTGACCTGCAGCGTTAACTGCTTATCATCACGCATCACTACTACAGGGATCACCGAACCAGGGCGAATTTCCGCCACCTGATCCATCGTCTCCAGGCTGAGGA
++
+>>>>>>>>>>>>>>>>>>>6615=7959>>=>>>>>>>>>>>>>>>>>>>>>>>;:<=>>>>:><;;=8<4=>>>;>>>>568.44943:09<9<<==<;195::39<:<<9=;,,(,9::289
 ```
 
 ## fx2tab & tab2fx
@@ -877,9 +926,23 @@ Examples
 seqkit head -n 1 hairpin.fa
 ```
 
+Expected output:
+```
+>cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
+UACACUGUGGAUCCGGUGAGGUAGUAGGUUGUAUAGUUUGGAAUAUUACCACCGGUGAACUAUGCAAUUUUCUACCUUACCGGAGACAGAACUCUUCGA
+```
+
 1. FASTQ
 ```bash
 seqkit head -n 1 test.fastq.gz
+```
+
+Expected output:
+```
+@seq1:11:455
+AACCTGATTGGGATCACTATAGCTTTGAAGGCGTGCGCCAATTTCGTCGAAAGCTTGTTGCCAGCTTAATGGCTTGTAACAGTCGCTGACGGCATCATATTCAAAGGCTGAGTGAGTCGCCCGCAGCCTCAGCTGA
++
+>>>>>>>>>>>;=;;<<98>>>==<89962/2==>>>>>>>>><>>>>>>>9=>>>>>>>>>>>>>>>>>>>>>>>;>=>>>>>>>>>>>>>>>>99;+,((55*6.8;;<<>8888.,+,&(.,35*6;88446:
 ```
 
 
@@ -1044,10 +1107,30 @@ echo -e ">seq1\nACGTNcccc\n>SEQ2\nacgtnAAAAnnn\n>seq3\nacgt" | seqkit sort --qui
 seqkit stat hairpin.fa
 ```
 
+Expected output:
+```
+file        format  type  num_seqs    sum_len  min_len  avg_len  max_len
+hairpin.fa  FASTA   RNA     38,589  3,729,811       39     96.7    2,354
+```
+
 1. First 10 bases
 
 ```bash
 cat hairpin.fa | seqkit subseq -r 1:10 | seqkit sort -s | seqkit seq -s | head -n 10
+```
+
+Expected output:
+```
+AAAAAAAAAA
+AAAAAAAAAA
+AAAAAAAAAG
+AAAAAAAAAG
+AAAAAAAAAG
+AAAAAAAAAU
+AAAAAAAAGG
+AAAAAAACAU
+AAAAAAACGA
+AAAAAAAUUA
 ```
 ### Repeated hairpin sequences
 
@@ -1069,7 +1152,14 @@ And the `dre-miR-430c` has the most multicopies in *Danio rerio*.
 
 1. Before spliting by species, let's take a look at the sequence names.
 ```bash
-seqkit seq hairpin.fa.gz -n | head -n 3
+seqkit seq hairpin.fa -n | head -n 3
+```
+
+Expected output:
+```
+cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop
+cel-lin-4 MI0000002 Caenorhabditis elegans lin-4 stem-loop
+cel-mir-1 MI0000003 Caenorhabditis elegans miR-1 stem-loop
 ```
 
 The first three letters (e.g. `cel`) are the abbreviation of species names. So we could split hairpins by the first letters by defining custom sequence ID parsing regular expression `^([\w]+)\-`.
@@ -1084,11 +1174,25 @@ seqkit split hairpin.fa -i --id-regexp "^([\w]+)\-" --two-pass
 
     ***To reduce memory usage when splitting big file, we should always use flag `--two-pass`***
 
-3. Species with most miRNA hairpins. Third column is the sequences number.
+3. Species with most miRNA hairpins. Fourth column is the sequence number.
+   Note: pass `-T` to `seqkit stat` so it emits raw tab-separated integers
+   (the default human-readable output uses comma-grouped numbers like
+   `1,917`, which break numeric sorting in `csvtk -t sort -k num_seqs:nr`).
 ```bash
 cd hairpin.fa.split/;
-seqkit stat hairpin.part_* | csvtk space2tab | csvtk -t sort -k num_seqs:nr | csvtk -t pretty| more
- ```
+seqkit stat -T hairpin.part_* | csvtk -t sort -k num_seqs:nr | csvtk -t pretty | more
+```
+
+Expected output (top of list):
+```
+file                     format   type   num_seqs   sum_len   min_len   avg_len   max_len
+----------------------   ------   ----   --------   -------   -------   -------   -------
+hairpin.part_hsa.fasta   FASTA    RNA    1917       156977    41        81.9      180
+hairpin.part_mmu.fasta   FASTA    RNA    1234       101929    39        82.6      147
+hairpin.part_bta.fasta   FASTA    RNA    1064       81107     43        76.2      149
+hairpin.part_gga.fasta   FASTA    RNA    882        77053     48        87.4      169
+```
+
 Here, a CSV/TSV tool [csvtk](https://github.com/shenwei356/csvtk) is used to sort and view the result.
 
 
