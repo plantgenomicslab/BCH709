@@ -725,7 +725,7 @@ nano index.sh
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel-all-chromosome-r6.42.fasta --sjdbGTFfile dmel-all-r6.42.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel.fasta --sjdbGTFfile dmel.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
 ```
 
 
