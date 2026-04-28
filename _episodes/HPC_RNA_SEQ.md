@@ -657,10 +657,19 @@ fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/scratch
 
 ```bash
 cd  ~/scratch/Drosophila/reference
-wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz 
-wget http://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz
-gunzip dmel-all-chromosome-r6.42.fasta.gz
-gunzip dmel-all-r6.42.gtf.gz
+
+# FlyBase r6.42 (FB2021_05) — pinned for reproducibility. The dmel_r6.42
+# directory is still hosted by FlyBase but only via HTTPS in newer releases;
+# the legacy http:// URL sometimes 301-redirects in a way that wget mishandles.
+# Use HTTPS + curl with retries; add an Ensembl mirror as fallback.
+FLY_FA="https://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/fasta/dmel-all-chromosome-r6.42.fasta.gz"
+FLY_GTF="https://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB2021_05/gtf/dmel-all-r6.42.gtf.gz"
+ENS_FA="https://ftp.ensembl.org/pub/release-104/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.32.dna.toplevel.fa.gz"
+ENS_GTF="https://ftp.ensembl.org/pub/release-104/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.32.104.gtf.gz"
+
+curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${FLY_FA}"  || curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${ENS_FA}"
+curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${FLY_GTF}" || curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${ENS_GTF}"
+gunzip -f dmel.fasta.gz dmel.gtf.gz
 ls -algh
 ```
 
@@ -748,12 +757,21 @@ pwd
 
 
 ## Reference download
-https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus
+Browse: <https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus>
 
-### Download files
-https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.fna.gz
+### Download files (NCBI RefSeq GRCm39)
 
-https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39/GCF_000001635.27_GRCm39_genomic.gff.gz
+```bash
+mkdir -p ~/scratch/Mus/reference && cd ~/scratch/Mus/reference
+
+NCBI_BASE="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39"
+curl -fsSL --retry 3 --max-time 3600 -o GRCm39_genomic.fna.gz \
+    "${NCBI_BASE}/GCF_000001635.27_GRCm39_genomic.fna.gz"
+curl -fsSL --retry 3 --max-time 600  -o GRCm39_genomic.gff.gz \
+    "${NCBI_BASE}/GCF_000001635.27_GRCm39_genomic.gff.gz"
+gunzip -f GRCm39_genomic.fna.gz GRCm39_genomic.gff.gz
+ls -lh
+```
 
 
 # Solanum lycopersicum
@@ -815,11 +833,19 @@ pwd
 | SRR1851030 | Anopheles stephensi female RNAseq replicate 3 |
 
 ## Reference genome (VectorBase)
-https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian
+Browse: <https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian>
 
-### Reference Download Link
-https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta
-https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff
+### Reference download
+
+```bash
+mkdir -p ~/scratch/Astephensi/reference && cd ~/scratch/Astephensi/reference
+
+VB_FA="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta"
+VB_GFF="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff"
+curl -fsSL --retry 3 --max-time 1800 -o AstephensiSDA-500.fasta "${VB_FA}"
+curl -fsSL --retry 3 --max-time 600  -o AstephensiSDA-500.gff   "${VB_GFF}"
+ls -lh
+```
 
 
 

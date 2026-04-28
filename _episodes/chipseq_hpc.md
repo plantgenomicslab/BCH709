@@ -229,7 +229,9 @@ ACC=$(echo "$LINE" | cut -f2)
 URL="https://www.encodeproject.org/files/${ACC}/@@download/${ACC}.fastq.gz"
 echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${ACC})"
 
-wget -q -c "${URL}" -O raw/${SAMPLE}.fastq.gz
+# curl with 3 retries + 60-min cap survives transient ENCODE 5xx / network blips
+curl -fsSL --retry 3 --retry-delay 10 --max-time 3600 \
+    -o raw/${SAMPLE}.fastq.gz "${URL}"
 
 # Validate the gzip immediately — prevents silent truncation
 gunzip -t raw/${SAMPLE}.fastq.gz
@@ -272,7 +274,14 @@ set -euo pipefail
 cd ~/scratch/chipseq
 
 # hg19 genome (example data is ENCODE-legacy aligned to hg19)
-wget -q http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz
+# Use HTTPS + curl with retries — UCSC redirects HTTP to HTTPS and a
+# plain wget can fail on the redirect. Two mirror choices:
+#   primary: hgdownload.soe.ucsc.edu (US west)
+#   mirror : hgdownload-euro.soe.ucsc.edu (Europe — faster from EU)
+UCSC_URL="https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz"
+UCSC_MIRROR="https://hgdownload-euro.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz"
+curl -fsSL --retry 3 --retry-delay 10 --max-time 3600 -o hg19.fa.gz "${UCSC_URL}" \
+    || curl -fsSL --retry 3 --max-time 3600 -o hg19.fa.gz "${UCSC_MIRROR}"
 gunzip -f hg19.fa.gz
 mv -f hg19.fa reference.fasta
 
@@ -280,7 +289,10 @@ samtools faidx reference.fasta
 minimap2 -d reference.mmi reference.fasta
 
 # TSS BED for later heatmaps
-wget -q http://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz
+REFG_URL="https://hgdownload.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz"
+REFG_MIRROR="https://hgdownload-euro.soe.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz"
+curl -fsSL --retry 3 --retry-delay 10 --max-time 600 -o refGene.txt.gz "${REFG_URL}" \
+    || curl -fsSL --retry 3 --max-time 600 -o refGene.txt.gz "${REFG_MIRROR}"
 gunzip -f refGene.txt.gz
 awk 'BEGIN{OFS="\t"} {
     if ($4=="+") print $3, $5, $5+1, $2, "0", $4;

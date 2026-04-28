@@ -329,7 +329,10 @@ samtools faidx reference.fasta
 picard CreateSequenceDictionary R=reference.fasta O=reference.dict
 
 # Download and prepare known variants (sites-only to avoid malformed VCF)
-wget -q https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-short-indel_only_ACGTN.vcf.gz
+# 1001genomes.org is sometimes slow — give curl up to 30 min and retry 3×
+KSITES_URL="https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-short-indel_only_ACGTN.vcf.gz"
+curl -fsSL --retry 3 --retry-delay 30 --max-time 1800 \
+    -o 1001genomes_snp-short-indel_only_ACGTN.vcf.gz "${KSITES_URL}"
 zcat 1001genomes_snp-short-indel_only_ACGTN.vcf.gz \
     | awk 'BEGIN{OFS="\t"} /^##/{print; next} /^#CHROM/{print $1,$2,$3,$4,$5,$6,$7,$8; next} {print $1,$2,$3,$4,$5,$6,$7,$8}' \
     | bgzip > known_sites.vcf.gz
