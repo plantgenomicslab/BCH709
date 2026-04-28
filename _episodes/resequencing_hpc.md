@@ -287,10 +287,41 @@ set -euo pipefail
 
 cd ~/scratch/reseq
 
-# Download TAIR10
-wget -q https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz
-gunzip -f Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz
-mv -f Arabidopsis_thaliana.TAIR10.dna.toplevel.fa reference.fasta
+# ---- Download TAIR10 (try multiple mirrors; Ensembl Plants is sometimes flaky) ----
+# Mirror order:
+#   1. Ensembl Plants  (canonical)            ftp.ensemblgenomes.org
+#   2. EBI mirror      (most stable)          ftp.ebi.ac.uk
+#   3. NCBI RefSeq     (last-resort fallback) ftp.ncbi.nlm.nih.gov
+ENS_URL="https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz"
+EBI_URL="https://ftp.ebi.ac.uk/ensemblgenomes/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz"
+NCBI_URL="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz"
+
+OUT=reference.fasta.gz
+rm -f "$OUT"
+for URL in "$ENS_URL" "$EBI_URL" "$NCBI_URL"; do
+    echo "[ref] trying $URL"
+    if curl -fsSL --retry 3 --max-time 900 -o "$OUT" "$URL" && [ -s "$OUT" ]; then
+        echo "[ref] downloaded from $URL"
+        break
+    fi
+    rm -f "$OUT"
+done
+[ -s "$OUT" ] || { echo "ERROR: TAIR10 download failed from all mirrors"; exit 1; }
+gunzip -f "$OUT"
+
+# NCBI fallback uses RefSeq names (NC_003070.9 …) — rename to TAIR style (1, 2, …)
+# so they match the 1001genomes VCF below. Ensembl/EBI fasta already uses 1..5,Mt,Pt.
+if grep -q '^>NC_' reference.fasta; then
+    awk 'BEGIN{
+        m["NC_003070.9"]="1"; m["NC_003071.7"]="2"; m["NC_003074.8"]="3"
+        m["NC_003075.7"]="4"; m["NC_003076.8"]="5"
+        m["NC_037304.1"]="Mt"; m["NC_000932.1"]="Pt"
+    }
+    /^>/{
+        name=substr($1,2); print ">" (name in m ? m[name] : name); next
+    }
+    {print}' reference.fasta > reference.renamed.fa && mv -f reference.renamed.fa reference.fasta
+fi
 
 # Build all indices
 bwa-mem2 index reference.fasta
