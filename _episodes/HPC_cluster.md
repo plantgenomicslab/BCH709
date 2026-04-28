@@ -1221,7 +1221,7 @@ cat trim_12345.err
 #   → has text? Read it — that's what went wrong.
 
 # 4. Verify the output files actually exist
-ls -lh ~/scratch/trim/
+ls -lh ~/scratch/rnaseq/trim/
 #   → you should see 12 trimmed .fq.gz files + 6 .html reports
 ```
 
@@ -1513,10 +1513,10 @@ squeue -u $USER         # confirm it's queued
 ```
 
 > ## Don't edit and re-submit blindly
-> Before resubmitting, **clean up any partial output** from the failed run. For example, if the download script fetched 3 of 6 runs before failing, those files are still in `~/scratch/raw_data/`. Depending on the tool, leftover partial files can cause the next run to silently produce wrong results or skip steps.
+> Before resubmitting, **clean up any partial output** from the failed run. For example, if the download script fetched 3 of 6 runs before failing, those files are still in `~/scratch/rnaseq/raw_data/`. Depending on the tool, leftover partial files can cause the next run to silently produce wrong results or skip steps.
 >
 > ```bash
-> ls -lh ~/scratch/raw_data/    # check what's there
+> ls -lh ~/scratch/rnaseq/raw_data/    # check what's there
 > # if partially downloaded: rm the incomplete file and resubmit
 > ```
 {: .callout}
@@ -1564,11 +1564,11 @@ fastp: error: cannot open raw_data/SRR1761506_1.fastq.gz: No such file or direct
 ```bash
 #!/bin/bash
 #SBATCH ...
-cd ~/scratch                         # ← add this line
+cd ~/scratch/rnaseq                  # ← add this line
 fastp --in1 raw_data/SRR1761506_1.fastq.gz ...
 ```
 
-Or use absolute paths everywhere: `--in1 ~/scratch/raw_data/SRR1761506_1.fastq.gz`.
+Or use absolute paths everywhere: `--in1 ~/scratch/rnaseq/raw_data/SRR1761506_1.fastq.gz`.
 
 **How to confirm:** Run `pwd` right before the failing command (add `echo "Running in: $(pwd)"` to your script).
 
@@ -1659,7 +1659,7 @@ If `--cpus-per-task=8` but the tool doesn't have a threads flag, you're wasting 
 grep "pwd\|Running in" myjob_12345.out
 
 # 2. Are the input files real?
-ls -lh ~/scratch/raw_data/*.fastq.gz    # 0 bytes = problem
+ls -lh ~/scratch/rnaseq/raw_data/*.fastq.gz    # 0 bytes = problem
 
 # 3. Any hidden warnings?
 grep -i "warn\|skip\|empty\|0 reads" myjob_12345.out
@@ -1754,8 +1754,8 @@ which curl     # `curl` is always available; this just confirms PATH is sane
 Then make a place for the downloads (inside scratch — these are large data files):
 
 ```bash
-mkdir -p ~/scratch/raw_data
-cd ~/scratch
+mkdir -p ~/scratch/rnaseq/raw_data
+cd ~/scratch/rnaseq
 nano fastq-dump.sh
 ```
 
@@ -1778,7 +1778,7 @@ Paste in this batch script (remember to edit `--mail-user` to your real address)
 # Don't put `micromamba activate` inside the script.
 
 set -euo pipefail
-mkdir -p ~/scratch/raw_data
+mkdir -p ~/scratch/rnaseq/raw_data
 
 # For each run, ask ENA for the exact fastq URLs (handles SE/PE/multi-file
 # automatically) and download every file with curl.
@@ -1789,7 +1789,7 @@ for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
           | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
-    OUT=~/scratch/raw_data/$(basename "${U}")
+    OUT=~/scratch/rnaseq/raw_data/$(basename "${U}")
     [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
     echo "[fastq] ${SRR} -> https://${U}"
     curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
@@ -1815,10 +1815,10 @@ What the script does, line by line:
 | `https://${U}` | The API returns ftp.sra.ebi.ac.uk paths without a protocol; we just prepend `https://`. |
 | `curl --retry 3` | ENA occasionally hiccups; 3 retries handle transient blips without manual restarts. |
 
-When the job finishes you should see 12 files (`SRR1761506_1.fastq.gz`, `SRR1761506_2.fastq.gz`, ...) in `~/scratch/raw_data/`. Confirm with:
+When the job finishes you should see 12 files (`SRR1761506_1.fastq.gz`, `SRR1761506_2.fastq.gz`, ...) in `~/scratch/rnaseq/raw_data/`. Confirm with:
 
 ```bash
-ls -lh ~/scratch/raw_data/
+ls -lh ~/scratch/rnaseq/raw_data/
 ```
 
 ### Workflow Step 2 — Quality trim with `fastp`
@@ -1833,7 +1833,7 @@ Raw sequencing reads aren't perfect: they often have leftover **adapter** sequen
 Create the trimming script:
 
 ```bash
-cd ~/scratch
+cd ~/scratch/rnaseq
 nano trim.sh
 ```
 
@@ -1903,15 +1903,15 @@ When the job finishes, copy one of the HTML reports to your laptop with `rsync` 
 
 ```bash
 # from your laptop's terminal:
-rsync -avhP <username>@pronghorn.rc.unr.edu:~/scratch/trim/SRR1761506_fastp.html ~/Downloads/
+rsync -avhP <username>@pronghorn.rc.unr.edu:~/scratch/rnaseq/trim/SRR1761506_fastp.html ~/Downloads/
 open ~/Downloads/SRR1761506_fastp.html      # Mac
 explorer.exe SRR1761506_fastp.html          # Windows (WSL)
 ```
 
-You now have clean, trimmed reads in `~/scratch/trim/` — ready for alignment.
+You now have clean, trimmed reads in `~/scratch/rnaseq/trim/` — ready for alignment.
 
 > ## ➡️ Continue: STAR alignment + counting in the RNA-Seq lesson
-> The next stages (reference download → STAR index → alignment → featureCounts → MultiQC → DE analysis) live in the **[HPC RNA-Seq lesson](../HPC_RNA_SEQ/index.html)**. It's set up to *reuse* the `~/scratch/raw_data/` and `~/scratch/trim/` outputs you just produced — see the "🔁 Already ran fastq-dump + trim in HPC_cluster?" callout near the top of that lesson for the one-line symlink trick.
+> The next stages (reference download → STAR index → alignment → featureCounts → MultiQC → DE analysis) live in the **[HPC RNA-Seq lesson](../HPC_RNA_SEQ/index.html)**. It's set up to *reuse* the `~/scratch/rnaseq/raw_data/` and `~/scratch/rnaseq/trim/` outputs you just produced — see the "🔁 Already ran fastq-dump + trim in HPC_cluster?" callout near the top of that lesson for the one-line symlink trick.
 {: .callout}
 
 ## Stuck? Getting Help
