@@ -1863,9 +1863,9 @@ https://bioinf.shenwei.me/seqkit/tutorial/
 
 ### Download Database
 ```bash
-mkdir ~/scratch/rnaseq/BLAST
+mkdir -p ~/scratch/rnaseq/BLAST
 cd ~/scratch/rnaseq/BLAST
-ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+curl -fsSL --retry 3 --max-time 600 -O https://ftp.ncbi.nlm.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ```
 
 ### Run BLASTX
