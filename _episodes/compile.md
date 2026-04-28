@@ -505,8 +505,11 @@ System package managers like APT and Homebrew are great for general system softw
 $ micromamba --version
 ```
 ```output
-2.0.0
+2.5.0
 ```
+
+> **Note:** The exact version number depends on when you installed micromamba — the installer always pulls the latest release. The output should look like a `2.x.y` version string.
+{: .callout}
 
 ### Set Up Conda Alias
 
@@ -524,7 +527,7 @@ To use the familiar `conda` command instead of `micromamba`, set up an alias. Th
 > $ conda --version
 > ```
 > ```output
-> 2.0.0
+> 2.5.0
 > ```
 {: .solution}
 
@@ -540,7 +543,7 @@ To use the familiar `conda` command instead of `micromamba`, set up an alias. Th
 > $ conda --version
 > ```
 > ```output
-> 2.0.0
+> 2.5.0
 > ```
 {: .solution}
 
@@ -1518,6 +1521,13 @@ $ make -j 4
 > # Test installation
 > $ hisat2 --version
 > ```
+> Expected output:
+> ```output
+> /home/USER/bch709/bin/hisat2/hisat2-align-s version 2.2.1
+> 64-bit
+> Built on ...
+> Compiler: gcc version ...
+> ```
 {: .solution}
 
 ### Example 2: Compiling BWA from Source
@@ -1536,11 +1546,35 @@ $ cd bwa-0.7.17
 $ make
 ```
 
+> ## Build error: `multiple definition of 'rle_auxtab'`?
+> BWA 0.7.17 was written before GCC 10, which changed the default linker behavior to `-fno-common`. With newer compilers (GCC 10 and above) you will see:
+> ```output
+> ld: ./libbwa.a(rle.o): multiple definition of `rle_auxtab'; ...: first defined here
+> collect2: error: ld returned 1 exit status
+> make: *** [Makefile:30: bwa] Error 1
+> ```
+> Re-run `make` with the `-fcommon` flag added to `CFLAGS`:
+> ```bash
+> $ make clean
+> $ make CFLAGS='-g -Wall -Wno-unused-function -O2 -fcommon'
+> ```
+{: .callout}
+
 > ## Adding BWA to PATH
 > Test the installation and add to your PATH:
 > ```bash
 > $ ./bwa
+> ```
+> Expected output (header only):
+> ```output
+> Program: bwa (alignment via Burrows-Wheeler transformation)
+> Version: 0.7.17-r1188
+> Contact: Heng Li <lh3@sanger.ac.uk>
 >
+> Usage:   bwa <command> [options]
+> ...
+> ```
+> ```bash
 > # Add to PATH
 > $ echo 'export PATH="$HOME/bch709/bin/bwa-0.7.17:$PATH"' >> ~/.bashrc
 > $ source ~/.bashrc
