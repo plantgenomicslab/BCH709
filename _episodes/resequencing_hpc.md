@@ -287,31 +287,33 @@ set -euo pipefail
 
 cd ~/scratch/reseq
 
-# ---- Download TAIR10 (try multiple mirrors; Ensembl Plants is sometimes flaky) ----
-# Mirror order:
-#   1. Ensembl Plants  (canonical)            ftp.ensemblgenomes.org
-#   2. EBI mirror      (most stable)          ftp.ebi.ac.uk
-#   3. NCBI RefSeq     (last-resort fallback) ftp.ncbi.nlm.nih.gov
-ENS_URL="https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz"
+# ---- Download TAIR10 from TAIR (www.arabidopsis.org) ----
+# Primary: TAIR (canonical source) — uses self-signed cert, so curl needs -k
+# Fallback: EBI Ensembl Plants mirror (most stable mirror; NCBI is last resort)
+TAIR_URL="https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz"
 EBI_URL="https://ftp.ebi.ac.uk/ensemblgenomes/pub/plants/release-60/fasta/arabidopsis_thaliana/dna/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa.gz"
 NCBI_URL="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz"
 
 OUT=reference.fasta.gz
 rm -f "$OUT"
-for URL in "$ENS_URL" "$EBI_URL" "$NCBI_URL"; do
+for URL in "$TAIR_URL" "$EBI_URL" "$NCBI_URL"; do
     echo "[ref] trying $URL"
-    if curl -fsSL --retry 3 --max-time 900 -o "$OUT" "$URL" && [ -s "$OUT" ]; then
+    if curl -kfsSL --retry 3 --max-time 900 -o "$OUT" "$URL" && [ -s "$OUT" ]; then
         echo "[ref] downloaded from $URL"
         break
     fi
     rm -f "$OUT"
 done
-[ -s "$OUT" ] || { echo "ERROR: TAIR10 download failed from all mirrors"; exit 1; }
+[ -s "$OUT" ] || { echo "ERROR: TAIR10 download failed from all sources"; exit 1; }
 gunzip -f "$OUT"
 
-# NCBI fallback uses RefSeq names (NC_003070.9 …) — rename to TAIR style (1, 2, …)
-# so they match the 1001genomes VCF below. Ensembl/EBI fasta already uses 1..5,Mt,Pt.
-if grep -q '^>NC_' reference.fasta; then
+# Normalize chromosome names to match the 1001genomes VCF (1..5, Mt, Pt):
+#   - TAIR fasta uses Chr1..Chr5, ChrM, ChrC
+#   - NCBI RefSeq uses NC_003070.9 …
+#   - EBI Ensembl already uses 1..5, Mt, Pt (no rename needed)
+if grep -q '^>Chr' reference.fasta; then
+    sed -i -E 's/^>Chr([0-9]+).*/>\1/; s/^>ChrM.*/>Mt/; s/^>ChrC.*/>Pt/' reference.fasta
+elif grep -q '^>NC_' reference.fasta; then
     awk 'BEGIN{
         m["NC_003070.9"]="1"; m["NC_003071.7"]="2"; m["NC_003074.8"]="3"
         m["NC_003075.7"]="4"; m["NC_003076.8"]="5"
