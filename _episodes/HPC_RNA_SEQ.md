@@ -596,9 +596,9 @@ micromamba install -c conda-forge tree
 ```bash
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA770108
 ```
-**Gene expression profiling of Drosophila melanogaster larval brains after chronich alcohol exposure (fruit fly)**
+**Gene expression profiling of Drosophila melanogaster larval brains after chronic alcohol exposure (fruit fly)**
 
-We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to food containing 5% ethanol (v/v) for 6 conscutive days, and (2) an age-matched untreated control larvae, that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: Examination of mRNA levels in brains of D. melanogaster larvae after chronich ethanol exposure was performed using next generation sequencing (NGS) technology (RNA-seq)
+We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to food containing 5% ethanol (v/v) for 6 consecutive days, and (2) an age-matched untreated control larvae, that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: Examination of mRNA levels in brains of D. melanogaster larvae after chronic ethanol exposure was performed using next generation sequencing (NGS) technology (RNA-seq)
 
 
 ## Subset of data
@@ -624,7 +624,7 @@ pwd
 
 
 
-## fastq donwload
+## fastq download
 
 ```bash
 cd ~/scratch/rnaseq/Drosophila
@@ -687,7 +687,7 @@ fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_2.fastq.gz --out1 trim/SRR16287548_1.trimmed.fq.gz --out2 trim/SRR16287548_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287548_fastp.html --json trim/SRR16287548_fastp.json
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_2.fastq.gz --out1 trim/SRR16287550_1.trimmed.fq.gz --out2 trim/SRR16287550_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287550_fastp.html --json trim/SRR16287550_fastp.json
 ```
-## Reference donwload
+## Reference download
 
 ```bash
 cd  ~/scratch/rnaseq/Drosophila/reference
@@ -1823,7 +1823,7 @@ micromamba activate blast
 
 ### Running a standalone BLAST program
 Create the index for the target database using makeblastdb;
-Choose the task program: blastn, blastp, blastx, tblatx, psiblast or deltablast;
+Choose the task program: blastn, blastp, blastx, tblastx, psiblast or deltablast;
 Set the configuration for match, mismatch, gap-open penalty, gap-extension penalty or scoring matrix;
 Set the word size;
 Set the E-value threshold;
