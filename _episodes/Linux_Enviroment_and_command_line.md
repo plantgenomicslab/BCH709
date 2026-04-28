@@ -632,28 +632,28 @@ echo "Hello World!"
 > ```
 > grep [OPTIONS] PATTERN FILENAME
 > ```
-> Let's find how many people use macOS. First, check the file:
+> Let's find how many people use Mac. First, check the file:
 > ```bash
 > wc -l bch709_student.txt
 > ```
 > ```bash
 > less bch709_student.txt
 > ```
-> To find the macOS users:
+> To find the Mac users:
 > ```bash
-> cat bch709_student.txt | grep MacOS
+> cat bch709_student.txt | grep Mac
 > ```
-> To count the number of macOS users:
+> To count the number of Mac users:
 > ```bash
-> cat bch709_student.txt | grep MacOS | wc -l
+> cat bch709_student.txt | grep Mac | wc -l
 > ```
 > Alternatively:
 > ```bash
-> grep MacOS bch709_student.txt | wc -l
+> grep Mac bch709_student.txt | wc -l
 > ```
 > Or simply:
 > ```bash
-> grep -c MacOS bch709_student.txt
+> grep -c Mac bch709_student.txt
 > ```
 > Using flags to filter lines that don't contain "Windows":
 > ```bash
@@ -665,14 +665,14 @@ echo "Hello World!"
 > ```
 > With case-insensitive search and colored output:
 > ```bash
-> grep --color -i macos bch709_student.txt
+> grep --color -i mac bch709_student.txt
 > ```
 {: .checklist}
 
 > ## How do I store the results in a new file?
 > Use the `>` character for redirection:
 > ```bash
-> grep -i macos bch709_student.txt > mac_student
+> grep -i mac bch709_student.txt > mac_student
 > ```
 > ```bash
 > cat bch709_student.txt | grep -i windows > windows_student
