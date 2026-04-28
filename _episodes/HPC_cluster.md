@@ -1878,7 +1878,11 @@ open ~/Downloads/SRR1761506_fastp.html      # Mac
 explorer.exe SRR1761506_fastp.html          # Windows (WSL)
 ```
 
-You now have clean, trimmed reads in `~/scratch/trim/` — ready for alignment in the next lesson!
+You now have clean, trimmed reads in `~/scratch/trim/` — ready for alignment.
+
+> ## ➡️ Continue: STAR alignment + counting in the RNA-Seq lesson
+> The next stages (reference download → STAR index → alignment → featureCounts → MultiQC → DE analysis) live in the **[HPC RNA-Seq lesson](../HPC_RNA_SEQ/index.html)**. It's set up to *reuse* the `~/scratch/raw_data/` and `~/scratch/trim/` outputs you just produced — see the "🔁 Already ran fastq-dump + trim in HPC_cluster?" callout near the top of that lesson for the one-line symlink trick.
+{: .callout}
 
 ## Stuck? Getting Help
 
