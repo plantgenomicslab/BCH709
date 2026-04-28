@@ -92,6 +92,18 @@ gatk --version
 bcftools --version
 ```
 
+Expected output:
+
+```
+fastp 1.3.3
+2.2.1
+samtools 1.23.1
+Using htslib 1.23.1
+The Genome Analysis Toolkit (GATK) v4.6.2.0
+bcftools 1.23.1
+Using htslib 1.23.1
+```
+
 > **Common Error — `libcrypto.so.1.0.0: cannot open shared object file`**
 >
 > ```
@@ -204,6 +216,20 @@ fastqc -t 4 sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_
 multiqc .
 ```
 
+Expected output (MultiQC summary):
+
+```
+/// MultiQC v1.34
+       file_search | Search path: /path/to/reseq
+            fastqc | Found 4 reports
+     write_results | Data        : multiqc_data
+     write_results | Report      : multiqc_report.html
+           multiqc | MultiQC complete
+```
+
+After running, you should see four `*_fastqc.html`, four `*_fastqc.zip`, plus
+`multiqc_report.html` and a `multiqc_data/` directory.
+
 ### Key Metrics for WGS
 
 | Metric | What to Check |
@@ -261,6 +287,32 @@ fastp \
 multiqc trim/ -n trim_report
 ```
 
+Expected output (fastp tail of stderr for sample 1):
+
+```
+Filtering result:
+reads passed filter: 53051286
+reads failed due to low quality: 4575222
+reads failed due to too many N: 64736
+reads failed due to too short: 1145000
+reads failed due to adapter dimer: 0
+reads with adapter trimmed: 3182403
+bases trimmed due to adapters: 71080529
+
+Duplication rate: 11.0013%
+
+Insert size peak (evaluated by paired-end reads): 119
+
+JSON report: trim/sample1_fastp_report.json
+HTML report: trim/sample1_fastp_report.html
+
+fastp v1.3.3, time used: 253 seconds
+```
+
+Numbers will vary slightly with each fastp version, but you should see >95% of
+reads passing the filter and an insert-size peak in the 100-300 bp range for
+typical paired-end Illumina libraries.
+
 > **[Cleanup]** After trimming, you can remove the original FASTQ files to save disk space:
 > ```bash
 > rm -f sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz
@@ -299,6 +351,20 @@ samtools faidx reference.fasta
 # .dict sequence dictionary for GATK
 picard CreateSequenceDictionary R=reference.fasta O=reference.dict
 ```
+
+Expected output (`cat reference.fasta.fai`):
+
+```
+1	30427671	3	79	80
+2	19698289	30812838	79	80
+3	23459830	50760476	79	80
+4	18585056	74517269	79	80
+5	26975502	93337582	79	80
+Pt	154478	120654551	79	80
+Mt	367808	120810989	70	71
+```
+
+The reference has chromosomes `1`-`5`, plastid (`Pt`), and mitochondrion (`Mt`).
 
 > **Common Error — `reference.dict already exists`**
 >
@@ -424,6 +490,30 @@ samtools stats sample2.bam > sample2.stats
 multiqc . -n alignment_report
 ```
 
+Expected output (`samtools flagstat sample1.bam`):
+
+```
+53076354 + 0 in total (QC-passed reads + QC-failed reads)
+53051286 + 0 primary
+0 + 0 secondary
+25068 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+52354774 + 0 mapped (98.64% : N/A)
+52329706 + 0 primary mapped (98.64% : N/A)
+53051286 + 0 paired in sequencing
+26525643 + 0 read1
+26525643 + 0 read2
+48411760 + 0 properly paired (91.25% : N/A)
+52276894 + 0 with itself and mate mapped
+52812 + 0 singletons (0.10% : N/A)
+490848 + 0 with mate mapped to a different chr
+129225 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+Look for **mapped > 95%** and **properly paired > 90%** as a sanity check that
+the reference matches your reads.
+
 | Metric | What to Expect |
 |--------|---------------|
 | Mapping rate | > 95% for matched reference |
@@ -500,6 +590,17 @@ cat sample1.markdup.metrics
 cat sample2.markdup.metrics
 multiqc . -n markdup_report
 ```
+
+Expected output (sample1.markdup.metrics — `LIBRARY` line, tab-delimited):
+
+```
+LIBRARY  UNPAIRED_READS_EXAMINED  READ_PAIRS_EXAMINED  SECONDARY_OR_SUPPLEMENTARY_RDS  UNMAPPED_READS  UNPAIRED_READ_DUPLICATES  READ_PAIR_DUPLICATES  READ_PAIR_OPTICAL_DUPLICATES  PERCENT_DUPLICATION  ESTIMATED_LIBRARY_SIZE
+lib1     52812                    26138447             25068                            721580          16888                     7358725               0                              0.281567             37224722
+```
+
+Note `PERCENT_DUPLICATION = 0.281567` (~28%) — high but typical for older
+publicly available 1001 Genomes samples. PCR-free libraries from modern
+sequencing should be < 10%.
 
 > **Note:** Duplication rates > 30–40% may indicate problems with input DNA quality or library complexity. For very high duplication, use a PCR-free library prep.
 
@@ -737,6 +838,18 @@ gatk GenotypeGVCFs \
   -O cohort.vcf.gz
 ```
 
+Expected output (last lines of `gatk GenotypeGVCFs`):
+
+```
+INFO  ProgressMeter -            Mt:313550              6.1              32351894        5274149.1
+INFO  ProgressMeter - Traversal complete. Processed 32351894 total variants in 6.1 minutes.
+INFO  GenotypeGVCFs - Shutting down engine
+[org.broadinstitute.hellbender.tools.walkers.GenotypeGVCFs] done. Elapsed time: 6.16 minutes.
+```
+
+Run `bcftools stats cohort.vcf.gz | grep "^SN"` to count variants. For a
+single-sample test on this dataset you should see ~225K SNPs and ~50K indels.
+
 > **Single-sample alternative:** If you only have one sample, skip `CombineGVCFs` and run `GenotypeGVCFs` directly on the single GVCF:
 > ```bash
 > gatk GenotypeGVCFs -R reference.fasta -V sample1.g.vcf.gz -O cohort.vcf.gz
@@ -875,6 +988,23 @@ bcftools stats cohort.snps.pass.vcf.gz > stats.txt
 multiqc . -n vcf_report
 ```
 
+Expected output (`bcftools stats cohort.snps.pass.vcf.gz | grep "^SN"`):
+
+```
+SN	0	number of samples:	1
+SN	0	number of records:	205962
+SN	0	number of no-ALTs:	0
+SN	0	number of SNPs:	205962
+SN	0	number of MNPs:	0
+SN	0	number of indels:	0
+SN	0	number of others:	0
+SN	0	number of multiallelic sites:	253
+SN	0	number of multiallelic SNP sites:	71
+```
+
+A region query like `bcftools view cohort.snps.pass.vcf.gz 1:100000-200000`
+should return ~19 PASS SNPs in that 100-kb window.
+
 > **Common Error — `Could not retrieve index file`**
 >
 > ```
@@ -927,6 +1057,18 @@ snpEff Arabidopsis_thaliana cohort.snps.pass.vcf.gz > cohort.snps.annotated.vcf
 
 # snpEff also generates snpEff_summary.html and snpEff_genes.txt
 ```
+
+Expected output (files created):
+
+```
+cohort.snps.annotated.vcf   # ~166 MB for ~206K SNPs
+snpEff_summary.html         # ~330 KB
+snpEff_genes.txt            # ~1.9 MB
+```
+
+Open `snpEff_summary.html` in a browser to see variant-effect distribution
+(MODIFIER, LOW, MODERATE, HIGH) per chromosome, transcript-biotype counts,
+and Ts/Tv ratios.
 
 > **Common Error — `ERROR: Genome 'athalianaTair10' not found`**
 >
