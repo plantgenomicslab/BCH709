@@ -1489,20 +1489,23 @@ print(f"Dropped feature lines: {dropped_lines}")
 print(df.head(5).to_string(index=False))
 ```
 
-**Sample output:**
+Expected output:
 ```
 Saved: results/chr_feature_counts.tsv
 Saved: results/dropped_seqids.txt
 Dropped seqids: 1
-Dropped feature lines: 42
-
-  chrom  chrom_length_bp  n_gene  n_exon_unique  n_tRNA  n_snoRNA  gene_per_Mb  ...
-  chrIII       316620      174          210         10         5     549.5146  ...
-  chrI         230218      117          136          4         3     508.2190  ...
-  chrVI        270161      136          170          7         4     503.2285  ...
-  chrIX        439888      218          275         10         4     495.5724  ...
-  chrV         576874      282          356         17         6     488.8408  ...
+Dropped feature lines: 241
+  chrom  chrom_length_bp  n_gene  n_exon_unique  n_tRNA  n_snoRNA  gene_per_Mb  exon_unique_per_Mb  tRNA_per_Mb  snoRNA_per_Mb
+ chrIII           316620     184              0      10         4     581.1383                 0.0      31.5836        12.6334
+chrVIII           562643     323              0      11         2     574.0763                 0.0      19.5506         3.5547
+  chrII           813184     456              0      13         2     560.7587                 0.0      15.9865         2.4595
+   chrV           576874     323              0      20         5     559.9143                 0.0      34.6696         8.6674
+ chrXIV           784333     437              0      14         5     557.1613                 0.0      17.8496         6.3748
 ```
+
+> ## Why is `n_exon_unique` zero?
+> Recent SGD GFF3 releases (R64-4-1, 2026) no longer emit a generic `exon` feature type — only `CDS`, `noncoding_exon`, `intron`, and similar are present. The lesson code as written counts only rows where `type == "exon"`, so `n_exon_unique` will be 0 with the current download. To recover non-zero exon-equivalent counts, change `ftype == "exon"` to `ftype == "CDS"` (protein-coding exons) or include both `CDS` and `noncoding_exon`. This is itself a useful vibe coding exercise: tell the AI "the SGD GFF3 has no `exon` rows; use `CDS` instead and rename the column accordingly."
+{: .callout}
 
 ---
 
@@ -1543,15 +1546,17 @@ Analyze the classic yeast stress response microarray dataset from Gasch et al. (
 
 **Data source:** [Gasch et al. (2000)](https://pubmed.ncbi.nlm.nih.gov/11102521/) — "Genomic expression programs in the response of yeast cells to environmental changes." *Mol Biol Cell* 11(12):4241-4257.
 
-**Data structure:**
+**Data structure (gasch2000.txt from shackett.org):**
 
 | Column | Description |
 |--------|-------------|
 | UID | Systematic gene name (e.g., YAL001C) |
-| NAME | Gene common name (e.g., TFC3) |
-| (description) | Functional description |
+| NAME | Gene common name plus an embedded functional description (e.g., `YAL001C   TFC3   TRANSCRIPTION   TFIIIC 138 KD SUBUNIT   S0000001`) |
 | GWEIGHT | Gene weight (skip) |
 | Remaining columns | ~170 stress conditions (log2 expression ratios) |
+
+> Older copies of the Gasch dataset distribute UID/NAME/description/GWEIGHT as four separate metadata columns. The shackett.org file used here collapses NAME and description into a single tab-delimited NAME field, so only three metadata columns must be skipped.
+{: .callout}
 
 - Values are **log2 ratios** (positive = upregulated, negative = downregulated)
 - Conditions include: heat shock, oxidative stress, osmotic shock, amino acid starvation, nitrogen depletion, stationary phase
@@ -1801,9 +1806,13 @@ curl -L -o data/sacCer3.fa.gz https://hgdownload.soe.ucsc.edu/goldenPath/sacCer3
 
 **FASTA file structure:**
 ```
->BC001547 /gb=BC001547 /gi=12654078 /ug=Sc.3456 /len=1254
-ATGTCTGCTCCAGCTAGCAGTGAAACTTTATTCAGAAACTGCTTAG...
+>A18178 1
+caccaataaaaaaacaagcttaacctaattc
+>HV532957 1
+ctgaggattcgggtaaaatagggtatttaactggttaccggaaaggttta...
 ```
+
+The header is `>` followed by an accession (whitespace separates an integer suffix). Lowercase nucleotides are normal — uppercase before computing GC content.
 
 ### Expected Output
 
