@@ -2305,15 +2305,15 @@ Then copy the PDFs back to your laptop with `rsync`.
 ## Cleanup
 
 ```bash
-# Inside ~/scratch you can remove:
+# Inside ~/scratch/rnaseq you can remove:
 #   - Raw FASTQ (once alignment + trim QC are reviewed)
 #   - STAR alignment intermediates (_STARtmp, Log.out, ReadsPerGene.out.tab)
 # Keep:
 #   - Final BAMs, count matrices, DESeq2/edgeR results, DEG subsets, GO tables, plots
 
-# Example: drop raw FASTQ and STAR tmp
-find ~/scratch -name "*_STARtmp" -type d -exec rm -rf {} +
-find ~/scratch -name "*.fastq.gz" -path "*/raw_data/*" -delete
+# Example: drop raw FASTQ and STAR tmp (limit scope to ~/scratch/rnaseq)
+find ~/scratch/rnaseq -name "*_STARtmp" -type d -exec rm -rf {} +
+find ~/scratch/rnaseq -name "*.fastq.gz" -path "*/raw_data/*" -delete
 ```
 
 Leaving the Pronghorn session:
