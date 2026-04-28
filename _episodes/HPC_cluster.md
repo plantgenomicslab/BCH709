@@ -492,11 +492,16 @@ micromamba create -n RNASEQ_bch709 -c conda-forge -c bioconda python=3.11
 micromamba activate RNASEQ_bch709
 
 micromamba install -c conda-forge -c bioconda \
-    'sra-tools>=3.0' minimap2 star 'samtools>=1.20' subread \
+    minimap2 star 'samtools>=1.20' subread \
     openjdk=17 'trinity>=2.15' gffread seqkit kraken2 'fastp>=0.24' \
     perl-dbi perl-dbd-sqlite perl-html-parser -y
-# NOTE: omit `perl-bioperl` — its libzlib<1.3 pin conflicts with modern
+# NOTE 1: omit `perl-bioperl` — its libzlib<1.3 pin conflicts with modern
 # samtools/Trinity. Install in a separate env if you ever need it.
+# NOTE 2: we deliberately do NOT install `sra-tools`. Bioconda's sra-tools 3.x
+# is built against GLIBC 2.27+, newer than Pronghorn's system libc — so
+# `prefetch` / `fastq-dump` crash on the compute nodes with
+# "GLIBC_2.27 not found". Step 1 below downloads FASTQ from ENA over HTTPS
+# with `curl`, which works regardless of the system GLIBC.
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build it from
@@ -1508,7 +1513,7 @@ squeue -u $USER         # confirm it's queued
 ```
 
 > ## Don't edit and re-submit blindly
-> Before resubmitting, **clean up any partial output** from the failed run. For example, if `fastq-dump` downloaded 3 of 6 files before failing, those 3 files are still in `~/scratch/raw_data/`. Depending on the tool, leftover partial files can cause the next run to silently produce wrong results or skip steps.
+> Before resubmitting, **clean up any partial output** from the failed run. For example, if the download script fetched 3 of 6 runs before failing, those files are still in `~/scratch/raw_data/`. Depending on the tool, leftover partial files can cause the next run to silently produce wrong results or skip steps.
 >
 > ```bash
 > ls -lh ~/scratch/raw_data/    # check what's there
@@ -1733,9 +1738,9 @@ To keep things manageable, we'll only download 6 of the 18 runs — three replic
 | ABA_rep2 | SRR1761510 | ABA-treated        |
 | ABA_rep3 | SRR1761511 | ABA-treated        |
 
-### Workflow Step 1 — Download reads with `fastq-dump`
+### Workflow Step 1 — Download reads from ENA
 
-The data on SRA is stored in a compressed format called `.sra`. The tool **`fastq-dump`** (from the `sra-tools` package we installed earlier) downloads it and converts it into standard **FASTQ** format that all downstream tools understand.
+The data on NCBI's SRA is stored in a compressed `.sra` format. NCBI's own tool (`fastq-dump`/`prefetch`, from the `sra-tools` package) is built against a newer GLIBC than Pronghorn's system libc, so its binary crashes on our compute nodes (`GLIBC_2.27 not found`). The simplest fix: pull the same data from **ENA** (the European Nucleotide Archive at EBI), which mirrors every SRA run and serves the FASTQ files **already gzipped** over plain HTTPS — no special tool needed, just `curl`.
 
 Each of these 6 runs is several hundred MB to a few GB, and downloading takes minutes per file — way too long for the login node. So we package the work as a Slurm batch script and let a compute node do it.
 
@@ -1743,7 +1748,7 @@ Each of these 6 runs is several hundred MB to a few GB, and downloading takes mi
 
 ```bash
 micromamba activate RNASEQ_bch709
-which fastq-dump     # should print a path inside ~/micromamba/envs/RNASEQ_bch709/
+which curl     # `curl` is always available; this just confirms PATH is sane
 ```
 
 Then make a place for the downloads (inside scratch — these are large data files):
@@ -1772,9 +1777,23 @@ Paste in this batch script (remember to edit `--mail-user` to your real address)
 # sbatch --export=ALL is the default, so this job inherits the PATH.
 # Don't put `micromamba activate` inside the script.
 
-# Download each run as paired-end gzipped FASTQ
+set -euo pipefail
+mkdir -p ~/scratch/raw_data
+
+# For each run, ask ENA for the exact fastq URLs (handles SE/PE/multi-file
+# automatically) and download every file with curl.
 for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
-  fastq-dump ${SRR} --split-3 --outdir ~/scratch/raw_data --gzip
+  echo "[fastq] ${SRR} — querying ENA"
+  URLS=$(curl -fsSL --retry 3 --max-time 60 \
+          "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${SRR}&result=read_run&fields=fastq_ftp&format=tsv" \
+          | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
+  [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
+  for U in ${URLS}; do
+    OUT=~/scratch/raw_data/$(basename "${U}")
+    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    echo "[fastq] ${SRR} -> https://${U}"
+    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+  done
 done
 ```
 
@@ -1787,13 +1806,14 @@ squeue -u $USER         # check it landed in the queue
 tail -f fastq-dump.out  # follow progress live (Ctrl-C to stop watching)
 ```
 
-What the `fastq-dump` flags mean:
+What the script does, line by line:
 
-| Flag | Meaning |
-|------|---------|
-| `--split-3` | If the run is paired-end, split into `_1.fastq.gz` (R1) and `_2.fastq.gz` (R2). If single-end, just one file. |
-| `--outdir` | Where to put the output |
-| `--gzip` | Compress the output FASTQ to save space |
+| Step | Why it's there |
+|------|----------------|
+| `curl … filereport?accession=${SRR}…` | Asks ENA's metadata API for this run's fastq URLs. Returns a TSV; `awk -F'\t' '{print $NF}'` grabs the last column (`fastq_ftp`). |
+| `tr ';' '\n'` | Paired-end runs return both R1 and R2 separated by `;` — split them onto separate lines. |
+| `https://${U}` | The API returns ftp.sra.ebi.ac.uk paths without a protocol; we just prepend `https://`. |
+| `curl --retry 3` | ENA occasionally hiccups; 3 retries handle transient blips without manual restarts. |
 
 When the job finishes you should see 12 files (`SRR1761506_1.fastq.gz`, `SRR1761506_2.fastq.gz`, ...) in `~/scratch/raw_data/`. Confirm with:
 

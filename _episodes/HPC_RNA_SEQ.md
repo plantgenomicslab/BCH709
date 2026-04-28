@@ -173,14 +173,19 @@ micromamba create -n RNASEQ_bch709 -c conda-forge -c bioconda python=3.11 -y
 micromamba activate RNASEQ_bch709
 
 micromamba install -c conda-forge -c bioconda \
-    'sra-tools>=3.0' minimap2 star 'samtools>=1.20' subread \
+    minimap2 star 'samtools>=1.20' subread \
     openjdk=17 'trinity>=2.15' gffread seqkit kraken2 'fastp>=0.24' \
     perl-dbi perl-dbd-sqlite perl-html-parser -y
-# NOTE: `perl-bioperl` is intentionally NOT installed. Its current bioconda
+# NOTE 1: `perl-bioperl` is intentionally NOT installed. Its current bioconda
 # build pins libzlib<1.3, which conflicts with modern samtools/Trinity/kraken2.
 # Trinity assembly itself does not need BioPerl — it is only required by a
 # few legacy auxiliary scripts. If you ever need BioPerl, install it later
 # in a SEPARATE env: `micromamba create -n bioperl -c bioconda perl-bioperl`
+# NOTE 2: we deliberately do NOT install `sra-tools`. Bioconda's sra-tools 3.x
+# is built against GLIBC 2.27+, newer than Pronghorn's system libc — so
+# `prefetch` / `fastq-dump` crash on the compute nodes with
+# "GLIBC_2.27 not found". The download steps below pull FASTQ from ENA over
+# HTTPS with `curl`, which works regardless of the system GLIBC.
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build it from
@@ -297,7 +302,10 @@ mkdir -p raw_data trim reference bam
 pwd
 ```
 
-### fastq-dump submission
+### FASTQ download submission (from ENA)
+
+Bioconda's `sra-tools` 3.x crashes on Pronghorn (built against GLIBC 2.27+, newer than the system libc). We pull the same FASTQ from **ENA**, which mirrors every SRA run as ready-to-use `.fastq.gz` over HTTPS — no SRA toolkit needed.
+
 ```bash
 cd ~/scratch/ATH
 nano fastq-dump.sh
@@ -314,12 +322,21 @@ nano fastq-dump.sh
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
-fastq-dump SRR1761506 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761507 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761508 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761509 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761510 --split-3 --outdir ./raw_data  --gzip
-fastq-dump SRR1761511 --split-3 --outdir ./raw_data  --gzip
+set -euo pipefail
+mkdir -p ./raw_data
+
+for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
+  URLS=$(curl -fsSL --retry 3 --max-time 60 \
+          "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${SRR}&result=read_run&fields=fastq_ftp&format=tsv" \
+          | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
+  [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
+  for U in ${URLS}; do
+    OUT=./raw_data/$(basename "${U}")
+    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    echo "[fastq] ${SRR} -> https://${U}"
+    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+  done
+done
 ```
 
 
@@ -618,12 +635,21 @@ nano fastq-dump.sh
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
-fastq-dump SRR16287545 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
-fastq-dump SRR16287546 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
-fastq-dump SRR16287547 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
-fastq-dump SRR16287549 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
-fastq-dump SRR16287548 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
-fastq-dump SRR16287550 --split-3 --outdir ~/scratch/Drosophila/raw_data --gzip
+set -euo pipefail
+mkdir -p ~/scratch/Drosophila/raw_data
+
+for SRR in SRR16287545 SRR16287546 SRR16287547 SRR16287549 SRR16287548 SRR16287550; do
+  URLS=$(curl -fsSL --retry 3 --max-time 60 \
+          "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${SRR}&result=read_run&fields=fastq_ftp&format=tsv" \
+          | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
+  [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
+  for U in ${URLS}; do
+    OUT=~/scratch/Drosophila/raw_data/$(basename "${U}")
+    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    echo "[fastq] ${SRR} -> https://${U}"
+    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+  done
+done
 ```
 
 
@@ -2245,7 +2271,7 @@ Then copy the PDFs back to your laptop with `rsync`.
 
 | Step | Tool | Script / Section | Output |
 |------|------|---------|--------|
-| Download FASTQ | `fastq-dump` (SRA Toolkit) | fastq-dump.sh | `*.fastq.gz` |
+| Download FASTQ | `curl` from ENA | fastq-dump.sh | `*.fastq.gz` |
 | QC | FastQC + MultiQC | built-in | HTML report |
 | Trim | fastp | trim.sh | Trimmed FASTQ |
 | Index | STAR | index.sh | STAR index dir |
