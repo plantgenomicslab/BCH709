@@ -282,22 +282,27 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
 | ABA_rep3           | SRR1761511 |
 
 > ## 🔁 Already ran fastq-dump + trim in HPC_cluster?
-> The [HPC Cluster lesson Workflow Step 1·2](../HPC_cluster/index.html#workflow-step-1--download-reads-with-fastq-dump) downloads the same Arabidopsis SRR1761506-511 dataset and trims with fastp into `~/scratch/raw_data/` and `~/scratch/trim/`. To reuse those results here (no need to re-download or re-trim):
+> The [HPC Cluster lesson Workflow Step 1·2](../HPC_cluster/index.html#workflow-step-1--download-reads-with-fastq-dump) downloads the same Arabidopsis SRR1761506-511 dataset and trims with fastp into the **shared workspace** at `~/scratch/rnaseq/raw_data/` and `~/scratch/rnaseq/trim/`. To reuse those results here (no need to re-download or re-trim):
 >
 > ```bash
-> mkdir -p ~/scratch/ATH
-> cd ~/scratch/ATH
-> ln -s ~/scratch/raw_data raw_data    # reuse existing FASTQ
-> ln -s ~/scratch/trim     trim        # reuse trimmed reads
-> mkdir -p reference bam                # only the new directories
+> # Sanity-check the shared workspace already has the trimmed reads
+> ls ~/scratch/rnaseq/trim/SRR1761506_1.trim.fastq.gz \
+>    ~/scratch/rnaseq/trim/SRR1761506_2.trim.fastq.gz
+>
+> # Set up the ATH project sub-directory under the shared parent
+> mkdir -p ~/scratch/rnaseq/ATH
+> cd ~/scratch/rnaseq/ATH
+> ln -s ~/scratch/rnaseq/raw_data raw_data    # reuse existing FASTQ
+> ln -s ~/scratch/rnaseq/trim     trim        # reuse trimmed reads
+> mkdir -p reference bam                       # only the new directories
 > ```
 >
-> Then **skip to "Reference downloads"** below — STAR index + alignment is where this lesson really starts. Otherwise (fresh start, no HPC_cluster prerequisites done), follow the standard setup below.
+> If the `ls` above prints both files, **skip to "Reference downloads"** below — STAR index + alignment is where this lesson really starts. Otherwise (fresh start, no HPC_cluster prerequisites done), follow the standard setup below.
 {: .callout}
 
 ```bash
-mkdir -p ~/scratch/ATH
-cd ~/scratch/ATH
+mkdir -p ~/scratch/rnaseq/ATH
+cd ~/scratch/rnaseq/ATH
 mkdir -p raw_data trim reference bam
 pwd
 ```
@@ -307,7 +312,7 @@ pwd
 Bioconda's `sra-tools` 3.x crashes on Pronghorn (built against GLIBC 2.27+, newer than the system libc). We pull the same FASTQ from **ENA**, which mirrors every SRA run as ready-to-use `.fastq.gz` over HTTPS — no SRA toolkit needed.
 
 ```bash
-cd ~/scratch/ATH
+cd ~/scratch/rnaseq/ATH
 nano fastq-dump.sh
 ```
 ```bash
@@ -342,7 +347,7 @@ done
 
 ## Read Trimming with fastp
 ```bash
-cd  ~/scratch/ATH
+cd  ~/scratch/rnaseq/ATH
 nano trim.sh
 ```
 ```bash
@@ -370,7 +375,7 @@ fastp --in1 raw_data/SRR1761511_1.fastq.gz --in2 raw_data/SRR1761511_2.fastq.gz 
 We download the Arabidopsis TAIR10 genome and annotation **directly from TAIR** (`www.arabidopsis.org`). No JGI/Phytozome account required, no zip-bundle to unpack.
 
 ```bash
-cd ~/scratch/ATH
+cd ~/scratch/rnaseq/ATH
 mkdir -p bam reference
 cd reference
 pwd
@@ -381,7 +386,7 @@ pwd
 TAIR's API serves the canonical TAIR10 chromosome FASTA and GFF3. The host uses a self-signed certificate, so we pass `-k` to `curl` (same as `wget --no-check-certificate`).
 
 ```bash
-cd ~/scratch/ATH/reference
+cd ~/scratch/rnaseq/ATH/reference
 
 # Genome FASTA (gzipped, ~35 MB)
 curl -kfsSL --retry 3 --max-time 600 \
@@ -403,12 +408,12 @@ seqkit stats TAIR10_chr_all.fas
 STAR's `--sjdbGTFfile` expects GTF, so we convert the GFF3 with `gffread`:
 
 ```bash
-cd ~/scratch/ATH/reference
+cd ~/scratch/rnaseq/ATH/reference
 gffread TAIR10_GFF3_genes.gff -T -F --keep-exon-attrs -o TAIR10_GFF3_genes.gtf
 ```
 ## Create reference index
 ```bash
-cd  ~/scratch/ATH/reference
+cd  ~/scratch/rnaseq/ATH/reference
 ls -algh
 nano index.sh
 ```
@@ -429,7 +434,7 @@ STAR --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles T
 
 ## Mapping the reads to genome index
 ```bash
-cd  ~/scratch/ATH/
+cd  ~/scratch/rnaseq/ATH/
 ls -algh
 nano align.sh
 ```
@@ -448,17 +453,17 @@ nano align.sh
 # so the job ID is filled in automatically — see the "Submit the pipeline with
 # dependency chaining" section below.
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761506_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761506_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761506.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761506_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761506_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761506.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761507_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761507_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761507.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761507_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761507_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761507.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761508_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761508_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761508.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761508_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761508_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761508.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761509_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761509_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761509.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761509_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761509_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761509.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761510_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761510_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761510.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761510_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761510_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761510.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/ATH/reference/ --readFilesIn ~/scratch/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/scratch/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/ATH/bam/SRR1761511.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761511.bam
 ```
 
 ### Submit the entire pipeline with one script — `run_all.sh`
@@ -483,7 +488,7 @@ Rather than running each step by hand (submit → wait → submit → wait…), 
 # Slurm enforces the correct order via --dependency; you can walk away.
 set -euo pipefail
 
-PROJECT=~/scratch/ATH
+PROJECT=~/scratch/rnaseq/ATH
 cd "$PROJECT"
 
 # Activate the env in THIS shell so every sbatch below inherits the PATH
@@ -534,7 +539,7 @@ If you want to see exactly what `run_all.sh` does (or debug one step), submit ea
 
 ```bash
 micromamba activate RNASEQ_bch709
-cd ~/scratch/ATH
+cd ~/scratch/rnaseq/ATH
 ```
 
 **Then submit each step — each line is one command:**
@@ -566,7 +571,7 @@ squeue -u $USER
 {: .callout}
 
 > ## Same pattern for every other organism
-> For Drosophila, Mouse, Tomato, Mosquito, etc., copy `run_all.sh` into that organism's project directory, update `PROJECT=~/scratch/<ORG>`, and run it. The script structure doesn't change — only the path.
+> For Drosophila, Mouse, Tomato, Mosquito, etc., copy `run_all.sh` into that organism's project directory, update `PROJECT=~/scratch/rnaseq/<ORG>`, and run it. The script structure doesn't change — only the path.
 {: .callout}
 
 > ## Don't hard-code dependencies inside the `#SBATCH` block
@@ -610,7 +615,8 @@ We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to
 
 
 ```bash
-cd  ~/scratch/
+mkdir -p ~/scratch/rnaseq
+cd ~/scratch/rnaseq/
 mkdir Drosophila && cd Drosophila
 mkdir raw_data trim bam reference
 pwd
@@ -621,7 +627,7 @@ pwd
 ## fastq donwload
 
 ```bash
-cd ~/scratch/Drosophila
+cd ~/scratch/rnaseq/Drosophila
 
 nano fastq-dump.sh
 ```
@@ -638,7 +644,7 @@ nano fastq-dump.sh
 #SBATCH --partition=cpu-core-0
 
 set -euo pipefail
-mkdir -p ~/scratch/Drosophila/raw_data
+mkdir -p ~/scratch/rnaseq/Drosophila/raw_data
 
 for SRR in SRR16287545 SRR16287546 SRR16287547 SRR16287549 SRR16287548 SRR16287550; do
   URLS=$(curl -fsSL --retry 3 --max-time 60 \
@@ -646,7 +652,7 @@ for SRR in SRR16287545 SRR16287546 SRR16287547 SRR16287549 SRR16287548 SRR162875
           | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
-    OUT=~/scratch/Drosophila/raw_data/$(basename "${U}")
+    OUT=~/scratch/rnaseq/Drosophila/raw_data/$(basename "${U}")
     [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
     echo "[fastq] ${SRR} -> https://${U}"
     curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
@@ -657,7 +663,7 @@ done
 
 ## Read Trimming with fastp
 ```bash
-cd ~/scratch/Drosophila
+cd ~/scratch/rnaseq/Drosophila
 mkdir trim
 nano trim.sh
 
@@ -674,17 +680,17 @@ nano trim.sh
 #SBATCH -o trim.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287545_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287545_2.fastq.gz --out1 trim/SRR16287545_1.trimmed.fq.gz --out2 trim/SRR16287545_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287545_fastp.html --json trim/SRR16287545_fastp.json
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287546_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287546_2.fastq.gz --out1 trim/SRR16287546_1.trimmed.fq.gz --out2 trim/SRR16287546_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287546_fastp.html --json trim/SRR16287546_fastp.json
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287547_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287547_2.fastq.gz --out1 trim/SRR16287547_1.trimmed.fq.gz --out2 trim/SRR16287547_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287547_fastp.html --json trim/SRR16287547_fastp.json
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287549_2.fastq.gz --out1 trim/SRR16287549_1.trimmed.fq.gz --out2 trim/SRR16287549_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287549_fastp.html --json trim/SRR16287549_fastp.json
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287548_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287548_2.fastq.gz --out1 trim/SRR16287548_1.trimmed.fq.gz --out2 trim/SRR16287548_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287548_fastp.html --json trim/SRR16287548_fastp.json
-fastp --in1 ~/scratch/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/scratch/Drosophila/raw_data/SRR16287550_2.fastq.gz --out1 trim/SRR16287550_1.trimmed.fq.gz --out2 trim/SRR16287550_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287550_fastp.html --json trim/SRR16287550_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287545_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287545_2.fastq.gz --out1 trim/SRR16287545_1.trimmed.fq.gz --out2 trim/SRR16287545_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287545_fastp.html --json trim/SRR16287545_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287546_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287546_2.fastq.gz --out1 trim/SRR16287546_1.trimmed.fq.gz --out2 trim/SRR16287546_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287546_fastp.html --json trim/SRR16287546_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287547_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287547_2.fastq.gz --out1 trim/SRR16287547_1.trimmed.fq.gz --out2 trim/SRR16287547_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287547_fastp.html --json trim/SRR16287547_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_2.fastq.gz --out1 trim/SRR16287549_1.trimmed.fq.gz --out2 trim/SRR16287549_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287549_fastp.html --json trim/SRR16287549_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_2.fastq.gz --out1 trim/SRR16287548_1.trimmed.fq.gz --out2 trim/SRR16287548_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287548_fastp.html --json trim/SRR16287548_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_2.fastq.gz --out1 trim/SRR16287550_1.trimmed.fq.gz --out2 trim/SRR16287550_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287550_fastp.html --json trim/SRR16287550_fastp.json
 ```
 ## Reference donwload
 
 ```bash
-cd  ~/scratch/Drosophila/reference
+cd  ~/scratch/rnaseq/Drosophila/reference
 
 # FlyBase r6.42 (FB2021_05) — pinned for reproducibility. The dmel_r6.42
 # directory is still hosted by FlyBase but only via HTTPS in newer releases;
@@ -741,17 +747,17 @@ nano mapping.sh
 # NOTE: do NOT hard-code --dependency here. Pass it on the `sbatch` command line,
 # e.g.  ALIGN=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287547.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287547.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287548_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287548_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287548.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287548_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287548_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287548.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287549_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287549_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287549.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287549_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287549_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287549.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287550_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287550_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287550.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287550_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287550_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287550.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287545_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287545_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287545.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287545_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287545_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287545.bam
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/Drosophila/reference/ --readFilesIn ~/scratch/Drosophila/trim/SRR16287546_1.trimmed.fq.gz ~/scratch/Drosophila/trim/SRR16287546_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/Drosophila/bam/SRR16287546.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287546_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287546_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287546.bam
 ```
 
 
@@ -765,7 +771,8 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA773499
 SARS-CoV-2 has caused a historic pandemic of respiratory disease (COVID-19) and current evidence suggests severe disease is associated with dysregulated immunity within the respiratory tract1,2. However, the innate immune mechanisms that mediate protection during COVID-19 are not well defined. Here we characterize a mouse model of SARS-CoV-2 infection and find that early CCR2-dependent infiltration of monocytes restricts viral burden in the lung. We find that a recently developed mouse-adapted MA-SARS-CoV-2 strain, as well as the emerging B.1.351 variant, trigger an inflammatory response in the lung characterized by expression of pro-inflammatory cytokines and interferon-stimulated genes. Using intravital antibody labeling, we demonstrate that MA-SARS-CoV-2 infection leads to increases in circulating monocytes and an influx of CD45+ cells into the lung parenchyma that is dominated by monocyte-derived cells. scRNA-seq analysis of lung homogenates identified a hyper-inflammatory monocyte profile. We utilize this model to demonstrate that mechanistically, CCR2 signaling promotes infiltration of classical monocytes into the lung and expansion of monocyte-derived cells. Parenchymal monocyte-derived cells appear to play a protective role against MA-SARS-CoV-2, as mice lacking CCR2 showed higher viral loads in the lungs, increased lung viral dissemination, and elevated inflammatory cytokine responses. These studies have identified a CCR2-monocyte axis that is critical for promoting viral control and restricting inflammation within the respiratory tract during SARS-CoV-2 infection. Overall design: 8 samples in total corresponding to different mice. 4 samples are from mock, control mice. 4 samples are from SARS-CoV-2 infected mice.
 
 ```bash
-cd  ~/scratch/
+mkdir -p ~/scratch/rnaseq
+cd ~/scratch/rnaseq/
 mkdir Mmusculus && cd Mmusculus
 mkdir raw_data trim bam reference
 pwd
@@ -790,7 +797,7 @@ Browse: <https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus>
 ### Download files (NCBI RefSeq GRCm39)
 
 ```bash
-mkdir -p ~/scratch/Mmusculus/reference && cd ~/scratch/Mmusculus/reference
+mkdir -p ~/scratch/rnaseq/Mmusculus/reference && cd ~/scratch/rnaseq/Mmusculus/reference
 
 NCBI_BASE="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39"
 curl -fsSL --retry 3 --max-time 3600 -o GRCm39_genomic.fna.gz \
@@ -809,7 +816,8 @@ Whole genome sequencing and transcriptome sequencing of Solanum lycopersicum, M8
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA753098
 
 ```bash
-cd  ~/scratch/
+mkdir -p ~/scratch/rnaseq
+cd ~/scratch/rnaseq/
 mkdir Slycopersium && cd Slycopersium
 mkdir raw_data trim bam reference
 pwd
@@ -843,7 +851,8 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA277477
 
 ## Folder preparation
 ```bash
-cd  ~/scratch/  
+mkdir -p ~/scratch/rnaseq
+cd ~/scratch/rnaseq/  
 mkdir Astephensi && cd Astephensi  
 mkdir raw_data trim bam reference  
 pwd 
@@ -866,7 +875,7 @@ Browse: <https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian>
 ### Reference download
 
 ```bash
-mkdir -p ~/scratch/Astephensi/reference && cd ~/scratch/Astephensi/reference
+mkdir -p ~/scratch/rnaseq/Astephensi/reference && cd ~/scratch/rnaseq/Astephensi/reference
 
 VB_FA="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta"
 VB_GFF="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff"
@@ -912,14 +921,14 @@ featureCounts -p  -a <GENOME>.gtf <SAMPLE1>.bam <SAMPLE2>.bam <SAMPLE3>.bam  ...
 
 ```bash
 micromamba activate RNASEQ_bch709
-cd ~/scratch/ATH/bam
-featureCounts -o ATH.featureCount.cnt -p  -a ~/scratch/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
+cd ~/scratch/rnaseq/ATH/bam
+featureCounts -o ATH.featureCount.cnt -p  -a ~/scratch/rnaseq/ATH/reference/TAIR10_GFF3_genes.gtf SRR1761506.bamAligned.sortedByCoord.out.bam  SRR1761509.bamAligned.sortedByCoord.out.bam SRR1761507.bamAligned.sortedByCoord.out.bam  SRR1761510.bamAligned.sortedByCoord.out.bam SRR1761508.bamAligned.sortedByCoord.out.bam  SRR1761511.bamAligned.sortedByCoord.out.bam
 ```
 
 ```bash
 micromamba activate RNASEQ_bch709
-cd ~/scratch/Mmusculus/bam
-featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/scratch/Mmusculus/reference/GCF_000001635.27_GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
+cd ~/scratch/rnaseq/Mmusculus/bam
+featureCounts -o Mmusculus.featureCount.cnt -p  -a ~/scratch/rnaseq/Mmusculus/reference/GCF_000001635.27_GRCm39_genomic.gtf -g "gene_name"  <YOUR BAM FILES>
 ```
 
 
@@ -1195,10 +1204,10 @@ micromamba activate DEG_bch709
 ## ATH DEG
 ```bash
 
-cd ~/scratch/ATH
+cd ~/scratch/rnaseq/ATH
 mkdir DEG
 cd DEG
-cp ~/scratch/ATH/bam/ATH.featureCount* .
+cp ~/scratch/rnaseq/ATH/bam/ATH.featureCount* .
 
 cut -f1,7- ATH.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.TAIR10//g' > ATH.featureCount_count_only.cnt 
 ```
@@ -1243,10 +1252,10 @@ run_DE_analysis.pl --matrix ATH.featureCount_count_only.cnt --method DESeq2 --sa
 ## Slycopersium DEG
 ```bash
 
-cd ~/scratch/Slycopersium
+cd ~/scratch/rnaseq/Slycopersium
 mkdir DEG
 cd DEG
-cp ~/scratch/Slycopersium/bam/Slycopersium.featureCount* .
+cp ~/scratch/rnaseq/Slycopersium/bam/Slycopersium.featureCount* .
 
 cut -f1,7- Slycopersium.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g; s/\.ITAG4\.0//g' > Slycopersium.featureCount_count_only.cnt 
 ```
@@ -1277,10 +1286,10 @@ run_DE_analysis.pl --matrix Slycopersium.featureCount_count_only.cnt  --method D
 ## Astephensi DEG
 ```bash
 
-cd ~/scratch/Astephensi
+cd ~/scratch/rnaseq/Astephensi
 mkdir DEG
 cd DEG
-cp ~/scratch/Astephensi/bam/*.featureCount* .
+cp ~/scratch/rnaseq/Astephensi/bam/*.featureCount* .
 
 cut -f1,7- Astephensi.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g;' > Astephensi.featureCount_count_only.cnt 
 ```
@@ -1311,10 +1320,10 @@ run_DE_analysis.pl --matrix Astephensi.featureCount_count_only.cnt  --method DES
 ## Mmusculus DEG
 ```bash
 
-cd ~/scratch/Mmusculus
+cd ~/scratch/rnaseq/Mmusculus
 mkdir DEG
 cd DEG
-cp ~/scratch/Mmusculus/bam/*.featureCount* .
+cp ~/scratch/rnaseq/Mmusculus/bam/*.featureCount* .
 
 cut -f1,7- Mmusculus.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g' > Mmusculus.featureCount_count_only.cnt 
 ```
@@ -1348,10 +1357,10 @@ run_DE_analysis.pl --matrix Mmusculus.featureCount_count_only.cnt  --method DESe
 ## Drosophila DEG
 ```bash
 
-cd ~/scratch/Drosophila
+cd ~/scratch/rnaseq/Drosophila
 mkdir DEG
 cd DEG
-cp ~/scratch/Drosophila/bam/*.featureCount* .
+cp ~/scratch/rnaseq/Drosophila/bam/*.featureCount* .
 
 cut -f1,7- Drosophila.featureCount.cnt | egrep -v "#" | sed 's/\.bamAligned\.sortedByCoord\.out\.bam//g' > Drosophila.featureCount_count_only.cnt 
 ```
@@ -1390,10 +1399,10 @@ run_DE_analysis.pl --matrix Drosophila.featureCount_count_only.cnt  --method DES
 ```bash
 cd rnaseq
 ## 4-fold and p-value 0.01
-analyze_diff_expr.pl --samples ~/scratch/ATH/DEG/samples.txt  --matrix ~/scratch/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
+analyze_diff_expr.pl --samples ~/scratch/rnaseq/ATH/DEG/samples.txt  --matrix ~/scratch/rnaseq/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 2 --output ATH
 
 ## 2-fold and p-value 0.01
-analyze_diff_expr.pl --samples  ~/scratch/ATH/DEG/samples.txt   --matrix ~/scratch/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
+analyze_diff_expr.pl --samples  ~/scratch/rnaseq/ATH/DEG/samples.txt   --matrix ~/scratch/rnaseq/ATH/DEG/ATH.featureCount_count_length.cnt.tpm.tab -P 0.01 -C 1 --output ATH
 ```
 
 ### DEG output
@@ -1419,7 +1428,7 @@ mamba install -c bioconda bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo
 ```
 
 ```bash
-cd ~/scratch/ATH/DEG/rnaseq
+cd ~/scratch/rnaseq/ATH/DEG/rnaseq
 cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.ABA-UP.subset |  grep -v sample > DESeq.UP_4fold.subset
 cut -f 1 ATH.featureCount_count_only.cnt.ABA_vs_Control.DESeq2.DE_results.P0.01_C2.Control-UP.subset  |  grep -v sample > DESeq.DOWN_4fold.subset 
 
@@ -1585,7 +1594,7 @@ http://revigo.irb.hr/
 
 ### Arabidopsis
 ```bash
-cd ~/scratch/ATH/DEG/rnaseq
+cd ~/scratch/rnaseq/ATH/DEG/rnaseq
 
 cat DESeq.DOWN_4fold.subset
 cat DESeq.UP_4fold.subset
@@ -1593,14 +1602,14 @@ cat DESeq.UP_4fold.subset
 
 ### Mouse
 ```bash
-~/scratch/Mmusculus/DEG/rnaseq
+~/scratch/rnaseq/Mmusculus/DEG/rnaseq
  cut -f 1 Mmusculus.featureCount_count_only.cnt.CoV_vs_Mock.DESeq2.DE_results.P0.01_C2.Mock-UP.subset | egrep -v sample
 ```
 https://reactome.org/PathwayBrowser/#/DTAB=AN&ANALYSIS=MjAyMTExMTcwNjE3MjNfNTU5MTM%253D
 
 ### Tomato
 ```bash
-~/scratch/Slycopersium/DEG/rnaseq
+~/scratch/rnaseq/Slycopersium/DEG/rnaseq
 
 ```
 ```
@@ -1796,7 +1805,7 @@ Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 ## Running a standalone BLAST program
 ### location
 ```
- mkdir ~/scratch/BLAST
+ mkdir ~/scratch/rnaseq/BLAST
  cd $!
 ```
 
@@ -1849,14 +1858,14 @@ https://bioinf.shenwei.me/seqkit/tutorial/
 
 ### Download Database
 ```bash
-mkdir ~/scratch/BLAST
-cd ~/scratch/BLAST
+mkdir ~/scratch/rnaseq/BLAST
+cd ~/scratch/rnaseq/BLAST
 ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ```
 
 ### Run BLASTX
 ```bash
-cd ~/scratch/BLAST
+cd ~/scratch/rnaseq/BLAST
 gunzip plant.1.protein.faa.gz
 makeblastdb -in plant.1.protein.faa -dbtype prot
 seqkit sample -n 100 /data/gpfs/assoc/bch709-6/Course_material/test_mrna.fna > test_mrna.fasta
@@ -2128,7 +2137,7 @@ After you have the up/down gene lists from DESeq2, run GO enrichment directly on
 
 ```bash
 # Working directory: your DEG output folder
-cd ~/scratch/ATH/DEG/rnaseq/venn
+cd ~/scratch/rnaseq/ATH/DEG/rnaseq/venn
 
 # Universe = every gene tested (from the TPM matrix)
 cut -f 1 ../ATH.featureCount_count_length.cnt.tpm.tab | grep -v sample > universe.txt
@@ -2197,7 +2206,7 @@ for (ont in c("BP", "MF", "CC")) run_ontology(ont)
 #SBATCH -o go_enrich_%j.out
 
 # Activate `DEG_bch709` in your login shell BEFORE running `sbatch go_enrichment.sh`
-cd ~/scratch/ATH/DEG/rnaseq/venn
+cd ~/scratch/rnaseq/ATH/DEG/rnaseq/venn
 
 Rscript go_enrichment.R universe.txt interesting_genes.txt ATH_UP4fold
 ```
