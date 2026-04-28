@@ -1455,7 +1455,7 @@ grep -in "error\|warn\|fail\|killed\|traceback\|exception\|abort\|segfault" <job
 tail -30 <jobname>_<jobid>.out
 ```
 
-The last lines show you **how far the script got** before it died. Did it finish downloading sample 3 and die on sample 4? Did it never get past `micromamba activate`? This narrows the problem to one specific command.
+The last lines show you **how far the script got** before it died. Did it finish downloading sample 3 and die on sample 4? Did the very first command print `command not found` (meaning the env wasn't active when you submitted)? This narrows the problem to one specific command.
 
 #### Step 4 — Reproduce the error interactively
 
@@ -1518,19 +1518,22 @@ Here are the most frequent failures, what they look like, and exactly how to fix
 trim.sh: line 14: fastp: command not found
 ```
 
-**Cause:** You forgot to activate the Micromamba environment inside the script.
+**Cause:** You forgot to activate the Micromamba environment in your **login shell** *before* calling `sbatch`. Slurm submits with `--export=ALL` by default, so each batch job inherits your current shell's `PATH` — but only if the env was active when you ran `sbatch`.
 
-**Fix:** Add `micromamba activate RNASEQ_bch709` near the top of your script, *before* any bioinformatics commands:
+**Fix:** Activate the env in the login shell, then resubmit. **Do NOT add `micromamba activate` inside the `.sh` file** — that's fragile and breaks the activation pattern used in this course:
 
 ```bash
-#!/bin/bash
-#SBATCH ...
-micromamba activate RNASEQ_bch709    # ← add this line
-fastp ...
+# in your login shell:
+micromamba activate RNASEQ_bch709
+which fastp     # confirm: should print a path inside ~/micromamba/envs/RNASEQ_bch709/
+
+sbatch trim.sh  # now this job inherits the right PATH
 ```
 
-> ## Why the login node activation doesn't carry over
-> When you type `micromamba activate` on the login node and then `sbatch`, the batch job starts a **brand new shell** on a compute node. That new shell doesn't inherit the login node's environment — it starts from scratch. So you must activate inside every script.
+> ## Why activation in the login shell carries over
+> By default `sbatch --export=ALL` copies the submitting shell's environment (including `PATH`) into the batch job. So activating the env in the login shell *before* `sbatch` is enough — the compute node sees the same `fastp`, `samtools`, etc.
+>
+> If you open a new SSH session, the activation is lost. Just run `micromamba activate <env>` again before submitting.
 {: .callout}
 
 #### Problem: `No such file or directory`
@@ -1546,7 +1549,6 @@ fastp: error: cannot open raw_data/SRR1761506_1.fastq.gz: No such file or direct
 ```bash
 #!/bin/bash
 #SBATCH ...
-micromamba activate RNASEQ_bch709
 cd ~/scratch                         # ← add this line
 fastp --in1 raw_data/SRR1761506_1.fastq.gz ...
 ```
@@ -1890,7 +1892,7 @@ Before asking anyone, run through this list. 80% of issues are solved by step 1 
 2. **Check where you are.** Run `hostname` and `pwd` — are you on the right machine and in the right folder?
 3. **Check the log file.** For Slurm jobs, `cat <jobname>_<jobid>.out` and `cat <jobname>_<jobid>.err`.
 4. **Check the job state.** `sacct -j <jobid>` will show if it failed, ran out of memory, or timed out.
-5. **Did you activate the environment?** `which fastp` should print a path inside `~/micromamba/envs/RNASEQ_bch709/`. If it says "not found," run `micromamba activate RNASEQ_bch709`.
+5. **Did you activate the environment in the login shell BEFORE `sbatch`?** Run `which fastp` — it should print a path inside `~/micromamba/envs/RNASEQ_bch709/`. If it says "not found," run `micromamba activate RNASEQ_bch709` and resubmit. (Don't put `micromamba activate` inside the `.sh` file.)
 6. **Is the file actually there?** `ls -la <path>` — Tab-complete to avoid typos.
 7. **Do you have disk space?** `df -h ~` and `df -h ~/scratch`.
 8. **Re-read the command** — typos in `--account`, `--partition`, or paths are by far the most common bugs.
