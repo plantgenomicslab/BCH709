@@ -292,7 +292,7 @@ The reference is shared across all samples, so we only build it once.
 #SBATCH --partition=cpu-core-0
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16g
-#SBATCH --time=02:00:00
+#SBATCH --time=06:00:00
 #SBATCH --mail-type=FAIL,END
 #SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o logs/02_reference_%j.out
@@ -349,7 +349,11 @@ picard CreateSequenceDictionary R=reference.fasta O=reference.dict
 # Download and prepare known variants (sites-only to avoid malformed VCF)
 # 1001genomes.org is sometimes slow — give curl up to 30 min and retry 3×
 KSITES_URL="https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-short-indel_only_ACGTN.vcf.gz"
-curl -fsSL --retry 3 --retry-delay 30 --max-time 1800 \
+# The 1001genomes VCF is ~19 GB; on Pronghorn outbound (~3 MB/s) the download
+# takes ~3 hours. We use `-C -` to resume on retry instead of restarting at
+# byte 0, and drop --max-time so a single attempt isn't capped (Slurm --time
+# already bounds the whole job).
+curl -fsSL --retry 5 --retry-delay 30 -C - \
     -o 1001genomes_snp-short-indel_only_ACGTN.vcf.gz "${KSITES_URL}"
 zcat 1001genomes_snp-short-indel_only_ACGTN.vcf.gz \
     | awk 'BEGIN{OFS="\t"} /^##/{print; next} /^#CHROM/{print $1,$2,$3,$4,$5,$6,$7,$8; next} {print $1,$2,$3,$4,$5,$6,$7,$8}' \
