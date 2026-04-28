@@ -182,8 +182,15 @@ micromamba install -c conda-forge -c bioconda \
 # few legacy auxiliary scripts. If you ever need BioPerl, install it later
 # in a SEPARATE env: `micromamba create -n bioperl -c bioconda perl-bioperl`
 
-# MultiQC via pip — pin numpy/pyarrow together in ONE command
-pip install 'numpy<2.0' 'pyarrow<17' multiqc
+# Upgrade pip first — older pip can't find the prebuilt `tiktoken`
+# manylinux wheel (a transitive multiqc dep), tries to build it from
+# Rust source, fails on Pronghorn (no Rust compiler).
+pip install --upgrade pip
+
+# MultiQC + pinned deps. `tiktoken<0.8` is the safety pin — older
+# tiktoken has stable cp311 linux wheels.
+pip install --prefer-binary \
+    'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' multiqc
 ```
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**

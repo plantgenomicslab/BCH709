@@ -82,10 +82,17 @@ micromamba install -c conda-forge -c bioconda \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
     openjdk=17 'picard>=3' homer -y
 
+# Upgrade pip first — older pip can't find the prebuilt `tiktoken`
+# manylinux wheel (a transitive multiqc dep), tries to build from Rust
+# source, and fails on Pronghorn (no Rust compiler).
+pip install --upgrade pip
+
 # Step A — deepTools + MACS3 + MultiQC via pip
-#   (pin numpy >=1.25 because macs3 needs that ABI; <2.0 because
-#    deeptools/idr aren't NumPy-2 ready yet)
-pip install 'numpy>=1.25,<2.0' 'pyarrow<17' 'deeptools<3.5.6' macs3 multiqc
+#   numpy >=1.25 because macs3 needs that ABI; <2.0 because deeptools/idr
+#   aren't NumPy-2 ready yet. `tiktoken<0.8` pin avoids the Rust build.
+pip install --prefer-binary \
+    'numpy>=1.25,<2.0' 'pyarrow<17' 'tiktoken<0.8' \
+    'deeptools<3.5.6' macs3 multiqc
 
 # Step B — IDR (from GitHub; the PyPI `idr` is a DIFFERENT project)
 #   IDR's setup.py does `import numpy` at build time, so pip's default
