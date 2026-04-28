@@ -80,10 +80,16 @@ micromamba activate chipseq_bch709
 # `gcc`/`gxx` are needed because the pip step below builds `macs3` (and its
 # `cykhash` dep) and `idr` from C/Cython source — the env's
 # `x86_64-conda-linux-gnu-gcc` is not on PATH as plain `gcc`.
+# `pysam` MUST come from bioconda (not pip). Pronghorn compute nodes run
+# CentOS 7 with glibc 2.17; PyPI pysam wheels are built on manylinux_2_28
+# and require glibc 2.27+, so they ImportError on the cluster:
+#   "/lib64/libm.so.6: version `GLIBC_2.23' not found (required by pysam/libchtslib...)"
+# Installing pysam first via bioconda makes pip skip it when resolving deeptools.
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' minimap2 \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
     openjdk=17 'picard>=3' homer \
+    'pysam>=0.22' \
     gcc gxx -y
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
