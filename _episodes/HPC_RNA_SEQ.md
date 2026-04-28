@@ -790,7 +790,7 @@ Browse: <https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus>
 ### Download files (NCBI RefSeq GRCm39)
 
 ```bash
-mkdir -p ~/scratch/Mus/reference && cd ~/scratch/Mus/reference
+mkdir -p ~/scratch/Mmusculus/reference && cd ~/scratch/Mmusculus/reference
 
 NCBI_BASE="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39"
 curl -fsSL --retry 3 --max-time 3600 -o GRCm39_genomic.fna.gz \
@@ -1329,8 +1329,8 @@ Mock    SRR16526489
 Mock    SRR16526488
 Mock    SRR16526486
 Mock    SRR16526483
-Cov SRR16526477
-Cov SRR16526479
+CoV SRR16526477
+CoV SRR16526479
 CoV SRR16526481
 CoV SRR16526475
 ```
