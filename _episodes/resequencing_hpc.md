@@ -133,6 +133,14 @@ bcftools --version  | head -1    # → bcftools 1.xx
 tabix --version     | head -1    # → tabix (htslib) 1.xx
 ```
 
+Expected output:
+
+```
+samtools 1.23.1
+bcftools 1.23.1
+tabix (htslib) 1.23.1
+```
+
 If all three print a version number (no `libcrypto` error), your environment is ready. If any still error, ask the instructor before moving on.
 
 > ## 🔑 Activate once in your login shell — every `sbatch` inherits the environment
@@ -152,6 +160,15 @@ If all three print a version number (no `libcrypto` error), your environment is 
 > ```bash
 > sbatch -A cpu-s5-bch709-6 -p cpu-core-0 --time=00:05:00 --wrap="which bwa-mem2 && bwa-mem2 version"
 > # check the slurm-<jobid>.out log — should show the same path + version
+> ```
+>
+> Expected `slurm-<jobid>.out`:
+>
+> ```
+> ~/micromamba/envs/reseq_bch709/bin/bwa-mem2
+> Looking to launch executable ".../bwa-mem2.avx2", simd = .avx2
+> Launching executable ".../bwa-mem2.avx2"
+> 2.2.1
 > ```
 >
 > If you open a new SSH session, the activation is lost — **just run `micromamba activate reseq_bch709` again** before submitting.
@@ -269,6 +286,18 @@ echo "Download job: ${DL_JID}"
 squeue -u $USER   # you should see 2 tasks (download_1, download_2) running in parallel
 ```
 
+Expected output of `logs/01_download_<jobid>_1.out` (sample1 task — sample2's log is similar with SRR519586):
+
+```
+[task 1] Downloading sample1 (SRR519585) from ENA
+[task 1] -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_1.fastq.gz
+[task 1] -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR519/SRR519585/SRR519585_2.fastq.gz
+-rw-r--r-- 1 <netid> rc-bch709-6 2.0G <date> raw/sample1_R1.fastq.gz
+-rw-r--r-- 1 <netid> rc-bch709-6 2.0G <date> raw/sample1_R2.fastq.gz
+```
+
+Sample2 ends up around 2.6 G per mate (SRR519586 is a slightly deeper run). If either file shows `0` bytes, ENA hiccupped — re-submit just that array task with `sbatch --array=2 scripts/01_download.sh`.
+
 | `#SBATCH` option | Purpose |
 |-----------------|---------|
 | `--array=1-2` | Launches 2 tasks, each with its own `$SLURM_ARRAY_TASK_ID` (1 and 2) |
@@ -381,6 +410,59 @@ echo "Reference prep done."
 REF_JID=$(sbatch --parsable scripts/02_reference.sh)
 echo "Reference job: ${REF_JID}"
 ```
+
+Expected output of `logs/02_reference_<jobid>.out` (truncated — first lines + tail):
+
+```
+[ref] trying https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz
+[ref] downloaded from https://www.arabidopsis.org/api/download-files/download?filePath=...TAIR10_chr_all.fas.gz
+Looking to launch executable ".../bwa-mem2.avx2", simd = .avx2
+[bwa_index] Pack FASTA... 0.55 sec
+* Entering FMI_search
+ref seq len = 239337268
+build suffix-array ticks = 62781215970
+build fm-index ticks = 13953625410
+Total time taken: 41.8652
+INFO  <date>  CreateSequenceDictionary
+...
+[<date>] CreateSequenceDictionary OUTPUT=reference.dict REFERENCE=reference.fasta ...
+[<date>] picard.sam.CreateSequenceDictionary done. Elapsed time: 0.02 minutes.
+Reference prep done.
+```
+
+Quick sanity check after the job finishes — you should see the FASTA, the bwa-mem2 index files, the `.fai`, and the Picard `.dict`:
+
+```bash
+ls -lh ~/scratch/reseq/reference.*
+```
+
+Expected output:
+
+```
+-rw-r--r-- 1 <netid> rc-bch709-6 116M <date> reference.fasta
+-rw-r--r-- 1 <netid> rc-bch709-6 229M <date> reference.fasta.0123
+-rw-r--r-- 1 <netid> rc-bch709-6 7.4K <date> reference.fasta.amb
+-rw-r--r-- 1 <netid> rc-bch709-6  230 <date> reference.fasta.ann
+-rw-r--r-- 1 <netid> rc-bch709-6 371M <date> reference.fasta.bwt.2bit.64
+-rw-r--r-- 1 <netid> rc-bch709-6  175 <date> reference.fasta.fai
+-rw-r--r-- 1 <netid> rc-bch709-6  29M <date> reference.fasta.pac
+-rw-r--r-- 1 <netid> rc-bch709-6 1.0K <date> reference.dict
+```
+
+After `known_sites.vcf.gz` finishes building (the long curl + bgzip + tabix step at the end of the script), confirm both the VCF and its tabix index exist:
+
+```bash
+ls -lh ~/scratch/reseq/known_sites.vcf.gz*
+```
+
+Expected output:
+
+```
+-rw-r--r-- 1 <netid> rc-bch709-6  52M <date> known_sites.vcf.gz
+-rw-r--r-- 1 <netid> rc-bch709-6 220K <date> known_sites.vcf.gz.tbi
+```
+
+If the `.tbi` is missing, re-run step 02 — `BaseRecalibrator` in step 04 will fail without it.
 
 ---
 
