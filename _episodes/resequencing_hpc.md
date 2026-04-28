@@ -370,9 +370,14 @@ elif grep -q '^>NC_' reference.fasta; then
     {print}' reference.fasta > reference.renamed.fa && mv -f reference.renamed.fa reference.fasta
 fi
 
-# Build all indices
+# Build all indices.  bwa-mem2 index / samtools faidx overwrite their outputs by
+# default, but Picard CreateSequenceDictionary refuses to overwrite an existing
+# .dict and aborts with `file:///.../reference.dict already exists.  Delete this
+# file and try again`.  rm -f makes the whole step idempotent so a re-run of
+# 02_reference.sh after a partial failure just works.
 bwa-mem2 index reference.fasta
 samtools faidx reference.fasta
+rm -f reference.dict
 picard CreateSequenceDictionary R=reference.fasta O=reference.dict
 
 # Download and prepare known variants (sites-only to avoid malformed VCF)
