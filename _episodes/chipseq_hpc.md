@@ -77,10 +77,14 @@ micromamba create -n chipseq_bch709 -c conda-forge -c bioconda python=3.11 -y
 micromamba activate chipseq_bch709
 
 # Alignment/QC tools via bioconda
+# `gcc`/`gxx` are needed because the pip step below builds `macs3` (and its
+# `cykhash` dep) and `idr` from C/Cython source — the env's
+# `x86_64-conda-linux-gnu-gcc` is not on PATH as plain `gcc`.
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' minimap2 \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
-    openjdk=17 'picard>=3' homer -y
+    openjdk=17 'picard>=3' homer \
+    gcc gxx -y
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build from Rust
@@ -90,16 +94,19 @@ pip install --upgrade pip
 # Step A — deepTools + MACS3 + MultiQC via pip
 #   numpy >=1.25 because macs3 needs that ABI; <2.0 because deeptools/idr
 #   aren't NumPy-2 ready yet. `tiktoken<0.8` pin avoids the Rust build.
+#   `cython` is needed for Step B (IDR ships outdated pre-generated .c
+#   files that don't compile under Python 3.11 headers — Cython will
+#   regenerate them from the .pyx).
 pip install --prefer-binary \
     'numpy>=1.25,<2.0' 'pyarrow<17' 'tiktoken<0.8' \
-    'deeptools<3.5.6' macs3 multiqc
+    'deeptools<3.5.6' macs3 multiqc cython
 
 # Step B — IDR (from GitHub; the PyPI `idr` is a DIFFERENT project)
 #   IDR's setup.py does `import numpy` at build time, so pip's default
 #   build isolation (a fresh temp env without numpy) fails with
 #       ModuleNotFoundError: No module named 'numpy'
 #   --no-build-isolation tells pip to build inside the current env
-#   where numpy was just installed in Step A.
+#   where numpy + cython were just installed in Step A.
 pip install --no-build-isolation git+https://github.com/nboley/idr.git
 ```
 
