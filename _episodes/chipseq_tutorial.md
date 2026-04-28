@@ -194,9 +194,22 @@ ls -lh *.fastq.gz   # expect ~910MB and ~690MB respectively
 ### Run FastQC
 
 ```bash
-fastqc -t 4 chip_R1.fastq.gz input.fastq.gz
+fastqc -t 4 chip.fastq.gz input.fastq.gz
 multiqc .
 ```
+
+> Expected output:
+> ```
+> Started analysis of chip.fastq.gz
+> Approx 5% complete for chip.fastq.gz
+> ...
+> Analysis complete for chip.fastq.gz
+> Started analysis of input.fastq.gz
+> ...
+> Analysis complete for input.fastq.gz
+> ```
+> Produces `chip_fastqc.html`, `chip_fastqc.zip`, `input_fastqc.html`, `input_fastqc.zip`, then `multiqc_report.html`.
+{: .solution}
 
 ### ChIP-Seq Specific QC Metrics
 
@@ -317,6 +330,16 @@ samtools index chip.bam
 samtools quickcheck chip.bam && echo "chip BAM OK"
 samtools flagstat chip.bam
 ```
+
+> Expected output (counts vary with depth/library; mapping rate near 55–60% is typical for these old 36 bp ENCODE files vs full hg19):
+> ```
+> chip BAM OK
+> 19956973 + 0 in total (QC-passed reads + QC-failed reads)
+> 19956935 + 0 primary
+> 38 + 0 supplementary
+> 10928167 + 0 mapped (54.76% : N/A)
+> ```
+{: .solution}
 
 ### Align Input Control
 
@@ -481,6 +504,17 @@ plotCorrelation \
   --outFileCorMatrix correlation.txt
 ```
 
+> Expected output (tab-separated `correlation.txt`):
+> ```
+> #plotCorrelation --outFileCorMatrix
+>          'Input'  'Rep1'   'Rep2'
+> 'Input'   1.0000  -0.3195  -0.1776
+> 'Rep1'   -0.3195   1.0000  -0.1117
+> 'Rep2'   -0.1776  -0.1117   1.0000
+> ```
+> Also produces `correlation.png` heatmap. (For real biological replicates with deeper coverage, expect Rep1↔Rep2 Pearson > 0.9.)
+{: .solution}
+
 > **Common Error — `error: the following arguments are required: --whatToPlot/-p`**
 >
 > Older documentation often says `--plotType` but current `plotCorrelation` uses `--whatToPlot` (valid values: `heatmap`, `scatterplot`).
@@ -519,8 +553,25 @@ macs3 callpeak \
   --name chip_narrow \
   --outdir macs3_narrow \
   --qvalue 0.05 \
+  --nomodel --extsize 147 \
   2>&1 | tee macs3_narrow.log
 ```
+
+> Expected output (tail of log; counts will vary):
+> ```
+> #1 tag size = 36.0
+> #1 total tags in treatment: 10604
+> #1 tags after filtering in treatment: 10597
+> #2 Skipped...
+> #2 Use 147 as fragment length
+> #4 Write peak in narrowPeak format file... macs3_narrow/chip_narrow_peaks.narrowPeak
+> Done!
+> ```
+> Result: `macs3_narrow/chip_narrow_peaks.narrowPeak` with 9170 peaks for the example data.
+{: .solution}
+
+> **Why `--nomodel --extsize 147`?** The default model fails on the 36 bp ENCODE example data with "Total number of paired peaks: 0" (see callout below). The fix is shipped here in the main command so the tutorial runs end-to-end.
+{: .callout}
 
 > **Common Error — `MACS3 needs at least 100 paired peaks at + and - strand to build the model, but can only find 0`**
 >
@@ -545,8 +596,12 @@ macs3 callpeak \
   --outdir macs3_broad \
   --broad \
   --broad-cutoff 0.1 \
+  --nomodel --extsize 147 \
   2>&1 | tee macs3_broad.log
 ```
+
+> Expected output: `macs3_broad/chip_broad_peaks.broadPeak` (9162 broad peaks for the example data) plus `chip_broad_peaks.gappedPeak`.
+{: .solution}
 
 ### MACS3 Output Files
 
@@ -587,6 +642,20 @@ sort -k7,7rn macs3_narrow/chip_narrow_peaks.narrowPeak | head -20
 awk '$9 > 2' macs3_narrow/chip_narrow_peaks.narrowPeak > chip_narrow_filtered.bed
 ```
 
+> Expected output:
+> ```
+> 9170 macs3_narrow/chip_narrow_peaks.narrowPeak
+>
+> # Top peaks by fold enrichment:
+> chrX  17963258  17963516  chip_narrow_peak_8759  171  .  6.99626  26.6055  17.1159  129
+> chr1  225668620 225668878  chip_narrow_peak_763   145  .  5.99679  22.4886  14.5672  129
+> chr21  47645076  47645336  chip_narrow_peak_4926  145  .  5.99679  22.4886  14.5672  130
+>
+> # After q<0.01 filter:
+> 228 chip_narrow_filtered.bed
+> ```
+{: .solution}
+
 ---
 
 ## 11. Signal Profiles and Heatmaps
@@ -609,6 +678,18 @@ awk 'BEGIN{OFS="\t"} {
 head TSS.bed
 wc -l TSS.bed
 ```
+
+> Expected output:
+> ```
+> chr1   11868  11869  NR_148357  0  +
+> chr1   11873  11874  NR_046018  0  +
+> chr1   17435  17436  NR_106918  0  -
+> chr1   17435  17436  NR_107062  0  -
+> chr1   17435  17436  NR_107063  0  -
+> ...
+> 81407 TSS.bed
+> ```
+{: .solution}
 
 The resulting `TSS.bed` has one row per transcript, with coordinates pointing to the exact TSS base.
 
@@ -658,9 +739,12 @@ Motif analysis identifies DNA sequence motifs enriched in ChIP-Seq peaks — typ
 
 ### HOMER Motif Analysis
 
+> **Match the genome build to your alignment.** This tutorial aligned reads to **hg19** (Section 5), so peak coordinates are in hg19. Install and search against **hg19** — using `hg38` here would extract sequences at the wrong positions and yield meaningless motifs.
+{: .callout}
+
 ```bash
-# Install HOMER genome (run once)
-configureHomer.pl -install hg38
+# Install HOMER genome (run once) — must match the build used for alignment
+configureHomer.pl -install hg19
 ```
 
 **`findMotifsGenome.pl` usage:** `findMotifsGenome.pl <peaks.bed> <genome> <output_dir/> [options]`
@@ -677,7 +761,7 @@ awk '{print $1"\t"$2"\t"$3"\t"$4"\t"$5"\t"$6}' \
   chip_narrow_filtered.bed > peaks_homer.bed
 
 # Find motifs (de novo + known)
-findMotifsGenome.pl peaks_homer.bed hg38 motif_output/ -size 200 -mask -p 4
+findMotifsGenome.pl peaks_homer.bed hg19 motif_output/ -size 200 -mask -p 4
 ```
 
 ### HOMER Output
