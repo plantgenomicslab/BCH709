@@ -174,7 +174,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx y
 > **Linux/WSL:**
 > ```bash
 > $ cat ~/.ssh/id_ed25519.pub | clip.exe    # WSL
-> $ cat ~/.ssh/id_ed25519.pub | xclip       # Linux with xclip
+> $ cat ~/.ssh/id_ed25519.pub | xclip -selection clipboard   # Linux with xclip
 > ```
 >
 > **macOS:**
@@ -361,6 +361,11 @@ Pull downloads changes from GitHub and merges them into your local branch. It co
 
 ```bash
 $ git pull origin main
+```
+```output
+From github.com:yourusername/my-project
+ * branch            main       -> FETCH_HEAD
+Already up to date.
 ```
 
 ### `git log` / `git diff` -- Viewing History
@@ -766,7 +771,12 @@ When you need to switch branches but have uncommitted changes, `git stash` tempo
 ```bash
 # Save current changes temporarily
 $ git stash
+```
+```output
+Saved working directory and index state WIP on main: 1a2b3c4 Add analysis script
+```
 
+```bash
 # List stashed changes
 $ git stash list
 ```
@@ -777,8 +787,18 @@ stash@{0}: WIP on main: 1a2b3c4 Add analysis script
 ```bash
 # Apply stashed changes
 $ git stash pop
+```
+```output
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+Dropped refs/stash@{0} (dd0559b6685e50366462c8efa17d8f92bfb0c288)
+```
 
-# Apply specific stash
+```bash
+# Apply a specific stash without dropping it
 $ git stash apply stash@{0}
 ```
 
@@ -844,6 +864,11 @@ To safely undo a commit that has already been pushed, use `git revert` which cre
 # Create a new commit that undoes a previous commit
 $ git revert <commit-hash>
 ```
+```output
+[main 43e91b4] Revert "junk commit"
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 junk.txt
+```
 
 ### Git Tags - Mark Important Points
 Tags are useful for marking releases:
@@ -854,9 +879,18 @@ $ git tag -a v1.0 -m "Version 1.0 - Initial release"
 
 # List tags
 $ git tag
+```
+```output
+v1.0
+```
 
+```bash
 # Push tags to remote
 $ git push origin --tags
+```
+```output
+To https://github.com/yourusername/my-project.git
+ * [new tag]         v1.0 -> v1.0
 ```
 
 ## 13. Git Workflows for Bioinformatics
