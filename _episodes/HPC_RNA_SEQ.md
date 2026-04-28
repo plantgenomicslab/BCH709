@@ -115,12 +115,13 @@ nano submit.sh
 #!/bin/bash
 #SBATCH --job-name=test
 #SBATCH --mail-type=all
-#SBATCH --mail-user=wyim@unr.edu
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=1g
 #SBATCH --time=8:10:00
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
+#SBATCH -o test_%j.out
 
 for i in {1..1000}; 
 do 
@@ -295,7 +296,7 @@ nano fastq-dump.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o fastq-dump.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -321,7 +322,7 @@ nano trim.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o trim.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -386,7 +387,7 @@ nano index.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=48g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o index.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -407,7 +408,7 @@ nano align.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=32g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -599,7 +600,7 @@ nano fastq-dump.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<youremail>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o fastq-dump.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -628,7 +629,7 @@ nano trim.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o trim.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -663,7 +664,7 @@ nano index.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=48g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o index.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -683,7 +684,7 @@ nano mapping.sh
 #SBATCH --time=2-15:00:00
 #SBATCH --mem=32g
 #SBATCH --mail-type=all
-#SBATCH --mail-user=<PLEASE CHANGE THIS TO YOUR EMAIL>
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o align.out # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
@@ -2124,9 +2125,11 @@ for (ont in c("BP", "MF", "CC")) run_ontology(ont)
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8g
 #SBATCH --time=01:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o go_enrich_%j.out
 
-micromamba activate DEG_bch709
+# Activate `DEG_bch709` in your login shell BEFORE running `sbatch go_enrichment.sh`
 cd ~/scratch/ATH/DEG/rnaseq/venn
 
 Rscript go_enrichment.R universe.txt interesting_genes.txt ATH_UP4fold
