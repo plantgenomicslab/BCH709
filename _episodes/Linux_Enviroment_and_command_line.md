@@ -908,12 +908,12 @@ cat ??.fasta > double_digit.fasta  # matches 10.fasta, 11.fasta, etc.
 ```
 
 ### Search fasta
-Search for specific sequences or patterns:
+Search for specific sequences or patterns. The UCSC `mrna.fa` sequences are stored in lowercase, so use `-i` for case-insensitive matching so the same command works regardless of input case or locale:
 ```bash
-# Find exact sequence
-grep -n --color "GAATTC" mrna.fa | head
+# Find exact sequence (case-insensitive)
+grep -n -i --color "GAATTC" mrna.fa | head
 # Find pattern with regex (? = 0 or 1 of preceding char)
-grep -n --color -E 'GAA?TTC' mrna.fa | head
+grep -n -i --color -E 'GAA?TTC' mrna.fa | head
 ```
 
 ### Regular Expression
