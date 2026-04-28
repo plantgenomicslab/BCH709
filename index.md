@@ -211,9 +211,9 @@ Include a brief AI use statement with submissions:
 | Week12 | 4/14/2026 | Tuesday  | [ChIP-Seq Tutorial](chipseq_tutorial/index.html)                   |
 | Week12 | 4/16/2026 | Thursday | [HPC Cluster — intro, Slurm, environments](HPC_cluster/index.html) |
 | Week13 | 4/21/2026 | Tuesday  | [HPC — Resequencing pipeline](resequencing_hpc/index.html)         |
-| Week13 | 4/23/2026 | Thursday | [HPC — ChIP-Seq & RNA-Seq pipelines](chipseq_hpc/index.html) · [RNA-Seq HPC](HPC_RNA_SEQ/index.html) |
-| Week14 | 4/28/2026 | Tuesday  | Enrichment analysis                                                |
-| Week14 | 4/30/2026 | Thursday | Databases                                                          |
+| Week13 | 4/23/2026 | Thursday | [HPC — ChIP-Seq pipeline](chipseq_hpc/index.html)                  |
+| Week14 | 4/28/2026 | Tuesday  | [HPC — RNA-Seq pipeline](HPC_RNA_SEQ/index.html)                   |
+| Week14 | 4/30/2026 | Thursday | Enrichment analysis & Databases                                    |
 | Week15 | 5/5/2026  | Tuesday  | Class Review                                                       |
 | Week15 | 5/7/2026  | Thursday | Final Exam                                                         |
 

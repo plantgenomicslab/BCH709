@@ -236,6 +236,8 @@ squeue -u $USER
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16g
 #SBATCH --time=02:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o logs/02_reference_%j.out
 
 set -euo pipefail
@@ -496,6 +498,8 @@ Combines fingerprint, correlation, IDR, and MultiQC into one post-processing job
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16g
 #SBATCH --time=04:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
 #SBATCH -o logs/07_qc_%j.out
 
 set -euo pipefail
