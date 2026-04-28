@@ -83,12 +83,13 @@ You should see: `cpu-s5-bch709-6` / `cpu-core-0` / `student`. Use those values i
 ### Create the resequencing environment
 
 ```bash
-micromamba create -n reseq_bch709 -c bioconda -c conda-forge python=3.11 -y
+micromamba create -n reseq_bch709 -c conda-forge -c bioconda python=3.11 -y
 micromamba activate reseq_bch709
 
-micromamba install -c bioconda -c conda-forge \
-    fastqc fastp bwa-mem2 samtools bcftools tabix \
-    openjdk=17 picard gatk4 snpeff plink -y
+micromamba install -c conda-forge -c bioconda \
+    fastqc 'fastp>=0.24' bwa-mem2 \
+    'samtools>=1.20' 'bcftools>=1.20' 'tabix>=1.11' \
+    openjdk=17 'picard>=3' gatk4 snpeff plink -y
 
 # MultiQC via pip with pinned numpy/pyarrow (bioconda build has conflicts)
 pip install 'numpy<2.0' 'pyarrow<17' multiqc

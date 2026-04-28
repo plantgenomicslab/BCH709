@@ -169,12 +169,18 @@ pwd
 We use **Micromamba** for package management on Pronghorn — see the [HPC Cluster lesson](../HPC_cluster/index.html#installing-micromamba-package-manager) for installation.
 
 ```bash
-micromamba create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11 -y
+micromamba create -n RNASEQ_bch709 -c conda-forge -c bioconda python=3.11 -y
 micromamba activate RNASEQ_bch709
 
-micromamba install -c bioconda -c conda-forge \
-    sra-tools minimap2 star samtools subread \
-    openjdk=17 trinity gffread seqkit kraken2 fastp -y
+micromamba install -c conda-forge -c bioconda \
+    'sra-tools>=3.0' minimap2 star 'samtools>=1.20' subread \
+    openjdk=17 'trinity>=2.15' gffread seqkit kraken2 'fastp>=0.24' \
+    perl-dbi perl-dbd-sqlite perl-html-parser -y
+# NOTE: `perl-bioperl` is intentionally NOT installed. Its current bioconda
+# build pins libzlib<1.3, which conflicts with modern samtools/Trinity/kraken2.
+# Trinity assembly itself does not need BioPerl — it is only required by a
+# few legacy auxiliary scripts. If you ever need BioPerl, install it later
+# in a SEPARATE env: `micromamba create -n bioperl -c bioconda perl-bioperl`
 
 # MultiQC via pip — pin numpy/pyarrow together in ONE command
 pip install 'numpy<2.0' 'pyarrow<17' multiqc
@@ -1061,8 +1067,8 @@ micromamba create -n DEG_bch709 -y
 micromamba activate DEG_bch709
 conda config --set channel_priority false
 conda update --all --yes
-conda install -y -c bioconda -c conda-forge mamba
-mamba install -y -c bioconda -c conda-forge r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
+conda install -y -c conda-forge -c bioconda mamba
+mamba install -y -c conda-forge -c bioconda r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
 ```
 
 ## Arabidopsis
@@ -1737,7 +1743,7 @@ Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 ```bash
 conda create -n blast
 conda activate blast
-conda install -c bioconda -c conda-forge  perl-path-tiny blast perl-data-dumper perl-config-tiny seqkit
+conda install -c conda-forge -c bioconda  perl-path-tiny blast perl-data-dumper perl-config-tiny seqkit
 ```
 
 ### Running a standalone BLAST program

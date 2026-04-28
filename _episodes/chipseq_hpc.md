@@ -73,19 +73,22 @@ Use the values shown there (typically `cpu-s5-bch709-6` / `cpu-core-0` / `studen
 ### Create the ChIP-Seq environment
 
 ```bash
-micromamba create -n chipseq_bch709 -c bioconda -c conda-forge python=3.11 -y
+micromamba create -n chipseq_bch709 -c conda-forge -c bioconda python=3.11 -y
 micromamba activate chipseq_bch709
 
 # Alignment/QC tools via bioconda
-micromamba install -c bioconda -c conda-forge \
-    fastqc fastp minimap2 samtools bedtools tabix \
-    openjdk=17 picard homer -y
+micromamba install -c conda-forge -c bioconda \
+    fastqc 'fastp>=0.24' minimap2 \
+    'samtools>=1.20' bedtools 'tabix>=1.11' \
+    openjdk=17 'picard>=3' homer -y
 
-# deepTools + MACS3 + MultiQC via pip (bioconda has dep conflicts)
-pip install 'numpy<2.0' 'pyarrow<17' deeptools macs3 multiqc
-
-# IDR (from GitHub — the pip "idr" package is a different project)
-pip install "numpy<1.24" git+https://github.com/nboley/idr.git
+# deepTools + MACS3 + MultiQC + IDR via pip — pin numpy ONCE so all four
+# packages share a compatible numpy ABI (>=1.25 for macs3, <2.0 for deeptools/idr).
+# Splitting numpy pins across two pip commands silently downgrades and
+# breaks macs3 at runtime.
+pip install 'numpy>=1.25,<2.0' 'pyarrow<17' \
+    'deeptools<3.5.6' macs3 multiqc \
+    git+https://github.com/nboley/idr.git
 ```
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**

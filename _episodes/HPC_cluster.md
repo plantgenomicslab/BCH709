@@ -488,11 +488,15 @@ micromamba --version
 Now create one environment for this course and install every tool we'll use later. (One-time setup — the environment persists across logins.)
 
 ```bash
-micromamba create -n RNASEQ_bch709 -c bioconda -c conda-forge python=3.11
+micromamba create -n RNASEQ_bch709 -c conda-forge -c bioconda python=3.11
 micromamba activate RNASEQ_bch709
 
-micromamba install -c bioconda -c conda-forge sra-tools minimap2 star samtools subread
-micromamba install -c bioconda -c conda-forge openjdk=17 trinity gffread seqkit kraken2 fastp
+micromamba install -c conda-forge -c bioconda \
+    'sra-tools>=3.0' minimap2 star 'samtools>=1.20' subread \
+    openjdk=17 'trinity>=2.15' gffread seqkit kraken2 'fastp>=0.24' \
+    perl-dbi perl-dbd-sqlite perl-html-parser -y
+# NOTE: omit `perl-bioperl` — its libzlib<1.3 pin conflicts with modern
+# samtools/Trinity. Install in a separate env if you ever need it.
 
 # MultiQC is sensitive to numpy/pyarrow ABI — pin them in ONE command
 # so pip's resolver sees all constraints together
