@@ -715,7 +715,7 @@ In addition to providing BLAST sequence alignment services on the web, NCBI also
 
 https://www.ncbi.nlm.nih.gov/books/NBK52640/
 
-ftp://ftp.ncbi.nlm.nih.gov/blast/db/
+https://ftp.ncbi.nlm.nih.gov/blast/db/
 
 ### NR vs NT
 
@@ -731,7 +731,16 @@ At NCBI they are two different things as well. 'nr' is a database of protein seq
 ### Download Database
 ```bash
 cd ~/bch709/BLAST
-wget ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+wget https://ftp.ncbi.nlm.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+```
+
+Expected output (truncated):
+```
+Resolving ftp.ncbi.nlm.nih.gov ... 130.14.250.7
+Connecting to ftp.ncbi.nlm.nih.gov:443 ... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 24342023 (23M) [application/x-gzip]
+Saving to: 'plant.1.protein.faa.gz'
 ```
 ### How many sequences in `plant.1.protein.faa.gz`
 
@@ -754,10 +763,10 @@ wget https://ftp.ensemblgenomes.org/pub/plants/release-60/fasta/arabidopsis_thal
 seqkit stats Athaliana_TAIR10.cds.fa.gz -T
 ```
 
-Expected output (values may vary slightly depending on the source version):
+Expected output (values may vary slightly depending on the source version; sample below is from Ensembl Plants release-60):
 ```
 file	format	type	num_seqs	sum_len	min_len	avg_len	max_len
-Athaliana_TAIR10.cds.fa.gz	FASTA	DNA	35386	43546761	22	1230.6	16182
+Athaliana_TAIR10.cds.fa.gz	FASTA	DNA	48321	62644401	3	1296.4	16203
 ```
 
 
@@ -784,9 +793,21 @@ makeblastdb -in your-protein-db.fas -dbtype prot ###for protein sequence
 ```bash
 cd ~/bch709/BLAST
 gunzip plant.1.protein.faa.gz
-makeblastdb -in plant.1.protein.faa -dbtype prot
+makeblastdb -in plant.1.protein.faa -dbtype prot -parse_seqids
 seqkit sample -n 100 Athaliana_TAIR10.cds.fa.gz > ATH_100.fasta
-blastx -query ATH_100.fasta -db plant.1.protein.faa -outfmt 8
+blastx -query ATH_100.fasta -db plant.1.protein.faa -outfmt 6 -evalue 1e-10 -max_target_seqs 1 -num_threads 4 -out blastx_results.txt
+head -3 blastx_results.txt
+```
+
+> The `-parse_seqids` flag stores the original sequence IDs in the BLAST database, which is required for later `blastdbcmd -entry_batch` lookups (e.g. in the Reciprocal Best Hit workflow below). Without it `blastdbcmd` skips every accession and returns an empty FASTA file.
+{: .callout}
+
+Expected output (sample first 3 hits, will vary because `seqkit sample` is randomized):
+
+```
+AT5G61960.5	XP_023635731.1	91.529	909	66	4	4	2724	9	908	0.0	1477
+AT2G30460.1	XP_024004202.1	94.302	351	20	0	1	1053	1	351	0.0	597
+AT4G10850.1	XP_023636862.1	84.646	254	39	0	1	762	1	254	2.82e-162	451
 ```
 
 
@@ -1069,7 +1090,7 @@ perl --version
 
 - NCBI-BLAST+ (Any version)
 for easy approach, you can download binary version of blast from below link.
-ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST
+https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
 
 For using recent version, please update BLAST path in config.ini
 
@@ -1257,7 +1278,7 @@ If you do not have access to an HPC cluster (Slurm/SGE), you can run BLAST direc
 cd ~/bch709/BLAST
 
 ## Make sure your database is built
-makeblastdb -in plant.1.protein.faa -dbtype prot
+makeblastdb -in plant.1.protein.faa -dbtype prot -parse_seqids
 
 ## Run blastx locally using multiple threads
 blastx -query Athaliana_TAIR10.cds.fa \
@@ -1351,9 +1372,9 @@ Reciprocal Best BLAST Hit is a common method to identify putative orthologs betw
 cd ~/bch709/BLAST
 
 ## Download a second protein database (e.g., rice)
-wget ftp://ftp.ncbi.nih.gov/refseq/release/plant/plant.2.protein.faa.gz
+wget https://ftp.ncbi.nlm.nih.gov/refseq/release/plant/plant.2.protein.faa.gz
 gunzip plant.2.protein.faa.gz
-makeblastdb -in plant.2.protein.faa -dbtype prot
+makeblastdb -in plant.2.protein.faa -dbtype prot -parse_seqids
 
 ## Forward BLAST: Arabidopsis -> plant DB 2
 blastx -query ATH_100.fasta \
