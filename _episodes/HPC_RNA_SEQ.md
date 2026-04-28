@@ -1810,8 +1810,8 @@ Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 ## Running a standalone BLAST program
 ### location
 ```
- mkdir ~/scratch/rnaseq/BLAST
- cd $!
+mkdir -p ~/scratch/rnaseq/BLAST
+cd ~/scratch/rnaseq/BLAST
 ```
 
 ### ENV
