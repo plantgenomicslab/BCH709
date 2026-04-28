@@ -510,15 +510,20 @@ TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
 # 4. Align to genome (waits for BOTH trim and index)
 ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
 
+# 5. MultiQC aggregation (waits for align — runs even if align partially failed)
+MQC_JID=$(sbatch --parsable --dependency=afterany:${ALIGN_JID} multiqc.sh)
+
 cat <<EOF
 Submitted RNA-Seq pipeline (Arabidopsis):
   fastq-dump   ${DUMP_JID}
   index        ${IDX_JID}
   trim         ${TRIM_JID}
   align        ${ALIGN_JID}
+  multiqc      ${MQC_JID}
 
 Monitor with:  squeue -u \$USER
-Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID}
+Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID} ${MQC_JID}
+Final report (after pipeline finishes): ~/scratch/rnaseq/ATH/qc/ATH_report.html
 EOF
 ```
 
@@ -1046,13 +1051,73 @@ Use GTF and BAM file under reference and bam folder, respectively.
 
 
 ## MultiQC summary
-### Drosophila
-### Mus musculus
-### Solanum lycopersicum
-### Mosquito (Anopheles stephensi)
+
+MultiQC walks a directory and stitches every QC artifact (fastp JSON, STAR `Log.final.out`, featureCounts `.summary`, FastQC, etc.) into a single HTML report — the one file you open to see whether every sample of the cohort behaved.
+
 ### Arabidopsis
 
+Save as `~/scratch/rnaseq/ATH/multiqc.sh`:
 
+```bash
+#!/bin/bash
+#SBATCH --job-name=multiqc_ATH
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8g
+#SBATCH --time=01:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
+#SBATCH -o logs/multiqc_%j.out
+
+set -euo pipefail
+cd ~/scratch/rnaseq/ATH
+
+mkdir -p qc
+
+# Pull together everything multiqc can parse under the project dir
+multiqc . -o qc/ -n ATH_report --force \
+    --module fastp \
+    --module star \
+    --module featureCounts \
+    --module fastqc
+```
+
+What this picks up:
+
+| Module | Source files | What you see |
+|--------|--------------|--------------|
+| `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
+| `star` | `bam/*Log.final.out` | Uniquely mapped %, multi-mapped %, splicing rates |
+| `featureCounts` | `ATH.featureCount.cnt.summary` | Assigned vs unassigned reads (ambiguity, no-feature, multi-mapping) |
+| `fastqc` | any `*_fastqc.zip` you have | Per-base quality, GC content, sequence duplication |
+
+**Submit (after `align.sh` and `featureCounts` have finished):**
+
+```bash
+MQC_JID=$(sbatch --parsable --dependency=afterany:${ALIGN_JID} multiqc.sh)
+echo "MultiQC: ${MQC_JID}"
+```
+
+Once it finishes, copy the report to your laptop and open it in a browser:
+
+```bash
+scp <netid>@pronghorn.rc.unr.edu:~/scratch/rnaseq/ATH/qc/ATH_report.html ./
+open ATH_report.html      # or: double-click in your file browser
+```
+
+### Drosophila / Mus musculus / Solanum lycopersicum / Mosquito (Anopheles stephensi)
+
+Same script, only the project path changes — copy `multiqc.sh` into the species dir and update one line:
+
+```bash
+cd ~/scratch/rnaseq/Drosophila    # or Mmusculus / Slycopersicum / Astephensi
+cp ../ATH/multiqc.sh .
+sed -i 's|~/scratch/rnaseq/ATH|~/scratch/rnaseq/Drosophila|g; s|ATH_report|Drosophila_report|g' multiqc.sh
+sbatch multiqc.sh
+```
+
+The report will show the same modules as above. If a section is missing, the upstream step's artifact wasn't written — check that step's log before continuing to DE analysis.
 
 ## DESeq2 vs EdgeR Normalization method
 DESeq and EdgeR are very similar and both assume that no genes are differentially expressed. DEseq uses a "geometric" normalisation strategy, whereas EdgeR is a weighted mean of log ratios-based method. Both normalise data initially via the calculation of size / normalisation factors.
