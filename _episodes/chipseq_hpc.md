@@ -73,54 +73,30 @@ Use the values shown there (typically `cpu-s5-bch709-6` / `cpu-core-0` / `studen
 ### Create the ChIP-Seq environment
 
 ```bash
-micromamba create -n chipseq_bch709 -c conda-forge -c bioconda python=3.11 -y
+# Use python 3.10 — bioconda has prebuilt wheels of macs3 / deeptools /
+# idr / pysam for py3.10 that are linked against the conda sysroot's
+# glibc 2.17 and run on Pronghorn's CentOS 7 compute nodes.
+# Building these from source under py3.11 hits gcc 15's C23 default
+# (`__isoc23_strtol@GLIBC_2.38`) and the cluster cannot load them.
+micromamba create -n chipseq_bch709 -c conda-forge -c bioconda python=3.10 -y
 micromamba activate chipseq_bch709
 
-# Alignment/QC tools via bioconda
-# `gcc`/`gxx` are needed because the pip step below builds `macs3` (and its
-# `cykhash` dep) and `idr` from C/Cython source — the env's
-# `x86_64-conda-linux-gnu-gcc` is not on PATH as plain `gcc`.
-# `pysam` MUST come from bioconda (not pip). Pronghorn compute nodes run
-# CentOS 7 with glibc 2.17; PyPI pysam wheels are built on manylinux_2_28
-# and require glibc 2.27+, so they ImportError on the cluster:
-#   "/lib64/libm.so.6: version `GLIBC_2.23' not found (required by pysam/libchtslib...)"
-# Installing pysam first via bioconda makes pip skip it when resolving deeptools.
+# Everything from bioconda — single install, no compilers, no pip builds.
+# `numpy<2.0` because deeptools / idr aren't NumPy-2 ready yet.
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' minimap2 \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
     openjdk=17 'picard>=3' homer \
-    'pysam>=0.22' \
-    gcc gxx -y
+    'pysam>=0.22' macs3 deeptools idr \
+    'numpy<2.0' -y
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build from Rust
 # source, and fails on Pronghorn (no Rust compiler).
 pip install --upgrade pip
 
-# Step A — deepTools + MACS3 + MultiQC via pip
-#   numpy >=1.25 because macs3 needs that ABI; <2.0 because deeptools/idr
-#   aren't NumPy-2 ready yet. `tiktoken<0.8` pin avoids the Rust build.
-#   `cython` is needed for Step B (IDR ships outdated pre-generated .c
-#   files that don't compile under Python 3.11 headers — Cython will
-#   regenerate them from the .pyx).
-#
-#   `CC`/`CXX` point at the conda cross-toolchain (which targets a glibc
-#   2.17 sysroot) so the macs3/cykhash wheels we build run on Pronghorn
-#   compute nodes (CentOS 7 / glibc 2.17). The default `gcc 15` we
-#   installed for compilation emits symbols like __memcpy_chk@GLIBC_2.38
-#   that aren't present on the cluster and cause MACS3 to ImportError.
-CC=x86_64-conda-linux-gnu-gcc CXX=x86_64-conda-linux-gnu-g++ \
-pip install --prefer-binary \
-    'numpy>=1.25,<2.0' 'pyarrow<17' 'tiktoken<0.8' \
-    'deeptools<3.5.6' macs3 multiqc cython
-
-# Step B — IDR (from GitHub; the PyPI `idr` is a DIFFERENT project)
-#   IDR's setup.py does `import numpy` at build time, so pip's default
-#   build isolation (a fresh temp env without numpy) fails with
-#       ModuleNotFoundError: No module named 'numpy'
-#   --no-build-isolation tells pip to build inside the current env
-#   where numpy + cython were just installed in Step A.
-pip install --no-build-isolation git+https://github.com/nboley/idr.git
+# Pip-only tools: multiqc + tiktoken. `tiktoken<0.8` pin avoids the Rust build.
+pip install --prefer-binary 'tiktoken<0.8' multiqc
 ```
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
