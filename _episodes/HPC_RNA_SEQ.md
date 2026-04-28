@@ -367,42 +367,44 @@ fastp --in1 raw_data/SRR1761511_1.fastq.gz --in2 raw_data/SRR1761511_2.fastq.gz 
 
 ## Reference downloads
 
-### Please create account in JGI
-
-https://contacts.jgi.doe.gov/registration/new
-
+We download the Arabidopsis TAIR10 genome and annotation **directly from TAIR** (`www.arabidopsis.org`). No JGI/Phytozome account required, no zip-bundle to unpack.
 
 ```bash
 cd ~/scratch/ATH
-mkdir bam
-mkdir reference && cd reference
+mkdir -p bam reference
+cd reference
 pwd
 ```
 
-## Download Arabidopsis thaliana TAIR10
-https://phytozome-next.jgi.doe.gov/info/Athaliana_TAIR10
+## Download Arabidopsis thaliana TAIR10 from TAIR
 
-```
-Athaliana_167_gene.gff3.gz
-Athaliana_167.fa.gz 
-```
+TAIR's API serves the canonical TAIR10 chromosome FASTA and GFF3. The host uses a self-signed certificate, so we pass `-k` to `curl` (same as `wget --no-check-certificate`).
 
-
-## Unzip file
 ```bash
 cd ~/scratch/ATH/reference
-unzip download.#######.zip
-zcat phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa.gz | head
-zcat phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3.gz | head
-gunzip phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3.gz 
-gunzip phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa.gz
+
+# Genome FASTA (gzipped, ~35 MB)
+curl -kfsSL --retry 3 --max-time 600 \
+    -o TAIR10_chr_all.fas.gz \
+    "https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas.gz"
+gunzip -f TAIR10_chr_all.fas.gz
+
+# Gene annotation (GFF3)
+curl -kfsSL --retry 3 --max-time 600 \
+    -o TAIR10_GFF3_genes.gff \
+    "https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_gff3/TAIR10_GFF3_genes.gff"
+
+ls -lh TAIR10_chr_all.fas TAIR10_GFF3_genes.gff
+seqkit stats TAIR10_chr_all.fas
 ```
-**Your location might be different**
 
 ## Convert GFF to GTF
-```bash
 
-gffread phytozome/Athaliana/TAIR10/annotation/Athaliana_167_TAIR10.gene.gff3 -T -F --keep-exon-attrs -o TAIR10_GFF3_genes.gtf
+STAR's `--sjdbGTFfile` expects GTF, so we convert the GFF3 with `gffread`:
+
+```bash
+cd ~/scratch/ATH/reference
+gffread TAIR10_GFF3_genes.gff -T -F --keep-exon-attrs -o TAIR10_GFF3_genes.gtf
 ```
 ## Create reference index
 ```bash
@@ -422,7 +424,7 @@ nano index.sh
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles   phytozome/phyto_mirror/Athaliana_167_10/assembly/Athaliana_167.fa  --sjdbGTFfile TAIR10_GFF3_genes.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles TAIR10_chr_all.fas --sjdbGTFfile TAIR10_GFF3_genes.gtf --sjdbOverhang 99 --genomeSAindexNbases 12
 ```
 
 ## Mapping the reads to genome index
