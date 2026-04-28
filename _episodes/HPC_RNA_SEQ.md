@@ -550,7 +550,7 @@ squeue -u $USER
 For a full explanation of `--dependency`, `afterok` vs `afterany`, and the `--parsable` flag, see the **[Job dependencies section in the HPC Cluster lesson](../HPC_cluster/index.html#step-10--job-dependencies-chaining-jobs-automatically)**.
 
 ```bash
-conda install -c conda-forge tree
+micromamba install -c conda-forge tree
 ```
 # Drosophila
 > ## Publication (Drosophila)
@@ -1062,13 +1062,13 @@ So what does FDR < 0.05 mean? By setting the FDR cutoff to < 0.05, we’re sayin
 ```
 ## Environment
 ```bash
-micromamba create -n DEG_bch709 -y
+micromamba create -n DEG_bch709 -c conda-forge -c bioconda -y \
+    r-gplots r-fastcluster=1.1.25 \
+    bioconductor-ctc bioconductor-deseq2 bioconductor-qvalue \
+    bioconductor-limma bioconductor-edger bioconductor-genomeinfodb \
+    r-rcurl bedtools intervene r-upsetr r-corrplot r-cairo
 
 micromamba activate DEG_bch709
-conda config --set channel_priority false
-conda update --all --yes
-conda install -y -c conda-forge -c bioconda mamba
-mamba install -y -c conda-forge -c bioconda r-gplots r-fastcluster=1.1.25  bioconductor-ctc  bioconductor-deseq2 bioconductor-qvalue  bioconductor-limma bioconductor-edger bioconductor-genomeinfodb bioconductor-deseq2 r-rcurl trinity bedtools intervene r-UpSetR r-corrplot r-Cairo
 ```
 
 ## Arabidopsis
@@ -1741,9 +1741,9 @@ Do a similar blastp vs UniProtKB (UniProt) without post filtering.
 
 ### ENV
 ```bash
-conda create -n blast
-conda activate blast
-conda install -c conda-forge -c bioconda  perl-path-tiny blast perl-data-dumper perl-config-tiny seqkit
+micromamba create -n blast -c conda-forge -c bioconda \
+    perl-path-tiny blast perl-data-dumper perl-config-tiny seqkit -y
+micromamba activate blast
 ```
 
 ### Running a standalone BLAST program
@@ -1994,16 +1994,16 @@ ATH.featureCount_count_only.cnt.ABA_vs_WT.DESeq2.DE_results.P0.01_C1.DE.subset
 ## Draw Venn Diagram
 
 ### Venn Diagram
-```
-conda activate venn
+```bash
+micromamba activate venn
 ```
 
 
 ### Venn Diagram environment creation
 ```bash
-conda create -n venn python=3.5
-conda activate venn
-conda install -c bioconda bedtools intervene r-UpSetR=1.4.0 r-corrplot r-Cairo
+micromamba create -n venn -c conda-forge -c bioconda \
+    python=3.10 bedtools intervene r-upsetr=1.4.0 r-corrplot r-cairo -y
+micromamba activate venn
 ``` 
 
 ```bash
@@ -2244,7 +2244,7 @@ find ~/scratch -name "*.fastq.gz" -path "*/raw_data/*" -delete
 Leaving the Pronghorn session:
 
 ```bash
-conda deactivate
+micromamba deactivate
 exit
 ```
 

@@ -89,6 +89,7 @@ micromamba activate reseq_bch709
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' bwa-mem2 \
     'samtools>=1.20' 'bcftools>=1.20' 'tabix>=1.11' \
+    'sra-tools>=3.0' \
     openjdk=17 'picard>=3' gatk4 snpeff plink -y
 
 # MultiQC via pip with pinned numpy/pyarrow (bioconda build has conflicts)
@@ -162,16 +163,25 @@ cd ~/scratch/reseq
 
 ### Define your sample sheet
 
-Make one file listing every sample you want to process. Each column is tab-separated: `sample_id  SRR_accession`.
+Each row is **TAB-separated** (NOT spaces): `sample_id <TAB> SRR_accession`. Downstream scripts use `cut -f1` and `awk -F'\t'`, both of which expect real tabs — if you accidentally use spaces, every script breaks.
+
+Use `printf` so the `\t` is unambiguously a tab character (a heredoc with literal tabs often gets converted to spaces during copy-paste from a browser):
 
 ```bash
-cat > ~/scratch/reseq/samples.tsv <<'EOF'
-sample1	SRR519585
-sample2	SRR519586
-EOF
+printf 'sample1\tSRR519585\nsample2\tSRR519586\n' > ~/scratch/reseq/samples.tsv
 ```
 
-> **Adding more samples later** is trivial — just append rows to `samples.tsv`. The array size in every script automatically scales (you only change one number).
+**Verify it's actually tab-separated** (this should print just `2` — meaning every row has exactly 2 tab-separated fields):
+
+```bash
+awk -F'\t' '{print NF}' ~/scratch/reseq/samples.tsv | sort -u
+# Expected output:  2
+# If you see 1, you have spaces instead of tabs — re-run the printf above.
+
+cat ~/scratch/reseq/samples.tsv          # quick visual check
+```
+
+> **Adding more samples later** is trivial — just append rows with `printf 'sampleN\tSRR_NNN\n' >> samples.tsv` (use `>>` to append, not `>` which overwrites!). The array size in every script automatically scales (you only change one number).
 {: .callout}
 
 ---
@@ -204,13 +214,22 @@ LINE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" samples.tsv)
 SAMPLE=$(echo "$LINE" | cut -f1)
 SRR=$(echo "$LINE" | cut -f2)
 
-echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${SRR})"
+echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${SRR}) from NCBI SRA"
 
-PREFIX=${SRR:0:6}  # first 6 chars for ENA directory structure
-wget -q -O raw/${SAMPLE}_R1.fastq.gz \
-    ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${PREFIX}/${SRR}/${SRR}_1.fastq.gz
-wget -q -O raw/${SAMPLE}_R2.fastq.gz \
-    ftp://ftp.sra.ebi.ac.uk/vol1/fastq/${PREFIX}/${SRR}/${SRR}_2.fastq.gz
+# Download paired-end FASTQ from NCBI SRA via sra-tools
+#   prefetch    — pulls the .sra archive into ./sra/
+#   fasterq-dump — extracts paired-end reads to FASTQ
+#   gzip on the way out keeps disk usage down
+prefetch --output-directory sra "${SRR}"
+fasterq-dump \
+    --threads ${SLURM_CPUS_PER_TASK:-2} \
+    --split-files \
+    --outdir raw \
+    "sra/${SRR}"
+
+# Rename + gzip so files match the rest of the pipeline (raw/<SAMPLE>_R{1,2}.fastq.gz)
+gzip -f raw/${SRR}_1.fastq && mv raw/${SRR}_1.fastq.gz raw/${SAMPLE}_R1.fastq.gz
+gzip -f raw/${SRR}_2.fastq && mv raw/${SRR}_2.fastq.gz raw/${SAMPLE}_R2.fastq.gz
 
 ls -lh raw/${SAMPLE}_R*.fastq.gz
 ```

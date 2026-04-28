@@ -157,13 +157,23 @@ cd ~/scratch/chipseq
 
 `samples.tsv` lists every sample (ChIP and Input) with its ENCODE accession. A separate column names the matching input so MACS3 can look it up at submission time.
 
+Each row is **TAB-separated** (NOT spaces). Downstream scripts use `cut -f1` and `awk -F'\t' '$3=="chip"'` — they break if you accidentally use spaces. Use `printf` so the `\t` is unambiguously a tab:
+
 ```bash
-cat > ~/scratch/chipseq/samples.tsv <<'EOF'
-sample	accession	type	control
-ctcf_rep1	ENCFF001HTO	chip	input_k562
-ctcf_rep2	ENCFF001HTP	chip	input_k562
-input_k562	ENCFF001HTT	input	-
-EOF
+printf 'sample\taccession\ttype\tcontrol\n'                 >  ~/scratch/chipseq/samples.tsv
+printf 'ctcf_rep1\tENCFF001HTO\tchip\tinput_k562\n'         >> ~/scratch/chipseq/samples.tsv
+printf 'ctcf_rep2\tENCFF001HTP\tchip\tinput_k562\n'         >> ~/scratch/chipseq/samples.tsv
+printf 'input_k562\tENCFF001HTT\tinput\t-\n'                >> ~/scratch/chipseq/samples.tsv
+```
+
+**Verify it's tab-separated** (every row should have exactly 4 fields):
+
+```bash
+awk -F'\t' '{print NF}' ~/scratch/chipseq/samples.tsv | sort -u
+# Expected output:  4
+# If you see 1, you pasted spaces instead of tabs — re-run the printf lines above.
+
+column -t -s $'\t' ~/scratch/chipseq/samples.tsv          # pretty-print to verify content
 ```
 
 | Column | Description |
