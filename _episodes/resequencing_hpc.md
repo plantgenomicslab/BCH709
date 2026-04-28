@@ -355,10 +355,21 @@ KSITES_URL="https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-s
 # already bounds the whole job).
 curl -fsSL --retry 5 --retry-delay 30 -C - \
     -o 1001genomes_snp-short-indel_only_ACGTN.vcf.gz "${KSITES_URL}"
+# Atomic rename: write to a .tmp file, only promote to known_sites.vcf.gz once
+# bgzip + tabix BOTH succeed and outputs are non-empty. If anything in this
+# block fails, the original 1001genomes file is preserved so the student can
+# re-run step 02 without re-downloading 19 GB.
 zcat 1001genomes_snp-short-indel_only_ACGTN.vcf.gz \
     | awk 'BEGIN{OFS="\t"} /^##/{print; next} /^#CHROM/{print $1,$2,$3,$4,$5,$6,$7,$8; next} {print $1,$2,$3,$4,$5,$6,$7,$8}' \
-    | bgzip > known_sites.vcf.gz
-tabix -p vcf known_sites.vcf.gz
+    | bgzip > known_sites.vcf.gz.tmp
+tabix -p vcf known_sites.vcf.gz.tmp
+[ -s known_sites.vcf.gz.tmp ] && [ -s known_sites.vcf.gz.tmp.tbi ] || {
+    echo "ERROR: known_sites.vcf.gz build failed (empty output). Re-run step 02." >&2
+    rm -f known_sites.vcf.gz.tmp known_sites.vcf.gz.tmp.tbi
+    exit 1
+}
+mv -f known_sites.vcf.gz.tmp known_sites.vcf.gz
+mv -f known_sites.vcf.gz.tmp.tbi known_sites.vcf.gz.tbi
 rm -f 1001genomes_snp-short-indel_only_ACGTN.vcf.gz
 
 echo "Reference prep done."
@@ -481,6 +492,14 @@ picard -Xmx12g MarkDuplicates \
     M=bam/${SAMPLE}.markdup.metrics \
     VALIDATION_STRINGENCY=SILENT
 samtools index -@ ${SLURM_CPUS_PER_TASK} bam/${SAMPLE}.markdup.bam
+
+# ---- Preflight: known_sites.vcf.gz must exist (built by step 02) ----
+if [ ! -s known_sites.vcf.gz ] || [ ! -s known_sites.vcf.gz.tbi ]; then
+    echo "ERROR: known_sites.vcf.gz (and .tbi) not found in $(pwd)." >&2
+    echo "       Step 02 (02_reference.sh) did not finish — re-run it before step 04." >&2
+    ls -lh 1001genomes_*.vcf.gz known_sites.vcf.gz* 2>/dev/null || true
+    exit 1
+fi
 
 # ---- BaseRecalibrator ----
 gatk --java-options "-Xmx12g" BaseRecalibrator \
