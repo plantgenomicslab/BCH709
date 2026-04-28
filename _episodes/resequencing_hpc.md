@@ -522,6 +522,78 @@ samtools index -@ ${SLURM_CPUS_PER_TASK} bam/${SAMPLE}.bam
 samtools quickcheck bam/${SAMPLE}.bam && echo "BAM OK"
 ```
 
+Expected output of `logs/03_align_<jobid>_1.out` (sample1 — fastp summary at the top, bwa-mem2 + samtools sort at the bottom; truncated):
+
+```
+Detecting adapter sequence for read1...
+>TruSeq2_PE_r
+AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAG
+
+Read1 before filtering:
+total reads: 29418122
+total bases: 2235777272
+Q20 bases: 2090582549(93.5059%)
+Q30 bases: 1935916821(86.5881%)
+
+Read1 after filtering:
+total reads: 26525643
+total bases: 2003802159
+Q20 bases: 1942580727(96.9447%)
+Q30 bases: 1815798338(90.6176%)
+
+Filtering result:
+reads passed filter: 53051286
+reads failed due to low quality: 4575222
+reads failed due to too many N: 64736
+reads failed due to too short: 1145000
+# ...
+fastp v1.3.3, time used: 137 seconds
+Looking to launch executable ".../bwa-mem2.avx2", simd = .avx2
+	Time taken for main_mem function: 1797.12 sec
+[bam_sort_core] merging from 2 files and 8 in-memory blocks...
+BAM OK
+```
+
+The `trim/sample1_fastp.json` summary captures the same numbers in a parseable form (the HTML report is the human-friendly view of the same data):
+
+```bash
+ls -lh ~/scratch/reseq/trim/sample1_fastp.* ~/scratch/reseq/bam/sample1.bam
+```
+
+Expected output:
+
+```
+-rw-r--r-- 1 <netid> rc-bch709-6 444K <date> trim/sample1_fastp.html
+-rw-r--r-- 1 <netid> rc-bch709-6 109K <date> trim/sample1_fastp.json
+-rw-r--r-- 1 <netid> rc-bch709-6 2.9G <date> bam/sample1.bam
+```
+
+A quick `samtools flagstat` confirms the BAM looks reasonable (>98% of reads mapped, ~91% properly paired):
+
+```bash
+samtools flagstat ~/scratch/reseq/bam/sample1.bam
+```
+
+Expected output:
+
+```
+53076354 + 0 in total (QC-passed reads + QC-failed reads)
+53051286 + 0 primary
+0 + 0 secondary
+25068 + 0 supplementary
+0 + 0 duplicates
+52354774 + 0 mapped (98.64% : N/A)
+52329706 + 0 primary mapped (98.64% : N/A)
+53051286 + 0 paired in sequencing
+26525643 + 0 read1
+26525643 + 0 read2
+48411760 + 0 properly paired (91.25% : N/A)
+52276894 + 0 with itself and mate mapped
+52812 + 0 singletons (0.10% : N/A)
+490848 + 0 with mate mapped to a different chr
+129225 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
 **Submit with dependencies** — wait for **both** download (raw FASTQ) and reference prep (index) to succeed before aligning:
 
 ```bash
@@ -603,6 +675,65 @@ rm -f bam/${SAMPLE}.bam bam/${SAMPLE}.bam.bai
 rm -f bam/${SAMPLE}.markdup.bam bam/${SAMPLE}.markdup.bam.bai
 ```
 
+Expected tail of `logs/04_markdup_bqsr_<jobid>_1.out` — Picard wraps up MarkDuplicates, then GATK starts BaseRecalibrator and ApplyBQSR (truncated):
+
+```
+INFO	<date>	MarkDuplicates	Marking 14734338 records as duplicates.
+INFO	<date>	MarkDuplicates	Found 0 optical duplicate clusters.
+INFO	<date>	MarkDuplicates	Written    50,000,000 records.  Elapsed time: 00:08:35s.
+INFO	<date>	MarkDuplicates	Writing complete. Closing input iterator.
+[<date>] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 13.21 minutes.
+Using GATK jar .../gatk-package-4.6.2.0-local.jar
+Running:
+    java ... -Xmx12g ... BaseRecalibrator -I bam/sample1.markdup.bam -R reference.fasta --known-sites known_sites.vcf.gz -O bam/sample1.recal.table
+INFO  BaseRecalibrator - The Genome Analysis Toolkit (GATK) v4.6.2.0
+INFO  BaseRecalibrationEngine - The covariates being used here:
+INFO  BaseRecalibrationEngine - 	ReadGroupCovariate
+INFO  BaseRecalibrationEngine - 	QualityScoreCovariate
+INFO  BaseRecalibrationEngine - 	ContextCovariate
+INFO  BaseRecalibrationEngine - 	CycleCovariate
+INFO  ProgressMeter - Starting traversal
+INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+INFO  ProgressMeter -            1:1523668              0.2                371000        2221335.2
+# ...
+INFO  ProgressMeter -            done.            <X.X>              <NNNNNNNN>          <rate>
+INFO  BaseRecalibrator - Finished. Elapsed time: <NN.NN> minutes.
+INFO  ApplyBQSR - Done. Elapsed time: <NN.NN> minutes.
+```
+
+Picard writes a metrics file — open `bam/sample1.markdup.metrics` to see the duplication rate per library (the `## METRICS CLASS` block is the part GATK and MultiQC parse):
+
+```bash
+head -10 ~/scratch/reseq/bam/sample1.markdup.metrics
+```
+
+Expected output:
+
+```
+## htsjdk.samtools.metrics.StringHeader
+# MarkDuplicates INPUT=[bam/sample1.bam] OUTPUT=bam/sample1.markdup.bam METRICS_FILE=bam/sample1.markdup.metrics ...
+## htsjdk.samtools.metrics.StringHeader
+# Started on: <date>
+
+## METRICS CLASS	picard.sam.DuplicationMetrics
+LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	SECONDARY_OR_SUPPLEMENTARY_RDS	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE
+lib_sample1	52812	26138447	25068	721580	16888	7358725	0	0.281567	37224722
+```
+
+`PERCENT_DUPLICATION` of ~0.28 (28%) is on the high side — these public SRA libraries were sequenced deeply on a small genome, so some duplication is expected. After BQSR finishes, the recalibrated BAM is what every downstream step uses:
+
+```bash
+ls -lh ~/scratch/reseq/bam/sample1.recal.bam*
+```
+
+Expected output:
+
+```
+# example output (your numbers will differ)
+-rw-r--r-- 1 <netid> rc-bch709-6 2.7G <date> bam/sample1.recal.bam
+-rw-r--r-- 1 <netid> rc-bch709-6 350K <date> bam/sample1.recal.bam.bai
+```
+
 **Submit:**
 
 ```bash
@@ -664,6 +795,43 @@ gatk --java-options "-Xmx12g" HaplotypeCaller \
     --native-pair-hmm-threads ${SLURM_CPUS_PER_TASK}
 ```
 
+Expected tail of `logs/05a_hc_<jobid>_1.out` (sample1, chromosome 1 — the GVCF mode is verbose; the key lines are the ProgressMeter and the final summary):
+
+```
+# example output (your numbers will differ)
+INFO  HaplotypeCaller - The Genome Analysis Toolkit (GATK) v4.6.2.0
+INFO  HaplotypeCaller - HTSJDK Version: 4.2.0
+INFO  HaplotypeCaller - Picard Version: 3.4.0
+INFO  HaplotypeCallerEngine - Tool is in reference confidence mode and the annotation, the following changes will be made to any specified annotations: 'StrandBiasBySample' will be enabled. 'ChromosomeCounts', 'FisherStrand', 'StrandOddsRatio' and 'QualByDepth' annotations have been disabled
+INFO  HaplotypeCaller - Defragmenting 100 events for 1 samples
+INFO  ProgressMeter - Starting traversal
+INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+INFO  ProgressMeter -            1:1523668              0.5                 53000          106000.0
+# ...
+INFO  ProgressMeter -           1:30425192             14.8               2920000          197297.3
+INFO  ProgressMeter -            traversal complete. Processed <N> total regions in <M.M> minutes.
+INFO  HaplotypeCaller - Shutting down engine
+INFO  HaplotypeCaller - Done. Elapsed time: <NN.NN> minutes.
+```
+
+After the array finishes, you should see 14 per-`(sample, chromosome)` GVCFs (2 samples × 7 chromosomes):
+
+```bash
+ls -lh ~/scratch/reseq/vcf/scatter/
+```
+
+Expected output:
+
+```
+# example output (your numbers will differ)
+-rw-r--r-- 1 <netid> rc-bch709-6 12M <date> sample1.1.g.vcf.gz
+-rw-r--r-- 1 <netid> rc-bch709-6 280K <date> sample1.1.g.vcf.gz.tbi
+-rw-r--r-- 1 <netid> rc-bch709-6 8.0M <date> sample1.2.g.vcf.gz
+# ... one pair per (sample, chr) — 14 GVCFs + 14 .tbi total
+-rw-r--r-- 1 <netid> rc-bch709-6 1.1M <date> sample2.Pt.g.vcf.gz
+-rw-r--r-- 1 <netid> rc-bch709-6  18K <date> sample2.Pt.g.vcf.gz.tbi
+```
+
 ### `scripts/05b_gather_gvcf.sh` — Gather per-chromosome GVCFs into one per-sample GVCF
 
 ```bash
@@ -703,6 +871,19 @@ gatk IndexFeatureFile -I vcf/${SAMPLE}.g.vcf.gz
 # Verify and clean up scatter files
 ls -lh vcf/${SAMPLE}.g.vcf.gz
 rm -rf vcf/scatter/${SAMPLE}.*.g.vcf.gz vcf/scatter/${SAMPLE}.*.g.vcf.gz.tbi
+```
+
+Expected tail of `logs/05b_gather_<jobid>_1.out` — `GatherVcfs` is fast (it just concatenates already-sorted VCFs) and `IndexFeatureFile` writes a `.tbi`:
+
+```
+# example output (your numbers will differ)
+INFO  GatherVcfs - Checking inputs.
+INFO  GatherVcfs - Gathering by copying gzip blocks. Will not be indexed.
+INFO  GatherVcfs - Done.
+[<date>] picard.vcf.GatherVcfs done. Elapsed time: 0.05 minutes.
+INFO  IndexFeatureFile - Successfully wrote index to vcf/sample1.g.vcf.gz.tbi
+[<date>] org.broadinstitute.hellbender.tools.IndexFeatureFile done. Elapsed time: 0.10 minutes.
+-rw-r--r-- 1 <netid> rc-bch709-6  90M <date> vcf/sample1.g.vcf.gz
 ```
 
 **Submit with chained dependencies:**
@@ -763,6 +944,36 @@ gatk --java-options "-Xmx24g" GenotypeGVCFs \
 
 echo "Joint genotyping done. Variants:"
 bcftools stats vcf/cohort.vcf.gz | grep "^SN"
+```
+
+Expected tail of `logs/06_joint_<jobid>.out` — `CombineGVCFs` then `GenotypeGVCFs`, ending with the `bcftools stats` summary:
+
+```
+# example output (your numbers will differ)
+INFO  CombineGVCFs - The Genome Analysis Toolkit (GATK) v4.6.2.0
+INFO  ProgressMeter - Starting traversal
+INFO  ProgressMeter -            traversal complete. Processed <N> total variants in <M.M> minutes.
+INFO  CombineGVCFs - Shutting down engine
+INFO  CombineGVCFs - Done. Elapsed time: <NN.NN> minutes.
+INFO  GenotypeGVCFs - The Genome Analysis Toolkit (GATK) v4.6.2.0
+INFO  ProgressMeter - Starting traversal
+INFO  ProgressMeter -            traversal complete. Processed <N> total variants in <M.M> minutes.
+INFO  GenotypeGVCFs - Done. Elapsed time: <NN.NN> minutes.
+Joint genotyping done. Variants:
+SN	0	number of samples:	2
+SN	0	number of records:	<NNNNNNN>
+SN	0	number of no-ALTs:	0
+SN	0	number of SNPs:	<NNNNNNN>
+SN	0	number of MNPs:	0
+SN	0	number of indels:	<NNNNNN>
+SN	0	number of others:	0
+SN	0	number of multiallelic sites:	<NNNNN>
+```
+
+For Arabidopsis with 2 deeply-sequenced samples, expect on the order of ~1–2 M raw cohort variants before filtering. You can confirm with a one-liner once the job completes:
+
+```bash
+bcftools view -H ~/scratch/reseq/vcf/cohort.vcf.gz | wc -l
 ```
 
 **Submit:**
@@ -836,6 +1047,82 @@ plink --bfile cohort --pca 10                    --out cohort.pca --allow-extra-
 plink --bfile cohort --indep-pairwise 50 10 0.2  --out cohort.ld  --allow-extra-chr
 
 echo "Pipeline complete."
+```
+
+Expected tail of `logs/07_filter_<jobid>.out` — `VariantFiltration` annotates the FILTER column, `bcftools view -f PASS` keeps only the survivors, then snpEff and PLINK run:
+
+```
+# example output (your numbers will differ)
+INFO  VariantFiltration - The Genome Analysis Toolkit (GATK) v4.6.2.0
+INFO  ProgressMeter - Starting traversal
+INFO  ProgressMeter -            traversal complete. Processed <N> total variants in <M.M> minutes.
+INFO  VariantFiltration - Done. Elapsed time: <N.NN> minutes.
+[snpEff] Reading database for genome: 'Arabidopsis_thaliana'
+[snpEff] Analysis done.
+Pipeline complete.
+```
+
+snpEff also writes a summary HTML/CSV next to the working directory (`snpEff_summary.html`, `snpEff_genes.txt`) — open the HTML in a browser, or peek at the summary table that snpEff prints to stderr / `logs/snpeff.log`:
+
+```bash
+head -25 ~/scratch/reseq/logs/snpeff.log
+```
+
+Expected output:
+
+```
+# example output (your numbers will differ — these are the section headings snpEff always prints)
+Number_of_variants_processed	<NNNNNN>
+Number_of_effects	<NNNNNNN>
+# Effects by impact
+HIGH		<NNNN>
+LOW		<NNNNNN>
+MODERATE	<NNNNN>
+MODIFIER	<NNNNNNN>
+# Effects by functional class
+MISSENSE	<NNNNN>
+NONSENSE	<NNN>
+SILENT		<NNNNN>
+# Effects by type
+intron_variant		<NNNNNN>
+synonymous_variant	<NNNNN>
+missense_variant	<NNNNN>
+stop_gained		<NNN>
+# ...
+```
+
+The PLINK PCA writes `cohort.pca.eigenvec` (per-sample PC scores) and `cohort.pca.eigenval` (variance per PC). With only 2 samples PCA is degenerate — for real cohorts (8+ samples) the first 2 PCs already separate populations:
+
+```bash
+cat ~/scratch/reseq/vcf/cohort.pca.eigenvec
+```
+
+Expected output:
+
+```
+# example output — columns are: FID  IID  PC1  PC2  ...  PC10
+sample1 sample1  -0.7071  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+sample2 sample2   0.7071  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+```
+
+Finally, count the PASS-filter SNPs in your cohort VCF — this is the "headline number" your downstream analysis (GWAS, popgen, annotation) starts from:
+
+```bash
+bcftools view -H ~/scratch/reseq/vcf/cohort.snps.pass.vcf.gz | wc -l
+bcftools stats ~/scratch/reseq/vcf/cohort.snps.pass.vcf.gz | grep "^SN"
+```
+
+Expected output:
+
+```
+# example output (your numbers will differ; for 2 deep Arabidopsis samples expect ~0.5–1.5 M PASS SNPs)
+<NNNNNNN>
+SN	0	number of samples:	2
+SN	0	number of records:	<NNNNNNN>
+SN	0	number of SNPs:	<NNNNNNN>
+SN	0	number of indels:	0
+SN	0	number of multiallelic sites:	<NNNNN>
+SN	0	number of multiallelic SNP sites:	<NNNNN>
 ```
 
 **Submit:**
