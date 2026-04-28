@@ -103,6 +103,13 @@ pip install --upgrade pip
 #   `cython` is needed for Step B (IDR ships outdated pre-generated .c
 #   files that don't compile under Python 3.11 headers — Cython will
 #   regenerate them from the .pyx).
+#
+#   `CC`/`CXX` point at the conda cross-toolchain (which targets a glibc
+#   2.17 sysroot) so the macs3/cykhash wheels we build run on Pronghorn
+#   compute nodes (CentOS 7 / glibc 2.17). The default `gcc 15` we
+#   installed for compilation emits symbols like __memcpy_chk@GLIBC_2.38
+#   that aren't present on the cluster and cause MACS3 to ImportError.
+CC=x86_64-conda-linux-gnu-gcc CXX=x86_64-conda-linux-gnu-g++ \
 pip install --prefer-binary \
     'numpy>=1.25,<2.0' 'pyarrow<17' 'tiktoken<0.8' \
     'deeptools<3.5.6' macs3 multiqc cython
