@@ -1161,8 +1161,8 @@ micromamba activate DEG_bch709
 | Run ID      | LibraryName              |
 |-------------|--------------------------|
 | SRR15607542 | Root control Rep1        |
-| SRR15607543 | Root control Rep1        |
-| SRR15607544 | Root control Rep1        |
+| SRR15607543 | Root control Rep2        |
+| SRR15607544 | Root control Rep3        |
 | SRR15607552 | Root Salt treatment Rep1 |
 | SRR15607553 | Root Salt treatment Rep2 |
 | SRR15607554 | Root Salt treatment Rep3 |
