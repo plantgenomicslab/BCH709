@@ -78,6 +78,18 @@ Each `*.sh` is a normal Slurm batch script with `#SBATCH` directives and the act
 
 Snakemake is a Python-based workflow language. You write *rules* — "I produce target file Y from input file X by running this shell command." Snakemake walks the rule graph backwards from your final target and figures out everything that needs to happen.
 
+### Install Snakemake on Pronghorn
+
+```bash
+# Create a dedicated env for the orchestrator (separate from your bioinformatics env)
+micromamba create -n smk -c conda-forge -c bioconda \
+    'snakemake>=8' snakemake-executor-plugin-slurm -y
+micromamba activate smk
+snakemake --version    # → 8.x
+```
+
+The `snakemake-executor-plugin-slurm` plugin is what lets `snakemake --executor slurm` translate `resources:` blocks into `sbatch` flags.
+
 ```python
 # Snakefile — orchestration via Snakemake
 SAMPLES = ["SRR1761506", "SRR1761507", "SRR1761508",
@@ -160,13 +172,106 @@ rule multiqc:
         "multiqc . -o qc/ -n ATH_report --force"
 ```
 
-Run it on the cluster:
+### Adding resources and conda envs to each rule
+
+The Snakefile above runs, but it doesn't tell Slurm how much memory or time each rule needs, and it relies on whatever tools happen to be on `PATH`. In practice you want each rule to declare its own resources and its own conda env so the workflow is reproducible across machines. Add `resources:` and `conda:` blocks:
+
+```python
+rule align:
+    input:
+        r1    = "trim/{sample}_1.trimmed.fq.gz",
+        r2    = "trim/{sample}_2.trimmed.fq.gz",
+        index = "reference/star_index"
+    output:
+        bam = "bam/{sample}.bam",
+        log = "bam/{sample}.Log.final.out"
+    threads: 8
+    resources:
+        mem_mb         = 32000,
+        runtime        = 240,           # minutes — translates to --time
+        slurm_partition = "cpu-core-0",
+        slurm_account  = "cpu-s5-bch709-6"
+    conda: "envs/star.yaml"             # a per-rule env Snakemake materializes
+    shell:
+        "STAR --runMode alignReads --runThreadN {threads} "
+        "--readFilesCommand zcat --genomeDir {input.index} "
+        "--readFilesIn {input.r1} {input.r2} "
+        "--outSAMtype BAM SortedByCoordinate "
+        "--outFileNamePrefix bam/{wildcards.sample}."
+```
+
+The matching `envs/star.yaml`:
+
+```yaml
+name: star
+channels: [bioconda, conda-forge]
+dependencies:
+  - star=2.7.10b
+  - samtools=1.20
+```
+
+`--use-conda` makes Snakemake build (or reuse) that env automatically before running the rule on the compute node. You can ship the `envs/` directory with the Snakefile and the workflow becomes portable.
+
+### Run it on Pronghorn
 
 ```bash
-snakemake --executor slurm \
-          --default-resources slurm_account=cpu-s5-bch709-6 slurm_partition=cpu-core-0 \
-          --cores 32 --jobs 20 --use-conda
+# from the project root that holds the Snakefile
+snakemake \
+    --executor slurm \
+    --default-resources slurm_account=cpu-s5-bch709-6 slurm_partition=cpu-core-0 mem_mb=4000 runtime=60 \
+    --cores 32 \
+    --jobs 20 \
+    --use-conda \
+    --rerun-incomplete \
+    --keep-going
 ```
+
+Flag-by-flag:
+
+| Flag | Why |
+|------|-----|
+| `--executor slurm` | use the Slurm plugin instead of running locally |
+| `--default-resources` | values applied to every rule that doesn't override them |
+| `--cores 32` | total CPU budget (Snakemake won't oversubscribe) |
+| `--jobs 20` | how many *Slurm jobs* it can have outstanding at once |
+| `--use-conda` | build per-rule conda envs from the `conda:` directives |
+| `--rerun-incomplete` | finish anything that crashed mid-run rather than skipping it |
+| `--keep-going` | one bad sample doesn't sink the entire cohort |
+
+### Visualize what's about to run
+
+```bash
+snakemake --dag             | dot -Tpng > dag.png
+snakemake --rulegraph       | dot -Tpng > rulegraph.png
+snakemake --filegraph       | dot -Tpng > filegraph.png
+snakemake --summary
+```
+
+`--dag` shows every concrete file/sample pair as a node; `--rulegraph` collapses to one node per rule (much smaller graph for large cohorts); `--summary` prints what's up-to-date and what would re-run.
+
+### Where the logs live
+
+Snakemake captures every job's stdout/stderr under `.snakemake/log/` and the per-job Slurm `slurm-<JID>.out` ends up in the directory you submitted from. To find why a single sample failed:
+
+```bash
+# 1. Snakemake's wrapper log
+cat .snakemake/log/$(ls -t .snakemake/log/ | head -1)
+# 2. The actual Slurm job log Snakemake submitted on your behalf
+cat .snakemake/slurm_logs/<rule>/<wildcards>/<JID>.{out,err}
+```
+
+### Demonstrating partial reruns
+
+Touch one input and only the dependent rules rerun:
+
+```bash
+# pretend the trim of sample6 changed:
+touch trim/SRR1761511_1.trimmed.fq.gz
+snakemake --dry-run            # shows: only align(SRR1761511), featurecounts(SRR1761511), multiqc will rerun
+snakemake --executor slurm     # runs exactly those three jobs, skipping the other 5 samples
+```
+
+That's the killer Snakemake feature: failed sample 6 can be re-aligned without re-doing the other 5.
 
 **Strengths**
 - **File-level dependency tracking** — change one input, only the affected rules re-run. Snakemake compares timestamps + hashes.
@@ -185,6 +290,20 @@ snakemake --executor slurm \
 ## Approach 3: Nextflow
 
 Nextflow is built on *dataflow channels*. Each *process* consumes a channel and emits a channel. The orchestrator wires them up in a `workflow {}` block. Nextflow runs natively on Slurm, AWS Batch, Kubernetes, Google Cloud, with no script change.
+
+### Install Nextflow on Pronghorn
+
+Nextflow needs Java 17+. Install both into a dedicated env:
+
+```bash
+micromamba create -n nf -c conda-forge openjdk=17 -y
+micromamba activate nf
+
+# Get the launcher
+curl -fsSL https://get.nextflow.io | bash
+mv nextflow ~/.local/bin/        # or any dir on your PATH
+nextflow -v                       # → nextflow version 24.x.y
+```
 
 ```groovy
 // main.nf — orchestration via Nextflow
@@ -330,6 +449,115 @@ Run:
 nextflow run main.nf -profile slurm -resume
 ```
 
+### Per-process resources and conda envs
+
+The `nextflow.config` snippet above is minimal. A real pipeline declares per-process resources so each step asks Slurm for the right amount:
+
+```groovy
+process {
+    executor = 'slurm'
+    queue    = 'cpu-core-0'
+    clusterOptions = '--account=cpu-s5-bch709-6'
+
+    // defaults — every process inherits these unless overridden below
+    cpus   = 2
+    memory = 4.GB
+    time   = '1h'
+
+    withName: STAR_INDEX  { cpus = 8; memory = 32.GB; time = '4h';   conda = "${baseDir}/envs/star.yaml"  }
+    withName: ALIGN       { cpus = 8; memory = 32.GB; time = '6h';   conda = "${baseDir}/envs/star.yaml"  }
+    withName: TRIM        { cpus = 4; memory = 8.GB;  time = '2h';   conda = "${baseDir}/envs/fastp.yaml" }
+    withName: FEATURECOUNTS { cpus = 4; memory = 8.GB; time = '2h';  conda = "${baseDir}/envs/subread.yaml" }
+    withName: MULTIQC     { cpus = 2; memory = 4.GB;  time = '30m';  conda = "${baseDir}/envs/multiqc.yaml" }
+}
+
+// or, instead of conda:
+// process.container = 'quay.io/biocontainers/star:2.7.10b--h9ee0642_0'
+// singularity { enabled = true; autoMounts = true }
+```
+
+### Run it on Pronghorn (with resume + report)
+
+```bash
+micromamba activate nf
+nextflow run main.nf \
+    -profile slurm \
+    -with-conda \
+    -with-report  reports/exec_report.html \
+    -with-trace   reports/trace.txt \
+    -with-dag     reports/dag.svg \
+    -resume
+```
+
+| Flag | Why |
+|------|-----|
+| `-profile slurm` | use the Slurm config block from `nextflow.config` |
+| `-with-conda` | materialize the per-process conda envs |
+| `-with-report` | one rich HTML execution summary (resource usage, per-process duration, retries) |
+| `-with-trace` | per-task TSV — what ran where, how long, exit code |
+| `-with-dag` | flowchart of channels and processes |
+| `-resume` | reuse the `work/` cache; only re-run what's stale |
+
+### Demonstrating `-resume`
+
+```bash
+# First run — every process executes
+nextflow run main.nf -profile slurm -with-conda
+
+# Pretend one input changed:
+touch raw_data/SRR1761511_1.fastq.gz
+
+# Second run — only the affected processes re-run, the others are cached
+nextflow run main.nf -profile slurm -with-conda -resume
+```
+
+The cache lives in `work/` (one directory per process invocation, named by content hash). Don't `rm -rf work/` if you want resume to keep working — point Nextflow at a `-w` work dir on scratch instead of cleaning it.
+
+### Where the logs live
+
+Each process writes its own `.command.{sh,log,out,err}` inside `work/<hash>/`. The top-level `.nextflow.log` summarizes everything. To debug a single process:
+
+```bash
+# find the failing task's hash
+nextflow log <run_name> -f hash,name,status,workdir | grep FAILED
+# inspect its scratch dir
+cd <workdir>
+cat .command.sh        # the command Nextflow actually launched
+cat .command.log       # tool stderr+stdout
+```
+
+### Use an existing nf-core pipeline (no code to write)
+
+For RNA-Seq, ChIP-Seq, variant calling, etc., you almost certainly don't need to write `main.nf` yourself — there's already a peer-reviewed pipeline at [nf-co.re](https://nf-co.re).
+
+```bash
+# Example: nf-core/rnaseq on Pronghorn
+mkdir -p ~/scratch/nfcore_rnaseq && cd ~/scratch/nfcore_rnaseq
+
+# A samplesheet.csv with one row per sample (sample, fastq_1, fastq_2, strandedness)
+cat > samplesheet.csv <<'EOF'
+sample,fastq_1,fastq_2,strandedness
+WT_rep1,/path/to/SRR1761506_1.fastq.gz,/path/to/SRR1761506_2.fastq.gz,reverse
+WT_rep2,/path/to/SRR1761507_1.fastq.gz,/path/to/SRR1761507_2.fastq.gz,reverse
+WT_rep3,/path/to/SRR1761508_1.fastq.gz,/path/to/SRR1761508_2.fastq.gz,reverse
+ABA_rep1,/path/to/SRR1761509_1.fastq.gz,/path/to/SRR1761509_2.fastq.gz,reverse
+ABA_rep2,/path/to/SRR1761510_1.fastq.gz,/path/to/SRR1761510_2.fastq.gz,reverse
+ABA_rep3,/path/to/SRR1761511_1.fastq.gz,/path/to/SRR1761511_2.fastq.gz,reverse
+EOF
+
+# Pronghorn-friendly profile (slurm + singularity for reproducibility)
+nextflow run nf-core/rnaseq \
+    -r 3.14.0 \
+    -profile singularity \
+    --input samplesheet.csv \
+    --outdir results \
+    --genome 'TAIR10' \
+    --aligner star_salmon \
+    -c pronghorn.config       # contains the slurm executor + account/partition
+```
+
+What you get: trimmed FASTQs, STAR + Salmon alignment + quantification, featureCounts, MultiQC, Picard metrics, all packaged with versioned containers — all in one command, fully resumable, ready to publish.
+
 **Strengths**
 - **Resume by default** — `-resume` re-uses cached process outputs unless inputs changed. Built into the executor, no extra flags per process.
 - **Backend portability** — same `main.nf` runs on Slurm, AWS Batch, Azure, Kubernetes, your laptop. Change the config, not the code.
@@ -340,6 +568,23 @@ nextflow run main.nf -profile slurm -resume
 - **Groovy DSL** — fewer biologists know Groovy than Python. Channel semantics (`mix`, `collect`, `combine`) take time to internalize.
 - **Heavier runtime** — JVM startup is non-trivial for tiny pipelines.
 - **Two languages to debug** — channel manipulation in Groovy + script bodies in bash.
+
+---
+
+## Common pitfalls when migrating from Slurm scripts
+
+The mental model shift is bigger than the syntax shift. Things that bite people:
+
+| What you used to do (Slurm chain) | What you do now (Snakemake / Nextflow) |
+|-----------------------------------|----------------------------------------|
+| `mkdir -p bam/` at the top of every script | The orchestrator creates output directories from each rule's `output:` paths. Don't `mkdir` — let it. |
+| `samples.tsv` + `--array=1-N` array job | `expand("...{sample}...", sample=SAMPLES)` (Snakemake) or `Channel.fromList(params.samples)` (Nextflow). The fan-out is *declarative*. |
+| Hard-code thread count `-t 8` in the command | Use `{threads}` (Snakemake) or `$task.cpus` (Nextflow) so the resource request and the tool flag stay in sync. |
+| Re-submit job 4 manually when sample 5 dies | `snakemake counts/SRR....tsv` (just rebuild that target) or `nextflow run main.nf -resume` (cache replays the rest). |
+| Activate env once with `micromamba activate ...` | Per-rule `conda:` (Snakemake) or per-process `conda` / `container` (Nextflow). The orchestrator activates the right env per job. |
+| Read job logs from `slurm-<JID>.out` | `.snakemake/log/` and `.snakemake/slurm_logs/<rule>/<wildcards>/` (Snakemake), `work/<hash>/.command.{log,out,err}` (Nextflow). |
+| One big `run_all.sh` for the whole cohort | One Snakefile / `main.nf` for the pipeline; cohorts are just data. The same workflow runs over 6 samples or 600. |
+| Ad-hoc cleanup with `rm -rf bam/*.tmp` | Use `temp(...)` (Snakemake) or `publishDir mode: 'symlink'` (Nextflow) so intermediates auto-clean. |
 
 ---
 
