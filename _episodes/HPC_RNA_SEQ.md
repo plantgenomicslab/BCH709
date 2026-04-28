@@ -590,51 +590,118 @@ For a full explanation of `--dependency`, `afterok` vs `afterany`, and the `--pa
 micromamba install -c conda-forge tree
 ```
 # Drosophila
+
 > ## Publication (Drosophila)
-> 
-> Not published.
-> 
+>
+> Not formally published — data deposited at NCBI as **PRJNA770108** *(Gene expression profiling of D. melanogaster larval brains after chronic alcohol exposure)*.
+>
 {: .callout}
 
+> ## ✅ Before you start the Drosophila walkthrough — pre-class checklist
+> - [ ] You finished the **Arabidopsis** section above (or at least understand `sbatch`, `--dependency`, and `run_all.sh`)
+> - [ ] `micromamba activate RNASEQ_bch709` works in your login shell (STAR, fastp, subread/featureCounts, multiqc all on PATH)
+> - [ ] `~/scratch/rnaseq/` already exists from the Arabidopsis run; we'll add `Drosophila/` next to `ATH/`
+> - [ ] You have ~8 GB free under `~/scratch` (6 PE samples × ~30 M reads + STAR index + BAMs)
+> - [ ] You replaced `<YOUR_EMAIL>` in your previous SBATCH headers — keep doing that here
+>
+> Any box unchecked? → re-read the [Arabidopsis run_all.sh walkthrough](#submit-the-entire-pipeline-with-one-script--run_allsh) before continuing.
+{: .prereq}
 
-### SRA Bioproject site 
+> ## 🪰 Drosophila-specific notes (vs. Arabidopsis)
+> - **Longer introns** → `--alignIntronMax 100000` (Arabidopsis used 10 000). The longest *D. melanogaster* introns reach ~70 kb.
+> - **Smaller genome** (~143 Mb) → `--genomeSAindexNbases 12` (same value used for ATH; smaller-than-default 14 keeps the SA index in-RAM)
+> - **Cohort**: 6 paired-end samples (~25–35 M read pairs each), 3 ethanol-treated vs 3 controls — perfect for a 2-group DESeq2 contrast
+> - **Reference**: FlyBase r6.42 (FB2021_05). Genome FASTA + GTF come straight from `ftp.flybase.net`; Ensembl BDGP6.32 r104 is kept as a fallback mirror in `fastq-dump.sh` style.
+{: .callout}
+
+### SRA Bioproject site
 
 ```bash
 https://www.ncbi.nlm.nih.gov/bioproject/PRJNA770108
 ```
 **Gene expression profiling of Drosophila melanogaster larval brains after chronic alcohol exposure (fruit fly)**
 
-We sequenced mRNA extracted from brains of (1) D. melanogaster larvae exposed to food containing 5% ethanol (v/v) for 6 consecutive days, and (2) an age-matched untreated control larvae, that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: Examination of mRNA levels in brains of D. melanogaster larvae after chronic ethanol exposure was performed using next generation sequencing (NGS) technology (RNA-seq)
+We sequenced mRNA extracted from brains of (1) *D. melanogaster* larvae exposed to food containing 5% ethanol (v/v) for 6 consecutive days, and (2) age-matched untreated control larvae that grew in regular food. Differential gene expression between the two groups was calculated and reported. Each group consisted of 3 biological replicates of 30 brains each. Overall design: examination of mRNA levels in brains of *D. melanogaster* larvae after chronic ethanol exposure was performed using next generation sequencing (RNA-seq).
 
 
 ## Subset of data
 
+| Sample information | Run         |
+|--------------------|-------------|
+| Control            | SRR16287545 |
+| Control            | SRR16287546 |
+| Control            | SRR16287547 |
+| Ethanol treatment  | SRR16287548 |
+| Ethanol treatment  | SRR16287549 |
+| Ethanol treatment  | SRR16287550 |
 
-| Sample information  | Run         |
-|---------------------|-------------|
-| Control         | SRR16287545 |
-| Control          | SRR16287546 |
-| Control          | SRR16287547 |
-| Ethanol treatment         | SRR16287549 |
-| Ethanol treatment          | SRR16287548 |
-| Ethanol treatment          | SRR16287550 |
-
+### Project layout
 
 ```bash
 mkdir -p ~/scratch/rnaseq
-cd ~/scratch/rnaseq/
-mkdir Drosophila && cd Drosophila
-mkdir raw_data trim bam reference
+cd ~/scratch/rnaseq
+mkdir -p Drosophila && cd Drosophila
+mkdir -p raw_data trim bam reference logs qc
 pwd
 ```
 
+```output
+# example output (your <netid> will differ)
+/data/gpfs/assoc/bch709-6/<netid>/scratch/rnaseq/Drosophila
+```
 
+### `samples.txt` — one place to list the cohort
 
-## fastq download
+Every script below reads `samples.txt` so you only edit the cohort once. Tab-delimited: `sample_name<TAB>SRR<TAB>condition`. The header row exists so the awk loops can simply `NR>1` to skip it.
 
 ```bash
 cd ~/scratch/rnaseq/Drosophila
+nano samples.txt
+```
 
+Paste exactly (real tab characters between columns — `nano` writes them literally):
+
+```text
+sample	srr	condition
+ctrl_rep1	SRR16287545	Control
+ctrl_rep2	SRR16287546	Control
+ctrl_rep3	SRR16287547	Control
+etoh_rep1	SRR16287548	Ethanol
+etoh_rep2	SRR16287549	Ethanol
+etoh_rep3	SRR16287550	Ethanol
+```
+
+Verify:
+
+```bash
+cat samples.txt
+awk -F'\t' 'NR>1{print $2}' samples.txt   # SRR list the loops will iterate over
+```
+
+```output
+sample	srr	condition
+ctrl_rep1	SRR16287545	Control
+ctrl_rep2	SRR16287546	Control
+ctrl_rep3	SRR16287547	Control
+etoh_rep1	SRR16287548	Ethanol
+etoh_rep2	SRR16287549	Ethanol
+etoh_rep3	SRR16287550	Ethanol
+
+SRR16287545
+SRR16287546
+SRR16287547
+SRR16287548
+SRR16287549
+SRR16287550
+```
+
+
+## fastq download (from ENA)
+
+Same ENA-over-HTTPS approach as Arabidopsis (no broken `sra-tools` GLIBC dependency). The loop reads SRR IDs from `samples.txt` instead of being hard-coded.
+
+```bash
+cd ~/scratch/rnaseq/Drosophila
 nano fastq-dump.sh
 ```
 ```bash
@@ -645,34 +712,63 @@ nano fastq-dump.sh
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR_EMAIL>
-#SBATCH -o fastq-dump.out # STDOUT & STDERR
+#SBATCH -o logs/fastq-dump_%j.out  # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
 set -euo pipefail
-mkdir -p ~/scratch/rnaseq/Drosophila/raw_data
+PROJECT=~/scratch/rnaseq/Drosophila
+cd "$PROJECT"
+mkdir -p raw_data logs
 
-for SRR in SRR16287545 SRR16287546 SRR16287547 SRR16287549 SRR16287548 SRR16287550; do
+# Drive the loop from samples.txt (column 2 = SRR; NR>1 skips the header)
+SRRS=$(awk -F'\t' 'NR>1{print $2}' samples.txt)
+
+for SRR in ${SRRS}; do
   URLS=$(curl -fsSL --retry 3 --max-time 60 \
           "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${SRR}&result=read_run&fields=fastq_ftp&format=tsv" \
           | tail -n +2 | awk -F'\t' '{print $NF}' | tr ';' '\n' | sed '/^$/d')
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
-    OUT=~/scratch/rnaseq/Drosophila/raw_data/$(basename "${U}")
+    OUT=raw_data/$(basename "${U}")
     [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
     echo "[fastq] ${SRR} -> https://${U}"
     curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
   done
 done
+
+ls -lh raw_data/*.fastq.gz
+```
+
+**Submit & inspect:**
+
+```bash
+sbatch fastq-dump.sh
+# wait for completion, then:
+tail -n 20 logs/fastq-dump_<jobid>.out
+ls -lh raw_data/
+```
+
+```output
+# example tail (your numbers will differ)
+[fastq] SRR16287545 -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR162/045/SRR16287545/SRR16287545_1.fastq.gz
+[fastq] SRR16287545 -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR162/045/SRR16287545/SRR16287545_2.fastq.gz
+[fastq] SRR16287546 -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR162/046/SRR16287546/SRR16287546_1.fastq.gz
+...
+[fastq] SRR16287550 -> https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR162/050/SRR16287550/SRR16287550_2.fastq.gz
+-rw-r--r-- 1 <netid> users 1.6G ... raw_data/SRR16287545_1.fastq.gz
+-rw-r--r-- 1 <netid> users 1.7G ... raw_data/SRR16287545_2.fastq.gz
+-rw-r--r-- 1 <netid> users 1.5G ... raw_data/SRR16287550_2.fastq.gz
 ```
 
 
-## Read Trimming with fastp
+## Read trimming with fastp — loop driven by `samples.txt`
+
+Instead of 6 hard-coded `fastp` lines, loop over the SRR column of `samples.txt`. The behaviour is identical (same Q20, same length filter, same paired-end adapter detection), but adding/removing a sample is a one-line edit to `samples.txt`.
+
 ```bash
 cd ~/scratch/rnaseq/Drosophila
-mkdir trim
 nano trim.sh
-
 ```
 
 ```bash
@@ -683,20 +779,78 @@ nano trim.sh
 #SBATCH --mem=16g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR_EMAIL>
-#SBATCH -o trim.out # STDOUT & STDERR
+#SBATCH -o logs/trim_%j.out  # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
+
+set -euo pipefail
+PROJECT=~/scratch/rnaseq/Drosophila
+cd "$PROJECT"
+mkdir -p trim logs
+
+# Loop over every SRR listed in samples.txt (skip header)
+while IFS=$'\t' read -r SAMPLE SRR COND; do
+  echo "[trim] ${SAMPLE} (${SRR}, ${COND})"
+  fastp \
+      --in1  raw_data/${SRR}_1.fastq.gz \
+      --in2  raw_data/${SRR}_2.fastq.gz \
+      --out1 trim/${SRR}_1.trimmed.fq.gz \
+      --out2 trim/${SRR}_2.trimmed.fq.gz \
+      --detect_adapter_for_pe \
+      --qualified_quality_phred 20 \
+      --length_required 50 \
+      --thread 2 \
+      --html trim/${SRR}_fastp.html \
+      --json trim/${SRR}_fastp.json
+done < <(awk -F'\t' 'NR>1' samples.txt)
+```
+
+**Expected per-sample fastp summary** (printed to STDERR/STDOUT for each iteration):
+
+```output
+# example fastp summary (your numbers will differ)
+Read1 before filtering:
+total reads: 28,432,117
+total bases: 4,264,817,550
+Q20 bases: 4,164,128,001 (97.64%)
+Q30 bases: 3,981,724,902 (93.36%)
+
+Read1 after filtering:
+total reads: 27,946,201
+Q20 rate: 98.61%
+Q30 rate: 95.04%
+
+Filtering result:
+reads passed filter: 55,612,408
+reads failed due to low quality: 488,802
+reads failed due to too short: 122,306
+reads with adapter trimmed: 1,884,109
+
+Duplication rate: 6.83%
+JSON report: trim/SRR16287545_fastp.json
+HTML report: trim/SRR16287545_fastp.html
+```
+
+<details>
+<summary><strong>Click to see the equivalent expanded form (one fastp call per sample)</strong> — useful for understanding what the loop unrolls to</summary>
+
+The loop above produces exactly the same six commands as this expanded version. It is shown here because seeing the unrolled form helps connect "what the loop runs" with "what `fastp` actually executes" the first time you read the script.
+
+```bash
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287545_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287545_2.fastq.gz --out1 trim/SRR16287545_1.trimmed.fq.gz --out2 trim/SRR16287545_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287545_fastp.html --json trim/SRR16287545_fastp.json
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287546_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287546_2.fastq.gz --out1 trim/SRR16287546_1.trimmed.fq.gz --out2 trim/SRR16287546_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287546_fastp.html --json trim/SRR16287546_fastp.json
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287547_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287547_2.fastq.gz --out1 trim/SRR16287547_1.trimmed.fq.gz --out2 trim/SRR16287547_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287547_fastp.html --json trim/SRR16287547_fastp.json
-fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_2.fastq.gz --out1 trim/SRR16287549_1.trimmed.fq.gz --out2 trim/SRR16287549_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287549_fastp.html --json trim/SRR16287549_fastp.json
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287548_2.fastq.gz --out1 trim/SRR16287548_1.trimmed.fq.gz --out2 trim/SRR16287548_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287548_fastp.html --json trim/SRR16287548_fastp.json
+fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287549_2.fastq.gz --out1 trim/SRR16287549_1.trimmed.fq.gz --out2 trim/SRR16287549_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287549_fastp.html --json trim/SRR16287549_fastp.json
 fastp --in1 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_1.fastq.gz --in2 ~/scratch/rnaseq/Drosophila/raw_data/SRR16287550_2.fastq.gz --out1 trim/SRR16287550_1.trimmed.fq.gz --out2 trim/SRR16287550_2.trimmed.fq.gz --detect_adapter_for_pe --qualified_quality_phred 20 --length_required 50 --thread 2 --html trim/SRR16287550_fastp.html --json trim/SRR16287550_fastp.json
 ```
+
+</details>
+
 ## Reference download
 
 ```bash
-cd  ~/scratch/rnaseq/Drosophila/reference
+cd ~/scratch/rnaseq/Drosophila/reference
 
 # FlyBase r6.42 (FB2021_05) — pinned for reproducibility. The dmel_r6.42
 # directory is still hosted by FlyBase but only via HTTPS in newer releases;
@@ -710,12 +864,23 @@ ENS_GTF="https://ftp.ensembl.org/pub/release-104/gtf/drosophila_melanogaster/Dro
 curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${FLY_FA}"  || curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${ENS_FA}"
 curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${FLY_GTF}" || curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${ENS_GTF}"
 gunzip -f dmel.fasta.gz dmel.gtf.gz
-ls -algh
+ls -lh dmel.fasta dmel.gtf
+seqkit stats dmel.fasta
 ```
 
-## Reference index
+```output
+# example output (your numbers will differ slightly between releases)
+-rw-r--r-- 1 <netid> users 145M ... dmel.fasta
+-rw-r--r-- 1 <netid> users  41M ... dmel.gtf
 
+file        format  type  num_seqs      sum_len  min_len     avg_len     max_len
+dmel.fasta  FASTA   DNA      1,870  143,726,002       54   76,858.8  32,079,331
 ```
+
+## Reference index (STAR genomeGenerate)
+
+```bash
+cd ~/scratch/rnaseq/Drosophila/reference
 nano index.sh
 ```
 
@@ -727,18 +892,55 @@ nano index.sh
 #SBATCH --mem=48g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR_EMAIL>
-#SBATCH -o index.out # STDOUT & STDERR
+#SBATCH -o ../logs/index_%j.out  # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 
-STAR  --runThreadN 12 --runMode genomeGenerate --genomeDir . --genomeFastaFiles  dmel.fasta --sjdbGTFfile dmel.gtf --sjdbOverhang 99   --genomeSAindexNbases 12
+STAR --runThreadN 12 \
+     --runMode genomeGenerate \
+     --genomeDir . \
+     --genomeFastaFiles dmel.fasta \
+     --sjdbGTFfile dmel.gtf \
+     --sjdbOverhang 99 \
+     --genomeSAindexNbases 12
 ```
 
+**Submit & monitor:**
 
-## Mapping
+```bash
+cd ~/scratch/rnaseq/Drosophila/reference
+sbatch index.sh
+# when done:
+tail -n 20 Log.out
+ls -lh SA SAindex Genome
 ```
+
+```output
+# example STAR Log.out tail (your timestamps will differ)
+Apr 28 <date> ..... started STAR run
+Apr 28 <date> ... starting to generate Genome files
+Apr 28 <date> ... starting to sort Suffix Array. This may take a long time...
+Apr 28 <date> ... loading chunks from disk, packing SA...
+Apr 28 <date> ... finished generating suffix array
+Apr 28 <date> ... finished generating Suffix Array index
+Apr 28 <date> ..... processing annotations GTF
+Apr 28 <date> ..... inserting junctions into the genome indices
+Apr 28 <date> ... writing Genome to disk ...
+Apr 28 <date> ... writing Suffix Array to disk ...
+Apr 28 <date> ... writing SAindex to disk
+Apr 28 <date> ..... finished successfully
+DONE: Genome generation, EXITING
+```
+
+## Mapping the reads to genome index — loop driven by `samples.txt`
+
+Same loop pattern as `trim.sh`: read SRR from `samples.txt`, call STAR once per sample. The Drosophila-specific flag is `--alignIntronMax 100000` (introns up to 100 kb).
+
+```bash
+cd ~/scratch/rnaseq/Drosophila
 nano mapping.sh
 ```
+
 ```bash
 #!/bin/bash
 #SBATCH --job-name=align_Drosophila
@@ -747,24 +949,335 @@ nano mapping.sh
 #SBATCH --mem=32g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=<YOUR_EMAIL>
-#SBATCH -o align.out # STDOUT & STDERR
+#SBATCH -o logs/align_%j.out  # STDOUT & STDERR
 #SBATCH --account=cpu-s5-bch709-6
 #SBATCH --partition=cpu-core-0
 # NOTE: do NOT hard-code --dependency here. Pass it on the `sbatch` command line,
-# e.g.  ALIGN=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
+# e.g.  ALIGN=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} mapping.sh)
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287547.bam
+set -euo pipefail
+PROJECT=~/scratch/rnaseq/Drosophila
+cd "$PROJECT"
+mkdir -p bam logs
 
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287548_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287548_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287548.bam
-
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287549_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287549_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287549.bam
-
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287550_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287550_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287550.bam
-
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287545_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287545_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287545.bam
-
-STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287546_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287546_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287546.bam
+while IFS=$'\t' read -r SAMPLE SRR COND; do
+  echo "[align] ${SAMPLE} (${SRR}, ${COND})"
+  STAR --runMode alignReads \
+       --runThreadN 8 \
+       --readFilesCommand zcat \
+       --outFilterMultimapNmax 10 \
+       --alignIntronMin 25 \
+       --alignIntronMax 100000 \
+       --genomeDir   "$PROJECT/reference/" \
+       --readFilesIn "$PROJECT/trim/${SRR}_1.trimmed.fq.gz" \
+                     "$PROJECT/trim/${SRR}_2.trimmed.fq.gz" \
+       --outSAMtype BAM SortedByCoordinate \
+       --outFileNamePrefix "$PROJECT/bam/${SRR}.bam"
+done < <(awk -F'\t' 'NR>1' samples.txt)
 ```
+
+**Expected `Log.final.out` excerpt** (per sample, written to `bam/<SRR>.bamLog.final.out`):
+
+```output
+# example STAR Log.final.out (your numbers will differ)
+Number of input reads |	27,946,201
+Average input read length |	300
+                          UNIQUE READS:
+Uniquely mapped reads number |	24,011,203
+Uniquely mapped reads % |	85.92%
+                          MULTI-MAPPING READS:
+Number of reads mapped to multiple loci |	2,210,884
+% of reads mapped to multiple loci |	7.91%
+...
+Number of splices: Total |	14,902,331
+Number of splices: GT/AG |	14,752,019
+% of reads unmapped: too short |	5.62%
+% of reads unmapped: other |	0.45%
+```
+
+<details>
+<summary><strong>Click to see the equivalent expanded form (one STAR call per sample)</strong></summary>
+
+```bash
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287545_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287545_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287545.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287546_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287546_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287546.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287547_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287547_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287547.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287548_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287548_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287548.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287549_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287549_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287549.bam
+STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 100000 --genomeDir ~/scratch/rnaseq/Drosophila/reference/ --readFilesIn ~/scratch/rnaseq/Drosophila/trim/SRR16287550_1.trimmed.fq.gz ~/scratch/rnaseq/Drosophila/trim/SRR16287550_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/Drosophila/bam/SRR16287550.bam
+```
+
+</details>
+
+## Counting reads with `featureCounts` — `featureCounts.sh`
+
+Once every BAM is sorted by coordinate, count read **pairs** against the FlyBase GTF. With subread ≥ 2.0.2, paired-end fragment counting requires **both** `-p` (paired-end) and `--countReadPairs` (count pairs as 1 rather than 2).
+
+```bash
+cd ~/scratch/rnaseq/Drosophila
+nano featureCounts.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=featurecounts_Drosophila
+#SBATCH --cpus-per-task=8
+#SBATCH --time=06:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
+#SBATCH -o logs/featurecounts_%j.out
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+
+set -euo pipefail
+PROJECT=~/scratch/rnaseq/Drosophila
+cd "$PROJECT/bam"
+
+# Build the BAM list from samples.txt so the file order matches the cohort definition
+BAMS=$(awk -F'\t' 'NR>1{printf "%s.bamAligned.sortedByCoord.out.bam ", $2}' "$PROJECT/samples.txt")
+
+featureCounts \
+    -T 8 \
+    -p --countReadPairs \
+    -a "$PROJECT/reference/dmel.gtf" \
+    -o Drosophila.featureCount.cnt \
+    ${BAMS}
+```
+
+**Submit & inspect:**
+
+```bash
+sbatch featureCounts.sh
+# when done:
+cat Drosophila.featureCount.cnt.summary
+head -3 Drosophila.featureCount.cnt | cut -f1-8
+```
+
+```output
+# example summary (your numbers will differ)
+Status                     SRR16287545.bam...  SRR16287546.bam...  SRR16287547.bam...  SRR16287548.bam...  SRR16287549.bam...  SRR16287550.bam...
+Assigned                   19842310            21055812            20018736            21349204            20177102            19998841
+Unassigned_NoFeatures       2381204             2412017             2354611             2466093             2390411             2331109
+Unassigned_Ambiguity         901844              918310              894217              927519              908744              879618
+Unassigned_MultiMapping     1882104             1922001             1880411             1933214             1900328             1855402
+...
+# Headers + first gene row (your formatting will differ)
+Geneid	Chr	Start	End	Strand	Length	SRR16287545.bamAligned.sortedByCoord.out.bam	SRR16287546.bam...
+FBgn0031208	2L	7529	9484	+	1955	412	441
+```
+
+% Assigned typically lands around **78–84 %** for this dataset; the dominant unassigned class is `NoFeatures` (intergenic) followed by `MultiMapping` (rRNA loci, mostly).
+
+## MultiQC summary — `multiqc.sh`
+
+Same one-stop QC report idea as Arabidopsis: walk the project, parse fastp JSON / STAR `Log.final.out` / featureCounts `.summary` / FastQC, and render a single HTML.
+
+```bash
+cd ~/scratch/rnaseq/Drosophila
+nano multiqc.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=multiqc_Drosophila
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8g
+#SBATCH --time=01:00:00
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
+#SBATCH -o logs/multiqc_%j.out
+
+set -euo pipefail
+cd ~/scratch/rnaseq/Drosophila
+
+mkdir -p qc
+
+# Pull together everything multiqc can parse under the project dir
+multiqc . -o qc/ -n Drosophila_report --force \
+    --module fastp \
+    --module star \
+    --module featureCounts \
+    --module fastqc
+```
+
+**Run it (after featureCounts has finished):**
+
+```bash
+sbatch multiqc.sh
+tail -n 15 logs/multiqc_<jobid>.out
+```
+
+```output
+# example multiqc log tail (your numbers will differ)
+[INFO   ]         multiqc : This is MultiQC v1.21
+[INFO   ]         multiqc : Search path : /data/gpfs/assoc/bch709-6/<netid>/scratch/rnaseq/Drosophila
+[INFO   ]           fastp : Found 6 reports
+[INFO   ]            star : Found 6 reports
+[INFO   ]  featureCounts : Found 1 reports
+...
+[INFO   ]         multiqc : Compressing plot data
+[INFO   ]         multiqc : Report      : qc/Drosophila_report.html
+[INFO   ]         multiqc : Data        : qc/Drosophila_report_data
+[INFO   ]         multiqc : MultiQC complete
+```
+
+Copy the report to your laptop and open it in a browser:
+
+```bash
+scp <netid>@pronghorn.rc.unr.edu:~/scratch/rnaseq/Drosophila/qc/Drosophila_report.html ./
+open Drosophila_report.html
+```
+
+## Submit the entire Drosophila pipeline with one script — `run_all.sh`
+
+Same DAG as the Arabidopsis pipeline; the only changes are the project path and the addition of `featureCounts` between align and multiqc.
+
+**Pipeline DAG:**
+
+```
+  fastq-dump ──┐
+               ├─→ trim ─→ align ─→ featureCounts ─→ multiqc
+  index   ─────┘
+```
+
+**Save as `run_all.sh`:**
+
+```bash
+#!/bin/bash
+# run_all.sh — submit the entire Drosophila RNA-Seq pipeline with one command.
+# Slurm enforces the correct order via --dependency; you can walk away.
+set -euo pipefail
+
+PROJECT=~/scratch/rnaseq/Drosophila
+cd "$PROJECT"
+mkdir -p logs qc
+
+# Activate the env in THIS shell so every sbatch below inherits the PATH
+export MAMBA_ROOT_PREFIX="${MAMBA_ROOT_PREFIX:-$HOME/micromamba}"
+eval "$(micromamba shell hook --shell=bash)"
+micromamba activate RNASEQ_bch709
+
+# 1. Download FASTQs (no prerequisites)
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+
+# 2. Build STAR index (independent of download — runs in parallel)
+IDX_JID=$(cd "$PROJECT/reference" && sbatch --parsable index.sh)
+
+# 3. Trim reads (waits for download)
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+
+# 4. Align to genome (waits for BOTH trim and index)
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} mapping.sh)
+
+# 5. Count reads (waits for align)
+FC_JID=$(sbatch --parsable --dependency=afterok:${ALIGN_JID} featureCounts.sh)
+
+# 6. MultiQC aggregation (waits for featureCounts; afterany lets it run even if FC partially failed)
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FC_JID} multiqc.sh)
+
+cat <<EOF
+Submitted RNA-Seq pipeline (Drosophila):
+  fastq-dump     ${DUMP_JID}
+  index          ${IDX_JID}
+  trim           ${TRIM_JID}
+  align          ${ALIGN_JID}
+  featurecounts  ${FC_JID}
+  multiqc        ${MQC_JID}
+
+Monitor with:  squeue -u \$USER
+Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID} ${FC_JID} ${MQC_JID}
+Final report (after pipeline finishes): ~/scratch/rnaseq/Drosophila/qc/Drosophila_report.html
+EOF
+```
+
+**Run it:**
+
+```bash
+chmod +x run_all.sh
+bash run_all.sh
+squeue -u $USER
+```
+
+```output
+# example output (your job IDs will differ)
+Submitted RNA-Seq pipeline (Drosophila):
+  fastq-dump     <jobid>
+  index          <jobid>
+  trim           <jobid>
+  align          <jobid>
+  featurecounts  <jobid>
+  multiqc        <jobid>
+
+Monitor with:  squeue -u $USER
+Cancel all:    scancel <jobid> <jobid> <jobid> <jobid> <jobid> <jobid>
+Final report (after pipeline finishes): ~/scratch/rnaseq/Drosophila/qc/Drosophila_report.html
+```
+
+### 🧑‍💻 Hands-on walkthrough — submit the Drosophila pipeline step-by-step
+
+If you want to see exactly what `run_all.sh` does (or debug one step), submit each stage manually. Every `sbatch` returns a **job ID** that the next step depends on.
+
+**Do this first (login shell — one time):**
+
+```bash
+micromamba activate RNASEQ_bch709
+cd ~/scratch/rnaseq/Drosophila
+mkdir -p logs qc
+```
+
+**Then submit each step — each line is one command:**
+
+```bash
+# --- Step 1: download FASTQs (no prerequisites) ---
+DUMP_JID=$(sbatch --parsable fastq-dump.sh)
+echo "fastq-dump    -> $DUMP_JID"
+
+# --- Step 2: build STAR index (parallel with Step 1) ---
+IDX_JID=$(cd reference && sbatch --parsable index.sh)
+echo "index         -> $IDX_JID"
+
+# --- Step 3: trim (waits for fastq-dump) ---
+TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
+echo "trim          -> $TRIM_JID"
+
+# --- Step 4: align (waits for BOTH trim and index) ---
+ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} mapping.sh)
+echo "align         -> $ALIGN_JID"
+
+# --- Step 5: featureCounts (waits for align) ---
+FC_JID=$(sbatch --parsable --dependency=afterok:${ALIGN_JID} featureCounts.sh)
+echo "featurecounts -> $FC_JID"
+
+# --- Step 6: MultiQC (waits for featureCounts) ---
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FC_JID} multiqc.sh)
+echo "multiqc       -> $MQC_JID"
+
+# Check that everything is queued
+squeue -u $USER
+# Steps 3-6 should show state PD with reason (Dependency)
+```
+
+```output
+# example squeue (your job IDs and times will differ)
+JOBID   PARTITION    NAME                  USER      ST  TIME  NODES NODELIST(REASON)
+<jobid> cpu-core-0   fastqdump_Drosophi    <netid>   R   0:42  1     cpu-12
+<jobid> cpu-core-0   index_Drosophila      <netid>   R   0:42  1     cpu-13
+<jobid> cpu-core-0   trim_Drosophila       <netid>   PD  0:00  1     (Dependency)
+<jobid> cpu-core-0   align_Drosophila      <netid>   PD  0:00  1     (Dependency)
+<jobid> cpu-core-0   featurecounts_Drosop  <netid>   PD  0:00  1     (Dependency)
+<jobid> cpu-core-0   multiqc_Drosophila    <netid>   PD  0:00  1     (Dependency)
+```
+
+> ## Why type each step instead of just running `run_all.sh`?
+> Both produce the same dependency chain. The hands-on walkthrough lets you *see* each `${JID}` appear and inspect outputs/logs in between. Once you're comfortable, just run `bash run_all.sh` next time.
+{: .callout}
+
+> ## ➡️ You now have a counts matrix — head over to differential expression
+> `bam/Drosophila.featureCount.cnt` is the only file the [DESeq2 / EdgeR analysis](#deseq2-vs-edger-normalization-method) needs. Continue with the **Drosophila DEG** subsection below the `## ATH DEG` walkthrough — same `samples.txt` pattern, just point `--matrix` at `Drosophila.featureCount_count_only.cnt`.
+{: .callout}
 
 
 
