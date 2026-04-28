@@ -89,8 +89,13 @@ micromamba activate reseq_bch709
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' bwa-mem2 \
     'samtools>=1.20' 'bcftools>=1.20' 'tabix>=1.11' \
-    'sra-tools>=3.0' \
     openjdk=17 'picard>=3' gatk4 snpeff plink -y
+
+# Note: we deliberately do NOT install sra-tools. Bioconda's sra-tools 3.x is
+# built against GLIBC 2.27+, which is newer than Pronghorn's system libc — the
+# binary fails with "GLIBC_2.27 not found" on the compute nodes. The download
+# script in Step 1 pulls FASTQ directly from ENA over HTTPS, so sra-tools is
+# not needed.
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build it from
@@ -221,22 +226,31 @@ LINE=$(sed -n "${SLURM_ARRAY_TASK_ID}p" samples.tsv)
 SAMPLE=$(echo "$LINE" | cut -f1)
 SRR=$(echo "$LINE" | cut -f2)
 
-echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${SRR}) from NCBI SRA"
+echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${SRR}) from ENA"
 
-# Download paired-end FASTQ from NCBI SRA via sra-tools
-#   prefetch    — pulls the .sra archive into ./sra/
-#   fasterq-dump — extracts paired-end reads to FASTQ
-#   gzip on the way out keeps disk usage down
-prefetch --output-directory sra "${SRR}"
-fasterq-dump \
-    --threads ${SLURM_CPUS_PER_TASK:-2} \
-    --split-files \
-    --outdir raw \
-    "sra/${SRR}"
+# Download paired-end FASTQ from ENA (mirrors NCBI SRA, gzipped FASTQ ready-to-use).
+# We deliberately avoid `prefetch` / `fasterq-dump` — bioconda's sra-tools 3.x is
+# built against GLIBC 2.27+, which is newer than Pronghorn's system libc, so the
+# binary fails with "GLIBC_2.27 not found" on the compute nodes.
+mkdir -p raw
 
-# Rename + gzip so files match the rest of the pipeline (raw/<SAMPLE>_R{1,2}.fastq.gz)
-gzip -f raw/${SRR}_1.fastq && mv raw/${SRR}_1.fastq.gz raw/${SAMPLE}_R1.fastq.gz
-gzip -f raw/${SRR}_2.fastq && mv raw/${SRR}_2.fastq.gz raw/${SAMPLE}_R2.fastq.gz
+# Ask ENA for the exact fastq URLs (handles paired-end / single-end / multi-file).
+META_URL="https://www.ebi.ac.uk/ena/portal/api/filereport?accession=${SRR}&result=read_run&fields=fastq_ftp&format=tsv"
+URLS=$(curl -fsSL --retry 3 --max-time 60 "${META_URL}" \
+        | tail -n +2 \
+        | awk -F'\t' '{print $NF}' \
+        | tr ';' '\n' \
+        | sed '/^$/d')
+[ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
+
+i=1
+for U in ${URLS}; do
+    OUT="raw/${SAMPLE}_R${i}.fastq.gz"
+    echo "[task ${SLURM_ARRAY_TASK_ID}] -> https://${U}"
+    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+    [ -s "${OUT}" ] || { echo "ERROR: download failed: ${U}"; exit 1; }
+    i=$((i+1))
+done
 
 ls -lh raw/${SAMPLE}_R*.fastq.gz
 ```
