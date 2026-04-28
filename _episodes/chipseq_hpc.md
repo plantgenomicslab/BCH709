@@ -82,13 +82,18 @@ micromamba install -c conda-forge -c bioconda \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
     openjdk=17 'picard>=3' homer -y
 
-# deepTools + MACS3 + MultiQC + IDR via pip — pin numpy ONCE so all four
-# packages share a compatible numpy ABI (>=1.25 for macs3, <2.0 for deeptools/idr).
-# Splitting numpy pins across two pip commands silently downgrades and
-# breaks macs3 at runtime.
-pip install 'numpy>=1.25,<2.0' 'pyarrow<17' \
-    'deeptools<3.5.6' macs3 multiqc \
-    git+https://github.com/nboley/idr.git
+# Step A — deepTools + MACS3 + MultiQC via pip
+#   (pin numpy >=1.25 because macs3 needs that ABI; <2.0 because
+#    deeptools/idr aren't NumPy-2 ready yet)
+pip install 'numpy>=1.25,<2.0' 'pyarrow<17' 'deeptools<3.5.6' macs3 multiqc
+
+# Step B — IDR (from GitHub; the PyPI `idr` is a DIFFERENT project)
+#   IDR's setup.py does `import numpy` at build time, so pip's default
+#   build isolation (a fresh temp env without numpy) fails with
+#       ModuleNotFoundError: No module named 'numpy'
+#   --no-build-isolation tells pip to build inside the current env
+#   where numpy was just installed in Step A.
+pip install --no-build-isolation git+https://github.com/nboley/idr.git
 ```
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
