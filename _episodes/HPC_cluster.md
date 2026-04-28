@@ -899,7 +899,7 @@ The `--wrap` flag tells `sbatch`: *"The command I want to run is right here in q
 
 ```bash
 sbatch -A cpu-s5-bch709-6 -p cpu-core-0 --time=00:10:00 \
-       --wrap="echo 'Hello from $(hostname)' && sleep 300 && echo 'Done'"
+       --wrap="echo Hello from \$(hostname) && sleep 300 && echo Done"
 ```
 
 What each piece does:
@@ -931,7 +931,7 @@ What each piece does:
 ```bash
 # 1. Submit — you'll see "Submitted batch job 12345" immediately
 sbatch -A cpu-s5-bch709-6 -p cpu-core-0 --time=00:10:00 \
-       --wrap="echo 'Hello from $(hostname)' && sleep 300 && echo 'Done'"
+       --wrap="echo Hello from \$(hostname) && sleep 300 && echo Done"
 
 # 2. Check that it's queued (PD) or running (R) — should appear within seconds
 squeue -u $USER
