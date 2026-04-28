@@ -175,7 +175,8 @@ micromamba activate RNASEQ_bch709
 micromamba install -c conda-forge -c bioconda \
     minimap2 star 'samtools>=1.20' subread \
     openjdk=17 'trinity>=2.15' gffread seqkit kraken2 'fastp>=0.24' \
-    perl-dbi perl-dbd-sqlite perl-html-parser -y
+    perl-dbi perl-dbd-sqlite perl-html-parser \
+    pandas numpy -y
 # NOTE 1: `perl-bioperl` is intentionally NOT installed. Its current bioconda
 # build pins libzlib<1.3, which conflicts with modern samtools/Trinity/kraken2.
 # Trinity assembly itself does not need BioPerl — it is only required by a
