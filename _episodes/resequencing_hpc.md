@@ -1167,6 +1167,18 @@ mkdir -p qc
 
 # bcftools stats over the final cohort VCF — MultiQC parses the .vchk
 mkdir -p qc/bcftools
+
+# Step 7 emits SNPs and INDELs as two separate filtered files. Concat them
+# into one cohort.filtered.vcf.gz so bcftools stats (and MultiQC's bcftools
+# module) sees a single record set covering both variant classes. The
+# guard makes the step idempotent on re-runs.
+if [ ! -s vcf/cohort.filtered.vcf.gz ]; then
+    bcftools concat -a -Oz \
+        -o vcf/cohort.filtered.vcf.gz \
+        vcf/cohort.snps.filtered.vcf.gz \
+        vcf/cohort.indels.filtered.vcf.gz
+    bcftools index -t vcf/cohort.filtered.vcf.gz
+fi
 bcftools stats vcf/cohort.filtered.vcf.gz > qc/bcftools/cohort.filtered.vchk
 
 # Aggregate everything multiqc can find under the working dir
