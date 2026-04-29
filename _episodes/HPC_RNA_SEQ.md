@@ -1399,8 +1399,8 @@ Browse: <https://vectorbase.org/vectorbase/app/record/dataset/TMPTX_asteIndian>
 ```bash
 mkdir -p ~/scratch/rnaseq/Astephensi/reference && cd ~/scratch/rnaseq/Astephensi/reference
 
-VB_FA="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/fasta/data/VectorBase-54_AstephensiSDA-500_Genome.fasta"
-VB_GFF="https://vectorbase.org/common/downloads/Current_Release/AstephensiSDA-500/gff/data/VectorBase-54_AstephensiSDA-500.gff"
+VB_FA="https://vectorbase.org/common/downloads/release-68/AstephensiSDA-500/fasta/data/VectorBase-68_AstephensiSDA-500_Genome.fasta"
+VB_GFF="https://vectorbase.org/common/downloads/release-68/AstephensiSDA-500/gff/data/VectorBase-68_AstephensiSDA-500.gff"
 curl -fsSL --retry 3 --max-time 1800 -o AstephensiSDA-500.fasta "${VB_FA}"
 curl -fsSL --retry 3 --max-time 600  -o AstephensiSDA-500.gff   "${VB_GFF}"
 ls -lh
