@@ -867,27 +867,25 @@ for CHR in "${CHROMS[@]}"; do
     INPUTS+=" -I vcf/scatter/${SAMPLE}.${CHR}.g.vcf.gz"
 done
 
-gatk --java-options "-Xmx6g" GatherVcfs \
+# MergeVcfs sorts inputs against the reference sequence dictionary, so
+# the order of -I arguments does not matter. (GatherVcfs is faster but
+# requires inputs to be in strict dict order — TAIR10 has Pt before Mt,
+# which is easy to get wrong.)
+gatk --java-options "-Xmx6g" MergeVcfs \
     ${INPUTS} \
     -O vcf/${SAMPLE}.g.vcf.gz
-
-gatk IndexFeatureFile -I vcf/${SAMPLE}.g.vcf.gz
 
 # Verify and clean up scatter files
 ls -lh vcf/${SAMPLE}.g.vcf.gz
 rm -rf vcf/scatter/${SAMPLE}.*.g.vcf.gz vcf/scatter/${SAMPLE}.*.g.vcf.gz.tbi
 ```
 
-Expected tail of `logs/05b_gather_<jobid>_1.out` — `GatherVcfs` is fast (it just concatenates already-sorted VCFs) and `IndexFeatureFile` writes a `.tbi`:
+Expected tail of `logs/05b_gather_<jobid>_1.out` — `MergeVcfs` sorts the per-chromosome GVCFs against the reference dict and writes a `.tbi` index in one step:
 
 ```
 # example output (your numbers will differ)
-INFO  GatherVcfs - Checking inputs.
-INFO  GatherVcfs - Gathering by copying gzip blocks. Will not be indexed.
-INFO  GatherVcfs - Done.
-[<date>] picard.vcf.GatherVcfs done. Elapsed time: 0.05 minutes.
-INFO  IndexFeatureFile - Successfully wrote index to vcf/sample1.g.vcf.gz.tbi
-[<date>] org.broadinstitute.hellbender.tools.IndexFeatureFile done. Elapsed time: 0.10 minutes.
+INFO  MergeVcfs - Checking inputs.
+[<date>] picard.vcf.MergeVcfs done. Elapsed time: 0.10 minutes.
 -rw-r--r-- 1 <netid> rc-bch709-6  90M <date> vcf/sample1.g.vcf.gz
 ```
 
@@ -1402,7 +1400,7 @@ For 2 Arabidopsis samples (~10-15x coverage each):
 | Align + trim | 8 × 2 | ~30 min |
 | MarkDup + BQSR | 4 × 2 | ~20 min |
 | HaplotypeCaller (scatter) | 4 × 14 | ~15 min |
-| GatherVcfs | 2 × 2 | ~2 min |
+| MergeVcfs | 2 × 2 | ~2 min |
 | Joint genotyping | 4 | ~5 min |
 | Filter + annotate | 4 | ~5 min |
 | **Total (pipelined)** | | **~90 min end-to-end** |
