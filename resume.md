@@ -1,6 +1,6 @@
 # BCH709 — session checkpoint (resume.md)
 
-**Last updated:** 2026-04-28 14:25 PDT
+**Last updated:** 2026-04-28 14:55 PDT
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
@@ -45,17 +45,22 @@ Each was walked top-to-bottom by a subagent that ran every executable example an
 | BLAST | BLAST.md | ✅ #36 ftp:// → https://, -parse_seqids, outfmt, stale stats |
 | RNA-Seq tutorial (laptop) | RNA-seq_tutorial.md | ✅ #39 bc fallback, STAR --genomeSAindexNbases 10 |
 | ChIP-Seq tutorial (laptop) | chipseq_tutorial.md | ✅ #41 chip.fastq.gz filename, #42 hg38→hg19 |
+| Resequencing tutorial (laptop) | resequencing_tutorial.md | ✅ #45 Expected output blocks (no bug fixes — tutorial runs end-to-end as written) |
 
-### Still validating
+### All validation complete
 
-- **resequencing_tutorial.md (laptop)** — subagent in progress; sample1 BWA→markdup→BQSR→HC_GVCF done, sample2 in flight; will close out via the standard lifecycle when it reports.
+Every lesson linked from `index.md` has been walked top-to-bottom by a subagent. Tool versions verified (fastp 1.3.3, bwa-mem2 2.2.1, samtools 1.23.1, gatk 4.6.2.0, snpEff 5.2, PLINK v1.9.0-b.8, etc.). All 45 GitHub issues opened during this session are CLOSED.
 
 ## What's still open
 
-1. **Issue #25 follow-ups** — Expected output blocks now cover steps 0–7 of the resequencing pipeline. If a future full pipeline run captures real numbers for steps where placeholders are used (`<NNN>`), swap them in.
-2. **`#9` style file-system invariants** — the HPC_RNA_SEQ tutorial assumes `/data/gpfs/assoc/bch709-6/Course_material` is a working symlink to `/data/gpfs/assoc/pgl/Lecture/Course_material`. If that's ever reset, recreate the symlink and `test_mrna.fna` (gunzipped from `Athaliana_167_TAIR10.cds.fa.gz`).
-3. **Snakemake / Nextflow homework** — pipeline_orchestration.md has a "Try it" challenge re-implementing the existing Arabidopsis pipeline; could become an actual graded assignment.
-4. **`index.md`** — the new `pipeline_orchestration.md` page is not yet linked from the course homepage. Decide whether to slot it after the four HPC weeks (Week 13/14) or as a standalone supplementary lesson.
+(All issues closed as of 14:55 PDT — none currently OPEN.)
+
+## Outstanding follow-ups (no GitHub issues open — context for the next session)
+
+1. **Resequencing pipeline `<NNN>` placeholders** — Expected output blocks for steps 4 (ApplyBQSR), 5 (HaplotypeCaller scatter), 6 (joint genotyping), 7 (filter/snpEff/PLINK) use `# example output (your numbers will differ)` with placeholder counts. When a full pipeline run produces real numbers, swap them in.
+2. **File-system invariants** — `/data/gpfs/assoc/bch709-6/Course_material` is a symlink to `/data/gpfs/assoc/pgl/Lecture/Course_material`. If that bch709-6 dir is ever reset, recreate the symlink and `test_mrna.fna` (gunzipped from `Athaliana_167_TAIR10.cds.fa.gz`) — several tutorials reference both paths.
+3. **Snakemake / Nextflow homework** — `pipeline_orchestration.md` has a "Try it" challenge re-implementing the Arabidopsis pipeline; could become a graded assignment.
+4. **`index.md` schedule** — the new `pipeline_orchestration.md` page is NOT yet linked from the course homepage. Decide whether to slot it after the four HPC weeks (Week 13/14) or as a standalone supplementary lesson.
 5. **VectorBase Anopheles + UCSC EU paths** — flagged earlier in this file but still pending: VectorBase reorganized `Current_Release/AstephensiSDA-500/`, and the UCSC EU mirror `hg19.fa.gz` path 404s. Either fix or drop those mirrors.
 
 ## Workflow rules in effect for this repo
