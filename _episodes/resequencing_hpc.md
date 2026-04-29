@@ -89,9 +89,13 @@ micromamba activate reseq_bch709
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' bwa-mem2 \
     'samtools>=1.20' 'bcftools>=1.20' 'tabix>=1.11' \
-    openjdk=17 'picard>=3' gatk4 'snpeff<=5.2' plink -y
-# NOTE: snpeff is pinned to <=5.2 because 5.3.x+ requires Java 21,
-# while we ship openjdk=17 (which Picard and GATK4 still target).
+    openjdk=17 'picard>=3' gatk4 'snpeff<5.2' plink -y
+# NOTE: snpeff is pinned to <5.2 because the bioconda 5.2 build was
+# repackaged to require Java 21 (class file 65), while we ship
+# openjdk=17 (which Picard and GATK4 still target). 5.1d is the last
+# Java 17-compatible snpEff release.
+# If your existing env was built before this pin, fix it once with:
+#   micromamba install -n reseq_bch709 -c bioconda 'snpeff<5.2' -y
 
 # Note: we deliberately do NOT install sra-tools. Bioconda's sra-tools 3.x is
 # built against GLIBC 2.27+, which is newer than Pronghorn's system libc — the
