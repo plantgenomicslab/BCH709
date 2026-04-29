@@ -1435,7 +1435,51 @@ Compared to **~8 hours** on a laptop for the same 2 samples. For 100 samples, HP
 > **`CANCELLED by 0 ExitCode 0:15` in a dependent job**
 >
 > **Cause:** A parent job in the dependency chain failed, so Slurm auto-cancels all downstream jobs.
-> **Fix:** Find the first `FAILED` job with `sacct -u $USER`, fix it, then resubmit **from that step onward** (don't re-run successful steps).
+> **Fix:** Find the first `FAILED` job with `sacct -u $USER`, fix it, then resubmit **from that step onward** (don't re-run successful steps). See the next callout for the exact per-step commands.
+{: .callout}
+
+> **Re-running a single failed step (drop `--dependency=`)**
+>
+> When only one step failed and every upstream step is already in `COMPLETED` state, **submit just the failed script with no `--dependency=` flag**. The chained driver in Section 9 only needs `--dependency=...` because it submits everything at once with `sbatch --parsable` capturing job IDs that don't yet exist as completed jobs.
+>
+> Use these commands. Each is independent — pick the one for the step that failed, drop the rest:
+>
+> ```bash
+> sbatch scripts/01_download.sh           # array job — all samples
+> sbatch scripts/02_reference.sh          # download + index TAIR10 + known_sites
+> sbatch scripts/03_align.sh              # array — fastp + bwa-mem2
+> sbatch scripts/04_markdup_bqsr.sh       # array — Picard MarkDup + GATK BQSR
+> sbatch scripts/05a_haplotypecaller.sh   # 2-D array — sample × chromosome
+> sbatch scripts/05b_gather_gvcf.sh       # array — MergeVcfs per sample
+> sbatch scripts/06_joint_genotype.sh     # GenotypeGVCFs across cohort
+> sbatch scripts/07_filter_annotate.sh    # VariantFiltration + snpEff + PLINK
+> sbatch scripts/08_multiqc.sh            # final aggregated report
+> ```
+>
+> **Re-run ONLY a subset of array tasks** (e.g. sample 2 failed but sample 1 succeeded in step 5a):
+>
+> ```bash
+> sbatch --array=2 scripts/05a_haplotypecaller.sh
+> ```
+>
+> overrides the `--array=` line in the script header and runs only the listed task IDs.
+>
+> **Special cases that need extra setup before re-running:**
+>
+> - **Step 7 (snpEff failure with `class file version 65.0`)** — patch the env once before resubmitting:
+>   ```bash
+>   micromamba install -n reseq_bch709 -c bioconda 'snpeff<5.2' -y
+>   sbatch scripts/07_filter_annotate.sh
+>   ```
+> - **Step 5b (`GatherVcfs ... is not after first record`)** — re-copy `scripts/05b_gather_gvcf.sh` from the lesson (now uses `MergeVcfs`), then resubmit.
+> - **Step 2 (`reference.dict already exists` or `curl --max-time 1800` timeout)** — re-copy `scripts/02_reference.sh` from the lesson (the current version has `rm -f reference.dict` and removed the `--max-time` cap), then resubmit.
+>
+> **Sanity check before resubmitting** — verify upstream outputs exist:
+>
+> ```bash
+> sacct -u $USER --format=JobID,JobName%-25,State,ExitCode --starttime today
+> ls -lh ~/scratch/reseq/{bam,vcf,reference.fasta*}
+> ```
 {: .callout}
 
 > **Jobs stuck in `(Dependency)` state after a parent job succeeded**
