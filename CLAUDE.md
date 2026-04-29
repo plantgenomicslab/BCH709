@@ -43,7 +43,11 @@ Every Slurm script block in the HPC pipeline lessons follows this header (do not
 
 `<YOUR_EMAIL>` is the only placeholder students replace. Account / partition are stable for the semester — don't substitute them.
 
+**Env manager:** the HPC tutorials use **micromamba**, not conda. Each pipeline has its own env, built once per student: `reseq_bch709` (resequencing), `chipseq_bch709` (chipseq), `RNASEQ_bch709` (RNA-Seq), `DEG_bch709` (DESeq2/EdgeR). Activate in the *login shell* before `sbatch` so jobs inherit the right `PATH` (`sbatch --export=ALL` is the default).
+
 **Shared scratch layout** — HPC_cluster.md and HPC_RNA_SEQ.md both work under `~/scratch/rnaseq/` (raw_data/, trim/, star_index/, bam/, qc/) so the cluster basics lesson hands off cleanly to the RNA-Seq pipeline. Don't reintroduce per-lesson top-level scratch dirs.
+
+**MultiQC is the final step** of every HPC pipeline — `08_multiqc.sh` (resequencing), `multiqc.sh` (RNA-Seq), the post-processing step (chipseq). It runs with `--dependency=afterany:` (not `afterok`) so the report still renders if a prior step partially fails.
 
 **`Expected output:` blocks** are the project's self-verification convention. After a code block whose output is informative, add:
 
