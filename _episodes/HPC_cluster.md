@@ -1380,6 +1380,26 @@ Submit with `bash run_pipeline.sh` — you hand Slurm the whole DAG at once, the
 > After you fix the failing step, resubmit **only** the broken step and its downstream jobs — update their `--dependency` to the new job ID.
 {: .callout}
 
+> ## Re-running a single failed step (drop `--dependency=`)
+> `--dependency=afterok:JID` is only needed when you submit a downstream job **before** the upstream job has finished. If the upstream step is already in `COMPLETED` state and only one downstream step failed, just resubmit that one script with **no** `--dependency=` flag — there is nothing left to wait on.
+>
+> ```bash
+> # When chaining (upstream not yet finished):
+> JID2=$(sbatch --parsable --dependency=afterok:${JID1} step2.sh)
+>
+> # When step2 alone failed and step1 is already COMPLETED:
+> sbatch step2.sh
+> ```
+>
+> For an array job, override `--array=` on the command line to redo only the failed task(s):
+>
+> ```bash
+> sbatch --array=3 step.sh        # re-run only task 3
+> ```
+>
+> The four pipeline lessons (`resequencing_hpc.md`, `chipseq_hpc.md`, `HPC_RNA_SEQ.md`) each list the exact per-script re-run commands for their own pipeline.
+{: .callout}
+
 > ## Cancel a whole pipeline at once
 > Since dependent jobs haven't started yet, you can kill the entire pending chain with a single command:
 >
