@@ -1279,6 +1279,44 @@ JOBID   PARTITION    NAME                  USER      ST  TIME  NODES NODELIST(RE
 > `bam/Drosophila.featureCount.cnt` is the only file the [DESeq2 / EdgeR analysis](#deseq2-vs-edger-normalization-method) needs. Continue with the **Drosophila DEG** subsection below the `## ATH DEG` walkthrough — same `samples.txt` pattern, just point `--matrix` at `Drosophila.featureCount_count_only.cnt`.
 {: .callout}
 
+> ## Re-running a single failed step (drop `--dependency=`)
+>
+> When only one step failed and every upstream step is already in `COMPLETED` state, **submit just the failed script with no `--dependency=` flag**. The `run_all.sh` driver only needs `--dependency=...` because it submits everything at once with `sbatch --parsable` capturing job IDs that don't yet exist as completed jobs. If the upstream outputs (FASTQs in `raw_data/`, trimmed reads in `trim/`, STAR index in `reference/`, BAMs in `bam/`) are already on disk, you don't need that wiring.
+>
+> **Arabidopsis pipeline** — `cd ~/scratch/rnaseq/ATH` first, then run only the line for the step that failed:
+>
+> ```bash
+> sbatch fastq-dump.sh                       # download FASTQs
+> (cd reference && sbatch index.sh)          # build STAR index
+> sbatch trim.sh                             # fastp trimming
+> sbatch align.sh                            # STAR alignment
+> sbatch multiqc.sh                          # final aggregated report
+> ```
+>
+> **Drosophila pipeline** — `cd ~/scratch/rnaseq/Drosophila` first, then run only the line for the step that failed:
+>
+> ```bash
+> sbatch fastq-dump.sh                       # download FASTQs
+> (cd reference && sbatch index.sh)          # build STAR index
+> sbatch trim.sh                             # fastp trimming
+> sbatch mapping.sh                          # STAR alignment
+> sbatch featureCounts.sh                    # gene-level read counting
+> sbatch multiqc.sh                          # final aggregated report
+> ```
+>
+> These pipelines are **loop-driven** (one script processes every sample listed in `samples.txt`), not Slurm `--array=` jobs — so to re-run a single sample, edit `samples.txt` (or comment out the other lines in the script's loop) before resubmitting. There is no `sbatch --array=N` shortcut here.
+>
+> **Sanity check before resubmitting** — verify upstream outputs exist:
+>
+> ```bash
+> sacct -u $USER --format=JobID,JobName%-25,State,ExitCode --starttime today
+> ls -lh ~/scratch/rnaseq/ATH/{raw_data,trim,bam}        # Arabidopsis
+> ls -lh ~/scratch/rnaseq/Drosophila/{raw_data,trim,bam} # Drosophila
+> ```
+>
+> **MultiQC special case** — `multiqc.sh` is the only step submitted with `--dependency=afterany:...` (not `afterok`) inside `run_all.sh`, so the report still renders even if an upstream step ended with a non-zero warning. If you re-run MultiQC standalone (no `--dependency=`), keep its script unchanged — **do not** swap `afterany` back to `afterok` in `run_all.sh`.
+{: .callout}
+
 
 
 # Mus Musculus
