@@ -968,13 +968,14 @@ INFO  ProgressMeter -            traversal complete. Processed <N> total variant
 INFO  GenotypeGVCFs - Done. Elapsed time: <NN.NN> minutes.
 Joint genotyping done. Variants:
 SN	0	number of samples:	2
-SN	0	number of records:	<NNNNNNN>
+SN	0	number of records:	1219245
 SN	0	number of no-ALTs:	0
-SN	0	number of SNPs:	<NNNNNNN>
+SN	0	number of SNPs:	1005193
 SN	0	number of MNPs:	0
-SN	0	number of indels:	<NNNNNN>
+SN	0	number of indels:	215941
 SN	0	number of others:	0
-SN	0	number of multiallelic sites:	<NNNNN>
+SN	0	number of multiallelic sites:	15281
+SN	0	number of multiallelic SNP sites:	3032
 ```
 
 For Arabidopsis with 2 deeply-sequenced samples, expect on the order of ~1–2 M raw cohort variants before filtering. You can confirm with a one-liner once the job completes:
@@ -1123,13 +1124,13 @@ Expected output:
 
 ```
 # example output (your numbers will differ; for 2 deep Arabidopsis samples expect ~0.5–1.5 M PASS SNPs)
-<NNNNNNN>
+898373
 SN	0	number of samples:	2
-SN	0	number of records:	<NNNNNNN>
-SN	0	number of SNPs:	<NNNNNNN>
+SN	0	number of records:	898373
+SN	0	number of SNPs:	898373
 SN	0	number of indels:	0
-SN	0	number of multiallelic sites:	<NNNNN>
-SN	0	number of multiallelic SNP sites:	<NNNNN>
+SN	0	number of multiallelic sites:	6659
+SN	0	number of multiallelic SNP sites:	6659
 ```
 
 **Submit:**
