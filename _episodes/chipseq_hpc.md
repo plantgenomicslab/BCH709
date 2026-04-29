@@ -812,7 +812,44 @@ Versus **~10 hours** on a laptop for the same 3 samples.
 > **Pipeline queued but downstream jobs stuck in `(Dependency)` state forever**
 >
 > **Cause:** A parent array task exited non-zero. `afterok` treats the whole array as failed if any single task fails.
-> **Fix:** find the failing task with `sacct -u $USER --starttime=today | grep FAILED`, fix it, resubmit **only that step** and update downstream `--dependency` to the new job ID.
+> **Fix:** find the failing task with `sacct -u $USER --starttime=today | grep FAILED`, fix it, resubmit **only that step** and update downstream `--dependency` to the new job ID. See the next callout for the exact per-step commands when *every* upstream step is already `COMPLETED`.
+{: .callout}
+
+> **Re-running a single failed step (drop `--dependency=`)**
+>
+> When only one step failed and every upstream step is already in `COMPLETED` state, **submit just the failed script with no `--dependency=` flag**. The chained driver in Section 8 only needs `--dependency=...` because it submits everything at once with `sbatch --parsable` capturing job IDs that don't yet exist as completed jobs.
+>
+> Use these commands. Each is independent — pick the one for the step that failed, drop the rest:
+>
+> ```bash
+> sbatch scripts/01_download.sh   # array — FASTQ download (one task per row in samples.tsv)
+> sbatch scripts/02_reference.sh  # download + minimap2 index + TSS.bed
+> sbatch scripts/03_align.sh      # array — fastp + minimap2 -ax sr
+> sbatch scripts/04_dedup.sh      # array — MAPQ filter + samtools markdup
+> sbatch scripts/05_bigwig.sh     # array — deepTools bamCoverage → bw/
+> sbatch scripts/06_macs3.sh      # array (ChIP rows only) — MACS3 callpeak
+> sbatch scripts/07_qc.sh         # aggregated QC — fingerprint + IDR + MultiQC
+> ```
+>
+> **Re-run ONLY a subset of array tasks** (e.g. only the 2nd ChIP replicate failed in step 6):
+>
+> ```bash
+> sbatch --array=2 scripts/06_macs3.sh
+> ```
+>
+> overrides the `--array=` line in the script header and runs only the listed task IDs.
+>
+> **Special cases that need extra setup before re-running:**
+>
+> - **Step 6 (`06_macs3.sh`)** — needs both the ChIP and the matching Input dedup BAM (`bam/${SAMPLE}.dedup.bam` and `bam/${CONTROL}.dedup.bam`). If only one ChIP replicate failed, confirm the input BAM (e.g. `bam/input_k562.dedup.bam`) still exists before resubmitting.
+> - **Step 7 (`07_qc.sh`)** — IDR step is gated on `peaks/ctcf_rep1/ctcf_rep1_peaks.narrowPeak` and `peaks/ctcf_rep2/...narrowPeak`. If MACS3 was rerun, those files exist — IDR will run. If you want the QC report even when MACS3 partly failed, resubmit with `--dependency=afterany` instead of `afterok`.
+>
+> **Sanity check before resubmitting** — verify upstream outputs exist:
+>
+> ```bash
+> sacct -u $USER --format=JobID,JobName%-25,State,ExitCode --starttime today
+> ls -lh ~/scratch/chipseq/{bam,bw,peaks}
+> ```
 {: .callout}
 
 ---
