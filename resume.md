@@ -1,8 +1,26 @@
 # BCH709 — session checkpoint (resume.md)
 
-**Last updated:** 2026-04-28 14:55 PDT
+**Last updated:** 2026-04-29 (post-live-class triage)
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
+
+## Live-class triage on 2026-04-28/29 — issues #46–#50
+
+Five new issues opened and closed while students were running the resequencing pipeline live:
+
+| # | File | Fix |
+|---|------|-----|
+| #46 | `resequencing_hpc.md` step 5b | `GatherVcfs` → `MergeVcfs` (TAIR10 dict orders contigs `1,2,3,4,5,Pt,Mt`; `GatherVcfs` rejected the `Mt`-before-`Pt` array. `MergeVcfs` sorts against the dict.) |
+| #47 | `resequencing_hpc.md` env recipe | `snpeff<=5.2` → `snpeff<5.2`. Bioconda repackaged `snpeff=5.2` to require Java 21 (class file 65); we ship `openjdk=17`. Pin now lands on `5.1d`. Existing envs need `micromamba install -n reseq_bch709 -c bioconda 'snpeff<5.2' -y`. |
+| #48 | `index.md` | Linked `pipeline_orchestration.md` from the schedule (Week 14 supplement row). |
+| #49 | `resequencing_hpc.md` sections 6/7 | Filled `<NNN>` placeholders with clegenbauer's real numbers: joint = 1,219,245 records / 1,005,193 SNPs / 215,941 indels / 15,281 multiallelic / 3,032 multiallelic SNP. PASS = 898,373. snpEff numbers left as placeholders (clegenbauer's snpEff failed on the Java mismatch above). |
+| #50 | `HPC_RNA_SEQ.md` | VectorBase Anopheles URLs `Current_Release/VectorBase-54_…` returned 404. Pinned to `release-68/VectorBase-68_…` (verified 200). |
+
+### Student-side action items (not in lesson — verbal/Slack)
+
+- **All resequencing students** must run `micromamba install -n reseq_bch709 -c bioconda 'snpeff<5.2' -y` once. Existing envs are NOT auto-updated by the lesson edit.
+- Students who failed at step 2 with `curl --max-time 1800` timeout or "reference.dict already exists" had a stale local copy of `02_reference.sh`. Re-copy from current lesson — the lesson itself is correct.
+- Students who failed at step 5b with the `GatherVcfs` Mt/Pt order error must re-copy `05b_gather_gvcf.sh` (now uses `MergeVcfs`).
 
 ## Current goal
 
@@ -53,15 +71,15 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 14:55 PDT — none currently OPEN.)
+(All issues closed as of 2026-04-29. #46–#50 verified CLOSED via gh CLI.)
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 
-1. **Resequencing pipeline `<NNN>` placeholders** — Expected output blocks for steps 4 (ApplyBQSR), 5 (HaplotypeCaller scatter), 6 (joint genotyping), 7 (filter/snpEff/PLINK) use `# example output (your numbers will differ)` with placeholder counts. When a full pipeline run produces real numbers, swap them in.
+1. **Resequencing snpEff `<NNN>` placeholders** — sections 7's snpEff `Number_of_variants_processed`, HIGH/MODERATE/LOW/MODIFIER, MISSENSE/NONSENSE/SILENT counts are still `<NNNNNN>`. clegenbauer's snpEff hit the Java 21 mismatch (now fixed in #47), so when a student re-runs step 7 with the patched env, capture the real numbers and fill them in. Steps 4 (ApplyBQSR) and 5 (HaplotypeCaller scatter) Expected output blocks also still hold placeholders.
 2. **File-system invariants** — `/data/gpfs/assoc/bch709-6/Course_material` is a symlink to `/data/gpfs/assoc/pgl/Lecture/Course_material`. If that bch709-6 dir is ever reset, recreate the symlink and `test_mrna.fna` (gunzipped from `Athaliana_167_TAIR10.cds.fa.gz`) — several tutorials reference both paths.
 3. **Snakemake / Nextflow homework** — `pipeline_orchestration.md` has a "Try it" challenge re-implementing the Arabidopsis pipeline; could become a graded assignment.
-4. **`index.md` schedule** — the new `pipeline_orchestration.md` page is NOT yet linked from the course homepage. Decide whether to slot it after the four HPC weeks (Week 13/14) or as a standalone supplementary lesson.
-5. **VectorBase Anopheles + UCSC EU paths** — flagged earlier in this file but still pending: VectorBase reorganized `Current_Release/AstephensiSDA-500/`, and the UCSC EU mirror `hg19.fa.gz` path 404s. Either fix or drop those mirrors.
+4. ~~`index.md` schedule~~ — done in #48 (Week 14 supplement row).
+5. ~~VectorBase Anopheles + UCSC EU paths~~ — VectorBase done in #50 (release-68 pin). UCSC EU mirror was a planning note only — no committed lesson reference; chipseq lessons already use the working US mirror `hgdownload.soe.ucsc.edu` (verified 200, ~948 MB).
 
 ## Workflow rules in effect for this repo
 
