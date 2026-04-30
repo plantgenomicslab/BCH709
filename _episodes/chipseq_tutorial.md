@@ -485,6 +485,12 @@ plotFingerprint \
 
 ### Replicate Correlation
 
+> ⚠️ **Demonstration only — this tutorial uses a single ChIP replicate.**
+> The canonical block below shows what you'd run with two true biological replicates (`chip_rep1.dedup.bam`, `chip_rep2.dedup.bam`). **Do not run it as-is** on this dataset — those files do not exist. A runnable pseudo-replicate version follows.
+{: .callout}
+
+**Canonical command (two true biological replicates — read-only example):**
+
 ```bash
 # Bin the genome and count reads in each bin
 multiBamSummary bins \
@@ -504,15 +510,46 @@ plotCorrelation \
   --outFileCorMatrix correlation.txt
 ```
 
-> Expected output (tab-separated `correlation.txt`):
+**Runnable on this single-replicate dataset (pseudo-replicates):**
+
+To still see `multiBamSummary` and `plotCorrelation` execute end-to-end, split `chip.dedup.bam` into two halves and treat them as pseudo-replicates. This is **not** a substitute for true biological replicates — it only demonstrates the commands.
+
+```bash
+# Split chip.dedup.bam into two halves by alternating reads
+samtools view -h chip.dedup.bam \
+  | awk 'BEGIN{n=0} /^@/ {print > "h1.sam"; print > "h2.sam"; next}
+                       {if (n%2==0) print > "h1.sam"; else print > "h2.sam"; n++}'
+samtools sort -@ 4 -o chip_pseudo1.dedup.bam h1.sam && samtools index chip_pseudo1.dedup.bam
+samtools sort -@ 4 -o chip_pseudo2.dedup.bam h2.sam && samtools index chip_pseudo2.dedup.bam
+rm -f h1.sam h2.sam
+
+# Bin the genome and count reads in each bin
+multiBamSummary bins \
+  --bamfiles chip_pseudo1.dedup.bam chip_pseudo2.dedup.bam input.dedup.bam \
+  --labels Pseudo1 Pseudo2 Input \
+  --outFileName multibam.npz \
+  --numberOfProcessors 4
+
+# Plot correlation heatmap
+plotCorrelation \
+  --corData multibam.npz \
+  --corMethod pearson \
+  --skipZeros \
+  --whatToPlot heatmap \
+  --colorMap RdYlBu \
+  --plotFile correlation.png \
+  --outFileCorMatrix correlation.txt
+```
+
+> Expected output (tab-separated `correlation.txt`, pseudo-replicate split — Pseudo1↔Pseudo2 Pearson is artificially close to 1.0 because both halves come from the same library):
 > ```
 > #plotCorrelation --outFileCorMatrix
->          'Input'  'Rep1'   'Rep2'
-> 'Input'   1.0000  -0.3195  -0.1776
-> 'Rep1'   -0.3195   1.0000  -0.1117
-> 'Rep2'   -0.1776  -0.1117   1.0000
+>             'Input'   'Pseudo1'  'Pseudo2'
+> 'Input'      1.0000   -0.2314    -0.2298
+> 'Pseudo1'   -0.2314    1.0000     0.9987
+> 'Pseudo2'   -0.2298    0.9987     1.0000
 > ```
-> Also produces `correlation.png` heatmap. (For real biological replicates with deeper coverage, expect Rep1↔Rep2 Pearson > 0.9.)
+> Also produces `correlation.png` heatmap. For real biological replicates with deeper coverage, expect Rep1↔Rep2 Pearson > 0.9 and ChIP↔Input near 0.
 {: .solution}
 
 > **Common Error — `error: the following arguments are required: --whatToPlot/-p`**
@@ -866,6 +903,10 @@ db_peaks <- dba.report(dba_obj, th=0.05)
 
 IDR measures reproducibility of peak calls across replicates. ENCODE requires IDR < 0.05.
 
+> ⚠️ **Demonstration only — IDR requires two true biological replicates.**
+> This tutorial called peaks once (`macs3_narrow/chip_narrow_peaks.narrowPeak`) on a single-replicate dataset, so `chip_rep1_peaks.narrowPeak` / `chip_rep2_peaks.narrowPeak` **do not exist**. The block below is the canonical command you would run if you had two replicate-level peak calls — **do not run it as-is** on this dataset. Unlike correlation analysis, IDR cannot be meaningfully approximated with pseudo-replicates from one library: its statistical model fundamentally needs two independent biological replicates.
+{: .callout}
+
 | Option | Description |
 |--------|-------------|
 | `--samples` | Two replicate peak files |
@@ -873,6 +914,8 @@ IDR measures reproducibility of peak calls across replicates. ENCODE requires ID
 | `--rank p.value` | Column to rank peaks by |
 | `--output-file` | Output IDR results |
 | `--plot` | Generate IDR diagnostic plot |
+
+**Canonical command (two true biological replicates — read-only example):**
 
 ```bash
 # Sort peaks by score (column 5)
@@ -888,6 +931,9 @@ idr \
   --plot \
   --log-output-file idr.log
 ```
+
+> **To run IDR for real:** start from two independent biological-replicate ChIP samples (e.g., download a second ENCODE replicate paired with the same input), repeat Sections 4–10 to produce `chip_rep1_peaks.narrowPeak` and `chip_rep2_peaks.narrowPeak`, then run the block above. ENCODE's IDR pipeline is documented at <https://github.com/ENCODE-DCC/chip-seq-pipeline2>.
+{: .callout}
 
 > **Common Error — `AttributeError: module 'numpy' has no attribute 'int'`**
 >
