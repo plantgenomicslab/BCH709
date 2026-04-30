@@ -4,9 +4,9 @@
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/30 — issues #46–#64
+## Live-class triage on 2026-04-28/30 — issues #46–#68
 
-Nineteen new issues opened and closed across five waves of live-class and post-audit triage:
+Twenty-three new issues opened and closed across six waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -29,6 +29,10 @@ Nineteen new issues opened and closed across five waves of live-class and post-a
 | #62 | `chipseq_tutorial.md` | Sec 9 (`multiBamSummary`) and Sec 15 (IDR) both referenced `chip_rep1.dedup.bam` / `chip_rep2.dedup.bam` and `chip_rep1_peaks.narrowPeak` / `chip_rep2_peaks.narrowPeak` — the laptop tutorial only processes a single ChIP + Input. Marked both as `⚠️ Demonstration only` and added a runnable pseudo-replicate variant for Sec 9 (split `chip.dedup.bam` in halves) so students can still see `multiBamSummary` + `plotCorrelation` work. Sec 15 kept as concept-only with pointer to ENCODE pipeline. |
 | #63 | `resequencing_hpc.md` step 8 | Drop `--module gatk` from `08_multiqc.sh`. MultiQC 1.34's `gatk/base_recalibrator` parser hits a pydantic ValidationError ("points.0.name and points.1.name are both None") and a follow-on `rich.panel` AttributeError, killing the whole report. recal.table itself is fine — `unit_${SAMPLE}` ReadGroup is present. Sec 8 source-file table + report module list updated to direct students to `bam/*.recal.table` for manual BQSR inspection. Re-enable when upstream MultiQC bug is fixed. |
 | #64 | `HPC_RNA_SEQ.md` Arabidopsis + Drosophila `fastq-dump.sh` | EBI HTTPS drops mid-stream on >1 GB SRR fastq transfers; `curl --retry 3` doesn't retry SSL eof (curl 7.71+ needs `--retry-all-errors`), no `-C -` resume, and `[ -s "${OUT}" ]` skip-check accepted partial downloads as complete. Hardened both fastq-dump blocks: `--retry 5 --retry-all-errors --retry-delay 30 -C -`; dropped the skip-check (curl `-C -` no-ops on complete files, resumes on partials). |
+| #65 | `HPC_cluster.md` fastq-dump | Parity with #64. Hardened the EBI fastq curl + dropped `[ -s ]` skip-check. |
+| #66 | `chipseq_hpc.md` downloads | Parity with #64 on TWO sites: ENCODE fastq loop in `01_download.sh` and UCSC hg19.fa.gz primary+mirror fallback in `02_reference.sh` (~948 MB). Both `||` mirror legs hardened. The smaller `refGene.txt.gz` (~5 MB) left unchanged. |
+| #67 | `resequencing_hpc.md` downloads | Parity with #64 on THREE sites: EBI fastq loop, TAIR10 multi-mirror FASTA (preserved `-k` for self-signed cert and the legitimate `[ -s ]` mirror-fallback control flow), and the 19 GB 1001genomes known-sites VCF (added missing `--retry-all-errors` to existing `-C -`). |
+| #68 | `HPC_RNA_SEQ.md` reference downloads | Parity with #64 on FOUR additional non-fastq download sites: Drosophila FlyBase+Ensembl fallback, Mouse GRCm39 (~900 MB), VectorBase Anopheles (already release-68 pinned in #50), and RefSeq plant.1.protein.faa.gz. Both `||` mirror legs hardened where present; `-O` (uppercase) preserved. |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -85,7 +89,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-30. #46–#64 all CLOSED.)
+(All issues closed as of 2026-04-30. #46–#68 all CLOSED.)
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 
