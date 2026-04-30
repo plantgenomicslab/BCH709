@@ -1,12 +1,12 @@
 # BCH709 — session checkpoint (resume.md)
 
-**Last updated:** 2026-04-29 (post-live-class triage)
+**Last updated:** 2026-04-29 (post-live-class triage, second pass)
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/29 — issues #46–#50
+## Live-class triage on 2026-04-28/29 — issues #46–#58
 
-Five new issues opened and closed while students were running the resequencing pipeline live:
+Thirteen new issues opened and closed in two waves while students were running the resequencing and RNA-Seq pipelines live:
 
 | # | File | Fix |
 |---|------|-----|
@@ -15,6 +15,14 @@ Five new issues opened and closed while students were running the resequencing p
 | #48 | `index.md` | Linked `pipeline_orchestration.md` from the schedule (Week 14 supplement row). |
 | #49 | `resequencing_hpc.md` sections 6/7 | Filled `<NNN>` placeholders with clegenbauer's real numbers: joint = 1,219,245 records / 1,005,193 SNPs / 215,941 indels / 15,281 multiallelic / 3,032 multiallelic SNP. PASS = 898,373. snpEff numbers left as placeholders (clegenbauer's snpEff failed on the Java mismatch above). |
 | #50 | `HPC_RNA_SEQ.md` | VectorBase Anopheles URLs `Current_Release/VectorBase-54_…` returned 404. Pinned to `release-68/VectorBase-68_…` (verified 200). |
+| #51 | `resequencing_hpc.md` sec 12 | Added "Re-running a single failed step (drop `--dependency=`)" callout listing per-script `sbatch` command + `--array=N` override + step-7 snpEff env-patch / step-5b script-recopy / step-2 script-recopy notes. |
+| #52 | `HPC_cluster.md` Step 10 | Teaching-level callout explaining when to drop `--dependency=` (concept; pointers to the four HPC pipeline lessons). |
+| #53 | `chipseq_hpc.md` sec 12 | Same per-script re-run callout adapted to the 7 chipseq scripts (`01_download`–`07_qc`) with macs3/IDR-specific gotchas. |
+| #54 | `HPC_RNA_SEQ.md` | Same callout adapted to BOTH Arabidopsis and Drosophila pipelines (loop-driven, so `samples.txt` editing replaces `--array=N`). MultiQC `afterany` reminder included. |
+| #55 | `resequencing_hpc.md` step 8 | Step 7 emits `cohort.snps.filtered.vcf.gz` + `cohort.indels.filtered.vcf.gz` separately; step 8 was reading the (never-produced) merged `cohort.filtered.vcf.gz`. Step 8 now does an idempotent `bcftools concat -a` to build the merged file before `bcftools stats`. |
+| #56 | `chipseq_hpc.md` run_all | `07_qc.sh` dispatch lacked `${REF_JID}` and `${ALIGN_JID}` — partial re-runs of just steps 5/6/7 broke on missing `TSS.bed` (from step 2) or fastp JSONs (from step 3). Tightened to `afterok:${MACS_JID}:${BW_JID}:${REF_JID}:${ALIGN_JID}` in 3 dispatch sites. |
+| #57 | `HPC_RNA_SEQ.md` ATH | Three fixes: (a) ATH project-setup `mkdir` now includes `logs/` (Slurm was rejecting jobs because `#SBATCH -o logs/...` had no parent dir); (b) added missing `featureCounts.sh` step + wired into `run_all.sh` (ATH was chaining `align→multiqc` directly while multiqc had `--module featureCounts` — silently empty report); (c) removed stale `--module fastqc` from both ATH and Drosophila multiqc (no FastQC step exists in either). |
+| #58 | `resequencing_hpc.md` step 7 | Pre-download snpEff `Arabidopsis_thaliana` DB (guarded `[ ! -d ${HOME}/snpeff_data/Arabidopsis_thaliana ] && snpEff download …`). Was relying on snpEff's silent auto-download from compute nodes. Section 8's MultiQC source-file table also corrected — snpEff defaults emit `snpEff_summary.html` / `_genes.txt` to working dir, not `vcf/`. |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -71,7 +79,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-29. #46–#50 verified CLOSED via gh CLI.)
+(All issues closed as of 2026-04-29 22:00 PDT. #46–#58 all CLOSED.)
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 
