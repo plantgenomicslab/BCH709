@@ -1193,11 +1193,16 @@ if [ ! -s vcf/cohort.filtered.vcf.gz ]; then
 fi
 bcftools stats vcf/cohort.filtered.vcf.gz > qc/bcftools/cohort.filtered.vchk
 
-# Aggregate everything multiqc can find under the working dir
+# Aggregate everything multiqc can find under the working dir.
+# NOTE: --module gatk is intentionally OMITTED. MultiQC 1.34's GATK
+# base_recalibrator parser hits a pydantic ValidationError on the BQSR
+# scatter (points.X.name is None) and crashes the whole report. The
+# BQSR table is human-readable — inspect bam/*.recal.table directly
+# (see Section 8 below). Re-enable --module gatk once the upstream
+# MultiQC bug is fixed.
 multiqc . -o qc/ -n reseq_report --force \
     --module fastp \
     --module picard \
-    --module gatk \
     --module snpeff \
     --module bcftools
 
@@ -1210,7 +1215,7 @@ What this picks up:
 |--------|--------------|--------------|
 | `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
 | `picard` | `bam/*.markdup.metrics` | Optical / PCR duplication rate per library |
-| `gatk` | `bam/*.recal.table` | BQSR before/after empirical quality |
+| ~~`gatk`~~ (disabled) | `bam/*.recal.table` is human-readable — `head bam/sample1.recal.table` shows BQSR before/after | (MultiQC 1.34's GATK module crashes on this report; see comment in `08_multiqc.sh`) |
 | `snpeff` | `vcf/snpEff_summary.csv` (the HTML/genes.txt files in CWD are for human inspection only — MultiQC parses the CSV) | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
 | `bcftools` | `qc/bcftools/cohort.filtered.vchk` | SNP/indel counts, Ts/Tv, singleton stats |
 
@@ -1234,9 +1239,10 @@ Expected `qc/reseq_report.html` (key sections you should see in the rendered rep
 General Statistics    — one row per sample, mapped %, dup %, Q30, mean coverage
 fastp                 — adapter trimming, read filtering, Q20/Q30 distributions
 Picard MarkDuplicates — % Duplication, Estimated Library Size
-GATK BQSR             — empirical quality vs reported quality, by sample
 snpEff                — variant impact pie + summary table per sample
 bcftools stats        — SNPs / indels / Ts:Tv per sample and cohort-wide
+# GATK BQSR is omitted from the MultiQC report (MultiQC 1.34 GATK module bug);
+# inspect bam/*.recal.table directly to see empirical vs reported quality.
 ```
 
 If a module section is missing, the underlying file wasn't written — re-check that step's log before continuing.
