@@ -267,11 +267,16 @@ URLS=$(curl -fsSL --retry 3 --max-time 60 "${META_URL}" \
 [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
 
 i=1
+# --retry-all-errors + -C -: ENA's CDN occasionally drops mid-transfer with an
+# SSL eof; --retry-all-errors retries on transport errors and -C - resumes from
+# the partial file instead of restarting at byte 0 (see issue #64).
 for U in ${URLS}; do
     OUT="raw/${SAMPLE}_R${i}.fastq.gz"
     echo "[task ${SLURM_ARRAY_TASK_ID}] -> https://${U}"
-    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
-    [ -s "${OUT}" ] || { echo "ERROR: download failed: ${U}"; exit 1; }
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 --max-time 3600 -C - -o "${OUT}" "https://${U}"
+    # Don't use a `[ -s "${OUT}" ]` partial-file skip-check here: with -C - a
+    # short file from a prior failed attempt would falsely pass. curl -f exits
+    # non-zero on real failures, which set -e turns into a hard stop.
     i=$((i+1))
 done
 
@@ -391,7 +396,10 @@ KSITES_URL="https://1001genomes.org/data/GMI-MPI/releases/v3.1/1001genomes_snp-s
 # takes ~3 hours. We use `-C -` to resume on retry instead of restarting at
 # byte 0, and drop --max-time so a single attempt isn't capped (Slurm --time
 # already bounds the whole job).
-curl -fsSL --retry 5 --retry-delay 30 -C - \
+# --retry-all-errors + -C -: 1001genomes occasionally drops the connection
+# with an SSL eof on a 19 GB download; --retry-all-errors retries on transport
+# errors and -C - resumes from the partial file (see issue #64).
+curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 -C - \
     -o 1001genomes_snp-short-indel_only_ACGTN.vcf.gz "${KSITES_URL}"
 # Atomic rename: write to a .tmp file, only promote to known_sites.vcf.gz once
 # bgzip + tabix BOTH succeed and outputs are non-empty. If anything in this
