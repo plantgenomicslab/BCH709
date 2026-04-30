@@ -295,7 +295,7 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
 > cd ~/scratch/rnaseq/ATH
 > ln -s ~/scratch/rnaseq/raw_data raw_data    # reuse existing FASTQ
 > ln -s ~/scratch/rnaseq/trim     trim        # reuse trimmed reads
-> mkdir -p reference bam                       # only the new directories
+> mkdir -p reference bam logs                  # only the new directories (logs/ for Slurm stdout)
 > ```
 >
 > If the `ls` above prints both files, **skip to "Reference downloads"** below — STAR index + alignment is where this lesson really starts. Otherwise (fresh start, no HPC_cluster prerequisites done), follow the standard setup below.
@@ -304,7 +304,7 @@ https://www.ncbi.nlm.nih.gov/bioproject/PRJNA272719
 ```bash
 mkdir -p ~/scratch/rnaseq/ATH
 cd ~/scratch/rnaseq/ATH
-mkdir -p raw_data trim reference bam
+mkdir -p raw_data trim reference bam logs
 pwd
 ```
 
@@ -377,7 +377,7 @@ We download the Arabidopsis TAIR10 genome and annotation **directly from TAIR** 
 
 ```bash
 cd ~/scratch/rnaseq/ATH
-mkdir -p bam reference
+mkdir -p bam reference logs
 cd reference
 pwd
 ```
@@ -467,6 +467,57 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMultimapNmax 10 --alignIntronMin 25 --alignIntronMax 10000 --genomeDir ~/scratch/rnaseq/ATH/reference/ --readFilesIn ~/scratch/rnaseq/ATH/trim/SRR1761511_1.trimmed.fq.gz ~/scratch/rnaseq/ATH/trim/SRR1761511_2.trimmed.fq.gz --outSAMtype BAM SortedByCoordinate --outFileNamePrefix ~/scratch/rnaseq/ATH/bam/SRR1761511.bam
 ```
 
+### Counting reads with `featureCounts` — `featureCounts.sh`
+
+Once every BAM is sorted by coordinate, count read **pairs** against the TAIR10 GTF. With subread ≥ 2.0.2, paired-end fragment counting requires **both** `-p` (paired-end) and `--countReadPairs` (count pairs as 1 rather than 2). The output `ATH.featureCount.cnt` is what the MultiQC and DESeq2/EdgeR steps below consume.
+
+```bash
+cd ~/scratch/rnaseq/ATH
+nano featureCounts.sh
+```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=featurecounts_ATH
+#SBATCH --cpus-per-task=8
+#SBATCH --time=06:00:00
+#SBATCH --mem=16g
+#SBATCH --mail-type=FAIL,END
+#SBATCH --mail-user=<YOUR_EMAIL>
+#SBATCH -o logs/featurecounts_%j.out
+#SBATCH --account=cpu-s5-bch709-6
+#SBATCH --partition=cpu-core-0
+
+set -euo pipefail
+PROJECT=~/scratch/rnaseq/ATH
+cd "$PROJECT/bam"
+
+# Hard-coded SRR list — matches the cohort used in fastq-dump.sh / align.sh above.
+BAMS="SRR1761506.bamAligned.sortedByCoord.out.bam \
+      SRR1761507.bamAligned.sortedByCoord.out.bam \
+      SRR1761508.bamAligned.sortedByCoord.out.bam \
+      SRR1761509.bamAligned.sortedByCoord.out.bam \
+      SRR1761510.bamAligned.sortedByCoord.out.bam \
+      SRR1761511.bamAligned.sortedByCoord.out.bam"
+
+featureCounts \
+    -T 8 \
+    -p --countReadPairs \
+    -a "$PROJECT/reference/TAIR10_GFF3_genes.gtf" \
+    -o ATH.featureCount.cnt \
+    ${BAMS}
+```
+
+**Submit & inspect (standalone):**
+
+```bash
+sbatch featureCounts.sh
+# when done:
+cat ~/scratch/rnaseq/ATH/bam/ATH.featureCount.cnt.summary
+```
+
+(`run_all.sh` below wires this in automatically — you don't need to submit it by hand.)
+
 ### Submit the entire pipeline with one script — `run_all.sh`
 
 Rather than running each step by hand (submit → wait → submit → wait…), put every step into a driver script that submits them all at once. Slurm queues each job in the right order using `--dependency`; the whole pipeline runs unattended.
@@ -475,11 +526,11 @@ Rather than running each step by hand (submit → wait → submit → wait…), 
 
 ```
   fastq-dump ──┐
-               ├─→ trim ─→ align
+               ├─→ trim ─→ align ─→ featureCounts ─→ multiqc
   index   ─────┘
 ```
 
-(Download + index run in parallel; trim waits on download; align waits on both trim and index.)
+(Download + index run in parallel; trim waits on download; align waits on both trim and index; featureCounts waits on align; multiqc waits on featureCounts.)
 
 **Save as `run_all.sh`:**
 
@@ -510,19 +561,23 @@ TRIM_JID=$(sbatch --parsable --dependency=afterok:${DUMP_JID} trim.sh)
 # 4. Align to genome (waits for BOTH trim and index)
 ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
 
-# 5. MultiQC aggregation (waits for align — runs even if align partially failed)
-MQC_JID=$(sbatch --parsable --dependency=afterany:${ALIGN_JID} multiqc.sh)
+# 5. featureCounts (waits for align)
+FC_JID=$(sbatch --parsable --dependency=afterok:${ALIGN_JID} featureCounts.sh)
+
+# 6. MultiQC aggregation (waits for featureCounts; afterany lets it run even if FC partially failed)
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FC_JID} multiqc.sh)
 
 cat <<EOF
 Submitted RNA-Seq pipeline (Arabidopsis):
-  fastq-dump   ${DUMP_JID}
-  index        ${IDX_JID}
-  trim         ${TRIM_JID}
-  align        ${ALIGN_JID}
-  multiqc      ${MQC_JID}
+  fastq-dump      ${DUMP_JID}
+  index           ${IDX_JID}
+  trim            ${TRIM_JID}
+  align           ${ALIGN_JID}
+  featureCounts   ${FC_JID}
+  multiqc         ${MQC_JID}
 
 Monitor with:  squeue -u \$USER
-Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID} ${MQC_JID}
+Cancel all:    scancel ${DUMP_JID} ${IDX_JID} ${TRIM_JID} ${ALIGN_JID} ${FC_JID} ${MQC_JID}
 Final report (after pipeline finishes): ~/scratch/rnaseq/ATH/qc/ATH_report.html
 EOF
 ```
@@ -567,9 +622,17 @@ echo "trim       → $TRIM_JID"
 ALIGN_JID=$(sbatch --parsable --dependency=afterok:${TRIM_JID}:${IDX_JID} align.sh)
 echo "align      → $ALIGN_JID"
 
+# --- Step 5: featureCounts (waits for align) ---
+FC_JID=$(sbatch --parsable --dependency=afterok:${ALIGN_JID} featureCounts.sh)
+echo "featureCounts → $FC_JID"
+
+# --- Step 6: MultiQC (waits for featureCounts) ---
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FC_JID} multiqc.sh)
+echo "multiqc    → $MQC_JID"
+
 # Check that everything is queued
 squeue -u $USER
-# Steps 3-4 should show state PD with reason (Dependency)
+# Steps 3-6 should show state PD with reason (Dependency)
 ```
 
 > ## Why copy the commands into your terminal, not a script?
@@ -1099,8 +1162,7 @@ mkdir -p qc
 multiqc . -o qc/ -n Drosophila_report --force \
     --module fastp \
     --module star \
-    --module featureCounts \
-    --module fastqc
+    --module featureCounts
 ```
 
 **Run it (after featureCounts has finished):**
@@ -1630,8 +1692,7 @@ mkdir -p qc
 multiqc . -o qc/ -n ATH_report --force \
     --module fastp \
     --module star \
-    --module featureCounts \
-    --module fastqc
+    --module featureCounts
 ```
 
 What this picks up:
@@ -1641,12 +1702,11 @@ What this picks up:
 | `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
 | `star` | `bam/*Log.final.out` | Uniquely mapped %, multi-mapped %, splicing rates |
 | `featureCounts` | `ATH.featureCount.cnt.summary` | Assigned vs unassigned reads (ambiguity, no-feature, multi-mapping) |
-| `fastqc` | any `*_fastqc.zip` you have | Per-base quality, GC content, sequence duplication |
 
 **Submit (after `align.sh` and `featureCounts` have finished):**
 
 ```bash
-MQC_JID=$(sbatch --parsable --dependency=afterany:${ALIGN_JID} multiqc.sh)
+MQC_JID=$(sbatch --parsable --dependency=afterany:${FC_JID} multiqc.sh)
 echo "MultiQC: ${MQC_JID}"
 ```
 
