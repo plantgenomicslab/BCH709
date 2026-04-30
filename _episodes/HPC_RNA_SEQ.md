@@ -338,9 +338,20 @@ for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
     OUT=./raw_data/$(basename "${U}")
-    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    # Skip-by-existence removed intentionally — a partial download (e.g. a
+    # 960 MB chunk of a 1.2 GB file from a previous job that was cancelled
+    # mid-stream) would silently pass `[ -s "${OUT}" ]` and corrupt the
+    # rest of the pipeline. `curl -C -` below either resumes such partials
+    # or exits cleanly when the file is already complete.
     echo "[fastq] ${SRR} -> https://${U}"
-    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+    # --retry-all-errors: retry on SSL eof / connection drops (EBI HTTPS
+    #   regularly drops mid-stream on >1 GB transfers; without this flag,
+    #   curl --retry only retries on HTTP 5xx and exits 56 on SSL eof).
+    # -C -: resume partial downloads. If ${OUT} is already complete, curl
+    #   detects it and exits cleanly without re-downloading.
+    # --retry bumped to 5 for headroom on consecutive drops.
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 \
+         --max-time 3600 -C - -o "${OUT}" "https://${U}"
   done
 done
 ```
@@ -794,9 +805,20 @@ for SRR in ${SRRS}; do
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
     OUT=raw_data/$(basename "${U}")
-    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    # Skip-by-existence removed intentionally — a partial download (e.g. a
+    # 960 MB chunk of a 1.2 GB file from a previous job that was cancelled
+    # mid-stream) would silently pass `[ -s "${OUT}" ]` and corrupt the
+    # rest of the pipeline. `curl -C -` below either resumes such partials
+    # or exits cleanly when the file is already complete.
     echo "[fastq] ${SRR} -> https://${U}"
-    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+    # --retry-all-errors: retry on SSL eof / connection drops (EBI HTTPS
+    #   regularly drops mid-stream on >1 GB transfers; without this flag,
+    #   curl --retry only retries on HTTP 5xx and exits 56 on SSL eof).
+    # -C -: resume partial downloads. If ${OUT} is already complete, curl
+    #   detects it and exits cleanly without re-downloading.
+    # --retry bumped to 5 for headroom on consecutive drops.
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 \
+         --max-time 3600 -C - -o "${OUT}" "https://${U}"
   done
 done
 
