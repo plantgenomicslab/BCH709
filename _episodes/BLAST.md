@@ -601,8 +601,8 @@ makeblastdb -in uniprot_sprot.fasta -dbtype prot -parse_seqids
 wget https://rest.uniprot.org/uniprotkb/P12345.fasta
 wget https://rest.uniprot.org/uniprotkb/P01308.fasta
 
-## Run BLASTP against Swiss-Prot
-blastp -query your_protein.fasta \
+## Run BLASTP against Swiss-Prot (using human insulin, P01308, as the query)
+blastp -query P01308.fasta \
        -db uniprot_sprot.fasta \
        -outfmt "6 qseqid sseqid pident evalue bitscore stitle" \
        -evalue 1e-05 \
