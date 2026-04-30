@@ -4,9 +4,9 @@
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/29 — issues #46–#58
+## Live-class triage on 2026-04-28/29 — issues #46–#62
 
-Thirteen new issues opened and closed in two waves while students were running the resequencing and RNA-Seq pipelines live:
+Seventeen new issues opened and closed across three waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -23,6 +23,10 @@ Thirteen new issues opened and closed in two waves while students were running t
 | #56 | `chipseq_hpc.md` run_all | `07_qc.sh` dispatch lacked `${REF_JID}` and `${ALIGN_JID}` — partial re-runs of just steps 5/6/7 broke on missing `TSS.bed` (from step 2) or fastp JSONs (from step 3). Tightened to `afterok:${MACS_JID}:${BW_JID}:${REF_JID}:${ALIGN_JID}` in 3 dispatch sites. |
 | #57 | `HPC_RNA_SEQ.md` ATH | Three fixes: (a) ATH project-setup `mkdir` now includes `logs/` (Slurm was rejecting jobs because `#SBATCH -o logs/...` had no parent dir); (b) added missing `featureCounts.sh` step + wired into `run_all.sh` (ATH was chaining `align→multiqc` directly while multiqc had `--module featureCounts` — silently empty report); (c) removed stale `--module fastqc` from both ATH and Drosophila multiqc (no FastQC step exists in either). |
 | #58 | `resequencing_hpc.md` step 7 | Pre-download snpEff `Arabidopsis_thaliana` DB (guarded `[ ! -d ${HOME}/snpeff_data/Arabidopsis_thaliana ] && snpEff download …`). Was relying on snpEff's silent auto-download from compute nodes. Section 8's MultiQC source-file table also corrected — snpEff defaults emit `snpEff_summary.html` / `_genes.txt` to working dir, not `vcf/`. |
+| #59 | `resequencing_hpc.md` step 7 | snpEff missing `-csvStats vcf/snpEff_summary.csv`. MultiQC's snpeff module ONLY parses the CSV (not HTML/genes.txt), so the final report silently dropped the variant-impact panel. Sec 8 source-file table updated to point at the CSV. Reported live by a student. |
+| #60 | `BLAST.md` | `blastp -query your_protein.fasta` referenced a placeholder file the lesson never created. Replaced with `P01308.fasta` (insulin), already downloaded two lines earlier. |
+| #61 | `Linux_Enviroment_and_command_line.md` | FASTA-handling section (line ~863) ran `awk/grep ... mrna.fa` without a preceding `cd ~/bch709_data`. The earlier `cd` was buried inside a collapsed solution block several sections back. Added explicit `cd` + one-line narrative. |
+| #62 | `chipseq_tutorial.md` | Sec 9 (`multiBamSummary`) and Sec 15 (IDR) both referenced `chip_rep1.dedup.bam` / `chip_rep2.dedup.bam` and `chip_rep1_peaks.narrowPeak` / `chip_rep2_peaks.narrowPeak` — the laptop tutorial only processes a single ChIP + Input. Marked both as `⚠️ Demonstration only` and added a runnable pseudo-replicate variant for Sec 9 (split `chip.dedup.bam` in halves) so students can still see `multiBamSummary` + `plotCorrelation` work. Sec 15 kept as concept-only with pointer to ENCODE pipeline. |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -79,7 +83,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-29 22:00 PDT. #46–#58 all CLOSED.)
+(All issues closed as of 2026-04-29 23:30 PDT. #46–#62 all CLOSED.)
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 
