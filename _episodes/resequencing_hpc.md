@@ -1054,7 +1054,10 @@ bcftools view -f PASS -Oz -o vcf/cohort.snps.pass.vcf.gz vcf/cohort.snps.filtere
 tabix -p vcf vcf/cohort.snps.pass.vcf.gz
 
 # ---- SnpEff annotation ----
-snpEff -dataDir ${HOME}/snpeff_data Arabidopsis_thaliana \
+# -csvStats writes vcf/snpEff_summary.csv — REQUIRED for MultiQC's snpeff
+# module (it parses the CSV, not the HTML summary).
+snpEff -csvStats vcf/snpEff_summary.csv \
+    -dataDir ${HOME}/snpeff_data Arabidopsis_thaliana \
     vcf/cohort.snps.pass.vcf.gz > vcf/cohort.snps.annotated.vcf 2> logs/snpeff.log
 
 # ---- PLINK (requires 2+ samples) ----
@@ -1208,7 +1211,7 @@ What this picks up:
 | `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
 | `picard` | `bam/*.markdup.metrics` | Optical / PCR duplication rate per library |
 | `gatk` | `bam/*.recal.table` | BQSR before/after empirical quality |
-| `snpeff` | `snpEff_summary.html`, `snpEff_genes.txt` (in working dir) | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
+| `snpeff` | `vcf/snpEff_summary.csv` (the HTML/genes.txt files in CWD are for human inspection only — MultiQC parses the CSV) | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
 | `bcftools` | `qc/bcftools/cohort.filtered.vchk` | SNP/indel counts, Ts/Tv, singleton stats |
 
 **Submit:**
