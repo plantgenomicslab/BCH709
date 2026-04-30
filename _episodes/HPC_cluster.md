@@ -1810,9 +1810,20 @@ for SRR in SRR1761506 SRR1761507 SRR1761508 SRR1761509 SRR1761510 SRR1761511; do
   [ -n "${URLS}" ] || { echo "ERROR: ENA returned no fastq URLs for ${SRR}"; exit 1; }
   for U in ${URLS}; do
     OUT=~/scratch/rnaseq/raw_data/$(basename "${U}")
-    [ -s "${OUT}" ] && { echo "[fastq] ${OUT} already present, skipping"; continue; }
+    # Skip-by-existence removed intentionally — a partial download (e.g. a
+    # 960 MB chunk of a 1.2 GB file from a previous job that was cancelled
+    # mid-stream) would silently pass `[ -s "${OUT}" ]` and corrupt the
+    # rest of the pipeline. `curl -C -` below either resumes such partials
+    # or exits cleanly when the file is already complete.
     echo "[fastq] ${SRR} -> https://${U}"
-    curl -fsSL --retry 3 --retry-delay 30 --max-time 3600 -o "${OUT}" "https://${U}"
+    # --retry-all-errors: retry on SSL eof / connection drops (EBI HTTPS
+    #   regularly drops mid-stream on >1 GB transfers; without this flag,
+    #   curl --retry only retries on HTTP 5xx and exits 56 on SSL eof).
+    # -C -: resume partial downloads. If ${OUT} is already complete, curl
+    #   detects it and exits cleanly without re-downloading.
+    # --retry bumped to 5 for headroom on consecutive drops.
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 \
+         --max-time 3600 -C - -o "${OUT}" "https://${U}"
   done
 done
 ```
@@ -1833,7 +1844,7 @@ What the script does, line by line:
 | `curl … filereport?accession=${SRR}…` | Asks ENA's metadata API for this run's fastq URLs. Returns a TSV; `awk -F'\t' '{print $NF}'` grabs the last column (`fastq_ftp`). |
 | `tr ';' '\n'` | Paired-end runs return both R1 and R2 separated by `;` — split them onto separate lines. |
 | `https://${U}` | The API returns ftp.sra.ebi.ac.uk paths without a protocol; we just prepend `https://`. |
-| `curl --retry 3` | ENA occasionally hiccups; 3 retries handle transient blips without manual restarts. |
+| `curl --retry 5 --retry-all-errors -C -` | EBI HTTPS regularly drops mid-stream on >1 GB transfers; `--retry-all-errors` retries on SSL eof (curl 7.71+), and `-C -` resumes partial files instead of restarting at byte 0. |
 
 When the job finishes you should see 12 files (`SRR1761506_1.fastq.gz`, `SRR1761506_2.fastq.gz`, ...) in `~/scratch/rnaseq/raw_data/`. Confirm with:
 
