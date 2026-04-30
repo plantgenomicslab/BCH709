@@ -858,6 +858,11 @@ Following the initial line (used for a unique description of the sequence) is th
 The description line (defline) or header/identifier line, which begins with '>', gives a name and/or a unique identifier for the sequence, and may also contain additional information. In a deprecated practice, the header line sometimes contained more than one header, separated by a ^A (Control-A) character. In the original Pearson FASTA format, one or more comments, distinguished by a semi-colon at the beginning of the line, may occur after the header. Some databases and bioinformatics applications do not recognize these comments and follow the [NCBI FASTA specification](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=BlastHelp).
 
 ### FASTA file handling with command line.
+Make sure you're in the data directory:
+```bash
+$ cd ~/bch709_data
+```
+
 Please check one fasta file
 ```bash
 $ ls mrna.fa
