@@ -4,9 +4,9 @@
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/30 — issues #46–#68
+## Live-class triage on 2026-04-28/30 — issues #46–#69
 
-Twenty-three new issues opened and closed across six waves of live-class and post-audit triage:
+Twenty-four new issues opened and closed across seven waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -33,6 +33,7 @@ Twenty-three new issues opened and closed across six waves of live-class and pos
 | #66 | `chipseq_hpc.md` downloads | Parity with #64 on TWO sites: ENCODE fastq loop in `01_download.sh` and UCSC hg19.fa.gz primary+mirror fallback in `02_reference.sh` (~948 MB). Both `||` mirror legs hardened. The smaller `refGene.txt.gz` (~5 MB) left unchanged. |
 | #67 | `resequencing_hpc.md` downloads | Parity with #64 on THREE sites: EBI fastq loop, TAIR10 multi-mirror FASTA (preserved `-k` for self-signed cert and the legitimate `[ -s ]` mirror-fallback control flow), and the 19 GB 1001genomes known-sites VCF (added missing `--retry-all-errors` to existing `-C -`). |
 | #68 | `HPC_RNA_SEQ.md` reference downloads | Parity with #64 on FOUR additional non-fastq download sites: Drosophila FlyBase+Ensembl fallback, Mouse GRCm39 (~900 MB), VectorBase Anopheles (already release-68 pinned in #50), and RefSeq plant.1.protein.faa.gz. Both `||` mirror legs hardened where present; `-O` (uppercase) preserved. |
+| #69 | `resequencing_hpc.md` env recipe + step 7 | Final consolidation of the snpEff Java-version saga (#47, #58, #59, #63 lineage). Switched env to a single `reseq_bch709` with `openjdk=21` (no `snpeff<5.2` pin). Java is forward-compatible — Java 21 JVM runs Java 17 GATK/Picard jars unchanged, so a single 21 satisfies snpeff (any version) AND GATK 4.6 / Picard 3. The earlier inline patch line buried between `conda install` and `pip install … multiqc` was causing students to fix snpeff and stop, never reaching the multiqc install — moved the migration note into a standalone `.callout` AFTER the full setup block, with a 3-step verify→install→re-verify pattern (since `micromamba install openjdk=21` sometimes silently keeps Java 17 due to soft pins; included an aggressive `remove openjdk` form as fallback). Added `IMPORTANT: don't skip this — step 8 needs multiqc` comment above the multiqc pip line. |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -89,7 +90,11 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-30. #46–#68 all CLOSED.)
+(All issues closed as of 2026-04-30. #46–#69 all CLOSED.)
+
+## Live-class hand-off (verbal/Slack)
+
+Existing students whose `reseq_bch709` env was built before #69 must run a 3-step Java upgrade — see the "Java versions and snpEff" callout in section 0 of `resequencing_hpc.md`. The first form (`micromamba install … openjdk=21 snpeff`) sometimes silently leaves Java 17 in place; if `java -version` still shows 17 after install, the aggressive form (`micromamba remove openjdk` then install) is required. Always verify with `micromamba run -n reseq_bch709 java -version` afterwards — don't assume the install worked.
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 

@@ -115,13 +115,39 @@ pip install --prefer-binary \
 > ```
 > UnsupportedClassVersionError: class file version 65.0
 > ```
-> The recipe above already pins `openjdk=21` so this Just Works. But if you (or a classmate) built `reseq_bch709` earlier with `openjdk=17`, fix it once with:
+> The recipe above already pins `openjdk=21` so this Just Works. But if you (or a classmate) built `reseq_bch709` earlier with `openjdk=17`, follow ALL THREE steps below — a single `micromamba install openjdk=21` often "completes" without actually replacing the old JVM, because the conda solver may keep the old openjdk if other packages have soft pins on it.
+>
+> **Step 1 — verify the current Java**
 >
 > ```bash
-> micromamba install -n reseq_bch709 -c conda-forge openjdk=21 -y
+> micromamba run -n reseq_bch709 java -version 2>&1 | head -1
 > ```
 >
-> No need to recreate the env — that one line upgrades the JVM in place.
+> If you see `openjdk version "17."` → patch needed. If `openjdk version "21."` → already fixed, skip the rest.
+>
+> **Step 2 — force-upgrade openjdk + snpeff together** (single command, both channels, no soft-pin):
+>
+> ```bash
+> micromamba install -n reseq_bch709 -c conda-forge -c bioconda \
+>     'openjdk=21' snpeff -y
+> ```
+>
+> If that still leaves Java 17 in place after step 3, run the more aggressive form:
+>
+> ```bash
+> micromamba remove  -n reseq_bch709 openjdk -y 2>/dev/null
+> micromamba install -n reseq_bch709 -c conda-forge -c bioconda \
+>     'openjdk=21' snpeff -y
+> ```
+>
+> **Step 3 — verify it actually changed**
+>
+> ```bash
+> micromamba run -n reseq_bch709 java -version       2>&1 | head -1
+> micromamba run -n reseq_bch709 snpEff -version    2>&1 | head -1
+> ```
+>
+> Both lines must report 21 and a 5.x version respectively. If `java -version` still says 17, the install above failed silently — re-run Step 2's aggressive form.
 {: .callout}
 
 **Patch `libcrypto` so `samtools` / `bcftools` run (do this now, not after they crash):**
