@@ -225,9 +225,11 @@ ACC=$(echo "$LINE" | cut -f2)
 URL="https://www.encodeproject.org/files/${ACC}/@@download/${ACC}.fastq.gz"
 echo "[task ${SLURM_ARRAY_TASK_ID}] Downloading ${SAMPLE} (${ACC})"
 
-# curl with 3 retries + 60-min cap survives transient ENCODE 5xx / network blips
-curl -fsSL --retry 3 --retry-delay 10 --max-time 3600 \
-    -o raw/${SAMPLE}.fastq.gz "${URL}"
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials in place. See HPC_RNA_SEQ.md fastq-dump
+# (#64) for the underlying issue.
+curl -fsSL --retry 5 --retry-all-errors --retry-delay 10 --max-time 3600 \
+    -C - -o raw/${SAMPLE}.fastq.gz "${URL}"
 
 # Validate the gzip immediately — prevents silent truncation
 gunzip -t raw/${SAMPLE}.fastq.gz
@@ -276,8 +278,13 @@ cd ~/scratch/chipseq
 #   mirror : hgdownload-euro.soe.ucsc.edu (Europe — faster from EU)
 UCSC_URL="https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz"
 UCSC_MIRROR="https://hgdownload-euro.soe.ucsc.edu/goldenPath/hg19/bigZips/hg19.fa.gz"
-curl -fsSL --retry 3 --retry-delay 10 --max-time 3600 -o hg19.fa.gz "${UCSC_URL}" \
-    || curl -fsSL --retry 3 --max-time 3600 -o hg19.fa.gz "${UCSC_MIRROR}"
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials in place. See HPC_RNA_SEQ.md fastq-dump
+# (#64) for the underlying issue.
+curl -fsSL --retry 5 --retry-all-errors --retry-delay 10 --max-time 3600 \
+    -C - -o hg19.fa.gz "${UCSC_URL}" \
+    || curl -fsSL --retry 5 --retry-all-errors --max-time 3600 \
+        -C - -o hg19.fa.gz "${UCSC_MIRROR}"
 gunzip -f hg19.fa.gz
 mv -f hg19.fa reference.fasta
 
