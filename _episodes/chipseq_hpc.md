@@ -609,7 +609,7 @@ multiqc . -o qc/ -n chipseq_report
 Submit:
 
 ```bash
-QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID} scripts/07_qc.sh)
+QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID}:${REF_JID}:${ALIGN_JID} scripts/07_qc.sh)
 ```
 
 ---
@@ -637,7 +637,7 @@ ALIGN_JID=$(sbatch --parsable --array=1-${N_SAMPLES} --dependency=afterok:${DL_J
 DEDUP_JID=$(sbatch --parsable --array=1-${N_SAMPLES} --dependency=afterok:${ALIGN_JID}         scripts/04_dedup.sh)
 BW_JID=$(sbatch    --parsable --array=1-${N_SAMPLES} --dependency=afterok:${DEDUP_JID}         scripts/05_bigwig.sh)
 MACS_JID=$(sbatch  --parsable --array=1-${N_CHIP}    --dependency=afterok:${DEDUP_JID}         scripts/06_macs3.sh)
-QC_JID=$(sbatch    --parsable --dependency=afterok:${MACS_JID}:${BW_JID}                       scripts/07_qc.sh)
+QC_JID=$(sbatch    --parsable --dependency=afterok:${MACS_JID}:${BW_JID}:${REF_JID}:${ALIGN_JID} scripts/07_qc.sh)
 
 cat <<EOF
 Submitted ChIP-Seq pipeline (${N_SAMPLES} samples, ${N_CHIP} ChIP):
@@ -707,8 +707,8 @@ MACS_JID=$(sbatch --parsable --array=1-${N_CHIP} \
     --dependency=afterok:${DEDUP_JID} scripts/06_macs3.sh)
 echo "macs3        → $MACS_JID"
 
-# --- Step 7: QC aggregation (waits for both bigwig and MACS3) ---
-QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID} scripts/07_qc.sh)
+# --- Step 7: QC aggregation (waits for bigwig, MACS3, reference TSS.bed, and align outputs) ---
+QC_JID=$(sbatch --parsable --dependency=afterok:${MACS_JID}:${BW_JID}:${REF_JID}:${ALIGN_JID} scripts/07_qc.sh)
 echo "qc           → $QC_JID"
 
 # Check that everything is queued
