@@ -4,9 +4,9 @@
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/30 — issues #46–#63
+## Live-class triage on 2026-04-28/30 — issues #46–#64
 
-Eighteen new issues opened and closed across four waves of live-class and post-audit triage:
+Nineteen new issues opened and closed across five waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -28,6 +28,7 @@ Eighteen new issues opened and closed across four waves of live-class and post-a
 | #61 | `Linux_Enviroment_and_command_line.md` | FASTA-handling section (line ~863) ran `awk/grep ... mrna.fa` without a preceding `cd ~/bch709_data`. The earlier `cd` was buried inside a collapsed solution block several sections back. Added explicit `cd` + one-line narrative. |
 | #62 | `chipseq_tutorial.md` | Sec 9 (`multiBamSummary`) and Sec 15 (IDR) both referenced `chip_rep1.dedup.bam` / `chip_rep2.dedup.bam` and `chip_rep1_peaks.narrowPeak` / `chip_rep2_peaks.narrowPeak` — the laptop tutorial only processes a single ChIP + Input. Marked both as `⚠️ Demonstration only` and added a runnable pseudo-replicate variant for Sec 9 (split `chip.dedup.bam` in halves) so students can still see `multiBamSummary` + `plotCorrelation` work. Sec 15 kept as concept-only with pointer to ENCODE pipeline. |
 | #63 | `resequencing_hpc.md` step 8 | Drop `--module gatk` from `08_multiqc.sh`. MultiQC 1.34's `gatk/base_recalibrator` parser hits a pydantic ValidationError ("points.0.name and points.1.name are both None") and a follow-on `rich.panel` AttributeError, killing the whole report. recal.table itself is fine — `unit_${SAMPLE}` ReadGroup is present. Sec 8 source-file table + report module list updated to direct students to `bam/*.recal.table` for manual BQSR inspection. Re-enable when upstream MultiQC bug is fixed. |
+| #64 | `HPC_RNA_SEQ.md` Arabidopsis + Drosophila `fastq-dump.sh` | EBI HTTPS drops mid-stream on >1 GB SRR fastq transfers; `curl --retry 3` doesn't retry SSL eof (curl 7.71+ needs `--retry-all-errors`), no `-C -` resume, and `[ -s "${OUT}" ]` skip-check accepted partial downloads as complete. Hardened both fastq-dump blocks: `--retry 5 --retry-all-errors --retry-delay 30 -C -`; dropped the skip-check (curl `-C -` no-ops on complete files, resumes on partials). |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -84,7 +85,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-30. #46–#63 all CLOSED.)
+(All issues closed as of 2026-04-30. #46–#64 all CLOSED.)
 
 ## Outstanding follow-ups (no GitHub issues open — context for the next session)
 
