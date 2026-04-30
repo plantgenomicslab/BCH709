@@ -1019,6 +1019,15 @@ set -euo pipefail
 
 cd ~/scratch/reseq
 
+# Pre-download the snpEff Arabidopsis database if it's not already present.
+# snpEff would auto-download on first use, but doing it explicitly here makes
+# the failure mode obvious if the compute node has no outbound HTTPS, and
+# prevents the download from adding minutes to every fresh student's first
+# step-7 run silently.
+if [ ! -d "${HOME}/snpeff_data/Arabidopsis_thaliana" ]; then
+    snpEff download -dataDir "${HOME}/snpeff_data" Arabidopsis_thaliana
+fi
+
 # ---- Split SNPs / Indels ----
 gatk SelectVariants -R reference.fasta -V vcf/cohort.vcf.gz \
     --select-type-to-include SNP   -O vcf/cohort.snps.vcf.gz
@@ -1199,7 +1208,7 @@ What this picks up:
 | `fastp` | `trim/*_fastp.json` | Q20/Q30 rates, duplication %, adapter trimming per sample |
 | `picard` | `bam/*.markdup.metrics` | Optical / PCR duplication rate per library |
 | `gatk` | `bam/*.recal.table` | BQSR before/after empirical quality |
-| `snpeff` | `vcf/cohort.*.snpeff_summary.html`, `_genes.txt` | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
+| `snpeff` | `snpEff_summary.html`, `snpEff_genes.txt` (in working dir) | HIGH/MODERATE/LOW/MODIFIER variant impact distribution |
 | `bcftools` | `qc/bcftools/cohort.filtered.vchk` | SNP/indel counts, Ts/Tv, singleton stats |
 
 **Submit:**
