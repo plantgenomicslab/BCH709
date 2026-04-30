@@ -946,8 +946,10 @@ FLY_GTF="https://ftp.flybase.net/genomes/Drosophila_melanogaster/dmel_r6.42_FB20
 ENS_FA="https://ftp.ensembl.org/pub/release-104/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.32.dna.toplevel.fa.gz"
 ENS_GTF="https://ftp.ensembl.org/pub/release-104/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.32.104.gtf.gz"
 
-curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${FLY_FA}"  || curl -fsSL --retry 3 --max-time 1800 -o dmel.fasta.gz  "${ENS_FA}"
-curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${FLY_GTF}" || curl -fsSL --retry 3 --max-time 600  -o dmel.gtf.gz    "${ENS_GTF}"
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials. See HPC_RNA_SEQ.md fastq-dump (#64).
+curl -fsSL --retry 5 --retry-all-errors --max-time 1800 -C - -o dmel.fasta.gz  "${FLY_FA}"  || curl -fsSL --retry 5 --retry-all-errors --max-time 1800 -C - -o dmel.fasta.gz  "${ENS_FA}"
+curl -fsSL --retry 5 --retry-all-errors --max-time 600  -C - -o dmel.gtf.gz    "${FLY_GTF}" || curl -fsSL --retry 5 --retry-all-errors --max-time 600  -C - -o dmel.gtf.gz    "${ENS_GTF}"
 gunzip -f dmel.fasta.gz dmel.gtf.gz
 ls -lh dmel.fasta dmel.gtf
 seqkit stats dmel.fasta
@@ -1441,9 +1443,11 @@ Browse: <https://www.ncbi.nlm.nih.gov/genome/?term=Mus+musculus>
 mkdir -p ~/scratch/rnaseq/Mmusculus/reference && cd ~/scratch/rnaseq/Mmusculus/reference
 
 NCBI_BASE="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/635/GCF_000001635.27_GRCm39"
-curl -fsSL --retry 3 --max-time 3600 -o GRCm39_genomic.fna.gz \
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials. See HPC_RNA_SEQ.md fastq-dump (#64).
+curl -fsSL --retry 5 --retry-all-errors --max-time 3600 -C - -o GRCm39_genomic.fna.gz \
     "${NCBI_BASE}/GCF_000001635.27_GRCm39_genomic.fna.gz"
-curl -fsSL --retry 3 --max-time 600  -o GRCm39_genomic.gff.gz \
+curl -fsSL --retry 5 --retry-all-errors --max-time 600  -C - -o GRCm39_genomic.gff.gz \
     "${NCBI_BASE}/GCF_000001635.27_GRCm39_genomic.gff.gz"
 gunzip -f GRCm39_genomic.fna.gz GRCm39_genomic.gff.gz
 
@@ -1523,8 +1527,10 @@ mkdir -p ~/scratch/rnaseq/Astephensi/reference && cd ~/scratch/rnaseq/Astephensi
 
 VB_FA="https://vectorbase.org/common/downloads/release-68/AstephensiSDA-500/fasta/data/VectorBase-68_AstephensiSDA-500_Genome.fasta"
 VB_GFF="https://vectorbase.org/common/downloads/release-68/AstephensiSDA-500/gff/data/VectorBase-68_AstephensiSDA-500.gff"
-curl -fsSL --retry 3 --max-time 1800 -o AstephensiSDA-500.fasta "${VB_FA}"
-curl -fsSL --retry 3 --max-time 600  -o AstephensiSDA-500.gff   "${VB_GFF}"
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials. See HPC_RNA_SEQ.md fastq-dump (#64).
+curl -fsSL --retry 5 --retry-all-errors --max-time 1800 -C - -o AstephensiSDA-500.fasta "${VB_FA}"
+curl -fsSL --retry 5 --retry-all-errors --max-time 600  -C - -o AstephensiSDA-500.gff   "${VB_GFF}"
 ls -lh
 ```
 
@@ -2564,7 +2570,9 @@ https://bioinf.shenwei.me/seqkit/tutorial/
 ```bash
 mkdir -p ~/scratch/rnaseq/BLAST
 cd ~/scratch/rnaseq/BLAST
-curl -fsSL --retry 3 --max-time 600 -O https://ftp.ncbi.nlm.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
+# --retry-all-errors + -C -: harden against SSL eof drops on large
+# transfers; resume partials. See HPC_RNA_SEQ.md fastq-dump (#64).
+curl -fsSL --retry 5 --retry-all-errors --max-time 600 -C - -O https://ftp.ncbi.nlm.nih.gov/refseq/release/plant/plant.1.protein.faa.gz
 ```
 
 ### Run BLASTX
