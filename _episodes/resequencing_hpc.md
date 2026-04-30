@@ -89,13 +89,7 @@ micromamba activate reseq_bch709
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' bwa-mem2 \
     'samtools>=1.20' 'bcftools>=1.20' 'tabix>=1.11' \
-    openjdk=17 'picard>=3' gatk4 'snpeff<5.2' plink -y
-# NOTE: snpeff is pinned to <5.2 because the bioconda 5.2 build was
-# repackaged to require Java 21 (class file 65), while we ship
-# openjdk=17 (which Picard and GATK4 still target). 5.1d is the last
-# Java 17-compatible snpEff release.
-# If your existing env was built before this pin, fix it once with:
-#   micromamba install -n reseq_bch709 -c bioconda 'snpeff<5.2' -y
+    openjdk=21 'picard>=3' gatk4 snpeff plink -y
 
 # Note: we deliberately do NOT install sra-tools. Bioconda's sra-tools 3.x is
 # built against GLIBC 2.27+, which is newer than Pronghorn's system libc — the
@@ -110,9 +104,25 @@ pip install --upgrade pip
 
 # MultiQC + pinned deps. `tiktoken<0.8` is the safety pin — older
 # tiktoken has stable cp311 linux wheels.
+# IMPORTANT: don't skip this — step 8 needs multiqc.
 pip install --prefer-binary \
     'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' multiqc
 ```
+
+> **Java versions and snpEff (read this if step 7 ever fails with `class file version 65.0`)**
+>
+> Recent bioconda `snpeff` (5.2+) is compiled with Java 21 (class file 65). GATK 4.6 and Picard 3 are compiled for Java 17 (class file 61), but Java is forward-compatible — a Java 21 JVM runs Java 17 jars fine. The reverse breaks: a Java 17 JVM trying to load a Java 21 jar exits with
+> ```
+> UnsupportedClassVersionError: class file version 65.0
+> ```
+> The recipe above already pins `openjdk=21` so this Just Works. But if you (or a classmate) built `reseq_bch709` earlier with `openjdk=17`, fix it once with:
+>
+> ```bash
+> micromamba install -n reseq_bch709 -c conda-forge openjdk=21 -y
+> ```
+>
+> No need to recreate the env — that one line upgrades the JVM in place.
+{: .callout}
 
 **Patch `libcrypto` so `samtools` / `bcftools` run (do this now, not after they crash):**
 
