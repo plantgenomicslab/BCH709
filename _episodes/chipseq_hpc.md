@@ -82,13 +82,15 @@ micromamba create -n chipseq_bch709 -c conda-forge -c bioconda python=3.10 -y
 micromamba activate chipseq_bch709
 
 # Everything from bioconda — single install, no compilers, no pip builds.
-# `numpy<2.0` because deeptools / idr aren't NumPy-2 ready yet.
+# `numpy<1.24` because IDR 2.0.3 still uses numpy.int (alias removed in
+# NumPy 1.24); deeptools also isn't NumPy-2 ready. Tightest working
+# window is 1.20 ≤ numpy < 1.24.
 micromamba install -c conda-forge -c bioconda \
     fastqc 'fastp>=0.24' minimap2 \
     'samtools>=1.20' bedtools 'tabix>=1.11' \
     openjdk=17 'picard>=3' homer \
     'pysam>=0.22' macs3 deeptools idr \
-    'numpy<2.0' -y
+    'numpy<1.24' -y
 
 # Upgrade pip first — older pip can't find the prebuilt `tiktoken`
 # manylinux wheel (a transitive multiqc dep), tries to build from Rust
@@ -855,8 +857,14 @@ Versus **~10 hours** on a laptop for the same 3 samples.
 
 > **`IDR AttributeError: module 'numpy' has no attribute 'int'`**
 >
-> **Cause:** IDR 2.0.3 incompatible with NumPy ≥ 1.24.
-> **Fix:** `pip install "numpy<1.24"` (already in the setup above).
+> **Cause:** IDR 2.0.3 still uses `numpy.int` (alias removed in NumPy 1.24+).
+> **Fix:** the env recipe above pins `'numpy<1.24'` so a fresh env is fine. Existing envs built earlier (with the old `numpy<2.0` pin that let 1.24+ slip in) need:
+>
+> ```bash
+> micromamba run -n chipseq_bch709 pip install -U 'numpy<1.24'
+> # verify
+> micromamba run -n chipseq_bch709 python -c "import numpy; print(numpy.__version__)"
+> ```
 {: .callout}
 
 > **Pipeline queued but downstream jobs stuck in `(Dependency)` state forever**
