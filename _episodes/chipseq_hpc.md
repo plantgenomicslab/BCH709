@@ -609,9 +609,41 @@ if [ -f peaks/ctcf_rep1/ctcf_rep1_peaks.narrowPeak ] && \
         --log-output-file qc/idr.log
 fi
 
-# ---- MultiQC aggregates fastp + flagstat + MACS3 + fingerprint ----
-multiqc . -o qc/ -n chipseq_report
+# ---- MultiQC aggregates fastp + flagstat + MarkDup + MACS3 + deepTools fingerprint ----
+# NOTE: Explicit --module whitelist matches what this pipeline actually emits
+# (no rsem, no gatk). We *also* pass --exclude rsem --exclude gatk as
+# belt-and-suspenders: MultiQC 1.34's rsem parser ValueErrors on stray
+# '#'-prefixed files in sibling dirs (e.g. stale ~/scratch/rnaseq/ outputs
+# from RNA-Seq lessons), and the gatk module hits a rich.panel
+# AttributeError on BQSR scatters — neither is relevant here, but we don't
+# want either to load even if the whitelist parser changes upstream.
+# Re-evaluate once the upstream MultiQC bugs are fixed.
+multiqc . -o qc/ -n chipseq_report --force \
+    --module fastp \
+    --module samtools \
+    --module picard \
+    --module deeptools \
+    --module macs2 \
+    --exclude rsem \
+    --exclude gatk
 ```
+
+> ⚠️ **Do NOT run a bare `multiqc .` from `~/scratch/` or any parent directory.**
+> MultiQC 1.34 will scan everything below the cwd and try to parse files from sibling pipelines (e.g. `~/scratch/rnaseq/`), tripping known module bugs (`rsem.py` ValueError on stray `#` lines, the GATK BQSR `rich.panel` AttributeError). The safest path is just:
+>
+> ```bash
+> sbatch scripts/07_qc.sh
+> ```
+>
+> If you must run it interactively, mirror the script's flag set exactly — `cd` into the chipseq workspace and pass the same module whitelist + excludes:
+>
+> ```bash
+> cd ~/scratch/chipseq
+> multiqc . -o qc/ -n chipseq_report --force \
+>     --module fastp --module samtools --module picard \
+>     --module deeptools --module macs2 \
+>     --exclude rsem --exclude gatk
+> ```
 
 Submit:
 
