@@ -858,11 +858,21 @@ Versus **~10 hours** on a laptop for the same 3 samples.
 > **`IDR AttributeError: module 'numpy' has no attribute 'int'`**
 >
 > **Cause:** IDR 2.0.3 still uses `numpy.int` (alias removed in NumPy 1.24+).
-> **Fix:** the env recipe above pins `'numpy<1.24'` so a fresh env is fine. Existing envs built earlier (with the old `numpy<2.0` pin that let 1.24+ slip in) need:
+>
+> **Fix:** the env recipe above pins `'numpy<1.24'` so a fresh env is fine. Existing envs built earlier (with the old `numpy<2.0` pin that let 1.24+ slip in) — **patch with `micromamba install` first** (keeps the conda metadata consistent); only fall back to `pip install` if the conda solver refuses to downgrade.
 >
 > ```bash
-> micromamba run -n chipseq_bch709 pip install -U 'numpy<1.24'
-> # verify
+> # Step 1 — verify current numpy
+> micromamba run -n chipseq_bch709 python -c "import numpy; print(numpy.__version__)"
+>
+> # Step 2 — preferred: conda-side downgrade
+> micromamba install -n chipseq_bch709 -c conda-forge 'numpy<1.24' -y
+>
+> # Step 3 — re-verify; if still ≥1.24, the solver kept the old version
+> # (soft-pin from another package). Force it with pip:
+> micromamba run -n chipseq_bch709 pip install -U --force-reinstall 'numpy<1.24'
+>
+> # Step 4 — final verify (should print 1.23.x or earlier)
 > micromamba run -n chipseq_bch709 python -c "import numpy; print(numpy.__version__)"
 > ```
 {: .callout}
