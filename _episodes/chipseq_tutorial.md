@@ -89,7 +89,7 @@ conda install -c bioconda -c conda-forge fastqc fastp minimap2 samtools -y
 conda install -c bioconda -c conda-forge openjdk=17 picard bedtools -y
 
 # MACS3 and deepTools install cleanest via pip (conda has dependency conflicts)
-pip install macs3 deeptools multiqc
+pip install macs3 deeptools 'multiqc<1.34'
 
 # HOMER (optional, for motif analysis — large download)
 conda install -c bioconda homer -y

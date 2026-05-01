@@ -116,7 +116,7 @@ Follow the on-screen instructions to complete the installation.
 ```bash
 conda install mamba
 
-mamba create -y -n RNASEQ_bch709 -c bioconda -c conda-forge sra-tools=3.1.1 minimap2 star trim-galore gffread seqkit samtools multiqc subread tree
+mamba create -y -n RNASEQ_bch709 -c bioconda -c conda-forge sra-tools=3.1.1 minimap2 star trim-galore gffread seqkit samtools 'multiqc<1.34' subread tree
 conda activate RNASEQ_bch709
 ```
 

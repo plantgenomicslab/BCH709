@@ -270,7 +270,7 @@ Once you know what each quality score represents you can then use this chart to 
 ### Conda enviroment
 
 ```bash
-conda create -n rnaseq -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 multiqc -y
+conda create -n rnaseq -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 'multiqc<1.34' -y
 
 ```
 
@@ -331,7 +331,7 @@ echo 'setopt nonomatch' >> ~/.zshrc
 # - bc: An arbitrary precision calculator language
 # The "-y" flag allows the command to proceed without asking for user confirmation.
 
-conda create -n rnaseq -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 bc multiqc -y
+conda create -n rnaseq -c bioconda -c conda-forge fastqc trim-galore hisat2 samtools subread bioconductor-deseq2 bc 'multiqc<1.34' -y
 ```
 
 ### Isaac, Sahar, Pavani 

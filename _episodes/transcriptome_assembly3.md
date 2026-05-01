@@ -40,7 +40,7 @@ conda create -n rnaseq python=3
 
 conda activate rnaseq
 
-conda install -c conda-forge -c bioconda fastqc star rsem subread hisat2 bowtie2 samtools multiqc trim-galore trinity -y
+conda install -c conda-forge -c bioconda fastqc star rsem subread hisat2 bowtie2 samtools 'multiqc<1.34' trim-galore trinity -y
 
 conda install -c conda-forge/label/cf201901 nano -y
 

@@ -511,7 +511,7 @@ pip install --upgrade pip
 # MultiQC + pinned deps. `tiktoken<0.8` is the safety pin — older
 # tiktoken has stable cp311 linux wheels.
 pip install --prefer-binary \
-    'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' multiqc
+    'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' 'multiqc<1.34'
 ```
 
 > ## Why pin `numpy` and `pyarrow`?

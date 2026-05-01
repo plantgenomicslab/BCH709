@@ -220,7 +220,7 @@ egrep "Chr4_gene_1834" counts.txt
 Run MultiQC under rnaseq_test environment, and download & upload MultiQC results.  (File upload)
 
 ```bash
- conda install -c bioconda -c conda-forge multiqc
+ conda install -c bioconda -c conda-forge 'multiqc<1.34'
 ```
 
 

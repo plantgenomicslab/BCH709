@@ -106,7 +106,7 @@ pip install --upgrade pip
 # tiktoken has stable cp311 linux wheels.
 # IMPORTANT: don't skip this — step 8 needs multiqc.
 pip install --prefer-binary \
-    'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' multiqc
+    'numpy<2.0' 'pyarrow<17' 'tiktoken<0.8' 'multiqc<1.34'
 ```
 
 > **Java versions and snpEff (read this if step 7 ever fails with `class file version 65.0`)**
@@ -148,6 +148,17 @@ pip install --prefer-binary \
 > ```
 >
 > Both lines must report 21 and a 5.x version respectively. If `java -version` still says 17, the install above failed silently — re-run Step 2's aggressive form.
+{: .callout}
+
+> **MultiQC version (read this if step 8 ever fails with `rich.panel AttributeError` or `RSEM int('#')` ValueError)**
+>
+> MultiQC 1.34 (released 2026) has two crash bugs in its module loader. The recipe above pins `'multiqc<1.34'`, so a fresh env is fine. Existing envs built earlier may still have 1.34 — fix once with:
+>
+> ```bash
+> micromamba run -n reseq_bch709 pip install -U 'multiqc<1.34'
+> ```
+>
+> Verify: `micromamba run -n reseq_bch709 multiqc --version` should print `1.33.x` or earlier.
 {: .callout}
 
 **Patch `libcrypto` so `samtools` / `bcftools` run (do this now, not after they crash):**

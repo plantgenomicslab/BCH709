@@ -7,7 +7,7 @@ published: true
 
 ## Conda environment for RNA-Seq
 ```bash
-conda create -n RNASEQ_bch709 -c bioconda -c conda-forge  -c r  sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools multiqc subread
+conda create -n RNASEQ_bch709 -c bioconda -c conda-forge  -c r  sra-tools minimap2 trinity star trim-galore gffread seqkit kraken2 samtools 'multiqc<1.34' subread
 conda activate RNASEQ_bch709
 ```
 ## Conda Environment for DEG

@@ -38,7 +38,7 @@ conda activate review
 
 ### Install software  
 ```
-conda install -c bioconda -c anaconda trinity samtools multiqc fastqc rsem jellyfish bowtie2 salmon trim-galore fastqc bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue r-ape  r-gplots  r-fastcluster
+conda install -c bioconda -c anaconda trinity samtools 'multiqc<1.34' fastqc rsem jellyfish bowtie2 salmon trim-galore fastqc bioconductor-ctc bioconductor-deseq2 bioconductor-edger bioconductor-biobase  bioconductor-qvalue r-ape  r-gplots  r-fastcluster
 conda install -c anaconda openblas
 conda install nano
 conda install -c eumetsat tree

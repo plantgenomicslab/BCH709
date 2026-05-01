@@ -96,8 +96,19 @@ micromamba install -c conda-forge -c bioconda \
 pip install --upgrade pip
 
 # Pip-only tools: multiqc + tiktoken. `tiktoken<0.8` pin avoids the Rust build.
-pip install --prefer-binary 'tiktoken<0.8' multiqc
+pip install --prefer-binary 'tiktoken<0.8' 'multiqc<1.34'
 ```
+
+> **MultiQC version (read this if the post-processing MultiQC step ever fails with `rich.panel AttributeError` or `RSEM int('#')` ValueError)**
+>
+> MultiQC 1.34 (released 2026) has two crash bugs in its module loader. The recipe above pins `'multiqc<1.34'`, so a fresh env is fine. Existing envs built earlier may still have 1.34 — fix once with:
+>
+> ```bash
+> micromamba run -n chipseq_bch709 pip install -U 'multiqc<1.34'
+> ```
+>
+> Verify: `micromamba run -n chipseq_bch709 multiqc --version` should print `1.33.x` or earlier.
+{: .callout}
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
 

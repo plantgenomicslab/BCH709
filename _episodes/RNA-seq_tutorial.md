@@ -198,7 +198,7 @@ micromamba activate rnaseq
 
 ```bash
 conda install -n rnaseq -c conda-forge -c bioconda \
-  fastqc trim-galore hisat2 star samtools subread rsem multiqc -y
+  fastqc trim-galore hisat2 star samtools subread rsem 'multiqc<1.34' -y
 ```
 
 If your default `channel_priority` is `strict`, keeping `conda-forge` before `bioconda` helps avoid dependency conflicts (for example, with `multiqc`).

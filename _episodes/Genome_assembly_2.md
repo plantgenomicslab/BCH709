@@ -46,7 +46,7 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install -c bioconda trim-galore jellyfish=2.2.10 multiqc nanostat nanoplot -y
+conda install -c bioconda trim-galore jellyfish=2.2.10 'multiqc<1.34' nanostat nanoplot -y
 ```
 
 ### Reads Download
@@ -148,7 +148,7 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc  openssl=1.0 -y
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 'multiqc<1.34'  openssl=1.0 -y
 conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
@@ -428,7 +428,7 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install  -c r -c conda-forge -c anaconda -c bioconda  spades canu pacbio_falcon samtools minimap2 multiqc openssl=1.0 -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  spades canu pacbio_falcon samtools minimap2 'multiqc<1.34' openssl=1.0 -y
 conda install  -c r -c conda-forge -c anaconda -c bioconda  r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
@@ -1159,7 +1159,7 @@ cp /data/gpfs/assoc/bch709-1/<YOURID>/Genome_assembly/genomeassembly_results/*.f
 
 conda create -n busco4  python=3.6
 conda activate busco4
-conda install -c bioconda -c conda-forge busco=4.0.5 multiqc biopython
+conda install -c bioconda -c conda-forge busco=4.0.5 'multiqc<1.34' biopython
 ```
 
 

@@ -76,7 +76,7 @@ conda activate reseq
 conda install -c bioconda -c conda-forge fastqc fastp bwa-mem2 samtools
 conda install -c bioconda -c conda-forge openjdk=17 picard gatk4 bcftools
 conda install -c bioconda -c conda-forge snpeff plink tabix
-pip install multiqc
+pip install 'multiqc<1.34'
 
 # Clean conda package cache to free disk space
 conda clean --all -y

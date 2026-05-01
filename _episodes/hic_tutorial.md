@@ -96,7 +96,7 @@ conda activate hic
 # Core Hi-C processing
 # HiC-Pro uses Bowtie2 internally — install both together
 conda install -c bioconda -c conda-forge \
-  hic-pro bowtie2 samtools fastqc trim-galore multiqc
+  hic-pro bowtie2 samtools fastqc trim-galore 'multiqc<1.34'
 
 # Analysis and visualization tools
 conda install -c bioconda -c conda-forge \

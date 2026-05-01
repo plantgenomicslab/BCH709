@@ -197,7 +197,7 @@ SAMTOOLS Tview
 ![MultiQC]({{site.baseurl}}/fig/multiqc.png)
 [MultiQC](https://multiqc.info/)
 ```
-$ conda install multiqc
+$ conda install 'multiqc<1.34'
 $ multiqc --help
 $ multiqc . --exclude rsem --exclude gatk
 ```

@@ -9,13 +9,13 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install  -c r -c conda-forge -c anaconda -c bioconda  trim-galore jellyfish=2.2.10 multiqc nanostat nanoplot -y
+conda install  -c r -c conda-forge -c anaconda -c bioconda  trim-galore jellyfish=2.2.10 'multiqc<1.34' nanostat nanoplot -y
 ```
 
 ```bash
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c conda-forge -c anaconda -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc assembly-stats openssl=1.0 -y
+conda install -c conda-forge -c anaconda -c bioconda spades canu pacbio_falcon samtools minimap2 'multiqc<1.34' assembly-stats openssl=1.0 -y
 conda install  -c r -c conda-forge -c anaconda -c bioconda  r-ggplot2 r-stringr r-scales r-argparse -y
 ```
 
@@ -322,7 +322,7 @@ conda create -n preprocessing python=3 -y
 
 conda activate preprocessing
 
-conda install -c bioconda trim-galore jellyfish=2.2.10 multiqc nanostat nanoplot -y
+conda install -c bioconda trim-galore jellyfish=2.2.10 'multiqc<1.34' nanostat nanoplot -y
 ```
 
 ### Reads Download
@@ -425,7 +425,7 @@ mkdir Spades
 cd Spades
 conda create -n genomeassembly -y 
 conda activate genomeassembly
-conda install -c bioconda spades canu pacbio_falcon samtools minimap2 multiqc  openssl=1.0 -y
+conda install -c bioconda spades canu pacbio_falcon samtools minimap2 'multiqc<1.34'  openssl=1.0 -y
 conda install -c r r-ggplot2 r-stringr r-scales r-argparse -y
 
 ```
