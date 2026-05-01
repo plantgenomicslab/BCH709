@@ -1136,9 +1136,10 @@ featureCounts \
 
 ```bash
 sbatch featureCounts.sh
-# when done:
-cat Drosophila.featureCount.cnt.summary
-head -3 Drosophila.featureCount.cnt | cut -f1-8
+# when done — these write to bam/, so always use the full path
+# regardless of where you cd'd to after submitting:
+cat  ~/scratch/rnaseq/Drosophila/bam/Drosophila.featureCount.cnt.summary
+head -3 ~/scratch/rnaseq/Drosophila/bam/Drosophila.featureCount.cnt | cut -f1-8
 ```
 
 ```output
