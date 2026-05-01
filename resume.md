@@ -1,12 +1,12 @@
 # BCH709 — session checkpoint (resume.md)
 
-**Last updated:** 2026-04-29 (post-live-class triage, second pass)
+**Last updated:** 2026-04-30 (post-live-class triage, eight waves in)
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/30 — issues #46–#73
+## Live-class triage on 2026-04-28/30 — issues #46–#74
 
-Twenty-eight new issues opened and closed across eight waves of live-class and post-audit triage:
+Twenty-nine new issues opened and closed across nine waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -38,6 +38,7 @@ Twenty-eight new issues opened and closed across eight waves of live-class and p
 | #71 | `resequencing_hpc.md` step 8 | Same hardening as #70 for `08_multiqc.sh`. Added `--exclude rsem --exclude gatk`; expanded the gatk-omission comment to also cover rsem; added interactive-use callout with the canonical `cd ~/scratch/reseq && multiqc … --exclude rsem --exclude gatk` form. |
 | #72 | `chipseq_hpc.md` step 7 | Step 7's `multiqc` call had NO whitelist — switched to explicit `--module fastp --module samtools --module picard --module deeptools --module macs2` (MultiQC's `macs2` module parses MACS3 output) plus `--exclude rsem --exclude gatk`. Added interactive-use callout. |
 | #73 | 18 other lessons | Comprehensive sweep — added `--exclude rsem --exclude gatk` to **28 multiqc invocations** across the laptop tutorials and archived/legacy pages: `RNA-seq_tutorial.md`, `RNASeq.md`, `resequencing_tutorial.md`, `chipseq_tutorial.md`, `hic_tutorial.md`, `review_RNASeq.md`, `RNASeq_tutorials*.md`, `transcriptome_assembly*.md`, `Genome_annotation.md`, `Genome_assembly_*.md`, `DEG.md`, `DEG2.md`. Skipped `compile.md` (illustrative example) and `pipeline_orchestration.md` (Snakemake/Nextflow rule bodies — orchestrator-managed cwd, no stale-file risk). |
+| #74 | 20 lessons (env install lines) | Real fix for #63/#70-#73 lineage — instead of band-aiding around the broken release, AVOID it. Pinned **26 multiqc tokens** across 20 lessons to `'multiqc<1.34'`. Active HPC + laptop: `resequencing_hpc`, `HPC_RNA_SEQ`, `HPC_cluster`, `chipseq_hpc`, `chipseq_tutorial`, `resequencing_tutorial`, `RNA-seq_tutorial`, `RNASeq` (×2), `RNASeq25`, `hic_tutorial`, `Final_review`. Archived: `transcriptome_assembly` (×2), `Genome_assembly_1` (×3), `Genome_assembly_2` (×4), `Genome_assembly_2_1`, `Genome_assembly_3`, `midterm_review2`, `midterm_review4`, `review_RNASeq`. Pre-existing `multiqc=1.9`/`=1.11`/`=1.14` pins left alone. Added migration callout to the 3 HPC env-setup sections (`reseq_bch709`, `RNASEQ_bch709`, `chipseq_bch709`) — students with broken 1.34 already installed fix once with `micromamba run -n <env> pip install -U 'multiqc<1.34'` and verify with `multiqc --version`. |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -94,7 +95,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-30. #46–#73 all CLOSED.)
+(All issues closed as of 2026-04-30. #46–#74 all CLOSED.)
 
 ## Live-class hand-off (verbal/Slack)
 
