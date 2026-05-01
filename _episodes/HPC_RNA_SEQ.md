@@ -201,13 +201,23 @@ pip install --prefer-binary \
 
 > **MultiQC version (read this if `multiqc.sh` ever fails with `rich.panel AttributeError` or `RSEM int('#')` ValueError)**
 >
-> MultiQC 1.34 (released 2026) has two crash bugs in its module loader. The recipe above pins `'multiqc<1.34'`, so a fresh env is fine. Existing envs built earlier may still have 1.34 — fix once with:
+> MultiQC 1.34 (released 2026) has two crash bugs in its module loader. The recipe above pins `'multiqc<1.34'`, so a fresh env is fine. Existing envs built earlier may still have 1.34 — patch with the verify→install→re-verify pattern (`micromamba install` first; fall back to `pip` only if the conda solver refuses to downgrade):
 >
 > ```bash
-> micromamba run -n RNASEQ_bch709 pip install -U 'multiqc<1.34'
-> ```
+> # Step 1 — verify current
+> micromamba run -n RNASEQ_bch709 multiqc --version
 >
-> Verify: `micromamba run -n RNASEQ_bch709 multiqc --version` should print `1.33.x` or earlier.
+> # Step 2 — preferred: conda-side install (overrides any pip-installed copy)
+> micromamba install -n RNASEQ_bch709 -c bioconda 'multiqc<1.34' -y
+>
+> # Step 3 — re-verify. If still 1.34, the solver kept the old version
+> # (soft-pin from another package). Force it with pip:
+> micromamba run -n RNASEQ_bch709 multiqc --version
+> micromamba run -n RNASEQ_bch709 pip install -U --force-reinstall 'multiqc<1.34'
+>
+> # Step 4 — final verify; should print 1.33.x or earlier.
+> micromamba run -n RNASEQ_bch709 multiqc --version
+> ```
 {: .callout}
 
 **Patch `libcrypto` so `samtools` runs (do this now, not after it crashes):**
