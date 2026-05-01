@@ -4,9 +4,9 @@
 **Branch:** `gh-pages` (deploys to https://plantgenomicslab.github.io/BCH709/)
 **Repo / issues:** https://github.com/plantgenomicslab/BCH709
 
-## Live-class triage on 2026-04-28/30 — issues #46–#69
+## Live-class triage on 2026-04-28/30 — issues #46–#73
 
-Twenty-four new issues opened and closed across seven waves of live-class and post-audit triage:
+Twenty-eight new issues opened and closed across eight waves of live-class and post-audit triage:
 
 | # | File | Fix |
 |---|------|-----|
@@ -34,6 +34,10 @@ Twenty-four new issues opened and closed across seven waves of live-class and po
 | #67 | `resequencing_hpc.md` downloads | Parity with #64 on THREE sites: EBI fastq loop, TAIR10 multi-mirror FASTA (preserved `-k` for self-signed cert and the legitimate `[ -s ]` mirror-fallback control flow), and the 19 GB 1001genomes known-sites VCF (added missing `--retry-all-errors` to existing `-C -`). |
 | #68 | `HPC_RNA_SEQ.md` reference downloads | Parity with #64 on FOUR additional non-fastq download sites: Drosophila FlyBase+Ensembl fallback, Mouse GRCm39 (~900 MB), VectorBase Anopheles (already release-68 pinned in #50), and RefSeq plant.1.protein.faa.gz. Both `||` mirror legs hardened where present; `-O` (uppercase) preserved. |
 | #69 | `resequencing_hpc.md` env recipe + step 7 | Final consolidation of the snpEff Java-version saga (#47, #58, #59, #63 lineage). Switched env to a single `reseq_bch709` with `openjdk=21` (no `snpeff<5.2` pin). Java is forward-compatible — Java 21 JVM runs Java 17 GATK/Picard jars unchanged, so a single 21 satisfies snpeff (any version) AND GATK 4.6 / Picard 3. The earlier inline patch line buried between `conda install` and `pip install … multiqc` was causing students to fix snpeff and stop, never reaching the multiqc install — moved the migration note into a standalone `.callout` AFTER the full setup block, with a 3-step verify→install→re-verify pattern (since `micromamba install openjdk=21` sometimes silently keeps Java 17 due to soft pins; included an aggressive `remove openjdk` form as fallback). Added `IMPORTANT: don't skip this — step 8 needs multiqc` comment above the multiqc pip line. |
+| #70 | `HPC_RNA_SEQ.md` multiqc | Hardened both ATH and Drosophila `multiqc.sh` against MultiQC 1.34 module-parsing crashes (rsem `int('#')` ValueError + gatk pydantic ValidationError). Added `--exclude rsem --exclude gatk` belt-and-suspenders alongside existing `--module` whitelist. Added per-pipeline interactive-use callouts: students running bare `multiqc .` from `~/scratch/rnaseq/` (parent of project dir) hit the rsem crash on stale RNA-seq_tutorial.md outputs. |
+| #71 | `resequencing_hpc.md` step 8 | Same hardening as #70 for `08_multiqc.sh`. Added `--exclude rsem --exclude gatk`; expanded the gatk-omission comment to also cover rsem; added interactive-use callout with the canonical `cd ~/scratch/reseq && multiqc … --exclude rsem --exclude gatk` form. |
+| #72 | `chipseq_hpc.md` step 7 | Step 7's `multiqc` call had NO whitelist — switched to explicit `--module fastp --module samtools --module picard --module deeptools --module macs2` (MultiQC's `macs2` module parses MACS3 output) plus `--exclude rsem --exclude gatk`. Added interactive-use callout. |
+| #73 | 18 other lessons | Comprehensive sweep — added `--exclude rsem --exclude gatk` to **28 multiqc invocations** across the laptop tutorials and archived/legacy pages: `RNA-seq_tutorial.md`, `RNASeq.md`, `resequencing_tutorial.md`, `chipseq_tutorial.md`, `hic_tutorial.md`, `review_RNASeq.md`, `RNASeq_tutorials*.md`, `transcriptome_assembly*.md`, `Genome_annotation.md`, `Genome_assembly_*.md`, `DEG.md`, `DEG2.md`. Skipped `compile.md` (illustrative example) and `pipeline_orchestration.md` (Snakemake/Nextflow rule bodies — orchestrator-managed cwd, no stale-file risk). |
 
 ### Student-side action items (not in lesson — verbal/Slack)
 
@@ -90,7 +94,7 @@ Every lesson linked from `index.md` has been walked top-to-bottom by a subagent.
 
 ## What's still open
 
-(All issues closed as of 2026-04-30. #46–#69 all CLOSED.)
+(All issues closed as of 2026-04-30. #46–#73 all CLOSED.)
 
 ## Live-class hand-off (verbal/Slack)
 
