@@ -1238,20 +1238,42 @@ fi
 bcftools stats vcf/cohort.filtered.vcf.gz > qc/bcftools/cohort.filtered.vchk
 
 # Aggregate everything multiqc can find under the working dir.
-# NOTE: --module gatk is intentionally OMITTED. MultiQC 1.34's GATK
-# base_recalibrator parser hits a pydantic ValidationError on the BQSR
-# scatter (points.X.name is None) and crashes the whole report. The
-# BQSR table is human-readable — inspect bam/*.recal.table directly
-# (see Section 8 below). Re-enable --module gatk once the upstream
-# MultiQC bug is fixed.
+# NOTE: --module gatk and --module rsem are intentionally OMITTED, and
+# also explicitly excluded with --exclude as belt-and-suspenders.
+# MultiQC 1.34's GATK base_recalibrator parser hits a pydantic
+# ValidationError on the BQSR scatter (points.X.name is None) and
+# crashes the whole report — the BQSR table is human-readable, inspect
+# bam/*.recal.table directly (see Section 8 below).
+# MultiQC 1.34's RSEM parser also misreads stray '#'-prefixed files in
+# sibling dirs (e.g. ~/scratch/rnaseq/) and ValueErrors out. We don't
+# run RSEM in this pipeline at all, so excluding it is free insurance.
+# Re-enable both modules once the upstream MultiQC bugs are fixed.
 multiqc . -o qc/ -n reseq_report --force \
     --module fastp \
     --module picard \
     --module snpeff \
-    --module bcftools
+    --module bcftools \
+    --exclude rsem \
+    --exclude gatk
 
 echo "MultiQC report: qc/reseq_report.html"
 ```
+
+> ⚠️ **Do NOT run a bare `multiqc .` from `~/scratch/` or any parent directory.**
+> MultiQC 1.34 will scan everything below the cwd and try to parse files from sibling pipelines (e.g. `~/scratch/rnaseq/`), tripping known module bugs (`rsem.py` ValueError on stray `#` lines, the GATK BQSR `rich.panel` AttributeError). The safest path is just:
+>
+> ```bash
+> sbatch scripts/08_multiqc.sh
+> ```
+>
+> If you must run it interactively, mirror the script's flag set exactly — `cd` into the resequencing workspace and pass the same module whitelist + excludes:
+>
+> ```bash
+> cd ~/scratch/reseq
+> multiqc . -o qc/ -n reseq_report --force \
+>     --module fastp --module picard --module snpeff --module bcftools \
+>     --exclude rsem --exclude gatk
+> ```
 
 What this picks up:
 
