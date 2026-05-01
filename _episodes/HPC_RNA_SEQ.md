@@ -1187,8 +1187,22 @@ mkdir -p qc
 multiqc . -o qc/ -n Drosophila_report --force \
     --module fastp \
     --module star \
-    --module featureCounts
+    --module featureCounts \
+    --exclude rsem \
+    --exclude gatk
 ```
+
+> ⚠️ **Don't run bare `multiqc .` interactively.** Running `multiqc .` from `~/scratch/rnaseq/` or any parent dir is risky — MultiQC 1.34 has known module-parsing bugs (`rsem`, `gatk`) that crash the whole report when stale files from another lesson are picked up. If you must run multiqc interactively, mirror the script's flag set:
+>
+> ```bash
+> # From inside the project dir:
+> cd ~/scratch/rnaseq/Drosophila
+> multiqc . -o qc/ -n Drosophila_report --force \
+>     --module fastp --module star --module featureCounts \
+>     --exclude rsem --exclude gatk
+> ```
+>
+> Better: just `sbatch multiqc.sh`.
 
 **Run it (after featureCounts has finished):**
 
@@ -1722,8 +1736,22 @@ mkdir -p qc
 multiqc . -o qc/ -n ATH_report --force \
     --module fastp \
     --module star \
-    --module featureCounts
+    --module featureCounts \
+    --exclude rsem \
+    --exclude gatk
 ```
+
+> ⚠️ **Don't run bare `multiqc .` interactively.** Running `multiqc .` from `~/scratch/rnaseq/` or any parent dir is risky — MultiQC 1.34 has known module-parsing bugs (`rsem`, `gatk`) that crash the whole report when stale files from another lesson are picked up. If you must run multiqc interactively, mirror the script's flag set:
+>
+> ```bash
+> # From inside the project dir:
+> cd ~/scratch/rnaseq/ATH
+> multiqc . -o qc/ -n ATH_report --force \
+>     --module fastp --module star --module featureCounts \
+>     --exclude rsem --exclude gatk
+> ```
+>
+> Better: just `sbatch multiqc.sh`.
 
 What this picks up:
 
