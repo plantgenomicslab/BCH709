@@ -1427,11 +1427,11 @@ sacct -u $USER --starttime=today --format=JobID,JobName,State,Elapsed,MaxRSS,Exi
 ### Watch logs in real time
 
 ```bash
-# Latest log from any step
-tail -f logs/03_align_*.out | head -200
+# Latest log from any step (full path so this works from any cwd)
+tail -f ~/scratch/reseq/logs/03_align_*.out | head -200
 
 # Specifically task 2 of the align array job:
-tail -f logs/03_align_${ALIGN_JID}_2.out
+tail -f ~/scratch/reseq/logs/03_align_${ALIGN_JID}_2.out
 ```
 
 ### Kill the whole pipeline if something is wrong

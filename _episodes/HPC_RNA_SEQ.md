@@ -829,9 +829,9 @@ ls -lh raw_data/*.fastq.gz
 
 ```bash
 sbatch fastq-dump.sh
-# wait for completion, then:
-tail -n 20 logs/fastq-dump_<jobid>.out
-ls -lh raw_data/
+# wait for completion, then (full paths so this works regardless of cwd):
+tail -n 20 ~/scratch/rnaseq/Drosophila/logs/fastq-dump_<jobid>.out
+ls -lh    ~/scratch/rnaseq/Drosophila/raw_data/
 ```
 
 ```output
@@ -1194,7 +1194,8 @@ multiqc . -o qc/ -n Drosophila_report --force \
 
 ```bash
 sbatch multiqc.sh
-tail -n 15 logs/multiqc_<jobid>.out
+# full path so this works regardless of cwd
+tail -n 15 ~/scratch/rnaseq/Drosophila/logs/multiqc_<jobid>.out
 ```
 
 ```output
