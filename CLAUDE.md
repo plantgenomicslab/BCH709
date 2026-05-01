@@ -67,6 +67,72 @@ Sanitize captured outputs: real netid → `<netid>`, real Slurm job IDs → `<jo
 
 **Idempotency** — every step's script should be safe to re-run. `bwa-mem2 index` and `samtools faidx` overwrite by default; Picard `CreateSequenceDictionary` does NOT — `rm -f reference.dict` precedes it. The `known_sites.vcf.gz` build writes via `.tmp` and verifies before promoting. Preserve these patterns when editing.
 
+**Re-running a single failed step** — every HPC pipeline lesson now has a "Re-running a single failed step (drop `--dependency=`)" callout in its troubleshooting section. When students re-submit just one script after a failure, they MUST drop the `--dependency=` flag from the chained-driver form (the dependency JID points at a stale, already-completed parent). Per-script `sbatch scripts/NN_<name>.sh` lines are listed in those callouts; keep them in sync with the actual scripts.
+
+**Inspection commands after `sbatch`** — every code block that follows a `sbatch …sh` line and reads project files MUST use full paths (`~/scratch/<topic>/<subdir>/file`), not bare filenames. Students aren't reliably in the project dir after submitting. Pattern: `tail -n 20 ~/scratch/<topic>/logs/<step>_<jobid>.out`, not `tail -n 20 logs/<step>_*.out`.
+
+## Tool-version pins that must stay (don't drift)
+
+These pins were established by costly live-class debugging. The failure modes ARE NOT obvious from a green `pip install`/`conda install` exit code — verify after install.
+
+- **`'multiqc<1.34'`** in every env install line. MultiQC 1.34 has two crash bugs: rsem parser fed `#`-comment lines (`int('#')` ValueError), and a `rich.panel` AttributeError in its own error renderer that masks the first error. Hardening with `--exclude rsem --exclude gatk` is belt-and-suspenders only — avoid the broken release.
+- **`openjdk=21`** in `reseq_bch709` (and any env that ships snpEff). bioconda's snpeff (5.2+) is class-file 65 (Java 21). GATK 4.6 / Picard 3 are class-file 61 (Java 17). Java is forward-compatible — Java 21 JVM runs Java 17 jars unchanged, so a single 21 satisfies all three. Going with openjdk=17 is the broken direction (snpEff fails with `UnsupportedClassVersionError: class file version 65.0`).
+- **snpEff database** must be pre-downloaded (`snpEff download -dataDir "${HOME}/snpeff_data" Arabidopsis_thaliana`) before the annotation step — relying on snpEff's auto-download from compute nodes is silently flaky.
+
+## MultiQC invocation defaults
+
+Every multiqc command in a lesson — script body OR interactive — should use:
+
+```bash
+multiqc <path> -o <out> -n <name> --force \
+    --module <only-tools-this-pipeline-emits> \
+    --exclude rsem --exclude gatk
+```
+
+Bare `multiqc .` is dangerous: scans whole tree, picks up stale outputs from sibling lessons, triggers MultiQC 1.34 module bugs on files the lesson never produced. The HPC pipelines have explicit `> ⚠️ Don't run bare multiqc .` callouts after each `multiqc.sh` block; mirror that pattern when adding a new multiqc step.
+
+The `gatk` module's MultiQC 1.34 base_recalibrator parser also crashes (pydantic ValidationError on the BQSR scatter); even with `--module gatk` removed, keep `--exclude gatk` for safety.
+
+## Download (curl) hardening
+
+EBI HTTPS, NCBI, and UCSC all drop mid-stream on >1 GB transfers. Every download `curl` for a >50 MB file in a lesson uses:
+
+```bash
+curl -fsSL --retry 5 --retry-all-errors --retry-delay 30 \
+     --max-time 3600 -C - -o "${OUT}" "${URL}"
+```
+
+`--retry-all-errors` (curl 7.71+) is the critical flag — without it, `--retry N` only retries HTTP 5xx, not SSL eof / connection drops. `-C -` resumes partial downloads in place. **Never use `[ -s "${OUT}" ]` as a skip-check** — a 960 MB partial of a 1.2 GB file passes that test and silently feeds a truncated fastq into fastp downstream. `curl -C -` is the new skip mechanism: complete files exit immediately, partials resume.
+
+For `||` mirror-fallback chains, apply the same flags to BOTH legs.
+
+## Editing patches and migration notes
+
+When a student-side migration is needed (env upgrade, package downgrade, etc.), put the patch instruction in a **standalone callout AFTER the full setup block**, not inline between `conda install` and `pip install …` lines. Students who hit an inline patch instruction tend to run it and stop, never reaching downstream pip installs (this happened with a snpEff patch that left several students without multiqc).
+
+Patch instructions must follow the **verify → install → re-verify** pattern:
+
+```bash
+# 1. verify current state
+micromamba run -n <env> <tool> --version 2>&1 | head -1
+# 2. only if step 1 confirms a problem, run the install
+micromamba install -n <env> ...
+# 3. re-verify
+micromamba run -n <env> <tool> --version 2>&1 | head -1
+```
+
+`micromamba install` and `pip install -U` sometimes silently leave the old package in place (soft pins, channel priority, or no-op solver decisions). Don't trust a green exit code — verify the version that actually runs.
+
+## Auditing cross-step filenames before editing
+
+Before adding or modifying a step in any HPC pipeline, verify that every input the step reads is actually written by an upstream step in the SAME pipeline. Common foot-guns this session:
+
+- Step 7 split outputs into `cohort.snps.filtered.vcf.gz` + `cohort.indels.filtered.vcf.gz`; step 8 read `cohort.filtered.vcf.gz` — the merged file never existed.
+- ATH multiqc had `--module featureCounts` while the ATH pipeline had no `featureCounts.sh` — the module silently produced an empty section.
+- snpEff output without `-csvStats vcf/snpEff_summary.csv`: MultiQC's snpeff module only parses CSV, not HTML.
+
+When changing a step's outputs (filename, suffix, location), grep the rest of the lesson and run_all.sh for downstream readers before pushing. `set -euo pipefail` will surface a missing input on the next student run, but by then it's already a live-class issue.
+
 ## Live-class fix workflow
 
 Students run these tutorials in real time. When a bug is reported (or you find one validating):
