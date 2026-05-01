@@ -458,7 +458,7 @@ STAR --runMode alignReads --runThreadN 8 --readFilesCommand zcat --outFilterMult
 ## Assignment
 ```bash
 cd /data/gpfs/assoc/bch709-1/wyim/RNA-Seq_example
-multiqc . -n rnaseq1
+multiqc . -n rnaseq1 --exclude rsem --exclude gatk
 ```
 Please upload rnaseq1.html to Webcampus.
 

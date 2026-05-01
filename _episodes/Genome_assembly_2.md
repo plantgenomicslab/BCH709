@@ -88,7 +88,7 @@ for i in `ls -1 *.fq.gz`; do echo $(zcat ${i} | wc -l)/4|bc; done
 
 trim_galore --paired   --three_prime_clip_R1 10 --three_prime_clip_R2 10 --cores 8  --max_n 40  -o trimmed_fastq --fastqc <READ_R1> <READ_R2> 
 
-multiqc . -n WGS_Illumina
+multiqc . -n WGS_Illumina --exclude rsem --exclude gatk
 ```
 
 ## Why assemble genomes
@@ -1186,7 +1186,7 @@ busco -l viridiplantae_odb10 --cpu 24 --in canu.contigs.fasta   --out BUSCO_Pacb
 
 busco -l viridiplantae_odb10 --cpu 24 --in canu.illumina.fasta   --out BUSCO_Pacbio_Pilon --mode genome  -f 
 
-multiqc . -n assembly
+multiqc . -n assembly --exclude rsem --exclude gatk
 ```
 
 ## BUSCO results

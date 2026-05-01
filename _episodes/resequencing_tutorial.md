@@ -213,7 +213,7 @@ ls -lh
 fastqc -t 4 sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz
 
 # Aggregate all QC reports into one
-multiqc .
+multiqc . --exclude rsem --exclude gatk
 ```
 
 Expected output (MultiQC summary):
@@ -487,7 +487,7 @@ samtools flagstat sample2.bam
 
 samtools stats sample1.bam > sample1.stats
 samtools stats sample2.bam > sample2.stats
-multiqc . -n alignment_report
+multiqc . -n alignment_report --exclude rsem --exclude gatk
 ```
 
 Expected output (`samtools flagstat sample1.bam`):
@@ -588,7 +588,7 @@ samtools index sample2.markdup.bam
 ```bash
 cat sample1.markdup.metrics
 cat sample2.markdup.metrics
-multiqc . -n markdup_report
+multiqc . -n markdup_report --exclude rsem --exclude gatk
 ```
 
 Expected output (sample1.markdup.metrics — `LIBRARY` line, tab-delimited):
@@ -985,7 +985,7 @@ bcftools view cohort.snps.pass.vcf.gz 1:100000-200000
 
 # Get variant summary statistics
 bcftools stats cohort.snps.pass.vcf.gz > stats.txt
-multiqc . -n vcf_report
+multiqc . -n vcf_report --exclude rsem --exclude gatk
 ```
 
 Expected output (`bcftools stats cohort.snps.pass.vcf.gz | grep "^SN"`):

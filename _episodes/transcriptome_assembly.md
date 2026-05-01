@@ -199,7 +199,7 @@ SAMTOOLS Tview
 ```
 $ conda install multiqc
 $ multiqc --help
-$ multiqc .
+$ multiqc . --exclude rsem --exclude gatk
 ```
 
 ### Alignment QC
@@ -555,7 +555,7 @@ $ trim_galore --paired   --three_prime_clip_R1 20 --three_prime_clip_R2 20 --cor
 .
 .
 
-$ multiqc . -n rnaseq_data
+$ multiqc . -n rnaseq_data --exclude rsem --exclude gatk
 ```
 
 

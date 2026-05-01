@@ -265,7 +265,7 @@ fastqc -t 4 pair1.fastq.gz pair2.fastq.gz
 [MultiQC](https://multiqc.info/) aggregates results from multiple tools into a single interactive report.
 
 ```bash
-multiqc .
+multiqc . --exclude rsem --exclude gatk
 ```
 
 ### Open Reports in Your Browser
@@ -330,7 +330,7 @@ trim_galore \
 ### Post-Trimming QC Report
 
 ```bash
-multiqc --dirs ~/bch709/rnaseq --filename trim
+multiqc --dirs ~/bch709/rnaseq --filename trim --exclude rsem --exclude gatk
 ```
 
 ---
@@ -562,7 +562,7 @@ GUI Viewers:
 
 ```bash
 # MultiQC aggregates flagstat/stats outputs into one report
-multiqc --dirs ~/bch709/rnaseq --filename align
+multiqc --dirs ~/bch709/rnaseq --filename align --exclude rsem --exclude gatk
 ```
 
 ### Key Alignment Metrics

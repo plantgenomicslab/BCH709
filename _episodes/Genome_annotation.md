@@ -212,7 +212,7 @@ busco -l viridiplantae_odb10 --cpu 24 --in canu.contigs.fasta   --out BUSCO_Pacb
 
 busco -l viridiplantae_odb10 --cpu 24 --in canu.illumina.fasta   --out BUSCO_Pacbio_Pilon --mode genome  -f 
 
-multiqc . -n assembly
+multiqc . -n assembly --exclude rsem --exclude gatk
 ```
 #### Execute
 ```bash

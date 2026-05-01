@@ -169,7 +169,7 @@ gzip hic_R1.fastq hic_R2.fastq
 
 ```bash
 fastqc -t 4 hic_R1.fastq.gz hic_R2.fastq.gz
-multiqc .
+multiqc . --exclude rsem --exclude gatk
 ```
 
 ### Hi-C Specific QC Metrics

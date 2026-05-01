@@ -300,7 +300,7 @@ Trinity --seqType fq  --CPU 64 --max_memory 100G --left <PAIR1_MERGED_FILE_LOCAT
 ### MultiQC
 ```bash
 cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/homework/
-multiqc . -n <YOUR_NAME>
+multiqc . -n <YOUR_NAME> --exclude rsem --exclude gatk
 ```
 
 ### Please send me the results
@@ -688,7 +688,7 @@ intervene venn
 ### MultiQC
 ```bash
 cd /data/gpfs/assoc/bch709/<YOUR_NAME>/rnaseq/assignment1014/
-multiqc . -n <YOUR_NAME>
+multiqc . -n <YOUR_NAME> --exclude rsem --exclude gatk
 ```
 
 ***PLEASE CHECK YOUR MULTIQC***

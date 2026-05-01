@@ -421,7 +421,7 @@ trim_galore --paired --three_prime_clip_R1 5 --three_prime_clip_R2 5 --cores 2 -
 # Run "multiqc" to aggregate the results of bioinformatics analyses (like FastQC) into a single report:
 # --dirs: Specify the directory where the analysis data can be found.
 # --filename: Name of the output report file.
-multiqc --dirs ~/bch709/rnaseq --filename trim
+multiqc --dirs ~/bch709/rnaseq --filename trim --exclude rsem --exclude gatk
 ```
 
 
@@ -511,7 +511,7 @@ cat alignment.txt
 # Run "multiqc" to aggregate the results of bioinformatics analyses (like FastQC) into a single report:
 # --dirs: Specify the directory where the analysis data can be found.
 # --filename: Name of the output report file.
-multiqc --dirs ~/bch709/rnaseq --filename mapping
+multiqc --dirs ~/bch709/rnaseq --filename mapping --exclude rsem --exclude gatk
 ```
 
 ### Download file **in your local terminal**
@@ -618,7 +618,7 @@ COLUMNS=150 samtools tview -d t align_sort.bam bch709.fasta
 
 ### Alignment QC
 ```bash
-multiqc --dirs ~/bch709/rnaseq --filename samtools
+multiqc --dirs ~/bch709/rnaseq --filename samtools --exclude rsem --exclude gatk
 ```
 
 ### Download file **in your local terminal**

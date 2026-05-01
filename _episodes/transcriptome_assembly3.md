@@ -646,6 +646,6 @@ sbatch trinity.sh
 
 ### MultiQC
 ```
-multiqc . -n assembly
+multiqc . -n assembly --exclude rsem --exclude gatk
 ```
 ***Use SCP for downloading and send me the file***

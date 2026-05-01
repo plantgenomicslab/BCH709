@@ -501,7 +501,7 @@ chmod 775 trinity.sh
 ### MultiQC
 ```
 cd ~/rnaseq/
-multiqc . -n rnaseq_data
+multiqc . -n rnaseq_data --exclude rsem --exclude gatk
 ```
 
 ### Please send me the results

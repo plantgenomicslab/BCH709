@@ -246,12 +246,12 @@ fastqc trimmed_fastq/WT1_R1_val_1.fq.gz trimmed_fastq/WT1_R2_val_2.fq.gz .......
 
 ## MultiQC
 ```
-multiqc . -n rnaseq_review
+multiqc . -n rnaseq_review --exclude rsem --exclude gatk
 ```
 
 ## Transfer file
 ```bash
-multiqc . -n rnaseq_review
+multiqc . -n rnaseq_review --exclude rsem --exclude gatk
 ```
 - from a remote system to local
 ```bash

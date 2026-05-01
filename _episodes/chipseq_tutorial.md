@@ -195,7 +195,7 @@ ls -lh *.fastq.gz   # expect ~910MB and ~690MB respectively
 
 ```bash
 fastqc -t 4 chip.fastq.gz input.fastq.gz
-multiqc .
+multiqc . --exclude rsem --exclude gatk
 ```
 
 > Expected output:
