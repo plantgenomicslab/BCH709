@@ -8,3 +8,7 @@ _site
 .Rproj.user
 .Rhistory
 .RData
+
+# Exam materials (do not publish to gh-pages — contains answer keys)
+final_exam_slides_handoff.md
+slides_handoff.md
