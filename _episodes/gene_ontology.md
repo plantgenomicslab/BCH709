@@ -314,6 +314,89 @@ c(phyper = p1, dhyper_sum = p2, fisher = p3)
 
 All three agree - this is the *correct* way to verify any homemade ORA implementation.
 
+### 3.3 Getting a p-value from `(E[X], Var(X), SD)` - approximation formulas
+
+So far §3.2 built the **summary statistics** of the null distribution:
+
+```
+E[X]   = n · K / N                              = 5.57
+Var(X) = n · K · (N-K) · (N-n) / [N² · (N-1)]   = 5.35
+SD(X)  = sqrt(Var(X))                            = 2.31
+```
+
+How do you turn `(E, Var, SD)` into a p-value? There are three approximations, plus the exact answer:
+
+#### (1) Normal (z-test) approximation
+
+Standardize the observed count and look up the upper tail of `N(0, 1)`:
+
+```
+z  =  (k - E[X]) / SD(X)
+p  ≈  P(Z ≥ z)  =  pnorm(z, lower.tail = FALSE)
+```
+
+For our example:
+
+```
+z = (18 - 5.57) / 2.31 = 5.373
+p ≈ pnorm(5.373, lower.tail = FALSE) ≈ 3.87 × 10⁻⁸
+```
+
+#### (2) Normal + continuity correction
+
+The observation 18 is a **discrete count**, but the normal CDF is continuous. Subtracting 0.5 from the boundary corrects for this:
+
+```
+z_cc  =  (k - 0.5 - E[X]) / SD(X)
+p_cc  ≈  pnorm(z_cc, lower.tail = FALSE)
+```
+
+For our example:
+
+```
+z_cc = (17.5 - 5.57) / 2.31 = 5.157
+p_cc ≈ 1.26 × 10⁻⁷
+```
+
+#### (3) Poisson approximation
+
+When `K/N` is small (rare term) and `n` is large, the hypergeometric is well approximated by Poisson with `λ = E[X] = n · K / N`:
+
+```
+p_poisson  =  P(X ≥ k | X ~ Poisson(λ))  =  ppois(k - 1, lambda = E[X], lower.tail = FALSE)
+```
+
+For our example:
+
+```
+p_pois = ppois(17, lambda = 5.57, lower.tail = FALSE) ≈ 2.23 × 10⁻⁵
+```
+
+#### (4) Exact hypergeometric (truth)
+
+```
+p  =  phyper(k - 1, K, N - K, n, lower.tail = FALSE)  =  1.29 × 10⁻⁵
+```
+
+#### Comparison table - which approximation should you trust?
+
+| Method | Formula (in R) | p-value | Ratio vs truth |
+|--------|----------------|--------:|---------------:|
+| (1) Normal                    | `pnorm((k - E)/SD, F)`           | `3.87e-08` | **332× too small** ❌ |
+| (2) Normal + continuity corr. | `pnorm((k - 0.5 - E)/SD, F)`     | `1.26e-07` | **102× too small** ❌ |
+| (3) Poisson(λ = E)            | `ppois(k - 1, E, F)`             | `2.23e-05` | **1.7× too large** ⚠️ |
+| (4) Exact hypergeometric      | `phyper(k - 1, K, N-K, n, F)`    | `1.29e-05` | **truth** ✅ |
+
+**What this means in practice:**
+
+- **Don't use a z-test on rare-event counts.** When `E[X]` is small (here ≈ 5.6), the discrete count distribution has a much heavier upper tail than the normal — the normal approximation can underestimate the p-value by 2-3 orders of magnitude, *making your finding look more significant than it is*. Continuity correction helps but is still off by ~100×.
+- **Poisson is the right "back-of-the-envelope" approximation.** It is within ~2× of the truth and gives you a defensible p-value when only `(E, Var)` are at hand. It treats the upper tail correctly because it's a count distribution.
+- **For publication, always use `phyper` or `fisher.test`.** The summary-statistic shortcuts are fine for sanity-checking, not for reporting.
+
+> ## Why three different formulas exist at all
+> A z-test fits a *continuous* bell curve to the count distribution and reads off the tail probability from the curve's shape. A Poisson takes the *count nature* seriously but assumes the draws are independent (true when `K/N → 0`). Hypergeometric is the *correct* model for sampling **without replacement** from a finite pool. Each one drops a different real-world assumption - and the disagreement between them tells you which assumption matters most for your data.
+{: .callout}
+
 ---
 
 ## 4. The background trap
