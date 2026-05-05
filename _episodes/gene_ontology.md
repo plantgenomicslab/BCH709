@@ -24,7 +24,7 @@ GO is split into three orthogonal **namespaces**:
 | Molecular Function       | MF           | The molecular activity (e.g. *ATP binding*)                   |
 | Cellular Component       | CC           | Where in the cell the gene product acts (e.g. *mitochondrion*)|
 
-A single gene can be annotated to many terms across all three namespaces. Annotations carry **evidence codes** (IEA, IDA, ISS, etc.) that record how the assignment was made — IEA is computational/electronic, while IDA is from a direct experiment. **Always check evidence codes before downstream analysis** — many enrichment surprises are driven by IEA-only annotations.
+A single gene can be annotated to many terms across all three namespaces. Annotations carry **evidence codes** (IEA, IDA, ISS, etc.) that record how the assignment was made - IEA is computational/electronic, while IDA is from a direct experiment. **Always check evidence codes before downstream analysis** - many enrichment surprises are driven by IEA-only annotations.
 
 > ## DAG, not tree
 > GO is *not* a tree. A child term can have multiple parents, and a gene annotated to a child is *implicitly* annotated to **all** ancestors via the **true-path rule**. This matters for enrichment: when you count how many of your DEGs are in "DNA repair", you must include genes annotated to its descendants too.
@@ -32,7 +32,7 @@ A single gene can be annotated to many terms across all three namespaces. Annota
 
 ### 1.1 Relationship types in detail
 
-Edges in the GO DAG are **typed** — and the type controls whether annotations propagate upward via the true-path rule. The five most common relations:
+Edges in the GO DAG are **typed** - and the type controls whether annotations propagate upward via the true-path rule. The five most common relations:
 
 | Relation                | Reads as                        | Propagates annotations? | Example                                                              |
 |-------------------------|---------------------------------|-------------------------|----------------------------------------------------------------------|
@@ -44,31 +44,31 @@ Edges in the GO DAG are **typed** — and the type controls whether annotations 
 | `has_part`              | "B always has A as a part"      | Yes (downward)          | *ribosome* `has_part` *small ribosomal subunit*                      |
 | `occurs_in`             | "process A happens in CC B"     | No                      | *protein folding* `occurs_in` *endoplasmic reticulum*                |
 
-The crucial distinction is **regulators are not the regulated process**. If gene *X* is annotated to *positive regulation of DNA repair*, it is **not** counted as a "DNA repair" gene by default in enrichment — it's a regulator of DNA repair, not a repair enzyme. Most ORA implementations honor this: `clusterProfiler::enrichGO()` only follows `is_a` and `part_of` for propagation. If you do want regulators counted, you must explicitly include the *regulation of …* terms in your gene-set definition.
+The crucial distinction is **regulators are not the regulated process**. If gene *X* is annotated to *positive regulation of DNA repair*, it is **not** counted as a "DNA repair" gene by default in enrichment - it's a regulator of DNA repair, not a repair enzyme. Most ORA implementations honor this: `clusterProfiler::enrichGO()` only follows `is_a` and `part_of` for propagation. If you do want regulators counted, you must explicitly include the *regulation of …* terms in your gene-set definition.
 
 > ## Why this matters in practice
-> A common student observation: "I have 10 known *DNA-repair* genes in my DEGs but the GO term *DNA repair* is not enriched." Often the genes are annotated to *regulation of DNA repair* (a sibling term), not *DNA repair* itself. The DAG edge between them is `regulates`, which doesn't propagate — so they do not count toward the parent term.
+> A common student observation: "I have 10 known *DNA-repair* genes in my DEGs but the GO term *DNA repair* is not enriched." Often the genes are annotated to *regulation of DNA repair* (a sibling term), not *DNA repair* itself. The DAG edge between them is `regulates`, which doesn't propagate - so they do not count toward the parent term.
 {: .callout}
 
 ### 1.2 Where do GO annotations come from?
 
 A gene-to-term annotation is a curated statement. The pipeline:
 
-1. **Gene Ontology Consortium (GOC)** — the umbrella project that defines the controlled vocabulary itself (the OBO file).
+1. **Gene Ontology Consortium (GOC)** - the umbrella project that defines the controlled vocabulary itself (the OBO file).
 2. **Model-organism databases (MODs)** add experimental annotations for their species:
-   - **TAIR** — *Arabidopsis thaliana*
-   - **MGI** — mouse
-   - **SGD** — *Saccharomyces cerevisiae*
+   - **TAIR** - *Arabidopsis thaliana*
+   - **MGI** - mouse
+   - **SGD** - *Saccharomyces cerevisiae*
    - **WormBase**, **FlyBase**, **ZFIN**, **RGD**, **PomBase**, **dictyBase**
 3. **UniProt-GOA** centralizes annotations across species and adds two large automated streams:
-   - **InterPro2GO** — if a protein has an InterPro domain (e.g. *Pfam:PF00069 protein kinase*), assign the linked GO term automatically (evidence code IEA).
-   - **UniProtKB-KW2GO** — UniProt keywords (e.g. "Kinase") map to GO terms.
-   - **Ensembl Compara** projection — propagate experimental annotations from a well-studied ortholog (e.g. *A. thaliana* TAIR-curated terms transferred to *Brassica rapa*).
-4. **Phylogenetic annotation (PAINT / IBA)** — curators look at a gene family tree and assert that an ancestral function existed at a node, then propagate to all descendants with evidence code IBA.
+   - **InterPro2GO** - if a protein has an InterPro domain (e.g. *Pfam:PF00069 protein kinase*), assign the linked GO term automatically (evidence code IEA).
+   - **UniProtKB-KW2GO** - UniProt keywords (e.g. "Kinase") map to GO terms.
+   - **Ensembl Compara** projection - propagate experimental annotations from a well-studied ortholog (e.g. *A. thaliana* TAIR-curated terms transferred to *Brassica rapa*).
+4. **Phylogenetic annotation (PAINT / IBA)** - curators look at a gene family tree and assert that an ancestral function existed at a node, then propagate to all descendants with evidence code IBA.
 
 Because each MOD curates differently, **the same gene can have a different GO annotation set in TAIR vs UniProt vs Ensembl Plants**. For *A. thaliana* tutorials in this course we use `org.At.tair.db`, which mirrors TAIR + UniProt-GOA. If a colleague reports different numbers for the same gene list, ask which database they queried.
 
-### 1.3 Evidence codes — the full table
+### 1.3 Evidence codes - the full table
 
 GO evidence codes record *how* an annotation was made. They are critical when filtering for high-confidence enrichment.
 
@@ -94,7 +94,7 @@ GO evidence codes record *how* an annotation was made. They are critical when fi
 |                      | IC   | Inferred by Curator                                 | Moderate |
 | **No data**          | ND   | No biological Data available                        | None     |
 
-The vast majority of annotations in any organism — often **>80%** — are IEA. Filtering them out leaves a much smaller, high-confidence set.
+The vast majority of annotations in any organism - often **>80%** - are IEA. Filtering them out leaves a much smaller, high-confidence set.
 
 ```r
 # Pull only experimentally-supported BP annotations for a gene list
@@ -142,7 +142,7 @@ Imagine the background genes as a bag of marbles:
 - ***k*** = number of DEGs annotated to GO term X
 
 > ## Combination notation (`C(n, k)`)
-> `C(n, k)` — read "*n* choose *k*", also written `ⁿCₖ` or `(n k)` — is the number of ways to choose *k* items from *n* **without regard to order**:
+> `C(n, k)` - read "*n* choose *k*", also written `ⁿCₖ` or `(n k)` - is the number of ways to choose *k* items from *n* **without regard to order**:
 >
 > ```
 >            n!
@@ -187,7 +187,7 @@ This is a **one-sided** test (over-representation only).
 | DEGs annotated to "DNA repair" (*k*)        |     18 |
 
 Expected count under the null:
-`E[k] = n · K / N = 312 × 250 / 14000 ≈ 5.57`. Observed: 18 — over **3× the expected**.
+`E[k] = n · K / N = 312 × 250 / 14000 ≈ 5.57`. Observed: 18 - over **3× the expected**.
 
 In R:
 
@@ -203,7 +203,7 @@ So `p ≈ 1.3 × 10⁻⁵` for "DNA repair" enrichment.
 > `phyper(q, ...)` returns `P(X > q)` when `lower.tail = FALSE`. To get `P(X ≥ k)` you must pass `q = k - 1`. Off-by-one here is one of the most common bugs in homemade GO tools.
 {: .callout}
 
-### 3.2 Computing the p-value — step by step
+### 3.2 Computing the p-value - step by step
 
 The hypergeometric distribution `Hypergeometric(N, K, n)` has the following standard properties (cf. [Wikipedia: Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution)):
 
@@ -233,10 +233,10 @@ Var(X) = 312 × 250 × 13,750 × 13,688
 SD(X)  = √5.35 ≈ 2.31
 ```
 
-So the null distribution has mean ≈ 5.57 and SD ≈ 2.31. The observed 18 sits about **(18 − 5.57) / 2.31 ≈ 5.4 SD** above the mean — confidently in the upper tail.
+So the null distribution has mean ≈ 5.57 and SD ≈ 2.31. The observed 18 sits about **(18 − 5.57) / 2.31 ≈ 5.4 SD** above the mean - confidently in the upper tail.
 
 > ## ⚠️ Why a *z*-test would mislead you here
-> A naïve *p*-value from `pnorm(5.37, lower.tail = FALSE)` ≈ **3.9 × 10⁻⁸**. The true hypergeometric p ≈ **1.3 × 10⁻⁵** — about **330× larger**. When *E[X]* is small (here ≈ 5.6) the discrete count distribution has much heavier upper tails than the normal approximation, so z-tests *underestimate* the p-value and *overstate* significance. Always use `phyper`/Fisher exact for ORA.
+> A naïve *p*-value from `pnorm(5.37, lower.tail = FALSE)` ≈ **3.9 × 10⁻⁸**. The true hypergeometric p ≈ **1.3 × 10⁻⁵** - about **330× larger**. When *E[X]* is small (here ≈ 5.6) the discrete count distribution has much heavier upper tails than the normal approximation, so z-tests *underestimate* the p-value and *overstate* significance. Always use `phyper`/Fisher exact for ORA.
 {: .callout}
 
 **The 2×2 contingency table (Fisher exact view).** ORA is equivalent to a one-sided Fisher exact test on this table:
@@ -261,7 +261,7 @@ P(X = 18)  =   ─────────────────────�
                           C(14,000, 312)
 ```
 
-The numbers involved are *enormous* — orders of magnitude beyond what fits in a 64-bit double. From R's `choose()` and `lchoose()`:
+The numbers involved are *enormous* - orders of magnitude beyond what fits in a 64-bit double. From R's `choose()` and `lchoose()`:
 
 | Combination | Approximate value | log₁₀ | Digits |
 |-------------|------------------:|------:|-------:|
@@ -270,18 +270,18 @@ The numbers involved are *enormous* — orders of magnitude beyond what fits in 
 | `C(14,000, 312)`       | `≈ 5.1 × 10⁶⁴⁷`     |  647.7  |   648 |
 
 ```r
-choose(250, 18)               # 1.214e+27 — fits in a double
-choose(13750, 294)            # Inf — overflow
-choose(14000, 312)            # Inf — overflow
+choose(250, 18)               # 1.214e+27 - fits in a double
+choose(13750, 294)            # Inf - overflow
+choose(14000, 312)            # Inf - overflow
 
 # Fix: work in log-space with lchoose()
 lchoose(14000, 312)           # 1491.51 (natural log → 648 decimal digits)
 exp(lchoose(K, k) + lchoose(N-K, n-k) - lchoose(N, n))   # 9.49e-06  (= P(X=18))
 ```
 
-`C(14,000, 312)` alone has **about 648 digits** — multiplying these three numbers by hand is hopeless, but their **logs** add and subtract cleanly. R/Python evaluate every probability through `lgamma` (log-Gamma) and `lchoose`, then exponentiate at the end.
+`C(14,000, 312)` alone has **about 648 digits** - multiplying these three numbers by hand is hopeless, but their **logs** add and subtract cleanly. R/Python evaluate every probability through `lgamma` (log-Gamma) and `lchoose`, then exponentiate at the end.
 
-In practice the **first term** `P(X = 18) ≈ 9.5 × 10⁻⁶` already accounts for **~74 %** of the total tail probability `1.29 × 10⁻⁵` — the sum converges quickly because each successive ratio `P(X = i+1) / P(X = i)` shrinks rapidly when *i* is far above the mean.
+In practice the **first term** `P(X = 18) ≈ 9.5 × 10⁻⁶` already accounts for **~74 %** of the total tail probability `1.29 × 10⁻⁵` - the sum converges quickly because each successive ratio `P(X = i+1) / P(X = i)` shrinks rapidly when *i* is far above the mean.
 
 **Python equivalent (`scipy.stats.hypergeom`):**
 
@@ -292,7 +292,7 @@ hypergeom.sf(17, 14000, 250, 312)
 # 1.29e-05
 ```
 
-**Sanity check — three equivalent computations in R:**
+**Sanity check - three equivalent computations in R:**
 
 ```r
 N <- 14000; K <- 250; n <- 312; k <- 18
@@ -312,18 +312,18 @@ c(phyper = p1, dhyper_sum = p2, fisher = p3)
 # 1.285e-05   1.285e-05     1.285e-05
 ```
 
-All three agree — this is the *correct* way to verify any homemade ORA implementation.
+All three agree - this is the *correct* way to verify any homemade ORA implementation.
 
 ---
 
 ## 4. The background trap
 
-The background set *N* is **not** "all annotated genes in the genome" — it is the set of genes that **could have been called as DEGs** in your experiment. For RNA-Seq, this means genes expressed at detectable levels (e.g. TPM > 1 in at least one sample).
+The background set *N* is **not** "all annotated genes in the genome" - it is the set of genes that **could have been called as DEGs** in your experiment. For RNA-Seq, this means genes expressed at detectable levels (e.g. TPM > 1 in at least one sample).
 
 | Background choice                     | What happens                                              |
 |---------------------------------------|-----------------------------------------------------------|
-| Whole genome (e.g. 27,000 genes)      | Inflates significance — silent genes pull down term-X frequency, falsely making your DEGs look enriched |
-| Expressed genes only (e.g. 14,000)    | **Correct** — matches the universe of "could have been picked" |
+| Whole genome (e.g. 27,000 genes)      | Inflates significance - silent genes pull down term-X frequency, falsely making your DEGs look enriched |
+| Expressed genes only (e.g. 14,000)    | **Correct** - matches the universe of "could have been picked" |
 | Transcripts on the array/panel only   | Correct for targeted assays                               |
 
 The infamous case: ribosome biogenesis is highly expressed in proliferating tissue. If half your "background" is silent in that tissue, ribosome-related GO terms will dominate every enrichment, regardless of DEG biology. **Always set `universe = expressed_genes` in `clusterProfiler::enrichGO`.**
@@ -356,12 +356,12 @@ GO BP alone has thousands of terms. Testing 5,000 terms at α = 0.05 yields ~250
 
 | Method      | Controls                | Adjusted threshold (5,000 tests, α = 0.05) | Behavior          |
 |-------------|-------------------------|--------------------------------------------|-------------------|
-| Bonferroni  | **FWER — Family-Wise Error Rate** (probability of *any* false positive) | `p < 0.05 / 5000 = 10⁻⁵` | Very conservative |
-| Benjamini-Hochberg (BH) | **FDR — False Discovery Rate** (expected false-positive *proportion* among called hits) | data-driven; ~5% of called hits expected to be FP | Standard for ORA |
+| Bonferroni  | **FWER - Family-Wise Error Rate** (probability of *any* false positive) | `p < 0.05 / 5000 = 10⁻⁵` | Very conservative |
+| Benjamini-Hochberg (BH) | **FDR - False Discovery Rate** (expected false-positive *proportion* among called hits) | data-driven; ~5% of called hits expected to be FP | Standard for ORA |
 
-In practice GO enrichment uses **BH-adjusted q-values < 0.05** — Bonferroni is too strict and erases real signal when terms are correlated (parents and children share genes). The next two sub-sections explain *why* the two metrics differ and how each is computed.
+In practice GO enrichment uses **BH-adjusted q-values < 0.05** - Bonferroni is too strict and erases real signal when terms are correlated (parents and children share genes). The next two sub-sections explain *why* the two metrics differ and how each is computed.
 
-### 5.1 FWER — Family-Wise Error Rate (Bonferroni / Holm)
+### 5.1 FWER - Family-Wise Error Rate (Bonferroni / Holm)
 
 **Definition.** FWER is the probability of making **at least one** false positive across the entire family of tests:
 
@@ -372,7 +372,7 @@ FWER  =  P(at least one false rejection | all H₀ true)
 If you test *M* **independent** hypotheses each at significance level α:
 
 ```
-FWER  =  1 − (1 − α)^M  ≈  M · α    (small α, large M — Bonferroni inequality)
+FWER  =  1 − (1 − α)^M  ≈  M · α    (small α, large M - Bonferroni inequality)
 ```
 
 For 5,000 GO terms at α = 0.05: FWER ≈ 250 expected false positives if you naïvely use raw `p < 0.05`. Reporting any of those as "discoveries" would be embarrassing.
@@ -389,16 +389,16 @@ In R:
 p.adjust(pvals, method = "bonferroni")
 ```
 
-**Holm-Bonferroni** (a strictly more powerful variant — sort p-values ascending, compare each `p_(i)` to `α / (M − i + 1)`):
+**Holm-Bonferroni** (a strictly more powerful variant - sort p-values ascending, compare each `p_(i)` to `α / (M − i + 1)`):
 ```r
 p.adjust(pvals, method = "holm")
 ```
 
-**When to use FWER:** confirmatory studies where *any* single false positive is costly — clinical trials, regulatory submissions, GWAS hits selected for fine-mapping or functional follow-up.
+**When to use FWER:** confirmatory studies where *any* single false positive is costly - clinical trials, regulatory submissions, GWAS hits selected for fine-mapping or functional follow-up.
 
-**Trade-off:** when tests are heavily *correlated* (the GO DAG: parent and child terms share most of the same genes), Bonferroni overcorrects — many "independent" tests are really the same finding. Reasonable enrichments get crushed.
+**Trade-off:** when tests are heavily *correlated* (the GO DAG: parent and child terms share most of the same genes), Bonferroni overcorrects - many "independent" tests are really the same finding. Reasonable enrichments get crushed.
 
-### 5.2 FDR — False Discovery Rate (Benjamini-Hochberg)
+### 5.2 FDR - False Discovery Rate (Benjamini-Hochberg)
 
 **Definition.** FDR is the *expected proportion* of false positives **among the calls you make**:
 
@@ -406,7 +406,7 @@ p.adjust(pvals, method = "holm")
 FDR  =  E[ V / max(R, 1) ]
 ```
 
-where *R* is the number of rejections (terms you call significant) and *V* is the number of false rejections among them. A **q-value** is the smallest FDR at which a given test is significant — so `q < 0.05` reads:
+where *R* is the number of rejections (terms you call significant) and *V* is the number of false rejections among them. A **q-value** is the smallest FDR at which a given test is significant - so `q < 0.05` reads:
 
 > *"If I call this term significant at this threshold, I expect at most 5 % of **all** my significant calls (across the whole list) to be false positives."*
 
@@ -414,30 +414,30 @@ where *R* is the number of rejections (terms you call significant) and *V* is th
 >
 > | Symbol | Meaning |
 > |---|---|
-> | **R** (Rejections) | The number of terms you **called significant** — the size of your "discovery list" |
+> | **R** (Rejections) | The number of terms you **called significant** - the size of your "discovery list" |
 > | **V** (False rejections) | How many of those calls are *actually* false positives (only nature knows) |
 > | **V / R** | The *false-discovery proportion* observed in this one experiment |
-> | **E[…]** | Expectation — the **long-run average** if you repeated the experiment infinitely many times |
+> | **E[…]** | Expectation - the **long-run average** if you repeated the experiment infinitely many times |
 > | **max(R, 1)** | A safety guard so that when `R = 0` you don't compute `0 / 0`. With `R = 0` the numerator is always 0, so the ratio is just defined as 0. |
 >
-> **Concrete example.** You test 5,000 GO terms and call 100 significant at q < 0.05 (so `R = 100`). Imagine an oracle reveals that 5 of them are actually false (`V = 5`). For this single run, the false-discovery proportion is `V / R = 5 / 100 = 5 %`. If you ran the *same experiment* on freshly sampled data 1,000 times, you'd see the proportion fluctuate — sometimes 3 / 100, sometimes 7 / 100 — and BH guarantees the **average** stays at or below 5 %.
+> **Concrete example.** You test 5,000 GO terms and call 100 significant at q < 0.05 (so `R = 100`). Imagine an oracle reveals that 5 of them are actually false (`V = 5`). For this single run, the false-discovery proportion is `V / R = 5 / 100 = 5 %`. If you ran the *same experiment* on freshly sampled data 1,000 times, you'd see the proportion fluctuate - sometimes 3 / 100, sometimes 7 / 100 - and BH guarantees the **average** stays at or below 5 %.
 >
 > **Common misreadings vs the correct interpretation:**
 >
 > | Misreading ❌ | Correct ✅ |
 > |---|---|
-> | "This single term has a 5 % chance of being false" | False — BH says nothing about any individual term in isolation. |
+> | "This single term has a 5 % chance of being false" | False - BH says nothing about any individual term in isolation. |
 > | "Exactly 5 of my 100 hits are wrong" | "On *average* about 5. In any one run it could be 3 or 7." |
-> | "Like FWER — one false positive ruins the report" | FDR controls a **proportion**, not an indicator. A few false hits inside many true ones is by design. |
+> | "Like FWER - one false positive ruins the report" | FDR controls a **proportion**, not an indicator. A few false hits inside many true ones is by design. |
 >
-> **One-line summary:** FDR is the long-run *contamination rate* of the discovery list — a quality metric for the **list as a whole**, not a per-term reliability score.
+> **One-line summary:** FDR is the long-run *contamination rate* of the discovery list - a quality metric for the **list as a whole**, not a per-term reliability score.
 {: .callout}
 
 **Benjamini-Hochberg (BH) algorithm:**
 1. Sort the *M* raw p-values ascending: `p_(1) ≤ p_(2) ≤ … ≤ p_(M)`.
 2. For each rank *i*, compute the BH critical value `c_i = (i / M) · α`.
-3. Find the **largest** *i* such that `p_(i) ≤ c_i` — call it `i*`.
-4. Reject `H₀_(1), …, H₀_(i*)` — those are your significant calls.
+3. Find the **largest** *i* such that `p_(i) ≤ c_i` - call it `i*`.
+4. Reject `H₀_(1), …, H₀_(i*)` - those are your significant calls.
 
 Equivalent BH-adjusted q-values (running-minimum form):
 
@@ -467,17 +467,17 @@ p.adjust(pvals, method = "BH")    # "fdr" is an alias for "BH"
 
 The largest *i* with `p_(i) ≤ c_i` is **i\* = 5**, so we reject ranks 1–5 and call them FDR-significant. Bonferroni at α/M = 0.005 would have rejected only ranks 1 and 2, missing three real signals.
 
-**When to use FDR:** discovery / exploratory studies where some false positives are tolerable in exchange for power — GO/KEGG enrichment, DEG calling, GWAS exploratory follow-up. **Standard for genomics.**
+**When to use FDR:** discovery / exploratory studies where some false positives are tolerable in exchange for power - GO/KEGG enrichment, DEG calling, GWAS exploratory follow-up. **Standard for genomics.**
 
 **Why FDR is the right tool for GO ORA:**
-- Thousands of *correlated* tests (DAG parent/child sharing genes) — Bonferroni grossly overcorrects.
-- We *expect* many true positives — being too strict erases real biology.
+- Thousands of *correlated* tests (DAG parent/child sharing genes) - Bonferroni grossly overcorrects.
+- We *expect* many true positives - being too strict erases real biology.
 - Cost of follow-up is low (look up the gene list in literature).
 - BH is "scale-aware": the stronger the true signal, the more terms survive proportionally.
 
 **Pitfalls:**
-- BH assumes p-values are independent or *positively* correlated. Strong **negative** correlation (rare in GO) violates the assumption — use **Benjamini-Yekutieli** (`method = "BY"`) for the conservative version.
-- `q < 0.05` is an **aggregate** statement about the rejection set, *not* a per-term probability — you cannot say "this single term has a 5 % chance of being false."
+- BH assumes p-values are independent or *positively* correlated. Strong **negative** correlation (rare in GO) violates the assumption - use **Benjamini-Yekutieli** (`method = "BY"`) for the conservative version.
+- `q < 0.05` is an **aggregate** statement about the rejection set, *not* a per-term probability - you cannot say "this single term has a 5 % chance of being false."
 - If you re-tune the cutoff after seeing the q-values, the reported FDR is no longer valid.
 - BH q-values **depend on the family of tests**: the same raw p will get a different q if you run GO BP only vs GO BP + MF + CC together. Decide your test universe **before** running.
 
@@ -486,22 +486,22 @@ The largest *i* with `p_(i) ≤ c_i` is **i\* = 5**, so we reject ranks 1–5 an
 For a sanity check during a review or a homework debug:
 
 - Raw `p < 0.001` across 5,000 tests → 5,000 × 0.001 = **5 expected false positives**.
-- If you find **25** terms at raw `p < 0.001`, FDR ≈ 5/25 = **20 %** — too noisy to publish.
+- If you find **25** terms at raw `p < 0.001`, FDR ≈ 5/25 = **20 %** - too noisy to publish.
 - Tighten to raw `p < 10⁻⁴` → 0.5 expected FP. If 10 terms pass, FDR ≈ 5 %. Publishable.
 
 This pencil-and-paper sanity check is not a substitute for `p.adjust(..., method = "BH")`, but it tells you whether your top hits are likely to survive proper correction.
 
 ---
 
-## 5b. GO Slim — high-level summarization
+## 5b. GO Slim - high-level summarization
 
-The full GO has tens of thousands of terms — far too granular for a single-figure summary. **GO Slim** is a curated **reduced subset** that retains only broad, high-level terms (e.g. *DNA metabolic process*, *response to stress*, *transport*). Use it when:
+The full GO has tens of thousands of terms - far too granular for a single-figure summary. **GO Slim** is a curated **reduced subset** that retains only broad, high-level terms (e.g. *DNA metabolic process*, *response to stress*, *transport*). Use it when:
 
 - You want a pie chart / bar chart of the **distribution** of cellular components or biological processes among your DEGs.
 - You're presenting to a non-specialist audience and 1,500 leaf terms would be unreadable.
 - You're comparing across very different gene lists where leaf-level overlaps are tiny.
 
-There are several pre-built slims: **generic GO Slim**, **plant GO Slim** (Plant Ontology consortium — used for *A. thaliana*), **Yeast Slim**, **AGR Slim**, etc.
+There are several pre-built slims: **generic GO Slim**, **plant GO Slim** (Plant Ontology consortium - used for *A. thaliana*), **Yeast Slim**, **AGR Slim**, etc.
 
 ```r
 library(clusterProfiler)
@@ -520,17 +520,17 @@ ego_slim <- enrichGO(
   OrgDb    = org.At.tair.db,
   keyType  = "TAIR",
   ont      = "BP",
-  level    = 3        # use only ancestor terms at depth 3 — a poor-man's slim
+  level    = 3        # use only ancestor terms at depth 3 - a poor-man's slim
 )
 ```
 
-A simpler approximation: restrict the enrichment result to GO levels 2–3 of the DAG (close to the root). This collapses *response to chitin* and *response to bacterium* into the parent *response to biotic stimulus* — adequate for high-level summary plots.
+A simpler approximation: restrict the enrichment result to GO levels 2–3 of the DAG (close to the root). This collapses *response to chitin* and *response to bacterium* into the parent *response to biotic stimulus* - adequate for high-level summary plots.
 
 ---
 
 ## 6. Other enrichment paradigms (when ORA isn't enough)
 
-ORA throws away the *ranking* of genes — every DEG is treated equally above the cutoff. **GSEA** (Gene Set Enrichment Analysis) uses the full ranked list (e.g. by log₂ fold-change or Wald statistic), no threshold needed:
+ORA throws away the *ranking* of genes - every DEG is treated equally above the cutoff. **GSEA** (Gene Set Enrichment Analysis) uses the full ranked list (e.g. by log₂ fold-change or Wald statistic), no threshold needed:
 
 ```r
 geneList <- deg_results$log2FoldChange
@@ -548,24 +548,24 @@ Use ORA when you have a clean cutoff and few DEGs; use GSEA when the signal is b
 
 ### 6.1 How GSEA actually works
 
-ORA asks: "of my **discrete** DEG list, are term-X genes over-represented?" GSEA asks a different question: "walking down a fully ranked gene list, do term-X genes pile up at the top (or bottom) more than chance?" No threshold is needed — every gene contributes.
+ORA asks: "of my **discrete** DEG list, are term-X genes over-represented?" GSEA asks a different question: "walking down a fully ranked gene list, do term-X genes pile up at the top (or bottom) more than chance?" No threshold is needed - every gene contributes.
 
 **Algorithm (Subramanian 2005):**
 
-1. **Rank** every gene in the experiment by a chosen statistic — typically log₂ fold-change, the Wald statistic, or `-log10(p) * sign(LFC)`.
+1. **Rank** every gene in the experiment by a chosen statistic - typically log₂ fold-change, the Wald statistic, or `-log10(p) * sign(LFC)`.
 2. Walk down the ranked list. For each gene, update a **running sum**:
    - `+hit_w` if the gene is in gene-set *S* (weighted by its rank statistic),
    - `−miss_w` if it isn't.
 3. The **enrichment score (ES)** is the maximum deviation of the running sum from zero.
 4. **Normalize** ES across gene-sets of different sizes → **NES** (normalized enrichment score).
 5. **Permute** sample labels (preferred) or gene labels (`gseGO()` default) thousands of times; compare the observed NES to the null distribution to obtain a permutation p-value, then BH-adjust.
-6. The **leading-edge subset** is the set of genes from *S* that appear *before* the running-sum reaches its peak — these are the "drivers" of the enrichment.
+6. The **leading-edge subset** is the set of genes from *S* that appear *before* the running-sum reaches its peak - these are the "drivers" of the enrichment.
 
 ```r
 library(clusterProfiler)
 library(org.At.tair.db)
 
-# Build a named, sorted vector — required input format
+# Build a named, sorted vector - required input format
 geneList <- deseq_results$log2FoldChange
 names(geneList) <- deseq_results$gene_id
 geneList <- sort(geneList, decreasing = TRUE)
@@ -593,11 +593,11 @@ The result table columns:
 | `ID`, `Description` | GO term ID and label                                                  |
 | `setSize`         | Number of genes in the gene-set that were also in `geneList`            |
 | `enrichmentScore` | Raw ES (signed, ranges roughly −1 to +1)                                |
-| `NES`             | Normalized ES — comparable across gene-sets                             |
+| `NES`             | Normalized ES - comparable across gene-sets                             |
 | `pvalue`          | Permutation p-value                                                     |
 | `p.adjust`        | BH-adjusted q-value                                                     |
 | `rank`            | Position of the leading-edge peak in the ranked list                    |
-| `core_enrichment` | Slash-separated leading-edge gene IDs — the drivers of the enrichment   |
+| `core_enrichment` | Slash-separated leading-edge gene IDs - the drivers of the enrichment   |
 
 **Sign conventions:** positive NES = gene-set members enriched at the **top** of the ranked list (up-regulated in your contrast). Negative NES = enriched at the **bottom** (down-regulated).
 
@@ -620,17 +620,17 @@ R + clusterProfiler is the dominant academic toolchain, but several alternatives
 |------------------|--------------|------------------------------------------------------------------|-------------------------------------------|
 | **DAVID**        | Web          | Old, well-known, friendly UI; functional clustering              | Annotations updated infrequently; not reproducible without recording the version |
 | **PANTHER**      | Web          | GOC's official front-end; PANTHER Overrepresentation Test = current gold-standard ORA; also offers GSEA-style "Statistical enrichment test" | Web-only by default; harder to script    |
-| **g:Profiler**   | Web + R (`gprofiler2`) | Multi-database (GO, KEGG, Reactome, TF, miRNA, HPA) in one shot; current annotation snapshot pinned per release | Default background is whole-genome — must override |
+| **g:Profiler**   | Web + R (`gprofiler2`) | Multi-database (GO, KEGG, Reactome, TF, miRNA, HPA) in one shot; current annotation snapshot pinned per release | Default background is whole-genome - must override |
 | **AgriGO v2**    | Web          | Plant-specific (incl. *A. thaliana*); built-in singular and parent-child enrichment | Web-only; smaller community now           |
 | **topGO**        | R/Bioconductor | Implements `weight01` and `elim` algorithms that account for the GO DAG when computing p-values, reducing redundancy of parent/child hits | Steeper API than clusterProfiler; no direct GSEA |
 | **GOATOOLS**     | Python       | Scriptable; produces publication-quality DAG figures with `go_plot.py`; Klopfenstein 2018 paper details algorithm | Pure ORA, no GSEA                         |
-| **enrichR**      | R + web      | Wraps Enrichr's 200+ libraries (drug, disease, TF) — wider than just GO | Mouse/human-centric; sparse for *A. thaliana* |
+| **enrichR**      | R + web      | Wraps Enrichr's 200+ libraries (drug, disease, TF) - wider than just GO | Mouse/human-centric; sparse for *A. thaliana* |
 
 For *A. thaliana* coursework, **clusterProfiler + org.At.tair.db** is sufficient and reproducible. Consider topGO when you want DAG-aware p-values (it down-weights a parent term whose signal is fully explained by a more specific child).
 
-### 6.3 KEGG and Reactome — sister enrichment frameworks
+### 6.3 KEGG and Reactome - sister enrichment frameworks
 
-GO is a vocabulary of *functions and locations*; **KEGG** and **Reactome** are databases of **pathways** — defined sequences of molecular events. They overlap with GO BP but are not the same:
+GO is a vocabulary of *functions and locations*; **KEGG** and **Reactome** are databases of **pathways** - defined sequences of molecular events. They overlap with GO BP but are not the same:
 
 |              | GO Biological Process                              | KEGG / Reactome pathway                              |
 |--------------|----------------------------------------------------|------------------------------------------------------|
@@ -667,13 +667,13 @@ Reactome's plant coverage is thinner than KEGG's, so for *A. thaliana* prefer KE
 
 ## 7. Semantic similarity & redundancy
 
-A common shock: the top-20 hits of a GO enrichment look almost identical — *response to stress*, *response to abiotic stimulus*, *response to chemical*, *cellular response to stimulus*, … These are not independent findings. They are **parents and grandparents of the same handful of leaf terms**, and they share most of their genes.
+A common shock: the top-20 hits of a GO enrichment look almost identical - *response to stress*, *response to abiotic stimulus*, *response to chemical*, *cellular response to stimulus*, … These are not independent findings. They are **parents and grandparents of the same handful of leaf terms**, and they share most of their genes.
 
 **Semantic similarity** measures attempt to quantify how much two GO terms overlap *in meaning* (and therefore in gene membership). Three classic measures:
 
-- **Resnik (1995)** — based on the *information content* (IC) of the lowest common ancestor (LCA): rare terms carry more information than common terms.
-- **Lin (1998)** — Resnik's IC normalized by the average IC of the two terms.
-- **Wang (2007)** — accounts for DAG topology: each term is described by a vector of contributions from all its ancestors, weighted by edge type.
+- **Resnik (1995)** - based on the *information content* (IC) of the lowest common ancestor (LCA): rare terms carry more information than common terms.
+- **Lin (1998)** - Resnik's IC normalized by the average IC of the two terms.
+- **Wang (2007)** - accounts for DAG topology: each term is described by a vector of contributions from all its ancestors, weighted by edge type.
 
 You don't need to compute these by hand. `clusterProfiler::simplify()` wraps `GOSemSim::mgoSim()` (Wang by default) and collapses redundant terms:
 
@@ -687,7 +687,7 @@ ego_simple <- simplify(
 )
 ```
 
-For a **publication-quality figure** with genuinely non-redundant terms, the standard pipeline is to feed your enrichment result into **REVIGO** ([http://revigo.irb.hr/](http://revigo.irb.hr/)) — paste the GO IDs and p-values, choose the species, and REVIGO returns a clustered scatter plot and a treemap. The R-native equivalent is `rrvgo` (Sayols 2023):
+For a **publication-quality figure** with genuinely non-redundant terms, the standard pipeline is to feed your enrichment result into **REVIGO** ([http://revigo.irb.hr/](http://revigo.irb.hr/)) - paste the GO IDs and p-values, choose the species, and REVIGO returns a clustered scatter plot and a treemap. The R-native equivalent is `rrvgo` (Sayols 2023):
 
 ```r
 library(rrvgo)
@@ -722,16 +722,16 @@ library(enrichplot)
 | Plot          | Call                                       | Best for                                                                 |
 |---------------|--------------------------------------------|--------------------------------------------------------------------------|
 | `barplot`     | `barplot(ego, showCategory = 15)`          | Quick overview of top terms by count or gene ratio                       |
-| `dotplot`     | `dotplot(ego, showCategory = 20)`          | Same data but encodes gene ratio (x), q-value (color), set size (dot size) — **the standard figure** |
+| `dotplot`     | `dotplot(ego, showCategory = 20)`          | Same data but encodes gene ratio (x), q-value (color), set size (dot size) - **the standard figure** |
 | `cnetplot`    | `cnetplot(ego, foldChange = geneList)`     | Gene-concept network: which **genes** drive multiple terms              |
-| `emapplot`    | `emapplot(pairwise_termsim(ego))`          | Enrichment map: terms with shared genes cluster — visualizes redundancy |
+| `emapplot`    | `emapplot(pairwise_termsim(ego))`          | Enrichment map: terms with shared genes cluster - visualizes redundancy |
 | `goplot`      | `goplot(ego, showCategory = 10)`           | Embed top terms in the GO DAG itself, color by significance              |
 | `treeplot`    | `treeplot(pairwise_termsim(ego))`          | Hierarchical clustering of terms with text-summary labels per cluster    |
 | `heatplot`    | `heatplot(ego, foldChange = geneList)`     | Genes × terms heatmap colored by fold-change                             |
 | `gseaplot2`   | `gseaplot2(gsea, geneSetID = 1:3)`         | The signature GSEA running-sum plot for the top 3 sets                   |
 | `ridgeplot`   | `ridgeplot(gsea)`                          | Density of fold-changes per enriched set (GSEA only)                     |
 
-Worked example — a "publication strip" of three plots from one ORA result:
+Worked example - a "publication strip" of three plots from one ORA result:
 
 ```r
 library(patchwork)
@@ -745,8 +745,8 @@ ggsave("figures/go_summary.png", width = 14, height = 10, dpi = 300)
 ```
 
 > ## Which plot to lead with?
-> - **Talk slide:** `dotplot` — it answers "what's enriched?" in one glance.
-> - **Paper main figure:** `dotplot` + `cnetplot` side by side — the network shows reviewers that you have multiple genes per term, not a single-gene fluke.
+> - **Talk slide:** `dotplot` - it answers "what's enriched?" in one glance.
+> - **Paper main figure:** `dotplot` + `cnetplot` side by side - the network shows reviewers that you have multiple genes per term, not a single-gene fluke.
 > - **Supplement:** `emapplot` to demonstrate redundancy structure; `goplot` to show DAG context.
 {: .callout}
 
@@ -754,7 +754,7 @@ ggsave("figures/go_summary.png", width = 14, height = 10, dpi = 300)
 
 ## 9. Worked example: heat shock RNA-Seq in *A. thaliana*
 
-A 4-hour 38 °C heat shock on 2-week-old seedlings, contrasted with 22 °C controls (3 reps each). DESeq2 gives 487 DEGs at padj < 0.05. Biologically we **expect** to see *response to heat*, *protein folding*, *unfolded protein response*, and *chaperone* terms — this is the classic heat-shock-protein (HSP) response.
+A 4-hour 38 °C heat shock on 2-week-old seedlings, contrasted with 22 °C controls (3 reps each). DESeq2 gives 487 DEGs at padj < 0.05. Biologically we **expect** to see *response to heat*, *protein folding*, *unfolded protein response*, and *chaperone* terms - this is the classic heat-shock-protein (HSP) response.
 
 ```r
 library(DESeq2)
@@ -785,13 +785,13 @@ ego <- enrichGO(
   readable      = TRUE          # convert TAIR IDs → gene symbols in output
 )
 
-# 3. Make IDs human-readable in stored result (idempotent — `readable=TRUE` already did it)
+# 3. Make IDs human-readable in stored result (idempotent - `readable=TRUE` already did it)
 ego <- setReadable(ego, OrgDb = org.At.tair.db, keyType = "TAIR")
 
 # 4. Collapse redundant parent/child terms
 ego_s <- simplify(ego, cutoff = 0.7, by = "p.adjust", select_fun = min)
 
-# 5. Inspect — expect HSP-flavored top hits
+# 5. Inspect - expect HSP-flavored top hits
 head(as.data.frame(ego_s)[, c("Description", "GeneRatio", "p.adjust", "Count")], 10)
 ```
 
@@ -813,7 +813,7 @@ heat acclimation                        9/487      1.1e-07      9
 dotplot(ego_s, showCategory = 12) + ggtitle("Heat-shock DEG GO BP")
 cnetplot(ego_s, foldChange = ranked, showCategory = 6, circular = TRUE)
 
-# 7. GSEA — captures the broader thermal response, not just the hard cutoff
+# 7. GSEA - captures the broader thermal response, not just the hard cutoff
 set.seed(7)
 gsea <- gseGO(
   geneList      = ranked,
@@ -832,7 +832,7 @@ write.csv(as.data.frame(gsea),  "results/gsea_BP_heatshock.csv", row.names = FAL
 saveRDS(ego_s, "results/ego_simplified.rds")
 ```
 
-**Biological narrative.** The leading edge of *response to heat* (column `core_enrichment` in the GSEA table) is dominated by **HSP70**, **HSP90**, **HSP101**, **HSP17.6**, **HSFA2**, and **BAG6** — the canonical heat-shock factors and chaperones. The fact that *cellular response to misfolded protein* and *unfolded protein binding* both surface confirms the protein-quality-control arm is engaged, not just transcriptional induction. If your data instead returned *photosynthesis* and *response to light intensity*, you would suspect a **temperature-coupled light artifact** — heat-shock chambers often raise irradiance — and the GO result would have caught the confounder before you wrote the discussion.
+**Biological narrative.** The leading edge of *response to heat* (column `core_enrichment` in the GSEA table) is dominated by **HSP70**, **HSP90**, **HSP101**, **HSP17.6**, **HSFA2**, and **BAG6** - the canonical heat-shock factors and chaperones. The fact that *cellular response to misfolded protein* and *unfolded protein binding* both surface confirms the protein-quality-control arm is engaged, not just transcriptional induction. If your data instead returned *photosynthesis* and *response to light intensity*, you would suspect a **temperature-coupled light artifact** - heat-shock chambers often raise irradiance - and the GO result would have caught the confounder before you wrote the discussion.
 
 ---
 
@@ -842,34 +842,34 @@ A worked walk-through of the full ORA workflow on the course's toy dataset:
 
 1. Run DESeq2 on the toy A vs B counts in `~/scratch/rnaseq/counts/`.
 2. Extract DEGs at `padj < 0.05`.
-3. Run `enrichGO` **twice**: once with the whole-genome background and once with `universe = expressed_genes`. Compare top 10 terms — note shifts in q-value.
+3. Run `enrichGO` **twice**: once with the whole-genome background and once with `universe = expressed_genes`. Compare top 10 terms - note shifts in q-value.
 4. Visualize with `dotplot(ego)` and `cnetplot(ego)`.
 5. Reflection: which background did the previous student probably use if their top hit was "ribosome biogenesis, q = 1e-30"?
 
 ---
 
-## 11. Common pitfalls — checklist
+## 11. Common pitfalls - checklist
 
 - [ ] Background = expressed genes, not whole genome.
 - [ ] Evidence codes filtered (drop IEA-only if you want experimental support).
 - [ ] BH (q-value), not raw p, for cutoffs.
-- [ ] `phyper(k - 1, ...)` — off-by-one.
-- [ ] DAG semantics: redundant parent/child terms in the top hits often inflate apparent biology — collapse with `simplify(ego, cutoff = 0.7)`.
-- [ ] Report **gene ratio** (k/n) and **bg ratio** (K/N) alongside p — large fold differences with tiny gene counts are noisy.
-- [ ] Remember `regulates` does **not** propagate — *regulation of X* genes do not count toward *X* by default.
-- [ ] Confirm the species annotation snapshot (`packageVersion("org.At.tair.db")`) — different snapshots can give different top hits and reviewers will ask.
-- [ ] For GSEA, set a random seed (`set.seed(...)`) — the permutation step is stochastic.
+- [ ] `phyper(k - 1, ...)` - off-by-one.
+- [ ] DAG semantics: redundant parent/child terms in the top hits often inflate apparent biology - collapse with `simplify(ego, cutoff = 0.7)`.
+- [ ] Report **gene ratio** (k/n) and **bg ratio** (K/N) alongside p - large fold differences with tiny gene counts are noisy.
+- [ ] Remember `regulates` does **not** propagate - *regulation of X* genes do not count toward *X* by default.
+- [ ] Confirm the species annotation snapshot (`packageVersion("org.At.tair.db")`) - different snapshots can give different top hits and reviewers will ask.
+- [ ] For GSEA, set a random seed (`set.seed(...)`) - the permutation step is stochastic.
 - [ ] Run REVIGO or `rrvgo` before publication-quality figures; submit both full and reduced tables in your supplement.
-- [ ] If you are using KEGG/Reactome alongside GO, report each separately — don't union p-values across orthogonal databases.
+- [ ] If you are using KEGG/Reactome alongside GO, report each separately - don't union p-values across orthogonal databases.
 - [ ] When a result looks "too clean" (all top hits are direct ancestors of one leaf term), you are looking at DAG correlation, not multiple independent signals.
 
 > ## Reading list
 > - Ashburner et al. (2000) *Gene Ontology: tool for the unification of biology.* Nature Genetics 25:25–29.
-> - Rhee, Wood, Dolinski, Draghici (2008) *Use and misuse of the Gene Ontology annotations.* Nature Reviews Genetics 9:509–515. — the GOC's own how-to-not-misuse manifesto.
+> - Rhee, Wood, Dolinski, Draghici (2008) *Use and misuse of the Gene Ontology annotations.* Nature Reviews Genetics 9:509–515. - the GOC's own how-to-not-misuse manifesto.
 > - Huang et al. (2009) *Bioinformatics enrichment tools: paths toward the comprehensive functional analysis of large gene lists.* Nucleic Acids Res. 37:1.
 > - Khatri et al. (2012) *Ten years of pathway analysis: current approaches and outstanding challenges.* PLoS Comput Biol 8:e1002375.
 > - Subramanian et al. (2005) *Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles.* PNAS 102:15545.
 > - Klopfenstein et al. (2018) *GOATOOLS: A Python library for Gene Ontology analyses.* Scientific Reports 8:10872.
-> - Sayols (2023) *rrvgo: a Bioconductor package for interpreting lists of Gene Ontology terms.* MicroPubl. Biol. — the R-native REVIGO replacement.
+> - Sayols (2023) *rrvgo: a Bioconductor package for interpreting lists of Gene Ontology terms.* MicroPubl. Biol. - the R-native REVIGO replacement.
 > - Wijesooriya et al. (2022) *Urgent need for consistent standards in functional enrichment analysis.* PLoS Comput Biol 18:e1009935.
 {: .callout}
