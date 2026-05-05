@@ -141,6 +141,20 @@ Imagine the background genes as a bag of marbles:
 - ***n*** = number of DEGs (your draw, without replacement)
 - ***k*** = number of DEGs annotated to GO term X
 
+> ## Combination notation (`C(n, k)`)
+> `C(n, k)` — read "*n* choose *k*", also written `ⁿCₖ` or `(n k)` — is the number of ways to choose *k* items from *n* **without regard to order**:
+>
+> ```
+>            n!
+> C(n, k) = ───────────       (read: n-factorial divided by k! · (n−k)!)
+>           k! · (n − k)!
+> ```
+>
+> Example: `C(5, 2) = 5! / (2! · 3!) = 120 / (2 · 6) = 10`. The ten 2-element subsets of {1,2,3,4,5} are: {1,2}, {1,3}, {1,4}, {1,5}, {2,3}, {2,4}, {2,5}, {3,4}, {3,5}, {4,5}.
+>
+> In R: `choose(n, k)` (e.g. `choose(5, 2)` returns `10`).
+{: .callout}
+
 The probability of drawing **exactly** *k* "term-X" genes is:
 
 ```
@@ -239,7 +253,7 @@ fisher.test(mat, alternative = "greater")$p.value
 # [1] 1.29e-05   ← matches phyper
 ```
 
-**Why we don't compute by hand.** The p-value is a sum of 233 terms (`i = 18, 19, …, 250`), each a ratio of three binomial coefficients on huge populations:
+**Why we don't compute by hand.** The p-value is a sum of 233 terms (`i = 18, 19, …, 250`), each a ratio of three combinations on huge populations:
 
 ```
                       C(250, 18) · C(13,750, 294)
@@ -247,7 +261,27 @@ P(X = 18)  =   ─────────────────────�
                           C(14,000, 312)
 ```
 
-`C(14000, 312)` alone is a number with **~880 digits**. R/Python evaluate these in log-space using `lgamma` (log-Gamma function) to avoid overflow. In practice the **first term** `P(X = 18) ≈ 9.5 × 10⁻⁶` already accounts for **~74 %** of the total tail probability `1.29 × 10⁻⁵` — the sum converges quickly because each successive ratio `P(X = i+1) / P(X = i)` shrinks rapidly when *i* is far above the mean.
+The numbers involved are *enormous* — orders of magnitude beyond what fits in a 64-bit double. From R's `choose()` and `lchoose()`:
+
+| Combination | Approximate value | log₁₀ | Digits |
+|-------------|------------------:|------:|-------:|
+| `C(250, 18)`           | `≈ 1.21 × 10²⁷`     |   27.08 |    28 |
+| `C(13,750, 294)`       | `≈ 4.0 × 10⁶¹⁵`     |  615.6  |   616 |
+| `C(14,000, 312)`       | `≈ 5.1 × 10⁶⁴⁷`     |  647.7  |   648 |
+
+```r
+choose(250, 18)               # 1.214e+27 — fits in a double
+choose(13750, 294)            # Inf — overflow
+choose(14000, 312)            # Inf — overflow
+
+# Fix: work in log-space with lchoose()
+lchoose(14000, 312)           # 1491.51 (natural log → 648 decimal digits)
+exp(lchoose(K, k) + lchoose(N-K, n-k) - lchoose(N, n))   # 9.49e-06  (= P(X=18))
+```
+
+`C(14,000, 312)` alone has **about 648 digits** — multiplying these three numbers by hand is hopeless, but their **logs** add and subtract cleanly. R/Python evaluate every probability through `lgamma` (log-Gamma) and `lchoose`, then exponentiate at the end.
+
+In practice the **first term** `P(X = 18) ≈ 9.5 × 10⁻⁶` already accounts for **~74 %** of the total tail probability `1.29 × 10⁻⁵` — the sum converges quickly because each successive ratio `P(X = i+1) / P(X = i)` shrinks rapidly when *i* is far above the mean.
 
 **Python equivalent (`scipy.stats.hypergeom`):**
 
