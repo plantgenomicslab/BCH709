@@ -410,6 +410,29 @@ where *R* is the number of rejections (terms you call significant) and *V* is th
 
 > *"If I call this term significant at this threshold, I expect at most 5 % of **all** my significant calls (across the whole list) to be false positives."*
 
+> ## Reading the formula `FDR = E[ V / max(R, 1) ]` symbol-by-symbol
+>
+> | Symbol | Meaning |
+> |---|---|
+> | **R** (Rejections) | The number of terms you **called significant** — the size of your "discovery list" |
+> | **V** (False rejections) | How many of those calls are *actually* false positives (only nature knows) |
+> | **V / R** | The *false-discovery proportion* observed in this one experiment |
+> | **E[…]** | Expectation — the **long-run average** if you repeated the experiment infinitely many times |
+> | **max(R, 1)** | A safety guard so that when `R = 0` you don't compute `0 / 0`. With `R = 0` the numerator is always 0, so the ratio is just defined as 0. |
+>
+> **Concrete example.** You test 5,000 GO terms and call 100 significant at q < 0.05 (so `R = 100`). Imagine an oracle reveals that 5 of them are actually false (`V = 5`). For this single run, the false-discovery proportion is `V / R = 5 / 100 = 5 %`. If you ran the *same experiment* on freshly sampled data 1,000 times, you'd see the proportion fluctuate — sometimes 3 / 100, sometimes 7 / 100 — and BH guarantees the **average** stays at or below 5 %.
+>
+> **Common misreadings vs the correct interpretation:**
+>
+> | Misreading ❌ | Correct ✅ |
+> |---|---|
+> | "This single term has a 5 % chance of being false" | False — BH says nothing about any individual term in isolation. |
+> | "Exactly 5 of my 100 hits are wrong" | "On *average* about 5. In any one run it could be 3 or 7." |
+> | "Like FWER — one false positive ruins the report" | FDR controls a **proportion**, not an indicator. A few false hits inside many true ones is by design. |
+>
+> **One-line summary:** FDR is the long-run *contamination rate* of the discovery list — a quality metric for the **list as a whole**, not a per-term reliability score.
+{: .callout}
+
 **Benjamini-Hochberg (BH) algorithm:**
 1. Sort the *M* raw p-values ascending: `p_(1) ≤ p_(2) ≤ … ≤ p_(M)`.
 2. For each rank *i*, compute the BH critical value `c_i = (i / M) · α`.
