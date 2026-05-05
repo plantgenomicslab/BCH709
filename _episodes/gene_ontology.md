@@ -352,20 +352,121 @@ ego <- enrichGO(
 
 ## 5. Multiple testing correction
 
-GO BP alone has thousands of terms. Testing 5,000 terms at α = 0.05 yields ~250 false positives by chance. Two standard corrections:
+GO BP alone has thousands of terms. Testing 5,000 terms at α = 0.05 yields ~250 false positives **by chance alone**, regardless of biology. You need a multiple-testing correction. Two standard families:
 
 | Method      | Controls                | Adjusted threshold (5,000 tests, α = 0.05) | Behavior          |
 |-------------|-------------------------|--------------------------------------------|-------------------|
-| Bonferroni  | **FWER — Family-Wise Error Rate** (probability of any false positive) | `p < 0.05 / 5000 = 10⁻⁵`                 | Very conservative |
-| Benjamini-Hochberg (BH) | **FDR — False Discovery Rate** (expected false-positive proportion among called hits) | data-driven; ~5% of called hits expected to be FP | Standard for ORA |
+| Bonferroni  | **FWER — Family-Wise Error Rate** (probability of *any* false positive) | `p < 0.05 / 5000 = 10⁻⁵` | Very conservative |
+| Benjamini-Hochberg (BH) | **FDR — False Discovery Rate** (expected false-positive *proportion* among called hits) | data-driven; ~5% of called hits expected to be FP | Standard for ORA |
 
-In practice GO enrichment uses **BH-adjusted q-values < 0.05** — Bonferroni is too strict and erases real signal when terms are correlated (parents and children share genes).
+In practice GO enrichment uses **BH-adjusted q-values < 0.05** — Bonferroni is too strict and erases real signal when terms are correlated (parents and children share genes). The next two sub-sections explain *why* the two metrics differ and how each is computed.
 
-### 5.1 Quick mental check
+### 5.1 FWER — Family-Wise Error Rate (Bonferroni / Holm)
 
-- Raw `p < 0.001` → 5,000 × 0.001 = **5 expected false positives**.
-- If you find 25 terms at raw `p < 0.001`, FDR ≈ 5/25 = **20%** — too noisy.
-- Tighten to raw `p < 10⁻⁴` → 0.5 expected FP. If 10 terms pass, FDR ≈ 5%.
+**Definition.** FWER is the probability of making **at least one** false positive across the entire family of tests:
+
+```
+FWER  =  P(at least one false rejection | all H₀ true)
+```
+
+If you test *M* **independent** hypotheses each at significance level α:
+
+```
+FWER  =  1 − (1 − α)^M  ≈  M · α    (small α, large M — Bonferroni inequality)
+```
+
+For 5,000 GO terms at α = 0.05: FWER ≈ 250 expected false positives if you naïvely use raw `p < 0.05`. Reporting any of those as "discoveries" would be embarrassing.
+
+**Bonferroni correction.** To control FWER at level α, lower the per-test threshold to `α / M`:
+
+```
+p_adj  =  min(M · p_raw, 1)
+Reject H₀  if  p_adj < α
+```
+
+In R:
+```r
+p.adjust(pvals, method = "bonferroni")
+```
+
+**Holm-Bonferroni** (a strictly more powerful variant — sort p-values ascending, compare each `p_(i)` to `α / (M − i + 1)`):
+```r
+p.adjust(pvals, method = "holm")
+```
+
+**When to use FWER:** confirmatory studies where *any* single false positive is costly — clinical trials, regulatory submissions, GWAS hits selected for fine-mapping or functional follow-up.
+
+**Trade-off:** when tests are heavily *correlated* (the GO DAG: parent and child terms share most of the same genes), Bonferroni overcorrects — many "independent" tests are really the same finding. Reasonable enrichments get crushed.
+
+### 5.2 FDR — False Discovery Rate (Benjamini-Hochberg)
+
+**Definition.** FDR is the *expected proportion* of false positives **among the calls you make**:
+
+```
+FDR  =  E[ V / max(R, 1) ]
+```
+
+where *R* is the number of rejections (terms you call significant) and *V* is the number of false rejections among them. A **q-value** is the smallest FDR at which a given test is significant — so `q < 0.05` reads:
+
+> *"If I call this term significant at this threshold, I expect at most 5 % of **all** my significant calls (across the whole list) to be false positives."*
+
+**Benjamini-Hochberg (BH) algorithm:**
+1. Sort the *M* raw p-values ascending: `p_(1) ≤ p_(2) ≤ … ≤ p_(M)`.
+2. For each rank *i*, compute the BH critical value `c_i = (i / M) · α`.
+3. Find the **largest** *i* such that `p_(i) ≤ c_i` — call it `i*`.
+4. Reject `H₀_(1), …, H₀_(i*)` — those are your significant calls.
+
+Equivalent BH-adjusted q-values (running-minimum form):
+
+```
+q_(i)  =  min over j ≥ i  of  ( M / j ) · p_(j)
+```
+
+In R:
+```r
+p.adjust(pvals, method = "BH")    # "fdr" is an alias for "BH"
+```
+
+**Worked BH example.** Ten GO terms (`M = 10`, α = 0.05):
+
+| Rank *i* | Raw p     | `c_i = (i/M) · 0.05` | `p_(i) ≤ c_i`? |
+|---:|----------:|----------------------:|:---:|
+|  1 | `0.0001`  | `0.005` | ✓ |
+|  2 | `0.0010`  | `0.010` | ✓ |
+|  3 | `0.0050`  | `0.015` | ✓ |
+|  4 | `0.0080`  | `0.020` | ✓ |
+|  5 | `0.0250`  | `0.025` | ✓ (boundary) |
+|  6 | `0.0400`  | `0.030` | ✗ |
+|  7 | `0.0500`  | `0.035` | ✗ |
+|  8 | `0.0700`  | `0.040` | ✗ |
+|  9 | `0.1500`  | `0.045` | ✗ |
+| 10 | `0.5000`  | `0.050` | ✗ |
+
+The largest *i* with `p_(i) ≤ c_i` is **i\* = 5**, so we reject ranks 1–5 and call them FDR-significant. Bonferroni at α/M = 0.005 would have rejected only ranks 1 and 2, missing three real signals.
+
+**When to use FDR:** discovery / exploratory studies where some false positives are tolerable in exchange for power — GO/KEGG enrichment, DEG calling, GWAS exploratory follow-up. **Standard for genomics.**
+
+**Why FDR is the right tool for GO ORA:**
+- Thousands of *correlated* tests (DAG parent/child sharing genes) — Bonferroni grossly overcorrects.
+- We *expect* many true positives — being too strict erases real biology.
+- Cost of follow-up is low (look up the gene list in literature).
+- BH is "scale-aware": the stronger the true signal, the more terms survive proportionally.
+
+**Pitfalls:**
+- BH assumes p-values are independent or *positively* correlated. Strong **negative** correlation (rare in GO) violates the assumption — use **Benjamini-Yekutieli** (`method = "BY"`) for the conservative version.
+- `q < 0.05` is an **aggregate** statement about the rejection set, *not* a per-term probability — you cannot say "this single term has a 5 % chance of being false."
+- If you re-tune the cutoff after seeing the q-values, the reported FDR is no longer valid.
+- BH q-values **depend on the family of tests**: the same raw p will get a different q if you run GO BP only vs GO BP + MF + CC together. Decide your test universe **before** running.
+
+### 5.3 Quick mental check
+
+For a sanity check during a review or a homework debug:
+
+- Raw `p < 0.001` across 5,000 tests → 5,000 × 0.001 = **5 expected false positives**.
+- If you find **25** terms at raw `p < 0.001`, FDR ≈ 5/25 = **20 %** — too noisy to publish.
+- Tighten to raw `p < 10⁻⁴` → 0.5 expected FP. If 10 terms pass, FDR ≈ 5 %. Publishable.
+
+This pencil-and-paper sanity check is not a substitute for `p.adjust(..., method = "BH")`, but it tells you whether your top hits are likely to survive proper correction.
 
 ---
 
