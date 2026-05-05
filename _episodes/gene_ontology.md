@@ -613,7 +613,43 @@ A simpler approximation: restrict the enrichment result to GO levels 2–3 of th
 
 ## 6. Other enrichment paradigms (when ORA isn't enough)
 
-ORA throws away the *ranking* of genes - every DEG is treated equally above the cutoff. **GSEA** (Gene Set Enrichment Analysis) uses the full ranked list (e.g. by log₂ fold-change or Wald statistic), no threshold needed:
+ORA throws away the *ranking* of genes - every DEG is treated equally above the cutoff. **GSEA** (Gene Set Enrichment Analysis) uses the full ranked list (e.g. by log₂ fold-change or Wald statistic), no threshold needed.
+
+A common student question: *"Is GSEA just ORA with expression values added?"* The intuition is half right - GSEA does use the magnitude / direction information that ORA discards - but the two methods are **fundamentally different statistical models**, not nested versions of each other.
+
+### ORA vs GSEA - side-by-side comparison
+
+| Aspect | **ORA** (Over-Representation Analysis) | **GSEA** (Gene Set Enrichment Analysis) |
+|---|---|---|
+| **Input** | Discrete DEG list (e.g. padj < 0.05) | Full ranked list of *all* expressed genes |
+| **Uses expression magnitude?** | ❌ No - every DEG counted equally | ✅ Yes - rank or score weights each gene |
+| **Threshold required?** | Yes (DEG cutoff) | No |
+| **Statistical model** | Hypergeometric / Fisher exact on a 2×2 table | Weighted running-sum (Kolmogorov-Smirnov-like) |
+| **Null distribution** | Analytic (closed form) | Permutation (sample or gene-label shuffling) |
+| **Output statistic** | p-value, q-value, gene ratio (k/n) | ES, NES, p-value, q-value, leading-edge subset |
+| **Detects strong, focused signal?** | ✅ Yes | ✅ Yes |
+| **Detects weak, broadly-distributed signal?** | ❌ Often misses | ✅ Designed for this |
+| **Sensitive to DEG cutoff choice?** | ✅ Highly | ❌ No threshold to choose |
+| **Computational cost** | Fast (one hypergeometric per term) | Slower (thousands of permutations) |
+| **Reproducibility** | Fully deterministic | Depends on permutation seed |
+| **Recommended R function** | `clusterProfiler::enrichGO()` | `clusterProfiler::gseGO()` |
+| **Best when** | Strong DEG list, clean cutoff, few terms expected | Subtle perturbation, signal spread across many genes |
+| **Bad when** | Threshold cuts off real signal | DEG list is the only data available (no ranking) |
+
+### When the two methods disagree
+
+Running both on the same data and finding **different top terms** is informative, not a contradiction:
+
+| Scenario | ORA result | GSEA result | Interpretation |
+|---|---|---|---|
+| Same top terms in both | Term X enriched | Term X enriched | Robust signal - both strong and consistent in ranking |
+| Only ORA hits | Term X enriched | Not significant | A few genes with very large effects (above cutoff); the rest of the term is unchanged |
+| Only GSEA hits | Not significant | Term X enriched | Many genes with small effects nudging in the same direction (none cross the DEG cutoff) |
+| Neither hits | Not significant | Not significant | No detectable enrichment for this term |
+
+For most genomics papers, **report both** when feasible - it tells reviewers that you understood the limitation of each.
+
+### R example (GSEA on DESeq2 output):
 
 ```r
 geneList <- deg_results$log2FoldChange
@@ -626,8 +662,6 @@ gsea <- gseGO(geneList = geneList,
               ont      = "BP",
               pAdjustMethod = "BH")
 ```
-
-Use ORA when you have a clean cutoff and few DEGs; use GSEA when the signal is broad and weak (subtle perturbations across many genes).
 
 ### 6.1 How GSEA actually works
 
